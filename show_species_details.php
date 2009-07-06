@@ -515,7 +515,7 @@ if($_SERVER['QUERY_STRING']>' ')
 	
 ?>
 
-<title>Catalogue of Life : 2008 Annual Checklist : <?php echo $page_title ; ?></title>
+<title>Catalogue of Life : 2009 Annual Checklist : <?php echo $page_title ; ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <meta http-equiv="content-language" content="en-GB" />
 <meta name="keywords" content="<?php echo strip_tags($scientific_name) ?> biodiversity species 2000 itis taxonomy taxa" />

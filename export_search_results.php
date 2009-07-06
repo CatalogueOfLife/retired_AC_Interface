@@ -94,8 +94,9 @@ separated by returns) so the file can be opened in most spreadsheet, database,
 word processing and text editing programs.</p><table border="0" cellspacing="0" cellpadding="0"> 
 <tr> <td> <table border="0" cellspacing="0" cellpadding="1" bgcolor=black> 
 <tr> <td> <table border="0" cellspacing="0" cellpadding="10" bgcolor=white> 
-<tr> <td> <p><span class="formheader">Copyright notice</span></p><p>All 
-exported species data is &copy; 2007 Species 2000 on behalf of the Catalogue 
+<tr> <td> <p><span class="formheader">Copyright notice</span></p>
+<p>All 
+exported species data is &copy; 2009 Species 2000 on behalf of the Catalogue 
 of Life partners. Use of the species names for publications and databases 
 is encouraged, with appropriate acknowledgement of 1) the Species 2000 &amp; 
 ITIS Catalogue of Life, 2007 Annual Checklist, (2) the member database(s) 

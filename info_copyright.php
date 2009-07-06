@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Catalogue of Life : 2008 Annual Checklist : Copyright, reproduction and sale</title>
+<title>Catalogue of Life : 2009 Annual Checklist : Copyright, reproduction and sale</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link rel="stylesheet" href="sp2000ac.css" type="text/css">
 </head>
@@ -25,25 +25,36 @@
 sale</p><table width="100%" border="0" cellspacing="0" cellpadding="0" height="0"> 
 <tr> <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td></tr> 
 </table></td></tr> </table><table border="0" cellspacing="10" cellpadding="0"> 
-<tr> <td> <p>&copy; 2008, Species 2000<br /> This online database is copyrighted 
-by Species 2000 on behalf of the Catalogue of Life partners.</p><p>Use of 
+<tr> <td> <p>&copy; 2009, Species 2000<br />
+       This online database is copyrighted 
+by Species 2000 on behalf of the Catalogue of Life partners.</p>
+<p>Use of 
 the content (such as the classification, synonymic species checklist, and 
 scientific names) for publications and databases by individuals and organisations 
 for not-for-profit usage is encouraged, on condition that full and precise 
 credit is given at three levels on all occasions that records are shown. 
-The three levels credit the complete work, the contributing database of 
+The three part credit the complete work, the contributing database of 
 the record, and the expert who provides taxonomic scrutiny of the individual 
-record. For example, these might be as follows: </p><p>1) <i>Species 2000 
-&amp; ITIS Catalogue of Life: 2008 Annual Checklist</i>,<br> 2) The full 
-or short name or logo of the contributing database, such as: <i>Blattodea Species File Online</i>, or <i>BSF</i>, or <img src="images/BSFTiny.jpg" alt="BSF" width="15" height="15" border="0" /><br> 
-3) When provided, the latest taxonomic scrutiny field (specialist name &amp; 
-date), such as <i>J De Prins & W De Prins, 5-Apr-2007 </i> (from <i>World Gracillariidae database</i>), <i>C Lado, 25-Sep-2007</i> (from <i>Eumycetozoa.com database</i>), or <i>P Brock, Nov-2006</i> (from <i>PSF database)</i>. <br></p><p> If you wish to use the content 
+record. For example, these might be as follows: </p>
+<p>1) <i>Species 2000 
+&amp; ITIS Catalogue of Life: 2009 Annual Checklist</i>,<br>
+ 2) 
+
+
+The full or short name of the contributing database, such as: <em>Neuropterida Species of the World</em>, or <em>LDL Neuropterida.</em><br> 
+3)  When provided, the latest taxonomic scrutiny field (specialist name &amp; date), such as <em>Ouvrard D., </em><em> 25-Sep-2007</em> (from <em>Psyl'list</em>); <em>Castilho R.C., Silva E.S. &amp; Moraes G.J. de, 2008</em> (from <em>Mites GSDs</em>), or <em>PBI Solanum team, 2004-2008</em> (from <em>Solanaceae Source</em>).<br>
+</p>
+<p> This three-part credit can in many cases be kept brief by using a standard form and one or more logos as in the following example: &ldquo;Species recognized by M Guiry, AlgaeBase in  <img src="images/CoL_logo.png" alt="CoL_logo" width="95" height="17" border="0" />&rdquo;. You may copy the Catalogue of Life logo from this example, on the CD and web versions, for use in giving credit. </p>
+<p> If you wish to use the content 
 on a public portal or webpage you are required to notify the Species 2000 
 Secretariat, both to request written permission and to assist with a check that the correct credits are given.</p><p>Commercial 
 use of this compilation or any of the species datasets contained within, 
 such as replication of the CD-ROM for sale, or dissemination on the Internet, 
-requires written permission from Species 2000 or ITIS.</p><p>Copyright 
-for booklet photographs remains with the contributors.</p><p>ISSN 1473-009X</p>  
+requires written permission from Species 2000 or ITIS.</p>
+<p><strong> Disclaimer </strong></p>
+<p><strong> </strong>The Species 2000 &amp; ITIS Catalogue of Life editorial board cannot guarantee the accuracy or completeness of the information in this Annual Checklist. Be aware that the Catalogue of Life is still incomplete and undoubtedly contains errors. Neither Species 2000 &amp; ITIS nor any of the 66 contributing databases can be made liable for any direct or indirect damage arising out of the use of Catalogue of Life. </p>
+<p>Copyright 
+for booklet photographs remains with the contributors.</p><p>Copyright photo of  Honey Bee on the cover: E. van Spronsen.</p><p>ISSN 1473-009X</p>  
 </table><table width="100%" border="0" cellspacing="0" cellpadding="10"> 
 <tr> <td> <table width="100%" border="0" cellspacing="0" cellpadding="0" height="0"> 
 <tr> <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td></tr> 

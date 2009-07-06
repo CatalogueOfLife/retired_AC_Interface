@@ -1,9 +1,9 @@
 <?php
 	$info_pages = array(
 	  1 => "info_about_col.php",
-	  2 => "info_2008_checklist.php",
-	  3 => "info_lsid.php",
-	  4 => "info_source_dbs.php",
+	  2 => "info_2009_checklist.php",
+	  3 => "info_source_dbs.php",
+	  4 => "info_hierarchy.php",
 	  5 => "info_copyright.php",
 	  6 => "info_how_to_cite.php",
 	  7 => "info_web_sites.php",
@@ -12,9 +12,9 @@
 
 	$info_pages_names = array(
 	  1 => "About the Catalogue of Life",
-	  2 => "About the 2008 Annual Checklist",
-	  3 => "CoL Life Science Identifiers (LSIDs)",
-	  4 => "Source databases",
+	  2 => "About the 2009 Annual Checklist",
+	  3 => "Source databases",
+	  4 => "Towards Management Hierarchy",
 	  5 => "Copyrights, reproduction & sale",
 	  6 => "How to cite this work",
 	  7 => "Web sites",

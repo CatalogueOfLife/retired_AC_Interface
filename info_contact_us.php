@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Catalogue of Life : 2008 Annual Checklist : Contact us</title>
+<title>Catalogue of Life : 2009 Annual Checklist : Contact us</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link rel="stylesheet" href="sp2000ac.css" type="text/css">
 </head>
@@ -46,26 +46,36 @@
                   <table border="0" cellspacing="10" cellpadding="0">
                     <tr> 
                         <td> 
-                          <p>This is the eighth edition of the Annual Checklist. 
+                          <p>This is the 
+
+
+ninth
+
+ edition of the Annual Checklist. 
                             Users are encouraged to provide feedback to the Species 
                             2000 Secretariat and to ITIS. Enquiries about this 
                             Annual Checklist, the databases or Species 2000 should 
                             also be directed to: </p>
                           <p>Species 2000 Secretariat <br>
-                            Plant Science Laboratories<br>
+                            
+
+
+Harborne Building<br>
                             The University of Reading <br>
                             Reading RG6 6AS, UK <br>
-                            Email: 
-                            <script language="JavaScript" type="text/javascript">insertEmailAddress("sp2000","sp2000.org")</script>
-                            <br>
-                            Tel: +44 118 378 6466 <br>
-                            Fax: +44 118 378 8160 </p>
-                          <p></p>
-                          <p>CD-ROM Help Desk: 
-                            <script language="JavaScript" type="text/javascript">insertEmailAddress("sp2000","sp2000.org")</script>
                           </p>
-                          
-    </td>
+                          <p>Email:  <a href="mailto:sp2000@sp2000.org">sp2000@sp2000.org</a><br>
+                            Tel: +44 118 378 6466 <br>
+                          </p>
+                          <p>CD-ROM Help Desk: 
+
+
+                          <a href="mailto:support@sp2000.org"> support@sp2000.org</a></p>
+                          <p><strong> Annual Checklist CD requests </strong></p>
+                          <p> The Annual Checklist database and software on the CD are identical to those on the web at <a href="http://www.catalogueoflife.org/annual-checklist/2009/">www.catalogueoflife.org/annual-checklist/2009/</a>. Further copies of this CD (or the 2010 edition that will be released in April 2010) can be requested free of charge from the Species 2000 website (<a href="http://www.sp2000.org/cdrequest/">www.sp2000.org/cdrequest/</a>) or by emailing <a href="mailto:sp2000@sp2000.org">sp2000@sp2000.org</a>. </p>
+                          <p>In addition to supplying a single free copy of the Annual Checklist to those who request it, it is our policy to supply up to 20 extra copies to those willing to distribute copies to a group or network of institutions in developing countries. If you are requesting more than one copy please supply a brief explanation and list of institutes to which they will be distributed.
+                          </p>
+                        </td>
                     </tr>
                   </table>
                   <table width="100%" border="0" cellspacing="0" cellpadding="10">

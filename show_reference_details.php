@@ -251,7 +251,7 @@
 	$book_icon = "<img src='images/book.gif' border='0' width='15' height='14' hspace='2' title='Click here to show literature reference(s)'>" ;
 ?>
 
-<title>Catalogue of Life : 2008 Annual Checklist : <?php
+<title>Catalogue of Life : 2009 Annual Checklist : <?php
 	echo strip_tags($header) ;
 ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">

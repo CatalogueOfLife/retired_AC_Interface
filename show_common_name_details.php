@@ -54,7 +54,7 @@
 		die("<p>Error: invalid or missing parameter</p>") ;
 	}
 ?>
-<title>Catalogue of Life : 2008 Annual Checklist : <?php echo ucfirst($this_common_name) ?></title>
+<title>Catalogue of Life : 2009 Annual Checklist : <?php echo ucfirst($this_common_name) ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link rel="stylesheet" href="sp2000ac.css" type="text/css">
 </head>

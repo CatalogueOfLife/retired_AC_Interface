@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Catalogue of Life : 2008 Annual Checklist : Source databases</title>
+<title>Catalogue of Life : 2009 Annual Checklist : Source databases</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link rel="stylesheet" href="sp2000ac.css" type="text/css">
 </head>
@@ -61,7 +61,7 @@
 	}
 	$result = mysql_query($query) or die("Error: MySQL query failed");
 	$number_of_records = mysql_num_rows($result);
-?> <p style="margin-bottom:20px">The data in the 2008 Annual Checklist have been provided by 52 taxonomic databases. Of these, 5 are new to the 2008 edition and 17 have been updated over the past year. Most datasets include one or 
+?> <p style="margin-bottom:20px"> The data in the 2009 Annual Checklist have been provided by 66 databases. Of these, 14 are new to the 2009 edition and 27 have been updated over the past year.  Most datasets include one or 
 more global species database sectors (GSDs), i.e. datasets being developed 
 to cover all of the world's species in a particular group of organisms. A few datasets provide regional information for groups not yet covered globally. 
 The datasets result from collaboration and editing by many expert taxonomists, 
@@ -69,7 +69,9 @@ whose names are found in the datasets themselves. A brief summary is listed
 below giving: database short and full names; home page on the web; the author(s) 
 or editor(s); organisation; the group for which data are provided, preceded 
 by its higher classification; and the number of species and infraspecific 
-taxa included in this Annual Checklist.<br></p><?php
+taxa included in this Annual Checklist.<br>
+</p>
+  <?php
 			  
 	if ($number_of_records == 0) {
 		echo "<p>Error: no databases found</p>" ;

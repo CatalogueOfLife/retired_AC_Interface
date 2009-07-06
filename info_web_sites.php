@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Catalogue of Life : 2008 Annual Checklist : Web sites</title>
+<title>Catalogue of Life : 2009 Annual Checklist : Web sites</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link rel="stylesheet" href="sp2000ac.css" type="text/css">
 </head>
@@ -47,13 +47,15 @@
                     <tr> 
                       <td> 
                           <p><b>Online version of the Annual Checklist:</b></p>
-                          <p><a href="http://www.catalogueoflife.org/annual-checklist/2008/" target="_blank">http://www.catalogueoflife.org/annual-checklist/2008/</a>
+                          <p><a href="http://www.catalogueoflife.org/annual-checklist/2009/" target="_blank">www.catalogueoflife.org/annual-checklist/2009/</a>
+                          <p><strong> Web service </strong>
+                          <p><strong> </strong>Species 2000 provides web services to facilitate automated access to the Annual Checklist by computer programs. Please visit <a href="http://www.sp2000.org/webservices">www.sp2000.org/webservices</a> for more information. </p>
                           <p>
-<!--                            <span class="fieldheader">Mirror sites:</span></p>
+                            <!--                            <span class="fieldheader">Mirror sites:</span></p>
                           <p>Asia: <a href="http://www.sp2000.nies.go.jp/annualchecklist.html" target="_blank">http://www.sp2000.nies.go.jp/annualchecklist.html</a><br>
                             North America: <a href="http://www.usa.sp2000.org/AnnualChecklist.html" target="_blank">http://www.usa.sp2000.org/AnnualChecklist.html</a></p>-->
-                          
-    </td>
+                            
+                        </td>
                     </tr>
                   </table>
                   <table width="100%" border="0" cellspacing="0" cellpadding="10">
