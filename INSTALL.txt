@@ -1,0 +1,43 @@
+Project: Annual Checklist Interface
+Version: 2009
+
+INSTALLATION INSTRUCTIONS
+=========================
+
+1. APPLICATION SETTINGS
+
+   * Edit the AC_Interface-2009/config/application.ini file to set the
+   appropriate configuration for your system:
+   
+       resources.db.params.host = <MySQL Server Host>
+	   resources.db.params.username = <MySQL Username>
+       resources.db.params.password = <MySQL Password>
+       resources.db.params.dbname = <MySQL Database>
+       ; Show accepted names only?
+       interface.options.showAcceptedNamesOnly = <1:true, 0:false>
+       ; Does the application run on-line (i.e. not on a CD)?
+       interface.options.online = <1:true, 0:false>
+
+2. APACHE 2.x CONFIGURATION
+
+    IMPORTANT: Note that only the AC_Interface-2009/public folder should be accessible 
+    from the web
+    
+    Example:
+    
+    * Place the application into a folder of your choice (/var/www/ is used here)
+    * Create a file in the configuration path of Apache (typically /etc/apache2/conf.d) 
+    named, for example, annual-checklist.conf, with the following content:
+    
+    Alias /annual-checklist /var/www/AC_Interface-2009/public
+
+	<Directory /var/www/AC_Interface-2009/public>
+	    DirectoryIndex index.php
+	    Options FollowSymLinks
+	    Order allow,deny
+	    Allow from all
+	</Directory>
+	
+	* Restart the Apache server
+	* Browse http://<ServerAddress>/annual-checklist to access the application
+	
