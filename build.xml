@@ -18,7 +18,7 @@
 		<mkdir dir="${build}" />		
 		<mkdir dir="${build}/api" />
 		<mkdir dir="${build}/coverage" />
-		<mkdir dir="${build}/graph" />		
+		<mkdir dir="${build}/graph" />
 		<exec executable="svn">
 			<arg value="up" />
 		</exec>
