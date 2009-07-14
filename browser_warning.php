@@ -8,7 +8,7 @@
 
 <body bgcolor="#FFFFFF" text="#000000">
 <?php
-	require_once "config/config.php";
+	require_once "includes/config.php";
 	if ($online_or_offline_version == "offline") {
 		include "cd_rom_version_icon.php" ;
 	}

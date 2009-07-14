@@ -51,7 +51,7 @@
 
 <body bgcolor="#FFFFFF" text="#000000" onload="scrollWindowToSelected(); moveMenu();" onscroll="moveMenu();">
 <?php
-	require_once "config/config.php";
+	require_once "includes/config.php";
 	if ($online_or_offline_version == "offline") {
 		include "cd_rom_version_icon.php" ;
 	}
