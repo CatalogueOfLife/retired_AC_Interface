@@ -11,8 +11,7 @@
 	<property name="dist.name"
 		value="${project.name}-${project.version}-${DSTAMP}${TSTAMP}.zip" />
 	<property name="build" value="${basedir}/../build" />
-	<property name="dist" value="${basedir}/../dist" />
-	
+		
 	<target name="init">
 	    <delete dir="${build}" />
 		<!-- Create the build directory structure used by compile -->
@@ -26,13 +25,13 @@
 	</target>
 
 	<target name="dist" depends="init">
-		<zip destfile="${dist}/${dist.name}" basedir="${basedir}"
+		<zip destfile="${build}/${dist.name}" basedir="${basedir}"
 			 excludes="build.*, **/.*, **/database/**" />
 	</target>
 	
 	<target name="phpdoc">	    
-         <exec executable="phpdoc">              
-              <arg line="-ue on -t ${build}/api -tb /usr/share/php/data/phpUnderControl/data/phpdoc -o HTML:Phpuc:phpuc -d ${basedir}/public"/> 
+         <exec executable="phpdoc">         
+              <arg line="-ue on -t ${build}/api -tb /usr/share/php/data/phpUnderControl/data/phpdoc -o HTML:Phpuc:phpuc -d ${basedir}"/> 
          </exec>
 	</target>
 		
