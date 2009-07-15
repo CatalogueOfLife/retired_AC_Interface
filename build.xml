@@ -30,5 +30,5 @@
          </exec>
 	</target>
 		
-	<target name="build" depends="phpdoc" />
+	<target name="build" depends="init,phpdoc" />
 </project>
