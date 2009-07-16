@@ -62,20 +62,11 @@
                            --bad-documentation 
                            ${basedir}" />
 	</target>
-
-	<!-- Create tar source package -->
-	<target name="tar">
-		<tar destfile="${dist}/${dist.name}.${revision}.tar.gz" compression="gzip">
-			<fileset dir="${basedir}">
-				<patternset refid="dist.exc"/>
-			</fileset>
-		</tar>
-	</target>
-
+	
 	<!-- Create zip source package -->
 	<target name="zip">
 		<zip destfile="${dist}/${dist.name}.${revision}.zip">
-			<fileset dir="${basedir}">
+			<fileset dir=".">
 				<patternset refid="dist.exc"/>
 			</fileset>
 		</zip>
@@ -91,6 +82,6 @@
 	</target>
 
 	<target name="build"
-		depends="clean,checkout,phplint,phpcs,phpdoc,pdepend,tar,zip" />
+		depends="clean,checkout,phplint,phpcs,phpdoc,pdepend,zip" />
 
 </project>
