@@ -5,18 +5,8 @@
 	<property name="project.name" value="${phing.project.name}" />
 	<property name="basedir" value="${project.basedir}" />
 	<property name="build" value="${basedir}/../build" />
-	<property file="build.properties" />
-	<property name="build.tag" value="${DSTAMP}${TSTAMP}" />
-	<property name="dist" value="${basedir}/../dist" />
-	<property name="dist.name" value="${project.name}-${project.version}" />		
-	<!-- Pattern to exclude source files from distribution -->
-	<patternset id="dist.exc">
-    	<exclude name="**/.*/**" /><!--hidden files-->
-		<exclude name="build*" /><!--build file/s-->
-		<exclude name="**/tests/**" /><!--tests-->
-		<exclude name="**/database/**" /><!--db schema-->
-	</patternset>	
-
+	<property file="build.properties" />	
+	
 	<!-- Checkout latest version from SVN -->
 	<target name="checkout">
 		<svnupdate svnpath="svn" nocache="true" todir="${basedir}" />
@@ -27,9 +17,7 @@
 	<!-- Clean and set up build/dist directories -->
 	<target name="clean">
 	    <delete dir="${build}" includeemptydirs="true"/>
-	    <delete dir="${dist}" includeemptydirs="true"/>	    
-		
-		<mkdir dir="${dist}" />
+	    
 		<mkdir dir="${build}/logs" />
 		<mkdir dir="${build}/api" />
 		<mkdir dir="${build}/coverage" />
