@@ -7,5 +7,5 @@
          stopOnFailure="false">
     <testsuite name="AC_Interface Test Suite">
         <directory>./</directory>
-    </testsuite>     
+    </testsuite>
 </phpunit>

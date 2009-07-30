@@ -1,7 +1,52 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- PHing build -->
+<?xml version="1.0" encoding="UTF-8"?>	
 <project default="build" basedir=".">
-    <target name="build">
-        <phing phingfile="/usr/local/cc/common/build/build-dev.xml" />            
-    </target>
+
+	<property name="basedir" value="${project.basedir}" />
+	<property name="build" value="${basedir}/../build" />
+	<property file="build.properties" />
+	<patternset id="inc.php.files">
+		<include name="**/*.php" />
+		<exclude name="**/tests/**" />
+		<exclude name="**/library/Zend/**" />
+		<exclude name="**/library/Smarty/**" />
+	</patternset>
+
+	<!-- Checkout latest version from SVN -->
+	<target name="checkout">
+		<svnupdate svnpath="svn" nocache="true" todir="${basedir}" />		
+	</target>
+
+	<!-- Clean and set up build/dist directories -->
+	<target name="clean">
+		<delete dir="${build}" includeemptydirs="true" />
+
+		<mkdir dir="${build}/logs" />
+		<mkdir dir="${build}/api" />
+		<mkdir dir="${build}/coverage" />
+		<mkdir dir="${build}/graph" />
+	</target>
+
+	<!-- Generate documentation -->
+	<phpdoc title="${project.name} Documentation" destdir="${build}/api"
+		sourcecode="no" output="HTML:Phpuc:phpuc">
+		<fileset dir="${basedir}">
+			<patternset refid="inc.php.files" />
+		</fileset>
+		<!--
+			<projdocfileset dir="."> <include name="README" /> <include
+			name="INSTALL" /> <include name="CHANGELOG" /> </projdocfileset>
+		-->
+	</phpdoc>
+
+	<!-- Check PHP syntax -->
+	<target name="phplint">
+		<phplint haltonfailure="true">
+			<fileset dir="${basedir}">
+                <patternset refid="inc.php.files" />
+            </fileset>
+		</phplint>
+	</target>
+
+	<target name="build" depends="clean,checkout,phplint,phpdoc" />
+
 </project>
