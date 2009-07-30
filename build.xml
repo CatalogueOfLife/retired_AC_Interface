@@ -24,19 +24,15 @@
 		<mkdir dir="${build}/api" />
 		<mkdir dir="${build}/coverage" />
 		<mkdir dir="${build}/graph" />
-	</target>
-
+	</target>	
+	
 	<!-- Generate documentation -->
-	<phpdoc title="${project.name} Documentation" destdir="${build}/api"
-		sourcecode="no" output="HTML:Phpuc:phpuc">
-		<fileset dir="${basedir}">
-			<patternset refid="inc.php.files" />
-		</fileset>
-		<!--
-			<projdocfileset dir="."> <include name="README" /> <include
-			name="INSTALL" /> <include name="CHANGELOG" /> </projdocfileset>
-		-->
-	</phpdoc>
+    <target name="phpdoc">
+        <exec dir="${basedir}"
+            command="phpdoc -ct type -ue on -t ${build}/api
+                          -tb /usr/share/php/data/phpUnderControl/data/phpdoc -o HTML:Phpuc:phpuc
+                          -d ${basedir}/application,${basedir}/library/Eti,${basedir}/public" />
+    </target>
 
 	<!-- Check PHP syntax -->
 	<target name="phplint">
