@@ -74,6 +74,6 @@
 		</phplint>
 	</target>
 
-	<target name="build" depends="clean,checkout,phplint,phpdoc,phpunit,phpcs" />
+	<target name="build" depends="clean,checkout,phplint,phpdoc" />
 
 </project>
