@@ -53,6 +53,17 @@
             --coverage-xml ${build}/logs/phpunit.coverage.xml 
             --coverage-html ${build}/logs/coverage" />
     </target> 
+    
+    <!-- Execute pdepend and store reports -->
+    <target name="pdepend">
+        <exec dir="${basedir}"
+            command="pdepend --jdepend-xml=${build}/logs/jdepend.xml 
+                           --summary-xml=${build}/logs/jdepend-summary.xml 
+                           --overview-pyramid=${build}/graph/pyramid.svg 
+                           --jdepend-chart=${build}/graph/jdepend.svg
+                           --ignore=${basedir}/library/Zend,${basedir}/library/Smarty
+                           ${basedir}" />
+    </target>
 
 	<!-- Check PHP syntax -->
 	<target name="phplint">
@@ -63,6 +74,6 @@
 		</phplint>
 	</target>
 
-	<target name="build" depends="clean,checkout,phplint,phpunit,phpdoc,phpcs" />
+	<target name="build" depends="clean,checkout,phplint,phpunit,phpdoc,phpcs,pdepend" />
 
 </project>
