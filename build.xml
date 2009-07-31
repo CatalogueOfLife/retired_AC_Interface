@@ -62,7 +62,7 @@
                            --summary-xml=${build}/logs/jdepend-summary.xml 
                            --overview-pyramid=${build}/graph/pyramid.svg 
                            --jdepend-chart=${build}/graph/jdepend.svg
-                           --ignore=${basedir}/library/Zend,${basedir}/library/Smarty
+                           --ignore=library/Zend/**,library/Smarty/**
                            ${basedir}" />
     </target>
 
