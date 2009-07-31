@@ -48,11 +48,10 @@
         <exec dir="${basedir}" 
             command="phpunit
             --configuration tests/phpunit.xml
-            --log-xml ${build}/logs/phpunit.xml
-            --log-pmd ${build}/logs/phpunit.pmd.xml
+            --log-xml ${build}/logs/phpunit.xml            
             --log-metrics ${build}/logs/phpunit.metrics.xml
             --coverage-xml ${build}/logs/phpunit.coverage.xml
-            --coverage-html ${build}/logs/coverage            
+            --coverage-html ${build}/logs/coverage                      
             tests" />
     </target> 
     
