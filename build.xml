@@ -45,13 +45,13 @@
     
     <!-- PHPUnit -->
     <target name="phpunit">
-        <exec executable="phpunit" dir="${basedir}/tests" failonerror="on">
-        <arg line="--log-xml ${build}/logs/phpunit.xml 
-                   --log-pmd ${build}/logs/logs/phpunit.pmd.xml 
-                   --log-metrics ${build}/logs/phpunit.metrics.xml 
-                   --coverage-xml ${build}/logs/phpunit.coverage.xml 
-                   --coverage-html ${build}/logs/coverage" />
-        </exec>
+        <exec dir="${basedir}/tests" 
+            command="phpunit
+            --log-xml ${build}/logs/phpunit.xml 
+            --log-pmd ${build}/logs/phpunit.pmd.xml 
+            --log-metrics ${build}/logs/phpunit.metrics.xml 
+            --coverage-xml ${build}/logs/phpunit.coverage.xml 
+            --coverage-html ${build}/logs/coverage" />
     </target> 
 
 	<!-- Check PHP syntax -->
