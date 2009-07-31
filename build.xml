@@ -51,7 +51,7 @@
             --log-xml ${build}/logs/phpunit.xml            
             --log-metrics ${build}/logs/phpunit.metrics.xml
             --coverage-xml ${build}/logs/phpunit.coverage.xml
-            --coverage-html ${build}/logs/coverage                      
+            --coverage-html ${build}/coverage                      
             tests" />
     </target> 
     
