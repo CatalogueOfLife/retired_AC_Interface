@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit 
+<phpunit
+         bootstrap="tests/bootstrap.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          stopOnFailure="false">
     <testsuite name="AC_Interface Test Suite">
-        <directory>./</directory>
+        <directory>./tests</directory>
     </testsuite>
 </phpunit>

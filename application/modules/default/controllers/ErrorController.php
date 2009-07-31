@@ -1,19 +1,13 @@
 <?php
-/**
- * Controller of the error page
- */
+
 class ErrorController extends Zend_Controller_Action
 {
-    /**
-     * Action error
-     */
+
     public function errorAction()
     {
         $errors = $this->_getParam('error_handler');
         
-        var_dump($errors);
-        
-        switch ($errors->type) {
+        switch ($errors->type) { 
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER:
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_ACTION:
         
@@ -22,7 +16,7 @@ class ErrorController extends Zend_Controller_Action
                 $this->view->message = 'Page not found';
                 break;
             default:
-                // application error
+                // application error 
                 $this->getResponse()->setHttpResponseCode(500);
                 $this->view->message = 'Application error';
                 break;
@@ -31,4 +25,7 @@ class ErrorController extends Zend_Controller_Action
         $this->view->exception = $errors->exception;
         $this->view->request   = $errors->request;
     }
+
+
 }
+

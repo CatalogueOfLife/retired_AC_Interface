@@ -22,6 +22,20 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         
         Zend_Registry::set('config', $config);
     }
+    
+    /**
+     * Modules initialization
+     *
+     */
+    public function _initModules()
+    {
+        $front = Zend_Controller_Front::getInstance();
+        $front->setControllerDirectory(array(
+            'default' => APPLICATION_PATH . '/modules/default/controllers'
+        ));
+        $front->setDefaultModule('default');
+    }
+    
     /**
      * View initialization
      * Loads the custom implementation of the Smarty View to use
@@ -32,23 +46,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     public function _initView ()
     {
-        $config = Zend_Registry::get('config');
-        $smartySettings = $config->get('smarty')->toArray();
-        
-        $view = new Eti_View_Smarty($smartySettings);
-        
-        $viewRenderer = new Zend_Controller_Action_Helper_ViewRenderer($view);
-        
-        $viewRenderer->setViewBasePathSpec($smartySettings['template_dir'])
-            ->setViewScriptPathSpec(':controller/:action.:suffix')
-            ->setViewScriptPathNoControllerSpec(':action.:suffix')
-            ->setViewSuffix('tpl');
+        $view = new Zend_View();
             
-        Zend_Controller_Action_HelperBroker::addHelper($viewRenderer);
-        
+        $view = new Zend_View();
         $view->doctype('XHTML1_STRICT');
-                
-        Zend_Registry::set('view', $view);
+        $view->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
+        $viewRenderer = new Zend_Controller_Action_Helper_ViewRenderer();
+        $viewRenderer->setView($view);
+        Zend_Controller_Action_HelperBroker::addHelper($viewRenderer);
         
         return $view;
     }
@@ -63,5 +68,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $db = Zend_Db::factory($config->resources->db);
         Zend_Db_Table_Abstract::setDefaultAdapter($db);
         Zend_Registry::set('dbAdapter', $db);
+    }
+    
+    public function _initLayout() {
+        Zend_Layout::startMvc();
     }
 }
