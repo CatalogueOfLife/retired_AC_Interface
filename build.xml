@@ -33,6 +33,26 @@
                           -tb /usr/share/php/data/phpUnderControl/data/phpdoc -o HTML:Phpuc:phpuc
                           -d ${basedir}/application,${basedir}/library/Eti,${basedir}/public" />
     </target>
+    
+    <!-- Execute Code Sniffer -->
+    <target name="phpcs">
+        <exec dir="${basedir}"
+            command="phpcs --report=checkstyle --standard=Zend ${basedir} 
+                   --ignore=${basedir}/library/Zend,${basedir}/library/Smarty 
+                   > ${build}/logs/checkstyle.xml"
+            escape="false" />
+    </target>
+    
+    <!-- PHPUnit -->
+    <target name="phpunit">
+        <exec executable="phpunit" dir="${basedir}/tests" failonerror="on">
+        <arg line="--log-xml ${build}/logs/phpunit.xml 
+                   --log-pmd ${build}/logs/logs/phpunit.pmd.xml 
+                   --log-metrics ${build}/logs/phpunit.metrics.xml 
+                   --coverage-xml ${build}/logs/phpunit.coverage.xml 
+                   --coverage-html ${build}/logs/coverage" />
+        </exec>
+    </target> 
 
 	<!-- Check PHP syntax -->
 	<target name="phplint">
@@ -43,6 +63,6 @@
 		</phplint>
 	</target>
 
-	<target name="build" depends="clean,checkout,phplint,phpdoc" />
+	<target name="build" depends="clean,checkout,phplint,phpunit,phpdoc,phpcs" />
 
 </project>
