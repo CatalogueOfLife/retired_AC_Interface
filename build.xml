@@ -37,9 +37,9 @@
     <!-- Execute Code Sniffer -->
     <target name="phpcs">
         <exec dir="${basedir}"
-            command="phpcs --report=checkstyle --standard=Zend ${basedir}
-                   --ignore=${basedir}/library/Zend,${basedir}/library/Smarty
-                   > ${build}/logs/checkstyle.xml"
+            command="phpcs --report=checkstyle --standard=Zend 
+                   --ignore=library/Zend/**,library/Smarty/**
+                   ${basedir} > ${build}/logs/checkstyle.xml"
             escape="false" />
     </target>
     
