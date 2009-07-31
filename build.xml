@@ -24,34 +24,35 @@
 		<mkdir dir="${build}/api" />
 		<mkdir dir="${build}/coverage" />
 		<mkdir dir="${build}/graph" />
-	</target>	
+	</target>
 	
 	<!-- Generate documentation -->
     <target name="phpdoc">
         <exec dir="${basedir}"
             command="phpdoc -ct type -ue on -t ${build}/api
-                          -tb /usr/share/php/data/phpUnderControl/data/phpdoc -o HTML:Phpuc:phpuc
-                          -d ${basedir}/application,${basedir}/library/Eti,${basedir}/public" />
+                     -tb /usr/share/php/data/phpUnderControl/data/phpdoc -o HTML:Phpuc:phpuc
+                     -d ${basedir}/application,${basedir}/library/Eti,${basedir}/public,${basedir}/tests" />
     </target>
     
     <!-- Execute Code Sniffer -->
     <target name="phpcs">
         <exec dir="${basedir}"
-            command="phpcs --report=checkstyle --standard=Zend ${basedir} 
-                   --ignore=${basedir}/library/Zend,${basedir}/library/Smarty 
+            command="phpcs --report=checkstyle --standard=Zend ${basedir}
+                   --ignore=${basedir}/library/Zend,${basedir}/library/Smarty
                    > ${build}/logs/checkstyle.xml"
             escape="false" />
     </target>
     
     <!-- PHPUnit -->
     <target name="phpunit">
-        <exec dir="${basedir}/tests" 
+        <exec dir="${basedir}" 
             command="phpunit
-            --log-xml ${build}/logs/phpunit.xml 
-            --log-pmd ${build}/logs/phpunit.pmd.xml 
-            --log-metrics ${build}/logs/phpunit.metrics.xml 
-            --coverage-xml ${build}/logs/phpunit.coverage.xml 
-            --coverage-html ${build}/logs/coverage" />
+            --log-xml ${build}/logs/phpunit.xml
+            --log-pmd ${build}/logs/phpunit.pmd.xml
+            --log-metrics ${build}/logs/phpunit.metrics.xml
+            --coverage-xml ${build}/logs/phpunit.coverage.xml
+            --coverage-html ${build}/logs/coverage
+            tests" />
     </target> 
     
     <!-- Execute pdepend and store reports -->
@@ -74,6 +75,6 @@
 		</phplint>
 	</target>
 
-	<target name="build" depends="clean,checkout,phplint,phpdoc" />
+	<target name="build" depends="clean,checkout,phplint,phpunit,phpdoc" />
 
 </project>
