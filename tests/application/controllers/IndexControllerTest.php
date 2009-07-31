@@ -12,7 +12,7 @@ class IndexControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
             );
         $this->frontController->setDefaultModule('default');
     }
-    public function testHomePageIsASuccessfulRequest ()
+    public function testHomePageIsASuccessfulRequestToIndex ()
     {
         // Runs the test on /, the homepage
         $this->dispatch('/');
@@ -20,12 +20,6 @@ class IndexControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->assertFalse($this->response->isException());
         // Tests for redirection to the error handler
         $this->assertNotRedirect();
-    }
-    
-    public function testHomePageDisplaysCorrectContent ()
-    {
-        // Runs the test on /
-        $this->dispatch('/');
         $this->assertController('index');
         $this->assertAction('index');
     }
