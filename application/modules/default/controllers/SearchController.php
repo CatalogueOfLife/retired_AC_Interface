@@ -1,9 +1,12 @@
 <?php
 class SearchController extends Zend_Controller_Action
 {
+    protected $_logger;
 
     public function init()
-    {}
+    {
+        $this->_logger = Zend_Registry::get('logger');
+    }
     
     public function commonAction()
     {
@@ -89,44 +92,15 @@ class SearchController extends Zend_Controller_Action
         
                 
         $stmt = $db->query($select);
-        
-        //$res->execute();
-        
-        //$stmt->fetchAll();
-        
-        //$stmt = new Zend_Db_Statement_Mysqli($db, self::SEARCH_SQL);
-        //$stmt->bindParam('searchKey', $searchKey, Zend_Db::PARAM_STR);
-        //$stmt->bindValue('searchKey', 'colo', Zend_Db::PARAM_STR);
-        
-        //var_dump($stmt);
-        //$stmt->execute(array('colo'));
                
         $res = $stmt->fetchAll();
         foreach($res as $row) {
-            var_dump($row);
+            //var_dump($row);
         }
         
-        $this->view->numRows = count($res);
-        
-        $profiler = $db->getProfiler();
-        
-        $totalTime = $profiler->getTotalElapsedSecs();
-        $queryCount = $profiler->getTotalNumQueries();
-        $longestTime = 0;
-        $longestQuery = null;
-        
-        foreach($profiler->getQueryProfiles() as $query) {
-            if($query->getElapsedSecs() > $longestTime) {
-                $longestTime = $query->getElapsedSecs();
-                $longestQuery = $query->getQuery();
-            }
-        }
-        
-        echo '<br/>Executed ' . $queryCount . ' queries in ' . $totalTime . ' seconds<br/>';
-        echo 'Average query length: ' . $totalTime / $queryCount . ' seconds<br/>';
-        echo 'Queries per second: ' . $queryCount / $totalTime . '<br/>';
-        echo 'Longest query length: ' . $longestTime . '<br/>';
-        echo 'Longest query: <br/>' . $longestQuery . '<br/>';
+        $this->view->numResults = count($res);
+       
+        $this->_logger->debug($this->getRequest()->getParams());
         
         $this->renderScript('search/search.phtml');
     }

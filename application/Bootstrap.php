@@ -24,23 +24,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     }
     
     /**
-     * Modules initialization
-     *
-     */
-    public function _initModules()
-    {
-        $front = Zend_Controller_Front::getInstance();
-        $front->setControllerDirectory(
-            array(
-                'default' => APPLICATION_PATH . '/modules/default/controllers'
-            )
-        );
-        $front->setDefaultModule('default');
-        $front->setDefaultControllerName('search');
-        $front->setDefaultAction('all');
-    }
-    
-    /**
      * View initialization
      * Loads the custom implementation of the Smarty View to use
      * this template engine in place of the Zend_View.
@@ -73,6 +56,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $db->getConnection();//test connection
         //Zend_Db_Table_Abstract::setDefaultAdapter($db);
         Zend_Registry::set('db', $db);
+    }
+    
+    public function _initLogger()
+    {
+        $config = Zend_Registry::get('config');
+        $writer = new Zend_Log_Writer_Firebug();
+        $writer->addFilter((int)$config->log->filter->priority);
+        $logger = new Zend_Log($writer);
+        Zend_Registry::set('logger', $logger);
     }
     
     public function _initLayout()
