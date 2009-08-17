@@ -34,8 +34,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     public function _initView ()
     {
         $view = new Zend_View();
-            
-        $view = new Zend_View();
         $view->doctype('XHTML1_STRICT');
         $view->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
         $viewRenderer = new Zend_Controller_Action_Helper_ViewRenderer();
@@ -65,6 +63,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $writer->addFilter((int)$config->log->filter->priority);
         $logger = new Zend_Log($writer);
         Zend_Registry::set('logger', $logger);
+    }
+    
+    public function _initTranslate()
+    {
+        $translate = new Zend_Translate('Ini', APPLICATION_PATH .
+            '/languages/lang.en.ini', 'en');
+        Zend_Registry::set('translate', $translate);
     }
     
     public function _initLayout()
