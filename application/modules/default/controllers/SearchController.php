@@ -6,6 +6,7 @@ class SearchController extends Zend_Controller_Action
     public function init()
     {
         $this->_logger = Zend_Registry::get('logger');
+        $this->view->translate = Zend_Registry::get('translate');
     }
     
     public function commonAction()
