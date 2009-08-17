@@ -40,6 +40,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $viewRenderer->setView($view);
         Zend_Controller_Action_HelperBroker::addHelper($viewRenderer);
         
+        $view->imageFolder = "http://www.catalogueoflife.org/images/";
+	    $view->scriptFolder = "/scripts/";
+        
+        
         return $view;
     }
     

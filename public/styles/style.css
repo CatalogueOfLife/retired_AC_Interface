@@ -1,0 +1,157 @@
+body {  background-color: #FFFFFF; background-image: url(images/border-left.gif); background-repeat: repeat-y; background-position: 0px 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 30px; margin-left: 0px; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #000000;}
+p {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #000000; }
+ul {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px}
+li {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; margin-bottom: 5px}
+A:link { color: #0B0BF2; text-decoration: none;}
+A:visited { color: #663399; text-decoration: none;}
+A:active {color: blue; text-decoration: none;}
+A:hover { color: #F20B0B; text-decoration: underline;}
+
+img
+{
+	border: none;
+}
+
+.aboutcolheader { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #990000; font-weight: bold; margin-right: 0px; margin-top: 5px; margin-bottom: 5px; margin-left: 0px }
+.fieldheader { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #333366; font-weight: bold; margin-right: 0px; margin-top: 1px; margin-bottom: 3px; margin-left: 0px}
+.fieldheader A:link { color: #333366; text-decoration: none;}
+.fieldheader A:visited { color: #333366; text-decoration: none;}
+.fieldheader A:active {color: #333366; text-decoration: none;}
+.fieldheader A:hover { color: #F20B0B; text-decoration: underline;}
+.fieldheaderblack { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #000000; margin-right: 0px; margin-top: 1px; margin-bottom: 3px; margin-left: 0px}
+.fieldheaderblack A:link { color: #000000; text-decoration: none;}
+.fieldheaderblack A:visited { color: #000000; text-decoration: none;}
+.fieldheaderblack A:active {color: #000000; text-decoration: none;}
+.fieldheaderblack A:hover { color: #F20B0B; text-decoration: underline;}
+.fieldvalue { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #000000; margin-right: 6px; margin-top: 1px; margin-bottom: 3px; margin-left: 0px}
+.fieldvalue_literature { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #000000; margin-right: 6px; margin-top: 1px; margin-bottom: 6px; margin-left: 0px; list-style-image: url(images/menu_arrow.gif)}
+.formfieldheader {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #000000; margin-top: 4px}
+.formheader {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #333366; font-weight: bold; margin-right: 0px; margin-top: 0px; margin-bottom: 5px; margin-left: 0px}
+.formbutton { color: #000066; font-family: Verdana, "MS Sans Serif", "Espy Sans", Geneva, Arial ; font-size: 13px}
+.howtociteheader { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #990000; font-weight: bold; margin-right: 0px; margin-top: 0px; margin-bottom: 5px; margin-left: 0px }
+.listlink {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #000000; }
+.listlink A:link {text-decoration: none; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px}
+.listlink A:visited {text-decoration: none; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px}
+.listlink A:active {text-decoration: none; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px}
+.listlink A:hover {color: #F20B0B; text-decoration: underline; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px}
+.menulink {color: #000000; text-decoration: none ; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; margin-left: 3px; margin-right: 3px; cursor: default}
+.menulink A:link {color: #000000; text-decoration: none }
+.menulink A:visited {color: #000000; text-decoration: none }
+.menulink A:active {color: #000000; text-decoration: none }
+.menulink A:hover {color: #000000; text-decoration: none }
+.menuselected {  color: #333366; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; font-weight: bold; cursor: default; text-decoration: none; margin-left: 3px; margin-right: 3px}
+.menumain { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; cursor: default; margin-left: 3px; margin-right: 3px}
+.menumain A:link {color: #000000; text-decoration: none }
+.menumain A:visited {color: #000000; text-decoration: none }
+.menumain A:active {color: #000000; text-decoration: none }
+.menumain A:hover {color: #000000; text-decoration: none }
+.new {  font-size: 9px; font-weight: bold; color: #F400F4}
+.nextpreviousarrows {  font-size: 9px}
+.selectedLetter { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #333366; font-weight: bold}
+.showdetails { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; margin-right: 2px; margin-left: 2px }
+.tableheader {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; font-weight: bold; color: #666666; margin-top: 3px; margin-right: 2px; margin-bottom: 3px; margin-left: 2px}
+.tableheader {color: #666666; text-decoration: none ; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; margin-left: 0px; margin-right: 3px; cursor: default}
+.tableheader A:link {color: #666666; text-decoration: none }
+.tableheader A:visited {color: #666666; text-decoration: none }
+.tableheader A:active {color: #666666; text-decoration: none }
+.tableheader A:hover {color: #666666; text-decoration: underline }
+.treenode {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; margin-left: 4px; }
+
+.divider
+{
+	position: relative;
+    left: 10px;
+    right: 10px;
+    height: 20px;
+    border-top:1px solid #333366;
+}
+
+.view
+{
+    border:1px solid #333366;
+    background-color: #FAFCFE;
+
+    padding:3px 3px 3px 3px;
+    
+    margin: 2px 0px 0px 2px;
+}
+
+#menu
+{
+	position:fixed;
+	left:10px;
+	top:150px;
+	width:100px;
+    z-index:10;   
+}
+
+#menu a
+{
+    color: #000000;
+    text-decoration: none;
+}
+
+.view ul li ul
+{
+    border:1px solid #333366;
+    background-color: #FAFCFE;
+}
+
+#menu ul li
+{
+    margin: 0;
+	background: url(http://www.catalogueoflife.org/images/menu_arrow.gif) no-repeat;
+    background-position: right;
+}
+
+#menu ul li ul li
+{
+    background: none;
+    margin:1px 2px 1px 3px; 
+}
+
+#content
+{
+	position:absolute;
+	left:125px;
+	top:150px;
+    z-index:5;
+}
+
+
+/*
+FOR THE MENU
+*/
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    }
+
+ul li {
+    position: relative;
+    }
+    
+li ul {
+    position: absolute;
+    left: 99px; /* Set 1px less than menu width */
+    top: 0;
+    width: 175px; /* Width of Menu Items */
+    display: none;
+    }
+
+/* Styles for Menu Items */
+ul li a {
+    display: block;
+    text-decoration: none;
+    }
+
+/* Fix IE. Hide from IE Mac \*/
+* html ul li { float: left; height: 1%; }
+* html ul li a { height: 1%; }
+/* End */
+
+#menu ul li:hover { background-color: #EAF2F7; } /* Hover Styles */
+        
+li:hover ul, li.over ul { display: block; } /* The magic */
