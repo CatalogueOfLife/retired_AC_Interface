@@ -30,10 +30,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     public function _initModules()
     {
         $front = Zend_Controller_Front::getInstance();
-        $front->setControllerDirectory(array(
-            'default' => APPLICATION_PATH . '/modules/default/controllers'
-        ));
+        $front->setControllerDirectory(
+            array(
+                'default' => APPLICATION_PATH . '/modules/default/controllers'
+            )
+        );
         $front->setDefaultModule('default');
+        $front->setDefaultControllerName('search');
+        $front->setDefaultAction('all');
     }
     
     /**
@@ -66,11 +70,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $config = Zend_Registry::get('config');
         $db = Zend_Db::factory($config->resources->db);
-        Zend_Db_Table_Abstract::setDefaultAdapter($db);
-        Zend_Registry::set('dbAdapter', $db);
+        $db->getConnection();//test connection
+        //Zend_Db_Table_Abstract::setDefaultAdapter($db);
+        Zend_Registry::set('db', $db);
     }
     
-    public function _initLayout() {
+    public function _initLayout()
+    {
         Zend_Layout::startMvc();
     }
 }
