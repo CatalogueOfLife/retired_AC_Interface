@@ -23,6 +23,17 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Registry::set('config', $config);
     }
     
+    public function _initAutoload()
+    {
+        $resourceLoader = new Zend_Loader_Autoloader_Resource(
+            array(
+                'basePath'  => APPLICATION_PATH,
+                'namespace' => 'AC',
+            )
+        );
+        $resourceLoader->addResourceType('model', 'models/', 'Model');
+    }
+    
     public function _initLogger()
     {
         $config = Zend_Registry::get('config');
