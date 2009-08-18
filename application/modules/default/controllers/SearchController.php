@@ -42,70 +42,8 @@ class SearchController extends Zend_Controller_Action
         
         $db = Zend_Registry::get('db');
         $db->setFetchMode(Zend_Db::FETCH_ASSOC);
-                
-        $searchKey = 'colo';
-        
-        $selectTaxa = new Zend_Db_Select($db);
-        
-        $selectTaxa->from(
-            array(
-                'ss' => 'simple_search'
-            ),
-            array(
-                'id' => 'tx.record_id',
-                'tx.taxon',
-                'tx.name_code',
-                'tx.name',
-                'tx.is_accepted_name',
-                'db_name' => 'db.database_name',
-                'status' => 'st.sp2000_status'
-            )
-        )->join(
-            array('tx' => 'taxa'),
-            'ss.taxa_id = tx.record_id',
-            array()
-        )->joinLeft(
-            array('st' => 'sp2000_statuses'),
-            'tx.sp2000_status_id = st.record_id',
-            array()
-        )->joinLeft(
-            array('db' => 'databases'),
-            'tx.database_id = db.record_id',
-            array()
-        )->where('ss.words = ?', $searchKey)
-         ;//->order(array('name', 'status'));
-        
-        $selectCommonNames = new Zend_Db_Select($db);
-        
-        $selectCommonNames
-        ->from(
-            array(
-                'cn' => 'common_names'
-            ),
-            array(
-                'id' => new Zend_Db_Expr(0),
-                'taxon' => new Zend_Db_Expr('IF(cn.is_infraspecies, "Infraspecies", "Species")'),
-                'cn.name_code',
-                'name' => 'cn.common_name',
-                'is_accepted_name' => new Zend_Db_Expr(1),
-                'db_name' => 'db.database_name',
-                'status' => new Zend_Db_Expr('"common name"'),
-            )
-        )->joinLeft(
-            array('db' => 'databases'),
-            'cn.database_id = db.record_id',
-            array()
-        )->where('cn.common_name LIKE CONCAT("%", ?, "%")', $searchKey)
-         ;//->order(array('name', 'status'));
-        
-        $select = $db->select()->union(
-            array(
-                '(' . $selectTaxa . ')',
-                '(' . $selectCommonNames . ')'
-            )
-        )->order(array('name', 'status'));
-        
-                
+        $search = new AC_Model_Search($db);
+        $select = $search->all('cola', false);
         $stmt = $db->query($select);
                
         $res = $stmt->fetchAll();
@@ -125,4 +63,3 @@ class SearchController extends Zend_Controller_Action
         $this->_forward('all');
     }
 }
-
