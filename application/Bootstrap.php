@@ -35,7 +35,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     public function _initTranslate()
     {
         $translator = new Zend_Translate('Ini', APPLICATION_PATH .
-            '/languages/lang.en.ini', 'en');
+            'data/languages/lang.en.ini', 'en');
         Zend_Registry::set('translator', $translator);
     }
     
