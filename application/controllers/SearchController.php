@@ -10,6 +10,7 @@ class SearchController extends Zend_Controller_Action
         $this->_db = Zend_Registry::get('db');
         $this->view->controller = $this->getRequest()->controller;
         $this->view->action = $this->getRequest()->action;
+        $this->_logger->debug($this->_getAllParams());
     }
     
     public function commonAction()
@@ -19,7 +20,6 @@ class SearchController extends Zend_Controller_Action
         $this->view->headTitle($this->view->title, 'APPEND');
 
         $form = new AC_Form_Search();
-        $form->setAction('all');
         $this->view->form = $form;
                 
         $this->renderScript('search/search.phtml');
@@ -40,7 +40,6 @@ class SearchController extends Zend_Controller_Action
         $this->view->headTitle($this->view->title, 'APPEND');
 
         $form = new AC_Form_Search();
-        $form->setAction('all');
         $this->view->form = $form;
                 
         $this->renderScript('search/search.phtml');
@@ -51,22 +50,16 @@ class SearchController extends Zend_Controller_Action
         $this->view->title = $this->view->t
             ->translate('Search_all_names');
         $this->view->headTitle($this->view->title, 'APPEND');
-        
         if($this->_hasParam('key'))
         {
             $select = new AC_Model_Select($this->_db);
             $query = $select->all($this->_getParam('key'), $this->_getParam('exact'));
-            $stmt = $this->_db->query($query);
+            $this->_db->query($query);
             //$res = $stmt->fetchAll();
-            //$this->view->numResults = count($res);
-            
-            /*foreach($res as $row) {
-                //var_dump($row);
-            }*/
+            //TODO: Zend_Paginator
         }
         
         $form = new AC_Form_Search();
-        $form->setAction('all');
         $this->view->form = $form;
         $this->renderScript('search/search.phtml');
     }
