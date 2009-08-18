@@ -1,7 +1,7 @@
 <?php
 require_once 'PHPUnit/Framework/TestCase.php';
 
-class IndexControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
+class SearchControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
 {
     public function setUp ()
     {
@@ -12,7 +12,7 @@ class IndexControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
             );
         $this->frontController->setDefaultModule('default');
     }
-    public function testHomePageIsASuccessfulRequestToIndex ()
+    public function testHomePageIsASuccessfulRequestToSearchAll ()
     {
         // Runs the test on /, the homepage
         $this->dispatch('/');
@@ -20,8 +20,7 @@ class IndexControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->assertFalse($this->response->isException());
         // Tests for redirection to the error handler
         $this->assertNotRedirect();
-        $this->assertController('index');
-        $this->assertAction('index');
+        $this->assertController('search');
+        $this->assertAction('all');
     }
 }
-
