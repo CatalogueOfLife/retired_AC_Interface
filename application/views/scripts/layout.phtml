@@ -14,60 +14,60 @@
         <img src="<?php echo $this->baseUrl(); ?>/images/Annual_Checklist_Top_Banner.gif" />
     </div>
     <div id="menu" class="view">
-		<ul id="nav">
-		  <li class="<?php echo $this->controller == 'browse' ?
+        <ul id="nav">
+          <li class="<?php echo $this->controller == 'browse' ?
                 'menuselected' : ''; ?>">
-		    <a href="<?php echo $this->baseUrl() ?>/browse/tree">
-		    <img src="<?php echo $this->baseUrl(); ?>/images/Icon_Browse.gif" />
-		    <span><?php echo $this->t->translate('Browse'); ?><span></a>
-		    <ul>
-		      <li class="<?php echo $this->action == 'tree' ?
+            <a href="<?php echo $this->baseUrl() ?>/browse/tree">
+            <img src="<?php echo $this->baseUrl(); ?>/images/Icon_Browse.gif" />
+            <span><?php echo $this->t->translate('Browse'); ?><span></a>
+            <ul>
+              <li class="<?php echo $this->action == 'tree' ?
                 'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/browse/tree">
-		      <?php echo $this->t->translate('Taxonomic_tree'); ?></a></li>
-		      <li class="<?php echo $this->action == 'classification' ?
+              <?php echo $this->t->translate('Taxonomic_tree'); ?></a></li>
+              <li class="<?php echo $this->action == 'classification' ?
                 'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/browse/classification">
-		      <?php echo $this->t->translate('Taxonomic_classification'); ?></a></li>
-		    </ul>
-		  </li>
-		  <li class="<?php echo $this->controller == 'search' ?
-		        'menuselected' : ''; ?>">
-		    <a href="<?php echo $this->baseUrl(); ?>/search/all">
-		    <img src="<?php echo $this->baseUrl(); ?>/images/Icon_Search.gif" />
-		    <span><?php echo $this->t->translate('Search'); ?></span></a>
-		    <ul>
-		      <li class="<?php echo $this->action == 'all' ?
+              <?php echo $this->t->translate('Taxonomic_classification'); ?></a></li>
+            </ul>
+          </li>
+          <li class="<?php echo $this->controller == 'search' ?
+                'menuselected' : ''; ?>">
+            <a href="<?php echo $this->baseUrl(); ?>/search/all">
+            <img src="<?php echo $this->baseUrl(); ?>/images/Icon_Search.gif" />
+            <span><?php echo $this->t->translate('Search'); ?></span></a>
+            <ul>
+              <li class="<?php echo $this->action == 'all' ?
                 'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/all">
-		      <?php echo $this->t->translate('Search_all_names'); ?></a></li>
-		      <li class="<?php echo $this->action == 'scientific' ?
+              <?php echo $this->t->translate('Search_all_names'); ?></a></li>
+              <li class="<?php echo $this->action == 'scientific' ?
                 'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/scientific">
-		      <?php echo $this->t->translate('Search_scientific_names'); ?></a></li>
-		      <li class="<?php echo $this->action == 'common' ?
+              <?php echo $this->t->translate('Search_scientific_names'); ?></a></li>
+              <li class="<?php echo $this->action == 'common' ?
                 'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/common">
-		      <?php echo $this->t->translate('Search_common_names'); ?></a></li>
-		      <li class="<?php echo $this->action == 'distribution' ?
+              <?php echo $this->t->translate('Search_common_names'); ?></a></li>
+              <li class="<?php echo $this->action == 'distribution' ?
                 'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/distribution">
-		      <?php echo $this->t->translate('Search_distribution'); ?></a></li>
-		    </ul>
-		  </li>
-		  <li class="<?php echo $this->controller == 'info' ?
-		        'menuselected' : ''; ?>">
-		    <a href="<?php echo $this->baseUrl(); ?>/info/about">
-		    <img src="<?php echo $this->baseUrl(); ?>/images/Icon_Info.gif" />
-		    <span><?php echo $this->t->translate('Info'); ?></span></a>
-		    <ul>
-		      <li class="<?php echo $this->action == 'about' ?
+              <?php echo $this->t->translate('Search_distribution'); ?></a></li>
+            </ul>
+          </li>
+          <li class="<?php echo $this->controller == 'info' ?
+                'menuselected' : ''; ?>">
+            <a href="<?php echo $this->baseUrl(); ?>/info/about">
+            <img src="<?php echo $this->baseUrl(); ?>/images/Icon_Info.gif" />
+            <span><?php echo $this->t->translate('Info'); ?></span></a>
+            <ul>
+              <li class="<?php echo $this->action == 'about' ?
                 'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/about">
-		          <?php echo $this->t->translate('Info_about'); ?></a></li>
-		      <li class="<?php echo $this->action == 'ac' ?
+                  <?php echo $this->t->translate('Info_about'); ?></a></li>
+              <li class="<?php echo $this->action == 'ac' ?
                 'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/ac">
-		          <?php printf($this->t->translate('Info_annual_checklist'),
-		              $this->app->version); ?></a></li>
-		      <li class="<?php echo $this->action == 'databases' ?
+                  <?php printf($this->t->translate('Info_annual_checklist'),
+                      $this->app->version); ?></a></li>
+              <li class="<?php echo $this->action == 'databases' ?
                 'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/databases">
-		          <?php echo $this->t->translate('Source_databases'); ?></a></li>
-		      <li class="<?php echo $this->action == 'hierarchy' ?
+                  <?php echo $this->t->translate('Source_databases'); ?></a></li>
+              <li class="<?php echo $this->action == 'hierarchy' ?
                 'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/hierarchy">
-		          <?php echo $this->t->translate('Management_hierarchy'); ?></a></li>
+                  <?php echo $this->t->translate('Management_hierarchy'); ?></a></li>
               <li class="<?php echo $this->action == 'copyright' ?
                 'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/copyright">
                 <?php echo $this->t->translate('Copyright_reproduction_sale'); ?></a></li>
@@ -83,9 +83,9 @@
               <li class="<?php echo $this->action == 'acknowledgements' ?
                 'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/acknowledgements">
                 <?php echo $this->t->translate('Acknowledgements'); ?></a></li>
-		    </ul>
-		  </li>
-		</ul>
+            </ul>
+          </li>
+        </ul>
     </div>
     <div id="content" class="view">
         <p class="formheader"><?php echo $this->layout()->title; ?></p>
