@@ -2,10 +2,12 @@
 class SearchController extends Zend_Controller_Action
 {
     protected $_logger;
+    protected $_db;
         
     public function init()
     {
         $this->_logger = Zend_Registry::get('logger');
+        $this->_db = Zend_Registry::get('db');
         $this->view->controller = $this->getRequest()->controller;
         $this->view->action = $this->getRequest()->action;
     }
@@ -50,25 +52,22 @@ class SearchController extends Zend_Controller_Action
             ->translate('Search_all_names');
         $this->view->headTitle($this->view->title, 'APPEND');
         
-        $db = Zend_Registry::get('db');
-        $db->setFetchMode(Zend_Db::FETCH_ASSOC);
-        $search = new AC_Model_Search($db);
-        $select = $search->all('cola', false);
-        $stmt = $db->query($select);
-               
-        $res = $stmt->fetchAll();
-        foreach($res as $row) {
-            //var_dump($row);
+        if($this->_hasParam('key'))
+        {
+            $select = new AC_Model_Select($this->_db);
+            $query = $select->all($this->_getParam('key'), $this->_getParam('exact'));
+            $stmt = $this->_db->query($query);
+            //$res = $stmt->fetchAll();
+            //$this->view->numResults = count($res);
+            
+            /*foreach($res as $row) {
+                //var_dump($row);
+            }*/
         }
-        
-        $this->view->numResults = count($res);
-       
-        $this->_logger->debug($this->getRequest());
         
         $form = new AC_Form_Search();
         $form->setAction('all');
         $this->view->form = $form;
-        
         $this->renderScript('search/search.phtml');
     }
     

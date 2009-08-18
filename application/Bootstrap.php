@@ -62,9 +62,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $config = Zend_Registry::get('config');
         $view = new Zend_View();
         $view->doctype('XHTML1_STRICT');
-        $view->setEncoding('UTF-8');
+        $view->setEncoding('ISO-8859-1');
         $view->headMeta()
-            ->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+            ->appendHttpEquiv('Content-Type', 'text/html;charset=iso-8859-1');
         $view->headTitle('Catalogue of Life - ' .
             $config->custom->application->version . ' Annual Checklist');
         $view->headTitle()->setSeparator(' :: ');
@@ -87,6 +87,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $config = Zend_Registry::get('config');
         $db = Zend_Db::factory($config->resources->db);
+        $db->setFetchMode(Zend_Db::FETCH_ASSOC);
         $db->getConnection();//test connection
         //Zend_Db_Table_Abstract::setDefaultAdapter($db);
         Zend_Registry::set('db', $db);
