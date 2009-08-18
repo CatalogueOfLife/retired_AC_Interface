@@ -14,12 +14,13 @@ class AC_FormScientific_Search extends Zend_Form
         $match_whole_words->setValue('1');
 
         $translator = Zend_Registry::get('translator');
-        $submit = $this->createElement('reset',$translator->translate('Clear_form'));
+        $clear = $this->createElement('reset',$translator->translate('Clear_form'));
         $submit = $this->createElement('submit',$translator->translate('Search'));
         
         // Add elements to form:
         $this->addElement($searchfield)
              ->addElement($match_whole_words)
+             ->addElement($clear)
              ->addElement($submit);
     }
 }
