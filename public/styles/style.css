@@ -324,9 +324,9 @@ img {
 
 #menu {
 	position: fixed;
-	left: 10px;
-	top: 150px;
-	width: 100px;
+	left: 11px;
+	top: 145px;
+	width: 96px;
 	z-index: 10;
 }
 
@@ -361,8 +361,8 @@ img {
 
 #content {
 	position: absolute;
-	left: 125px;
-	top: 150px;
+	left: 121px;
+	top: 145px;
 	z-index: 5;
 }
 
@@ -381,7 +381,7 @@ ul li {
 
 li ul {
 	position: absolute;
-	left: 99px; /* Set 1px less than menu width */
+	left: 95px; /* Set 1px less than menu width */
 	top: 0;
 	width: 175px; /* Width of Menu Items */
 	display: none;

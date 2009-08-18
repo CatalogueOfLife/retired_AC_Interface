@@ -16,8 +16,10 @@ class SearchController extends Zend_Controller_Action
             ->translate('Search_common_names');
         $this->view->headTitle($this->view->title, 'APPEND');
 
-        $this->view->form = $this->getForm('common');
-        
+        $form = new AC_Form_Search();
+        $form->setAction('all');
+        $this->view->form = $form;
+                
         $this->renderScript('search/search.phtml');
     }
     
@@ -35,8 +37,10 @@ class SearchController extends Zend_Controller_Action
             ->translate('Search_distribution');
         $this->view->headTitle($this->view->title, 'APPEND');
 
-        $this->view->form = $this->getForm('distribution');
-        
+        $form = new AC_Form_Search();
+        $form->setAction('all');
+        $this->view->form = $form;
+                
         $this->renderScript('search/search.phtml');
     }
 
@@ -61,32 +65,11 @@ class SearchController extends Zend_Controller_Action
        
         $this->_logger->debug($this->getRequest());
         
-        $this->view->form = $this->getForm('all');
+        $form = new AC_Form_Search();
+        $form->setAction('all');
+        $this->view->form = $form;
         
         $this->renderScript('search/search.phtml');
-    }
-    
-    public function getForm($action='all')
-    {
-        $form = new Zend_Form();
-        $form->setAction('');
-        $form->setMethod('post');
-
-        $searchfield = new Zend_Form_Element_Text('search_string');
-        $searchfield->setRequired(true);
-
-        $match_whole_words = new Zend_Form_Element_Checkbox('whole_words');
-        $match_whole_words->setValue('1');
-
-        $mode = new Zend_Form_Element_Hidden('hidden_field_name');
-        $mode->setValue($action);
-
-        // Add elements to form:
-        $form->addElement($searchfield)
-             ->addElement($mode)
-             ->addElement($match_whole_words);
-        
-        return $form;
     }
     
     public function __call($name, $arguments)

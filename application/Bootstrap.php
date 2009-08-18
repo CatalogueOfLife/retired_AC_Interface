@@ -31,7 +31,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 'namespace' => 'AC',
             )
         );
-        $resourceLoader->addResourceType('model', 'models/', 'Model');
+        $resourceLoader->addResourceType('model', 'models/', 'Model')
+                       ->addResourceType('form', 'forms/', 'Form')
+                       ->addResourceType('form', 'forms/', 'FormScientific');
     }
     
     public function _initLogger()
