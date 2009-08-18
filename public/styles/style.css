@@ -1,6 +1,6 @@
 body {
 	background-color: #fff;
-	background-image: url(images/Border_Left.gif);
+	background-image: url(../images/Border_Left.gif);
 	background-repeat: repeat-y;
 	background-position: 0px 0px;
 	margin: 0px 0px 30px 0px;
@@ -140,7 +140,7 @@ img {
 	margin-top: 1px;
 	margin-bottom: 6px;
 	margin-left: 0px;
-	list-style-image: url(images/Menu_Arrow.gif)
+	list-style-image: url(../images/Menu_Arrow.gif)
 }
 
 .formfieldheader {
@@ -336,7 +336,7 @@ img {
 
 #menu ul li {
 	margin: 0;
-	background: url(images/Menu_Arrow.gif)
+	background: url(../images/Menu_Arrow.gif)
 		no-repeat;
 	background-position: right;
 }
