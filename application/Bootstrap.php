@@ -23,26 +23,45 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Registry::set('config', $config);
     }
     
+    public function _initLogger()
+    {
+        $config = Zend_Registry::get('config');
+        $writer = new Zend_Log_Writer_Firebug();
+        $writer->addFilter((int)$config->log->filter->priority);
+        $logger = new Zend_Log($writer);
+        Zend_Registry::set('logger', $logger);
+    }
+    
+    public function _initTranslate()
+    {
+        $translator = new Zend_Translate('Ini', APPLICATION_PATH .
+            '/languages/lang.en.ini', 'en');
+        Zend_Registry::set('translator', $translator);
+    }
+    
     /**
      * View initialization
-     * Loads the custom implementation of the Smarty View to use
-     * this template engine in place of the Zend_View.
-     * Registers the view object so that it can be used globally.
      *
      * @return Zend_View $view
      */
     public function _initView ()
     {
+        $config = Zend_Registry::get('config');
         $view = new Zend_View();
         $view->doctype('XHTML1_STRICT');
-        $view->addHelperPath('Zend/Dojo/View/Helper/', 'Zend_Dojo_View_Helper');
+        $view->setEncoding('UTF-8');
+        $view->headMeta()
+            ->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+        $view->headTitle('Catalogue of Life - ' .
+            $config->custom->application->version . ' Annual Checklist');
+        $view->headTitle()->setSeparator(' :: ');
         $viewRenderer = new Zend_Controller_Action_Helper_ViewRenderer();
         $viewRenderer->setView($view);
         Zend_Controller_Action_HelperBroker::addHelper($viewRenderer);
         
-        $view->imageFolder = "http://www.catalogueoflife.org/images/";
-	    $view->scriptFolder = "/scripts/";
-        
+        //Variables
+        $view->t = Zend_Registry::get('translator');
+        $view->app = $config->custom->application;
         
         return $view;
     }
@@ -58,22 +77,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $db->getConnection();//test connection
         //Zend_Db_Table_Abstract::setDefaultAdapter($db);
         Zend_Registry::set('db', $db);
-    }
-    
-    public function _initLogger()
-    {
-        $config = Zend_Registry::get('config');
-        $writer = new Zend_Log_Writer_Firebug();
-        $writer->addFilter((int)$config->log->filter->priority);
-        $logger = new Zend_Log($writer);
-        Zend_Registry::set('logger', $logger);
-    }
-    
-    public function _initTranslate()
-    {
-        $translate = new Zend_Translate('Ini', APPLICATION_PATH .
-            '/languages/lang.en.ini', 'en');
-        Zend_Registry::set('translate', $translate);
     }
     
     public function _initLayout()
