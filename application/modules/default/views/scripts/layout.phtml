@@ -1,48 +1,88 @@
 <?php echo $this->doctype();?>
-
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title><?php echo $this->escape($this->pageTitle); ?></title>
-    <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl()."/styles/style.css"; ?>" />
-
-    <script language="JavaScript" src="<?php echo $this->baseUrl()."/".$this->scriptFolder."menu.js"; ?>"></script>
+    <?php echo $this->headMeta(); ?>
+    <?php echo $this->headTitle(); ?>
+    <?php echo $this->headLink()->prependStylesheet(
+        $this->baseUrl() . '/styles/style.css'); ?>
+    <script language="javascript"
+        src="<?php echo $this->baseUrl() . '/scripts/menu.js'; ?>"></script>
 
 </head>
 <body>
     <div id="header">
-        <img src="<?php echo $this->imageFolder; ?>banner.gif" />
+        <img src="<?php echo $this->baseUrl(); ?>/images/Annual_Checklist_Top_Banner.gif" />
     </div>
     <div id="menu" class="view">
 		<ul id="nav">
-		  <li<?php if($menuItem == "browse") echo " class=\"menuselected\""; ?>><a href="<?php echo $this->baseUrl(); ?>/browse/tree"><img src="<?php echo $this->imageFolder; ?>icon_mini_folder.gif" />
-		    <?php echo $this->translate('Browse'); ?></a>
+		  <li class="<?php echo $this->controller == 'browse' ?
+                'menuselected' : ''; ?>">
+		    <a href="<?php echo $this->baseUrl() ?>/browse/tree">
+		    <img src="<?php echo $this->baseUrl(); ?>/images/Icon_Browse.gif" />
+		    <span><?php echo $this->t->translate('Browse'); ?><span></a>
 		    <ul>
-		      <li><a href="<?php echo $this->baseUrl(); ?>/browse/tree"><?php echo $this->translate('Taxonomic_tree'); ?></a></li>
-		      <li><a href="<?php echo $this->baseUrl(); ?>/browse/classification"><?php echo $this->translate('Taxonomic_classification'); ?></a></li>
+		      <li class="<?php echo $this->action == 'tree' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/browse/tree">
+		      <?php echo $this->t->translate('Taxonomic_tree'); ?></a></li>
+		      <li class="<?php echo $this->action == 'classification' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/browse/classification">
+		      <?php echo $this->t->translate('Taxonomic_classification'); ?></a></li>
 		    </ul>
 		  </li>
-		  <li><a href="<?php echo $this->baseUrl(); ?>/search/all"><img src="<?php echo $this->imageFolder; ?>icon_mini_search.gif" />
-		    <?php echo $this->translate('Search'); ?></a>
+		  <li class="<?php echo $this->controller == 'search' ?
+		        'menuselected' : ''; ?>">
+		    <a href="<?php echo $this->baseUrl(); ?>/search/all">
+		    <img src="<?php echo $this->baseUrl(); ?>/images/Icon_Search.gif" />
+		    <span><?php echo $this->t->translate('Search'); ?></span></a>
 		    <ul>
-		      <li><a href="<?php echo $this->baseUrl(); ?>/search/all"><?php echo $this->translate('Search_all_Names'); ?></a></li>
-		      <li><a href="<?php echo $this->baseUrl(); ?>/search/scientific"><?php echo $this->translate('Search_scientific_names'); ?></a></li>
-		      <li><a href="<?php echo $this->baseUrl(); ?>/search/common"><?php echo $this->translate('Search_common_names'); ?></a></li>
-		      <li><a href="<?php echo $this->baseUrl(); ?>/search/distribution"><?php echo $this->translate('Search_distribution'); ?></a></li>
+		      <li class="<?php echo $this->action == 'all' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/all">
+		      <?php echo $this->t->translate('Search_all_names'); ?></a></li>
+		      <li class="<?php echo $this->action == 'scientific' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/scientific">
+		      <?php echo $this->t->translate('Search_scientific_names'); ?></a></li>
+		      <li class="<?php echo $this->action == 'common' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/common">
+		      <?php echo $this->t->translate('Search_common_names'); ?></a></li>
+		      <li class="<?php echo $this->action == 'distribution' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/distribution">
+		      <?php echo $this->t->translate('Search_distribution'); ?></a></li>
 		    </ul>
 		  </li>
-		  <li><a href="<?php echo $this->baseUrl(); ?>/info/about"><img src="<?php echo $this->imageFolder; ?>icon_mini_faq.gif" />
-		    <?php echo $this->translate('Info'); ?></a>
+		  <li class="<?php echo $this->controller == 'info' ?
+		        'menuselected' : ''; ?>">
+		    <a href="<?php echo $this->baseUrl(); ?>/info/about">
+		    <img src="<?php echo $this->baseUrl(); ?>/images/Icon_Info.gif" />
+		    <span><?php echo $this->t->translate('Info'); ?></span></a>
 		    <ul>
-		      <li><a href="<?php echo $this->baseUrl(); ?>/info/about"><?php echo $this->translate('Info_About'); ?></a></li>
-		      <li><a href="<?php echo $this->baseUrl(); ?>/info/anual_checklist"><?php echo $this->translate('Info_Annual_Checklist'); ?></a></li>
-		      <li><a href="<?php echo $this->baseUrl(); ?>/info/source_databases"><?php echo $this->translate('Source_databases'); ?></a></li>
-		      <li><a href="<?php echo $this->baseUrl(); ?>/info/management_hierarcht"><?php echo $this->translate('Management_Hierarchy'); ?></a></li>
-              <li><a href="<?php echo $this->baseUrl(); ?>/info/coptright"><?php echo $this->translate('Copyright_reproduction_sale'); ?></a></li>
-              <li><a href="<?php echo $this->baseUrl(); ?>/info/cite"><?php echo $this->translate('Cite_work'); ?></a></li>
-              <li><a href="<?php echo $this->baseUrl(); ?>/info/websites"><?php echo $this->translate('Web_sites'); ?>Web sites</a></li>
-              <li><a href="<?php echo $this->baseUrl(); ?>/info/contact"><?php echo $this->translate('Contact_us'); ?>Contact us</a></li>
-              <li><a href="<?php echo $this->baseUrl(); ?>/info/acknowledgements"><?php echo $this->translate('Acknowledgements'); ?>Acknowledgements</a></li>
+		      <li class="<?php echo $this->action == 'about' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/about">
+		          <?php echo $this->t->translate('Info_about'); ?></a></li>
+		      <li class="<?php echo $this->action == 'ac' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/ac">
+		          <?php printf($this->t->translate('Info_annual_checklist'),
+		              $this->app->version); ?></a></li>
+		      <li class="<?php echo $this->action == 'databases' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/databases">
+		          <?php echo $this->t->translate('Source_databases'); ?></a></li>
+		      <li class="<?php echo $this->action == 'hierarchy' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/hierarchy">
+		          <?php echo $this->t->translate('Management_hierarchy'); ?></a></li>
+              <li class="<?php echo $this->action == 'copyright' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/copyright">
+                <?php echo $this->t->translate('Copyright_reproduction_sale'); ?></a></li>
+              <li class="<?php echo $this->action == 'cite' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/cite">
+                <?php echo $this->t->translate('Cite_work'); ?></a></li>
+              <li class="<?php echo $this->action == 'websites' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/websites">
+                <?php echo $this->t->translate('Web_sites'); ?></a></li>
+              <li class="<?php echo $this->action == 'contact' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/contact">
+                <?php echo $this->t->translate('Contact_us'); ?></a></li>
+              <li class="<?php echo $this->action == 'acknowledgements' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/acknowledgements">
+                <?php echo $this->t->translate('Acknowledgements'); ?></a></li>
 		    </ul>
 		  </li>
 		</ul>
