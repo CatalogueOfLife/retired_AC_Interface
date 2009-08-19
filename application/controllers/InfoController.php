@@ -12,14 +12,13 @@ class InfoController extends Zend_Controller_Action
     
     public function aboutAction ()
     {
-        $this->view->title = $this->view->t
-            ->translate('Info_about');
+        $this->view->title = $this->view->translate('Info_about');
         $this->view->headTitle($this->view->title, 'APPEND');
     }
     
     public function acAction ()
     {
-        $this->view->title = sprintf($this->view->t
+        $this->view->title = sprintf($this->view
             ->translate('Info_annual_checklist'), $this->view->app->version);
         $this->view->headTitle($this->view->title, 'APPEND');
 
@@ -27,52 +26,46 @@ class InfoController extends Zend_Controller_Action
     
     public function databasesAction ()
     {
-        $this->view->title = $this->view->t
-            ->translate('Source_databases');
+        $this->view->title = $this->view->translate('Source_databases');
         $this->view->headTitle($this->view->title, 'APPEND');
 
     }
     
     public function hierarchyAction ()
     {
-        $this->view->title = $this->view->t
-            ->translate('Management_hierarchy');
+        $this->view->title = $this->view->translate('Management_hierarchy');
         $this->view->headTitle($this->view->title, 'APPEND');
 
     }
     
     public function copyrightAction ()
     {
-        $this->view->title = $this->view->t
+        $this->view->title = $this->view
             ->translate('Copyright_reproduction_sale');
         $this->view->headTitle($this->view->title, 'APPEND');
     }
     
     public function citeAction ()
     {
-        $this->view->title = $this->view->t
-            ->translate('Cite_work');
+        $this->view->title = $this->view->translate('Cite_work');
         $this->view->headTitle($this->view->title, 'APPEND');
     }
     
     public function websitesAction ()
     {
-        $this->view->title = $this->view->t
-            ->translate('Web_sites');
+        $this->view->title = $this->view->translate('Web_sites');
         $this->view->headTitle($this->view->title, 'APPEND');
     }
     
     public function contactAction ()
     {
-        $this->view->title = $this->view->t
-            ->translate('Contact_us');
+        $this->view->title = $this->view->translate('Contact_us');
         $this->view->headTitle($this->view->title, 'APPEND');
     }
     
     public function acknowledgementsAction ()
     {
-        $this->view->title = $this->view->t
-            ->translate('Acknowledgements');
+        $this->view->title = $this->view->translate('Acknowledgements');
         $this->view->headTitle($this->view->title, 'APPEND');
     }
     

@@ -23,8 +23,7 @@ class SearchController extends Zend_Controller_Action
     
     public function scientificAction()
     {
-        $this->view->title = $this->view->t
-            ->translate('Search_scientific_names');
+        $this->view->title = $this->view->translate('Search_scientific_names');
         $this->view->headTitle($this->view->title, 'APPEND');
         $this->renderScript('search/search.phtml');
     }
