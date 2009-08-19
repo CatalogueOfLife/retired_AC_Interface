@@ -49,7 +49,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $translator = new Zend_Translate('Ini', APPLICATION_PATH .
             '/data/languages/lang.en.ini', 'en');
-        Zend_Registry::set('translator', $translator);
+        Zend_Registry::set('Zend_Translate', $translator);
     }
     
     /**
@@ -73,7 +73,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Controller_Action_HelperBroker::addHelper($viewRenderer);
         
         //Variables
-        $view->t = Zend_Registry::get('translator');
         $view->app = $config->custom->application;
         
         return $view;

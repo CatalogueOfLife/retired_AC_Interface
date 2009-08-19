@@ -6,7 +6,7 @@ class AC_Form_Search extends Zend_Form
         $this->setAction('');
         $this->setMethod('post');
 
-        $translator = Zend_Registry::get('translator');
+        $translator = Zend_Registry::get('Zend_Translate');
         
         $searchfield = $this->createElement('text','search_string');
         $searchfield->setRequired(true);

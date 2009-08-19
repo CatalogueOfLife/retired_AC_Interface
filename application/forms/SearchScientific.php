@@ -6,7 +6,7 @@ class AC_FormScientific_Search extends Zend_Form
         $this->setAction('');
         $this->setMethod('post');
 
-        $translator = Zend_Registry::get('translator');
+        $translator = Zend_Registry::get('Zend_Translate');
                 
         $searchGenus = $this->createElement('text','search_genus');
         $searchGenus->setLabel($translator->translate('Genus'));
