@@ -1,5 +1,5 @@
 <?php
-class AC_Model_Select
+class AC_Model_Search
 {
     protected $_adapter;
     

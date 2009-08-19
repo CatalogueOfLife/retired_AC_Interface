@@ -1,0 +1,11 @@
+<?php
+if (is_array($this->db)):
+echo $this->db['database_name'];
+?>
+<?php
+else:
+?>
+<p><?php echo $this->t->translate('Database_not_found'); ?></p>
+<?php
+endif;
+?>

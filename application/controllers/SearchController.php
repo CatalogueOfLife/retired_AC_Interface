@@ -18,10 +18,7 @@ class SearchController extends Zend_Controller_Action
         $this->view->title = $this->view->t
             ->translate('Search_common_names');
         $this->view->headTitle($this->view->title, 'APPEND');
-
-        $form = new AC_Form_Search();
-        $this->view->form = $form;
-                
+        $this->view->form = new AC_Form_Search();
         $this->renderScript('search/search.phtml');
     }
     
@@ -38,10 +35,7 @@ class SearchController extends Zend_Controller_Action
         $this->view->title = $this->view->t
             ->translate('Search_distribution');
         $this->view->headTitle($this->view->title, 'APPEND');
-
-        $form = new AC_Form_Search();
-        $this->view->form = $form;
-                
+        $this->view->form = new AC_Form_Search();
         $this->renderScript('search/search.phtml');
     }
 
@@ -52,15 +46,13 @@ class SearchController extends Zend_Controller_Action
         $this->view->headTitle($this->view->title, 'APPEND');
         if($this->_hasParam('key'))
         {
-            $select = new AC_Model_Select($this->_db);
+            $select = new AC_Model_Search($this->_db);
             $query = $select->all($this->_getParam('key'), $this->_getParam('exact'));
             $this->_db->query($query);
             //$res = $stmt->fetchAll();
             //TODO: Zend_Paginator
         }
-        
-        $form = new AC_Form_Search();
-        $this->view->form = $form;
+        $this->view->form = new AC_Form_Search();
         $this->renderScript('search/search.phtml');
     }
     
