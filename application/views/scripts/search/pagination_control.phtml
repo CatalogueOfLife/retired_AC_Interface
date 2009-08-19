@@ -3,10 +3,20 @@
 <!-- Previous page link -->
 <?php if (isset($this->previous)): ?>
   <a href="<?php echo $this->url(array('page' => $this->previous)); ?>">
-    &lt; Previous
+    &lt; <?php echo $this->translate('Previous'); ?>
   </a> |
 <?php else: ?>
-  <span class="disabled">&lt; Previous</span> |
+  <span class="disabled">&lt; <?php echo $this->translate('Previous'); ?></span> |
+<?php endif; ?>
+
+<!-- Show first page if not present -->
+<?php if (!isset($this->pagesInRange[1])): ?>
+    <a href="<?php echo $this->url(array('page' => 1)); ?>">
+        1
+    </a> |
+    <?php if (!isset($this->pagesInRange[2])): ?>
+    ... |
+    <?php endif; ?>
 <?php endif; ?>
 
 <!-- Numbered page links -->
@@ -20,13 +30,23 @@
   <?php endif; ?>
 <?php endforeach; ?>
 
+<!-- Show lastpage if not present -->
+<?php if ($this->pageCount != $page): ?>
+    <?php if (($this->pageCount -1) != $page): ?>
+        ... |
+    <?php endif; ?>
+    <a href="<?php echo $this->url(array('page' => $this->pageCount)); ?>">
+        <?php echo $this->pageCount; ?>
+    </a> |
+<?php endif; ?>
+
 <!-- Next page link -->
 <?php if (isset($this->next)): ?>
   <a href="<?php echo $this->url(array('page' => $this->next)); ?>">
-    Next &gt;
+     <?php echo $this->translate('Next'); ?> &gt;
   </a>
 <?php else: ?>
-  <span class="disabled">Next &gt;</span>
+  <span class="disabled"> <?php echo $this->translate('Next'); ?> &gt;</span>
 <?php endif; ?>
 </div>
 <?php endif; ?>
