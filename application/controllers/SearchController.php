@@ -48,9 +48,13 @@ class SearchController extends Zend_Controller_Action
         {
             $select = new AC_Model_Search($this->_db);
             $query = $select->all($this->_getParam('key'), $this->_getParam('exact'));
-            $this->_db->query($query);
-            //$res = $stmt->fetchAll();
-            //TODO: Zend_Paginator
+            $page = $this->_hasParam('page') ? $this->_getParam('page') : 1;
+            $paginator = new Zend_Paginator(
+                new Zend_Paginator_Adapter_DbSelect($query));
+            $paginator->setItemCountPerPage(10);
+            $paginator->setCurrentPageNumber($page);
+            $paginator->setView($this->view);
+            $this->view->paginator = $paginator;
         }
         $this->view->form = new AC_Form_Search();
         $this->renderScript('search/search.phtml');

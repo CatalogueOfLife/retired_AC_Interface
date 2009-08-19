@@ -1,2 +1,13 @@
 <div class="formheader"><?php echo $this->t->translate('Search_the_Annual_Checklist'); ?></div>
-<?php echo $this->form; ?>
+<?php if (count($this->paginator)):
+?>
+<ul>
+<?php foreach ($this->paginator as $item): ?>
+<li><?php print_r($item); ?></li>
+<?php endforeach;
+echo $this->paginationControl($this->paginator, 'Sliding', 'search/pagination_control.phtml');
+?>
+</ul>
+<?php
+else: echo $this->form; ?>
+<?php endif; ?>
