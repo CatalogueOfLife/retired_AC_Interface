@@ -12,6 +12,7 @@ class SearchControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
     
     public function testHomePageIsASuccessfulRequestToSearchAll ()
     {
+        //TODO: fix, tests on controllers not working yet
         // Runs the test on /, the homepage
         $this->dispatch('/');
         // Tests there are no exceptions on the home page
