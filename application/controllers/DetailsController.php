@@ -14,7 +14,7 @@ class DetailsController extends Zend_Controller_Action
     
     public function databaseAction()
     {
-        $this->view->title = $this->view->t->translate('Database_details');
+        $this->view->title = $this->view->translate('Database_details');
         $this->view->headTitle($this->view->title, 'APPEND');
         $dbTable = new AC_Model_Table_Databases();
         $rowSet = $dbTable->find($this->_getParam('id'));
@@ -34,7 +34,7 @@ class DetailsController extends Zend_Controller_Action
     
     public function speciesAction()
     {
-        $this->view->title = $this->view->t->translate('Species_details');
+        $this->view->title = $this->view->translate('Species_details');
         $this->view->headTitle($this->view->title, 'APPEND');
     }
     
