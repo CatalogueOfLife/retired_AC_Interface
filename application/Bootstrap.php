@@ -32,8 +32,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             )
         );
         $resourceLoader->addResourceType('model', 'models/', 'Model')
-                       ->addResourceType('form', 'forms/', 'Form')
-                       ->addResourceType('form', 'forms/', 'FormScientific');
+                       ->addResourceType('form', 'forms/', 'Form');
     }
     
     public function _initLogger()

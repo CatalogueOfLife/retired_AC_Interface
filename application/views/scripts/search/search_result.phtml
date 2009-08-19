@@ -1,14 +1,22 @@
 <div class="formheader"><?php echo $this->translate('Search_results_for'); ?></div>
-<?php if (count($this->paginator)):
-echo $this->paginationControl($this->paginator, 'Sliding', 'search/pagination_control.phtml');
+<?php
+    echo $this->paginationControl($this->paginator, 'Sliding',
+        'search/pagination_control.phtml');
 ?>
+<?php echo $this->translate('Records_found'); ?>: $countRecords
+<?php echo $this->form; ?>
 <ul>
-<?php foreach ($this->paginator as $item): ?>
-<li><?php print_r($item); ?></li>
-<?php endforeach;
-echo $this->paginationControl($this->paginator, 'Sliding', 'search/pagination_control.phtml');
+<table>
+<?php foreach ($this->paginator as $items): ?>
+    <tr>
+    <?php foreach ($items as $item): ?>
+        <td><?php echo $item; ?></td>
+    <?php endforeach; ?>
+    </tr>
+<?php endforeach; ?>
+</table>
+<?php
+    echo $this->paginationControl($this->paginator, 'Sliding',
+        'search/pagination_control.phtml');
 ?>
 </ul>
-<?php
-else: echo $this->form; ?>
-<?php endif; ?>

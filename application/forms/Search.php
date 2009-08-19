@@ -8,11 +8,11 @@ class AC_Form_Search extends Zend_Form
 
         $translator = Zend_Registry::get('Zend_Translate');
         
-        $searchfield = $this->createElement('text','search_string');
+        $searchfield = $this->createElement('text','key');
         $searchfield->setRequired(true);
         $searchfield->setLabel($translator->translate('Search_for'));
         
-        $match_whole_words = $this->createElement('checkbox','whole_words');
+        $match_whole_words = $this->createElement('checkbox','match');
         $match_whole_words->setValue('1');
         $match_whole_words->setLabel($translator->translate('Match_whole_words_only'));
         
