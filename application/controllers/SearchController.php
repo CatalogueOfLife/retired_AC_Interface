@@ -53,9 +53,13 @@ class SearchController extends Zend_Controller_Action
             $paginator->setView($this->view);
             $paginator->t = $this->view->t;
             $this->view->paginator = $paginator;
+            $this->renderScript('search/search_result.phtml');
         }
-        $this->view->form = new AC_Form_Search();
-        $this->renderScript('search/search.phtml');
+        else
+        {
+	        $this->view->form = new AC_Form_Search();
+            $this->renderScript('search/search.phtml');
+        }
     }
     
     public function __call($name, $arguments)

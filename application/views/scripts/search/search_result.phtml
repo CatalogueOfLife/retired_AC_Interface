@@ -1,0 +1,14 @@
+<div class="formheader"><?php echo $this->translate('Search_results_for'); ?></div>
+<?php if (count($this->paginator)):
+echo $this->paginationControl($this->paginator, 'Sliding', 'search/pagination_control.phtml');
+?>
+<ul>
+<?php foreach ($this->paginator as $item): ?>
+<li><?php print_r($item); ?></li>
+<?php endforeach;
+echo $this->paginationControl($this->paginator, 'Sliding', 'search/pagination_control.phtml');
+?>
+</ul>
+<?php
+else: echo $this->form; ?>
+<?php endif; ?>
