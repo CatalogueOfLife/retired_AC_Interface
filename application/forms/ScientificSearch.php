@@ -3,7 +3,6 @@ class AC_Form_ScientificSearch extends Zend_Form
 {
     public function init()
     {
-        $this->setAction('');
         $this->setMethod('post');
 
         $translator = Zend_Registry::get('Zend_Translate');

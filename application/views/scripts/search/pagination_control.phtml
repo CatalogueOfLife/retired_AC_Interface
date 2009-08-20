@@ -1,8 +1,14 @@
-<?php if ($this->pageCount): ?>
+<?php
+$urlParams = array(
+    'key' => $this->key,
+    'match' => $this->match,
+    'items' => $this->items
+);
+if ($this->pageCount): ?>
 <div class="paginationControl">
 <!-- Previous page link -->
 <?php if (isset($this->previous)): ?>
-  <a href="<?php echo $this->url(array('page' => $this->previous)); ?>">
+  <a href="<?php echo $this->url(array_merge(array('page' => $this->previous), $urlParams)); ?>">
     &lt; <?php echo $this->translate('Previous'); ?>
   </a> |
 <?php else: ?>
@@ -11,7 +17,7 @@
 
 <!-- Show first page if not present -->
 <?php if (!isset($this->pagesInRange[1])): ?>
-    <a href="<?php echo $this->url(array('page' => 1)); ?>">
+    <a href="<?php echo $this->url(array_merge(array('page' => 1), $urlParams)); ?>">
         1
     </a> |
     <?php if (!isset($this->pagesInRange[2])): ?>
@@ -22,7 +28,7 @@
 <!-- Numbered page links -->
 <?php foreach ($this->pagesInRange as $page): ?>
   <?php if ($page != $this->current): ?>
-    <a href="<?php echo $this->url(array('page' => $page)); ?>">
+    <a href="<?php echo $this->url(array_merge(array('page' => $page), $urlParams)); ?>">
         <?php echo $page; ?>
     </a> |
   <?php else: ?>
@@ -35,14 +41,14 @@
     <?php if (($this->pageCount -1) != $page): ?>
         ... |
     <?php endif; ?>
-    <a href="<?php echo $this->url(array('page' => $this->pageCount)); ?>">
+    <a href="<?php echo $this->url(array_merge(array('page' => $this->pageCount), $urlParams)); ?>">
         <?php echo $this->pageCount; ?>
     </a> |
 <?php endif; ?>
 
 <!-- Next page link -->
 <?php if (isset($this->next)): ?>
-  <a href="<?php echo $this->url(array('page' => $this->next)); ?>">
+  <a href="<?php echo $this->url(array_merge(array('page' => $this->next), $urlParams)); ?>">
      <?php echo $this->translate('Next'); ?> &gt;
   </a>
 <?php else: ?>

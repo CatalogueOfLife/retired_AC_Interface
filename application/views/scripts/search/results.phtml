@@ -1,9 +1,16 @@
 <div class="formheader">
-<?php echo $this->translate('Search_results_for'); ?>
+<?php printf($this->translate('Search_results_for'), '"' . $this->key . '"') ?>
 </div>
 <?php
     echo $this->paginationControl(
-        $this->paginator, 'Sliding', 'search/pagination_control.phtml'
+        $this->paginator,
+        'Sliding',
+        'search/pagination_control.phtml',
+        array(
+            'key' => $this->key,
+            'match' => $this->match,
+            'items' => $this->items
+        )
     );
 ?>
 <?php echo $this->translate('Records_found'); ?>: $countRecords
@@ -20,7 +27,14 @@
 </table>
 <?php
     echo $this->paginationControl(
-        $this->paginator, 'Sliding', 'search/pagination_control.phtml'
+        $this->paginator,
+        'Sliding',
+        'search/pagination_control.phtml',
+        array(
+            'key' => $this->key,
+            'match' => $this->match,
+            'items' => $this->items
+        )
     );
 ?>
 </ul>
