@@ -18,14 +18,14 @@ class SearchController extends Zend_Controller_Action
         $this->view->title = $this->view->translate('Search_common_names');
         $this->view->headTitle($this->view->title, 'APPEND');
         $this->view->form = new AC_Form_Search();
-        $this->renderScript('search/search.phtml');
+        $this->renderScript('search/form.phtml');
     }
     
     public function scientificAction()
     {
         $this->view->title = $this->view->translate('Search_scientific_names');
         $this->view->headTitle($this->view->title, 'APPEND');
-        $this->renderScript('search/search.phtml');
+        $this->renderScript('search/form.phtml');
     }
     
     public function distributionAction()
@@ -33,7 +33,7 @@ class SearchController extends Zend_Controller_Action
         $this->view->title = $this->view->translate('Search_distribution');
         $this->view->headTitle($this->view->title, 'APPEND');
         $this->view->form = new AC_Form_Search();
-        $this->renderScript('search/search.phtml');
+        $this->renderScript('search/form.phtml');
     }
 
     public function allAction()
@@ -46,7 +46,9 @@ class SearchController extends Zend_Controller_Action
         	if($this->_hasParam('items'))
         	   $items = $this->_getParam('items');
             $select = new AC_Model_Search($this->_db);
-            $query = $select->all($this->_getParam('key'), $this->_getParam('match'));
+            $query = $select->all(
+                $this->_getParam('key'), $this->_getParam('match')
+            );
             $page = $this->_hasParam('page') ? $this->_getParam('page') : 1;
             $paginator = new Zend_Paginator(
                 new Zend_Paginator_Adapter_DbSelect($query));
@@ -62,12 +64,12 @@ class SearchController extends Zend_Controller_Action
 
             $this->view->form = $form;
             
-            $this->renderScript('search/search_result.phtml');
+            $this->renderScript('search/results.phtml');
         }
         else
         {
 	        $this->view->form = new AC_Form_Search();
-            $this->renderScript('search/search.phtml');
+            $this->renderScript('search/form.phtml');
         }
     }
     

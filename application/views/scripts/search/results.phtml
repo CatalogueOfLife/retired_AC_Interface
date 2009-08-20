@@ -1,7 +1,10 @@
-<div class="formheader"><?php echo $this->translate('Search_results_for'); ?></div>
+<div class="formheader">
+<?php echo $this->translate('Search_results_for'); ?>
+</div>
 <?php
-    echo $this->paginationControl($this->paginator, 'Sliding',
-        'search/pagination_control.phtml');
+    echo $this->paginationControl(
+        $this->paginator, 'Sliding', 'search/pagination_control.phtml'
+    );
 ?>
 <?php echo $this->translate('Records_found'); ?>: $countRecords
 <?php echo $this->form; ?>
@@ -16,7 +19,8 @@
 <?php endforeach; ?>
 </table>
 <?php
-    echo $this->paginationControl($this->paginator, 'Sliding',
-        'search/pagination_control.phtml');
+    echo $this->paginationControl(
+        $this->paginator, 'Sliding', 'search/pagination_control.phtml'
+    );
 ?>
 </ul>

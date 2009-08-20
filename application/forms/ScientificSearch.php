@@ -1,5 +1,5 @@
 <?php
-class AC_FormScientific_Search extends Zend_Form
+class AC_Form_ScientificSearch extends Zend_Form
 {
     public function init()
     {
@@ -14,15 +14,24 @@ class AC_FormScientific_Search extends Zend_Form
         $searchSpecies = $this->createElement('text','search_speices');
         $searchSpecies->setLabel($translator->translate('Species'));
 
-        $searchInfraspecies = $this->createElement('text','search_infraspecies');
+        $searchInfraspecies =
+            $this->createElement('text','search_infraspecies');
         $searchInfraspecies->setLabel($translator->translate('Infraspecies'));
         
         $match_whole_words = $this->createElement('checkbox','whole_words');
         $match_whole_words->setValue('1');
-        $match_whole_words->setLabel($translator->translate('Match_whole_words_only'));
+        $match_whole_words->setLabel(
+            $translator->translate('Match_whole_words_only')
+        );
 
-        $clear = $this->createElement('reset',$translator->translate('Clear_form'));
-        $submit = $this->createElement('submit',$translator->translate('Search'));
+        $clear = $this->createElement(
+            'reset',
+            $translator->translate('Clear_form')
+        );
+        $submit = $this->createElement(
+            'submit',
+            $translator->translate('Search')
+        );
         
         // Add elements to form:
         $this->addElement($searchGenus)
