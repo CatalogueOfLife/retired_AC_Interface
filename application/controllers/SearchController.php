@@ -28,22 +28,17 @@ class SearchController extends Zend_Controller_Action
     {
         $this->view->title = $this->view->translate('Search_common_names');
         $this->view->headTitle($this->view->title, 'APPEND');
-        
-        if($this->_hasParam('key'))
-        {
-            $this->_renderResultsPage();
-        }
-        else
-        {
-            $this->view->form = new ACI_Form_Search();
-            $this->renderScript('search/form.phtml');
-        }
+        $this->_hasParam('key') ?
+            $this->_renderResultsPage() :
+            $this->_renderFormPage();
     }
     
     public function scientificAction()
     {
         $this->view->title = $this->view->translate('Search_scientific_names');
         $this->view->headTitle($this->view->title, 'APPEND');
+        // TODO: implement search query and make a new form
+        $this->view->form = '';
         $this->renderScript('search/form.phtml');
     }
     
@@ -51,7 +46,8 @@ class SearchController extends Zend_Controller_Action
     {
         $this->view->title = $this->view->translate('Search_distribution');
         $this->view->headTitle($this->view->title, 'APPEND');
-        $this->view->form = new ACI_Form_Search();
+        // TODO: implement search query and render normally
+        $this->view->form = '';
         $this->renderScript('search/form.phtml');
     }
 
@@ -59,16 +55,15 @@ class SearchController extends Zend_Controller_Action
     {
         $this->view->title = $this->view->translate('Search_all_names');
         $this->view->headTitle($this->view->title, 'APPEND');
-        
-        if($this->_hasParam('key'))
-        {
-            $this->_renderResultsPage();
-        }
-        else
-        {
-            $this->view->form = new ACI_Form_Search();
-            $this->renderScript('search/form.phtml');
-        }
+        $this->_hasParam('key') ?
+            $this->_renderResultsPage() :
+            $this->_renderFormPage();
+    }
+    
+    protected function _renderFormPage()
+    {
+        $this->view->form = new ACI_Form_Search();
+        $this->renderScript('search/form.phtml');
     }
     
     protected function _renderResultsPage()
