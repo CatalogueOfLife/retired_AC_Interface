@@ -1,5 +1,5 @@
 <?php
-class AC_Form_Search extends Zend_Form
+class ACI_Form_Search extends Zend_Form
 {
     public function init()
     {

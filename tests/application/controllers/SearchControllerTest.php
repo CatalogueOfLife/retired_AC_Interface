@@ -10,11 +10,13 @@ class SearchControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
              ->addControllerDirectory(APPLICATION_PATH . '/controllers');
     }
     
-    public function testHomePageIsASuccessfulRequestToSearchAll ()
+    public function testDefaultPageIsASuccessfulRequestToSearchAll ()
     {
         //TODO: fix, tests on controllers not working yet
-        // Runs the test on /, the homepage
-        $this->dispatch('/');
+        $this->_forward(
+            Zend_Controller_Front::getInstance()->getDefaultAction(),
+            Zend_Controller_Front::getInstance()->getDefaultControllerName()
+        );
         // Tests there are no exceptions on the home page
         $this->assertFalse($this->response->isException());
         $this->assertResponseCode(200);

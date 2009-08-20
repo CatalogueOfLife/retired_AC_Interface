@@ -1,4 +1,15 @@
 <?php
+/**
+ * Annual Checklist Interface
+ *
+ * Class SearchController
+ * Defines the search actions
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  controllers
+ *
+ */
 class SearchController extends Zend_Controller_Action
 {
     protected $_logger;
@@ -17,7 +28,7 @@ class SearchController extends Zend_Controller_Action
     {
         $this->view->title = $this->view->translate('Search_common_names');
         $this->view->headTitle($this->view->title, 'APPEND');
-        $this->view->form = new AC_Form_Search();
+        $this->view->form = new ACI_Form_Search();
         $this->renderScript('search/form.phtml');
     }
     
@@ -32,7 +43,7 @@ class SearchController extends Zend_Controller_Action
     {
         $this->view->title = $this->view->translate('Search_distribution');
         $this->view->headTitle($this->view->title, 'APPEND');
-        $this->view->form = new AC_Form_Search();
+        $this->view->form = new ACI_Form_Search();
         $this->renderScript('search/form.phtml');
     }
 
@@ -44,7 +55,7 @@ class SearchController extends Zend_Controller_Action
         if($this->_hasParam('key'))
         {
             $items = (int)$this->_getParam('items', 10);
-            $select = new AC_Model_Search($this->_db);
+            $select = new ACI_Model_Search($this->_db);
             $query = $select->all(
                 $this->_getParam('key'), $this->_getParam('match')
             );
@@ -61,7 +72,7 @@ class SearchController extends Zend_Controller_Action
             $this->view->match = $this->_getParam('match');
             $this->view->items = $this->_getParam('items');
             
-            $form = new AC_Form_SearchResult();
+            $form = new ACI_Form_SearchResult();
 
             $form->getElement('key')->setValue($this->_getParam('key'));
             $form->getElement('match')->setValue($this->_getParam('match'));
@@ -74,7 +85,7 @@ class SearchController extends Zend_Controller_Action
         }
         else
         {
-	        $this->view->form = new AC_Form_Search();
+	        $this->view->form = new ACI_Form_Search();
             $this->renderScript('search/form.phtml');
         }
     }

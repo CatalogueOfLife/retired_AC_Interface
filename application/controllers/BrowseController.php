@@ -1,4 +1,15 @@
 <?php
+/**
+ * Annual Checklist Interface
+ *
+ * Class BrowseController
+ * Defines the browse actions
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  controllers
+ *
+ */
 class BrowseController extends Zend_Controller_Action
 {
     protected $_logger;

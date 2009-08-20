@@ -1,4 +1,15 @@
 <?php
+/**
+ * Annual Checklist Interface
+ *
+ * Class InfoController
+ * Defines the info pages
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  controllers
+ *
+ */
 class InfoController extends Zend_Controller_Action
 {
     protected $_logger;

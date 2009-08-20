@@ -1,4 +1,15 @@
 <?php
+/**
+ * Annual Checklist Interface
+ *
+ * Class DetailsController
+ * Defines the detail pages
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  controllers
+ *
+ */
 class DetailsController extends Zend_Controller_Action
 {
     protected $_logger;
@@ -16,7 +27,7 @@ class DetailsController extends Zend_Controller_Action
     {
         $this->view->title = $this->view->translate('Database_details');
         $this->view->headTitle($this->view->title, 'APPEND');
-        $dbTable = new AC_Model_Table_Databases();
+        $dbTable = new ACI_Model_Table_Databases();
         $rowSet = $dbTable->find($this->_getParam('id'));
         
         if($row = $rowSet->current()) {
