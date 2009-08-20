@@ -18,6 +18,7 @@ class ACI_Model_Search
     {
         $this->_adapter = $adapter;
     }
+    
     public function commonNames($searchKey, $matchWholeWords)
     {
         return $this->_selectCommonNames($searchKey, $matchWholeWords);
@@ -32,8 +33,12 @@ class ACI_Model_Search
     {
         $selectAll = $this->_adapter->select()->union(
             array(
-                '(' . $this->_selectTaxa($searchKey, $matchWholeWords)->reset('order') . ')',
-                '(' . $this->_selectCommonNames($searchKey, $matchWholeWords)->reset('order') . ')'
+                $this->_selectTaxa(
+                    $searchKey, $matchWholeWords
+                )->reset('order'),
+                $this->_selectCommonNamesForUnion(
+                    $searchKey, $matchWholeWords
+                )
             )
         )->order(array('name', 'status'));
         
@@ -104,13 +109,16 @@ class ACI_Model_Search
     }
     
     /**
-     * Builds the select query to search common names
+     * Builds the select query to search common names for the search all
+     * functionality. This query is unioned afterwards with scientific names.
+     * The common names standalone search is built by the _selectCommonNames
+     * method.
      *
      * @param string $searchKey
      * @param boolean $matchWholeWords
      * @return Zend_Db_Select
      */
-    protected function _selectCommonNames($searchKey, $matchWholeWords)
+    protected function _selectCommonNamesForUnion($searchKey, $matchWholeWords)
     {
         $select = new Zend_Db_Select($this->_adapter);
         
@@ -144,9 +152,61 @@ class ACI_Model_Search
             $select
                 ->where('cn.common_name LIKE "%' . $searchKey . '%"');
         }
-        
-        $select->order(array('name', 'status'));
          
+        return $select;
+    }
+    
+    /**
+     * Builds the select query to search common names
+     *
+     * @param string $searchKey
+     * @param boolean $matchWholeWords
+     * @return Zend_Db_Select
+     */
+    protected function _selectCommonNames($searchKey, $matchWholeWords)
+    {
+        $select = new Zend_Db_Select($this->_adapter);
+        
+        $select->distinct()->from(
+            array(
+                'cn' => 'common_names'
+            ),
+            array(
+                'name' => 'cn.common_name',
+                'cn.name_code',
+                'sn.genus',
+                'sn.species',
+                'sn.infraspecies_marker',
+                'sn.infraspecies',
+                'sn.author',
+                'db_name' => 'db.database_name'
+            )
+        )->join(
+            array('sn' => 'scientific_names'),
+            'cn.name_code = sn.name_code AND sn.is_accepted_name = 1',
+            array()
+        )->joinLeft(
+            array('db' => 'databases'),
+            'sn.database_id = db.record_id',
+            array()
+        );
+         
+        if($matchWholeWords)
+        {
+            $select->where(
+                'cn.common_name REGEXP "[[:<:]]' . $searchKey . '[[:>:]]"');
+        }
+        else {
+            $select
+                ->where('cn.common_name LIKE "%' . $searchKey . '%"');
+        }
+         
+        $select->order(
+            array(
+                'name', 'genus', 'species', 'infraspecies', 'author'
+            )
+        );
+        
         return $select;
     }
 }
