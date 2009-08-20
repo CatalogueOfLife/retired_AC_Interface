@@ -28,8 +28,16 @@ class SearchController extends Zend_Controller_Action
     {
         $this->view->title = $this->view->translate('Search_common_names');
         $this->view->headTitle($this->view->title, 'APPEND');
-        $this->view->form = new ACI_Form_Search();
-        $this->renderScript('search/form.phtml');
+        
+        if($this->_hasParam('key'))
+        {
+            $this->_renderResultsPage();
+        }
+        else
+        {
+            $this->view->form = new ACI_Form_Search();
+            $this->renderScript('search/form.phtml');
+        }
     }
     
     public function scientificAction()
@@ -54,40 +62,89 @@ class SearchController extends Zend_Controller_Action
         
         if($this->_hasParam('key'))
         {
-            $items = (int)$this->_getParam('items', 10);
-            $select = new ACI_Model_Search($this->_db);
-            $query = $select->all(
-                $this->_getParam('key'), $this->_getParam('match')
-            );
-            $page = $this->_hasParam('page') ? $this->_getParam('page') : 1;
-            $paginator = new Zend_Paginator(
-                new Zend_Paginator_Adapter_DbSelect($query));
-                
-            $paginator->setItemCountPerPage($items);
-            $paginator->setCurrentPageNumber($page);
-            $paginator->setView($this->view);
-            
-            $this->view->paginator = $paginator;
-            $this->view->key = $this->_getParam('key');
-            $this->view->match = $this->_getParam('match');
-            $this->view->items = $this->_getParam('items');
-            
-            $form = new ACI_Form_SearchResult();
-
-            $form->getElement('key')->setValue($this->_getParam('key'));
-            $form->getElement('match')->setValue($this->_getParam('match'));
-            $form->getElement('items')->setValue($items);
-            $form->setAction($this->view->baseUrl() . '/search/all');
-            
-            $this->view->form = $form;
-            
-            $this->renderScript('search/results.phtml');
+            $this->_renderResultsPage();
         }
         else
         {
-	        $this->view->form = new ACI_Form_Search();
+            $this->view->form = new ACI_Form_Search();
             $this->renderScript('search/form.phtml');
         }
+    }
+    
+    protected function _renderResultsPage()
+    {
+        $items = (int)$this->_getParam('items', 10);
+        
+        // Get the paginator
+        $this->view->paginator = $this->_getPaginator(
+            $this->_getSearchQuery($this->_getParam('action')),
+            $this->_getParam('page', 1),
+            $items
+        );
+        
+        // Build items per page form
+        $form = new ACI_Form_ItemsPerPage();
+
+        $form->getElement('key')->setValue($this->_getParam('key'));
+        $form->getElement('match')->setValue($this->_getParam('match'));
+        $form->getElement('items')->setValue($items);
+        
+        $form->setAction(
+            $this->view->baseUrl() . '/search/' . $this->_getParam('action')
+        );
+        
+        // Set view values
+        $this->view->key = $this->_getParam('key');
+        $this->view->match = $this->_getParam('match');
+        $this->view->items = $this->_getParam('items');
+        $this->view->form = $form;
+        
+        // Render the results page
+        $this->renderScript('search/results.phtml');
+    }
+     
+    /**
+     * Builds the paginator
+     *
+     * @param Zend_Db_Select $query
+     * @param int $page
+     * @param int $items
+     *
+     * @return Zend_Paginator
+     */
+    protected function _getPaginator(Zend_Db_Select $query, $page, $items)
+    {
+        $paginator = new Zend_Paginator(
+            new Zend_Paginator_Adapter_DbSelect($query));
+            
+        $paginator->setItemCountPerPage((int)$items);
+        $paginator->setCurrentPageNumber((int)$page);
+        return $paginator;
+    }
+    
+    /**
+     * Returns the corresponding search query based on the requested action
+     *
+     * @return Zend_Db_Select
+     */
+    protected function _getSearchQuery($action)
+    {
+        $select = new ACI_Model_Search($this->_db);
+        
+        switch($action) {
+            case 'common':
+                $query = $select->commonNames(
+                    $this->_getParam('key'), $this->_getParam('match')
+                );
+                break;
+            case 'all':
+            default:
+                $query = $select->all(
+                    $this->_getParam('key'), $this->_getParam('match')
+                );
+                break;
+        }
+        return $query;
     }
     
     public function __call($name, $arguments)

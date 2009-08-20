@@ -13,7 +13,8 @@
         )
     );
 ?>
-<?php echo $this->translate('Records_found'); ?>: $countRecords
+<?php echo $this->translate('Records_found'); ?>:
+<?php echo $this->paginator->getTotalItemCount(); ?>
 <?php echo $this->form; ?>
 <ul>
 <table>

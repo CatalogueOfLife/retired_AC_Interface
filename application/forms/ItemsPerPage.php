@@ -1,5 +1,5 @@
 <?php
-class ACI_Form_SearchResult extends Zend_Form
+class ACI_Form_ItemsPerPage extends Zend_Form
 {
     public function init()
     {
