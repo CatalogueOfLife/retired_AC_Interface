@@ -6,8 +6,8 @@ class SearchControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
     public function setUp ()
     {
         parent::setUp();
-        $this->frontController->addControllerDirectory(
-            APPLICATION_PATH . '/controllers');
+        $this->frontController
+             ->addControllerDirectory(APPLICATION_PATH . '/controllers');
     }
     
     public function testHomePageIsASuccessfulRequestToSearchAll ()
