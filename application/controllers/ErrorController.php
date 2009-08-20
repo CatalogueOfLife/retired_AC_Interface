@@ -1,5 +1,15 @@
 <?php
-
+/**
+ * Annual Checklist Interface
+ *
+ * Class ErrorController
+ * Handles the errors of the application
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  controllers
+ *
+ */
 class ErrorController extends Zend_Controller_Action
 {
     public function errorAction()
@@ -26,7 +36,4 @@ class ErrorController extends Zend_Controller_Action
                 break;
         }
     }
-
-
 }
-
