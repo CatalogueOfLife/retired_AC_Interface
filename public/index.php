@@ -1,4 +1,14 @@
 <?php
+/**
+ * Annual Checklist Interface
+ *
+ * index.php
+ * Initial page, launches the bootstrappers
+ *
+ * @category    ACI
+ * @package     public
+ *
+ */
 // Define path to application directory
 defined('APPLICATION_PATH')
     || define(

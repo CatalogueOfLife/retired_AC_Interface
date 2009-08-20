@@ -1,9 +1,15 @@
 <?php
 /**
- * Bootstrap class
+ * Annual Checklist Interface
  *
+ * Class Bootstrap
+ * Handles the application initialization
  * All methods in this class that are prefixed by an underscore
- * are automatically loaded in the application init.
+ * are automatically loaded in the application init
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  core
  *
  */
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap

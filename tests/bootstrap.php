@@ -1,4 +1,15 @@
 <?php
+/**
+ * Annual Checklist Interface
+ *
+ * bootstrap.php
+ * Test bootstrapper
+ *
+ * @category    ACI
+ * @package     tests
+ * @subpackage  core
+ *
+ */
 // Define path to application directory
 define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../application'));
 

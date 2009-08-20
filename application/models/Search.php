@@ -1,4 +1,15 @@
 <?php
+/**
+ * Annual Checklist Interface
+ *
+ * Class ACI_Model_Search
+ * Search queries builder
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  models
+ *
+ */
 class ACI_Model_Search
 {
     protected $_adapter;
