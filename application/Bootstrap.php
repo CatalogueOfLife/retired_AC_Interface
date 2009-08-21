@@ -76,10 +76,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $viewRenderer = new Zend_Controller_Action_Helper_ViewRenderer();
         $viewRenderer->setView($view);
         Zend_Controller_Action_HelperBroker::addHelper($viewRenderer);
-        
+        Zend_Dojo::enableView($view);
         //Variables
-        $view->app = $config->custom->application;
-        
+        $view->app = $config->custom->application;        
         return $view;
     }
     
