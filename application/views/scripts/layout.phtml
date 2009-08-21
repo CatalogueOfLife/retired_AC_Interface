@@ -16,13 +16,19 @@
 <head>
     <?php echo $this->headMeta(); ?>
     <?php echo $this->headTitle(); ?>
-    <?php echo $this->headLink()->prependStylesheet(
-        $this->baseUrl() . '/styles/style.css'); ?>
-    <script language="javascript"
-        src="<?php echo $this->baseUrl() . '/scripts/menu.js'; ?>"></script>
-
+    <?php echo $this->headStyle(); ?>
+    <?php echo $this->headLink()->appendStylesheet($this->baseUrl() . '/styles/style.css'); ?>
+    <?php 
+    if ($this->dojo()->isEnabled()) {
+        $this->dojo()->setLocalPath(
+            $this->baseUrl() . '/scripts/library/dojo/dojo/dojo.js'
+        )->addStyleSheetModule('dijit.themes.tundra');
+   	    echo $this->dojo();
+    }
+    ?>
+    <?php echo $this->headScript()->appendFile($this->baseUrl() . '/scripts/menu.js'); ?>
 </head>
-<body>
+<body class="tundra">    
     <div id="header">
         <img src="<?php echo $this->baseUrl(); ?>/images/Annual_Checklist_Top_Banner.gif" />
     </div>
@@ -101,7 +107,8 @@
         </ul>
     </div>
     <div id="content" class="view">
-        <?php echo $this->layout()->content; ?>
+        <?php echo $this->layout()->content; ?>    
+        <?php echo $this->inlineScript(); ?>
     </div>
 </body>
 </html>
