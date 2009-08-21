@@ -10,7 +10,8 @@ class ACI_Form_ItemsPerPage extends Zend_Form
         //TODO: Create this line "Show <input text> records per page <input submit>"
         
         $items = $this->createElement('text', 'items')->setRequired(true);
-        $items->setLabel($translator->translate('Show'));
+        $items->setLabel($translator->translate('Show'))
+              ->setDescription($translator->translate('records_per_page'));
                 
         // Add elements to form:
         $this->addElement($items)
