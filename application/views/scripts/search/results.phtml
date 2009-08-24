@@ -1,3 +1,11 @@
+<?php
+$urlParams = array(
+    'key' => $this->key,
+    'match' => $this->match,
+    'items' => $this->items,
+    'sort' => $this->sort
+);
+?>
 <div class="formheader">
 <?php printf($this->translate('Search_results_for'), '"' . $this->key . '"') ?>
 </div>
@@ -6,11 +14,7 @@
         $this->paginator,
         'Sliding',
         'search/pagination_control.phtml',
-        array(
-            'key' => $this->key,
-            'match' => $this->match,
-            'items' => $this->items
-        )
+        $urlParams
     );
 ?>
 <?php echo $this->translate('Records_found'); ?>:
@@ -20,10 +24,22 @@
 <table class="results">
 <?php $rowClass = "odd"; ?>
     <tr class="even">
-        <th><?php echo $this->translate('Name'); ?></th>
-        <th><?php echo $this->translate('Rank'); ?></th>
-        <th><?php echo $this->translate('Name_status'); ?></th>
-        <th><?php echo $this->translate('Source_database'); ?></th>
+        <th<?php echo ($this->sort == 'name' ? " class=\"current\"" : "");?>>
+        <a href="<?php echo $this->url(array_merge($urlParams,array(
+          'sort' => 'name'))); ?>"><?php echo $this->translate('Name'); ?></a>
+        </th>    
+        <th<?php echo ($this->sort == 'rank' ? " class=\"current\"" : "");?>>
+        <a href="<?php echo $this->url(array_merge($urlParams,array(
+          'sort' => 'rank'))); ?>"><?php echo $this->translate('Rank'); ?></a>
+        </th>    
+        <th<?php echo ($this->sort == 'status' ? " class=\"current\"" : "");?>>
+        <a href="<?php echo $this->url(array_merge($urlParams,array(
+          'sort' => 'status'))); ?>"><?php echo $this->translate('Name_status'); ?>
+        </a></th>    
+        <th<?php echo ($this->sort == 'db' ? " class=\"current\"" : "");?>>
+        <a href="<?php echo $this->url(array_merge($urlParams,array(
+          'sort' => 'db'))); ?>"><?php echo $this->translate('Source_database'); ?>
+        </a></th>
         <th> </th>
     </tr>
 <?php foreach ($this->tableResults as $items): ?>
@@ -46,12 +62,7 @@
             </a>
         </td>
     </tr>
-<?php if ($rowClass == "even"):
-        $rowClass = "odd";
-    else:
-        $rowClass = "even";
-    endif;
-?>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
 <?php endforeach; ?>
 </table>
 <?php
@@ -59,11 +70,7 @@
         $this->paginator,
         'Sliding',
         'search/pagination_control.phtml',
-        array(
-            'key' => $this->key,
-            'match' => $this->match,
-            'items' => $this->items
-        )
+        $urlParams
     );
 ?>
 </ul>

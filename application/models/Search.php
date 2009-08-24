@@ -32,7 +32,7 @@ class ACI_Model_Search
         return $this->_selectTaxa($searchKey, $matchWholeWords);
     }
     
-    public function all($searchKey, $matchWholeWords)
+    public function all($searchKey, $matchWholeWords, $sort)
     {
         $selectAll = $this->_adapter->select()->union(
             array(
@@ -43,9 +43,26 @@ class ACI_Model_Search
                     $searchKey, $matchWholeWords
                 )
             )
-        )->order(array('name', 'status'));
+        )->order(array_merge(array($this->_getRightColumnName($sort)),array('name', 'status')));
         
         return $selectAll;
+    }
+    
+    protected function _getRightColumnName($columName)
+    {
+    	$find = array(
+           'name',
+           'rank',
+           'status',
+           'db'
+        );
+        $replace = array(
+           'name',
+           'taxon',
+           'status',
+           'db_name'
+        );
+        return str_replace($find,$replace,$columName);
     }
     
     /**

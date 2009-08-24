@@ -78,6 +78,9 @@ class SearchController extends Zend_Controller_Action
     protected function _renderResultsPage()
     {
         $items = (int)$this->_getParam('items', 10);
+        $sort = 'name';
+        if($this->_getParam('sort'))
+            $sort = $this->_getParam('sort');
         
         // Get the paginator
         $this->view->paginator = $this->_getPaginator(
@@ -86,7 +89,7 @@ class SearchController extends Zend_Controller_Action
             $items
         );
         
-        $this->_createTableFromResults();
+        $this->view->tableResults = $this->_createTableFromResults();
         
         // Build items per page form
         //$form = new ACI_Form_ItemsPerPage();
@@ -104,41 +107,45 @@ class SearchController extends Zend_Controller_Action
         $this->view->key = $this->_getParam('key');
         $this->view->match = $this->_getParam('match');
         $this->view->items = $this->_getParam('items');
+        $this->view->sort = $sort;
         $this->view->form = $form;
         
         // Render the results page
         $this->renderScript('search/results.phtml');
     }
     
+    /**
+     * Builds the result table
+     *
+     * @return $resultTable
+     */
     protected function _createTableFromResults()
     {
-    	$output = array();
+    	$resultTable = array();
     	$i = 0;
     	foreach($this->view->paginator as $value)
     	{
             
     		if(strtolower($value['taxon']) == "species")
     		{
-    			$output[$i]['link'] = $this->view->translate('Show_details');
-    			if(strtolower($value['status']) == "common name") {
-        			$output[$i]['url'] = "/details/species/name/".$value['name'];
-    			}
-         	    else {
-                    $output[$i]['url'] = "/details/species/id/".$value['id'];
-         	    }
+    			$resultTable[$i]['link'] = $this->view->translate('Show_details');
+    			if(strtolower($value['status']) == "common name")
+        			$resultTable[$i]['url'] = "/species_details/name/".$value['name'];
+         	    else
+                    $resultTable[$i]['url'] = "/species_details/id/".$value['id'];
          	}
     		else
     		{
-                $output[$i]['link'] = $this->view->translate('Show_tree');
-    			$output[$i]['url'] = "/browse/tree/id/24";
+                $resultTable[$i]['link'] = $this->view->translate('Show_tree');
+    			$resultTable[$i]['url'] = "/browse/tree/id/24";
     		}
-    		$output[$i]['name'] = $value['name']/* TODO: . language common name */;
-            $output[$i]['rank'] = $value['taxon'];
-            $output[$i]['status'] = $value['status'];
-            $output[$i]['db'] = $value['db_name'];
+    		$resultTable[$i]['name'] = $value['name']/* TODO: . language common name */;
+            $resultTable[$i]['rank'] = $value['taxon'];
+            $resultTable[$i]['status'] = $value['status'];
+            $resultTable[$i]['db'] = $value['db_name'];
             $i++;
     	}
-        $this->view->tableResults = $output;
+        return $resultTable;
     }
     
     /**
@@ -152,6 +159,7 @@ class SearchController extends Zend_Controller_Action
      */
     protected function _getPaginator(Zend_Db_Select $query, $page, $items)
     {
+    	echo $query;
         $paginator = new Zend_Paginator(
             new Zend_Paginator_Adapter_DbSelect($query));
             
@@ -178,7 +186,8 @@ class SearchController extends Zend_Controller_Action
             case 'all':
             default:
                 $query = $select->all(
-                    $this->_getParam('key'), $this->_getParam('match')
+                    $this->_getParam('key'), $this->_getParam('match'),
+                    $this->_getParam('sort')
                 );
                 break;
         }
