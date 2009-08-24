@@ -12,13 +12,13 @@
  */
 class ACI_Model_Search
 {
-    protected $_adapter;
+    protected $_db;
     protected $_logger;
     const API_ROWSET_LIMIT = 1500;
     
-    public function __construct(Zend_Db_Adapter_Abstract $adapter)
+    public function __construct(Zend_Db_Adapter_Abstract $dbAdapter)
     {
-        $this->_adapter = $adapter;
+        $this->_db = $dbAdapter;
         $this->_logger = Zend_Registry::get('logger');
     }
     
@@ -34,7 +34,7 @@ class ACI_Model_Search
     
     public function all($searchKey, $matchWholeWords, $sort)
     {
-        $selectAll = $this->_adapter->select()->union(
+        $selectAll = $this->_db->select()->union(
             array(
                 $this->_selectTaxa(
                     $searchKey, $matchWholeWords
@@ -74,7 +74,7 @@ class ACI_Model_Search
      */
     protected function _selectTaxa($searchKey, $matchWholeWords)
     {
-        $select = new Zend_Db_Select($this->_adapter);
+        $select = new Zend_Db_Select($this->_db);
         
         $fields = array('id' => 'tx.record_id',
                         'tx.taxon',
@@ -141,7 +141,7 @@ class ACI_Model_Search
      */
     protected function _selectCommonNamesForUnion($searchKey, $matchWholeWords)
     {
-        $select = new Zend_Db_Select($this->_adapter);
+        $select = new Zend_Db_Select($this->_db);
         
         $select->distinct()->from(
             array(
@@ -187,7 +187,7 @@ class ACI_Model_Search
      */
     protected function _selectCommonNames($searchKey, $matchWholeWords)
     {
-        $select = new Zend_Db_Select($this->_adapter);
+        $select = new Zend_Db_Select($this->_db);
         
         $select->distinct()->from(
             array(
@@ -240,7 +240,7 @@ class ACI_Model_Search
      */
     public function getRankEntries($rank, $name)
     {
-        $select = new Zend_Db_Select($this->_adapter);
+        $select = new Zend_Db_Select($this->_db);
         $total = $this->_getRankCount($rank, $name);
         
         $this->_logger->debug("$total results found for $rank \"$name\"");
@@ -263,7 +263,7 @@ class ACI_Model_Search
      */
     protected function _getRankCount($rank, $name)
     {
-        $select = new Zend_Db_Select($this->_adapter);
+        $select = new Zend_Db_Select($this->_db);
         
         $select
             ->from(
