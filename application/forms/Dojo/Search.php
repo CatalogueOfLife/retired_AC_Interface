@@ -9,15 +9,15 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
         $translator = Zend_Registry::get('Zend_Translate');
         
         $key = $this->createElement(
-            'validationTextBox', 
-            'key', 
-            array(                
+            'validationTextBox',
+            'key',
+            array(
                 'required' => true,
                 'filters' => array(
                     'StringTrim'
-                ), 
-                'regExp' => '.{2,150}',                             
-                'invalidMessage' => $translator->translate('At_least_two_chars')                
+                ),
+                'regExp' => '.{2,150}',
+                'invalidMessage' => $translator->translate('At_least_two_chars')
             )
         )->setLabel('Search_for');
         
@@ -30,16 +30,16 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
         )->setLabel('Match_whole_words_only');
         
         $submit = $this->createElement(
-            'SubmitButton', 
+            'SubmitButton',
             'submit',
             array(
                 'required'   => false,
-                'ignore'     => true                
+                'ignore'     => true
             )
         )->setLabel('Search');
        
         $this->addElement($key)
-             ->addElement($match)             
+             ->addElement($match)
              ->addelement($submit);
     }
 }

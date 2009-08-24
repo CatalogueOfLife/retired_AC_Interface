@@ -7,8 +7,8 @@ class ACI_Form_Dojo_SearchScientific extends Zend_Dojo_Form
         $this->setName('searchFormBox');
         
         $ranks = array(
-            'genus' => 'Genus', 
-            'species' => 'Species', 
+            'genus' => 'Genus',
+            'species' => 'Species',
             'infraspecies' => 'Infraspecies'
         );
         
@@ -43,11 +43,11 @@ class ACI_Form_Dojo_SearchScientific extends Zend_Dojo_Form
         )->setLabel('Match_whole_words_only');
         
         $submit = $this->createElement(
-            'SubmitButton', 
+            'SubmitButton',
             'submit',
             array(
                 'required'   => false,
-                'ignore'     => true                
+                'ignore'     => true
             )
         )->setLabel('Search');
         
