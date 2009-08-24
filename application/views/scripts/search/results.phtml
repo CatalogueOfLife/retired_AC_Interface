@@ -17,13 +17,29 @@
 <?php echo $this->paginator->getTotalItemCount(); ?>
 <?php echo $this->form; ?>
 <ul>
-<table>
-<?php foreach ($this->paginator as $items): ?>
-    <tr>
-    <?php foreach ($items as $item): ?>
-        <td><?php echo $item; ?></td>
-    <?php endforeach; ?>
+<table class="results">
+<?php $rowClass = "odd"; ?>
+    <tr class="even">
+        <th><?php echo $this->translate('Name'); ?></th>    
+        <th><?php echo $this->translate('Rank'); ?></th>    
+        <th><?php echo $this->translate('Name_status'); ?></th>    
+        <th><?php echo $this->translate('Source_database'); ?></th>    
+        <th> </th>
     </tr>
+<?php foreach ($this->tableResults as $items): ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <td class="fieldheaderblack"><a href="<?php echo $items['url']; ?>"><?php echo $items['name']; ?></a></td>
+        <td class="fieldheaderblack"><a class="fieldheaderblack"  href="<?php echo $items['url']; ?>"><?php echo $items['rank']; ?></a></td>
+        <td><?php echo $items['status']; ?></td>
+        <td><?php echo $items['db']; ?></td>
+        <td><a href="<?php echo $items['url']; ?>"><?php echo $items['link']; ?></a></td>
+    </tr>
+<?php if ($rowClass == "even"):
+        $rowClass = "odd";
+    else:
+        $rowClass = "even";
+    endif;
+?>
 <?php endforeach; ?>
 </table>
 <?php

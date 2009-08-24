@@ -50,6 +50,24 @@ img {
     border: none;
 }
 
+table.results {
+    width:100%;
+    border-spacing:0;
+    border: 1px solid #edebeb;
+}
+
+tr.even {
+	background-color: #fafcfe;
+}
+
+tr.odd {
+    background-color: #eaf2f7;
+}
+
+table.results tr td {
+    padding: 10px 3px 10px 3px;
+}
+
 .aboutcolheader {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 11px;
@@ -259,7 +277,7 @@ img {
     margin-left: 2px
 }
 
-.tableheader {
+.tableheader, th {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 11px;
     font-weight: bold;
@@ -270,32 +288,37 @@ img {
     margin-left: 2px
 }
 
-.tableheader {
+.tableheader, th {
     color: #666666;
     text-decoration: none;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 11px;
     margin-left: 0px;
     margin-right: 3px;
-    cursor: default
+    cursor: default;
 }
 
-.tableheader a:link {
+th {
+    text-align: left;
+    padding: 3px 3px 10px 3px;	
+}
+
+.tableheader a:link, th a:link {
     color: #666;
     text-decoration: none
 }
 
-.tableheader a:visited {
+.tableheader a:visited, th a:visited {
     color: #666;
     text-decoration: none
 }
 
-.tableheader a:active {
+.tableheader a:active, th a:active {
     color: #666;
     text-decoration: none
 }
 
-.tableheader a:hover {
+.tableheader a:hover, th a:hover {
     color: #666;
     text-decoration: underline
 }

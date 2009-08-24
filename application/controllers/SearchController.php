@@ -86,6 +86,8 @@ class SearchController extends Zend_Controller_Action
             $items
         );
         
+        $this->_createTableFromResults();
+        
         // Build items per page form
         //$form = new ACI_Form_ItemsPerPage();
         $form = new ACI_Form_Dojo_ItemsPerPage();
@@ -107,7 +109,36 @@ class SearchController extends Zend_Controller_Action
         // Render the results page
         $this->renderScript('search/results.phtml');
     }
-     
+    
+    protected function _createTableFromResults()
+    {
+    	$output = array();
+    	$i = 0;
+    	foreach($this->view->paginator as $value)
+    	{
+            
+    		if(strtolower($value['taxon']) == "species")
+    		{
+    			$output[$i]['link'] = $this->view->translate('Show_details');
+    			if(strtolower($value['status']) == "common name")
+        			$output[$i]['url'] = "/species_details/id/".$value['name'];
+         	    else
+                    $output[$i]['url'] = "/species_details/name/".$value['id'];
+         	}
+    		else
+    		{
+                $output[$i]['link'] = $this->view->translate('Show_tree');
+    			$output[$i]['url'] = "/browse/tree/id/24";
+    		}
+    		$output[$i]['name'] = $value['name']/* TODO: . language common name */;
+            $output[$i]['rank'] = $value['taxon'];
+            $output[$i]['status'] = $value['status'];
+            $output[$i]['db'] = $value['db_name'];
+            $i++;
+    	}
+        $this->view->tableResults = $output;
+    }
+    
     /**
      * Builds the paginator
      *
