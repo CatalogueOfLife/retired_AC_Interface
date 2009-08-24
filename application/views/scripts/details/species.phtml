@@ -1,6 +1,6 @@
 <?php
-if (is_array($this->species)):
-echo $this->species['scientific_name'];
+if ($this->taxa instanceof ACI_Model_Taxa):
+echo $this->taxa->accepted_scientific_name;
 ?>
 <?php
 else:

@@ -30,16 +30,15 @@ class DetailsController extends Zend_Controller_Action
         
         $dbTable = new ACI_Model_Table_Databases();
         $rowSet = $dbTable->find($this->_getParam('id'));
+        $row = $rowSet->current();
+        $database = false;
         
-        if($row = $rowSet->current()) {
+        if($row) {
             $database = $row->toArray();
             $database['image'] = str_replace(
                 ' ', '_', $database['database_name']) . '.jpg';
         }
-        else {
-            $database = false;
-        }
-        
+                
         $this->_logger->debug($database);
         $this->view->db = $database;
     }
@@ -53,19 +52,19 @@ class DetailsController extends Zend_Controller_Action
         $taxaId     = $this->_getParam('id', false);
         $commonName = $this->_getParam('name', false);
         
-        $speciesDetails = false;
+        $taxaDetails = false;
         
         if($taxaId || $commonName) {
             $detailsModel = new ACI_Model_Details($this->_db);
             if($taxaId) {
-                $speciesDetails = $detailsModel->taxa($taxaId);
+                $taxaDetails = $detailsModel->taxa($taxaId);
             }
             elseif($commonName) {
-                $speciesDetails = $detailsModel->commonName($commonName);
+                $taxaDetails = $detailsModel->commonName($commonName);
             }
         }
-        $this->_logger->debug($speciesDetails);
-        $this->view->species = $speciesDetails;
+        $this->_logger->debug($taxaDetails);
+        $this->view->taxa = $taxaDetails;
     }
     
     public function __call($name, $arguments)

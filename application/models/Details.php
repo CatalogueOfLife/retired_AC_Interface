@@ -42,19 +42,14 @@ class ACI_Model_Details
                 'sn.specialist_id',
                 'sn.web_site',
                 'sn.scrutiny_date',
-                'status' => 'st.sp2000_status',
+                'status_id' => 'sn.sp2000_status_id',                
                 'db_id' => 'sn.database_id',
                 'db_name' => 'db.database_name',
                 'db_full_name' => 'db.database_full_name',
                 'db_version' => 'db.version',
                 'taxa_id' => 'tx.record_id'
             )
-        )
-        ->joinLeft(
-            array('st' => 'sp2000_statuses'),
-            'sn.sp2000_status_id = st.record_id',
-            array()
-        )
+        )        
         ->joinLeft(
             array('db' => 'databases'),
             'sn.database_id = db.record_id',
@@ -79,23 +74,21 @@ class ACI_Model_Details
         }
         
         $taxa->hierarchy = $this->taxaHierarchy($taxa->taxa_id);
-        $taxa->acceptedName = $taxa->isAcceptedName() ?
-            array(
-                'id' => $taxa->id,
-                'name_code' => $taxa->name_code,
-                'genus' => $taxa->genus,
-                'species' => $taxa->species,
-                'infraspecies_marker' => $taxa->infraspecies_marker,
-                'infraspecies' => $taxa->infraspecies,
-                'author' => $taxa->author
-            ) :
-            $this->acceptedName($taxa->name_code);
-            
-        $this->_logger->debug($taxa);
-            
-        $taxa->synonyms = $this->synonyms($taxa->acceptedName['name_code']);
+        if(!$taxa->isAcceptedName()) {
+            $taxa->accepted_name = $this->accepted_name($taxa->name_code);
+            $accepted_name_code = $taxa->accepted_name->name_code;
+        }
+        else {
+            $accepted_name_code = $taxa->name_code; 
+        }
+        $taxa->synonyms = $this->synonyms($accepted_name_code);
         
         return $taxa;
+    }
+    
+    public function commonName($name)
+    {
+        return false;
     }
     
     public function taxaHierarchy($id)
@@ -142,17 +135,17 @@ class ACI_Model_Details
                 'sn.infraspecies',
                 'sn.author'
             )
-        )
-        ->joinLeft(
-            array('st' => 'sp2000_statuses'),
-            'sn.sp2000_status_id = st.record_id',
-            array()
-        )
-        ->where(
-            'sn.accepted_name_code = ? AND st.sp2000_status = "accepted name"',
-            $nameCode
-        )
+        )        
+        ->where('sn.accepted_name_code = ? AND sn.sp2000_status_id IN (?, ?)')
         ->order(array('genus', 'species', 'infraspecies', 'author'));
+        
+        $select->bind(
+            array(
+                $nameCode, 
+                ACI_Model_Taxa::ACCEPTED_NAME, 
+                ACI_Model_Taxa::PROVISIONALLY_ACCEPTED_NAME
+            )
+        );
         
         $res = $select->query()->fetchAll();
         
