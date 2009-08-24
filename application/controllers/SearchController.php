@@ -120,10 +120,12 @@ class SearchController extends Zend_Controller_Action
     		if(strtolower($value['taxon']) == "species")
     		{
     			$output[$i]['link'] = $this->view->translate('Show_details');
-    			if(strtolower($value['status']) == "common name")
-        			$output[$i]['url'] = "/species_details/id/".$value['name'];
-         	    else
-                    $output[$i]['url'] = "/species_details/name/".$value['id'];
+    			if(strtolower($value['status']) == "common name") {
+        			$output[$i]['url'] = "/details/species/name/".$value['name'];
+    			}
+         	    else {
+                    $output[$i]['url'] = "/details/species/id/".$value['id'];
+         	    }
          	}
     		else
     		{
