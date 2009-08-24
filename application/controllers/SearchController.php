@@ -125,7 +125,6 @@ class SearchController extends Zend_Controller_Action
     	$i = 0;
     	foreach($this->view->paginator as $value)
     	{
-            
     		if(strtolower($value['taxon']) == "species")
     		{
     			$resultTable[$i]['link'] = $this->view->translate('Show_details');
@@ -145,8 +144,8 @@ class SearchController extends Zend_Controller_Action
             $resultTable[$i]['dbLogo'] = "/images/databases/" . str_replace(
                 ' ', '_', $value['db_name'] . '.gif');
             $resultTable[$i]['dbLabel'] = $value['db_name'];
-            $resultTable[$i]['dbUrl'] = "/details/database/name/" . str_replace(
-                ' ', '_', $value['db_name']);
+            $resultTable[$i]['dbUrl'] = "/details/database/id/" . str_replace(
+                ' ', '_', $value['db_id']);
             $i++;
     	}
         return $resultTable;

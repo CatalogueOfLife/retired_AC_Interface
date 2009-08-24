@@ -82,6 +82,7 @@ class ACI_Model_Search
                         'tx.name',
                         'tx.is_accepted_name',
                         'db_name' => 'db.database_name',
+                        'db_id' => 'db.record_id',
                         'status' => 'st.sp2000_status');
         
         if($matchWholeWords) {
@@ -155,6 +156,7 @@ class ACI_Model_Search
                 'name' => 'cn.common_name',
                 'is_accepted_name' => new Zend_Db_Expr(1),
                 'db_name' => 'db.database_name',
+                'db_id' => 'db.record_id',
                 'status' => new Zend_Db_Expr('"common name"'),
             )
         )->joinLeft(
