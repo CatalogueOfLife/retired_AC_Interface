@@ -55,11 +55,15 @@ $urlParams = array(
             </a>
         </td>
         <td><?php echo $items['status']; ?></td>
-        <td><a href="<?php echo $this->baseUrl() . $items['dbUrl']; ?>">
+        <td>
+<?php if($items['dbLabel'] != ""): ?>
+        <a href="<?php echo $this->baseUrl() . $items['dbUrl']; ?>">
         <img
+          class="wrapLogo"
           src="<?php echo $this->baseUrl() . $items['dbLogo']; ?>"
           alt="<?php echo $items['dbLabel']; ?>"
           title="<?php echo $items['dbLabel']; ?>" /></a>
+<?php endif; ?>
         </td>
         <td>
             <a href="<?php echo $this->baseUrl() . $items['url']; ?>">

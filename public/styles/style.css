@@ -56,6 +56,12 @@ table.results {
     border: 1px solid #edebeb;
 }
 
+.wrapLogo {
+    border: 1px solid #edebeb;
+    background-color: #ffffff;
+    padding: 2px;
+}
+
 tr.even {
 	background-color: #fafcfe;
 }
