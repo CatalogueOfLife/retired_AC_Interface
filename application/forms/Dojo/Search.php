@@ -4,7 +4,7 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
     public function init()
     {
         $this->setMethod('post');
-        $this->setName('searchFormBox');
+        $this->setName('searchForm');
 
         $translator = Zend_Registry::get('Zend_Translate');
         

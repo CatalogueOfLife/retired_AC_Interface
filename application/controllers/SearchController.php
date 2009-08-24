@@ -35,9 +35,16 @@ class SearchController extends Zend_Controller_Action
     
     public function scientificAction()
     {
+        $fetch = $this->_getParam('fetch', false);
+        if($fetch) {
+            $this->view->layout()->disableLayout();
+            $this->_sendRankData($fetch);
+            return;
+        }
         $this->view->title = $this->view->translate('Search_scientific_names');
         $this->view->headTitle($this->view->title, 'APPEND');
-        // TODO: implement search query and make a new form
+        // TODO: implement search query
+        //$form = new ACI_Form_Dojo_SearchScientific();               
         $this->view->form = '';
         $this->renderScript('search/form.phtml');
     }
@@ -50,7 +57,7 @@ class SearchController extends Zend_Controller_Action
         $this->view->form = '';
         $this->renderScript('search/form.phtml');
     }
-
+    
     public function allAction()
     {
         $this->view->title = $this->view->translate('Search_all_names');
@@ -140,6 +147,39 @@ class SearchController extends Zend_Controller_Action
                 break;
         }
         return $query;
+    }
+    
+    protected function _sendRankData($rank)
+    {
+        $name = $this->_getParam('name', '*');
+        $this->_logger->debug($name);
+        // Restrict auto-complete function to 2 char length input strings
+        if(strlen($name) < 3) {
+            $res = array();
+        }
+        else {
+            $res = array_merge(
+                       array(), 
+                       $this->_getRankEntries(
+                           $rank, 
+                           str_replace('*', '%', $name)
+                       )
+                   );
+        }
+        $this->_logger->debug($res);
+        $this->view->data = new Zend_Dojo_Data('name', $res, $rank);
+        $this->renderScript('search/data.phtml');
+    }
+    
+    protected function _getRankEntries($rank, $name)
+    {
+        $select = new Zend_Db_Select($this->_db);
+        
+        $select->distinct()
+               ->from(array('hard_coded_taxon_lists'), array('name'))
+               ->where('rank = ? AND name LIKE "'. $name .'%"', $rank)
+               ->order(array('name'));
+        return $select->query()->fetchAll();
     }
     
     public function __call($name, $arguments)
