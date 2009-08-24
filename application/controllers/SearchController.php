@@ -130,9 +130,9 @@ class SearchController extends Zend_Controller_Action
     		{
     			$resultTable[$i]['link'] = $this->view->translate('Show_details');
     			if(strtolower($value['status']) == "common name")
-        			$resultTable[$i]['url'] = "/species_details/name/".$value['name'];
+        			$resultTable[$i]['url'] = "/details/species/name/".$value['name'];
          	    else
-                    $resultTable[$i]['url'] = "/species_details/id/".$value['id'];
+                    $resultTable[$i]['url'] = "/details/species/id/".$value['id'];
          	}
     		else
     		{
@@ -142,7 +142,11 @@ class SearchController extends Zend_Controller_Action
     		$resultTable[$i]['name'] = $value['name']/* TODO: . language common name */;
             $resultTable[$i]['rank'] = $value['taxon'];
             $resultTable[$i]['status'] = $value['status'];
-            $resultTable[$i]['db'] = $value['db_name'];
+            $resultTable[$i]['dbLogo'] = "/images/databases/" . str_replace(
+                ' ', '_', $value['db_name'] . '.gif');
+            $resultTable[$i]['dbLabel'] = $value['db_name'];
+            $resultTable[$i]['dbUrl'] = "/details/database/name/" . str_replace(
+                ' ', '_', $value['db_name']);
             $i++;
     	}
         return $resultTable;

@@ -50,12 +50,17 @@ $urlParams = array(
             </a>
         </td>
         <td class="fieldheaderblack">
-            <a class="fieldheaderblack" href="<?php echo $this->baseUrl() . $items['url']; ?>">
+            <a href="<?php echo $this->baseUrl() . $items['url']; ?>">
                 <?php echo $items['rank']; ?>
             </a>
         </td>
         <td><?php echo $items['status']; ?></td>
-        <td><?php echo $items['db']; ?></td>
+        <td><a href="<?php echo $this->baseUrl() . $items['dbUrl']; ?>">
+        <img
+          src="<?php echo $this->baseUrl() . $items['dbLogo']; ?>"
+          alt="<?php echo $items['dbLabel']; ?>"
+          title="<?php echo $items['dbLabel']; ?>" /></a>
+        </td>
         <td>
             <a href="<?php echo $this->baseUrl() . $items['url']; ?>">
                 <?php echo $items['link']; ?>
