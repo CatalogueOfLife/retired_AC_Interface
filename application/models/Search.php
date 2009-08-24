@@ -13,10 +13,13 @@
 class ACI_Model_Search
 {
     protected $_adapter;
+    protected $_logger;
+    const API_ROWSET_LIMIT = 1500;
     
     public function __construct(Zend_Db_Adapter_Abstract $adapter)
     {
         $this->_adapter = $adapter;
+        $this->_logger = Zend_Registry::get('logger');
     }
     
     public function commonNames($searchKey, $matchWholeWords)
@@ -208,5 +211,48 @@ class ACI_Model_Search
         );
         
         return $select;
+    }
+    
+    /**
+     * Returns the all the existing record names of a specific rank only
+     * if the total is less than the constant API_ROWSET_LIMIT
+     *
+     * @return array
+     */
+    public function getRankEntries($rank, $name)
+    {
+        $select = new Zend_Db_Select($this->_adapter);
+        $total = $this->_getRankCount($rank, $name);
+        
+        $this->_logger->debug("$total results found for $rank \"$name\"");
+
+        if($total > self::API_ROWSET_LIMIT) {
+            return array();
+        }
+        
+        $select->distinct()
+               ->from(array('hard_coded_taxon_lists'), array('name'))
+               ->where('rank = ? AND name LIKE "'. $name .'%"', $rank)
+               ->order(array('name'));
+        return $select->query()->fetchAll();
+    }
+    
+   /**
+     * Returns the number of different existing record names of a specific rank
+     *
+     * @return int
+     */
+    protected function _getRankCount($rank, $name)
+    {
+        $select = new Zend_Db_Select($this->_adapter);
+        
+        $select
+            ->from(
+                array('hard_coded_taxon_lists'),
+                array('total' => new Zend_Db_Expr('COUNT(DISTINCT name)'))
+            )
+            ->where('rank = ? AND name LIKE "'. $name .'%"', $rank);
+            
+        return $select->query()->fetchColumn();
     }
 }

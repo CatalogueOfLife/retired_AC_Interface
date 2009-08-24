@@ -44,8 +44,9 @@ class SearchController extends Zend_Controller_Action
         $this->view->title = $this->view->translate('Search_scientific_names');
         $this->view->headTitle($this->view->title, 'APPEND');
         // TODO: implement search query
-        //$form = new ACI_Form_Dojo_SearchScientific();               
-        $this->view->form = '';
+        //$form = new ACI_Form_SearchScientific();
+        $form = new ACI_Form_Dojo_SearchScientific();
+        $this->view->form = $form;
         $this->renderScript('search/form.phtml');
     }
     
@@ -69,7 +70,8 @@ class SearchController extends Zend_Controller_Action
     
     protected function _renderFormPage()
     {
-        $this->view->form = new ACI_Form_Search();
+        //$this->view->form = new ACI_Form_Search();
+        $this->view->form = new ACI_Form_Dojo_Search();
         $this->renderScript('search/form.phtml');
     }
     
@@ -85,7 +87,8 @@ class SearchController extends Zend_Controller_Action
         );
         
         // Build items per page form
-        $form = new ACI_Form_ItemsPerPage();
+        //$form = new ACI_Form_ItemsPerPage();
+        $form = new ACI_Form_Dojo_ItemsPerPage();
 
         $form->getElement('key')->setValue($this->_getParam('key'));
         $form->getElement('match')->setValue($this->_getParam('match'));
@@ -149,37 +152,28 @@ class SearchController extends Zend_Controller_Action
         return $query;
     }
     
+    /**
+     * Returns an array with all taxa names by rank on a dojo-suitable format
+     * Used to populate the scientific search combo boxes
+     *
+     * @return void
+     */
     protected function _sendRankData($rank)
     {
         $name = $this->_getParam('name', '*');
         $this->_logger->debug($name);
-        // Restrict auto-complete function to 2 char length input strings
-        if(strlen($name) < 3) {
-            $res = array();
-        }
-        else {
-            $res = array_merge(
-                       array(), 
-                       $this->_getRankEntries(
-                           $rank, 
-                           str_replace('*', '%', $name)
-                       )
-                   );
-        }
+        
+        $search = new ACI_Model_Search($this->_db);
+        $res = array_merge(
+            array(),
+            $search->getRankEntries(
+                $rank,
+                str_replace('*', '', $name)
+            )
+        );
         $this->_logger->debug($res);
         $this->view->data = new Zend_Dojo_Data('name', $res, $rank);
         $this->renderScript('search/data.phtml');
-    }
-    
-    protected function _getRankEntries($rank, $name)
-    {
-        $select = new Zend_Db_Select($this->_db);
-        
-        $select->distinct()
-               ->from(array('hard_coded_taxon_lists'), array('name'))
-               ->where('rank = ? AND name LIKE "'. $name .'%"', $rank)
-               ->order(array('name'));
-        return $select->query()->fetchAll();
     }
     
     public function __call($name, $arguments)
