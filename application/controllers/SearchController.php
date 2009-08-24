@@ -138,7 +138,7 @@ class SearchController extends Zend_Controller_Action
                 $resultTable[$i]['link'] = $this->view->translate('Show_tree');
     			$resultTable[$i]['url'] = "/browse/tree/id/24";
     		}
-    		$resultTable[$i]['name'] = $value['name']/* TODO: . language common name */;
+    		$resultTable[$i]['name'] = $this->_getSearchForSpan($value['name'])/* TODO: . language common name */;
             $resultTable[$i]['rank'] = $value['taxon'];
             $resultTable[$i]['status'] = $value['status'];
             $resultTable[$i]['dbLogo'] = "/images/databases/" . str_replace(
@@ -149,6 +149,13 @@ class SearchController extends Zend_Controller_Action
             $i++;
     	}
         return $resultTable;
+    }
+    
+    protected function _getSearchForSpan($source)
+    {
+    	return str_ireplace($this->_getParam('key'),
+    	"<span class=\"fieldheader\">" . $this->_getParam('key') . "</span>",
+    	$source);
     }
     
     /**
