@@ -27,6 +27,7 @@ class DetailsController extends Zend_Controller_Action
     {
         $this->view->title = $this->view->translate('Database_details');
         $this->view->headTitle($this->view->title, 'APPEND');
+        
         $dbTable = new ACI_Model_Table_Databases();
         $rowSet = $dbTable->find($this->_getParam('id'));
         
@@ -45,8 +46,26 @@ class DetailsController extends Zend_Controller_Action
     
     public function speciesAction()
     {
+        //TODO: The title may be infraspecies
         $this->view->title = $this->view->translate('Species_details');
         $this->view->headTitle($this->view->title, 'APPEND');
+        
+        $taxaId     = $this->_getParam('id', false);
+        $commonName = $this->_getParam('name', false);
+        
+        $speciesDetails = false;
+        
+        if($taxaId || $commonName) {
+            $detailsModel = new ACI_Model_Details($this->_db);
+            if($taxaId) {
+                $speciesDetails = $detailsModel->taxa($taxaId);
+            }
+            elseif($commonName) {
+                $speciesDetails = $detailsModel->commonName($commonName);
+            }
+        }
+        $this->_logger->debug($speciesDetails);
+        $this->view->species = $speciesDetails;
     }
     
     public function __call($name, $arguments)
