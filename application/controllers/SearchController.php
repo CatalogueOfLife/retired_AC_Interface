@@ -159,7 +159,6 @@ class SearchController extends Zend_Controller_Action
      */
     protected function _getPaginator(Zend_Db_Select $query, $page, $items)
     {
-    	echo $query;
         $paginator = new Zend_Paginator(
             new Zend_Paginator_Adapter_DbSelect($query));
             
