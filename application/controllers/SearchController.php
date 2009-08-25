@@ -127,10 +127,10 @@ class SearchController extends Zend_Controller_Action
     	$i = 0;
     	foreach($this->view->paginator as $value)
     	{
-    		if(strtolower($value['rank']) == ACI_Model_Taxa::RANK_SPECIES)
+    		if($value['rank'] == ACI_Model_Taxa::RANK_SPECIES)
     		{
     			$resultTable[$i]['link'] = $this->view->translate('Show_details');
-    			if(strtolower($value['status']) == ACI_Model_Taxa::STATUS_COMMON_NAME)
+    			if($value['status'] == ACI_Model_Taxa::STATUS_COMMON_NAME)
         			$resultTable[$i]['url'] = '/details/species/name/' . $value['name'];
          	    else
                     $resultTable[$i]['url'] = "/details/species/id/" . $value['id'];
@@ -153,8 +153,12 @@ class SearchController extends Zend_Controller_Action
     		  $value['status'] == ACI_Model_Taxa::STATUS_COMMON_NAME ?
     		      $value['language'] : $value['author']
     		);
-            $resultTable[$i]['rank'] = $value['rank']; //TODO: map rank number to name and translate
-            $resultTable[$i]['status'] = $value['status']; //TODO: map status number to name and translate
+            $resultTable[$i]['rank'] = $this->view->translate(
+              ACI_Model_Taxa::getRank($value['rank'])
+            );
+            $resultTable[$i]['status'] = $this->view->translate(
+              ACI_Model_Taxa::getStatus($value['status'])
+            );
             $resultTable[$i]['dbLogo'] = '/images/databases/' . $value['db_thumb'];
             $resultTable[$i]['dbLabel'] = $value['db_name'];
             $resultTable[$i]['dbUrl'] = '/details/database/id/' . $value['db_id'];
@@ -168,9 +172,9 @@ class SearchController extends Zend_Controller_Action
         //TODO: use status constants
     	if($suffix != "")
     	{
-	        if($status == "common name")
+	        if($status == 6)
 	            return $source . " (" . $suffix . ")";
-	        elseif($status == "accepted name" || $status == "synonym")
+	        elseif($status == 1 || $status == 5)
 	            return $source . " " . $suffix;
 	        else
                 return $source;
@@ -182,17 +186,23 @@ class SearchController extends Zend_Controller_Action
     protected function _getSpanTaxonomicName($source, $status, $rank)
     {
         //TODO: use status constants
-        if($status == "accepted name" || $status == "synonym" || strtolower($rank) != "species")
-    	    return "<span class=\"taxonomicName\"" . $source . "</span>";
+        if($status == 1 || $status == 5 || $rank != 8 || $rank != 9)
+    	    return "<span class=\"taxonomicName\">" . $source . "</span>";
         else
             return $source;
     }
     
     protected function _getSpanSearchWord($source)
     {
-    	return str_ireplace($this->_getParam('key'),
+    	/*return str_ireplace($this->_getParam('key'),
     	"<span class=\"fieldheader\">" . $this->_getParam('key') . "</span>",
-    	$source);
+    	$source);*/
+    	
+    	$find = $this->_getParam('key');
+		$replace = "<span class=\"fieldheader\">$find</span>";
+		$str = $source;
+		$pattern = "#($find)#";
+		return preg_replace($pattern,$replace, $str);
     }
     
     /**

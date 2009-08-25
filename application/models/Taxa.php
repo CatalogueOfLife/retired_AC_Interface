@@ -31,6 +31,55 @@ class ACI_Model_Taxa
     public $synonyms = array();
     public $accepted_name;
      
+    public static function getStatus($id)
+    {
+    	if($id != "")
+    	{
+	    	$statuses = array(
+			    1 => 'ACCEPTED_NAME',
+			    2 => 'AMBIGUOUS_SYNONYM',
+			    3 => 'MISAPPLIED_NAME',
+			    4 => 'PROVISIONALLY_ACCEPTED_NAME',
+			    5 => 'SYNONYM',
+			    6 => 'COMMON_NAME'
+	        );
+	        if(isset($statuses[$id]))
+	        {
+	             return $statuses[$id];
+	        }
+    	}
+    	else
+    	{
+    		return '';
+    	}
+    }
+    
+    public static function getRank($id)
+    {
+        if($id != "")
+        {
+	    	$ranks = array(
+	            1 => 'RANK_KINGDOM',
+	            2 => 'RANK_PHYLUM',
+	            3 => 'RANK_CLASS',
+	            4 => 'RANK_ORDER',
+	            5 => 'RANK_SUPERFAMILY',
+	            6 => 'RANK_FAMILY',
+	            7 => 'RANK_GENUS',
+	            8 => 'RANK_SPECIES',
+	            9 => 'RANK_INFRASPECIES'
+	        );
+	        if(isset($ranks[$id]))
+	        {
+	             return $ranks[$id];
+	        }
+        }
+        else
+        {
+            return '';
+        }
+    }
+    
     public function isAcceptedName()
     {
         return in_array(
