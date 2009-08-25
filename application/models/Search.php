@@ -79,7 +79,27 @@ class ACI_Model_Search
         $select = new Zend_Db_Select($this->_db);
         
         $fields = array('id' => 'sn.record_id',
-                        'tx.taxon',
+                        'rank' => new Zend_Db_Expr(
+                            'CASE tx.taxon ' .
+                            'WHEN "Kingdom" THEN ' .
+                                ACI_Model_Taxa::RANK_KINGDOM . ' ' .
+                            'WHEN "Phylum" THEN ' .
+                                ACI_Model_Taxa::RANK_PHYLUM . ' ' .
+                            'WHEN "Class" THEN ' .
+                                ACI_Model_Taxa::RANK_CLASS . ' ' .
+                            'WHEN "Order" THEN ' .
+                                ACI_Model_Taxa::RANK_ORDER . ' ' .
+                            'WHEN "Supefamily" THEN ' .
+                                ACI_Model_Taxa::RANK_SUPERFAMILY . ' ' .
+                            'WHEN "Family" THEN ' .
+                                ACI_Model_Taxa::RANK_FAMILY . ' ' .
+                            'WHEN "Genus" THEN ' .
+                                ACI_Model_Taxa::RANK_GENUS . ' ' .
+                            'WHEN "Species" THEN ' .
+                                ACI_Model_Taxa::RANK_SPECIES . ' ' .
+                            'WHEN "Infraspecies" THEN ' .
+                                ACI_Model_Taxa::RANK_INFRASPECIES . ' ' .
+                            'END'),
                         'tx.name',
                         'tx.name_code',
                         'tx.is_accepted_name',
@@ -91,6 +111,7 @@ class ACI_Model_Search
                             "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
                         'db_name' => 'db.database_name',
                         'db_id' => 'db.record_id',
+                        'db_thumb' => 'CONCAT(REPLACE(db.database_name, "_", " "), ".gif")',
                         'status' => 'tx.sp2000_status_id');
         
         if($matchWholeWords) {
@@ -157,8 +178,10 @@ class ACI_Model_Search
             ),
             array(
                 'id' => 'sn.record_id',
-                'taxon' => new Zend_Db_Expr(
-                    'IF(cn.is_infraspecies, "Infraspecies", "Species")'
+                'rank' => new Zend_Db_Expr(
+                    'IF(cn.is_infraspecies, "' .
+                    ACI_Model_Taxa::RANK_INFRASPECIES . '", "' .
+                    ACI_Model_Taxa::RANK_SPECIES . '")'
                 ),
                 'name' => 'cn.common_name',
                 'cn.name_code',
@@ -171,6 +194,7 @@ class ACI_Model_Search
                     "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
                 'db_name' => 'db.database_name',
                 'db_id' => 'db.record_id',
+                'db_thumb' => 'CONCAT(REPLACE(db.database_name, "_", " "), ".gif")',
                 'status' => new Zend_Db_Expr(ACI_Model_Taxa::STATUS_COMMON_NAME),
             )
         )

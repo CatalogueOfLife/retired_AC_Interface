@@ -13,9 +13,10 @@ class ACI_Model_Taxa
     const RANK_CLASS = 3;
     const RANK_ORDER = 4;
     const RANK_SUPERFAMILY = 5;
-    const RANK_GENUS = 6;
-    const RANK_SPECIES = 7;
-    const RANK_INFRASPECIES = 8;
+    const RANK_FAMILY = 6;
+    const RANK_GENUS = 7;
+    const RANK_SPECIES = 8;
+    const RANK_INFRASPECIES = 9;
     
     public $id;
     public $family_id;

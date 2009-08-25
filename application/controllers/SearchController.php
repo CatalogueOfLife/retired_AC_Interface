@@ -127,11 +127,11 @@ class SearchController extends Zend_Controller_Action
     	$i = 0;
     	foreach($this->view->paginator as $value)
     	{
-    		if(strtolower($value['taxon']) == "species")
+    		if(strtolower($value['rank']) == ACI_Model_Taxa::RANK_SPECIES)
     		{
     			$resultTable[$i]['link'] = $this->view->translate('Show_details');
-    			if(strtolower($value['status']) == "common name")
-        			$resultTable[$i]['url'] = "/details/species/name/" . $value['name'];
+    			if(strtolower($value['status']) == ACI_Model_Taxa::STATUS_COMMON_NAME)
+        			$resultTable[$i]['url'] = '/details/species/name/' . $value['name'];
          	    else
                     $resultTable[$i]['url'] = "/details/species/id/" . $value['id'];
          	}
@@ -139,7 +139,7 @@ class SearchController extends Zend_Controller_Action
     		{
     			
                 $resultTable[$i]['link'] = $this->view->translate('Show_tree');
-    			$resultTable[$i]['url'] = "/browse/tree/id/24";
+    			$resultTable[$i]['url'] = '/browse/tree/id/' . $value['id'];
     		}
     		$resultTable[$i]['name'] = $this->_getSuffix(
     		  $this->_getSpanTaxonomicName(
@@ -147,19 +147,17 @@ class SearchController extends Zend_Controller_Action
     		      $value['name']
     		    ),
                 $value['status'],
-                $value['taxon']
+                $value['rank']
               ),
               $value['status'],
     		  $value['status'] == ACI_Model_Taxa::STATUS_COMMON_NAME ?
     		      $value['language'] : $value['author']
     		);
-            $resultTable[$i]['rank'] = $value['taxon'];
-            $resultTable[$i]['status'] = $value['status'];
-            $resultTable[$i]['dbLogo'] = "/images/databases/" . str_replace(
-                ' ', '_', $value['db_name'] . '.gif');
+            $resultTable[$i]['rank'] = $value['rank']; //TODO: map rank number to name and translate
+            $resultTable[$i]['status'] = $value['status']; //TODO: map status number to name and translate
+            $resultTable[$i]['dbLogo'] = '/images/databases/' . $value['db_thumb'];
             $resultTable[$i]['dbLabel'] = $value['db_name'];
-            $resultTable[$i]['dbUrl'] = "/details/database/id/" . str_replace(
-                ' ', '_', $value['db_id']);
+            $resultTable[$i]['dbUrl'] = '/details/database/id/' . $value['db_id'];
             $i++;
     	}
         return $resultTable;
@@ -167,6 +165,7 @@ class SearchController extends Zend_Controller_Action
     
     protected function _getSuffix($source,$status,$suffix)
     {
+        //TODO: use status constants
     	if($suffix != "")
     	{
 	        if($status == "common name")
@@ -180,8 +179,9 @@ class SearchController extends Zend_Controller_Action
             return $source;
     }
     
-    protected function _getSpanTaxonomicName($source,$status,$rank)
+    protected function _getSpanTaxonomicName($source, $status, $rank)
     {
+        //TODO: use status constants
         if($status == "accepted name" || $status == "synonym" || strtolower($rank) != "species")
     	    return "<span class=\"taxonomicName\"" . $source . "</span>";
         else
