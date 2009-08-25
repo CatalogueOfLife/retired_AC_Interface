@@ -111,7 +111,7 @@ class ACI_Model_Search
                             "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
                         'db_name' => 'db.database_name',
                         'db_id' => 'db.record_id',
-                        'db_thumb' => 'CONCAT(REPLACE(db.database_name, "_", " "), ".gif")',
+                        'db_thumb' => 'CONCAT(REPLACE(db.database_name, " ", "_"), ".gif")',
                         'status' => 'tx.sp2000_status_id');
         
         if($matchWholeWords) {
@@ -194,7 +194,7 @@ class ACI_Model_Search
                     "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
                 'db_name' => 'db.database_name',
                 'db_id' => 'db.record_id',
-                'db_thumb' => 'CONCAT(REPLACE(db.database_name, "_", " "), ".gif")',
+                'db_thumb' => 'CONCAT(REPLACE(db.database_name, " ", "_"), ".gif")',
                 'status' => new Zend_Db_Expr(ACI_Model_Taxa::STATUS_COMMON_NAME),
             )
         )
@@ -231,6 +231,7 @@ class ACI_Model_Search
      */
     protected function _selectCommonNames($searchKey, $matchWholeWords)
     {
+        //return $this->_selectCommonNamesForUnion();
         $select = new Zend_Db_Select($this->_db);
         
         $select->distinct()->from(
