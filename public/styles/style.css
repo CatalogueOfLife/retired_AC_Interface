@@ -94,8 +94,11 @@ table.results tr td {
     margin-top: 1px;
     margin-bottom: 3px;
     margin-left: 0px;
-    font-style:italic;
     text-decoration: underline;
+}
+
+.taxonomicName {
+    font-style:italic;
 }
 
 .fieldheader A:link {

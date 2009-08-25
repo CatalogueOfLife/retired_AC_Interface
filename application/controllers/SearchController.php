@@ -135,10 +135,21 @@ class SearchController extends Zend_Controller_Action
          	}
     		else
     		{
+    			
                 $resultTable[$i]['link'] = $this->view->translate('Show_tree');
     			$resultTable[$i]['url'] = "/browse/tree/id/24";
     		}
-    		$resultTable[$i]['name'] = $this->_getSearchForSpan($value['name'])/* TODO: . language common name */;
+    		$resultTable[$i]['name'] = $this->_getSuffix(
+    		  $this->_getSpanTaxonomicName(
+    		    $this->_getSpanSearchWord(
+    		      $value['name']
+    		    ),
+                $value['status'],
+                $value['taxon']
+              ),
+              $value['status'],
+    		  $value['name_suffix']
+    		);
             $resultTable[$i]['rank'] = $value['taxon'];
             $resultTable[$i]['status'] = $value['status'];
             $resultTable[$i]['dbLogo'] = "/images/databases/" . str_replace(
@@ -151,7 +162,30 @@ class SearchController extends Zend_Controller_Action
         return $resultTable;
     }
     
-    protected function _getSearchForSpan($source)
+    protected function _getSuffix($source,$status,$suffix)
+    {
+    	if($suffix != "")
+    	{
+	        if($status == "common name")
+	            return $source . " (" . $suffix . ")";
+	        elseif($status == "accepted name" || $status == "synonym")
+	            return $source . " " . $suffix;
+	        else
+                return $source;
+    	}
+        else
+            return $source;
+    }
+    
+    protected function _getSpanTaxonomicName($source,$status,$rank)
+    {
+        if($status == "accepted name" || $status == "synonym" || strtolower($rank) != "species")
+    	    return "<span class=\"taxonomicName\"" . $source . "</span>";
+        else
+            return $source;
+    }
+    
+    protected function _getSpanSearchWord($source)
     {
     	return str_ireplace($this->_getParam('key'),
     	"<span class=\"fieldheader\">" . $this->_getParam('key') . "</span>",
@@ -169,6 +203,7 @@ class SearchController extends Zend_Controller_Action
      */
     protected function _getPaginator(Zend_Db_Select $query, $page, $items)
     {
+    	echo $query;
         $paginator = new Zend_Paginator(
             new Zend_Paginator_Adapter_DbSelect($query));
             

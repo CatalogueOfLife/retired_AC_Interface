@@ -81,6 +81,7 @@ class ACI_Model_Search
                         'tx.name_code',
                         'tx.name',
                         'tx.is_accepted_name',
+                        'name_suffix' => 'sn.author',
                         'db_name' => 'db.database_name',
                         'db_id' => 'db.record_id',
                         'status' => 'st.sp2000_status');
@@ -99,6 +100,10 @@ class ACI_Model_Search
             )->joinLeft(
                 array('st' => 'sp2000_statuses'),
                 'tx.sp2000_status_id = st.record_id',
+                array()
+            )->joinLeft(
+                array('sn' => 'scientific_names'),
+                'tx.name_code  = sn.name_code ',
                 array()
             )->joinLeft(
                 array('db' => 'databases'),
@@ -155,6 +160,7 @@ class ACI_Model_Search
                 'cn.name_code',
                 'name' => 'cn.common_name',
                 'is_accepted_name' => new Zend_Db_Expr(1),
+                'name_suffix' => 'cn.language',
                 'db_name' => 'db.database_name',
                 'db_id' => 'db.record_id',
                 'status' => new Zend_Db_Expr('"common name"'),
