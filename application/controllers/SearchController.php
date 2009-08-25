@@ -192,15 +192,11 @@ class SearchController extends Zend_Controller_Action
     
     protected function _getSpanSearchWord($source)
     {
-    	/*return str_ireplace($this->_getParam('key'),
-    	"<span class=\"fieldheader\">" . $this->_getParam('key') . "</span>",
-    	$source);*/
-    	
-    	$find = $this->_getParam('key');
-		$replace = "<span class=\"fieldheader\">$find</span>";
-		$str = $source;
-		$pattern = "#($find)#";
-		return preg_replace($pattern,$replace, $str);
+		return preg_replace(
+		  "/(".$this->_getParam('key').")/i",
+		  "<span class=\"fieldheader\">$1</span>",
+		  $source
+		);
     }
     
     /**
