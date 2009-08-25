@@ -45,12 +45,14 @@ class ACI_Model_Search
             )
         )->order(array_merge(array($this->_getRightColumnName($sort)),array('name', 'status')));
         
+        $this->_logger->debug($selectAll->__toString());
+        
         return $selectAll;
     }
     
     protected function _getRightColumnName($columName)
     {
-    	$find = array(
+        $find = array(
            'name',
            'rank',
            'status',
@@ -76,15 +78,20 @@ class ACI_Model_Search
     {
         $select = new Zend_Db_Select($this->_db);
         
-        $fields = array('id' => 'tx.record_id',
+        $fields = array('id' => 'sn.record_id',
                         'tx.taxon',
-                        'tx.name_code',
                         'tx.name',
+                        'tx.name_code',
                         'tx.is_accepted_name',
-                        'name_suffix' => 'sn.author',
+                        'sn.author',
+                        'language' => new Zend_Db_Expr("''"),
+                        'sn.species_name' =>
+                            "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
+                            ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
+                            "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
                         'db_name' => 'db.database_name',
                         'db_id' => 'db.record_id',
-                        'status' => 'st.sp2000_status');
+                        'status' => 'tx.sp2000_status_id');
         
         if($matchWholeWords) {
         
@@ -93,23 +100,13 @@ class ACI_Model_Search
                     'ss' => 'simple_search'
                 ),
                 $fields
-            )->join(
+            )
+            ->join(
                 array('tx' => 'taxa'),
                 'ss.taxa_id = tx.record_id',
                 array()
-            )->joinLeft(
-                array('st' => 'sp2000_statuses'),
-                'tx.sp2000_status_id = st.record_id',
-                array()
-            )->joinLeft(
-                array('sn' => 'scientific_names'),
-                'tx.name_code  = sn.name_code ',
-                array()
-            )->joinLeft(
-                array('db' => 'databases'),
-                'tx.database_id = db.record_id',
-                array()
-            )->where('ss.words = ?', $searchKey);
+            )
+            ->where('ss.words = ?', $searchKey);
         }
         else {
             $select->from(
@@ -117,19 +114,25 @@ class ACI_Model_Search
                     'tx' => 'taxa'
                 ),
                 $fields
-            )->joinLeft(
-                array('st' => 'sp2000_statuses'),
-                'tx.sp2000_status_id = st.record_id',
-                array()
-            )->joinLeft(
-                array('db' => 'databases'),
-                'tx.database_id = db.record_id',
-                array()
-            )->where('tx.name LIKE "%' . $searchKey . '%"')
-             ->where('tx.is_species_or_nonsynonymic_higher_taxon = 1');
+            )
+            ->where(
+                'tx.name LIKE "%' . $searchKey . '%" AND ' .
+                'tx.is_species_or_nonsynonymic_higher_taxon = 1'
+            );
         }
            
-        $select->order(array('name', 'status'));
+        $select
+        ->joinLeft(
+            array('sn' => 'scientific_names'),
+            'tx.name_code = sn.name_code',
+            array()
+        )
+        ->joinLeft(
+            array('db' => 'databases'),
+            'tx.database_id = db.record_id',
+            array()
+        )
+        ->order(array('name', 'status'));
          
         return $select;
     }
@@ -153,19 +156,30 @@ class ACI_Model_Search
                 'cn' => 'common_names'
             ),
             array(
-                'id' => new Zend_Db_Expr(0),
+                'id' => 'sn.record_id',
                 'taxon' => new Zend_Db_Expr(
                     'IF(cn.is_infraspecies, "Infraspecies", "Species")'
                 ),
-                'cn.name_code',
                 'name' => 'cn.common_name',
+                'cn.name_code',
                 'is_accepted_name' => new Zend_Db_Expr(1),
-                'name_suffix' => 'cn.language',
+                'sn.author',
+                'cn.language',
+                'sn.species_name' =>
+                    "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
+                    ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
+                    "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
                 'db_name' => 'db.database_name',
                 'db_id' => 'db.record_id',
-                'status' => new Zend_Db_Expr('"common name"'),
+                'status' => new Zend_Db_Expr(ACI_Model_Taxa::STATUS_COMMON_NAME),
             )
-        )->joinLeft(
+        )
+        ->joinLeft(
+            array('sn' => 'scientific_names'),
+            'cn.name_code = sn.name_code',
+            array()
+        )
+        ->joinLeft(
             array('db' => 'databases'),
             'cn.database_id = db.record_id',
             array()
@@ -200,6 +214,7 @@ class ACI_Model_Search
                 'cn' => 'common_names'
             ),
             array(
+                'id' => 'sn.record_id',
                 'name' => 'cn.common_name',
                 'cn.name_code',
                 'sn.genus',
@@ -209,7 +224,7 @@ class ACI_Model_Search
                 'sn.author',
                 'db_name' => 'db.database_name'
             )
-        )->join(
+        )->joinLeft(
             array('sn' => 'scientific_names'),
             'cn.name_code = sn.name_code AND sn.is_accepted_name = 1',
             array()

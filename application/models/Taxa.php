@@ -1,12 +1,21 @@
 <?php
 class ACI_Model_Taxa
 {
-    const ACCEPTED_NAME = 1;
-    const AMBIGUOUS_SYNONYM = 2;
-    const MISAPPLIED_NAME = 3;
-    const PROVISIONALLY_ACCEPTED_NAME = 4;
-    const SYNONYM = 5;
-    const COMMON_NAME = 6;
+    const STATUS_ACCEPTED_NAME = 1;
+    const STATUS_AMBIGUOUS_SYNONYM = 2;
+    const STATUS_MISAPPLIED_NAME = 3;
+    const STATUS_PROVISIONALLY_ACCEPTED_NAME = 4;
+    const STATUS_SYNONYM = 5;
+    const STATUS_COMMON_NAME = 6;
+    
+    const RANK_KINGDOM = 1;
+    const RANK_PHYLUM = 2;
+    const RANK_CLASS = 3;
+    const RANK_ORDER = 4;
+    const RANK_SUPERFAMILY = 5;
+    const RANK_GENUS = 6;
+    const RANK_SPECIES = 7;
+    const RANK_INFRASPECIES = 8;
     
     public $id;
     public $family_id;
@@ -26,15 +35,15 @@ class ACI_Model_Taxa
         return in_array(
             $this->status_id,
             array(
-                self::ACCEPTED_NAME,
-                self::PROVISIONALLY_ACCEPTED_NAME
+                self::STATUS_ACCEPTED_NAME,
+                self::STATUS_PROVISIONALLY_ACCEPTED_NAME
             )
         );
     }
     
     public function isSynonym()
     {
-        return $this->status_id == self::SYNONYM;
+        return $this->status_id == self::STATUS_SYNONYM;
     }
     
     public function hasSynonyms()

@@ -42,14 +42,14 @@ class ACI_Model_Details
                 'sn.specialist_id',
                 'sn.web_site',
                 'sn.scrutiny_date',
-                'status_id' => 'sn.sp2000_status_id',                
+                'status_id' => 'sn.sp2000_status_id',
                 'db_id' => 'sn.database_id',
                 'db_name' => 'db.database_name',
                 'db_full_name' => 'db.database_full_name',
                 'db_version' => 'db.version',
                 'taxa_id' => 'tx.record_id'
             )
-        )        
+        )
         ->joinLeft(
             array('db' => 'databases'),
             'sn.database_id = db.record_id',
@@ -79,7 +79,7 @@ class ACI_Model_Details
             $accepted_name_code = $taxa->accepted_name->name_code;
         }
         else {
-            $accepted_name_code = $taxa->name_code; 
+            $accepted_name_code = $taxa->name_code;
         }
         $taxa->synonyms = $this->synonyms($accepted_name_code);
         
@@ -135,15 +135,15 @@ class ACI_Model_Details
                 'sn.infraspecies',
                 'sn.author'
             )
-        )        
+        )
         ->where('sn.accepted_name_code = ? AND sn.sp2000_status_id IN (?, ?)')
         ->order(array('genus', 'species', 'infraspecies', 'author'));
         
         $select->bind(
             array(
-                $nameCode, 
-                ACI_Model_Taxa::ACCEPTED_NAME, 
-                ACI_Model_Taxa::PROVISIONALLY_ACCEPTED_NAME
+                $nameCode,
+                ACI_Model_Taxa::STATUS_ACCEPTED_NAME,
+                ACI_Model_Taxa::STATUS_PROVISIONALLY_ACCEPTED_NAME
             )
         );
         
@@ -179,8 +179,13 @@ class ACI_Model_Details
         )
         ->order(array('genus', 'species', 'infraspecies', 'author'));
         
-        $select->bind(array($nameCode, ACI_Model_Taxa::SYNONYM));
-        $synonyms = $select->query()->fetchAll();
+        $select->bind(array($nameCode, ACI_Model_Taxa::STATUS_SYNONYM));
+        $stmt = $select->query();
+        
+        while ($row = $stmt->fetchObject()) {
+            $synonyms[] = $row;
+        }
+        //$synonyms = $select->query()->fetchAll();
         
         return $synonyms;
     }

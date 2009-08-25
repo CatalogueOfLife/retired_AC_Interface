@@ -89,6 +89,8 @@ class SearchController extends Zend_Controller_Action
             $items
         );
         
+        $this->_logger->debug($this->view->paginator->getCurrentItems());
+        
         $this->view->tableResults = $this->_createTableFromResults();
         
         // Build items per page form
@@ -129,9 +131,9 @@ class SearchController extends Zend_Controller_Action
     		{
     			$resultTable[$i]['link'] = $this->view->translate('Show_details');
     			if(strtolower($value['status']) == "common name")
-        			$resultTable[$i]['url'] = "/details/species/name/".$value['name'];
+        			$resultTable[$i]['url'] = "/details/species/name/" . $value['name'];
          	    else
-                    $resultTable[$i]['url'] = "/details/species/id/".$value['id'];
+                    $resultTable[$i]['url'] = "/details/species/id/" . $value['id'];
          	}
     		else
     		{
@@ -206,7 +208,7 @@ class SearchController extends Zend_Controller_Action
     	echo $query;
         $paginator = new Zend_Paginator(
             new Zend_Paginator_Adapter_DbSelect($query));
-            
+                
         $paginator->setItemCountPerPage((int)$items);
         $paginator->setCurrentPageNumber((int)$page);
         return $paginator;
