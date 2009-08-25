@@ -150,7 +150,8 @@ class SearchController extends Zend_Controller_Action
                 $value['taxon']
               ),
               $value['status'],
-    		  $value['name_suffix']
+    		  $value['status'] == ACI_Model_Taxa::STATUS_COMMON_NAME ?
+    		      $value['language'] : $value['author']
     		);
             $resultTable[$i]['rank'] = $value['taxon'];
             $resultTable[$i]['status'] = $value['status'];
@@ -205,7 +206,6 @@ class SearchController extends Zend_Controller_Action
      */
     protected function _getPaginator(Zend_Db_Select $query, $page, $items)
     {
-    	echo $query;
         $paginator = new Zend_Paginator(
             new Zend_Paginator_Adapter_DbSelect($query));
                 
