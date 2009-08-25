@@ -49,20 +49,16 @@ class DetailsController extends Zend_Controller_Action
         $this->view->title = $this->view->translate('Species_details');
         $this->view->headTitle($this->view->title, 'APPEND');
         
-        $taxaId     = $this->_getParam('id', false);
-        $commonName = $this->_getParam('name', false);
+        $taxaId = $this->_getParam('id', false);
         
-        $taxaDetails = false;
-        
-        if($taxaId || $commonName) {
+        if($taxaId) {
             $detailsModel = new ACI_Model_Details($this->_db);
-            if($taxaId) {
-                $taxaDetails = $detailsModel->taxa($taxaId);
-            }
-            elseif($commonName) {
-                $taxaDetails = $detailsModel->commonName($commonName);
-            }
+            $taxaDetails = $detailsModel->taxa($taxaId);
         }
+        else {
+            $taxaDetails = false;
+        }
+        
         $this->_logger->debug($taxaDetails);
         $this->view->taxa = $taxaDetails;
     }
