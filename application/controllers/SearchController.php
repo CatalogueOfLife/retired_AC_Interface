@@ -125,19 +125,17 @@ class SearchController extends Zend_Controller_Action
     {
     	$resultTable = array();
     	$i = 0;
+    	
     	foreach($this->view->paginator as $value)
     	{
     		if($value['rank'] == ACI_Model_Taxa::RANK_SPECIES)
     		{
     			$resultTable[$i]['link'] = $this->view->translate('Show_details');
-    			if($value['status'] == ACI_Model_Taxa::STATUS_COMMON_NAME)
-        			$resultTable[$i]['url'] = '/details/species/name/' . $value['name'];
-         	    else
-                    $resultTable[$i]['url'] = "/details/species/id/" . $value['id'];
+    			$resultTable[$i]['url'] = '/details/species/id/' .
+    			    $value['id'] . '/taxa/' . $value['taxa_id'];
          	}
     		else
     		{
-    			
                 $resultTable[$i]['link'] = $this->view->translate('Show_tree');
     			$resultTable[$i]['url'] = '/browse/tree/id/' . $value['id'];
     		}

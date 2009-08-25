@@ -79,6 +79,7 @@ class ACI_Model_Search
         $select = new Zend_Db_Select($this->_db);
         
         $fields = array('id' => 'sn.record_id',
+                        'taxa_id' => 'tx.record_id',
                         'rank' => new Zend_Db_Expr(
                             'CASE tx.taxon ' .
                             'WHEN "Kingdom" THEN ' .
@@ -177,6 +178,7 @@ class ACI_Model_Search
             ),
             array(
                 'id' => 'sn.record_id',
+                'taxa_id' => 'cn.record_id',
                 'rank' => new Zend_Db_Expr(
                     'IF(cn.is_infraspecies, "' .
                     ACI_Model_Taxa::RANK_INFRASPECIES . '", "' .

@@ -49,18 +49,19 @@ class DetailsController extends Zend_Controller_Action
         $this->view->title = $this->view->translate('Species_details');
         $this->view->headTitle($this->view->title, 'APPEND');
         
-        $taxaId = $this->_getParam('id', false);
+        $id = $this->_getParam('id', false);
+        $taxaId = $this->_getParam('taxa', false);
         
         if($taxaId) {
             $detailsModel = new ACI_Model_Details($this->_db);
-            $taxaDetails = $detailsModel->taxa($taxaId);
+            $speciesDetails = $detailsModel->species($id, $taxaId);
         }
         else {
-            $taxaDetails = false;
+            $speciesDetails = false;
         }
         
-        $this->_logger->debug($taxaDetails);
-        $this->view->taxa = $taxaDetails;
+        $this->_logger->debug($speciesDetails);
+        $this->view->species = $speciesDetails;
     }
     
     public function __call($name, $arguments)

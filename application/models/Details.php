@@ -21,7 +21,7 @@ class ACI_Model_Details
         $this->_logger = Zend_Registry::get('logger');
     }
     
-    public function taxa($id)
+    public function species($id, $taxaId)
     {
         $select = new Zend_Db_Select($this->_db);
         
@@ -47,7 +47,10 @@ class ACI_Model_Details
                 'db_name' => 'db.database_name',
                 'db_full_name' => 'db.database_full_name',
                 'db_version' => 'db.version',
-                'taxa_id' => 'tx.record_id'
+                'taxa_id' => 'tx.record_id',
+                'taxa_status' => 'tx.sp2000_status_id',
+                'taxa_name' => 'tx.name',
+                'taxa_author' => 'tx.author'
             )
         )
         ->joinLeft(
@@ -62,28 +65,21 @@ class ACI_Model_Details
         )
         ->joinLeft(
             array('tx' => 'taxa'),
-            'tx.name_code = sn.name_code',
+            'tx.record_id = ' . (int)$taxaId,
             array()
         )
         ->where('sn.record_id = ?', (int)$id);
         
-        $taxa = $select->query()->fetchObject('ACI_Model_Taxa');
+        $species = $select->query()->fetchObject('ACI_Model_Taxa');
         
-        if(!$taxa instanceof ACI_Model_Taxa) {
+        if(!$species instanceof ACI_Model_Taxa) {
             return false;
         }
         
-        $taxa->hierarchy = $this->taxaHierarchy($taxa->taxa_id);
-        if(!$taxa->isAcceptedName()) {
-            $taxa->accepted_name = $this->accepted_name($taxa->name_code);
-            $accepted_name_code = $taxa->accepted_name->name_code;
-        }
-        else {
-            $accepted_name_code = $taxa->name_code;
-        }
-        $taxa->synonyms = $this->synonyms($accepted_name_code);
+        $species->hierarchy = $this->speciesHierarchy($species->taxa_id);
+        $species->synonyms = $this->synonyms($species->name_code);
         
-        return $taxa;
+        return $species;
     }
     
     public function commonName($name)
@@ -91,7 +87,7 @@ class ACI_Model_Details
         return false;
     }
     
-    public function taxaHierarchy($id)
+    public function speciesHierarchy($id)
     {
         $select = new Zend_Db_Select($this->_db);
         $select->from(
@@ -119,42 +115,6 @@ class ACI_Model_Details
         return array_reverse($hierarchy);
     }
     
-    public function acceptedName($nameCode)
-    {
-        $select = new Zend_Db_Select($this->_db);
-        
-        $select->distinct()
-        ->from(
-            array('sn' => 'scientific_names'),
-            array(
-                'sn.record_id',
-                'sn.name_code',
-                'sn.genus',
-                'sn.species',
-                'sn.infraspecies_marker',
-                'sn.infraspecies',
-                'sn.author'
-            )
-        )
-        ->where('sn.accepted_name_code = ? AND sn.sp2000_status_id IN (?, ?)')
-        ->order(array('genus', 'species', 'infraspecies', 'author'));
-        
-        $select->bind(
-            array(
-                $nameCode,
-                ACI_Model_Taxa::STATUS_ACCEPTED_NAME,
-                ACI_Model_Taxa::STATUS_PROVISIONALLY_ACCEPTED_NAME
-            )
-        );
-        
-        $res = $select->query()->fetchAll();
-        
-        if(!count($res)) {
-            return false;
-        }
-        return $res[0];
-    }
-    
     public function synonyms($nameCode)
     {
         $select = new Zend_Db_Select($this->_db);
@@ -180,13 +140,7 @@ class ACI_Model_Details
         ->order(array('genus', 'species', 'infraspecies', 'author'));
         
         $select->bind(array($nameCode, ACI_Model_Taxa::STATUS_SYNONYM));
-        $stmt = $select->query();
         
-        while ($row = $stmt->fetchObject()) {
-            $synonyms[] = $row;
-        }
-        //$synonyms = $select->query()->fetchAll();
-        
-        return $synonyms;
+        return $select->query()->fetchAll();
     }
 }
