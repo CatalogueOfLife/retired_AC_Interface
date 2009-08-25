@@ -6,6 +6,7 @@ class ACI_Model_Taxa
     const MISAPPLIED_NAME = 3;
     const PROVISIONALLY_ACCEPTED_NAME = 4;
     const SYNONYM = 5;
+    const COMMON_NAME = 6;
     
     public $id;
     public $family_id;
@@ -23,9 +24,9 @@ class ACI_Model_Taxa
     public function isAcceptedName()
     {
         return in_array(
-            $this->status_id, 
+            $this->status_id,
             array(
-                self::ACCEPTED_NAME, 
+                self::ACCEPTED_NAME,
                 self::PROVISIONALLY_ACCEPTED_NAME
             )
         );
@@ -45,12 +46,12 @@ class ACI_Model_Taxa
     {
         switch($name) {
             case 'accepted_name_code':
-                if($this->isAcceptedName()) {                          
+                if($this->isAcceptedName()) {
                     return $this->name_code;
                 }
                 return $this->accepted_name['name_code'];
             break;
-            case 'accepted_scientific_name':                
+            case 'accepted_scientific_name':
                 return $this->getAcceptedScientificName();
             break;
         }
@@ -58,54 +59,54 @@ class ACI_Model_Taxa
     }
     
     public function getAcceptedScientificName()
-    {   
+    {
         $this->accepted_scientific_name = '';
         switch($this->kingdom)
         {
             case 'Viruses':
             case 'Subviral agents':
                 if($this->isAcceptedName()) {
-                    $this->accepted_scientific_name = $this->species . 
-                        ($this->infraspecies_marker ? 
+                    $this->accepted_scientific_name = $this->species .
+                        ($this->infraspecies_marker ?
                             ' ' . $this->infraspecies_marker : '' .
-                        ($this->infraspecies ? 
+                        ($this->infraspecies ?
                             ' ' . $this->infraspecies : ''));
                 }
                 else {
-                    $this->accepted_scientific_name = 
-                        $this->accepted_name['species'] . 
-                        ($this->accepted_name['infraspecies_marker'] ? 
-                            ' ' . $this->accepted_name['infraspecies_marker'] : 
+                    $this->accepted_scientific_name =
+                        $this->accepted_name['species'] .
+                        ($this->accepted_name['infraspecies_marker'] ?
+                            ' ' . $this->accepted_name['infraspecies_marker'] :
                             '' .
-                        ($this->accepted_name['infraspecies'] ? 
+                        ($this->accepted_name['infraspecies'] ?
                             ' ' . $this->accepted_name['infraspecies'] : ''));
                 }
             break;
             default:
                 if($this->isAcceptedName()) {
-                    $this->accepted_scientific_name = 
+                    $this->accepted_scientific_name =
                         '<i>' . $this->genus . ' ' . $this->species . '</i>' .
-                        ($this->infraspecies_marker ? 
+                        ($this->infraspecies_marker ?
                             ' ' . $this->infraspecies_marker : '' .
-                        ($this->infraspecies ? 
+                        ($this->infraspecies ?
                             ' <i>' . $this->infraspecies . '</i>' : '' .
                         ($this->author ? ' ' . $this->author : '')));
                 }
                 else {
-                    $this->accepted_scientific_name = 
-                        '<i>' . $this->accepted_name['genus'] . ' ' . 
+                    $this->accepted_scientific_name =
+                        '<i>' . $this->accepted_name['genus'] . ' ' .
                         $this->accepted_name['species'] . '</i>' .
-                        ($this->accepted_name['infraspecies_marker'] ? 
-                            ' ' . $this->accepted_name['infraspecies_marker'] : 
+                        ($this->accepted_name['infraspecies_marker'] ?
+                            ' ' . $this->accepted_name['infraspecies_marker'] :
                             '' .
-                        ($this->accepted_name['infraspecies'] ? 
-                            ' <i>' . $this->accepted_name['infraspecies'] . 
+                        ($this->accepted_name['infraspecies'] ?
+                            ' <i>' . $this->accepted_name['infraspecies'] .
                             '</i>' : '' .
-                        ($this->accepted_name['author'] ? 
+                        ($this->accepted_name['author'] ?
                             ' ' . $this->accepted_name['author'] : '')));
                 }
-            break;            
-        }        
+            break;
+        }
         return $this->accepted_scientific_name;
     }
 }
