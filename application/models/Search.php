@@ -106,10 +106,12 @@ class ACI_Model_Search
                         'tx.is_accepted_name',
                         'sn.author',
                         'language' => new Zend_Db_Expr("''"),
-                        'sn.species_name' =>
-                            "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
-                            ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
-                            "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
+                        'accepted_species_id' => 'sna.record_id',
+                        'accepted_species_name' =>
+                            "TRIM(CONCAT(IF(sna.genus IS NULL, '', sna.genus) " .
+                            ", ' ', IF(sna.species IS NULL, '', sna.species), ' ', " .
+                            "IF(sna.infraspecies IS NULL, '', sna.infraspecies)))",
+                        'accepted_species_author' => 'sna.author',
                         'db_name' => 'db.database_name',
                         'db_id' => 'db.record_id',
                         'db_thumb' => 'CONCAT(REPLACE(db.database_name, " ", "_"), ".gif")',
@@ -150,6 +152,12 @@ class ACI_Model_Search
             array()
         )
         ->joinLeft(
+            array('sna' => 'scientific_names'),
+            'sna.accepted_name_code = sn.accepted_name_code AND ' .
+            'sna.is_accepted_name = 1',
+            array()
+        )
+        ->joinLeft(
             array('db' => 'databases'),
             'tx.database_id = db.record_id',
             array()
@@ -177,7 +185,7 @@ class ACI_Model_Search
                 'cn' => 'common_names'
             ),
             array(
-                'id' => 'sn.record_id',
+                'id' => new Zend_Db_Expr(0),
                 'taxa_id' => 'cn.record_id',
                 'rank' => new Zend_Db_Expr(
                     'IF(cn.is_infraspecies, "' .
@@ -189,10 +197,12 @@ class ACI_Model_Search
                 'is_accepted_name' => new Zend_Db_Expr(1),
                 'sn.author',
                 'cn.language',
-                'sn.species_name' =>
+                'accepted_species_id' => 'sn.record_id',
+                'accepted_species_name' =>
                     "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
                     ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
                     "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
+                'accepted_species_author' => 'sn.author',
                 'db_name' => 'db.database_name',
                 'db_id' => 'db.record_id',
                 'db_thumb' => 'CONCAT(REPLACE(db.database_name, " ", "_"), ".gif")',
