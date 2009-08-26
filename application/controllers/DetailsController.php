@@ -35,7 +35,7 @@ class DetailsController extends Zend_Controller_Action
         
         if($row) {
             $database = $row->toArray();
-            $database['image'] = str_replace(
+            $database['image'] = "/images/databases/" . str_replace(
                 ' ', '_', $database['database_name']) . '.jpg';
         }
                 

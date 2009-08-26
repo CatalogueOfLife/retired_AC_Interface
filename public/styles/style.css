@@ -50,7 +50,7 @@ img {
     border: none;
 }
 
-table.results {
+table {
     width:100%;
     border-spacing:0;
     border: 1px solid #edebeb;
@@ -311,6 +311,7 @@ table.results tr td {
 
 th {
     text-align: left;
+    vertical-align: top;
     padding: 3px 3px 10px 3px;	
 }
 
@@ -336,6 +337,10 @@ th.current {
 .tableheader a:hover, th a:hover {
     color: #666;
     text-decoration: underline
+}
+
+table.details th {
+    color: #333366;
 }
 
 .treenode {
