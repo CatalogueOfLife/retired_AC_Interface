@@ -32,53 +32,54 @@ class ACI_Model_Taxa
     public $hierarchy = array();
     public $synonyms = array();
      
+    /**
+     * Returns a string for the status what can be translated
+     *
+     * @param int $id
+     * @return string
+     */
     public static function getStatus($id)
     {
-    	if($id != "")
-    	{
-	    	$statuses = array(
-			    1 => 'ACCEPTED_NAME',
-			    2 => 'AMBIGUOUS_SYNONYM',
-			    3 => 'MISAPPLIED_NAME',
-			    4 => 'PROVISIONALLY_ACCEPTED_NAME',
-			    5 => 'SYNONYM',
-			    6 => 'COMMON_NAME'
-	        );
-	        if(isset($statuses[$id]))
-	        {
-	             return $statuses[$id];
-	        }
-    	}
-    	else
-    	{
-    		return '';
-    	}
+    	$statuses = array(
+		    ACI_Model_Taxa::STATUS_ACCEPTED_NAME => 'ACCEPTED_NAME',
+		    ACI_Model_Taxa::STATUS_AMBIGUOUS_SYNONYM => 'AMBIGUOUS_SYNONYM',
+		    ACI_Model_Taxa::STATUS_MISAPPLIED_NAME => 'MISAPPLIED_NAME',
+		    ACI_Model_Taxa::STATUS_PROVISIONALLY_ACCEPTED_NAME =>
+		      'PROVISIONALLY_ACCEPTED_NAME',
+		    ACI_Model_Taxa::STATUS_SYNONYM => 'SYNONYM',
+		    ACI_Model_Taxa::STATUS_COMMON_NAME => 'COMMON_NAME'
+        );
+        if(isset($statuses[$id]))
+        {
+             return $statuses[$id];
+        }
+   		return '';
     }
     
+    /**
+     * Returns a string for the rank what can be translated
+     *
+     * @param int $id
+     * @return string
+     */
     public static function getRank($id)
     {
-        if($id != "")
+    	$ranks = array(
+            ACI_Model_Taxa::RANK_KINGDOM => 'RANK_KINGDOM',
+            ACI_Model_Taxa::RANK_PHYLUM => 'RANK_PHYLUM',
+            ACI_Model_Taxa::RANK_CLASS => 'RANK_CLASS',
+            ACI_Model_Taxa::RANK_ORDER => 'RANK_ORDER',
+            ACI_Model_Taxa::RANK_SUPERFAMILY => 'RANK_SUPERFAMILY',
+            ACI_Model_Taxa::RANK_FAMILY => 'RANK_FAMILY',
+            ACI_Model_Taxa::RANK_GENUS => 'RANK_GENUS',
+            ACI_Model_Taxa::RANK_SPECIES => 'RANK_SPECIES',
+            ACI_Model_Taxa::RANK_INFRASPECIES => 'RANK_INFRASPECIES'
+        );
+        if(isset($ranks[$id]))
         {
-	    	$ranks = array(
-	            1 => 'RANK_KINGDOM',
-	            2 => 'RANK_PHYLUM',
-	            3 => 'RANK_CLASS',
-	            4 => 'RANK_ORDER',
-	            5 => 'RANK_SUPERFAMILY',
-	            6 => 'RANK_FAMILY',
-	            7 => 'RANK_GENUS',
-	            8 => 'RANK_SPECIES',
-	            9 => 'RANK_INFRASPECIES'
-	        );
-	        if(isset($ranks[$id]))
-	        {
-	             return $ranks[$id];
-	        }
+             return $ranks[$id];
         }
-        else
-        {
-            return '';
-        }
+        return '';
     }
     
     public function isAcceptedName()
