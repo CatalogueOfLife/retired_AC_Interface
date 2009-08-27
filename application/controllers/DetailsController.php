@@ -35,8 +35,8 @@ class DetailsController extends Zend_Controller_Action
         
         if($row) {
             $database = $row->toArray();
-            $database['image'] = "/images/databases/" . str_replace(
-                ' ', '_', $database['database_name']) . '.jpg';
+            $database['image'] = '/images/databases/' .
+                str_replace(' ', '_', $database['database_name']) . '.jpg';
         }
                 
         $this->_logger->debug($database);
@@ -45,10 +45,6 @@ class DetailsController extends Zend_Controller_Action
     
     public function speciesAction()
     {
-        //TODO: The title may be infraspecies
-        $this->view->title = $this->view->translate('Species_details');
-        $this->view->headTitle($this->view->title, 'APPEND');
-        
         $id = $this->_getParam('id', false);
         $taxaId = $this->_getParam('taxa', false);
         
@@ -59,6 +55,13 @@ class DetailsController extends Zend_Controller_Action
         else {
             $speciesDetails = false;
         }
+        
+        $title =
+            $speciesDetails &&
+            $speciesDetails['rank'] == ACI_Model_Taxa::RANK_INFRASPECIES ?
+                'Infraspecies_details' : 'Species_details';
+        $this->view->title = $this->view->translate($title);
+        $this->view->headTitle($this->view->title, 'APPEND');
         
         $this->_logger->debug($speciesDetails);
         $this->view->species = $speciesDetails;
