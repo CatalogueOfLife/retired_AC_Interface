@@ -5,7 +5,7 @@ $urlParams = array(
     'items' => $this->items,
     'sort' => $this->sort
 );
-if ($this->pageCount): ?>
+if ($this->pageCount && $this->pageCount > 1): ?>
 <div class="paginationControl">
 <!-- Previous page link -->
 <?php if (isset($this->previous)): ?>

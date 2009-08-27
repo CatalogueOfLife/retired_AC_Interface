@@ -19,6 +19,8 @@ $urlParams = array(
 ?>
 <?php echo $this->translate('Records_found'); ?>:
 <?php echo $this->paginator->getTotalItemCount(); ?>
+
+<?php if ($this->paginator->getTotalItemCount() > 0): ?>
 <?php echo $this->form; ?>
 <ul>
 <table class="results">
@@ -83,3 +85,5 @@ $urlParams = array(
     );
 ?>
 </ul>
+<?php endif; ?>
+<a href="<?php $this->baseUrl() . $this->search; ?>"><?php echo $this->translate('New_search'); ?></a>

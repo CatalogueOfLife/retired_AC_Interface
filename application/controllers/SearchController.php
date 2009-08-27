@@ -107,6 +107,7 @@ class SearchController extends Zend_Controller_Action
         $this->view->match = $this->_getParam('match');
         $this->view->items = $this->_getParam('items');
         $this->view->sort = $this->_getParam('sort', 'name');
+        $this->view->serach = $this->_getParam('search');
         $this->view->form = $form;
         
         // Render the results page
