@@ -130,7 +130,7 @@ class SearchController extends Zend_Controller_Action
         
         foreach($this->view->paginator as $row)
         {
-            if($row['rank'] == ACI_Model_Taxa::RANK_SPECIES)
+            if($row['rank'] >= ACI_Model_Taxa::RANK_SPECIES)
             {
                 $resultTable[$i]['link'] = $this->view->translate('Show_details');
                 $resultTable[$i]['url'] = '/details/species/id/' .

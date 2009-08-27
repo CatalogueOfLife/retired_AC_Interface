@@ -54,7 +54,11 @@ class ACI_Model_Details
                 'db_name' => 'db.database_name',
                 'db_full_name' => 'db.database_full_name',
                 'db_version' => 'db.version',
-                'sn_taxa_id' => 't.record_id'
+                'sn_taxa_id' => 't.record_id',
+                'rank' => new Zend_Db_Expr(
+                            'IF(t.taxon = "Infraspecies", ' .
+                                ACI_Model_Taxa::RANK_INFRASPECIES . ', ' .
+                                ACI_Model_Taxa::RANK_SPECIES . ')')
             );
             
         switch ($fromType) {
