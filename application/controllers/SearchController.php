@@ -78,9 +78,6 @@ class SearchController extends Zend_Controller_Action
     protected function _renderResultsPage()
     {
         $items = (int)$this->_getParam('items', 10);
-        $sort = 'name';
-        if($this->_getParam('sort'))
-            $sort = $this->_getParam('sort');
         
         // Get the paginator
         $this->view->paginator = $this->_getPaginator(
@@ -109,7 +106,7 @@ class SearchController extends Zend_Controller_Action
         $this->view->key = $this->_getParam('key');
         $this->view->match = $this->_getParam('match');
         $this->view->items = $this->_getParam('items');
-        $this->view->sort = $sort;
+        $this->view->sort = $this->_getParam('sort', 'name');
         $this->view->form = $form;
         
         // Render the results page

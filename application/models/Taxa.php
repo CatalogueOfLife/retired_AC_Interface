@@ -27,7 +27,7 @@ class ACI_Model_Taxa
     public $infraspecies_marker;
     public $author;
     public $kingdom;
-    public $status_id;
+    public $status;
     public $name_code;
     public $hierarchy = array();
     public $synonyms = array();

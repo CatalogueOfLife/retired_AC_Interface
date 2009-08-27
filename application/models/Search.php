@@ -52,19 +52,14 @@ class ACI_Model_Search
     
     protected function _getRightColumnName($columName)
     {
-        $find = array(
-           'name',
-           'rank',
-           'status',
-           'db'
+        $columMap = array(
+            'name' => 'name',
+            'rank' => 'rank',
+            'status' => 'status',
+            'db' => 'db_name'
         );
-        $replace = array(
-           'name',
-           'taxon',
-           'status',
-           'db_name'
-        );
-        return str_replace($find,$replace,$columName);
+        return isset($columMap[$columName]) ?
+            $columMap[$columName] : null;
     }
     
     /**
