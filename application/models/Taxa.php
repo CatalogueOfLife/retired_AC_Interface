@@ -20,6 +20,10 @@ class ACI_Model_Taxa
     
     public $id;
     public $taxa_id;
+    public $taxa_name;
+    public $taxa_author;
+    public $taxa_language;
+    public $taxa_status;
     public $family_id;
     public $genus;
     public $species;
@@ -79,11 +83,6 @@ class ACI_Model_Taxa
         return isset($ranks[$id]) ? $ranks[$id] : '';
     }
     
-    public function isAcceptedName()
-    {
-        return $this->is_accepted_name;
-    }
-    
     public function hasSynonyms()
     {
         return (bool)count($this->synonyms);
@@ -100,25 +99,45 @@ class ACI_Model_Taxa
             case 'name':
                 return $this->getAcceptedScientificName();
             break;
+            case 'taxa_full_name':
+                return $this->getTaxaFullName();
+            break;
         }
         return null;
     }
     
+    public function getTaxaFullName()
+    {
+        if(!$this->taxa_status) {
+            return '';
+        }
+        $this->taxa_full_name = '<i>' . $this->taxa_name . '</i>';
+        switch($this->taxa_status) {
+            case ACI_Model_Taxa::STATUS_COMMON_NAME:
+                $this->taxa_full_name .= ' (' . $this->taxa_language . ')';
+            break;
+            default:
+                $this->taxa_full_name .= ' ' . $this->taxa_author;
+            break;
+        }
+        return $this->taxa_full_name;
+    }
+    
     public function getAcceptedScientificName()
     {
-        $this->accepted_scientific_name = '';
+        $this->name = '';
         switch($this->kingdom)
         {
             case 'Viruses':
             case 'Subviral agents':
-                $this->accepted_scientific_name = $this->species .
+                $this->name = $this->species .
                     ($this->infraspecies_marker ?
                         ' ' . $this->infraspecies_marker : '' .
                     ($this->infraspecies ?
                         ' ' . $this->infraspecies : ''));
             break;
             default:
-                $this->accepted_scientific_name =
+                $this->name =
                     '<i>' . $this->genus . ' ' . $this->species . '</i>' .
                     ($this->infraspecies_marker ?
                         ' ' . $this->infraspecies_marker : '' .
@@ -127,6 +146,6 @@ class ACI_Model_Taxa
                     ($this->author ? ' ' . $this->author : '')));
             break;
         }
-        return $this->accepted_scientific_name;
+        return $this->name;
     }
 }

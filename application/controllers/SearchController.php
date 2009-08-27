@@ -80,7 +80,8 @@ class SearchController extends Zend_Controller_Action
     
     protected function _renderResultsPage()
     {
-        $items = (int)$this->_getParam('items', 10);
+        $items = (int)$this->_getParam('items',
+            ACI_Model_Search::ITEMS_PER_PAGE);
         
         // Get the paginator
         $this->view->paginator = $this->_getPaginator(
@@ -135,9 +136,14 @@ class SearchController extends Zend_Controller_Action
                 $resultTable[$i]['url'] = '/details/species/id/' .
                     $row['accepted_species_id'];
                 if(!$row['is_accepted_name']) {
-                    $resultTable[$i]['url'] .= '/taxa/' . $row['taxa_id'];
+                    if($row['status'] == ACI_Model_Taxa::STATUS_COMMON_NAME) {
+                        $resultTable[$i]['url'] .= '/common/' . $row['taxa_id'];
+                    }
+                    else {
+                        $resultTable[$i]['url'] .= '/taxa/' . $row['taxa_id'];
+                    }
                 }
-             }
+            }
             else
             {
                 $resultTable[$i]['link'] = $this->view->translate('Show_tree');
@@ -186,6 +192,7 @@ class SearchController extends Zend_Controller_Action
         return $resultTable;
     }
     
+    //TODO: review
     protected function _getSuffix($source, $status, $suffix)
     {
         switch($status) {
@@ -200,7 +207,7 @@ class SearchController extends Zend_Controller_Action
         }
         return $source;
     }
-    
+    //TODO: review
     protected function _getSpanTaxonomicName($source, $status, $rank)
     {
         $taxonomicStatus = array(

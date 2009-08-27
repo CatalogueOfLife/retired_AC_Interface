@@ -36,12 +36,26 @@ class DetailsController extends Zend_Controller_Action
     
     public function speciesAction()
     {
-        $id = $this->_getParam('id', false);
-        $taxaId = $this->_getParam('taxa', false);
+        $id = $this->_getParam('id');
+        $taxaId = $this->_getParam('taxa');
+        $commonNameId = $this->_getParam('common');
+        
+        if($taxaId) {
+            $fromType = 'taxa';
+            $fromId = $taxaId;
+        }
+        elseif($commonNameId) {
+            $fromType = 'common';
+            $fromId = $commonNameId;
+        }
+        else {
+            $fromType = $fromId = null;
+        }
         
         if($id) {
             $detailsModel = new ACI_Model_Details($this->_db);
-            $speciesDetails = $detailsModel->species($id, $taxaId);
+            $speciesDetails = $this->_decorateSpeciesDetails(
+                $detailsModel->species($id, $fromType, $fromId));
         }
         else {
             $speciesDetails = false;
@@ -58,9 +72,40 @@ class DetailsController extends Zend_Controller_Action
         $this->view->species = $speciesDetails;
     }
     
-    protected function __createSpeciesDetailsTable()
+    protected function _decorateSpeciesDetails(ACI_Model_Taxa $speciesDetails)
     {
-        
+        $preface = '';
+        if($speciesDetails->taxa_status) {
+            $preface = '<p>' . sprintf($this->view->translate('You_selected'),
+                $speciesDetails->taxa_full_name) .
+                (strrpos($speciesDetails->taxa_full_name, '.') ==
+                    strlen($speciesDetails->taxa_full_name) - 1 ? ' ' : '. ');
+            switch($speciesDetails->taxa_status) {
+                case ACI_Model_Taxa::STATUS_COMMON_NAME:
+                    $preface .= $this->view
+                        ->translate('This_is_a_common_name_for') . ':';
+                break;
+                case ACI_Model_Taxa::STATUS_SYNONYM:
+                    $preface .= $this->view
+                        ->translate('This_is_a_synonym_for') . ':';
+                break;
+                case ACI_Model_Taxa::STATUS_AMBIGUOUS_SYNONYM:
+                    $preface .= $this->view
+                        ->translate('This_is_an_ambiguous_synonym_for') . ':';
+                break;
+                case ACI_Model_Taxa::STATUS_MISAPPLIED_NAME:
+                    $preface .= $this->view
+                        ->translate('This_is_a_misapplied_name_for') . ':';
+                break;
+            }
+            $preface .= '</p>';
+        }
+        $speciesDetails->name .= ' (' .
+            $this->view->translate(
+                ACI_Model_Taxa::getStatusString($speciesDetails->status)
+            ) . ')';
+        $speciesDetails->preface = $preface;
+        return $speciesDetails;
     }
     
     public function __call($name, $arguments)

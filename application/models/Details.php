@@ -21,12 +21,11 @@ class ACI_Model_Details
         $this->_logger = Zend_Registry::get('logger');
     }
     
-    public function species($id, $taxaId)
+    public function species($id, $fromType = null, $fromId = null)
     {
         $select = new Zend_Db_Select($this->_db);
         
-        $select->from(
-            array('sn' => 'scientific_names'),
+        $fields =
             array(
                 'id' => 'sn.record_id',
                 'sn.family_id',
@@ -46,11 +45,53 @@ class ACI_Model_Details
                 'db_id' => 'sn.database_id',
                 'db_name' => 'db.database_name',
                 'db_full_name' => 'db.database_full_name',
-                'db_version' => 'db.version',
-                'taxa_id' => 'tx.record_id',
-                'taxa_status' => 'tx.sp2000_status_id',
-                'taxa_name' => 'tx.name'
-            )
+                'db_version' => 'db.version'
+            );
+            
+        switch ($fromType) {
+            case 'common':
+                $extraFields = array(
+                    'taxa_id' => 'cn.record_id',
+                    'taxa_name' => 'cn.common_name',
+                    'taxa_language' => 'cn.language',
+                    'taxa_status' =>
+                        new Zend_Db_Expr(ACI_Model_Taxa::STATUS_COMMON_NAME)
+                );
+                $joinLeft = array(
+                    array(
+                        'name' => array('cn' => 'common_names'),
+                        'cond' => 'cn.record_id = ' . (int)$fromId,
+                        'columns' => array()
+                    )
+                );
+            break;
+            case 'taxa':
+                $extraFields = array(
+                    'taxa_id' => 'tx.record_id',
+                    'taxa_name' => 'tx.name',
+                    'taxa_status' => 'tx.sp2000_status_id',
+                    'taxa_author' => 'snt.author'
+                );
+                $joinLeft = array(
+                    array(
+                        'name' => array('tx' => 'taxa'),
+                        'cond' => 'tx.record_id = ' . (int)$fromId,
+                        'columns' => array()
+                    ),
+                    array(
+                        'name' => array('snt' => 'scientific_names'),
+                        'cond' => 'tx.name_code = snt.name_code',
+                        'columns' => array()
+                    )
+                );
+            break;
+            default:
+                $extraFields = $joinLeft = array();
+        }
+        
+        $select->from(
+            array('sn' => 'scientific_names'),
+            array_merge($fields, $extraFields)
         )
         ->joinLeft(
             array('db' => 'databases'),
@@ -62,12 +103,11 @@ class ACI_Model_Details
             'sn.family_id = f.record_id',
             array()
         )
-        ->joinLeft(
-            array('tx' => 'taxa'),
-            'tx.record_id = ' . (int)$taxaId,
-            array()
-        )
         ->where('sn.record_id = ?', (int)$id);
+        
+        foreach($joinLeft as $jl) {
+            $select->joinLeft($jl['name'], $jl['cond'], $jl['columns']);
+        }
         
         $species = $select->query()->fetchObject('ACI_Model_Taxa');
         
