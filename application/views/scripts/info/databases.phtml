@@ -10,23 +10,23 @@ $urlParams = array(
 <table>
 <?php $rowClass = "odd"; ?>
     <tr class="even">
-        <th class="horizontal<?php echo ($this->sort == 'source' ? " current" : "");?>">
+        <th class="horizontal<?php echo ($this->sort == 'source' ? ' current' : '');?>">
         <a href="<?php echo $this->url(array_merge($urlParams,array(
           'sort' => 'source'))); ?>"><?php echo $this->translate('Source_database'); ?></a>
-        </th>    
+        </th>
         <th class="horizontal"> </th>
-        <th class="horizontal<?php echo ($this->sort == 'groupName' ? " current" : "");?>">
+        <th class="horizontal<?php echo ($this->sort == 'group' ? ' current' : '');?>">
         <a href="<?php echo $this->url(array_merge($urlParams,array(
-          'sort' => 'groupName'))); ?>"><?php echo $this->translate('English_name_of_the_group'); ?>
-        </a></th>    
-        <th class="horizontal<?php echo ($this->sort == 'names' ? " current" : "");?>">
+          'sort' => 'group'))); ?>"><?php echo $this->translate('English_name_of_the_group'); ?>
+        </a></th>
+        <th class="horizontal<?php echo ($this->sort == 'names' ? ' current' : '');?>">
         <a href="<?php echo $this->url(array_merge($urlParams,array(
           'sort' => 'names'))); ?>"><?php echo $this->translate('Accepted_scientific_names'); ?>
         </a></th>
         <th class="horizontal"> </th>
     </tr>
 
-<?php foreach ($this->tableResults as $items): ?>
+<?php foreach ($this->results as $items): ?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical">
             <a href="<?php echo $this->baseUrl() . $items['url']; ?>">
@@ -34,26 +34,26 @@ $urlParams = array(
             </a>
         </th>
         <td>
-<?php if($items['dbLabel'] != ""): ?>
+<?php if($items['label']): ?>
         <a href="<?php echo $this->baseUrl() . $items['url']; ?>">
         <img
           class="wrapLogo"
-          src="<?php echo $this->baseUrl() . $items['dbLogo']; ?>"
-          alt="<?php echo $items['dbLabel']; ?>"
-          title="<?php echo $items['dbLabel']; ?>" /></a>
+          src="<?php echo $this->baseUrl() . $items['thumb']; ?>"
+          alt="<?php echo $items['label']; ?>"
+          title="<?php echo $items['label']; ?>" /></a>
 <?php endif; ?>
         </td>
-        <td><?php echo $items['english_name']; ?></td>
+        <td><?php echo $items['taxa']; ?></td>
         <td>
-          <?php echo $items['accepted_scientific_names']; ?>
+          <?php echo $items['accepted_species_names']; ?>
         </td>
         <td>
             <a href="<?php echo $this->baseUrl() . $items['url']; ?>">
-                <?php echo $items['link']; ?>
+                <?php echo $this->translate('Show_details'); ?>
             </a>
         </td>
     </tr>
-<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+<?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd');?>
 <?php endforeach; ?>
     
 </table>

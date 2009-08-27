@@ -2,7 +2,7 @@
 /**
  * Annual Checklist Interface
  *
- * Class ACI_Model_Search
+ * Class ACI_Model_Info
  * Search queries builder
  *
  * @category    ACI
@@ -12,28 +12,21 @@
  */
 class ACI_Model_Info
 {
-    protected $_db;
     protected $_logger;
-    const API_ROWSET_LIMIT = 1500;
     
     public function __construct(Zend_Db_Adapter_Abstract $dbAdapter)
     {
-        $this->_db = $dbAdapter;
         $this->_logger = Zend_Registry::get('logger');
     }
     
-    public function _getRightColumnName($columName)
+    public static function getRightColumnName($columName)
     {
-        $find = array(
-           'source',
-           'groupName',
-           'names'
+        $columMap = array(
+            'source' => 'database_name_displayed',
+            'group' => 'taxa',
+            'names' => 'accepted_species_names DESC'
         );
-        $replace = array(
-           'database_name_displayed',
-           'taxa',
-           'accepted_species_names DESC'
-        );
-        return str_replace($find,$replace,$columName);
+        return isset($columMap[$columName]) ?
+            $columMap[$columName] : null;
     }
 }

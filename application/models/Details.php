@@ -42,15 +42,14 @@ class ACI_Model_Details
                 'sn.specialist_id',
                 'sn.web_site',
                 'sn.scrutiny_date',
-                'status_id' => 'sn.sp2000_status_id',
+                'status' => 'sn.sp2000_status_id',
                 'db_id' => 'sn.database_id',
                 'db_name' => 'db.database_name',
                 'db_full_name' => 'db.database_full_name',
                 'db_version' => 'db.version',
                 'taxa_id' => 'tx.record_id',
                 'taxa_status' => 'tx.sp2000_status_id',
-                'taxa_name' => 'tx.name',
-                'taxa_author' => 'tx.author'
+                'taxa_name' => 'tx.name'
             )
         )
         ->joinLeft(
@@ -130,12 +129,11 @@ class ACI_Model_Details
                 'sn.species',
                 'sn.infraspecies_marker',
                 'sn.infraspecies',
-                'sn.author',
-                'sn.sp2000_status_id'
+                'sn.author'
             )
         )
         ->where(
-            'sn.accepted_name_code = ? AND sn.sp2000_status_id = ?'
+            'sn.name_code = ? AND sn.sp2000_status_id = ?'
         )
         ->order(array('genus', 'species', 'infraspecies', 'author'));
         

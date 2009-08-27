@@ -43,14 +43,22 @@ class ACI_Model_Search
                     $searchKey, $matchWholeWords
                 )->reset('order')
             )
-        )->order(array_merge(array($this->_getRightColumnName($sort)),array('name', 'status')));
+        )
+        ->order(
+            array_merge(
+                array(
+                    ACI_Model_Search::getRightColumnName($sort)
+                ),
+                array('name', 'status')
+            )
+        );
         
         $this->_logger->debug($selectAll->__toString());
         
         return $selectAll;
     }
     
-    protected function _getRightColumnName($columName)
+    public static function getRightColumnName($columName)
     {
         $columMap = array(
             'name' => 'name',

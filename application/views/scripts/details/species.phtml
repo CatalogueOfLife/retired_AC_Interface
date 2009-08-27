@@ -4,16 +4,21 @@ switch($this->species->taxa_status) {
     case ACI_Model_Taxa::STATUS_SYNONYM:
         printf (
             '<p>' . $this->translate('Selected_synonym') . ':</p>',
-            '<i>' . $this->species->taxa_name . '</i> ' .
-            $this->species->taxa_author
+            '<i>' . $this->species->taxa_name . '</i> ' . $this->species->author
         );
     break;
     case ACI_Model_Taxa::STATUS_COMMON_NAME:
+        if(!isset($this->species->commonNames[$this->species->taxa_id])) {
+            break;
+        }
+        $taxa = $this->species->commonNames[$this->species->taxa_id];
         printf (
-            '<p>' . $this->translate('Selected_common_name') .
-            ':</p>', '<i>' . $this->species->taxa_name . '</i>'
+            '<p>' . $this->translate('Selected_common_name') . ':</p>',
+            '<i>' . $this->species->taxa_name . '</i> (' .
+            $this->species->taxa_language . ')'
         );
     break;
+    //TODO: move to the controller?
 }
 echo $this->species->name;
 else:

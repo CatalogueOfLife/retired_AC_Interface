@@ -29,42 +29,9 @@ class DetailsController extends Zend_Controller_Action
         $this->view->headTitle($this->view->title, 'APPEND');
         
         $dbTable = new ACI_Model_Table_Databases();
-        $rowSet = $dbTable->find($this->_getParam('id'));
-        $row = $rowSet->current();
-        $database = false;
-        
-        if($row) {
-            $database = $row->toArray();
-            $database['image'] = '/images/databases/' .
-                str_replace(' ', '_', $database['database_name']) . '.jpg';
-            if(isset($database['accepted_species_names']))
-            {
-            	$database['accepted_species_names'] = number_format(
-            	  $database['accepted_species_names']
-            	);
-            }
-            if(isset($database['accepted_infraspecies_names']))
-            {
-                $database['accepted_infraspecies_names'] = number_format(
-                  $database['accepted_infraspecies_names']
-                );
-            }
-            if(isset($database['common_names']))
-            {
-                $database['common_names'] = number_format(
-                  $database['common_names']
-                );
-            }
-            if(isset($database['total_names']))
-            {
-                $database['total_names'] = number_format(
-                  $database['total_names']
-                );
-            }
-        }
-                
-        $this->_logger->debug($database);
-        $this->view->db = $database;
+        $dbDetails = $dbTable->get($this->_getParam('id'));
+        $this->_logger->debug($dbDetails);
+        $this->view->db = $dbDetails;
     }
     
     public function speciesAction()
@@ -72,7 +39,7 @@ class DetailsController extends Zend_Controller_Action
         $id = $this->_getParam('id', false);
         $taxaId = $this->_getParam('taxa', false);
         
-        if($taxaId) {
+        if($id) {
             $detailsModel = new ACI_Model_Details($this->_db);
             $speciesDetails = $detailsModel->species($id, $taxaId);
         }
@@ -82,13 +49,18 @@ class DetailsController extends Zend_Controller_Action
         
         $title =
             $speciesDetails &&
-            $speciesDetails['rank'] == ACI_Model_Taxa::RANK_INFRASPECIES ?
+            $speciesDetails->rank == ACI_Model_Taxa::RANK_INFRASPECIES ?
                 'Infraspecies_details' : 'Species_details';
         $this->view->title = $this->view->translate($title);
         $this->view->headTitle($this->view->title, 'APPEND');
         
         $this->_logger->debug($speciesDetails);
         $this->view->species = $speciesDetails;
+    }
+    
+    protected function __createSpeciesDetailsTable()
+    {
+        
     }
     
     public function __call($name, $arguments)
