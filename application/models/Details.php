@@ -246,6 +246,8 @@ class ACI_Model_Details
     public function references ($nameCode)
     {
         //TODO: optimize reference retrieval
+        //only the total of references is needed here
+        //TODO: create a table model for references
         return array();
         $select = new Zend_Db_Select($this->_db);
         
