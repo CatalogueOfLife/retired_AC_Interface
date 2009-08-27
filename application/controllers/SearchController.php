@@ -255,7 +255,8 @@ class SearchController extends Zend_Controller_Action
         switch($action) {
             case 'common':
                 $query = $select->commonNames(
-                    $this->_getParam('key'), $this->_getParam('match')
+                    $this->_getParam('key'), $this->_getParam('match'),
+                    $this->_getParam('sort')
                 );
                 break;
             case 'all':

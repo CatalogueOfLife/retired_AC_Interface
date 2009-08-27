@@ -22,9 +22,20 @@ class ACI_Model_Search
         $this->_logger = Zend_Registry::get('logger');
     }
     
-    public function commonNames($searchKey, $matchWholeWords)
+    public function commonNames($searchKey, $matchWholeWords, $sort)
     {
-        return $this->_selectCommonNames($searchKey, $matchWholeWords);
+        $selectCommon = $this->_selectCommonNames($searchKey, $matchWholeWords)
+        ->order(
+            array_merge(
+                array(
+                    ACI_Model_Search::getRightColumnName($sort)
+                ),
+                array('name')
+            )
+        );
+        $this->_logger->debug($selectCommon->__toString());
+        
+        return $selectCommon;
     }
     
     public function taxa($searchKey, $matchWholeWords)
@@ -64,7 +75,8 @@ class ACI_Model_Search
             'name' => 'name',
             'rank' => 'rank',
             'status' => 'status',
-            'db' => 'db_name'
+            'db' => 'db_name',
+            'scientificName' => 'accepted_species_name'
         );
         return isset($columMap[$columName]) ?
             $columMap[$columName] : null;
@@ -238,8 +250,7 @@ class ACI_Model_Search
         }
         
         $select
-        ->group(array('name', 'language', 'accepted_species_id'))
-        ->order(array('name', 'genus', 'species', 'infraspecies', 'author'));
+        ->group(array('name', 'language', 'accepted_species_id'));
          
         return $select;
     }

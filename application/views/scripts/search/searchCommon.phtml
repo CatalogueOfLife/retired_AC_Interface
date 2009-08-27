@@ -30,9 +30,9 @@ $urlParams = array(
         <a href="<?php echo $this->url(array_merge($urlParams,array(
           'sort' => 'name'))); ?>"><?php echo $this->translate('Common_name'); ?></a>
         </th>    
-        <th class="horizontal<?php echo ($this->sort == 'status' ? " current" : "");?>">
+        <th class="horizontal<?php echo ($this->sort == 'scientificName' ? " current" : "");?>">
         <a href="<?php echo $this->url(array_merge($urlParams,array(
-          'sort' => 'status'))); ?>"><?php echo $this->translate('Accepted_scientific_name'); ?>
+          'sort' => 'scientificName'))); ?>"><?php echo $this->translate('Accepted_scientific_name'); ?>
         </a></th>    
         <th class="horizontal<?php echo ($this->sort == 'db' ? " current" : "");?>">
         <a href="<?php echo $this->url(array_merge($urlParams,array(
