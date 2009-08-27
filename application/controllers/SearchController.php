@@ -14,6 +14,7 @@ class SearchController extends Zend_Controller_Action
 {
     protected $_logger;
     protected $_db;
+    protected $_script;
         
     public function init()
     {
@@ -28,6 +29,7 @@ class SearchController extends Zend_Controller_Action
     {
         $this->view->title = $this->view->translate('Search_common_names');
         $this->view->headTitle($this->view->title, 'APPEND');
+        $this->_script = 'search/searchCommon.phtml';
         $this->_hasParam('key') ?
             $this->_renderResultsPage() :
             $this->_renderFormPage();
@@ -63,6 +65,7 @@ class SearchController extends Zend_Controller_Action
     {
         $this->view->title = $this->view->translate('Search_all_names');
         $this->view->headTitle($this->view->title, 'APPEND');
+        $this->_script = 'search/searchAll.phtml';
         $this->_hasParam('key') ?
             $this->_renderResultsPage() :
             $this->_renderFormPage();
@@ -111,7 +114,7 @@ class SearchController extends Zend_Controller_Action
         $this->view->form = $form;
         
         // Render the results page
-        $this->renderScript('search/results.phtml');
+        $this->renderScript($this->_script);
     }
     
     /**
@@ -155,10 +158,15 @@ class SearchController extends Zend_Controller_Action
             $resultTable[$i]['rank'] = $this->view->translate(
                 ACI_Model_Taxa::getRankString($row['rank'])
             );
-            $resultTable[$i]['status'] = $this->view->translate(
-                ACI_Model_Taxa::getStatusString($row['status'])
-            );
             
+            $resultTable[$i]['status'] = '%s';
+            if($this->_script == "search/searchAll.phtml")
+            {
+	            $resultTable[$i]['status'] = $this->view->translate(
+	                ACI_Model_Taxa::getStatusString($row['status'])
+	            );
+            }
+	        
             if(!$row['is_accepted_name']) {
                 $resultTable[$i]['status'] =
                     sprintf($resultTable[$i]['status'],

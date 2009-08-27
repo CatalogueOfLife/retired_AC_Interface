@@ -1,0 +1,80 @@
+<?php
+$urlParams = array(
+    'key' => $this->key,
+    'match' => $this->match,
+    'items' => $this->items,
+    'sort' => $this->sort
+);
+?>
+<div class="formheader">
+<?php printf($this->translate('Search_results_for'), '"' . $this->key . '"') ?>
+</div>
+<?php
+    echo $this->paginationControl(
+        $this->paginator,
+        'Sliding',
+        'search/pagination_control.phtml',
+        $urlParams
+    );
+?>
+<?php echo $this->translate('Records_found'); ?>:
+<?php echo $this->paginator->getTotalItemCount(); ?>
+
+<?php if ($this->paginator->getTotalItemCount() > 0): ?>
+<?php echo $this->form; ?>
+<ul>
+<table class="results">
+<?php $rowClass = "odd"; ?>
+    <tr class="even">
+        <th class="horizontal<?php echo ($this->sort == 'name' ? " current" : "");?>">
+        <a href="<?php echo $this->url(array_merge($urlParams,array(
+          'sort' => 'name'))); ?>"><?php echo $this->translate('Common_name'); ?></a>
+        </th>    
+        <th class="horizontal<?php echo ($this->sort == 'status' ? " current" : "");?>">
+        <a href="<?php echo $this->url(array_merge($urlParams,array(
+          'sort' => 'status'))); ?>"><?php echo $this->translate('Accepted_scientific_name'); ?>
+        </a></th>    
+        <th class="horizontal<?php echo ($this->sort == 'db' ? " current" : "");?>">
+        <a href="<?php echo $this->url(array_merge($urlParams,array(
+          'sort' => 'db'))); ?>"><?php echo $this->translate('Source_database'); ?>
+        </a></th>
+        <th class="horizontal"> </th>
+    </tr>
+<?php foreach ($this->tableResults as $items): ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <td class="fieldheaderblack">
+            <a href="<?php echo $this->baseUrl() . $items['url']; ?>">
+                <?php echo $items['name']; ?>
+            </a>
+        </td>
+        <td><?php echo $items['status']; ?></td>
+        <td>
+<?php if($items['dbLabel'] != ""): ?>
+        <a href="<?php echo $this->baseUrl() . $items['dbUrl']; ?>">
+        <img
+          class="wrapLogo"
+          src="<?php echo $this->baseUrl() . $items['dbLogo']; ?>"
+          alt="<?php echo $items['dbLabel']; ?>"
+          title="<?php echo $items['dbLabel']; ?>" /></a>
+<?php endif; ?>
+        </td>
+        <td>
+            <a href="<?php echo $this->baseUrl() . $items['url']; ?>">
+                <?php echo $items['link']; ?>
+            </a>
+        </td>
+    </tr>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+<?php endforeach; ?>
+</table>
+<?php
+    echo $this->paginationControl(
+        $this->paginator,
+        'Sliding',
+        'search/pagination_control.phtml',
+        $urlParams
+    );
+?>
+</ul>
+<?php endif; ?>
+<a href="<?php $this->baseUrl() . $this->search; ?>"><?php echo $this->translate('New_search'); ?></a>
