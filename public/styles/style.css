@@ -318,27 +318,52 @@ th.current {
 	text-decoration: underline;
 }
 
-.tableheader a:link, th a:link {
+.tableheader a:link, th.horizontal a:link {
     color: #666;
     text-decoration: none
 }
 
-.tableheader a:visited, th a:visited {
+.tableheader a:visited, th.horizontal a:visited {
     color: #666;
     text-decoration: none
 }
 
-.tableheader a:active, th a:active {
+.tableheader a:active, th.horizontal a:active {
     color: #666;
     text-decoration: none
 }
 
-.tableheader a:hover, th a:hover {
+.tableheader a:hover, th.horizontal a:hover {
     color: #666;
     text-decoration: underline
 }
 
 th.horizontal {
+    vertical-align:top;
+    color: #333366;
+}
+
+th.vertical a:link {
+    color: #333366;
+    text-decoration: none
+}
+
+th.vertical a:visited {
+    color: #333366;
+    text-decoration: none
+}
+
+th.vertical a:active {
+    color: #333366;
+    text-decoration: none
+}
+
+th.vertical a:hover {
+    color: #F20B0B;
+    text-decoration: underline
+}
+
+th.vertical {
     vertical-align:top;
     color: #333366;
 }
@@ -459,9 +484,4 @@ li:hover ul,li.over ul {
 }  /* The magic */
 div#header {
     margin: 27px 0 18px 0;
-}
-
-th.vertical {
-    vertical-align:top;
-    color: #333366;
 }
