@@ -1,1 +1,59 @@
-Source Databases
+<?php
+$urlParams = array(
+    'sort' => $this->sort
+);
+?>
+<div class="formheader">
+<?php printf($this->translate('Source_databases'), '"' . $this->key . '"') ?>
+</div>
+<?php echo $this->translate('Introduction_Source_Databases'); ?>
+<table class="results">
+<?php $rowClass = "odd"; ?>
+    <tr class="even">
+        <th class="horizontal<?php echo ($this->sort == 'source' ? " current" : "");?>">
+        <a href="<?php echo $this->url(array_merge($urlParams,array(
+          'sort' => 'source'))); ?>"><?php echo $this->translate('Source_database'); ?></a>
+        </th>    
+        <th class="horizontal"> </th>
+        <th class="horizontal<?php echo ($this->sort == 'groupName' ? " current" : "");?>">
+        <a href="<?php echo $this->url(array_merge($urlParams,array(
+          'sort' => 'groupName'))); ?>"><?php echo $this->translate('English_name_of_the_group'); ?>
+        </a></th>    
+        <th class="horizontal<?php echo ($this->sort == 'names' ? " current" : "");?>">
+        <a href="<?php echo $this->url(array_merge($urlParams,array(
+          'sort' => 'names'))); ?>"><?php echo $this->translate('Accepted_scientific_names'); ?>
+        </a></th>
+        <th class="horizontal"> </th>
+    </tr>
+
+<?php foreach ($this->tableResults as $items): ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical">
+            <a href="<?php echo $this->baseUrl() . $items['url']; ?>">
+                <?php echo $items['name']; ?>
+            </a>
+        </th>
+        <td>
+<?php if($items['dbLabel'] != ""): ?>
+        <a href="<?php echo $this->baseUrl() . $items['url']; ?>">
+        <img
+          class="wrapLogo"
+          src="<?php echo $this->baseUrl() . $items['dbLogo']; ?>"
+          alt="<?php echo $items['dbLabel']; ?>"
+          title="<?php echo $items['dbLabel']; ?>" /></a>
+<?php endif; ?>
+        </td>
+        <td><?php echo $items['english_name']; ?></td>
+        <td>
+          <?php echo $items['accepted_scientific_names']; ?>
+        </td>
+        <td>
+            <a href="<?php echo $this->baseUrl() . $items['url']; ?>">
+                <?php echo $items['link']; ?>
+            </a>
+        </td>
+    </tr>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+<?php endforeach; ?>
+    
+</table>

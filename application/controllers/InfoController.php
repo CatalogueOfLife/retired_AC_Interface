@@ -13,10 +13,12 @@
 class InfoController extends Zend_Controller_Action
 {
     protected $_logger;
+    protected $_db;
     
     public function init ()
     {
         $this->_logger = Zend_Registry::get('logger');
+        $this->_db = Zend_Registry::get('db');
         $this->view->controller = $this->getRequest()->controller;
         $this->view->action = $this->getRequest()->action;
     }
@@ -37,9 +39,23 @@ class InfoController extends Zend_Controller_Action
     
     public function databasesAction ()
     {
-        $this->view->title = $this->view->translate('Source_databases');
+        $info = new ACI_Model_Info($this->_db);
+    	$this->view->title = $this->view->translate('Source_databases');
         $this->view->headTitle($this->view->title, 'APPEND');
-
+        $dbTable = new ACI_Model_Table_Databases();
+        $sort = $info->_getRightColumnName(array('source'));
+        if($this->_getParam('sort'))
+        {
+            $this->view->sort = $this->_getParam('sort');
+        	$sort = array_merge(array($info->_getRightColumnName($this->_getParam('sort'))),$sort);
+        }
+        else
+        {
+            $this->view->sort = 'source';
+        }
+        $this->view->tableResults = $this->_createTableFromResults(
+          $dbTable->fetchAll(null, $sort)
+        );
     }
     
     public function hierarchyAction ()
@@ -85,4 +101,27 @@ class InfoController extends Zend_Controller_Action
         $this->_forward('about');
     }
 
+    protected function _createTableFromResults($results)
+    {
+	    $resultTable = array();
+	    $i = 0;
+	    
+	    foreach($results as $value)
+	    {
+	        $resultTable[$i]['name'] = $value['database_name_displayed'];
+	        
+	        $resultTable[$i]['english_name'] = $value['taxa'];
+	        
+	        $resultTable[$i]['accepted_scientific_names'] = $value['accepted_species_names'];
+	        
+	        $resultTable[$i]['dbLogo'] = '/images/databases/' .
+	          str_replace(" ","_",$value['database_name']);
+	        $resultTable[$i]['dbLabel'] = $value['database_name'];
+	        $resultTable[$i]['url'] = '/details/database/id/' . $value['record_id'];
+	        
+	        $resultTable[$i]['link'] = $this->view->translate('Show_details');
+	        $i++;
+	    }
+	    return $resultTable;
+    }
 }

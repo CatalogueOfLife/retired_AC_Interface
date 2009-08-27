@@ -13,55 +13,55 @@ if (is_array($this->db)):
 
 <table class="details">
     <tr class="even">
-        <th width="200">Full name:</th>
+        <th class="vertical details"><?php echo $this->translate('Full_name'); ?>:</th>
         <td><?php echo $this->db['database_full_name']; ?></td>
     </tr>
     <tr class="odd">
-        <th>Short name:</th>
+        <th class="vertical details"><?php echo $this->translate('Short_name'); ?>:</th>
         <td><?php echo $this->db['database_name']; ?></td>
     </tr>
     <tr class="even">
-        <th>Version:</th>
+        <th class="vertical details"><?php echo $this->translate('Version'); ?>:</th>
         <td><?php echo $this->db['version']; ?></td>
     </tr>
     <tr class="odd">
-        <th>Release date:</th>
+        <th class="vertical details"><?php echo $this->translate('Release_date'); ?>:</th>
         <td><?php echo $this->db['release_date']; ?></td>
     </tr>
     <tr class="even">
-        <th>Authors/editors:</th>
+        <th class="vertical details"><?php echo $this->translate('Authors_editors'); ?>:</th>
         <td><?php echo $this->db['authors_editors']; ?></td>
     </tr>
     <tr class="odd">
-        <th>Taxonomic coverage:</th>
+        <th class="vertical details"><?php echo $this->translate('Taxonomic_coverage'); ?>:</th>
         <td><?php echo $this->db['taxonomic_coverage']; ?></td>
     </tr>
     <tr class="even">
-        <th>Number of species names:</th>
+        <th class="vertical details"><?php echo $this->translate('Number_of_species_names'); ?>:</th>
         <td><?php echo $this->db['accepted_species_names']; ?></td>
     </tr>
     <tr class="odd">
-        <th>Number of infraspecies names:</th>
+        <th class="vertical details"><?php echo $this->translate('Number_of_infraspecies_names'); ?>:</th>
         <td><?php echo $this->db['accepted_infraspecies_names']; ?></td>
     </tr>
     <tr class="even">
-        <th>Number of common names:</th>
+        <th class="vertical details"><?php echo $this->translate('Number_of_common_names'); ?>:</th>
         <td><?php echo $this->db['common_names']; ?></td>
     </tr>
     <tr class="odd">
-        <th>Total number of names:</th>
+        <th class="vertical details"><?php echo $this->translate('Total_number_of_names'); ?>:</th>
         <td><?php echo $this->db['total_names']; ?></td>
     </tr>
     <tr class="even">
-        <th>Abstract:</th>
+        <th class="vertical details"><?php echo $this->translate('Abstract'); ?>:</th>
         <td><?php echo $this->db['abstract']; ?></td>
     </tr>
     <tr class="odd">
-        <th>Organization:</th>
+        <th class="vertical details"><?php echo $this->translate('Organization'); ?>:</th>
         <td><?php echo $this->db['organization']; ?></td>
     </tr>
     <tr class="even">
-        <th>Web site:</th>
+        <th class="vertical details"><?php echo $this->translate('Web_site'); ?>:</th>
         <td><a href="<?php echo $this->db['web_site']; ?>"><?php echo $this->db['web_site']; ?></a></td>
     </tr>
     
