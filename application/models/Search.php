@@ -125,7 +125,11 @@ class ACI_Model_Search
                 'ss.taxa_id = tx.record_id',
                 array()
             )
-            ->where('ss.words = ?', $searchKey);
+            ->where(
+                'ss.words = ? AND ' .
+                'tx.is_species_or_nonsynonymic_higher_taxon = 1',
+                $searchKey
+            );
         }
         else {
             $select->from(

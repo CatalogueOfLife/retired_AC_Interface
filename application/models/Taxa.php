@@ -25,12 +25,14 @@ class ACI_Model_Taxa
     public $species;
     public $infraspecies;
     public $infraspecies_marker;
+    public $is_accepted_name;
     public $author;
     public $kingdom;
     public $status;
     public $name_code;
     public $hierarchy = array();
     public $synonyms = array();
+    public $common_names = array();
      
     /**
      * Returns a string for the status what can be translated
@@ -38,7 +40,7 @@ class ACI_Model_Taxa
      * @param int $id
      * @return string
      */
-    public static function getStatus($id)
+    public static function getStatusString($id)
     {
         $statuses = array(
             ACI_Model_Taxa::STATUS_ACCEPTED_NAME =>
@@ -61,7 +63,7 @@ class ACI_Model_Taxa
      * @param int $id
      * @return string
      */
-    public static function getRank($id)
+    public static function getRankString($id)
     {
         $ranks = array(
             ACI_Model_Taxa::RANK_KINGDOM => 'RANK_KINGDOM',
@@ -79,23 +81,17 @@ class ACI_Model_Taxa
     
     public function isAcceptedName()
     {
-        return in_array(
-            $this->status_id,
-            array(
-                self::STATUS_ACCEPTED_NAME,
-                self::STATUS_PROVISIONALLY_ACCEPTED_NAME
-            )
-        );
-    }
-    
-    public function isSynonym()
-    {
-        return $this->status_id == self::STATUS_SYNONYM;
+        return $this->is_accepted_name;
     }
     
     public function hasSynonyms()
     {
         return (bool)count($this->synonyms);
+    }
+        
+    public function hasCommonNames()
+    {
+        return (bool)count($this->common_names);
     }
     
     public function __get($name)

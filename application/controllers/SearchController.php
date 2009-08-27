@@ -123,52 +123,55 @@ class SearchController extends Zend_Controller_Action
         $resultTable = array();
         $i = 0;
         
-        foreach($this->view->paginator as $value)
+        foreach($this->view->paginator as $row)
         {
-            $isAcceptedName = in_array(
-               $value['status'],
-               array(
-                   ACI_Model_Taxa::STATUS_ACCEPTED_NAME,
-                   ACI_Model_Taxa::STATUS_PROVISIONALLY_ACCEPTED_NAME
-               )
-            );
-            if($value['rank'] == ACI_Model_Taxa::RANK_SPECIES)
+            if($row['rank'] == ACI_Model_Taxa::RANK_SPECIES)
             {
                 $resultTable[$i]['link'] = $this->view->translate('Show_details');
                 $resultTable[$i]['url'] = '/details/species/id/' .
-                    $value['accepted_species_id'];
-                if(!$isAcceptedName) {
-                    $resultTable[$i]['url'] .= '/taxa/' . $value['taxa_id'];
+                    $row['accepted_species_id'];
+                if(!$row['is_accepted_name']) {
+                    $resultTable[$i]['url'] .= '/taxa/' . $row['taxa_id'];
                 }
              }
             else
             {
                 $resultTable[$i]['link'] = $this->view->translate('Show_tree');
-                $resultTable[$i]['url'] = '/browse/tree/id/' . $value['id'];
+                $resultTable[$i]['url'] = '/browse/tree/id/' . $row['taxa_id'];
             }
             $resultTable[$i]['name'] = $this->_getSuffix(
                 $this->_getSpanTaxonomicName(
                     $this->_getSpanSearchWord(
-                        $value['name']
+                        $row['name']
                     ),
-                    $value['status'],
-                    $value['rank']
+                    $row['status'],
+                    $row['rank']
                 ),
-                $value['status'],
-                $value['status'] == ACI_Model_Taxa::STATUS_COMMON_NAME ?
-                    $value['language'] : $value['author']
+                $row['status'],
+                $row['status'] == ACI_Model_Taxa::STATUS_COMMON_NAME ?
+                    $row['language'] : $row['author']
             );
             $resultTable[$i]['rank'] = $this->view->translate(
-                ACI_Model_Taxa::getRank($value['rank'])
+                ACI_Model_Taxa::getRankString($row['rank'])
             );
             $resultTable[$i]['status'] = $this->view->translate(
-                ACI_Model_Taxa::getStatus($value['status'])
+                ACI_Model_Taxa::getStatusString($row['status'])
             );
+            
+            if(!$row['is_accepted_name']) {
+                $resultTable[$i]['status'] =
+                    sprintf($resultTable[$i]['status'],
+                        '<span class="taxonomicName">' .
+                        $row['accepted_species_name'] . '</span> ' .
+                        $row['accepted_species_author']
+                    );
+            }
+            
             $resultTable[$i]['dbLogo'] = '/images/databases/' .
-                $value['db_thumb'];
-            $resultTable[$i]['dbLabel'] = $value['db_name'];
+                $row['db_thumb'];
+            $resultTable[$i]['dbLabel'] = $row['db_name'];
             $resultTable[$i]['dbUrl'] = '/details/database/id/' .
-                $value['db_id'];
+                $row['db_id'];
             $i++;
         }
         return $resultTable;
@@ -197,7 +200,7 @@ class SearchController extends Zend_Controller_Action
             ACI_Model_Taxa::STATUS_SYNONYM
         );
         if(in_array($status, $taxonomicStatus) &&
-            $rank < ACI_Model_Taxa::RANK_SPECIES) {
+            $rank >= ACI_Model_Taxa::RANK_SPECIES) {
             $source = '<span class="taxonomicName">' . $source . '</span>';
         }
         return $source;
