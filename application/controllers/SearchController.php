@@ -123,80 +123,96 @@ class SearchController extends Zend_Controller_Action
      */
     protected function _createTableFromResults()
     {
-    	$resultTable = array();
-    	$i = 0;
-    	
-    	foreach($this->view->paginator as $value)
-    	{
-    		if($value['rank'] == ACI_Model_Taxa::RANK_SPECIES)
-    		{
-    			$resultTable[$i]['link'] = $this->view->translate('Show_details');
-    			$resultTable[$i]['url'] = '/details/species/id/' .
-    			    $value['id'] . '/taxa/' . $value['taxa_id'];
-         	}
-    		else
-    		{
+        $resultTable = array();
+        $i = 0;
+        
+        foreach($this->view->paginator as $value)
+        {
+            $isAcceptedName = in_array(
+               $value['status'],
+               array(
+                   ACI_Model_Taxa::STATUS_ACCEPTED_NAME,
+                   ACI_Model_Taxa::STATUS_PROVISIONALLY_ACCEPTED_NAME
+               )
+            );
+            if($value['rank'] == ACI_Model_Taxa::RANK_SPECIES)
+            {
+                $resultTable[$i]['link'] = $this->view->translate('Show_details');
+                $resultTable[$i]['url'] = '/details/species/id/' .
+                    $value['accepted_species_id'];
+                if(!$isAcceptedName) {
+                    $resultTable[$i]['url'] .= '/taxa/' . $value['taxa_id'];
+                }
+             }
+            else
+            {
                 $resultTable[$i]['link'] = $this->view->translate('Show_tree');
-    			$resultTable[$i]['url'] = '/browse/tree/id/' . $value['id'];
-    		}
-    		$resultTable[$i]['name'] = $this->_getSuffix(
-    		  $this->_getSpanTaxonomicName(
-    		    $this->_getSpanSearchWord(
-    		      $value['name']
-    		    ),
+                $resultTable[$i]['url'] = '/browse/tree/id/' . $value['id'];
+            }
+            $resultTable[$i]['name'] = $this->_getSuffix(
+                $this->_getSpanTaxonomicName(
+                    $this->_getSpanSearchWord(
+                        $value['name']
+                    ),
+                    $value['status'],
+                    $value['rank']
+                ),
                 $value['status'],
-                $value['rank']
-              ),
-              $value['status'],
-    		  $value['status'] == ACI_Model_Taxa::STATUS_COMMON_NAME ?
-    		      $value['language'] : $value['author']
-    		);
+                $value['status'] == ACI_Model_Taxa::STATUS_COMMON_NAME ?
+                    $value['language'] : $value['author']
+            );
             $resultTable[$i]['rank'] = $this->view->translate(
-              ACI_Model_Taxa::getRank($value['rank'])
+                ACI_Model_Taxa::getRank($value['rank'])
             );
             $resultTable[$i]['status'] = $this->view->translate(
-              ACI_Model_Taxa::getStatus($value['status'])
+                ACI_Model_Taxa::getStatus($value['status'])
             );
-            $resultTable[$i]['dbLogo'] = '/images/databases/' . $value['db_thumb'];
+            $resultTable[$i]['dbLogo'] = '/images/databases/' .
+                $value['db_thumb'];
             $resultTable[$i]['dbLabel'] = $value['db_name'];
-            $resultTable[$i]['dbUrl'] = '/details/database/id/' . $value['db_id'];
+            $resultTable[$i]['dbUrl'] = '/details/database/id/' .
+                $value['db_id'];
             $i++;
-    	}
+        }
         return $resultTable;
     }
     
-    protected function _getSuffix($source,$status,$suffix)
+    protected function _getSuffix($source, $status, $suffix)
     {
-        //TODO: use status constants
-    	if($suffix != "")
-    	{
-	        if($status == 6)
-	            return $source . " (" . $suffix . ")";
-	        elseif($status == 1 || $status == 5)
-	            return $source . " " . $suffix;
-	        else
-                return $source;
-    	}
-        else
-            return $source;
+        switch($status) {
+            case ACI_Model_Taxa::STATUS_COMMON_NAME:
+                $source .= ' (' . $suffix . ')';
+            break;
+            case ACI_Model_Taxa::STATUS_ACCEPTED_NAME:
+            case ACI_Model_Taxa::STATUS_PROVISIONALLY_ACCEPTED_NAME:
+            case ACI_Model_Taxa::STATUS_SYNONYM:
+                $source .= '  ' . $suffix;
+            break;
+        }
+        return $source;
     }
     
     protected function _getSpanTaxonomicName($source, $status, $rank)
     {
-        //TODO: use status constants
-        if($status == 1 || $status == 5 || $rank != 8 || $rank != 9)
-    	    return "<span class=\"taxonomicName\">" . $source . "</span>";
-        else
-            return $source;
+        $taxonomicStatus = array(
+            ACI_Model_Taxa::STATUS_ACCEPTED_NAME,
+            ACI_Model_Taxa::STATUS_PROVISIONALLY_ACCEPTED_NAME,
+            ACI_Model_Taxa::STATUS_SYNONYM
+        );
+        if(in_array($status, $taxonomicStatus) &&
+            $rank < ACI_Model_Taxa::RANK_SPECIES) {
+            $source = '<span class="taxonomicName">' . $source . '</span>';
+        }
+        return $source;
     }
     
     protected function _getSpanSearchWord($source)
     {
-		return preg_replace(
-		  "/(".$this->_getParam('key').")/i",
-		  "<span class=\"fieldheader\">$1</span>",
-		  $source
-		);
+        return preg_replace(
+            '/(' . $this->_getParam('key') . ')/i',
+            "<span class=\"fieldheader\">$1</span>",
+            $source
+        );
     }
     
     /**
