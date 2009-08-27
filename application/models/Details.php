@@ -117,13 +117,10 @@ class ACI_Model_Details
         
         $species->hierarchy = $this->speciesHierarchy($species->taxa_id);
         $species->synonyms = $this->synonyms($species->name_code);
+        $species->common_names = $this->commonNames($species->name_code);
+        $species->references = $this->references($species->id);
         
         return $species;
-    }
-    
-    public function commonName($name)
-    {
-        return false;
     }
     
     public function speciesHierarchy($id)
@@ -135,7 +132,7 @@ class ACI_Model_Details
                     'tx.record_id',
                     'tx.parent_id',
                     'tx.taxon',
-                    'LSID'
+                    'tx.LSID'
                 )
             )->where('tx.record_id = ?');
             
@@ -169,15 +166,68 @@ class ACI_Model_Details
                 'sn.species',
                 'sn.infraspecies_marker',
                 'sn.infraspecies',
-                'sn.author'
+                'sn.author',
+                'name' =>
+                    "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
+                    ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
+                    "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))"
             )
         )
         ->where(
-            'sn.name_code = ? AND sn.sp2000_status_id = ?'
+            'sn.accepted_name_code = ? AND sn.sp2000_status_id = ?'
         )
         ->order(array('genus', 'species', 'infraspecies', 'author'));
         
         $select->bind(array($nameCode, ACI_Model_Taxa::STATUS_SYNONYM));
+        
+        return $select->query()->fetchAll();
+    }
+    
+    public function references ($nameCode)
+    {
+        $select = new Zend_Db_Select($this->_db);
+        
+        $select->distinct()
+        ->from(
+            array('snr' => 'scientific_name_references'),
+            array(
+                'snr.reference_type',
+                'r.*'
+            )
+        )
+        ->join(
+            array('r' => 'references'),
+            'snr.reference_id = r.record_id',
+            array()
+        )
+        ->where('snr.name_code = ?', $nameCode)
+        ->order(array('snr.reference_type', 'snr.reference_id'));
+        
+        return $select->query()->fetchAll();
+    }
+    
+    public function commonNames ($nameCode)
+    {
+        $select = new Zend_Db_Select($this->_db);
+        
+        $select->distinct()
+        ->from(
+            array('cn' => 'common_names'),
+            array(
+                'id' => 'cn.record_id',
+                'cn.common_name',
+                'cn.language',
+                'cn.country',
+                'reference_id' => 'r.record_id'
+            )
+        )
+        ->joinLeft(
+            array('r' => 'references'),
+            'cn.reference_id = r.record_id',
+            array()
+        )
+        ->where('cn.name_code = ?', $nameCode)
+        ->order(array('cn.common_name', 'cn.language', 'cn.country'));
         
         return $select->query()->fetchAll();
     }

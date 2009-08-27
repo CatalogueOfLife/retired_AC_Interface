@@ -37,6 +37,7 @@ class ACI_Model_Taxa
     public $hierarchy = array();
     public $synonyms = array();
     public $common_names = array();
+    public $references = array();
      
     /**
      * Returns a string for the status what can be translated
