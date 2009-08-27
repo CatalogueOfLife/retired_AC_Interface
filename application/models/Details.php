@@ -2,8 +2,8 @@
 /**
  * Annual Checklist Interface
  *
- * Class ACI_Model_Search
- * Search queries builder
+ * Class ACI_Model_Details
+ * Detail data handler
  *
  * @category    ACI
  * @package     application
@@ -21,6 +21,14 @@ class ACI_Model_Details
         $this->_logger = Zend_Registry::get('logger');
     }
     
+    /**
+     * Gets all the details of a species
+     *
+     * @param int $id
+     * @param string $fromType common or taxa
+     * @param int $fromId id of the common name or taxa of reference
+     * @return ACI_Model_Taxa
+     */
     public function species($id, $fromType = null, $fromId = null)
     {
         $select = new Zend_Db_Select($this->_db);
@@ -129,6 +137,14 @@ class ACI_Model_Details
         return $species;
     }
     
+    /**
+     * Gets the species hierarchy by iterating the taxa table through
+     * parent ids
+     *
+     * @param int $id
+     * @return array Hierarchy data ordered by classification level,
+     * from top to bottom
+     */
     public function speciesHierarchy($id)
     {
         $select = new Zend_Db_Select($this->_db);
@@ -157,6 +173,12 @@ class ACI_Model_Details
         return array_reverse($hierarchy);
     }
     
+    /**
+     * Gets the list of synonyms of a species and their details
+     *
+     * @param string $nameCode
+     * @return array
+     */
     public function synonyms($nameCode)
     {
         $select = new Zend_Db_Select($this->_db);
@@ -189,31 +211,12 @@ class ACI_Model_Details
         return $select->query()->fetchAll();
     }
     
-    public function references ($nameCode)
-    {
-        //TODO: optimize reference retrieval
-        return array();
-        $select = new Zend_Db_Select($this->_db);
-        
-        $select->distinct()
-        ->from(
-            array('snr' => 'scientific_name_references'),
-            array(
-                'snr.reference_type',
-                'r.*'
-            )
-        )
-        ->join(
-            array('r' => 'references'),
-            'snr.reference_id = r.record_id',
-            array()
-        )
-        ->where('snr.name_code = ?', $nameCode)
-        ->order(array('snr.reference_type', 'snr.reference_id'));
-        
-        return $select->query()->fetchAll();
-    }
-    
+    /**
+     * Gets the list of common names of a species and their details
+     *
+     * @param string $nameCode
+     * @return array
+     */
     public function commonNames ($nameCode)
     {
         $select = new Zend_Db_Select($this->_db);
@@ -236,6 +239,31 @@ class ACI_Model_Details
         )
         ->where('cn.name_code = ?', $nameCode)
         ->order(array('cn.common_name', 'cn.language', 'cn.country'));
+        
+        return $select->query()->fetchAll();
+    }
+    
+    public function references ($nameCode)
+    {
+        //TODO: optimize reference retrieval
+        return array();
+        $select = new Zend_Db_Select($this->_db);
+        
+        $select->distinct()
+        ->from(
+            array('snr' => 'scientific_name_references'),
+            array(
+                'snr.reference_type',
+                'r.*'
+            )
+        )
+        ->join(
+            array('r' => 'references'),
+            'snr.reference_id = r.record_id',
+            array()
+        )
+        ->where('snr.name_code = ?', $nameCode)
+        ->order(array('snr.reference_type', 'snr.reference_id'));
         
         return $select->query()->fetchAll();
     }
