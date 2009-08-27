@@ -193,7 +193,7 @@ class ACI_Model_Search
                 ),
                 'name' => 'cn.common_name',
                 'cn.name_code',
-                'is_accepted_name' => new Zend_Db_Expr(1),
+                'is_accepted_name' => new Zend_Db_Expr(0),
                 'sn.author',
                 'cn.language',
                 'accepted_species_id' => 'sn.record_id',
@@ -229,11 +229,9 @@ class ACI_Model_Search
                 ->where('cn.common_name LIKE "%' . $searchKey . '%"');
         }
         
-        $select->order(
-            array(
-                'name', 'genus', 'species', 'infraspecies', 'author'
-            )
-        );
+        $select
+        ->group(array('name', 'language', 'accepted_species_id'))
+        ->order(array('name', 'genus', 'species', 'infraspecies', 'author'));
          
         return $select;
     }
