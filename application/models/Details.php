@@ -45,7 +45,8 @@ class ACI_Model_Details
                 'db_id' => 'sn.database_id',
                 'db_name' => 'db.database_name',
                 'db_full_name' => 'db.database_full_name',
-                'db_version' => 'db.version'
+                'db_version' => 'db.version',
+                'sn_taxa_id' => 't.record_id'
             );
             
         switch ($fromType) {
@@ -103,6 +104,11 @@ class ACI_Model_Details
             'sn.family_id = f.record_id',
             array()
         )
+        ->joinLeft(
+            array('t' => 'taxa'),
+            'sn.name_code = t.name_code',
+            array()
+        )
         ->where('sn.record_id = ?', (int)$id);
         
         foreach($joinLeft as $jl) {
@@ -115,7 +121,7 @@ class ACI_Model_Details
             return false;
         }
         
-        $species->hierarchy = $this->speciesHierarchy($species->taxa_id);
+        $species->hierarchy = $this->speciesHierarchy($species->sn_taxa_id);
         $species->synonyms = $this->synonyms($species->name_code);
         $species->common_names = $this->commonNames($species->name_code);
         $species->references = $this->references($species->id);
@@ -185,6 +191,8 @@ class ACI_Model_Details
     
     public function references ($nameCode)
     {
+        //TODO: optimize reference retrieval
+        return array();
         $select = new Zend_Db_Select($this->_db);
         
         $select->distinct()
