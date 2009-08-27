@@ -40,20 +40,19 @@ class ACI_Model_Taxa
      */
     public static function getStatus($id)
     {
-    	$statuses = array(
-		    ACI_Model_Taxa::STATUS_ACCEPTED_NAME => 'ACCEPTED_NAME',
-		    ACI_Model_Taxa::STATUS_AMBIGUOUS_SYNONYM => 'AMBIGUOUS_SYNONYM',
-		    ACI_Model_Taxa::STATUS_MISAPPLIED_NAME => 'MISAPPLIED_NAME',
-		    ACI_Model_Taxa::STATUS_PROVISIONALLY_ACCEPTED_NAME =>
-		      'PROVISIONALLY_ACCEPTED_NAME',
-		    ACI_Model_Taxa::STATUS_SYNONYM => 'SYNONYM',
-		    ACI_Model_Taxa::STATUS_COMMON_NAME => 'COMMON_NAME'
+        $statuses = array(
+            ACI_Model_Taxa::STATUS_ACCEPTED_NAME =>
+                'STATUS_ACCEPTED_NAME',
+            ACI_Model_Taxa::STATUS_AMBIGUOUS_SYNONYM =>
+                'STATUS_AMBIGUOUS_SYNONYM',
+            ACI_Model_Taxa::STATUS_MISAPPLIED_NAME =>
+                'STATUS_MISAPPLIED_NAME',
+            ACI_Model_Taxa::STATUS_PROVISIONALLY_ACCEPTED_NAME =>
+                'STATUS_PROVISIONALLY_ACCEPTED_NAME',
+            ACI_Model_Taxa::STATUS_SYNONYM => 'STATUS_SYNONYM',
+            ACI_Model_Taxa::STATUS_COMMON_NAME => 'STATUS_COMMON_NAME'
         );
-        if(isset($statuses[$id]))
-        {
-             return $statuses[$id];
-        }
-   		return '';
+        return isset($statuses[$id]) ? $statuses[$id] : '';
     }
     
     /**
@@ -64,7 +63,7 @@ class ACI_Model_Taxa
      */
     public static function getRank($id)
     {
-    	$ranks = array(
+        $ranks = array(
             ACI_Model_Taxa::RANK_KINGDOM => 'RANK_KINGDOM',
             ACI_Model_Taxa::RANK_PHYLUM => 'RANK_PHYLUM',
             ACI_Model_Taxa::RANK_CLASS => 'RANK_CLASS',
@@ -75,11 +74,7 @@ class ACI_Model_Taxa
             ACI_Model_Taxa::RANK_SPECIES => 'RANK_SPECIES',
             ACI_Model_Taxa::RANK_INFRASPECIES => 'RANK_INFRASPECIES'
         );
-        if(isset($ranks[$id]))
-        {
-             return $ranks[$id];
-        }
-        return '';
+        return isset($ranks[$id]) ? $ranks[$id] : '';
     }
     
     public function isAcceptedName()
