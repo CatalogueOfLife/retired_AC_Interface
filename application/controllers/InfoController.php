@@ -112,7 +112,9 @@ class InfoController extends Zend_Controller_Action
 	        
 	        $resultTable[$i]['english_name'] = $value['taxa'];
 	        
-	        $resultTable[$i]['accepted_scientific_names'] = $value['accepted_species_names'];
+	        $resultTable[$i]['accepted_scientific_names'] = number_format(
+	          $value['accepted_species_names']
+	        );
 	        
 	        $resultTable[$i]['dbLogo'] = '/images/databases/' .
 	          str_replace(" ","_",$value['database_name']);

@@ -37,6 +37,30 @@ class DetailsController extends Zend_Controller_Action
             $database = $row->toArray();
             $database['image'] = '/images/databases/' .
                 str_replace(' ', '_', $database['database_name']) . '.jpg';
+            if(isset($database['accepted_species_names']))
+            {
+            	$database['accepted_species_names'] = number_format(
+            	  $database['accepted_species_names']
+            	);
+            }
+            if(isset($database['accepted_infraspecies_names']))
+            {
+                $database['accepted_infraspecies_names'] = number_format(
+                  $database['accepted_infraspecies_names']
+                );
+            }
+            if(isset($database['common_names']))
+            {
+                $database['common_names'] = number_format(
+                  $database['common_names']
+                );
+            }
+            if(isset($database['total_names']))
+            {
+                $database['total_names'] = number_format(
+                  $database['total_names']
+                );
+            }
         }
                 
         $this->_logger->debug($database);

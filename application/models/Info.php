@@ -32,7 +32,7 @@ class ACI_Model_Info
         $replace = array(
            'database_name_displayed',
            'taxa',
-           'accepted_species_names'
+           'accepted_species_names DESC'
         );
         return str_replace($find,$replace,$columName);
     }
