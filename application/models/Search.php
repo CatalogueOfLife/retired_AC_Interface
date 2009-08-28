@@ -15,7 +15,7 @@ class ACI_Model_Search
     protected $_db;
     protected $_logger;
     const API_ROWSET_LIMIT = 1500;
-    const ITEMS_PER_PAGE = 10;
+    const ITEMS_PER_PAGE = 25;
     
     public function __construct(Zend_Db_Adapter_Abstract $dbAdapter)
     {
