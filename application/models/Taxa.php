@@ -28,6 +28,7 @@ class ACI_Model_Taxa
     public $status;
     public $specialist_name;
     public $lsid;
+    public $comment;
     public $taxa_id;
     public $taxa_name;
     public $taxa_author;   //synonyms only

@@ -135,8 +135,9 @@ class ACI_Model_Details
         $db = new ACI_Model_Table_Databases();
         $dbDetails = $db->get($species->db_id);
         
-        $species->db_image  = $dbDetails['image'];
-        $species->db_name = $dbDetails['label'];
+        $species->db_image   = $dbDetails['image'];
+        $species->db_name    = $dbDetails['label'];
+        $species->db_version = $dbDetails['version'];
         
         $species->hierarchy    = $this->speciesHierarchy($species->sn_taxa_id);
         $species->synonyms     = $this->synonyms($species->name_code);
