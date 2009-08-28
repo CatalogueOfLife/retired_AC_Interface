@@ -1,4 +1,4 @@
-<?php
+ow index<?php
 /**
  * Annual Checklist Interface
  *
@@ -194,6 +194,7 @@ class ACI_Model_Details
             array(
                 'id' => 'sn.record_id',
                 'sn.name_code',
+                'status' => 'sn.sp2000_status_id',
                 'sn.genus',
                 'sn.species',
                 'sn.infraspecies_marker',
@@ -206,11 +207,11 @@ class ACI_Model_Details
             )
         )
         ->where(
-            'sn.accepted_name_code = ? AND sn.sp2000_status_id = ?'
+            'sn.accepted_name_code = ? AND sn.is_accepted_name = ?'
         )
         ->order(array('genus', 'species', 'infraspecies', 'author'));
         
-        $select->bind(array($nameCode, ACI_Model_Taxa::STATUS_SYNONYM));
+        $select->bind(array($nameCode, 0));
         
         return $select->query()->fetchAll();
     }
