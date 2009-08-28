@@ -226,7 +226,7 @@ class ACI_Model_Details
         
         foreach ($synonyms as &$synonym) {
             $synonym['status'] =
-                ACI_Model_Taxa::getStatusString($synonym['status'], true);
+                ACI_Model_Taxa::getStatusString($synonym['status'], false);
         }
         
         return $synonyms;

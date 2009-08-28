@@ -50,7 +50,7 @@ class ACI_Model_Taxa
      * @param bool $phrased
      * @return string
      */
-    public static function getStatusString($id, $phrased = false)
+    public static function getStatusString($id, $phrased = true)
     {
         $statuses = array(
             ACI_Model_Taxa::STATUS_ACCEPTED_NAME =>
