@@ -61,7 +61,7 @@ class ACI_Model_Search
                 array(
                     ACI_Model_Search::getRightColumnName($sort)
                 ),
-                array('name', 'status')
+                array('rank','name')
             )
         );
         
@@ -172,7 +172,7 @@ class ACI_Model_Search
             'tx.name_code = sn.name_code',
             array()
         )
-        ->join(
+        ->joinLeft(
             array('fm' => 'families'),
             'sn.family_id = fm.record_id',
             array()
@@ -240,7 +240,7 @@ class ACI_Model_Search
             'cn.name_code = sn.name_code',
             array()
         )
-        ->join(
+        ->joinLeft(
             array('fm' => 'families'),
             'sn.family_id = fm.record_id',
             array()
