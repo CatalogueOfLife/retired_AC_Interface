@@ -135,8 +135,8 @@ class ACI_Model_Details
         $db = new ACI_Model_Table_Databases();
         $dbDetails = $db->get($species->db_id);
         
-        $species->db_name  = $dbDetails['image'];
-        $species->db_image = $dbDetails['label'];
+        $species->db_image  = $dbDetails['image'];
+        $species->db_name = $dbDetails['label'];
         
         $species->hierarchy    = $this->speciesHierarchy($species->sn_taxa_id);
         $species->synonyms     = $this->synonyms($species->name_code);
@@ -163,6 +163,7 @@ class ACI_Model_Details
                 array(
                     'tx.record_id',
                     'tx.parent_id',
+                    'tx.name',
                     'tx.taxon',
                     'tx.LSID'
                 )
@@ -274,7 +275,13 @@ class ACI_Model_Details
         ->where('d.name_code = ?', $nameCode)
         ->order('d.distribution');
         
-        return $select->query()->fetchAll();
+        $rowSet = $select->query()->fetchAll();
+        
+        $dist = array();
+        foreach($rowSet as $row) {
+            $dist[] = $row['distribution'];
+        }
+        return $dist;
     }
     
     public function references ($nameCode)
