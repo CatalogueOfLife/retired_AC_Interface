@@ -173,6 +173,8 @@ class SearchController extends Zend_Controller_Action
 	            );
             }
 	        
+            $resultTable[$i]['group'] = $row['kingdom'];
+            
             if(!$row['is_accepted_name']) {
                 $resultTable[$i]['status'] =
                     sprintf($resultTable[$i]['status'],
@@ -234,6 +236,7 @@ class SearchController extends Zend_Controller_Action
      */
     protected function _getPaginator(Zend_Db_Select $query, $page, $items)
     {
+    	$this->_logger->debug($query);
         $paginator = new Zend_Paginator(
             new Zend_Paginator_Adapter_DbSelect($query));
                 

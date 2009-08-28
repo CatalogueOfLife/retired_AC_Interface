@@ -77,7 +77,8 @@ class ACI_Model_Search
             'rank' => 'rank',
             'status' => 'status',
             'db' => 'db_name',
-            'scientificName' => 'accepted_species_name'
+            'scientificName' => 'accepted_species_name',
+            'group' => 'kingdom'
         );
         return isset($columMap[$columName]) ?
             $columMap[$columName] : null;
@@ -131,6 +132,7 @@ class ACI_Model_Search
                         'db_name' => 'db.database_name',
                         'db_id' => 'db.record_id',
                         'db_thumb' => 'CONCAT(REPLACE(db.database_name, " ", "_"), ".gif")',
+                        'kingdom' => 'fm.kingdom',
                         'status' => 'tx.sp2000_status_id');
         
         if($matchWholeWords) {
@@ -169,6 +171,11 @@ class ACI_Model_Search
         ->joinLeft(
             array('sn' => 'scientific_names'),
             'tx.name_code = sn.name_code',
+            array()
+        )
+        ->join(
+            array('fm' => 'families'),
+            'sn.family_id = fm.record_id',
             array()
         )
         ->joinLeft(
@@ -226,12 +233,18 @@ class ACI_Model_Search
                 'db_name' => 'db.database_name',
                 'db_id' => 'db.record_id',
                 'db_thumb' => 'CONCAT(REPLACE(db.database_name, " ", "_"), ".gif")',
+                'kingdom' => 'fm.kingdom',
                 'status' => new Zend_Db_Expr(ACI_Model_Taxa::STATUS_COMMON_NAME),
             )
         )
         ->joinLeft(
             array('sn' => 'scientific_names'),
             'cn.name_code = sn.name_code',
+            array()
+        )
+        ->join(
+            array('fm' => 'families'),
+            'sn.family_id = fm.record_id',
             array()
         )
         ->joinLeft(

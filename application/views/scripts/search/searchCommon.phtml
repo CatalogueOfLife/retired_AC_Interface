@@ -34,6 +34,10 @@ $urlParams = array(
         <a href="<?php echo $this->url(array_merge($urlParams,array(
           'sort' => 'scientificName'))); ?>"><?php echo $this->translate('Accepted_scientific_name'); ?>
         </a></th>    
+        <th class="horizontal<?php echo ($this->sort == 'group' ? " current" : "");?>">
+        <a href="<?php echo $this->url(array_merge($urlParams,array(
+          'sort' => 'group'))); ?>"><?php echo $this->translate('Group'); ?>
+        </a></th>    
         <th class="horizontal<?php echo ($this->sort == 'db' ? " current" : "");?>">
         <a href="<?php echo $this->url(array_merge($urlParams,array(
           'sort' => 'db'))); ?>"><?php echo $this->translate('Source_database'); ?>
@@ -48,6 +52,7 @@ $urlParams = array(
             </a>
         </td>
         <td><?php echo $items['status']; ?></td>
+        <td><?php echo $items['group']; ?></td>
         <td>
 <?php if($items['dbLabel'] != ""): ?>
         <a href="<?php echo $this->baseUrl() . $items['dbUrl']; ?>">
