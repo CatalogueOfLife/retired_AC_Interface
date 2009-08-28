@@ -221,7 +221,14 @@ class ACI_Model_Details
         
         $select->bind(array($nameCode, 0));
         
-        return $select->query()->fetchAll();
+        $synonyms = $select->query()->fetchAll();
+        
+        foreach ($synonyms as &$synonym) {
+            $synonym['status'] =
+                ACI_Model_Taxa::getStatusString($synonym['status']);
+        }
+        
+        return $synonyms;
     }
     
     /**
