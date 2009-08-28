@@ -28,6 +28,7 @@ echo $this->species->preface;
         ?></td>
     </tr>
 <?php if($this->species->infraspecies != null): ?>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd"); ?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Infraspecies'); ?>:</th>
         <td><?php foreach ($this->species->infraspecies as $infraspecies):
