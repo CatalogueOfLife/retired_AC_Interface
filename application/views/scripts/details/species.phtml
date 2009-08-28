@@ -4,7 +4,102 @@
 <?php
 if ($this->species instanceof ACI_Model_Taxa):
 echo $this->species->preface;
-echo $this->species->name;
+?>
+<a href="<?php echo $this->baseUrl() . '/details/database/id/' . $this->species->db_id; ?>"><img
+    class="wrapLogo"
+    src="<?php echo $this->baseUrl() . $this->species->db_image; ?>"
+    alt="<?php echo $this->species->db_name; ?>"
+    title="<?php echo $this->species->db_name; ?>"
+/></a>
+<table>
+<?php if($rowClass = "even")?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Accepted_scientific_name'); ?>:</th>
+        <td><?php echo $this->species->name; ?></td>
+    </tr>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd"); ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Synonym'); ?>:</th>
+        <td><?php foreach ($this->species->synonyms as $synonym): 
+            echo '<span class="taxonomicName">' . $synonym['name'] .
+            '</span> ' . $synonym['author'] . ' ' .
+            $this->translate($synonym['status']) . '<br />';
+        endforeach;
+        ?></td>
+    </tr>
+<?php if($this->species->infraspecies != null): ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Infraspecies'); ?>:</th>
+        <td><?php foreach ($this->species->infraspecies as $infraspecies): 
+            echo '<a href="' . $this->baseUrl() . '/details/species/id/' . $infraspecies['record_id'] . '"><span class="taxonomicName">' . $infraspecies['name'] .
+            '</span> ' . $infraspecies['author'] . ' ' .
+            $this->translate($synonym['status']) . '</a><br />';
+        endforeach;
+        ?></td>
+    </tr>
+<?php endif; ?>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Common_names'); ?>:</th>
+        <td><?php foreach ($this->species->common_names as $common): 
+            echo $common['common_name'] . ' ' . $common['language'] . ' ' . $common['country'] . '<br />';
+        endforeach;
+        ?></td>
+    </tr>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Classification'); ?>:</th>
+        <td><?php foreach ($this->species->hierarchy as $hierarchy): 
+            echo $hierarchy['taxon'] . ' <a href="' . $this->baseUrl() . '/browse/tree/id/' . $hierarchy['record_id'] . '">' . $hierarchy['name'] .
+            '</a> <a href="' . $hierarchy['LSID'] . '">' .
+            $this->translate('LSID') . '</a><br />';
+        endforeach;
+        ?></td>
+    </tr>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Distribution'); ?>:</th>
+        <td><?php foreach ($this->species->distribution as $distribution): 
+            echo $distribution . '; ';
+        endforeach;
+        ?></td>
+    </tr>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Additional_data'); ?>:</th>
+        <td><?php echo $this->species->comment . '<br />';
+        ?></td>
+    </tr>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Source_database'); ?>:</th>
+        <td><a href="<?php echo $this->baseUrl() . '/details/database/id/' . $this->species->db_id; ?>"><?php
+          echo $this->species->db_name . '</a>, ' . $this->species->db_version;
+        ?></td>
+    </tr>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Latest_taxonomic_scrutiny'); ?>:</th>
+        <td><?php echo $this->species->specialist_name;
+            if($this->species->specialist_name != ""):
+                echo ', ';
+            endif;
+            echo $this->species->scrutiny_date;
+        ?></td>
+    </tr>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Online_resource'); ?>:</th>
+        <td><a href="<?php echo $this->species->web_site; ?>"><?php
+          echo $this->species->web_site; ?></a></td>
+    </tr>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('CoL_taxon_LSID'); ?>:</th>
+        <td><?php echo $this->species->lsid . '<br />';
+        ?></td>
+    </tr>
+        <?php
 else:
 ?>
 <p><?php echo $this->translate('Species_not_found'); ?></p>
