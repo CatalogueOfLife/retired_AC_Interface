@@ -192,30 +192,22 @@ class SearchController extends Zend_Controller_Action
         return $resultTable;
     }
     
-    //TODO: review
     protected function _getSuffix($source, $status, $suffix)
     {
         switch($status) {
             case ACI_Model_Taxa::STATUS_COMMON_NAME:
                 $source .= ' (' . $suffix . ')';
             break;
-            case ACI_Model_Taxa::STATUS_ACCEPTED_NAME:
-            case ACI_Model_Taxa::STATUS_PROVISIONALLY_ACCEPTED_NAME:
-            case ACI_Model_Taxa::STATUS_SYNONYM:
+            default:
                 $source .= '  ' . $suffix;
             break;
         }
         return $source;
     }
-    //TODO: review
+
     protected function _getSpanTaxonomicName($source, $status, $rank)
     {
-        $taxonomicStatus = array(
-            ACI_Model_Taxa::STATUS_ACCEPTED_NAME,
-            ACI_Model_Taxa::STATUS_PROVISIONALLY_ACCEPTED_NAME,
-            ACI_Model_Taxa::STATUS_SYNONYM
-        );
-        if(in_array($status, $taxonomicStatus) &&
+        if($status != ACI_Model_Taxa::STATUS_COMMON_NAME &&
             $rank >= ACI_Model_Taxa::RANK_SPECIES) {
             $source = '<span class="taxonomicName">' . $source . '</span>';
         }

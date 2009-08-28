@@ -142,6 +142,7 @@ class ACI_Model_Details
         $species->hierarchy    = $this->speciesHierarchy($species->sn_taxa_id);
         $species->synonyms     = $this->synonyms($species->name_code);
         $species->common_names = $this->commonNames($species->name_code);
+        $species->infraspecies = $this->infraspecies($species->name_code);
         $species->references   = $this->references($species->id);
         $species->distribution = $this->distributions($species->name_code);
         
@@ -225,7 +226,7 @@ class ACI_Model_Details
         
         foreach ($synonyms as &$synonym) {
             $synonym['status'] =
-                ACI_Model_Taxa::getStatusString($synonym['status']);
+                ACI_Model_Taxa::getStatusString($synonym['status'], true);
         }
         
         return $synonyms;
@@ -261,6 +262,11 @@ class ACI_Model_Details
         ->order(array('cn.common_name', 'cn.language', 'cn.country'));
         
         return $select->query()->fetchAll();
+    }
+    
+    public function infraspecies($nameCode)
+    {
+        return array();
     }
     
     /**

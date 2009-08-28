@@ -47,21 +47,24 @@ class ACI_Model_Taxa
      * Returns a string for the status what can be translated
      *
      * @param int $id
+     * @param bool $phrased
      * @return string
      */
-    public static function getStatusString($id)
+    public static function getStatusString($id, $phrased = false)
     {
         $statuses = array(
             ACI_Model_Taxa::STATUS_ACCEPTED_NAME =>
                 'STATUS_ACCEPTED_NAME',
-            ACI_Model_Taxa::STATUS_AMBIGUOUS_SYNONYM =>
-                'STATUS_AMBIGUOUS_SYNONYM',
-            ACI_Model_Taxa::STATUS_MISAPPLIED_NAME =>
-                'STATUS_MISAPPLIED_NAME',
+            ACI_Model_Taxa::STATUS_AMBIGUOUS_SYNONYM => $phrased ?
+                'STATUS_AMBIGUOUS_SYNONYM_FOR' : 'STATUS_AMBIGUOUS_SYNONYM',
+            ACI_Model_Taxa::STATUS_MISAPPLIED_NAME => $phrased ?
+                'STATUS_MISAPPLIED_NAME_FOR' : 'STATUS_MISAPPLIED_NAME',
             ACI_Model_Taxa::STATUS_PROVISIONALLY_ACCEPTED_NAME =>
                 'STATUS_PROVISIONALLY_ACCEPTED_NAME',
-            ACI_Model_Taxa::STATUS_SYNONYM => 'STATUS_SYNONYM',
-            ACI_Model_Taxa::STATUS_COMMON_NAME => 'STATUS_COMMON_NAME'
+            ACI_Model_Taxa::STATUS_SYNONYM => $phrased ?
+                'STATUS_SYNONYM_FOR' : 'STATUS_SYNONYM',
+            ACI_Model_Taxa::STATUS_COMMON_NAME => $phrased ?
+                'STATUS_COMMON_NAME_FOR' : 'STATUS_COMMON_NAME'
         );
         return isset($statuses[$id]) ? $statuses[$id] : '';
     }
