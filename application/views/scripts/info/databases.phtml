@@ -31,6 +31,9 @@ $urlParams = array(
         <th class="vertical">
             <a href="<?php echo $this->baseUrl() . $items['url']; ?>">
                 <?php echo $items['name']; ?>
+                <?php if ($items['is_new'] == 1): ?>
+                    <span class="new">NEW!</span>
+                <?php endif; ?>
             </a>
         </th>
         <td>
