@@ -19,10 +19,11 @@ class ACI_Model_Taxa
     const RANK_INFRASPECIES = 9;
     
     public $id;
+    public $kingdom;
     public $genus;
     public $species;
-    public $infraspecies;
-    public $infraspecies_marker;
+    public $infra;
+    public $infra_marker;
     public $is_accepted_name;
     public $author;
     public $status;
@@ -39,8 +40,9 @@ class ACI_Model_Taxa
     public $db_image;
     public $hierarchy = array();
     public $synonyms = array();
+    public $infraspecies = array();
     public $common_names = array();
-    public $distributions = array();
+    public $distribution = array();
     public $references = array();
      
     /**
@@ -105,55 +107,58 @@ class ACI_Model_Taxa
     {
         switch($name) {
             case 'name':
-                return $this->getAcceptedScientificName();
+                $this->name =
+                    ACI_Model_Taxa::getAcceptedScientificName(
+                        $this->genus,
+                        $this->species,
+                        $this->infra,
+                        $this->infra_marker,
+                        $this->author
+                    );
+                return $this->name;
             break;
             case 'taxa_full_name':
-                return $this->getTaxaFullName();
+                $this->taxa_full_name =
+                    ACI_Model_Taxa::getTaxaFullName(
+                        $this->taxa_name,
+                        $this->taxa_status,
+                        $this->taxa_author,
+                        $this->taxa_language
+                    );
+                return $this->taxa_full_name;
             break;
         }
         return null;
     }
     
-    public function getTaxaFullName()
+    public static function getTaxaFullName($name, $status, $author, $language)
     {
-        if(!$this->taxa_status) {
+        if(!$status) {
             return '';
         }
-        $this->taxa_full_name = '<i>' . $this->taxa_name . '</i>';
-        switch($this->taxa_status) {
+        $taxa_full_name = '<i>' . $name . '</i>';
+        switch($status) {
             case ACI_Model_Taxa::STATUS_COMMON_NAME:
-                $this->taxa_full_name .= ' (' . $this->taxa_language . ')';
+                if($language) {
+                    $taxa_full_name .= ' (' . $language . ')';
+                }
             break;
             default:
-                $this->taxa_full_name .= ' ' . $this->taxa_author;
+                if($author) {
+                    $taxa_full_name .= ' ' . $author;
+                }
             break;
         }
-        return $this->taxa_full_name;
+        return $taxa_full_name;
     }
     
-    public function getAcceptedScientificName()
+    public static function getAcceptedScientificName($genus, $species,
+        $infraspecies, $infraspecies_marker, $author)
     {
-        $this->name = '';
-        switch($this->kingdom)
-        {
-            case 'Viruses':
-            case 'Subviral agents':
-                $this->name = $this->species .
-                    ($this->infraspecies_marker ?
-                        ' ' . $this->infraspecies_marker : '' .
-                    ($this->infraspecies ?
-                        ' ' . $this->infraspecies : ''));
-            break;
-            default:
-                $this->name =
-                    '<i>' . $this->genus . ' ' . $this->species . '</i>' .
-                    ($this->infraspecies_marker ?
-                        ' ' . $this->infraspecies_marker : '' .
-                    ($this->infraspecies ?
-                        ' <i>' . $this->infraspecies . '</i>' : '' .
-                    ($this->author ? ' ' . $this->author : '')));
-            break;
-        }
-        return $this->name;
+        $name  = "<i>$genus $species</i>";
+        $name .= $infraspecies ?
+            " $infraspecies_marker <i>$infraspecies</i>" : '';
+        $name .= $author ? " $author" : '';
+        return $name;
     }
 }

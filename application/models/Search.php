@@ -126,8 +126,7 @@ class ACI_Model_Search
                         'accepted_species_id' => 'sna.record_id',
                         'accepted_species_name' =>
                             "TRIM(CONCAT(IF(sna.genus IS NULL, '', sna.genus) " .
-                            ", ' ', IF(sna.species IS NULL, '', sna.species), ' ', " .
-                            "IF(sna.infraspecies IS NULL, '', sna.infraspecies)))",
+                            ", ' ', IF(sna.species IS NULL, '', sna.species)))",
                         'accepted_species_author' => 'sna.author',
                         'db_name' => 'db.database_name',
                         'db_id' => 'db.record_id',
@@ -227,8 +226,7 @@ class ACI_Model_Search
                 'accepted_species_id' => 'sn.record_id',
                 'accepted_species_name' =>
                     "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
-                    ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
-                    "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
+                    ", ' ', IF(sn.species IS NULL, '', sn.species)))",
                 'accepted_species_author' => 'sn.author',
                 'db_name' => 'db.database_name',
                 'db_id' => 'db.record_id',

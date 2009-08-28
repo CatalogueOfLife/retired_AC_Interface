@@ -142,7 +142,8 @@ class ACI_Model_Details
         $species->hierarchy    = $this->speciesHierarchy($species->sn_taxa_id);
         $species->synonyms     = $this->synonyms($species->name_code);
         $species->common_names = $this->commonNames($species->name_code);
-        $species->infraspecies = $this->infraspecies($species->name_code);
+        $species->infraspecies =
+            $this->infraspecies($species->genus, $species->species);
         $species->references   = $this->references($species->id);
         $species->distribution = $this->distributions($species->name_code);
         
@@ -211,8 +212,7 @@ class ACI_Model_Details
                 'sn.author',
                 'name' =>
                     "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
-                    ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
-                    "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))"
+                    ", ' ', IF(sn.species IS NULL, '', sn.species)))"
             )
         )
         ->where(
@@ -264,9 +264,44 @@ class ACI_Model_Details
         return $select->query()->fetchAll();
     }
     
-    public function infraspecies($nameCode)
+    public function infraspecies($genus, $species)
     {
-        return array();
+        $select = new Zend_Db_Select($this->_db);
+        
+        $select
+        ->from(
+            array('sn' => 'scientific_names'),
+            array(
+                'id' => 'sn.record_id',
+                'sn.infraspecies',
+                'sn.infraspecies_marker',
+                'sn.author',
+                'name' =>
+                    "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
+                    ", ' ', IF(sn.species IS NULL, '', sn.species)))"
+            )
+        )
+        ->where('sn.genus = ? AND sn.species = ? AND ' .
+                'sn.infraspecies IS NOT NULL AND sn.is_accepted_name = ?')
+        ->order(array('infraspecies', 'infraspecies_marker'));
+        
+        $select->bind(array($genus, $species, 1));
+        
+        $rowSet = $select->query()->fetchAll();
+        
+        $infraspecies = array();
+        $i = 0;
+        foreach($rowSet as $row) {
+            $infraspecies[$i]['id'] = $row['id'];
+            $infraspecies[$i]['name'] =
+                ACI_Model_Taxa::getAcceptedScientificName(
+                    $genus, $species, $row['infraspecies'],
+                    $row['infraspecies_marker'], $row['author']
+                );
+            $infraspecies[$i]['url'] = '/details/species/id/' . $row['id'];
+            $i++;
+        }
+        return $infraspecies;
     }
     
     /**

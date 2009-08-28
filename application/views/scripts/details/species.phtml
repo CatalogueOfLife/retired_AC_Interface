@@ -20,7 +20,7 @@ echo $this->species->preface;
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd"); ?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Synonym'); ?>:</th>
-        <td><?php foreach ($this->species->synonyms as $synonym): 
+        <td><?php foreach ($this->species->synonyms as $synonym):
             echo '<span class="taxonomicName">' . $synonym['name'] .
             '</span> ' . $synonym['author'] . ' ' .
             $this->translate($synonym['status']) . '<br />';
@@ -30,10 +30,9 @@ echo $this->species->preface;
 <?php if($this->species->infraspecies != null): ?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Infraspecies'); ?>:</th>
-        <td><?php foreach ($this->species->infraspecies as $infraspecies): 
-            echo '<a href="' . $this->baseUrl() . '/details/species/id/' . $infraspecies['record_id'] . '"><span class="taxonomicName">' . $infraspecies['name'] .
-            '</span> ' . $infraspecies['author'] . ' ' .
-            $this->translate($synonym['status']) . '</a><br />';
+        <td><?php foreach ($this->species->infraspecies as $infraspecies):
+            echo '<a href="' . $this->baseUrl() . $infraspecies['url'] . '">' .
+            $infraspecies['name'] . '</a><br />';
         endforeach;
         ?></td>
     </tr>
@@ -41,7 +40,7 @@ echo $this->species->preface;
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Common_names'); ?>:</th>
-        <td><?php foreach ($this->species->common_names as $common): 
+        <td><?php foreach ($this->species->common_names as $common):
             echo $common['common_name'] . ' ' . $common['language'] . ' ' . $common['country'] . '<br />';
         endforeach;
         ?></td>
@@ -49,7 +48,7 @@ echo $this->species->preface;
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Classification'); ?>:</th>
-        <td><?php foreach ($this->species->hierarchy as $hierarchy): 
+        <td><?php foreach ($this->species->hierarchy as $hierarchy):
             echo $hierarchy['taxon'] . ' <a href="' . $this->baseUrl() . '/browse/tree/id/' . $hierarchy['record_id'] . '">' . $hierarchy['name'] .
             '</a> <a href="' . $hierarchy['LSID'] . '">' .
             $this->translate('LSID') . '</a><br />';
@@ -59,7 +58,7 @@ echo $this->species->preface;
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Distribution'); ?>:</th>
-        <td><?php foreach ($this->species->distribution as $distribution): 
+        <td><?php foreach ($this->species->distribution as $distribution):
             echo $distribution . '; ';
         endforeach;
         ?></td>
