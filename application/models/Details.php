@@ -46,15 +46,14 @@ class ACI_Model_Details
                 'sn.accepted_name_code',
                 'sn.author',
                 'sn.comment',
-                'sn.specialist_id',
                 'sn.web_site',
                 'sn.scrutiny_date',
                 'status' => 'sn.sp2000_status_id',
+                'sn.scrutiny_date',
+                'sp.specialist_name',
                 'db_id' => 'sn.database_id',
-                'db_name' => 'db.database_name',
-                'db_full_name' => 'db.database_full_name',
-                'db_version' => 'db.version',
                 'sn_taxa_id' => 't.record_id',
+                'lsid' => 't.lsid',
                 'rank' => new Zend_Db_Expr(
                             'IF(t.taxon = "Infraspecies", ' .
                                 ACI_Model_Taxa::RANK_INFRASPECIES . ', ' .
@@ -107,11 +106,6 @@ class ACI_Model_Details
             array_merge($fields, $extraFields)
         )
         ->joinLeft(
-            array('db' => 'databases'),
-            'sn.database_id = db.record_id',
-            array()
-        )
-        ->joinLeft(
             array('f' => 'families'),
             'sn.family_id = f.record_id',
             array()
@@ -119,6 +113,11 @@ class ACI_Model_Details
         ->joinLeft(
             array('t' => 'taxa'),
             'sn.name_code = t.name_code',
+            array()
+        )
+        ->joinLeft(
+            array('sp' => 'specialists'),
+            'sn.specialist_id = sp.record_id',
             array()
         )
         ->where('sn.record_id = ?', (int)$id);
@@ -133,10 +132,17 @@ class ACI_Model_Details
             return false;
         }
         
-        $species->hierarchy = $this->speciesHierarchy($species->sn_taxa_id);
-        $species->synonyms = $this->synonyms($species->name_code);
+        $db = new ACI_Model_Table_Databases();
+        $dbDetails = $db->get($species->db_id);
+        
+        $species->db_name  = $dbDetails['image'];
+        $species->db_image = $dbDetails['label'];
+        
+        $species->hierarchy    = $this->speciesHierarchy($species->sn_taxa_id);
+        $species->synonyms     = $this->synonyms($species->name_code);
         $species->common_names = $this->commonNames($species->name_code);
-        $species->references = $this->references($species->id);
+        $species->references   = $this->references($species->id);
+        $species->distribution = $this->distributions($species->name_code);
         
         return $species;
     }
@@ -244,6 +250,29 @@ class ACI_Model_Details
         )
         ->where('cn.name_code = ?', $nameCode)
         ->order(array('cn.common_name', 'cn.language', 'cn.country'));
+        
+        return $select->query()->fetchAll();
+    }
+    
+    /**
+     * Gets all the ditributions of a particular name code
+     *
+     * @param string $nameCode
+     * @return array
+     */
+    public function distributions ($nameCode)
+    {
+        $select = new Zend_Db_Select($this->_db);
+        
+        $select
+        ->from(
+            array('d' => 'distribution'),
+            array(
+                'd.distribution'
+            )
+        )
+        ->where('d.name_code = ?', $nameCode)
+        ->order('d.distribution');
         
         return $select->query()->fetchAll();
     }

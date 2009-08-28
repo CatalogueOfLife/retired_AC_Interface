@@ -19,24 +19,27 @@ class ACI_Model_Taxa
     const RANK_INFRASPECIES = 9;
     
     public $id;
-    public $taxa_id;
-    public $taxa_name;
-    public $taxa_author;
-    public $taxa_language;
-    public $taxa_status;
-    public $family_id;
     public $genus;
     public $species;
     public $infraspecies;
     public $infraspecies_marker;
     public $is_accepted_name;
     public $author;
-    public $kingdom;
     public $status;
-    public $name_code;
+    public $specialist_name;
+    public $lsid;
+    public $taxa_id;
+    public $taxa_name;
+    public $taxa_author;   //synonyms only
+    public $taxa_language; //common names only
+    public $taxa_status;
+    public $db_id;
+    public $db_name;
+    public $db_image;
     public $hierarchy = array();
     public $synonyms = array();
     public $common_names = array();
+    public $distributions = array();
     public $references = array();
      
     /**
