@@ -14,6 +14,7 @@ class DetailsController extends Zend_Controller_Action
 {
     protected $_logger;
     protected $_db;
+    protected $_empty;
     
     public function init()
     {
@@ -21,6 +22,8 @@ class DetailsController extends Zend_Controller_Action
         $this->_db = Zend_Registry::get('db');
         $this->view->controller = $this->getRequest()->controller;
         $this->view->action = $this->getRequest()->action;
+        
+        $this->_empty = "-";
     }
     
     public function databaseAction()
@@ -62,16 +65,16 @@ class DetailsController extends Zend_Controller_Action
         }
 
         if($speciesDetails->synonyms == "") {
-            $speciesDetails->synonyms = "-";
+            $speciesDetails->synonyms = $this->_empty;
         }
         if($speciesDetails->common_names == "") {
-            $speciesDetails->common_names = "-";
+            $speciesDetails->common_names = $this->_empty;
         }
         if($speciesDetails->hierarchy == "") {
-            $speciesDetails->hierarchy = "-";
+            $speciesDetails->hierarchy = $this->_empty;
         }
         if($speciesDetails->distribution == "") {
-            $speciesDetails->distribution = "-";
+            $speciesDetails->distribution = $this->_empty;
         }
         else {
             $speciesDetails->distribution = implode(
@@ -79,21 +82,21 @@ class DetailsController extends Zend_Controller_Action
             );
         }        
         if($speciesDetails->comment == "") {
-            $speciesDetails->comment = "-";
+            $speciesDetails->comment = $this->_empty;
         }
         if($speciesDetails->db_id == "" && $speciesDetails->db_name = "" &&
           $speciesDetails->db_version = "") {
-            $speciesDetails->db_name = "-";
+            $speciesDetails->db_name = $this->_empty;
         }
         if($speciesDetails->scrutiny_date == "" &&
           $speciesDetails->specialist_name = "") {
-            $speciesDetails->scrutiny_date = "-";
+            $speciesDetails->scrutiny_date = $$this->_empty;
         }
         if($speciesDetails->web_site == "") {
-            $speciesDetails->web_site = "-";
+            $speciesDetails->web_site = $this->_empty;
         }
         if($speciesDetails->lsid == "") {
-            $speciesDetails->lsid = "-";
+            $speciesDetails->lsid = $this->_empty;
         }
         
         

@@ -47,6 +47,7 @@ if ($this->species instanceof ACI_Model_Taxa):
                     <th width="150px"><?php echo $this->translate('Common_name'); ?></th>
                     <th width="150px"><?php echo $this->translate('Language'); ?></th>
                     <th><?php echo $this->translate('Country'); ?></th>
+                    <th width="50px"><?php echo $this->translate('Reference'); ?></th>
                 </tr>
 
             <?php foreach ($this->species->common_names as $common): ?>
@@ -54,6 +55,13 @@ if ($this->species instanceof ACI_Model_Taxa):
                     <td><?php echo $common['common_name']; ?></td>
                     <td><?php echo $common['language']; ?></td>
                     <td><?php echo $common['country']; ?></td>
+                    <td align="right"><a href="<?php echo $this->baseUrl() .
+                          '/references/id/' . $common['reference_id']; ?>"><img
+					    class="wrapLogo"
+					    src="<?php echo $this->baseUrl() . '/images/book.gif'; ?>"
+					    alt="<?php echo $this->translate('Reference'); ?>"
+					    title="<?php echo $this->translate('Click_here_to_show_the_literature_reference'); ?>"
+                    /></td>
                 </tr>
             <?php endforeach; ?>
             </table>
@@ -66,7 +74,7 @@ if ($this->species instanceof ACI_Model_Taxa):
             <table>
                 <tr>
                     <th width="150px"><?php echo $this->translate('Rank'); ?></th>
-                    <th width="150px"><?php echo $this->translate('Name'); ?></th>
+                    <th width="150px"><?php echo $this->translate('Taxanomic_Name'); ?></th>
                     <th><?php echo $this->translate('LSID'); ?></th>
                 </tr>
         
