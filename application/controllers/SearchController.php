@@ -56,9 +56,8 @@ class SearchController extends Zend_Controller_Action
     {
         $this->view->title = $this->view->translate('Search_distribution');
         $this->view->headTitle($this->view->title, 'APPEND');
-        // TODO: implement search query and render normally
-        $this->view->form = '';
-        $this->renderScript('search/form.phtml');
+        // TODO: implement search query
+        $this->_renderFormPage();
     }
     
     public function allAction()
