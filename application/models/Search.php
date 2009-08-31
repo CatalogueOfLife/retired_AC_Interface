@@ -15,7 +15,7 @@ class ACI_Model_Search
     protected $_db;
     protected $_logger;
     const API_ROWSET_LIMIT = 1500;
-    const ITEMS_PER_PAGE = 25;
+    const ITEMS_PER_PAGE = 10;
     
     public function __construct(Zend_Db_Adapter_Abstract $dbAdapter)
     {
@@ -126,7 +126,8 @@ class ACI_Model_Search
                         'accepted_species_id' => 'sna.record_id',
                         'accepted_species_name' =>
                             "TRIM(CONCAT(IF(sna.genus IS NULL, '', sna.genus) " .
-                            ", ' ', IF(sna.species IS NULL, '', sna.species)))",
+                            ", ' ', IF(sna.species IS NULL, '', sna.species), ' ', " .
+                            "IF(sna.infraspecies IS NULL, '', sna.infraspecies)))",
                         'accepted_species_author' => 'sna.author',
                         'db_name' => 'db.database_name',
                         'db_id' => 'db.record_id',
@@ -226,7 +227,8 @@ class ACI_Model_Search
                 'accepted_species_id' => 'sn.record_id',
                 'accepted_species_name' =>
                     "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
-                    ", ' ', IF(sn.species IS NULL, '', sn.species)))",
+                    ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
+                    "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
                 'accepted_species_author' => 'sn.author',
                 'db_name' => 'db.database_name',
                 'db_id' => 'db.record_id',

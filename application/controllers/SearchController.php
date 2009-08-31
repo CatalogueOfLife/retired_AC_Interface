@@ -196,7 +196,7 @@ class SearchController extends Zend_Controller_Action
     
     protected function _getSuffix($source, $status, $suffix)
     {
-        switch($status) {
+        switch($status && $suffix != "") {
             case ACI_Model_Taxa::STATUS_COMMON_NAME:
                 $source .= ' (' . $suffix . ')';
             break;
