@@ -288,6 +288,10 @@ table.results tr td {
     margin-left: 2px
 }
 
+.lsid {
+    font-size: 9px;
+}
+
 .tableheader, th {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 11px;

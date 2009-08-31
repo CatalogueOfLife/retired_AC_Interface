@@ -60,8 +60,42 @@ class DetailsController extends Zend_Controller_Action
         else {
             $speciesDetails = false;
         }
-        //var_dump($speciesDetails);
-        $speciesDetails->distribution = implode('; ',$speciesDetails->distribution);
+
+        if($speciesDetails->synonyms == "") {
+            $speciesDetails->synonyms = "-";
+        }
+        if($speciesDetails->common_names == "") {
+            $speciesDetails->common_names = "-";
+        }
+        if($speciesDetails->hierarchy == "") {
+            $speciesDetails->hierarchy = "-";
+        }
+        if($speciesDetails->distribution == "") {
+            $speciesDetails->distribution = "-";
+        }
+        else {
+            $speciesDetails->distribution = implode(
+                '; ', $speciesDetails->distribution
+            );
+        }        
+        if($speciesDetails->comment == "") {
+            $speciesDetails->comment = "-";
+        }
+        if($speciesDetails->db_id == "" && $speciesDetails->db_name = "" &&
+          $speciesDetails->db_version = "") {
+            $speciesDetails->db_name = "-";
+        }
+        if($speciesDetails->scrutiny_date == "" &&
+          $speciesDetails->specialist_name = "") {
+            $speciesDetails->scrutiny_date = "-";
+        }
+        if($speciesDetails->web_site == "") {
+            $speciesDetails->web_site = "-";
+        }
+        if($speciesDetails->lsid == "") {
+            $speciesDetails->lsid = "-";
+        }
+        
         
         $title =
             $speciesDetails &&
