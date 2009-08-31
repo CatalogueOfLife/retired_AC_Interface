@@ -60,6 +60,8 @@ class DetailsController extends Zend_Controller_Action
         else {
             $speciesDetails = false;
         }
+        //var_dump($speciesDetails);
+        $speciesDetails->distribution = implode('; ',$speciesDetails->distribution);
         
         $title =
             $speciesDetails &&

@@ -59,10 +59,7 @@ echo $this->species->preface;
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Distribution'); ?>:</th>
-        <td><?php foreach ($this->species->distribution as $distribution):
-            echo $distribution . '; ';
-        endforeach;
-        ?></td>
+        <td><?php echo $this->species->distribution; ?></td>
     </tr>
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
