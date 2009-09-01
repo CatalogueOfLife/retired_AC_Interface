@@ -256,22 +256,29 @@ table.results tr td {
     font-size: 11px;
     cursor: default;
     margin-left: 3px;
-    margin-right: 3px
+    margin-right: 3px;
 }
 
 .menumain a {
     color: #000;
-    text-decoration: none
+    text-decoration: none;
 }
 
-.new {
+.new, .new_big {
     font-size: 9px;
     font-weight: bold;
-    color: #F400F4
+    color: #F400F4;
+}
+
+.new_big {
+    font-size: 12px;
+    font-weight: bold;
+    color: #F400F4;
+    padding: 0 4px;
 }
 
 .nextpreviousarrows {
-    font-size: 9px
+    font-size: 9px;
 }
 
 .selectedLetter {
