@@ -14,7 +14,6 @@ class SearchController extends Zend_Controller_Action
 {
     protected $_logger;
     protected $_db;
-    protected $_script;
         
     public function init()
     {
@@ -29,10 +28,9 @@ class SearchController extends Zend_Controller_Action
     {
         $this->view->title = $this->view->translate('Search_common_names');
         $this->view->headTitle($this->view->title, 'APPEND');
-        $this->_script = 'search/searchCommon.phtml';
         $this->_hasParam('key') ?
             $this->_renderResultsPage() :
-            $this->_renderFormPage();
+            $this->_renderFormPage($this->view->title);
     }
     
     public function scientificAction()
@@ -46,10 +44,10 @@ class SearchController extends Zend_Controller_Action
         $this->view->title = $this->view->translate('Search_scientific_names');
         $this->view->headTitle($this->view->title, 'APPEND');
         // TODO: implement search query
-        //$form = new ACI_Form_SearchScientific();
-        $form = new ACI_Form_Dojo_SearchScientific();
-        $this->view->form = $form;
-        $this->renderScript('search/form.phtml');
+        $this->_renderFormPage(
+            $this->view->title,
+            new ACI_Form_Dojo_SearchScientific()
+        );
     }
     
     public function distributionAction()
@@ -57,23 +55,29 @@ class SearchController extends Zend_Controller_Action
         $this->view->title = $this->view->translate('Search_distribution');
         $this->view->headTitle($this->view->title, 'APPEND');
         // TODO: implement search query
-        $this->_renderFormPage();
+        $this->_renderFormPage($this->view->title);
     }
     
     public function allAction()
     {
         $this->view->title = $this->view->translate('Search_all_names');
         $this->view->headTitle($this->view->title, 'APPEND');
-        $this->_script = 'search/searchAll.phtml';
+        $formHeader =
+            sprintf(
+                $this->view->translate('Search_fixed_edition'),
+                '<span class="red">' .
+                $this->view->translate('Annual_Checklist') . '</span>'
+            );
         $this->_hasParam('key') ?
             $this->_renderResultsPage() :
-            $this->_renderFormPage();
+            $this->_renderFormPage($formHeader);
     }
     
-    protected function _renderFormPage()
+    protected function _renderFormPage($formHeader, $form = null)
     {
-        //$this->view->form = new ACI_Form_Search();
-        $this->view->form = new ACI_Form_Dojo_Search();
+        $this->view->formHeader = $formHeader;
+        $this->view->form = $form instanceof Zend_Form ?
+            $form : new ACI_Form_Dojo_Search();
         $this->renderScript('search/form.phtml');
     }
     
@@ -94,7 +98,6 @@ class SearchController extends Zend_Controller_Action
         $this->view->tableResults = $this->_createTableFromResults();
         
         // Build items per page form
-        //$form = new ACI_Form_ItemsPerPage();
         $form = new ACI_Form_Dojo_ItemsPerPage();
 
         $form->getElement('key')->setValue($this->_getParam('key'));
@@ -114,7 +117,8 @@ class SearchController extends Zend_Controller_Action
         $this->view->form = $form;
         
         // Render the results page
-        $this->renderScript($this->_script);
+        $this->renderScript(
+            'search/results_' . $this->_getParam('action') . '.phtml');
     }
     
     /**
@@ -163,13 +167,14 @@ class SearchController extends Zend_Controller_Action
             $resultTable[$i]['rank'] = $this->view->translate(
                 ACI_Model_Taxa::getRankString($row['rank'])
             );
-            
-            $resultTable[$i]['status'] = '%s';
-            if($this->_script == "search/searchAll.phtml")
+            if($this->_getParam('action') == 'all')
             {
 	            $resultTable[$i]['status'] = $this->view->translate(
 	                ACI_Model_Taxa::getStatusString($row['status'])
 	            );
+            }
+            else {
+                $resultTable[$i]['status'] = '%s';
             }
 	        
             $resultTable[$i]['group'] = $row['kingdom'];

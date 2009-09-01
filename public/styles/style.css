@@ -275,6 +275,10 @@ table.results tr td {
     padding: 0 4px;
 }
 
+.red {
+	color: #B41A1A;
+}
+
 .nextpreviousarrows {
     font-size: 9px;
 }
