@@ -31,10 +31,10 @@ $urlParams = array(
         <th class="vertical">
             <a href="<?php echo $this->baseUrl() . $items['url']; ?>">
                 <?php echo $items['name']; ?>
-                <?php if ($items['is_new'] == 1): ?>
-                    <span class="new"><?php echo $this->translate('NEW')?></span>
-                <?php endif; ?>
             </a>
+            <?php if ($items['is_new'] == 1): ?>
+                <span class="new_big"><?php echo $this->translate('NEW')?></span>
+            <?php endif; ?>
         </th>
         <td>
 <?php if($items['label']): ?>
