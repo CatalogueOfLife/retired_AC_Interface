@@ -33,4 +33,7 @@ $application = new Zend_Application(
     APPLICATION_PATH . '/configs/application.ini'
 );
 
+$front = Zend_Controller_Front::getInstance();
+$front->returnResponse(true);
+
 $application->bootstrap()->run();
