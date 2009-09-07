@@ -8,7 +8,7 @@
 		<include name="**/*.php" />
 		<exclude name="**/tests/**" />
 		<exclude name="**/library/**" />
-		<exclude name="**/public/scripts/library/**" />
+		<exclude name="**/public/scripts/**" />
 	</patternset>
 
 	<!-- Checkout latest version from SVN -->
@@ -30,14 +30,14 @@
         <exec dir="${basedir}"
             command="phpdoc -ct type -ue on -t ${build}/api
                      -tb /usr/share/php/data/phpUnderControl/data/phpdoc -o HTML:Phpuc:phpuc
-                     -d ${basedir}/application,${basedir}/public,${basedir}/tests" />
+                     -d ${basedir}/application,${basedir}/public/index.php,${basedir}/tests" />
     </target>
     
     <!-- Execute Code Sniffer -->
     <target name="phpcs">
         <exec dir="${basedir}"
             command="phpcs --report=checkstyle --standard=Zend 
-                   --ignore=library/** 
+                   --ignore=library/**,public/scripts/** 
                    ${basedir} > ${build}/logs/checkstyle.xml"
             escape="false" />
     </target>
@@ -61,7 +61,7 @@
                            --summary-xml=${build}/logs/jdepend-summary.xml 
                            --overview-pyramid=${build}/graph/pyramid.svg 
                            --jdepend-chart=${build}/graph/jdepend.svg
-                           --ignore=library/** 
+                           --ignore=library/**,public/scripts/** 
                            ${basedir}" />
     </target>
 
