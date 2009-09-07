@@ -32,7 +32,7 @@ a:link {
 }
 
 a:visited {
-    color: #663399;
+    color: #639;
     text-decoration: none;
 }
 
@@ -58,12 +58,12 @@ table {
 
 .wrapLogo {
     border: 1px solid #edebeb;
-    background-color: #ffffff;
+    background-color: #fff;
     padding: 2px;
 }
 
 tr.even {
-	background-color: #fafcfe;
+    background-color: #fafcfe;
 }
 
 tr.odd {
@@ -71,29 +71,19 @@ tr.odd {
 }
 
 table.results tr td {
-    padding: 10px 3px 10px 3px;
+    padding: 10px 3px;
 }
 
-.aboutcolheader {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    color: #990000;
-    font-weight: bold;
-    margin-right: 0px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-left: 0px
+.aboutcolheader {    
+    color: #900;
+    font-weight: bold;    
+    margin: 5px 0;
 }
 
 .fieldheader {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
     color: #336;
     font-weight: bold;
-    margin-right: 0px;
-    margin-top: 1px;
-    margin-bottom: 3px;
-    margin-left: 0px;
+    margin: 1px 0 3px 0;
     text-decoration: underline;
 }
 
@@ -101,17 +91,10 @@ table.results tr td {
     font-style:italic;
 }
 
-.fieldheader A:link {
-    color: #333366;
-    text-decoration: none;
-}
-
-.fieldheader A:visited {
-    color: #333366;
-    text-decoration: none;
-}
-
-.fieldheader A:active {
+.fieldheader A:link,
+.fieldheader A:visited,
+.fieldheader A:active
+{
     color: #333366;
     text-decoration: none;
 }
@@ -121,9 +104,7 @@ table.results tr td {
     text-decoration: underline;
 }
 
-.fieldheaderblack {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
+.fieldheaderblack {    
     color: #000000;
     margin-right: 0px;
     margin-top: 1px;
@@ -131,18 +112,11 @@ table.results tr td {
     margin-left: 0px
 }
 
-.fieldheaderblack A:link {
-    color: #000000;
-    text-decoration: none;
-}
-
-.fieldheaderblack A:visited {
-    color: #000000;
-    text-decoration: none;
-}
-
-.fieldheaderblack A:active {
-    color: #000000;
+.fieldheaderblack A:link,
+.fieldheaderblack A:visited,
+.fieldheaderblack A:active
+{
+    color: #000;
     text-decoration: none;
 }
 
@@ -152,19 +126,15 @@ table.results tr td {
 }
 
 .fieldvalue {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    color: #000000;
+    color: #000;
     margin-right: 6px;
     margin-top: 1px;
     margin-bottom: 3px;
     margin-left: 0px
 }
 
-.fieldvalue_literature {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    color: #000000;
+.fieldvalue_literature {    
+    color: #000;
     margin-right: 6px;
     margin-top: 1px;
     margin-bottom: 6px;
@@ -172,17 +142,13 @@ table.results tr td {
     list-style-image: url(../images/Menu_Arrow.gif)
 }
 
-.formfieldheader {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    color: #000000;
+.formfieldheader {    
+    color: #000;
     margin-top: 4px;
 }
 
 .formheader {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    color: #333366;
+    color: #336;
     font-weight: bold;
     margin: 0 0 15px 0;
     text-align: left;
@@ -191,69 +157,43 @@ table.results tr td {
 }
 
 .formbutton {
-    color: #000066;
+    color: #006;
     font-family: Verdana, "MS Sans Serif", "Espy Sans", Geneva, Arial;
     font-size: 13px
 }
 
-.howtociteheader {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    color: #990000;
-    font-weight: bold;
-    margin-right: 0px;
-    margin-top: 0px;
-    margin-bottom: 5px;
-    margin-left: 0px
+.howtociteheader {    
+    color: #900;
+    font-weight: bold;    
+    margin: 0 0 5px 0;
 }
 
-.listlink {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    color: #000000;
+.listlink {    
+    color: #000;
 }
 
-.listlink a:link {
+.listlink a:link,
+.listlink a:visited,
+.listlink a:active 
+{
     text-decoration: none;
-    color: #000000;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px
-}
-
-.listlink a:visited {
-    text-decoration: none;
-    color: #000000;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px
-}
-
-.listlink a:active {
-    text-decoration: none;
-    color: #000000;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px
+    color: #000;
 }
 
 .listlink a:hover {
     color: #F20B0B;
-    text-decoration: underline;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px
+    text-decoration: underline;    
 }
 
 #menu ul li a {
     color: #000;
-    text-decoration: none;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
+    text-decoration: none;    
     margin-left: 3px;
     margin-right: 3px;
     cursor: default
 }
 
-.menumain {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
+.menumain {    
     cursor: default;
     margin-left: 3px;
     margin-right: 3px;
@@ -284,17 +224,13 @@ table.results tr td {
 }
 
 .selectedLetter {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
     color: #336;
     font-weight: bold
 }
 
 .showdetails {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
     margin-right: 2px;
-    margin-left: 2px
+    margin-left: 2px;
 }
 
 .lsid {
@@ -302,24 +238,9 @@ table.results tr td {
 }
 
 .tableheader, th {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
     font-weight: bold;
-    color: #666666;
-    margin-top: 3px;
-    margin-right: 2px;
-    margin-bottom: 3px;
-    margin-left: 2px
-}
-
-.tableheader, th {
-    color: #666666;
-    text-decoration: none;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    margin-left: 0px;
-    margin-right: 3px;
-    cursor: default;
+    color: #666;    
+    margin: 3px 2px;
 }
 
 th {
@@ -353,21 +274,14 @@ th.current {
 
 th.horizontal {
     vertical-align:top;
-    color: #333366;
+    color: #336;
 }
 
-th.vertical a:link {
-    color: #333366;
-    text-decoration: none
-}
-
-th.vertical a:visited {
-    color: #333366;
-    text-decoration: none
-}
-
-th.vertical a:active {
-    color: #333366;
+th.vertical a:link,
+th.vertical a:visited,
+th.vertical a:active
+{
+    color: #336;
     text-decoration: none
 }
 
@@ -378,12 +292,10 @@ th.vertical a:hover {
 
 th.vertical {
     vertical-align:top;
-    color: #333366;
+    color: #336;
 }
 
 .treenode {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
     margin-left: 4px;
 }
 
@@ -392,11 +304,11 @@ th.vertical {
     left: 10px;
     right: 10px;
     height: 20px;
-    border-top: 1px solid #333366;
+    border-top: 1px solid #336;
 }
 
 .view {
-    border: 1px solid #333366;
+    border: 1px solid #336;
     background-color: #FAFCFE;
     padding: 1px 4px 1px 0;
     margin: 0px 0px 0px 4px;
@@ -441,8 +353,9 @@ th.vertical {
     position: absolute;
     left: 121px;
     top: 145px;
-    z-index: 5;
-    min-width: 850px;
+    z-index: -1;
+    min-width: 620px;
+    width: 620px;
     min-height: 300px;
     padding: 15px;
 }
