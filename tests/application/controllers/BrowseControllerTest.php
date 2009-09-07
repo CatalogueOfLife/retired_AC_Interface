@@ -1,5 +1,5 @@
 <?php
-class SearchControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
+class BrowseControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
 {
     public function setUp ()
     {
@@ -9,15 +9,15 @@ class SearchControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
     }
     
     /**
-     * Search controller redirects requests with no action to search/all
+     * Browse controller redirects requests with no action to browse/tree
      */
-    public function testDefaultSearchPageIsASuccessfulRequestToSearchAll()
+    public function testDefaultBrowsePageIsASuccessfulRequestToBrowseTree()
     {
-        $this->dispatch('/search');
+        $this->dispatch('/browse');
         $this->assertFalse($this->response->isException());
         $this->assertResponseCode(200);
         $this->assertNotRedirect();
-        $this->assertController('search');
-        $this->assertAction('all');
+        $this->assertController('browse');
+        $this->assertAction('tree');
     }
 }

@@ -1,5 +1,5 @@
 <?php
-class SearchControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
+class DetailsControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
 {
     public function setUp ()
     {
@@ -9,11 +9,12 @@ class SearchControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
     }
     
     /**
-     * Search controller redirects requests with no action to search/all
+     * Details controller redirects requests with no action to search/all
+     * (default page)
      */
-    public function testDefaultSearchPageIsASuccessfulRequestToSearchAll()
+    public function testDefaultDetailsPageIsASuccessfulRequestToSearchAll()
     {
-        $this->dispatch('/search');
+        $this->dispatch('/details');
         $this->assertFalse($this->response->isException());
         $this->assertResponseCode(200);
         $this->assertNotRedirect();

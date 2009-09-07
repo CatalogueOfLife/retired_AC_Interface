@@ -1,5 +1,5 @@
 <?php
-class SearchControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
+class InfoControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
 {
     public function setUp ()
     {
@@ -9,15 +9,15 @@ class SearchControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
     }
     
     /**
-     * Search controller redirects requests with no action to search/all
+     * Info controller redirects requests with no action to info/about
      */
-    public function testDefaultSearchPageIsASuccessfulRequestToSearchAll()
+    public function testDefaultInfoPageIsASuccessfulRequestToInfoAbout()
     {
-        $this->dispatch('/search');
+        $this->dispatch('/info');
         $this->assertFalse($this->response->isException());
         $this->assertResponseCode(200);
         $this->assertNotRedirect();
-        $this->assertController('search');
-        $this->assertAction('all');
+        $this->assertController('info');
+        $this->assertAction('about');
     }
 }
