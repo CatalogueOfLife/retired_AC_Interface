@@ -8,6 +8,7 @@
 		<include name="**/*.php" />
 		<exclude name="**/tests/**" />
 		<exclude name="**/library/**" />
+		<exclude name="**/public/scripts/library/**" />
 	</patternset>
 
 	<!-- Checkout latest version from SVN -->
