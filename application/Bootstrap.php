@@ -75,8 +75,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $view->headTitle()->setSeparator(' :: ');
         $viewRenderer = new Zend_Controller_Action_Helper_ViewRenderer();
         $viewRenderer->setView($view);
-        Zend_Controller_Action_HelperBroker::addHelper($viewRenderer);
+        // Initialize Dojo, disabled by default
         Zend_Dojo::enableView($view);
+        $view->dojo()->disable();
+        Zend_Controller_Action_HelperBroker::addHelper($viewRenderer);
         //Variables
         $view->app = $config->custom->application;
         return $view;

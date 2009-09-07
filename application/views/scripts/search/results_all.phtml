@@ -22,6 +22,7 @@ $urlParams = array(
 
 <?php if ($this->paginator->getTotalItemCount() > 0): ?>
 <?php echo $this->form; ?>
+
 <ul>
 <table class="results">
 <?php $rowClass = "odd"; ?>
@@ -29,19 +30,19 @@ $urlParams = array(
         <th class="horizontal<?php echo ($this->sort == 'name' ? " current" : "");?>">
         <a href="<?php echo $this->url(array_merge($urlParams,array(
           'sort' => 'name'))); ?>"><?php echo $this->translate('Name'); ?></a>
-        </th>    
+        </th>
         <th class="horizontal<?php echo ($this->sort == 'rank' ? " current" : "");?>">
         <a href="<?php echo $this->url(array_merge($urlParams,array(
           'sort' => 'rank'))); ?>"><?php echo $this->translate('Rank'); ?></a>
-        </th>    
+        </th>
         <th class="horizontal<?php echo ($this->sort == 'status' ? " current" : "");?>">
         <a href="<?php echo $this->url(array_merge($urlParams,array(
           'sort' => 'status'))); ?>"><?php echo $this->translate('Name_status'); ?>
-        </a></th>    
+        </a></th>
         <th class="horizontal<?php echo ($this->sort == 'group' ? " current" : "");?>">
         <a href="<?php echo $this->url(array_merge($urlParams,array(
           'sort' => 'group'))); ?>"><?php echo $this->translate('Group'); ?>
-        </a></th>    
+        </a></th>
         <th class="horizontal<?php echo ($this->sort == 'db' ? " current" : "");?>">
         <a href="<?php echo $this->url(array_merge($urlParams,array(
           'sort' => 'db'))); ?>"><?php echo $this->translate('Source_database'); ?>

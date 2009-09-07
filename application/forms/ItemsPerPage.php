@@ -4,23 +4,42 @@ class ACI_Form_ItemsPerPage extends Zend_Form
     public function init()
     {
         $this->setMethod('post');
-
-        $translator = Zend_Registry::get('Zend_Translate');
-
-        //TODO: Create this line "Show <input text> records per page <input submit>"
         
-        $items = $this->createElement('text', 'items')->setRequired(true);
+        $translator = Zend_Registry::get('Zend_Translate');
+        
+        $items = $this->createElement('text', 'items', array('size' => 4));
         $items->setLabel($translator->translate('Show'))
               ->setDescription($translator->translate('records_per_page'));
-                
-        // Add elements to form:
+              
         $this->addElement($items)
-             ->addelement($this->createElement('hidden', 'key'))
-             ->addelement($this->createElement('hidden', 'match'))
-             ->addelement(
+             ->addElement($this->createElement('hidden', 'key'))
+             ->addElement($this->createElement('hidden', 'match'))
+             ->addElement(
                  $this->createElement(
-                     'submit', $translator->translate('Update')
-                 )
+                     'submit', 'update'
+                 )->setLabel($translator->translate('Update'))
              );
+        
+        $this->setDecorators(
+            array(
+                'FormElements',
+                array(
+                    'HtmlTag',
+                    array('tag' => 'div', 'class' => 'items_form')),
+                    'Form'
+            )
+        );
+    }
+    
+    public function render(Zend_View_Interface $view = null)
+    {
+        if (null === $view) {
+            $view = $this->getView();
+        }
+        $loader = $view->getPluginLoader('helper');
+        if ($loader->getPaths('Zend_Dojo_View_Helper')) {
+            $loader->removePrefixPath('Zend_Dojo_View_Helper');
+        }
+        return parent::render($view);
     }
 }

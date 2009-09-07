@@ -77,7 +77,7 @@ class SearchController extends Zend_Controller_Action
     {
         $this->view->formHeader = $formHeader;
         $this->view->form = $form instanceof Zend_Form ?
-            $form : new ACI_Form_Dojo_Search();
+            $form : new ACI_Form_Search();
         $this->renderScript('search/form.phtml');
     }
     
@@ -98,7 +98,7 @@ class SearchController extends Zend_Controller_Action
         $this->view->tableResults = $this->_createTableFromResults();
         
         // Build items per page form
-        $form = new ACI_Form_Dojo_ItemsPerPage();
+        $form = new ACI_Form_ItemsPerPage();
 
         $form->getElement('key')->setValue($this->_getParam('key'));
         $form->getElement('match')->setValue($this->_getParam('match'));
@@ -169,14 +169,14 @@ class SearchController extends Zend_Controller_Action
             );
             if($this->_getParam('action') == 'all')
             {
-	            $resultTable[$i]['status'] = $this->view->translate(
-	                ACI_Model_Taxa::getStatusString($row['status'])
-	            );
+                $resultTable[$i]['status'] = $this->view->translate(
+                    ACI_Model_Taxa::getStatusString($row['status'])
+                );
             }
             else {
                 $resultTable[$i]['status'] = '%s';
             }
-	        
+            
             $resultTable[$i]['group'] = $row['kingdom'];
             
             if(!$row['is_accepted_name']) {

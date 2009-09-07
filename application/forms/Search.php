@@ -1,25 +1,43 @@
 <?php
 class ACI_Form_Search extends Zend_Form
 {
-    public function init()
+    public function init ()
     {
         $this->setMethod('post');
-
         $translator = Zend_Registry::get('Zend_Translate');
         
-        $key = $this->createElement('text', 'key')->setRequired(true);
-        $key->setLabel($translator->translate('Search_for'));
+        $key = $this->createElement('text', 'key', array('size' => 40));
+        $key->setLabel($translator->translate('Search_for') . ':');
         
-        $match = $this->createElement('checkbox', 'match')->setValue('1');
+        $match = $this->createElement('checkbox', 'match')->setValue(1);
         $match->setLabel($translator->translate('Match_whole_words_only'));
+        $match->getDecorator('label')->setOption('placement', 'append');
         
-        // Add elements to form:
-        $this->addElement($key)
-             ->addElement($match)
-             ->addelement(
-                 $this->createElement(
-                     'submit', $translator->translate('Search')
-                 )
-             );
+        $submit = $this->createElement('submit', 'search')
+            ->setLabel($translator->translate('Search') . ' >>');
+            
+        $this->addElement($key)->addElement($match)->addElement($submit);
+        
+        $this->setDecorators(
+            array(
+                'FormElements',
+                array(
+                    'HtmlTag',
+                    array('tag' => 'div', 'class' => 'search_form')),
+                    'Form'
+            )
+        );
+    }
+    
+    public function render(Zend_View_Interface $view = null)
+    {
+        if (null === $view) {
+            $view = $this->getView();
+        }
+        $loader = $view->getPluginLoader('helper');
+        if ($loader->getPaths('Zend_Dojo_View_Helper')) {
+            $loader->removePrefixPath('Zend_Dojo_View_Helper');
+        }
+        return parent::render($view);
     }
 }
