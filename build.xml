@@ -7,8 +7,7 @@
 	<patternset id="inc.php.files">
 		<include name="**/*.php" />
 		<exclude name="**/tests/**" />
-		<exclude name="**/library/Zend/**" />
-		<exclude name="**/library/Smarty/**" />
+		<exclude name="**/library/**" />
 	</patternset>
 
 	<!-- Checkout latest version from SVN -->
@@ -38,7 +37,7 @@
     <target name="phpcs">
         <exec dir="${basedir}"
             command="phpcs --report=checkstyle --standard=Zend 
-                   --ignore=library/Zend/**,library/Smarty/**
+                   --ignore=library/**
                    ${basedir} > ${build}/logs/checkstyle.xml"
             escape="false" />
     </target>
@@ -62,7 +61,7 @@
                            --summary-xml=${build}/logs/jdepend-summary.xml 
                            --overview-pyramid=${build}/graph/pyramid.svg 
                            --jdepend-chart=${build}/graph/jdepend.svg
-                           --ignore=library/Zend/**,library/Smarty/**
+                           --ignore=library/**
                            ${basedir}" />
     </target>
 
