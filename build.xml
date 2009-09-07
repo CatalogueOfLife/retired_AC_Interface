@@ -18,7 +18,6 @@
 	<!-- Clean and set up build/dist directories -->
 	<target name="clean">
 		<delete dir="${build}" includeemptydirs="true" />
-
 		<mkdir dir="${build}/logs" />
 		<mkdir dir="${build}/api" />
 		<mkdir dir="${build}/coverage" />
@@ -37,7 +36,7 @@
     <target name="phpcs">
         <exec dir="${basedir}"
             command="phpcs --report=checkstyle --standard=Zend 
-                   --ignore=library/**
+                   --ignore=library/** 
                    ${basedir} > ${build}/logs/checkstyle.xml"
             escape="false" />
     </target>
@@ -61,7 +60,7 @@
                            --summary-xml=${build}/logs/jdepend-summary.xml 
                            --overview-pyramid=${build}/graph/pyramid.svg 
                            --jdepend-chart=${build}/graph/jdepend.svg
-                           --ignore=library/**
+                           --ignore=library/** 
                            ${basedir}" />
     </target>
 
