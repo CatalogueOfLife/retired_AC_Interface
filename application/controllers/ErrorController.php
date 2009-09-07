@@ -30,7 +30,6 @@ class ErrorController extends Zend_Controller_Action
                 // application error
                 $this->view->layout()->disableLayout();
                 $this->getResponse()->setHttpResponseCode(500);
-                $this->view->message = 'Application error';
                 $this->view->exception = $errors->exception;
                 $this->view->request   = $errors->request;
                 break;
