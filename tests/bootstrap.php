@@ -34,6 +34,7 @@ $application = new Zend_Application(
 );
 
 $front = Zend_Controller_Front::getInstance();
+$front->throwExceptions(true);
 $front->returnResponse(true);
 
 $application->bootstrap()->run();
