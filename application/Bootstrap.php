@@ -78,7 +78,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Controller_Action_HelperBroker::addHelper($viewRenderer);
         Zend_Dojo::enableView($view);
         //Variables
-        $view->app = $config->custom->application;        
+        $view->app = $config->custom->application;
         return $view;
     }
     
@@ -91,8 +91,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $config = Zend_Registry::get('config');
         $db = Zend_Db::factory($config->resources->db);
         $db->setFetchMode(Zend_Db::FETCH_ASSOC);
-        $db->getConnection();//test connection
-        //Zend_Db_Table_Abstract::setDefaultAdapter($db);
         Zend_Registry::set('db', $db);
     }
     
