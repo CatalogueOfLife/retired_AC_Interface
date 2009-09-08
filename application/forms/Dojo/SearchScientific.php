@@ -4,7 +4,7 @@ class ACI_Form_Dojo_SearchScientific extends Zend_Dojo_Form
     public function init()
     {
         $this->setMethod('post');
-        $this->setName('searchFormBox');
+        $this->setAttribs(array('id' => 'searchForm'));
         
         $ranks = array(
             'genus' => 'Genus',
@@ -44,7 +44,7 @@ class ACI_Form_Dojo_SearchScientific extends Zend_Dojo_Form
         
         $submit = $this->createElement(
             'SubmitButton',
-            'submit',
+            'search',
             array(
                 'required'   => false,
                 'ignore'     => true

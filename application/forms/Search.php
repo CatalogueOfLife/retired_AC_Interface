@@ -4,6 +4,7 @@ class ACI_Form_Search extends Zend_Form
     public function init ()
     {
         $this->setMethod('post');
+        $this->setAttribs(array('id' => 'searchForm'));
         $translator = Zend_Registry::get('Zend_Translate');
         
         $key = $this->createElement('text', 'key', array('size' => 40));
