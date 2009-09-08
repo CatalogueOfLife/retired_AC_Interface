@@ -61,6 +61,7 @@ tr.odd {
 
 table.results {
     width: 100%;
+    margin: 15px 0;
 }
 
 table.results tr td {
@@ -240,9 +241,9 @@ div.results_header {
     position: relative;
     display: table;
     width: 100%;
-    margin: 8px 0 0 0;
+    margin: 0;
 }
-div.results_header div.counter {
+div.results_header div.results_counter {
     float: left;
     margin: 6px 0 0 0;    
 }
@@ -251,7 +252,7 @@ div.paginationControl {
     text-align: center;
     display: block;
     position: relative;
-    margin: 10px 0;
+    margin: 5px 0;
 }
 div.paginationControl a {
     color: blue;
@@ -260,11 +261,18 @@ div.paginationControl .page-slider,
 div.paginationControl .page-current {
     font-weight: bold;    
 }
+div.results_links {
+    width: 100%;
+    text-align: center;
+    margin: 5px 0;
+    clear: both;
+    display: table;
+}
 #header {
     margin: 27px 0 16px 0;
 }
 #right-col {
-    z-index: -1;
+    z-index: 0;
     margin: 0 15px 0 125px;
 }
 #content {
