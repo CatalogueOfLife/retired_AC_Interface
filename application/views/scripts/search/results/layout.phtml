@@ -10,17 +10,30 @@ $paginator = $this->paginationControl(
 <?php printf($this->translate('Search_results_for'), '"' . $this->urlParams['key'] . '"') ?>
 </div>
 <div class="results_header">
-<div class="counter">
+<div class="results_counter">
 <?php echo $this->translate('Records_found'); ?>:
 <?php echo $this->paginator->getTotalItemCount(); ?>
 </div>
 <?php if ($this->paginator->getTotalItemCount() > 0): ?>
 <?php echo $this->form; ?>
 </div>
+<div class="results_links">
+<a href="#">
+    <?php echo $this->translate('Export_search_results'); ?>
+</a> |
+<a href="<?php echo $this->form->getAction() . '/key/' . $this->urlParams['key'] . '/submit/0'; ?>">
+    <?php echo $this->translate('New_search'); ?>
+</a>
+</div>
 <?php echo $paginator; ?>
 <?php echo $this->results; ?>
 <?php echo $paginator; ?>
 <?php endif; ?>
+<div class="results_links">
+<a href="#">
+    <?php echo $this->translate('Export_search_results'); ?>
+</a> |
 <a href="<?php echo $this->form->getAction() . '/key/' . $this->urlParams['key'] . '/submit/0'; ?>">
     <?php echo $this->translate('New_search'); ?>
 </a>
+</div>
