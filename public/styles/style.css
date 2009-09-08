@@ -1,29 +1,17 @@
+@import 'reset.css';
+
 body {
     background-color: #fff;
     background-image: url(../images/Border_Left.gif);
     background-repeat: repeat-y;
     background-position: 0px 0px;
     margin: 0px 0px 30px 0px;
+}
+
+body, table, p, div, ul {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 11px;
     color: #000;
-}
-
-p {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    color: #000;
-}
-
-ul {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px
-}
-
-li {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    margin-bottom: 5px;
 }
 
 a:link {
@@ -54,6 +42,7 @@ table {
     width:100%;
     border-spacing:0;
     border: 1px solid #edebeb;
+    clear: both;
 }
 
 .wrapLogo {
@@ -70,6 +59,10 @@ tr.odd {
     background-color: #eaf2f7;
 }
 
+table.results {
+    width: 100%;
+}
+
 table.results tr td {
     padding: 10px 3px;
 }
@@ -80,92 +73,35 @@ table.results tr td {
     margin: 5px 0;
 }
 
-.fieldheader {
-    color: #336;
-    font-weight: bold;
-    margin: 1px 0 3px 0;
-    text-decoration: underline;
-}
-
 .taxonomicName {
     font-style:italic;
 }
 
-.fieldheader A:link,
-.fieldheader A:visited,
-.fieldheader A:active
-{
-    color: #333366;
-    text-decoration: none;
+.field_header_black {    
+    color: #000;
+    margin: 1px 0 3px 0;
 }
 
-.fieldheader A:hover {
-    color: #F20B0B;
-    text-decoration: underline;
-}
-
-.fieldheaderblack {    
-    color: #000000;
-    margin-right: 0px;
-    margin-top: 1px;
-    margin-bottom: 3px;
-    margin-left: 0px
-}
-
-.fieldheaderblack A:link,
-.fieldheaderblack A:visited,
-.fieldheaderblack A:active
+.field_header_black A:link,
+.field_header_black A:visited,
+.field_header_black A:active
 {
     color: #000;
     text-decoration: none;
 }
 
-.fieldheaderblack A:hover {
+.field_header_black A:hover {
     color: #F20B0B;
     text-decoration: underline;
 }
 
-.fieldvalue {
-    color: #000;
-    margin-right: 6px;
-    margin-top: 1px;
-    margin-bottom: 3px;
-    margin-left: 0px
-}
-
-.fieldvalue_literature {    
-    color: #000;
-    margin-right: 6px;
-    margin-top: 1px;
-    margin-bottom: 6px;
-    margin-left: 0px;
-    list-style-image: url(../images/Menu_Arrow.gif)
-}
-
-.formfieldheader {    
-    color: #000;
-    margin-top: 4px;
-}
-
-.formheader {
+.form_header {
     color: #336;
     font-weight: bold;
     margin: 0 0 15px 0;
-    text-align: left;
-    padding: 0 10px 10px 2px;
+    text-align: center;
+    padding: 0 10px 5px 8px;
     border-bottom: 1px solid #336;
-}
-
-.formbutton {
-    color: #006;
-    font-family: Verdana, "MS Sans Serif", "Espy Sans", Geneva, Arial;
-    font-size: 13px
-}
-
-.howtociteheader {    
-    color: #900;
-    font-weight: bold;    
-    margin: 0 0 5px 0;
 }
 
 .listlink {    
@@ -183,25 +119,6 @@ table.results tr td {
 .listlink a:hover {
     color: #F20B0B;
     text-decoration: underline;    
-}
-
-#menu ul li a {
-    color: #000;
-    text-decoration: none;    
-    margin-left: 3px;
-    margin-right: 3px;
-    cursor: default
-}
-
-.menumain {    
-    cursor: default;
-    margin-left: 3px;
-    margin-right: 3px;
-}
-
-.menumain a {
-    color: #000;
-    text-decoration: none;
 }
 
 .new, .new_big {
@@ -252,26 +169,16 @@ th.current {
 	text-decoration: underline;
 }
 
-.tableheader a:link, th.horizontal a:link {
+th.horizontal a:link,
+th.horizontal a:visited,
+th.horizontal a:active {
     color: #666;
     text-decoration: none
 }
-
-.tableheader a:visited, th.horizontal a:visited {
-    color: #666;
-    text-decoration: none
-}
-
-.tableheader a:active, th.horizontal a:active {
-    color: #666;
-    text-decoration: none
-}
-
-.tableheader a:hover, th.horizontal a:hover {
+th.horizontal a:hover {
     color: #666;
     text-decoration: underline
 }
-
 th.horizontal {
     vertical-align:top;
     color: #336;
@@ -314,6 +221,135 @@ th.vertical {
     margin: 0px 0px 0px 4px;
 }
 
+.view ul li ul {
+    border: 1px solid #336;
+    background-color: #fafcfe;
+}
+
+.search-all,
+.search-common,
+.search-distribution {
+    width: 410px;
+    height: 130px;
+}
+.search-scientific {
+    width: 410px;
+    height: 180px;
+}
+div.results_header {
+    position: relative;
+    display: table;
+    width: 100%;
+    margin: 8px 0 0 0;
+}
+div.results_header div.counter {
+    float: left;
+    margin: 6px 0 0 0;    
+}
+div.paginationControl {
+    width: 100%;
+    text-align: center;
+    display: block;
+    position: relative;
+    margin: 10px 0;
+}
+div.paginationControl a {
+    color: blue;
+}
+div.paginationControl .page-slider,
+div.paginationControl .page-current {
+    font-weight: bold;    
+}
+#header {
+    margin: 27px 0 16px 0;
+}
+#right-col {
+    z-index: -1;
+    margin: 0 15px 0 125px;
+}
+#content {
+    padding: 15px;
+    margin: 0;
+    display: block;
+    min-width: 410px;
+}
+#left-col {
+    width: 125px;
+    margin-left: -122px;
+    float: left;
+}
+
+/* Forms */
+/*********/
+form dt, dd {
+    float: left;
+    padding: 4px;
+    margin: 0;
+    clear: none;
+}
+form dt {
+    float: left;
+    text-align: right;
+}
+form p {
+	margin: 0;
+	padding: 0;	
+	float: left;
+	clear: none;
+}
+/* Search */
+form div.search_form dt#match-label {
+    padding: 8px 0 0 0;
+}
+form div.search_form dt#key-label,
+form div.items_form dt#items-label
+{
+    padding: 10px 4px 0 0;
+}
+form div.items_form p.description {
+    padding: 6px 0 0 4px;
+}
+form div.items_form dt#key-label,  
+form div.items_form dd#key-element,
+form div.items_form dt#match-label,  
+form div.items_form dd#key-element,
+form div.items_form dt#update-label
+{
+    display: none;
+}
+form div.search_form dd#key-element {
+    padding-right: 0;   
+}
+form div.search_form dd#match-element {
+	margin-left: 54px;
+}
+form div.search_form dd#search-element {
+	float: right;
+	padding: 0;
+	margin-top: 15px;
+}
+form div.search_form dd#match-element,
+form div.search_form dt#search-label {
+    clear: left;
+}
+form dd#search-element input,
+form dd#update-element input {
+    color: #006;
+    font-family: Verdana, "MS Sans Serif", "Espy Sans", Geneva, Arial;
+    font-size: 13px;
+}
+/*Items per page*/
+form div.items_form {
+    float: right;
+}
+form div.items_form dd#items-element,
+form div.items_form dt#items-label,
+form div.items_form dd#items-element input,
+form div.items_form dd#update-element {
+	float: left;	
+}
+/* Menu */
+/********/
 #menu {
     position: fixed;
     left: 11px;
@@ -322,47 +358,33 @@ th.vertical {
     z-index: 10;
 }
 
-.view ul li ul {
-    border: 1px solid #336;
-    background-color: #fafcfe;
-}
-
 #menu ul li {
     margin: 0;
+    padding: 1px 3px;
     background: url(../images/Menu_Arrow.gif) no-repeat;
     background-position: right;
 }
 
+#menu ul li a {
+    color: #000;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+    cursor: default;
+}
+
 #menu ul li ul li {
     background: none;
-    padding: 0;
-    margin: 0 :
+    margin: 0;
+    padding: 2px 4px;
 }
 
-#menu ul li ul li a {
-    padding: 3px;
-}
-
-.menuselected a span,.menuselected a div.item,#menu ul li ul li.menuselected a
+.menuselected a span, 
+#menu ul li ul li.menuselected a
     {
     color: #336;
     font-weight: bold;
 }
-
-#content {
-    position: absolute;
-    left: 121px;
-    top: 145px;
-    z-index: -1;
-    min-width: 620px;
-    width: 620px;
-    min-height: 300px;
-    padding: 15px;
-}
-
-/*
-FOR THE MENU
-*/
 ul {
     margin: 0;
     padding: 0;
@@ -376,19 +398,21 @@ ul li {
 li ul {
     position: absolute;
     left: 95px; /* Set 1px less than menu width */
-    top: 0;
+    top: -2px;
     width: 175px; /* Width of Menu Items */
     display: none;
 }
 
-#menu ul li img {
-    margin: 2px 4px 0 0;
+#menu ul li img {    
+	margin: 0 4px 0 0;
+    vertical-align: text-top;
 }
 
 /* Styles for Menu Items */
 #menu ul li a {
     display: block;
     text-decoration: none;
+    padding: 2px 0;    
 }
 
 /* Fix IE. Hide from IE Mac \*/
@@ -408,6 +432,3 @@ li ul {
 li:hover ul,li.over ul {
     display: block;
 }  /* The magic */
-div#header {
-    margin: 27px 0 18px 0;
-}

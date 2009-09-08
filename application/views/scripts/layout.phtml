@@ -32,6 +32,7 @@
     <div id="header">
         <img src="<?php echo $this->baseUrl(); ?>/images/Annual_Checklist_Top_Banner.gif" />
     </div>
+    <div id="left-col">
     <div id="menu" class="view">
         <ul id="nav">
           <li class="<?php echo $this->controller == 'browse' ?
@@ -106,9 +107,12 @@
           </li>
         </ul>
     </div>
-    <div id="content" class="view">
-        <?php echo $this->layout()->content; ?>
-        <?php echo $this->inlineScript(); ?>
+    </div>
+    <div id="right-col">
+        <div id="content" class="view <?php echo isset($this->contentClass) ? $this->contentClass : ''; ?>">
+            <?php echo $this->layout()->content; ?>
+            <?php echo $this->inlineScript(); ?>
+        </div>
     </div>
 </body>
 </html>

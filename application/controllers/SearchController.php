@@ -28,7 +28,7 @@ class SearchController extends Zend_Controller_Action
     {
         $this->view->title = $this->view->translate('Search_common_names');
         $this->view->headTitle($this->view->title, 'APPEND');
-        $this->_hasParam('key') ?
+        $this->_hasParam('key') && $this->_getParam('submit', 1) ?
             $this->_renderResultsPage() :
             $this->_renderFormPage($this->view->title);
     }
@@ -68,7 +68,7 @@ class SearchController extends Zend_Controller_Action
                 '<span class="red">' .
                 $this->view->translate('Annual_Checklist') . '</span>'
             );
-        $this->_hasParam('key') ?
+        $this->_hasParam('key') && $this->_getParam('submit', 1) ?
             $this->_renderResultsPage() :
             $this->_renderFormPage($formHeader);
     }
@@ -76,8 +76,16 @@ class SearchController extends Zend_Controller_Action
     protected function _renderFormPage($formHeader, $form = null)
     {
         $this->view->formHeader = $formHeader;
-        $this->view->form = $form instanceof Zend_Form ?
-            $form : new ACI_Form_Search();
+        $form = $form instanceof Zend_Form ? $form : new ACI_Form_Search();
+        if($key = $form->getElement('key')) {
+            $key->setValue($this->_getParam('key', ''));
+        }
+        $this->view->contentClass = 'search-' . $this->view->action;
+        $form->setAction(
+            $this->view->baseUrl() . '/' . $this->view->controller . '/' .
+            $this->view->action
+        );
+        $this->view->form = $form;
         $this->renderScript('search/form.phtml');
     }
     
@@ -86,6 +94,13 @@ class SearchController extends Zend_Controller_Action
         $items = (int)$this->_getParam('items',
             ACI_Model_Search::ITEMS_PER_PAGE);
         
+        $this->view->urlParams = array(
+            'key' => $this->_getParam('key'),
+            'match' => $this->_getParam('match'),
+            'items' => $items,
+            'sort' => $this->_getParam('sort', 'name')
+        );
+        
         // Get the paginator
         $this->view->paginator = $this->_getPaginator(
             $this->_getSearchQuery($this->_getParam('action')),
@@ -93,9 +108,10 @@ class SearchController extends Zend_Controller_Action
             $items
         );
         
-        $this->_logger->debug($this->view->paginator->getCurrentItems());
+        $this->view->paginator->urlParams = $this->view->urlParams;
         
-        $this->view->tableResults = $this->_createTableFromResults();
+        $this->_logger->debug($this->view->paginator->getCurrentItems());
+        $this->view->data = $this->_createTableFromResults();
         
         // Build items per page form
         $form = new ACI_Form_ItemsPerPage();
@@ -108,17 +124,15 @@ class SearchController extends Zend_Controller_Action
             $this->view->baseUrl() . '/search/' . $this->_getParam('action')
         );
         
-        // Set view values
-        $this->view->key = $this->_getParam('key');
-        $this->view->match = $this->_getParam('match');
-        $this->view->items = $this->_getParam('items');
-        $this->view->sort = $this->_getParam('sort', 'name');
-        $this->view->serach = $this->_getParam('search');
+        $this->view->search = $this->_getParam('search');
         $this->view->form = $form;
         
-        // Render the results page
-        $this->renderScript(
-            'search/results_' . $this->_getParam('action') . '.phtml');
+        // Results table differs depending on the action
+        $this->view->results = $this->view->render('search/results/' .
+            $this->_getParam('action') . '.phtml');
+        
+        // Render the results layout
+        $this->renderScript('search/results/layout.phtml');
     }
     
     /**

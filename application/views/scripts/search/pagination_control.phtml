@@ -9,11 +9,9 @@ if ($this->pageCount && $this->pageCount > 1): ?>
 <div class="paginationControl">
 <!-- Previous page link -->
 <?php if (isset($this->previous)): ?>
-  <a href="<?php echo $this->url(array_merge(array('page' => $this->previous), $urlParams)); ?>">
-    &lt; <?php echo $this->translate('Previous'); ?>
+  <a class="page-slider" href="<?php echo $this->url(array_merge(array('page' => $this->previous), $urlParams)); ?>">
+    &lt;&lt; <?php echo $this->translate('Previous'); ?>
   </a> |
-<?php else: ?>
-  <span class="disabled">&lt; <?php echo $this->translate('Previous'); ?></span> |
 <?php endif; ?>
 
 <!-- Show first page if not present -->
@@ -33,7 +31,7 @@ if ($this->pageCount && $this->pageCount > 1): ?>
         <?php echo $page; ?>
     </a> |
   <?php else: ?>
-    <?php echo $page; ?> |
+    <span class="page-current"><?php echo $page;?></span> |
   <?php endif; ?>
 <?php endforeach; ?>
 
@@ -49,11 +47,9 @@ if ($this->pageCount && $this->pageCount > 1): ?>
 
 <!-- Next page link -->
 <?php if (isset($this->next)): ?>
-  <a href="<?php echo $this->url(array_merge(array('page' => $this->next), $urlParams)); ?>">
-     <?php echo $this->translate('Next'); ?> &gt;
+  <a class="page-slider" href="<?php echo $this->url(array_merge(array('page' => $this->next), $urlParams)); ?>">
+     <?php echo $this->translate('Next'); ?> &gt;&gt;
   </a>
-<?php else: ?>
-  <span class="disabled"> <?php echo $this->translate('Next'); ?> &gt;</span>
 <?php endif; ?>
 </div>
 <?php endif; ?>

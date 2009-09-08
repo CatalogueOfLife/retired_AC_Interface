@@ -1,0 +1,26 @@
+<?php
+$paginator = $this->paginationControl(
+    $this->paginator,
+    'Sliding',
+    'search/pagination_control.phtml',
+    $this->urlParams
+);
+?>
+<div class="form_header">
+<?php printf($this->translate('Search_results_for'), '"' . $this->urlParams['key'] . '"') ?>
+</div>
+<div class="results_header">
+<div class="counter">
+<?php echo $this->translate('Records_found'); ?>:
+<?php echo $this->paginator->getTotalItemCount(); ?>
+</div>
+<?php if ($this->paginator->getTotalItemCount() > 0): ?>
+<?php echo $this->form; ?>
+</div>
+<?php echo $paginator; ?>
+<?php echo $this->results; ?>
+<?php echo $paginator; ?>
+<?php endif; ?>
+<a href="<?php echo $this->form->getAction() . '/key/' . $this->urlParams['key'] . '/submit/0'; ?>">
+    <?php echo $this->translate('New_search'); ?>
+</a>
