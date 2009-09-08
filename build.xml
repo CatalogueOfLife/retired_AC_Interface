@@ -30,7 +30,7 @@
         <exec dir="${basedir}"
             command="phpdoc -ct type -ue on -t ${build}/api
                      -tb /usr/share/php/data/phpUnderControl/data/phpdoc -o HTML:Phpuc:phpuc
-                     -d ${basedir}/application,${basedir}/public/index.php,${basedir}/tests" />
+                     -d ${basedir}/application,${basedir}/tests -f ${basedir}/public/index.php" />
     </target>
     
     <!-- Execute Code Sniffer -->

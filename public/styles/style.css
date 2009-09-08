@@ -134,7 +134,7 @@ table.results tr td {
 }
 
 .red {
-	color: #B41A1A;
+    color: #B41A1A;
 }
 
 .nextpreviousarrows {
@@ -163,11 +163,11 @@ table.results tr td {
 
 th {
     text-align: left;
-    padding: 3px 3px 10px 3px;	
+    padding: 3px 3px 10px 3px;    
 }
 
 th.current {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 th.horizontal a:link,
@@ -300,10 +300,10 @@ form dt {
     text-align: right;
 }
 form p {
-	margin: 0;
-	padding: 0;	
-	float: left;
-	clear: none;
+    margin: 0;
+    padding: 0;    
+    float: left;
+    clear: none;
 }
 /* Search */
 form div.search_form dt#match-label {
@@ -329,12 +329,12 @@ form div.search_form dd#key-element {
     padding-right: 0;   
 }
 form div.search_form dd#match-element {
-	margin-left: 54px;
+    margin-left: 54px;
 }
 form div.search_form dd#search-element {
-	float: right;
-	padding: 0;
-	margin-top: 15px;
+    float: right;
+    padding: 0;
+    margin-top: 15px;
 }
 form div.search_form dd#match-element,
 form div.search_form dt#search-label {
@@ -354,7 +354,7 @@ form div.items_form dd#items-element,
 form div.items_form dt#items-label,
 form div.items_form dd#items-element input,
 form div.items_form dd#update-element {
-	float: left;	
+    float: left;    
 }
 /* Menu */
 /********/
@@ -412,7 +412,7 @@ li ul {
 }
 
 #menu ul li img {    
-	margin: 0 4px 0 0;
+    margin: 0 4px 0 0;
     vertical-align: text-top;
 }
 
