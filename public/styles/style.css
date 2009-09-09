@@ -48,7 +48,12 @@ table {
 .wrapLogo {
     border: 1px solid #edebeb;
     background-color: #fff;
-    padding: 2px;
+    padding: 4px;
+    margin: 0;
+}
+.details a {
+    padding: 0;
+    margin: 0;
 }
 
 tr.even td, tr.even th {
@@ -65,17 +70,40 @@ table.results {
 }
 
 table.results tr td {
-    padding: 10px 3px;
+    vertical-align: middle;
+    padding: 6px;
 }
 
+table.details-table {
+    margin: 15px 0;
+}
+
+table.details-table tr td, 
+table.details-table tr th {
+    vertical-align: top;
+    padding: 6px 4px;
+}
 .aboutcolheader {    
     color: #900;
-    font-weight: bold;    
+    font-weight: bold;
     margin: 5px 0;
 }
 
 .taxonomicName {
     font-style:italic;
+}
+
+.field_header {
+    color: #336;
+    font-weight: bold;
+    text-decoration: underline;
+}
+.field_header a {    
+    text-decoration: none;
+}
+.field_header a:hover {
+    color: #F20B0B;
+    text-decoration: underline;
 }
 
 .field_header_black {    
@@ -153,6 +181,7 @@ table.results tr td {
 
 .lsid {
     font-size: 9px;
+    line-height: 12px;
 }
 
 .tableheader, th {
@@ -199,7 +228,6 @@ th.vertical a:hover {
 }
 
 th.vertical {
-    vertical-align:top;
     color: #336;
 }
 
@@ -273,7 +301,8 @@ div.results_links {
 #content.search-all,
 #content.search-common,
 #content.search-distribution
-#content.search-scientific {
+#content.search-scientific,
+#content.details {
     display: table;
 }
 #left-col {

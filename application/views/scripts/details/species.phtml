@@ -11,7 +11,7 @@ if ($this->species instanceof ACI_Model_Taxa):
     title="<?php echo $this->species->db_name; ?>"
 /></a>
 <?php echo $this->species->preface; ?>
-<table>
+<table class="details-table">
 <?php if($rowClass = "even")?>
     <tr class="<?php echo $rowClass; ?>">
         <th width="150" class="vertical"><?php echo $this->translate('Accepted_scientific_name'); ?>:</th>
@@ -73,14 +73,14 @@ if ($this->species instanceof ACI_Model_Taxa):
             <table>
                 <tr>
                     <th width="150px"><?php echo $this->translate('Rank'); ?></th>
-                    <th width="150px"><?php echo $this->translate('Taxanomic_Name'); ?></th>
+                    <th width="150px"><?php echo $this->translate('Taxonomic_Name'); ?></th>
                     <th><?php echo $this->translate('LSID'); ?></th>
                 </tr>
         
                 <?php foreach ($this->species->hierarchy as $hierarchy): ?>
                 <tr>
                     <td><?php echo $hierarchy['taxon']; ?></td>
-                    <td><a href="<?php $this->baseUrl() . '/browse/tree/id/' .
+                    <td><a href="<?php echo $this->baseUrl() . '/browse/tree/id/' .
                       $hierarchy['record_id']; ?>"><?php echo $hierarchy['name']; ?>
                         </a></td>
                     <td class="lsid"><?php echo $hierarchy['LSID']; ?></td>
@@ -129,6 +129,7 @@ if ($this->species instanceof ACI_Model_Taxa):
         <td><p class="lsid"><?php echo $this->species->lsid;
         ?></p></td>
     </tr>
+</table>
         <?php
 else:
 ?>
@@ -136,3 +137,11 @@ else:
 <?php
 endif;
 ?>
+<div class="results_links">
+<a href="javascript:history.back()">
+    <?php echo $this->translate('Back_to_last_page'); ?>
+</a> |
+<a href="<?php echo $this->baseUrl() . '/search/' . $this->search . '/key/'
+    . $this->key . '/submit/0'; ?>"><?php echo $this->translate('New_search'); ?>
+</a>
+</div>

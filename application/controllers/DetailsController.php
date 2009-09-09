@@ -22,8 +22,10 @@ class DetailsController extends Zend_Controller_Action
         $this->_db = Zend_Registry::get('db');
         $this->view->controller = $this->getRequest()->controller;
         $this->view->action = $this->getRequest()->action;
-        
+        $this->view->search = $this->_getParam('search', 'all');
+        $this->view->key = $this->_getParam('key');
         $this->_empty = "-";
+        $this->view->contentClass = 'details';
     }
     
     public function databaseAction()
@@ -80,7 +82,7 @@ class DetailsController extends Zend_Controller_Action
             $speciesDetails->distribution = implode(
                 '; ', $speciesDetails->distribution
             );
-        }        
+        }
         if($speciesDetails->comment == "") {
             $speciesDetails->comment = $this->_empty;
         }

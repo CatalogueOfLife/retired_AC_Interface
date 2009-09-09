@@ -150,8 +150,10 @@ class SearchController extends Zend_Controller_Action
             if($row['rank'] >= ACI_Model_Taxa::RANK_SPECIES)
             {
                 $resultTable[$i]['link'] = $this->view->translate('Show_details');
-                $resultTable[$i]['url'] = '/details/species/id/' .
-                    $row['accepted_species_id'];
+                $resultTable[$i]['url'] =
+                    '/details/species/id/' . $row['accepted_species_id'] .
+                    '/search/' . $this->view->action .
+                    '/key/' . $this->_getParam('key');
                 if(!$row['is_accepted_name']) {
                     if($row['status'] == ACI_Model_Taxa::STATUS_COMMON_NAME) {
                         $resultTable[$i]['url'] .= '/common/' . $row['taxa_id'];
@@ -205,8 +207,10 @@ class SearchController extends Zend_Controller_Action
             $resultTable[$i]['dbLogo'] = '/images/databases/' .
                 $row['db_thumb'];
             $resultTable[$i]['dbLabel'] = $row['db_name'];
-            $resultTable[$i]['dbUrl'] = '/details/database/id/' .
-                $row['db_id'];
+            $resultTable[$i]['dbUrl'] =
+                '/details/database/id/' . $row['db_id'] .
+                '/search/' . $this->view->action .
+                '/key/' . $this->_getParam('key');
             $i++;
         }
         return $resultTable;
@@ -238,7 +242,7 @@ class SearchController extends Zend_Controller_Action
     {
         return preg_replace(
             '/(' . $this->_getParam('key') . ')/i',
-            "<span class=\"fieldheader\">$1</span>",
+            "<span class=\"field_header\">$1</span>",
             $source
         );
     }
