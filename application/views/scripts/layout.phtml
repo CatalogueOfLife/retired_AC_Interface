@@ -14,19 +14,26 @@
 <?php echo $this->doctype();?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <?php echo $this->headMeta(); ?>
-    <?php echo $this->headTitle(); ?>
-    <?php echo $this->headStyle(); ?>
-    <?php echo $this->headLink()->appendStylesheet($this->baseUrl() . '/styles/style.css'); ?>
     <?php
+    echo $this->headMeta();
+    echo $this->headTitle();
+    echo $this->headStyle();
+    $this->headLink()->appendStylesheet($this->baseUrl() . '/styles/style.css');
+    $this->headLink()->appendStylesheet(
+        $this->baseUrl() . '/styles/style-ie6.css', 'screen', 'IE 6'
+    );
+    $this->headLink()->appendStylesheet(
+        $this->baseUrl() . '/styles/style-ie7.css', 'screen', 'IE 7'
+    );
+    echo $this->headLink();
     if ($this->dojo()->isEnabled()) {
         $this->dojo()->setLocalPath(
             $this->baseUrl() . '/scripts/library/dojo/dojo/dojo.js'
         )->addStyleSheetModule('dijit.themes.tundra');
    	    echo $this->dojo();
     }
+    echo $this->headScript()->appendFile($this->baseUrl() . '/scripts/menu.js');
     ?>
-    <?php echo $this->headScript()->appendFile($this->baseUrl() . '/scripts/menu.js'); ?>
 </head>
 <body class="tundra">
     <div id="header">

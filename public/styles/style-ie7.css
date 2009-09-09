@@ -1,0 +1,15 @@
+.search-all,
+.search-common,
+.search-distribution
+{
+    width:350px;
+}
+.search-scientific {
+    width:410px;
+}
+form div.search_form dd#match-element {
+    margin-left: 32px;
+}
+form div.search_form dd#search-element {
+    padding-right: 8px;
+}
