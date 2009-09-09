@@ -32,8 +32,8 @@
     <div id="header">
         <img src="<?php echo $this->baseUrl(); ?>/images/Annual_Checklist_Top_Banner.gif" />
     </div>
-    <div id="left-col">
     <div id="menu" class="view">
+        <span id="log"></span>
         <ul id="nav">
           <li class="<?php echo $this->controller == 'browse' ?
                 'menuselected' : ''; ?>">
@@ -106,7 +106,6 @@
             </ul>
           </li>
         </ul>
-    </div>
     </div>
     <div id="right-col">
         <div id="content" class="view <?php echo isset($this->contentClass) ? $this->contentClass : ''; ?>">

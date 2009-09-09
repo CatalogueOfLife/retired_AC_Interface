@@ -359,11 +359,13 @@ form div.items_form dd#update-element {
 /* Menu */
 /********/
 #menu {
-    position: fixed;
-    left: 11px;
-    top: 145px;
+    position: relative;
     width: 96px;
+    top: 0;
+    left: 15px;
+    margin: 0;    
     z-index: 10;
+    float: left;
 }
 
 #menu ul li {
@@ -434,9 +436,10 @@ li ul {
 }
 
 /* End */
-#menu ul li:hover {
+#menu ul li:hover,
+#menu li.over {
     background-color: #eaf2f7;
 }  /* Hover Styles */
-li:hover ul,li.over ul {
+li:hover ul, li.over ul {
     display: block;
 }  /* The magic */
