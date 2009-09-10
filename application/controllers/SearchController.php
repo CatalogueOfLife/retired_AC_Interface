@@ -24,13 +24,23 @@ class SearchController extends Zend_Controller_Action
         $this->view->action = $this->getRequest()->action;
     }
     
+    protected function _getSearchForm()
+    {
+        return new ACI_Form_Search();
+    }
+    
     public function commonAction()
     {
         $this->view->title = $this->view->translate('Search_common_names');
         $this->view->headTitle($this->view->title, 'APPEND');
-        $this->_hasParam('key') && $this->_getParam('submit', 1) ?
-            $this->_renderResultsPage() :
-            $this->_renderFormPage($this->view->title);
+        $form = $this->_getSearchForm();
+        if($this->_hasParam('key') && $this->_getParam('submit', 1) &&
+            $form->isValid($this->_getAllParams())) {
+            $this->_renderResultsPage();
+        }
+        else {
+            $this->_renderFormPage($this->view->title, $form);
+        }
     }
     
     public function scientificAction()
@@ -55,7 +65,15 @@ class SearchController extends Zend_Controller_Action
         $this->view->title = $this->view->translate('Search_distribution');
         $this->view->headTitle($this->view->title, 'APPEND');
         // TODO: implement search query
-        $this->_renderFormPage($this->view->title);
+        $form = $this->_getSearchForm();
+        if($this->_hasParam('key') && $this->_getParam('submit', 1) &&
+            $form->isValid($this->_getAllParams())) {
+            //$this->_renderResultsPage();
+            $this->_renderFormPage($this->view->title, $form);
+        }
+        else {
+            $this->_renderFormPage($this->view->title, $form);
+        }
     }
     
     public function allAction()
@@ -68,15 +86,20 @@ class SearchController extends Zend_Controller_Action
                 '<span class="red">' .
                 $this->view->translate('Annual_Checklist') . '</span>'
             );
-        $this->_hasParam('key') && $this->_getParam('submit', 1) ?
-            $this->_renderResultsPage() :
-            $this->_renderFormPage($formHeader);
+        $form = $this->_getSearchForm();
+        if($this->_hasParam('key') && $this->_getParam('submit', 1) &&
+            $form->isValid($this->_getAllParams())) {
+            $this->_renderResultsPage();
+        }
+        else {
+            $this->_renderFormPage($formHeader, $form);
+        }
     }
     
     protected function _renderFormPage($formHeader, $form = null)
     {
         $this->view->formHeader = $formHeader;
-        $form = $form instanceof Zend_Form ? $form : new ACI_Form_Search();
+        $form = $form instanceof Zend_Form ? $form : $this->_getSearchForm();
         if($key = $form->getElement('key')) {
             $key->setValue($this->_getParam('key', ''));
         }

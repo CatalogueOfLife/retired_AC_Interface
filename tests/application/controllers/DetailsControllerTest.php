@@ -21,4 +21,11 @@ class DetailsControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->assertController('search');
         $this->assertAction('all');
     }
+    
+    public function testDefaultDetailsAction()
+    {
+        $this->dispatch('/details/dummy');
+        $this->assertController('search');
+        $this->assertAction('all');
+    }
 }

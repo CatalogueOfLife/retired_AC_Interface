@@ -20,4 +20,11 @@ class InfoControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->assertController('info');
         $this->assertAction('about');
     }
+    
+    public function testDefaultInfoAction()
+    {
+        $this->dispatch('/info/dummy');
+        $this->assertController('info');
+        $this->assertAction('about');
+    }
 }

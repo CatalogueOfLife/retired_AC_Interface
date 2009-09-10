@@ -20,4 +20,11 @@ class BrowseControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->assertController('browse');
         $this->assertAction('tree');
     }
+    
+    public function testDefaultBrowseAction()
+    {
+        $this->dispatch('/browse/dummy');
+        $this->assertController('browse');
+        $this->assertAction('tree');
+    }
 }

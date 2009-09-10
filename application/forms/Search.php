@@ -8,7 +8,10 @@ class ACI_Form_Search extends Zend_Form
         $translator = Zend_Registry::get('Zend_Translate');
         
         $key = $this->createElement('text', 'key', array('size' => 40));
-        $key->setLabel($translator->translate('Search_for') . ':');
+        $key->setLabel($translator->translate('Search_for') . ':')
+            ->addValidator('stringLength', false, array(2))
+            ->setRequired(true)
+            ->addErrorMessage($translator->translate('Error_key_too_short'));
         
         $match = $this->createElement('checkbox', 'match')->setValue(1);
         $match->setLabel($translator->translate('Match_whole_words_only'));

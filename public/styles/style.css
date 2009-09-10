@@ -67,15 +67,17 @@ tr.odd td, tr.odd th {
 table.results {
     width: 100%;
     margin: 15px 0;
+    line-height: 14px;
 }
 
 table.results tr td {
     vertical-align: middle;
-    padding: 6px;
+    padding: 6px;    
 }
 
 table.details-table {
     margin: 15px 0;
+    line-height: 14px;
 }
 
 table.details-table tr td, 
@@ -83,6 +85,11 @@ table.details-table tr th {
     vertical-align: top;
     padding: 6px 4px;
 }
+ul.errors li {
+    padding: 8px 0;
+    color: #b41a1a;
+}
+
 .aboutcolheader {    
     color: #900;
     font-weight: bold;
@@ -162,7 +169,7 @@ table.details-table tr th {
 }
 
 .red {
-    color: #B41A1A;
+    color: #b41a1a;
 }
 
 .nextpreviousarrows {
@@ -181,7 +188,6 @@ table.details-table tr th {
 
 .lsid {
     font-size: 9px;
-    line-height: 12px;
 }
 
 .tableheader, th {

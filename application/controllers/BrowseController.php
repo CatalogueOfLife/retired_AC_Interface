@@ -23,16 +23,15 @@ class BrowseController extends Zend_Controller_Action
     
     public function treeAction()
     {
-         $this->view->title = $this->view->translate('Taxonomic_tree');
+        $this->view->title = $this->view->translate('Taxonomic_tree');
         $this->view->headTitle($this->view->title, 'APPEND');
     }
     
     public function classificationAction()
     {
-         $this->view->title = $this->view
+        $this->view->title = $this->view
             ->translate('Taxonomic_classification');
         $this->view->headTitle($this->view->title, 'APPEND');
-        
     }
     
     public function __call($name, $arguments)

@@ -21,6 +21,13 @@ class SearchControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->assertAction('all');
     }
     
+    public function testDefaultInfoAction()
+    {
+        $this->dispatch('/search/dummy');
+        $this->assertController('search');
+        $this->assertAction('all');
+    }
+    
     public function testSearchAllContainsTheNeededFormElements()
     {
         $this->dispatch('/search/all');
@@ -61,27 +68,19 @@ class SearchControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
 
     public function testSearchFormIsNotSubmitted()
     {
-        $this->dispatch('/search/all/key/aa/submit/0');        
-        $this->assertQueryCount('form#searchForm', 1);        
+        $this->dispatch('/search/all/key/aa/submit/0');
+        $this->assertQueryCount('form#searchForm', 1);
     }
     
     public function testFormValidationErrorKeyTooShort()
     {
-        /*
         $this->dispatch('/search/all/key/x/match/1');
-        $this->assertAction('error');
-        $this->assertEquals($this->request->getParam('class'), 'short');
-        $this->assertQueryCount('p#search-error', 1);
-        */
+        $this->assertQueryCount('ul.errors', 1);
     }
     
     public function testFormValidationErrorNoKey()
     {
-        /*
         $this->dispatch('/search/all/key//match/1');
-        $this->assertAction('error');
-        $this->assertEquals($this->request->getParam('class'), 'none');
-        $this->assertQueryCount('p#search-error', 1);
-        */
+        $this->assertQueryCount('ul.errors', 1);
     }
 }
