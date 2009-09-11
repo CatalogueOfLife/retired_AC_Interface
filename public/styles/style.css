@@ -302,7 +302,6 @@ div.results_links {
     padding: 15px;
     margin: 0;
     display: block;
-    min-width: 400px;
 }
 #content.search-box,
 #content.details {
@@ -331,10 +330,6 @@ form div.items_form dt#items-label dd,
 form div.items_form dt#items-label dt {
     clear: none;
     float: left;
-}
-itemsGroup-element
-form div.items_form p.description {
-    padding: 6px 0 0 4px;
 }
 form div.items_form dt#key-label,  
 form div.items_form dd#key-element,
@@ -372,13 +367,13 @@ form div.search_form dd {
 }
 form div.search_form dd fieldset dl dt label {
     line-height: 16px;
-    padding: 0 5px 0 0;
+	padding: 0 10px 0 0; 
 }
 form div.search_form dd fieldset dl dt#match-label label {
     padding: 0 0 0 5px;
 }
 form div.search_form dd fieldset#fieldset-matchGroup {
-    margin-left:60px;
+    margin-left: 20%;
 }
 form div.search_form dd fieldset#fieldset-submitGroup dl {
     float: right;
