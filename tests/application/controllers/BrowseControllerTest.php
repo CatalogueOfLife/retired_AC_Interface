@@ -1,4 +1,15 @@
 <?php
+/**
+ * Annual Checklist Interface
+ *
+ * Class BrowseControllerTest
+ * Unit tests to the browse controller
+ *
+ * @category    ACI
+ * @package     tests
+ * @subpackage  controllers
+ *
+ */
 class BrowseControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
 {
     public function setUp ()

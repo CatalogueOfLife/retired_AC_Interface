@@ -34,11 +34,10 @@ class SearchController extends Zend_Controller_Action
         $this->view->title = $this->view->translate('Search_common_names');
         $this->view->headTitle($this->view->title, 'APPEND');
         $form = $this->_getSearchForm();
-        if($this->_hasParam('key') && $this->_getParam('submit', 1) &&
+        if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
             $this->_renderResultsPage();
-        }
-        else {
+        } else {
             $this->_renderFormPage($this->view->title, $form);
         }
     }
@@ -46,7 +45,7 @@ class SearchController extends Zend_Controller_Action
     public function scientificAction()
     {
         $fetch = $this->_getParam('fetch', false);
-        if($fetch) {
+        if ($fetch) {
             $this->view->layout()->disableLayout();
             $this->_sendRankData($fetch);
             return;
@@ -66,12 +65,11 @@ class SearchController extends Zend_Controller_Action
         $this->view->headTitle($this->view->title, 'APPEND');
         // TODO: implement search query
         $form = $this->_getSearchForm();
-        if($this->_hasParam('key') && $this->_getParam('submit', 1) &&
+        if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
             //$this->_renderResultsPage();
             $this->_renderFormPage($this->view->title, $form);
-        }
-        else {
+        } else {
             $this->_renderFormPage($this->view->title, $form);
         }
     }
@@ -87,11 +85,10 @@ class SearchController extends Zend_Controller_Action
                 $this->view->translate('Annual_Checklist') . '</span>'
             );
         $form = $this->_getSearchForm();
-        if($this->_hasParam('key') && $this->_getParam('submit', 1) &&
+        if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
             $this->_renderResultsPage();
-        }
-        else {
+        } else {
             $this->_renderFormPage($formHeader, $form);
         }
     }
@@ -100,7 +97,8 @@ class SearchController extends Zend_Controller_Action
     {
         $this->view->formHeader = $formHeader;
         $form = $form instanceof Zend_Form ? $form : $this->_getSearchForm();
-        if($key = $form->getElement('key')) {
+        $key = $form->getElement('key');
+        if ($key) {
             $key->setValue($this->_getParam('key', ''));
         }
         $this->view->contentClass = 'search-box';
@@ -114,8 +112,10 @@ class SearchController extends Zend_Controller_Action
     
     protected function _renderResultsPage()
     {
-        $items = (int)$this->_getParam('items',
-            ACI_Model_Search::ITEMS_PER_PAGE);
+        $items = (int)$this->_getParam(
+            'items',
+            ACI_Model_Search::ITEMS_PER_PAGE
+        );
         
         $this->view->urlParams = array(
             'key' => $this->_getParam('key'),
@@ -151,8 +151,9 @@ class SearchController extends Zend_Controller_Action
         $this->view->form = $form;
         
         // Results table differs depending on the action
-        $this->view->results = $this->view->render('search/results/' .
-            $this->_getParam('action') . '.phtml');
+        $this->view->results = $this->view->render(
+            'search/results/' . $this->_getParam('action') . '.phtml'
+        );
         
         // Render the results layout
         $this->renderScript('search/results/layout.phtml');
@@ -168,26 +169,22 @@ class SearchController extends Zend_Controller_Action
         $resultTable = array();
         $i = 0;
         
-        foreach($this->view->paginator as $row)
-        {
-            if($row['rank'] >= ACI_Model_Taxa::RANK_SPECIES)
-            {
-                $resultTable[$i]['link'] = $this->view->translate('Show_details');
+        foreach ($this->view->paginator as $row) {
+            if ($row['rank'] >= ACI_Model_Taxa::RANK_SPECIES) {
+                $resultTable[$i]['link'] = 
+                    $this->view->translate('Show_details');
                 $resultTable[$i]['url'] =
                     '/details/species/id/' . $row['accepted_species_id'] .
                     '/search/' . $this->view->action .
                     '/key/' . $this->_getParam('key');
-                if(!$row['is_accepted_name']) {
-                    if($row['status'] == ACI_Model_Taxa::STATUS_COMMON_NAME) {
+                if (!$row['is_accepted_name']) {
+                    if ($row['status'] == ACI_Model_Taxa::STATUS_COMMON_NAME) {
                         $resultTable[$i]['url'] .= '/common/' . $row['taxa_id'];
-                    }
-                    else {
+                    } else {
                         $resultTable[$i]['url'] .= '/taxa/' . $row['taxa_id'];
                     }
                 }
-            }
-            else
-            {
+            } else {
                 $resultTable[$i]['link'] = $this->view->translate('Show_tree');
                 $resultTable[$i]['url'] = '/browse/tree/id/' . $row['taxa_id'];
             }
@@ -201,30 +198,28 @@ class SearchController extends Zend_Controller_Action
                 ),
                 $row['status'],
                 $row['status'] == ACI_Model_Taxa::STATUS_COMMON_NAME ?
-                    $row['language'] : $row['author']
+                $row['language'] : $row['author']
             );
             $resultTable[$i]['rank'] = $this->view->translate(
                 ACI_Model_Taxa::getRankString($row['rank'])
             );
-            if($this->_getParam('action') == 'all')
-            {
+            if ($this->_getParam('action') == 'all') {
                 $resultTable[$i]['status'] = $this->view->translate(
                     ACI_Model_Taxa::getStatusString($row['status'])
                 );
-            }
-            else {
+            } else {
                 $resultTable[$i]['status'] = '%s';
             }
             
             $resultTable[$i]['group'] = $row['kingdom'];
             
-            if(!$row['is_accepted_name']) {
-                $resultTable[$i]['status'] =
-                    sprintf($resultTable[$i]['status'],
-                        '<span class="taxonomicName">' .
-                        $row['accepted_species_name'] . '</span> ' .
-                        $row['accepted_species_author']
-                    );
+            if (!$row['is_accepted_name']) {
+                $resultTable[$i]['status'] = sprintf(
+                    $resultTable[$i]['status'],
+                    '<span class="taxonomicName">' .
+                    $row['accepted_species_name'] . '</span> ' .
+                    $row['accepted_species_author']
+                );
             }
             
             $resultTable[$i]['dbLogo'] = '/images/databases/' .
@@ -244,17 +239,17 @@ class SearchController extends Zend_Controller_Action
         switch($status && $suffix != "") {
             case ACI_Model_Taxa::STATUS_COMMON_NAME:
                 $source .= ' (' . $suffix . ')';
-            break;
+                break;
             default:
                 $source .= '  ' . $suffix;
-            break;
+                break;
         }
         return $source;
     }
 
     protected function _getSpanTaxonomicName($source, $status, $rank)
     {
-        if($status != ACI_Model_Taxa::STATUS_COMMON_NAME &&
+        if ($status != ACI_Model_Taxa::STATUS_COMMON_NAME &&
             $rank >= ACI_Model_Taxa::RANK_SPECIES) {
             $source = '<span class="taxonomicName">' . $source . '</span>';
         }
@@ -281,7 +276,7 @@ class SearchController extends Zend_Controller_Action
      */
     protected function _getPaginator(Zend_Db_Select $query, $page, $items)
     {
-    	$this->_logger->debug($query);
+        $this->_logger->debug($query);
         $paginator = new Zend_Paginator(
             new Zend_Paginator_Adapter_DbSelect($query));
                 
@@ -330,7 +325,7 @@ class SearchController extends Zend_Controller_Action
         
         $search = new ACI_Model_Search($this->_db);
         $res = $search->getRankEntries($rank, $name);
-        foreach($res as &$v) {
+        foreach ($res as &$v) {
             $v['highlightedName'] = $this->_highlightMatch($v['name'], $name);
         }
         /*$res = array(array(

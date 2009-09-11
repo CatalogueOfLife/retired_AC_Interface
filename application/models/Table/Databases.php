@@ -1,4 +1,15 @@
 <?php
+/**
+ * Annual Checklist Interface
+ *
+ * Class ACI_Model_Table_Databases
+ * Databases table model
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  models
+ *
+ */
 class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
 {
     protected $_name = 'databases';
@@ -8,7 +19,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
     {
         $dbDetails = $this->find((int)$id);
         $res = $dbDetails->current();
-        if(!$res) {
+        if (!$res) {
             return false;
         }
         return $this->_decorate($res->toArray());
@@ -17,12 +28,11 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
     public function getAll ($order = null)
     {
         $rowset = parent::fetchAll(null, $order);
-        if(!$rowset) {
+        if (!$rowset) {
             return false;
         }
         $results = array();
-        foreach($rowset as $row)
-        {
+        foreach ($rowset as $row) {
             $results[] = $this->_decorate($row->toArray());
         }
         return $results;

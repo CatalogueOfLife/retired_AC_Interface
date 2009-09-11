@@ -1,4 +1,15 @@
 <?php
+/**
+ * Annual Checklist Interface
+ *
+ * Class ACI_Model_Taxa
+ * Species data storage model
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  models
+ *
+ */
 class ACI_Model_Taxa
 {
     const STATUS_ACCEPTED_NAME = 1;
@@ -22,28 +33,43 @@ class ACI_Model_Taxa
     public $kingdom;
     public $genus;
     public $species;
+    public $familyId;
     public $infra;
-    public $infra_marker;
-    public $is_accepted_name;
+    public $infraMarker;
+    public $isAcceptedName;
+    public $nameCode;
+    public $acceptedNameCode;
     public $author;
     public $status;
-    public $specialist_name;
+    public $specialistName;
     public $lsid;
     public $comment;
-    public $taxa_id;
-    public $taxa_name;
-    public $taxa_author;   //synonyms only
-    public $taxa_language; //common names only
-    public $taxa_status;
-    public $db_id;
-    public $db_name;
-    public $db_image;
+    public $taxaId;
+    public $taxaName;
+    public $taxaAuthor;   //synonyms only
+    public $taxaLanguage; //common names only
+    public $taxaStatus;
+    public $snTaxaId;
+    public $rank;
+    public $dbId;
+    public $dbName;
+    public $dbImage;
+    public $dbVersion;
+    public $webSite;
+    public $scrutinyDate;
     public $hierarchy = array();
     public $synonyms = array();
     public $infraspecies = array();
-    public $common_names = array();
+    public $commonNames = array();
     public $distribution = array();
     public $references = array();
+    
+    protected $_logger;
+    
+    public function __construct() 
+    {
+        $this->_logger = Zend_Registry::get('logger');
+    }
      
     /**
      * Returns a string for the status what can be translated
@@ -100,65 +126,85 @@ class ACI_Model_Taxa
         
     public function hasCommonNames()
     {
-        return (bool)count($this->common_names);
+        return (bool)count($this->commonNames);
     }
     
     public function __get($name)
     {
-        switch($name) {
+        switch ($name) {
             case 'name':
                 $this->name =
                     ACI_Model_Taxa::getAcceptedScientificName(
                         $this->genus,
                         $this->species,
                         $this->infra,
-                        $this->infra_marker,
+                        $this->infraMarker,
                         $this->author
                     );
                 return $this->name;
-            break;
-            case 'taxa_full_name':
-                $this->taxa_full_name =
+                break;
+            case 'taxaFullName':                
+                $this->taxaFullName =
                     ACI_Model_Taxa::getTaxaFullName(
-                        $this->taxa_name,
-                        $this->taxa_status,
-                        $this->taxa_author,
-                        $this->taxa_language
+                        $this->taxaName,
+                        $this->taxaStatus,
+                        $this->taxaAuthor,
+                        $this->taxaLanguage
                     );
-                return $this->taxa_full_name;
-            break;
+                return $this->taxaFullName;
+                break;
         }
         return null;
     }
     
     public static function getTaxaFullName($name, $status, $author, $language)
     {
-        if(!$status) {
+        if (!$status) {
             return '';
         }
-        $taxa_full_name = '<i>' . $name . '</i>';
-        switch($status) {
+        $taxaFullName = '<i>' . $name . '</i>';
+        switch ($status) {
             case ACI_Model_Taxa::STATUS_COMMON_NAME:
-                if($language) {
-                    $taxa_full_name .= ' (' . $language . ')';
+                if ($language) {
+                    $taxaFullName .= ' (' . $language . ')';
                 }
-            break;
+                break;
             default:
-                if($author) {
-                    $taxa_full_name .= ' ' . $author;
+                if ($author) {
+                    $taxaFullName .= ' ' . $author;
                 }
-            break;
+                break;
         }
-        return $taxa_full_name;
+        return $taxaFullName;
     }
     
     public static function getAcceptedScientificName($genus, $species,
-        $infraspecies, $infraspecies_marker, $author)
+        $infraspecies, $infraspeciesMarker, $author)
     {
         $name  = "<i>$genus $species</i>";
         $name .= $infraspecies ?
-            " $infraspecies_marker <i>$infraspecies</i>" : '';
+            " $infraspeciesMarker <i>$infraspecies</i>" : '';
         $name .= $author ? " $author" : '';
         return $name;
+    }
+    
+    public function __set($key, $value) 
+    {        
+        if (strpos($key, '_')) {
+            $nameParts = explode('_', $key);
+            $key = '';      
+            $i = 0;
+            foreach ($nameParts as $part) {
+                $part = strtolower($part);
+                if ($i > 0) {
+                    $part = ucfirst($part);
+                }
+                $key .= $part;
+                $i++;
+            }
+        } else {
+            $this->_logger->debug("UNDEFINED attribute $key");
+        }
+        $this->$key = $value;        
     }
 }

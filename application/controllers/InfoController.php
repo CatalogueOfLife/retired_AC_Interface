@@ -31,10 +31,12 @@ class InfoController extends Zend_Controller_Action
     
     public function acAction ()
     {
-        $this->view->title = sprintf($this->view
-            ->translate('Info_annual_checklist'), $this->view->app->version);
+        $this->view->title = 
+            sprintf(
+                $this->view->translate('Info_annual_checklist'), 
+                $this->view->app->version
+            );
         $this->view->headTitle($this->view->title, 'APPEND');
-
     }
     
     public function databasesAction ()
@@ -52,7 +54,8 @@ class InfoController extends Zend_Controller_Action
                 array_merge(
                     array(ACI_Model_Info::getRightColumnName($sortCol)),
                     array(ACI_Model_Info::getRightColumnName($defaultSortCol))
-            ));
+                )
+            );
     }
     
     public function hierarchyAction ()

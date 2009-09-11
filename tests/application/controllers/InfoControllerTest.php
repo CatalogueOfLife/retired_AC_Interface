@@ -1,4 +1,15 @@
 <?php
+/**
+ * Annual Checklist Interface
+ *
+ * Class InfoControllerTest
+ * Unit tests to the info controller
+ *
+ * @category    ACI
+ * @package     tests
+ * @subpackage  controllers
+ *
+ */
 class InfoControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
 {
     public function setUp ()

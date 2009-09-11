@@ -76,7 +76,7 @@ class ACI_Model_Details
                         'columns' => array()
                     )
                 );
-            break;
+                break;
             case 'taxa':
                 $extraFields = array(
                     'taxa_id' => 'tx.record_id',
@@ -96,9 +96,10 @@ class ACI_Model_Details
                         'columns' => array()
                     )
                 );
-            break;
+                break;
             default:
                 $extraFields = $joinLeft = array();
+                break;
         }
         
         $select->from(
@@ -122,30 +123,30 @@ class ACI_Model_Details
         )
         ->where('sn.record_id = ?', (int)$id);
         
-        foreach($joinLeft as $jl) {
+        foreach ($joinLeft as $jl) {
             $select->joinLeft($jl['name'], $jl['cond'], $jl['columns']);
         }
         
         $species = $select->query()->fetchObject('ACI_Model_Taxa');
         
-        if(!$species instanceof ACI_Model_Taxa) {
+        if (!$species instanceof ACI_Model_Taxa) {
             return false;
         }
         
         $db = new ACI_Model_Table_Databases();
-        $dbDetails = $db->get($species->db_id);
+        $dbDetails = $db->get($species->dbId);
         
-        $species->db_image   = $dbDetails['image'];
-        $species->db_name    = $dbDetails['label'];
-        $species->db_version = $dbDetails['version'];
+        $species->dbImage   = $dbDetails['image'];
+        $species->dbName    = $dbDetails['label'];
+        $species->dbVersion = $dbDetails['version'];
         
-        $species->hierarchy    = $this->speciesHierarchy($species->sn_taxa_id);
-        $species->synonyms     = $this->synonyms($species->name_code);
-        $species->common_names = $this->commonNames($species->name_code);
+        $species->hierarchy    = $this->speciesHierarchy($species->snTaxaId);
+        $species->synonyms     = $this->synonyms($species->nameCode);
+        $species->commonNames = $this->commonNames($species->nameCode);
         $species->infraspecies =
             $this->infraspecies($species->genus, $species->species);
         $species->references   = $this->references($species->id);
-        $species->distribution = $this->distributions($species->name_code);
+        $species->distribution = $this->distributions($species->nameCode);
         
         return $species;
     }
@@ -162,22 +163,22 @@ class ACI_Model_Details
     {
         $select = new Zend_Db_Select($this->_db);
         $select->from(
-                array('tx' => 'taxa'),
-                array(
-                    'tx.record_id',
-                    'tx.parent_id',
-                    'tx.name',
-                    'tx.taxon',
-                    'tx.LSID'
-                )
-            )->where('tx.record_id = ?');
+            array('tx' => 'taxa'),
+            array(
+                'tx.record_id',
+                'tx.parent_id',
+                'tx.name',
+                'tx.taxon',
+                'tx.LSID'
+            )
+        )->where('tx.record_id = ?');
             
         $hierarchy = array();
         
         do {
             $select->bind(array($id));
             $res = $select->query()->fetchAll();
-            if(!count($res)) {
+            if (!count($res)) {
                 break;
             }
             $hierarchy[] = $res[0];
@@ -281,8 +282,10 @@ class ACI_Model_Details
                     ", ' ', IF(sn.species IS NULL, '', sn.species)))"
             )
         )
-        ->where('sn.genus = ? AND sn.species = ? AND ' .
-                'sn.infraspecies IS NOT NULL AND sn.is_accepted_name = ?')
+        ->where(
+            'sn.genus = ? AND sn.species = ? AND ' .
+            'sn.infraspecies IS NOT NULL AND sn.is_accepted_name = ?'
+        )
         ->order(array('infraspecies', 'infraspecies_marker'));
         
         $select->bind(array($genus, $species, 1));
@@ -291,7 +294,7 @@ class ACI_Model_Details
         
         $infraspecies = array();
         $i = 0;
-        foreach($rowSet as $row) {
+        foreach ($rowSet as $row) {
             $infraspecies[$i]['id'] = $row['id'];
             $infraspecies[$i]['name'] =
                 ACI_Model_Taxa::getAcceptedScientificName(
@@ -327,7 +330,7 @@ class ACI_Model_Details
         $rowSet = $select->query()->fetchAll();
         
         $dist = array();
-        foreach($rowSet as $row) {
+        foreach ($rowSet as $row) {
             $dist[] = $row['distribution'];
         }
         return $dist;

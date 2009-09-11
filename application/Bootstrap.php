@@ -70,8 +70,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $view->setEncoding('ISO-8859-1');
         $view->headMeta()
             ->appendHttpEquiv('Content-Type', 'text/html;charset=iso-8859-1');
-        $view->headTitle('Catalogue of Life - ' .
-            $config->custom->application->version . ' Annual Checklist');
+        $view->headTitle(
+            'Catalogue of Life - ' .
+            $config->custom->application->version . ' Annual Checklist'
+        );
         $view->headTitle()->setSeparator(' :: ');
         $viewRenderer = new Zend_Controller_Action_Helper_ViewRenderer();
         $viewRenderer->setView($view);

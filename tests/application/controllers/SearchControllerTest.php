@@ -1,4 +1,15 @@
 <?php
+/**
+ * Annual Checklist Interface
+ *
+ * Class SearchControllerTest
+ * Unit tests to the search controller
+ *
+ * @category    ACI
+ * @package     tests
+ * @subpackage  controllers
+ *
+ */
 class SearchControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
 {
     public function setUp ()

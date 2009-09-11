@@ -85,12 +85,15 @@ table.details-table tr th {
     vertical-align: top;
     padding: 6px 4px;
 }
+.details p {
+    padding-top: 10px;
+}
 ul.errors li {
     padding: 8px 0;
     color: #b41a1a;
 }
 
-.aboutcolheader {    
+.aboutcolheader {
     color: #900;
     font-weight: bold;
     margin: 5px 0;
@@ -105,7 +108,7 @@ ul.errors li {
     font-weight: bold;
     text-decoration: underline;
 }
-.matchHighlight a {    
+.matchHighlight a {
     text-decoration: none;
 }
 .matchHighlight a:hover {
@@ -154,7 +157,7 @@ ul.errors li {
 
 .listlink a:hover {
     color: #F20B0B;
-    text-decoration: underline;    
+    text-decoration: underline;
 }
 
 .new, .new_big {
@@ -198,7 +201,7 @@ ul.errors li {
 
 th {
     text-align: left;
-    padding: 3px 3px 10px 3px;    
+    padding: 3px 3px 10px 3px;
 }
 
 th.current {
@@ -332,7 +335,7 @@ form div.items-form dd#key-element,
 form div.items-form dt#match-label,  
 form div.items-form dd#key-element,
 form div.items-form dt#update-label,
-form div.items-form dt#itemsGroup-label    
+form div.items-form dt#itemsGroup-label
 {
     display: none;
 }
@@ -352,7 +355,7 @@ form div.search-form dd {
 }
 form div dd fieldset dl dt label {
     line-height: 18px;
-	padding: 0 10px 0 0; 
+    padding: 0 10px 0 0; 
 }
 form div.search-form dd fieldset dl dt#match-label label {
     padding: 0 0 0 5px;
@@ -369,8 +372,8 @@ form div.search-form dd fieldset#fieldset-infraspeciesGroup dl dd {
 form div.items-form dd fieldset dl dd div,
 form div.search-form dd fieldset dl dd div,
 form div.search-form dd fieldset dl dd {
-	font-size: 14px;
-	font-family: sans-serif;
+    font-size: 14px;
+    font-family: sans-serif;
 }
 form div.search-form dd fieldset dl dt,
 form div.search-form dd fieldset dl dd,
@@ -397,8 +400,8 @@ form dd#update-element input {
     margin-top:10px;
 }
 ul.dijitMenu li {
-	line-height: 14px;
-	font-size: 13px;	
+    line-height: 14px;
+    font-size: 13px;	
 }
 /* Menu */
 /********/

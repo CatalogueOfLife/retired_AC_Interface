@@ -45,62 +45,58 @@ class DetailsController extends Zend_Controller_Action
         $taxaId = $this->_getParam('taxa');
         $commonNameId = $this->_getParam('common');
         
-        if($taxaId) {
+        if ($taxaId) {
             $fromType = 'taxa';
             $fromId = $taxaId;
-        }
-        elseif($commonNameId) {
+        } elseif ($commonNameId) {
             $fromType = 'common';
             $fromId = $commonNameId;
-        }
-        else {
+        } else {
             $fromType = $fromId = null;
         }
         
-        if($id) {
+        if ($id) {
             $detailsModel = new ACI_Model_Details($this->_db);
             $speciesDetails = $this->_decorateSpeciesDetails(
-                $detailsModel->species($id, $fromType, $fromId));
-        }
-        else {
+                $detailsModel->species($id, $fromType, $fromId)
+            );
+        } else {
             $speciesDetails = false;
         }
 
-        if($speciesDetails->synonyms == "") {
+        if (empty($speciesDetails->synonyms)) {
             $speciesDetails->synonyms = $this->_empty;
         }
-        if($speciesDetails->common_names == "") {
-            $speciesDetails->common_names = $this->_empty;
+        if (empty($speciesDetails->commonNames)) {
+            $speciesDetails->commonNames = $this->_empty;
         }
-        if($speciesDetails->hierarchy == "") {
+        if ($speciesDetails->hierarchy == '') {
             $speciesDetails->hierarchy = $this->_empty;
         }
-        if($speciesDetails->distribution == "") {
+        if ($speciesDetails->distribution == '') {
             $speciesDetails->distribution = $this->_empty;
-        }
-        else {
+        } else {
             $speciesDetails->distribution = implode(
                 '; ', $speciesDetails->distribution
             );
         }
-        if($speciesDetails->comment == "") {
+        if ($speciesDetails->comment == '') {
             $speciesDetails->comment = $this->_empty;
         }
-        if($speciesDetails->db_id == "" && $speciesDetails->db_name = "" &&
-          $speciesDetails->db_version = "") {
-            $speciesDetails->db_name = $this->_empty;
+        if ($speciesDetails->dbId == '' && $speciesDetails->dbName = '' &&
+            $speciesDetails->dbVersion = '') {
+            $speciesDetails->dbName = $this->_empty;
         }
-        if($speciesDetails->scrutiny_date == "" &&
-          $speciesDetails->specialist_name = "") {
-            $speciesDetails->scrutiny_date = $$this->_empty;
+        if ($speciesDetails->scrutinyDate == '' &&
+            $speciesDetails->specialistName = '') {
+            $speciesDetails->scrutinyDate = $$this->_empty;
         }
-        if($speciesDetails->web_site == "") {
-            $speciesDetails->web_site = $this->_empty;
+        if ($speciesDetails->webSite == '') {
+            $speciesDetails->webSite = $this->_empty;
         }
-        if($speciesDetails->lsid == "") {
+        if ($speciesDetails->lsid == '') {
             $speciesDetails->lsid = $this->_empty;
         }
-        
         
         $title =
             $speciesDetails &&
@@ -116,28 +112,31 @@ class DetailsController extends Zend_Controller_Action
     protected function _decorateSpeciesDetails(ACI_Model_Taxa $speciesDetails)
     {
         $preface = '';
-        if($speciesDetails->taxa_status) {
-            $preface = '<p>' . sprintf($this->view->translate('You_selected'),
-                $speciesDetails->taxa_full_name) .
-                (strrpos($speciesDetails->taxa_full_name, '.') ==
-                    strlen($speciesDetails->taxa_full_name) - 1 ? ' ' : '. ');
-            switch($speciesDetails->taxa_status) {
+        if ($speciesDetails->taxaStatus) {
+            $preface = '<p>' . 
+                sprintf(
+                    $this->view->translate('You_selected'),
+                    $speciesDetails->taxaFullName
+                ) .
+                (strrpos($speciesDetails->taxaFullName, '.') ==
+                    strlen($speciesDetails->taxaFullName) - 1 ? ' ' : '. ');
+            switch($speciesDetails->taxaStatus) {
                 case ACI_Model_Taxa::STATUS_COMMON_NAME:
                     $preface .= $this->view
                         ->translate('This_is_a_common_name_for') . ':';
-                break;
+                    break;
                 case ACI_Model_Taxa::STATUS_SYNONYM:
                     $preface .= $this->view
                         ->translate('This_is_a_synonym_for') . ':';
-                break;
+                    break;
                 case ACI_Model_Taxa::STATUS_AMBIGUOUS_SYNONYM:
                     $preface .= $this->view
                         ->translate('This_is_an_ambiguous_synonym_for') . ':';
-                break;
+                    break;
                 case ACI_Model_Taxa::STATUS_MISAPPLIED_NAME:
                     $preface .= $this->view
                         ->translate('This_is_a_misapplied_name_for') . ':';
-                break;
+                    break;
             }
             $preface .= '</p>';
         }

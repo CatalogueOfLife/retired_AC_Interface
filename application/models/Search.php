@@ -96,47 +96,51 @@ class ACI_Model_Search
     {
         $select = new Zend_Db_Select($this->_db);
         
-        $fields = array('id' => 'sn.record_id',
-                        'taxa_id' => 'tx.record_id',
-                        'rank' => new Zend_Db_Expr(
-                            'CASE tx.taxon ' .
-                            'WHEN "Kingdom" THEN ' .
-                                ACI_Model_Taxa::RANK_KINGDOM . ' ' .
-                            'WHEN "Phylum" THEN ' .
-                                ACI_Model_Taxa::RANK_PHYLUM . ' ' .
-                            'WHEN "Class" THEN ' .
-                                ACI_Model_Taxa::RANK_CLASS . ' ' .
-                            'WHEN "Order" THEN ' .
-                                ACI_Model_Taxa::RANK_ORDER . ' ' .
-                            'WHEN "Supefamily" THEN ' .
-                                ACI_Model_Taxa::RANK_SUPERFAMILY . ' ' .
-                            'WHEN "Family" THEN ' .
-                                ACI_Model_Taxa::RANK_FAMILY . ' ' .
-                            'WHEN "Genus" THEN ' .
-                                ACI_Model_Taxa::RANK_GENUS . ' ' .
-                            'WHEN "Species" THEN ' .
-                                ACI_Model_Taxa::RANK_SPECIES . ' ' .
-                            'WHEN "Infraspecies" THEN ' .
-                                ACI_Model_Taxa::RANK_INFRASPECIES . ' ' .
-                            'END'),
-                        'tx.name',
-                        'tx.name_code',
-                        'tx.is_accepted_name',
-                        'sn.author',
-                        'language' => new Zend_Db_Expr("''"),
-                        'accepted_species_id' => 'sna.record_id',
-                        'accepted_species_name' =>
-                            "TRIM(CONCAT(IF(sna.genus IS NULL, '', sna.genus) " .
-                            ", ' ', IF(sna.species IS NULL, '', sna.species), ' ', " .
-                            "IF(sna.infraspecies IS NULL, '', sna.infraspecies)))",
-                        'accepted_species_author' => 'sna.author',
-                        'db_name' => 'db.database_name',
-                        'db_id' => 'db.record_id',
-                        'db_thumb' => 'CONCAT(REPLACE(db.database_name, " ", "_"), ".gif")',
-                        'kingdom' => 'fm.kingdom',
-                        'status' => 'tx.sp2000_status_id');
+        $fields = 
+            array(
+                'id' => 'sn.record_id',
+                'taxa_id' => 'tx.record_id',
+                'rank' => new Zend_Db_Expr(
+                    'CASE tx.taxon ' .
+                    'WHEN "Kingdom" THEN ' .
+                        ACI_Model_Taxa::RANK_KINGDOM . ' ' .
+                    'WHEN "Phylum" THEN ' .
+                        ACI_Model_Taxa::RANK_PHYLUM . ' ' .
+                    'WHEN "Class" THEN ' .
+                        ACI_Model_Taxa::RANK_CLASS . ' ' .
+                    'WHEN "Order" THEN ' .
+                        ACI_Model_Taxa::RANK_ORDER . ' ' .
+                    'WHEN "Supefamily" THEN ' .
+                        ACI_Model_Taxa::RANK_SUPERFAMILY . ' ' .
+                    'WHEN "Family" THEN ' .
+                        ACI_Model_Taxa::RANK_FAMILY . ' ' .
+                    'WHEN "Genus" THEN ' .
+                        ACI_Model_Taxa::RANK_GENUS . ' ' .
+                    'WHEN "Species" THEN ' .
+                        ACI_Model_Taxa::RANK_SPECIES . ' ' .
+                    'WHEN "Infraspecies" THEN ' .
+                        ACI_Model_Taxa::RANK_INFRASPECIES . ' ' .
+                    'END'),
+                'tx.name',
+                'tx.name_code',
+                'tx.is_accepted_name',
+                'sn.author',
+                'language' => new Zend_Db_Expr("''"),
+                'accepted_species_id' => 'sna.record_id',
+                'accepted_species_name' =>
+                    "TRIM(CONCAT(IF(sna.genus IS NULL, '', sna.genus) " .
+                    ", ' ', IF(sna.species IS NULL, '', sna.species), ' ', " .
+                    "IF(sna.infraspecies IS NULL, '', sna.infraspecies)))",
+                'accepted_species_author' => 'sna.author',
+                'db_name' => 'db.database_name',
+                'db_id' => 'db.record_id',
+                'db_thumb' => 
+                    'CONCAT(REPLACE(db.database_name, " ", "_"), ".gif")',
+                'kingdom' => 'fm.kingdom',
+                'status' => 'tx.sp2000_status_id'
+            );
         
-        if($matchWholeWords) {
+        if ($matchWholeWords) {
         
             $select->from(
                 array(
@@ -154,8 +158,7 @@ class ACI_Model_Search
                 'tx.is_species_or_nonsynonymic_higher_taxon = 1',
                 $searchKey
             );
-        }
-        else {
+        } else {
             $select->from(
                 array(
                     'tx' => 'taxa'
@@ -233,9 +236,10 @@ class ACI_Model_Search
                 'accepted_species_author' => 'sn.author',
                 'db_name' => 'db.database_name',
                 'db_id' => 'db.record_id',
-                'db_thumb' => 'CONCAT(REPLACE(db.database_name, " ", "_"), ".gif")',
+                'db_thumb' => 
+                    'CONCAT(REPLACE(db.database_name, " ", "_"), ".gif")',
                 'kingdom' => 'fm.kingdom',
-                'status' => new Zend_Db_Expr(ACI_Model_Taxa::STATUS_COMMON_NAME),
+                'status' => new Zend_Db_Expr(ACI_Model_Taxa::STATUS_COMMON_NAME)
             )
         )
         ->joinLeft(
@@ -254,18 +258,16 @@ class ACI_Model_Search
             array()
         );
          
-        if($matchWholeWords)
-        {
+        if ($matchWholeWords) {
             $select->where(
-                'cn.common_name REGEXP "[[:<:]]' . $searchKey . '[[:>:]]"');
-        }
-        else {
+                'cn.common_name REGEXP "[[:<:]]' . $searchKey . '[[:>:]]"'
+            );
+        } else {
             $select
                 ->where('cn.common_name LIKE "%' . $searchKey . '%"');
         }
         
-        $select
-        ->group(array('name', 'language', 'accepted_species_id'));
+        $select->group(array('name', 'language', 'accepted_species_id'));
          
         return $select;
     }
@@ -278,7 +280,7 @@ class ACI_Model_Search
      */
     public function getRankEntries($rank, $name)
     {
-        if(strlen($name) < 2) {
+        if (strlen($name) < 2) {
             return array();
         }
         
@@ -287,7 +289,7 @@ class ACI_Model_Search
         
         $this->_logger->debug("$total results found for $rank \"$name\"");
 
-        if($total > self::API_ROWSET_LIMIT) {
+        if ($total > self::API_ROWSET_LIMIT) {
             return array();
         }
         
