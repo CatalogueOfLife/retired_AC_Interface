@@ -14,8 +14,9 @@ class ACI_Model_Search
 {
     protected $_db;
     protected $_logger;
+    
     const API_ROWSET_LIMIT = 1500;
-    const ITEMS_PER_PAGE = 10;
+    const ITEMS_PER_PAGE = 20;
     
     public function __construct(Zend_Db_Adapter_Abstract $dbAdapter)
     {
@@ -277,6 +278,10 @@ class ACI_Model_Search
      */
     public function getRankEntries($rank, $name)
     {
+        if(strlen($name) < 2) {
+            return array();
+        }
+        
         $select = new Zend_Db_Select($this->_db);
         $total = $this->_getRankCount($rank, $name);
         
@@ -288,8 +293,13 @@ class ACI_Model_Search
         
         $select->distinct()
                ->from(array('hard_coded_taxon_lists'), array('name'))
-               ->where('rank = ? AND name LIKE "'. $name .'%"', $rank)
-               ->order(array('name'));
+               ->where('rank = ? AND name LIKE "%'. $name .'%"', $rank)
+               ->order(
+                   array(
+                       new Zend_Db_Expr('INSTR(name, "' . $name . '")'),
+                       'name'
+                   )
+               );
         return $select->query()->fetchAll();
     }
     
@@ -307,7 +317,7 @@ class ACI_Model_Search
                 array('hard_coded_taxon_lists'),
                 array('total' => new Zend_Db_Expr('COUNT(DISTINCT name)'))
             )
-            ->where('rank = ? AND name LIKE "'. $name .'%"', $rank);
+            ->where('rank = ? AND name LIKE "%'. $name .'%"', $rank);
             
         return $select->query()->fetchColumn();
     }

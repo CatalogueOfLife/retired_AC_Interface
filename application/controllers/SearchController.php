@@ -26,7 +26,7 @@ class SearchController extends Zend_Controller_Action
     
     protected function _getSearchForm()
     {
-        return new ACI_Form_Search();
+        return new ACI_Form_Dojo_Search();
     }
     
     public function commonAction()
@@ -103,7 +103,7 @@ class SearchController extends Zend_Controller_Action
         if($key = $form->getElement('key')) {
             $key->setValue($this->_getParam('key', ''));
         }
-        $this->view->contentClass = 'search-' . $this->view->action;
+        $this->view->contentClass = 'search-box';
         $form->setAction(
             $this->view->baseUrl() . '/' . $this->view->controller . '/' .
             $this->view->action
@@ -137,7 +137,7 @@ class SearchController extends Zend_Controller_Action
         $this->view->data = $this->_createTableFromResults();
         
         // Build items per page form
-        $form = new ACI_Form_ItemsPerPage();
+        $form = new ACI_Form_Dojo_ItemsPerPage();
 
         $form->getElement('key')->setValue($this->_getParam('key'));
         $form->getElement('match')->setValue($this->_getParam('match'));
@@ -193,8 +193,8 @@ class SearchController extends Zend_Controller_Action
             }
             $resultTable[$i]['name'] = $this->_getSuffix(
                 $this->_getSpanTaxonomicName(
-                    $this->_getSpanSearchWord(
-                        $row['name']
+                    $this->_highlightMatch(
+                        $row['name'], $this->_getParam('key')
                     ),
                     $row['status'],
                     $row['rank']
@@ -261,12 +261,12 @@ class SearchController extends Zend_Controller_Action
         return $source;
     }
     
-    protected function _getSpanSearchWord($source)
+    protected function _highlightMatch($haystack, $needle)
     {
         return preg_replace(
-            '/(' . $this->_getParam('key') . ')/i',
-            "<span class=\"field_header\">$1</span>",
-            $source
+            '/(' . $needle . ')/i',
+            "<span class=\"matchHighlight\">$1</span>",
+            $haystack
         );
     }
     
@@ -325,17 +325,22 @@ class SearchController extends Zend_Controller_Action
      */
     protected function _sendRankData($rank)
     {
-        $name = $this->_getParam('name', '*');
+        $name = trim(str_replace('*', '', $this->_getParam('name')));
         $this->_logger->debug($name);
         
         $search = new ACI_Model_Search($this->_db);
-        $res = array_merge(
-            array(),
-            $search->getRankEntries(
-                $rank,
-                str_replace('*', '', $name)
+        $res = $search->getRankEntries($rank, $name);
+        foreach($res as &$v) {
+            $v['highlightedName'] = $this->_highlightMatch($v['name'], $name);
+        }
+        /*$res = array(array(
+            'name' => 'No matches found',
+            'highlightedName' => 'No matches found'
             )
-        );
+        );*/
+        
+        
+        
         $this->_logger->debug($res);
         $this->view->data = new Zend_Dojo_Data('name', $res, $rank);
         $this->renderScript('search/data.phtml');

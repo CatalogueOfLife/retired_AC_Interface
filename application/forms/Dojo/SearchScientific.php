@@ -4,7 +4,9 @@ class ACI_Form_Dojo_SearchScientific extends Zend_Dojo_Form
     public function init()
     {
         $this->setMethod('post');
-        $this->setAttribs(array('id' => 'searchForm'));
+        $this->setAttribs(array('id' => 'searchScientificForm'));
+        
+        $translator = Zend_Registry::get('Zend_Translate');
         
         $ranks = array(
             'genus' => 'Genus',
@@ -18,40 +20,33 @@ class ACI_Form_Dojo_SearchScientific extends Zend_Dojo_Form
                 'ComboBox',
                 $rank,
                 array(
-                    'autocomplete' => true,
                     'required' => false,
-                    'storeId' => 'genusStore',
+                    'autoComplete' => true,
+                    'labelType' => 'html',
+                    'labelAttr' => 'highlightedName',
+                    'storeId' => $rank . 'Store',
                     'storeType' => 'dojox.data.QueryReadStore',
                     'storeParams' => array(
                         'url' => 'scientific/fetch/' . $rank,
                     ),
                     'dijitParams' => array(
                         'searchAttr' => 'name',
-                    )
+                        'hasDownArrow'   => true,
+                        'highlightMatch' => 'none', //highlight is done manually
+                        'queryExpr' => '*${0}*',
+                        'searchAttr' => 'name'
+                    ),
+                    'style' => 'width: 300px'
                 )
             )->setLabel($label);
             
             $this->addElement($comboBox);
         }
         
-        $match = $this->createElement(
-            'CheckBox',
-            'match',
-            array(
-                'checked' => 'true'
-            )
-        )->setLabel('Match_whole_words_only');
-        
         $submit = $this->createElement(
-            'SubmitButton',
-            'search',
-            array(
-                'required'   => false,
-                'ignore'     => true
-            )
-        )->setLabel('Search');
+            'submit',
+            'search')->setLabel($translator->translate('Search') . ' >>');
         
-        $this->addElement($match)
-             ->addElement($submit);
+        $this->addElement($submit);
     }
 }

@@ -18,14 +18,14 @@
     echo $this->headMeta();
     echo $this->headTitle();
     echo $this->headStyle();
-    $this->headLink()->appendStylesheet($this->baseUrl() . '/styles/style.css');
     $this->headLink()->appendStylesheet(
         $this->baseUrl() . '/styles/style-ie6.css', 'screen', 'IE 6'
     );
     $this->headLink()->appendStylesheet(
         $this->baseUrl() . '/styles/style-ie7.css', 'screen', 'IE 7'
     );
-    echo $this->headLink();
+    
+    
     if ($this->dojo()->isEnabled()) {
         $this->dojo()->setLocalPath(
             $this->baseUrl() . '/scripts/library/dojo/dojo/dojo.js'
@@ -33,6 +33,8 @@
    	    echo $this->dojo();
     }
     echo $this->headScript()->appendFile($this->baseUrl() . '/scripts/menu.js');
+    $this->headLink()->appendStylesheet($this->baseUrl() . '/styles/style.css');
+    echo $this->headLink();
     ?>
 </head>
 <body class="tundra">

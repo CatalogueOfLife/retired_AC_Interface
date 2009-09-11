@@ -100,15 +100,15 @@ ul.errors li {
     font-style:italic;
 }
 
-.field_header {
+.matchHighlight {
     color: #336;
     font-weight: bold;
     text-decoration: underline;
 }
-.field_header a {    
+.matchHighlight a {    
     text-decoration: none;
 }
-.field_header a:hover {
+.matchHighlight a:hover {
     color: #F20B0B;
     text-decoration: underline;
 }
@@ -304,10 +304,7 @@ div.results_links {
     display: block;
     min-width: 400px;
 }
-#content.search-all,
-#content.search-common,
-#content.search-distribution
-#content.search-scientific,
+#content.search-box,
 #content.details {
     display: table;
 }
@@ -319,16 +316,6 @@ div.results_links {
 
 /* Forms */
 /*********/
-form dt, dd {
-    float: left;
-    padding: 4px;
-    margin: 0;
-    clear: none;
-}
-form dt {
-    float: left;
-    text-align: right;
-}
 form p {
     margin: 0;
     padding: 0;    
@@ -336,16 +323,16 @@ form p {
     clear: none;
 }
 /* Search */
-form div.search_form dt#match-label {
-    padding: 8px 0 0 0;
-    width: 70%;
-    text-align: left;
-}
-form div.search_form dt#key-label,
 form div.items_form dt#items-label
 {
-    padding: 10px 4px 0 0;
+    padding: 2px 4px 0 0;
 }
+form div.items_form dt#items-label dd,
+form div.items_form dt#items-label dt {
+    clear: none;
+    float: left;
+}
+itemsGroup-element
 form div.items_form p.description {
     padding: 6px 0 0 4px;
 }
@@ -353,32 +340,10 @@ form div.items_form dt#key-label,
 form div.items_form dd#key-element,
 form div.items_form dt#match-label,  
 form div.items_form dd#key-element,
-form div.items_form dt#update-label
+form div.items_form dt#update-label,
+form div.items_form dt#itemsGroup-label    
 {
     display: none;
-}
-form div.search_form dd#key-element {
-    padding-right: 0;
-}
-form div.search_form dd#match-element {
-    margin-left: 54px;
-}
-form div.search_form dd#search-element {
-    float: none;
-    clear: both;
-    text-align:right;
-    padding: 0;
-    margin-top: 12px;
-}
-form div.search_form dd#match-element,
-form div.search_form dt#search-label {
-    clear: left;
-}
-form dd#search-element input,
-form dd#update-element input {
-    color: #006;
-    font-family: Verdana, "MS Sans Serif", "Espy Sans", Geneva, Arial;
-    font-size: 13px;
 }
 /*Items per page*/
 form div.items_form {
@@ -389,6 +354,58 @@ form div.items_form dt#items-label,
 form div.items_form dd#items-element input,
 form div.items_form dd#update-element {
     float: left;    
+}
+form#searchScientificForm dl dd {
+    clear: right;
+    float: right;
+}
+
+form#searchScientificForm dl dt {
+    clear: left;
+    float: left;
+    padding: 7px 6px 10px 0;
+}
+
+form div.search_form dd {
+    clear: both;
+    float: none;
+}
+form div.search_form dd fieldset dl dt label {
+    line-height: 16px;
+    padding: 0 5px 0 0;
+}
+form div.search_form dd fieldset dl dt#match-label label {
+    padding: 0 0 0 5px;
+}
+form div.search_form dd fieldset#fieldset-matchGroup {
+    margin-left:60px;
+}
+form div.search_form dd fieldset#fieldset-submitGroup dl {
+    float: right;
+}
+form div.search_form dd fieldset dl dt,
+form div.search_form dd fieldset dl dd,
+form div.search_form dt,
+form div.items_form dd fieldset dl dt,
+form div.items_form dd fieldset dl dd
+{
+    clear: none;
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+form div.items_form dd fieldset {
+    padding:15px 0 10px 0;
+}
+form div.items_form dd#update-element {
+    margin: -15px 0 0 10px;
+}
+form dd#search-element input,
+form dd#update-element input {
+    color: #006;
+    font-family: Verdana, "MS Sans Serif", "Espy Sans", Geneva, Arial;
+    font-size: 13px;
+    margin-top:10px;
 }
 /* Menu */
 /********/
