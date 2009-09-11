@@ -4,7 +4,9 @@ class ACI_Form_Dojo_SearchScientific extends Zend_Dojo_Form
     public function init()
     {
         $this->setMethod('post');
-        $this->setAttribs(array('id' => 'searchForm'));
+        $this->setAttribs(array('id' => 'searchScientificForm'));
+        
+        $translator = Zend_Registry::get('Zend_Translate');
         
         $ranks = array(
             'genus' => 'Genus',
@@ -20,13 +22,14 @@ class ACI_Form_Dojo_SearchScientific extends Zend_Dojo_Form
                 array(
                     'autocomplete' => true,
                     'required' => false,
-                    'storeId' => 'genusStore',
+                    'storeId' => $rank . 'Store',
                     'storeType' => 'dojox.data.QueryReadStore',
                     'storeParams' => array(
                         'url' => 'scientific/fetch/' . $rank,
                     ),
                     'dijitParams' => array(
                         'searchAttr' => 'name',
+                        'style' => 'width: 310px'
                     )
                 )
             )->setLabel($label);
@@ -34,24 +37,15 @@ class ACI_Form_Dojo_SearchScientific extends Zend_Dojo_Form
             $this->addElement($comboBox);
         }
         
-        $match = $this->createElement(
-            'CheckBox',
-            'match',
-            array(
-                'checked' => 'true'
-            )
-        )->setLabel('Match_whole_words_only');
-        
         $submit = $this->createElement(
             'SubmitButton',
             'search',
             array(
                 'required'   => false,
-                'ignore'     => true
+                'ignore'     => true                
             )
-        )->setLabel('Search');
+        )->setLabel($translator->translate('Search') . ' >>');
         
-        $this->addElement($match)
-             ->addElement($submit);
+        $this->addElement($submit);
     }
 }

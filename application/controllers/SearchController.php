@@ -53,10 +53,13 @@ class SearchController extends Zend_Controller_Action
         }
         $this->view->title = $this->view->translate('Search_scientific_names');
         $this->view->headTitle($this->view->title, 'APPEND');
+        $this->view->jQuery()->enable();
         // TODO: implement search query
         $this->_renderFormPage(
             $this->view->title,
-            new ACI_Form_Dojo_SearchScientific()
+            //new ACI_Form_Dojo_SearchScientific()
+            //new ACI_Form_JQuery_SearchScientific()
+            new ACI_Form_SearchScientific()
         );
     }
     
@@ -100,10 +103,11 @@ class SearchController extends Zend_Controller_Action
     {
         $this->view->formHeader = $formHeader;
         $form = $form instanceof Zend_Form ? $form : $this->_getSearchForm();
-        if($key = $form->getElement('key')) {
+        $key = $form->getElement('key');
+        if($key) {
             $key->setValue($this->_getParam('key', ''));
         }
-        $this->view->contentClass = 'search-' . $this->view->action;
+        $this->view->contentClass = 'search-box';
         $form->setAction(
             $this->view->baseUrl() . '/' . $this->view->controller . '/' .
             $this->view->action
@@ -325,19 +329,15 @@ class SearchController extends Zend_Controller_Action
      */
     protected function _sendRankData($rank)
     {
-        $name = $this->_getParam('name', '*');
+        $name = trim($this->_getParam('q'));        
         $this->_logger->debug($name);
-        
         $search = new ACI_Model_Search($this->_db);
-        $res = array_merge(
-            array(),
-            $search->getRankEntries(
-                $rank,
-                str_replace('*', '', $name)
-            )
-        );
-        $this->_logger->debug($res);
-        $this->view->data = new Zend_Dojo_Data('name', $res, $rank);
+        $res = $search->getRankEntries($rank, $name);       
+        $this->_logger->debug($res);     
+        //$this->view->data = Zend_Json::encode($res);
+        //$this->view->data = new Zend_Dojo_Data('name', $res, $rank);
+        $this->_helper->autoComplete($res);
+        $this->view->data = explode(PHP_EOL, $res);
         $this->renderScript('search/data.phtml');
     }
     

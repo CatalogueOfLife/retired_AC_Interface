@@ -1,11 +1,6 @@
-.search-all,
-.search-common,
-.search-distribution
+.search-box
 {
     width:350px;
-}
-.search-scientific {
-    width:410px;
 }
 form div.search_form dd#match-element {
     margin-left: 32px;

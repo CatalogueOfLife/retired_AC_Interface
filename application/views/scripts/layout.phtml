@@ -24,15 +24,44 @@
     );
     $this->headLink()->appendStylesheet(
         $this->baseUrl() . '/styles/style-ie7.css', 'screen', 'IE 7'
-    );
-    echo $this->headLink();
-    if ($this->dojo()->isEnabled()) {
+    );    
+    $this->headScript()->appendFile($this->baseUrl() . '/scripts/menu.js');
+    /*if ($this->dojo()->isEnabled()) {
         $this->dojo()->setLocalPath(
             $this->baseUrl() . '/scripts/library/dojo/dojo/dojo.js'
         )->addStyleSheetModule('dijit.themes.tundra');
    	    echo $this->dojo();
-    }
-    echo $this->headScript()->appendFile($this->baseUrl() . '/scripts/menu.js');
+    } */   
+    if ($this->jQuery()->isEnabled()):
+        $this->jQuery()->setLocalPath($this->baseUrl() . 
+            '/scripts/library/jquery/jquery-1.3.2.min.js')
+            ->setUiLocalPath($this->baseUrl() .
+                '/scripts/library/jquery/jquery-ui-1.7.2.custom.min.js');
+        echo $this->jQuery();
+        $this->headScript()->appendFile($this->baseUrl() . '/scripts/library/jquery/jquery.ajaxQueue.js');
+        $this->headScript()->appendFile($this->baseUrl() . '/scripts/library/jquery/jquery.autocomplete.min.js');
+        $this->headScript()->appendFile($this->baseUrl() . '/scripts/library/jquery/jquery.bgiframe.min.js');
+        $this->headScript()->appendFile($this->baseUrl() . '/scripts/library/jquery/thickbox-compressed.js');
+        $this->headLink()->appendStylesheet($this->baseUrl() . '/styles/jquery.autocomplete.css');
+        $this->headLink()->appendStylesheet($this->baseUrl() . '/styles/thickbox.css');
+    ?>
+    <script type="text/javascript">
+    $().ready(function() {
+    	$("#genus").autocomplete('/AC_Interface-trunk/public/search/scientific/fetch/genus', {
+    		max: 1500    				        
+        });
+    	$("#species").autocomplete('/AC_Interface-trunk/public/search/scientific/fetch/species', {
+            max: 1500         
+        });
+    	$("#infraspecies").autocomplete('/AC_Interface-trunk/public/search/scientific/fetch/infraspecies', {
+            max: 1500         
+        });
+    });
+    </script>
+    <?php      
+    endif;
+    echo $this->headLink();
+    echo $this->headScript();
     ?>
 </head>
 <body class="tundra">

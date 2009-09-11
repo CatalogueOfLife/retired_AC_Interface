@@ -359,4 +359,9 @@ class ACI_Model_Details
         
         return $select->query()->fetchAll();
     }
+    
+    public function __destroy()
+    {
+        $this->_db->closeConnection();
+    }
 }

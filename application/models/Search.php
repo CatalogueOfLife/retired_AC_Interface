@@ -277,6 +277,9 @@ class ACI_Model_Search
      */
     public function getRankEntries($rank, $name)
     {
+        if(strlen($name) < 3) {
+            return array();
+        }
         $select = new Zend_Db_Select($this->_db);
         $total = $this->_getRankCount($rank, $name);
         
@@ -288,9 +291,9 @@ class ACI_Model_Search
         
         $select->distinct()
                ->from(array('hard_coded_taxon_lists'), array('name'))
-               ->where('rank = ? AND name LIKE "'. $name .'%"', $rank)
+               ->where('rank = ? AND name LIKE "%'. $name .'%"', $rank)
                ->order(array('name'));
-        return $select->query()->fetchAll();
+        return $select->query()->fetchAll(null, 0);
     }
     
    /**
@@ -307,8 +310,13 @@ class ACI_Model_Search
                 array('hard_coded_taxon_lists'),
                 array('total' => new Zend_Db_Expr('COUNT(DISTINCT name)'))
             )
-            ->where('rank = ? AND name LIKE "'. $name .'%"', $rank);
+            ->where('rank = ? AND name LIKE "%'. $name .'%"', $rank);
             
         return $select->query()->fetchColumn();
+    }
+    
+    public function __destroy()
+    {
+        $this->_db->closeConnection();
     }
 }

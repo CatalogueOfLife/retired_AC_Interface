@@ -304,10 +304,7 @@ div.results_links {
     display: block;
     min-width: 400px;
 }
-#content.search-all,
-#content.search-common,
-#content.search-distribution
-#content.search-scientific,
+#content.search-box,
 #content.details {
     display: table;
 }
@@ -323,7 +320,7 @@ form dt, dd {
     float: left;
     padding: 4px;
     margin: 0;
-    clear: none;
+    
 }
 form dt {
     float: left;
@@ -390,6 +387,16 @@ form div.items_form dd#items-element input,
 form div.items_form dd#update-element {
     float: left;    
 }
+#searchScientificForm div dd {
+	clear: right;
+	float: right;	
+}
+#searchScientificForm div dt {
+    clear: left;
+    float: left;	
+	padding: 9px 6px 15px 0;
+}
+
 /* Menu */
 /********/
 #menu {
