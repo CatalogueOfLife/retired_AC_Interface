@@ -32,7 +32,7 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
                 'FormElements',
                 array(
                     'HtmlTag',
-                    array('tag' => 'div', 'class' => 'search_form')),
+                    array('tag' => 'div', 'class' => 'search-form')),
                     'Form'
             )
         );

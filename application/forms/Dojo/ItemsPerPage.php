@@ -46,7 +46,7 @@ class ACI_Form_Dojo_ItemsPerPage extends Zend_Dojo_Form
                 'FormElements',
                 array(
                     'HtmlTag',
-                    array('tag' => 'div', 'class' => 'items_form')),
+                    array('tag' => 'div', 'class' => 'items-form')),
                     'Form'
             )
         );

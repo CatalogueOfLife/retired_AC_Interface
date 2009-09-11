@@ -21,7 +21,7 @@ class ACI_Form_Dojo_SearchScientific extends Zend_Dojo_Form
                 $rank,
                 array(
                     'required' => false,
-                    'autoComplete' => true,
+                    'autoComplete' => false,
                     'labelType' => 'html',
                     'labelAttr' => 'highlightedName',
                     'storeId' => $rank . 'Store',
@@ -48,5 +48,20 @@ class ACI_Form_Dojo_SearchScientific extends Zend_Dojo_Form
             'search')->setLabel($translator->translate('Search') . ' >>');
         
         $this->addElement($submit);
+        
+        $this->addDisplayGroup(array('genus'), 'genusGroup');
+        $this->addDisplayGroup(array('species'), 'speciesGroup');
+        $this->addDisplayGroup(array('infraspecies'), 'infraspeciesGroup');
+        $this->addDisplayGroup(array('search'), 'submitGroup');
+        
+        $this->setDecorators(
+            array(
+                'FormElements',
+                array(
+                    'HtmlTag',
+                    array('tag' => 'div', 'class' => 'search-form')),
+                    'Form'
+            )
+        );
     }
 }

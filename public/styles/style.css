@@ -322,78 +322,72 @@ form p {
     clear: none;
 }
 /* Search */
-form div.items_form dt#items-label
-{
-    padding: 2px 4px 0 0;
-}
-form div.items_form dt#items-label dd,
-form div.items_form dt#items-label dt {
+form div.items-form dt#items-label dd,
+form div.items-form dt#items-label dt {
     clear: none;
     float: left;
 }
-form div.items_form dt#key-label,  
-form div.items_form dd#key-element,
-form div.items_form dt#match-label,  
-form div.items_form dd#key-element,
-form div.items_form dt#update-label,
-form div.items_form dt#itemsGroup-label    
+form div.items-form dt#key-label,  
+form div.items-form dd#key-element,
+form div.items-form dt#match-label,  
+form div.items-form dd#key-element,
+form div.items-form dt#update-label,
+form div.items-form dt#itemsGroup-label    
 {
     display: none;
 }
 /*Items per page*/
-form div.items_form {
+form div.items-form {
     float: right;
 }
-form div.items_form dd#items-element,
-form div.items_form dt#items-label,
-form div.items_form dd#items-element input,
-form div.items_form dd#update-element {
+form div.items-form dd#items-element,
+form div.items-form dt#items-label,
+form div.items-form dd#items-element input,
+form div.items-form dd#update-element {
     float: left;    
 }
-form#searchScientificForm dl dd {
-    clear: right;
-    float: right;
-}
-
-form#searchScientificForm dl dt {
-    clear: left;
-    float: left;
-    padding: 7px 6px 10px 0;
-}
-
-form div.search_form dd {
+form div.search-form dd {
     clear: both;
-    float: none;
+    float: none;	
 }
-form div.search_form dd fieldset dl dt label {
-    line-height: 16px;
+form div dd fieldset dl dt label {
+    line-height: 18px;
 	padding: 0 10px 0 0; 
 }
-form div.search_form dd fieldset dl dt#match-label label {
+form div.search-form dd fieldset dl dt#match-label label {
     padding: 0 0 0 5px;
 }
-form div.search_form dd fieldset#fieldset-matchGroup {
+form div.search-form dd fieldset#fieldset-matchGroup {
     margin-left: 20%;
 }
-form div.search_form dd fieldset#fieldset-submitGroup dl {
+form div.search-form dd fieldset#fieldset-submitGroup dl,
+form div.search-form dd fieldset#fieldset-genusGroup dl dd,
+form div.search-form dd fieldset#fieldset-speciesGroup dl dd,
+form div.search-form dd fieldset#fieldset-infraspeciesGroup dl dd {
     float: right;
 }
-form div.search_form dd fieldset dl dt,
-form div.search_form dd fieldset dl dd,
-form div.search_form dt,
-form div.items_form dd fieldset dl dt,
-form div.items_form dd fieldset dl dd
+form div.items-form dd fieldset dl dd div,
+form div.search-form dd fieldset dl dd div,
+form div.search-form dd fieldset dl dd {
+	font-size: 14px;
+	font-family: sans-serif;
+}
+form div.search-form dd fieldset dl dt,
+form div.search-form dd fieldset dl dd,
+form div.search-form dt,
+form div.items-form dd fieldset dl dt,
+form div.items-form dd fieldset dl dd
 {
     clear: none;
     float: left;
     margin: 0;
     padding: 0;
 }
-form div.items_form dd fieldset {
+form div.items-form dd fieldset {
     padding:15px 0 10px 0;
 }
-form div.items_form dd#update-element {
-    margin: -15px 0 0 10px;
+form div.items-form dd#update-element {
+    margin: -13px 0 0 10px;
 }
 form dd#search-element input,
 form dd#update-element input {
@@ -401,6 +395,10 @@ form dd#update-element input {
     font-family: Verdana, "MS Sans Serif", "Espy Sans", Geneva, Arial;
     font-size: 13px;
     margin-top:10px;
+}
+ul.dijitMenu li {
+	line-height: 14px;
+	font-size: 13px;	
 }
 /* Menu */
 /********/
