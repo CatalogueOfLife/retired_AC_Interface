@@ -58,11 +58,10 @@ class SearchControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
     public function testSearchScientificContainsTheNeededFormElements()
     {
         $this->dispatch('/search/scientific');
-        $this->assertQueryCount('form#searchForm', 1);
+        $this->assertQueryCount('form#searchScientificForm', 1);
         $this->assertQueryCount('input#genus', 1);
         $this->assertQueryCount('input#species', 1);
         $this->assertQueryCount('input#infraspecies', 1);
-        $this->assertQueryCount('input#match', 1);
         $this->assertQueryCount('input#search', 1);
     }
 
