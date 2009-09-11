@@ -51,4 +51,3 @@ init = function() {
 }
 window.onload = init;
 window.onscroll = moveMenu;
-document.getElementById('genus').on
