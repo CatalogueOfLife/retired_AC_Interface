@@ -31,6 +31,10 @@
             $this->baseUrl() . '/scripts/library/dojo/dojo/dojo.js'
         )->addStyleSheetModule('dijit.themes.tundra');
    	    echo $this->dojo();
+   	    // ComboBox (v1.3.2) custom extension
+   	    $this->headScript()->appendFile(
+   	        $this->baseUrl() . '/scripts/library/ComboBox.ext.js'
+   	    );
     }
     echo $this->headScript()->appendFile($this->baseUrl() . '/scripts/menu.js');
     $this->headLink()->appendStylesheet($this->baseUrl() . '/styles/style.css');
