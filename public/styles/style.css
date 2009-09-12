@@ -305,6 +305,7 @@ div.results_links {
     padding: 15px;
     margin: 0;
     display: block;
+    min-width: 350px;
 }
 #content.search-box,
 #content.details {
