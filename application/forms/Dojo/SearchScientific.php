@@ -34,7 +34,7 @@ class ACI_Form_Dojo_SearchScientific extends Zend_Dojo_Form
                     'required' => false,
                     'autoComplete' => false,
                     'labelType' => 'html',
-                    'labelAttr' => 'highlightedName',
+                    'labelAttr' => 'label',
                     'storeId' => $rank . 'Store',
                     'storeType' => 'dojox.data.QueryReadStore',
                     'storeParams' => array(

@@ -15,7 +15,8 @@ class ACI_Model_Search
     protected $_db;
     protected $_logger;
     
-    const API_ROWSET_LIMIT = 1500;
+    const API_ROWSET_LIMIT = 2000;
+    const API_MIN_STRLEN = 3;
     const ITEMS_PER_PAGE = 20;
     
     public function __construct(Zend_Db_Adapter_Abstract $dbAdapter)
@@ -278,49 +279,29 @@ class ACI_Model_Search
      *
      * @return array
      */
-    public function getRankEntries($rank, $name)
+    public function getRankEntries($rank, $query)
     {
-        if (strlen($name) < 2) {
+        $substr = trim(str_replace('*', '', $query));
+        if (strlen($substr) < self::API_MIN_STRLEN) {
             return array();
         }
-        
+        $qSubstr = trim(str_replace('*', '%', $query));
         $select = new Zend_Db_Select($this->_db);
-        $total = $this->_getRankCount($rank, $name);
-        
-        $this->_logger->debug("$total results found for $rank \"$name\"");
-
-        if ($total > self::API_ROWSET_LIMIT) {
-            return array();
-        }
-        
         $select->distinct()
                ->from(array('hard_coded_taxon_lists'), array('name'))
-               ->where('rank = ? AND name LIKE "%'. $name .'%"', $rank)
+               ->where('rank = ? AND name LIKE "' . $qSubstr . '"', $rank)
                ->order(
                    array(
-                       new Zend_Db_Expr('INSTR(name, "' . $name . '")'),
+                       new Zend_Db_Expr('INSTR(name, "' . $substr . '")'),
                        'name'
                    )
                );
-        return $select->query()->fetchAll();
-    }
-    
-   /**
-     * Returns the number of different existing record names of a specific rank
-     *
-     * @return int
-     */
-    protected function _getRankCount($rank, $name)
-    {
-        $select = new Zend_Db_Select($this->_db);
-        
-        $select
-            ->from(
-                array('hard_coded_taxon_lists'),
-                array('total' => new Zend_Db_Expr('COUNT(DISTINCT name)'))
-            )
-            ->where('rank = ? AND name LIKE "%'. $name .'%"', $rank);
-            
-        return $select->query()->fetchColumn();
+        $res = $select->query()->fetchAll();
+        $total = count($res);
+        $this->_logger->debug("$total results found for $rank \"$substr\"");
+        if($total > self::API_ROWSET_LIMIT) {
+            return array();
+        }        
+        return $res;
     }
 }

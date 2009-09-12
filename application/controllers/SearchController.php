@@ -319,23 +319,14 @@ class SearchController extends Zend_Controller_Action
      * @return void
      */
     protected function _sendRankData($rank)
-    {
-        $name = trim(str_replace('*', '', $this->_getParam('name')));
-        $this->_logger->debug($name);
-        
+    {    
+        $substr = trim(str_replace('*', '', $this->_getParam('name')));
+        $this->_logger->debug($substr);        
         $search = new ACI_Model_Search($this->_db);
-        $res = $search->getRankEntries($rank, $name);
+        $res = $search->getRankEntries($rank, $this->_getParam('name'));
         foreach ($res as &$v) {
-            $v['highlightedName'] = $this->_highlightMatch($v['name'], $name);
+            $v['label'] = $this->_highlightMatch($v['name'], $substr);
         }
-        /*$res = array(array(
-            'name' => 'No matches found',
-            'highlightedName' => 'No matches found'
-            )
-        );*/
-        
-        
-        
         $this->_logger->debug($res);
         $this->view->data = new Zend_Dojo_Data('name', $res, $rank);
         $this->renderScript('search/data.phtml');
