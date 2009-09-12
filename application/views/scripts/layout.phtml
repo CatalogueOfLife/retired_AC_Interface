@@ -24,8 +24,6 @@
     $this->headLink()->appendStylesheet(
         $this->baseUrl() . '/styles/style-ie7.css', 'screen', 'IE 7'
     );
-    
-    
     if ($this->dojo()->isEnabled()) {
         $this->dojo()->setLocalPath(
             $this->baseUrl() . '/scripts/library/dojo/dojo/dojo.js'
@@ -36,9 +34,12 @@
    	        $this->baseUrl() . '/scripts/library/ComboBox.ext.js'
    	    );
     }
-    echo $this->headScript()->appendFile($this->baseUrl() . '/scripts/menu.js');
-    $this->headLink()->appendStylesheet($this->baseUrl() . '/styles/style.css');
-    echo $this->headLink();
+    echo $this->headScript()->appendFile(
+        $this->baseUrl() . '/scripts/menu.js'
+    );
+    echo $this->headLink()->appendStylesheet(
+        $this->baseUrl() . '/styles/style.css'
+    );    
     ?>
 </head>
 <body class="tundra">
