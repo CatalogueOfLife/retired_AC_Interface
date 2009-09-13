@@ -1,2 +1,24 @@
-<p class="form_header"><?php echo $this->translate('Browse_by_classification'); ?></p>
-Tree Browser
+<p class="form_header"><?php echo $this->translate('Browse_taxonomic_tree'); ?></p>
+<?php
+echo '<script type="text/javascript">';
+echo 'var baseUrl = "' . $this->baseUrl() . '";';
+echo '</script>';
+?>
+<script type="text/javascript">
+init = function() {	
+    var store = new dojox.data.QueryReadStore({ url: baseUrl + '/browse/tree/fetch/taxa' });
+    var model = new ACI.dojo.QueryStoreModel({
+        store: store,
+        query: { id: 0 },
+        id: 'tree',        
+        labelAttr: 'name',
+        rootLabel: '',
+        showRoot:false,
+        typeAttr:'type',
+        childrenAttr: 'children'
+    }, 'store');
+    var tree = new ACI.dojo.TxTree({ model: model }, 'tree');
+}
+dojo.addOnLoad(init);
+</script>
+<div id="tree"></div>

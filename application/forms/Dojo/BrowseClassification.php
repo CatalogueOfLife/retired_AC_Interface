@@ -2,15 +2,15 @@
 /**
  * Annual Checklist Interface
  *
- * Class ACI_Form_Dojo_SearchScientific
- * Search for scientific names dojo-enabled form
+ * Class ACI_Form_Dojo_BrowseClassification
+ * Browse taxonomic classsification dojo-enabled form
  *
  * @category    ACI
  * @package     application
  * @subpackage  forms
  *
  */
-class ACI_Form_Dojo_SearchScientific extends Zend_Dojo_Form
+class ACI_Form_Dojo_BrowseClassification extends Zend_Dojo_Form
 {
     public function init()
     {
@@ -20,6 +20,12 @@ class ACI_Form_Dojo_SearchScientific extends Zend_Dojo_Form
         $translator = Zend_Registry::get('Zend_Translate');
         
         $ranks = array(
+            'kingdom' => 'Top_level_group',
+            'phylum' => 'Phylum',
+            'class' => 'Class',
+            'order' => 'Order',
+            'superfamily' => 'Superfamily',
+            'family' => 'Family',
             'genus' => 'Genus',
             'species' => 'Species',
             'infraspecies' => 'Infraspecies'
@@ -38,7 +44,7 @@ class ACI_Form_Dojo_SearchScientific extends Zend_Dojo_Form
                     'storeId' => $rank . 'Store',
                     'storeType' => 'dojox.data.QueryReadStore',
                     'storeParams' => array(
-                        'url' => 'scientific/fetch/' . $rank,
+                        'url' => 'classification/fetch/' . $rank,
                     ),
                     'dijitParams' => array(
                         'searchAttr' => 'name',

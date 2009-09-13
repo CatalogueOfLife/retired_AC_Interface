@@ -325,7 +325,7 @@ form p {
     float: left;
     clear: none;
 }
-/* Search */
+/*Items per page*/
 form div.items-form dt#items-label dd,
 form div.items-form dt#items-label dt {
     clear: none;
@@ -340,7 +340,6 @@ form div.items-form dt#itemsGroup-label
 {
     display: none;
 }
-/*Items per page*/
 form div.items-form {
     float: right;
 }
@@ -350,6 +349,7 @@ form div.items-form dd#items-element input,
 form div.items-form dd#update-element {
     float: left;    
 }
+/* Search */
 form div.search-form dd {
     clear: both;
     float: none;	
@@ -364,10 +364,8 @@ form div.search-form dd fieldset dl dt#match-label label {
 form div.search-form dd fieldset#fieldset-matchGroup {
     margin-left: 20%;
 }
-form div.search-form dd fieldset#fieldset-submitGroup dl,
-form div.search-form dd fieldset#fieldset-genusGroup dl dd,
-form div.search-form dd fieldset#fieldset-speciesGroup dl dd,
-form div.search-form dd fieldset#fieldset-infraspeciesGroup dl dd {
+form div.search-form dd#submitGroup-element,
+form div.search-form dd fieldset.searchGroup dl dd {
     float: right;
 }
 form div.items-form dd fieldset dl dd div,
@@ -404,6 +402,17 @@ ul.dijitMenu li {
     line-height: 14px;
     font-size: 13px;	
 }
+/* Tree */
+/********/
+.dijitTreeRow a {
+    margin-left: 5px;
+}
+.dijitTreeIcon {
+    display: none;
+}
+.dijitTreeLabel span {
+    color: #666;
+}
 /* Menu */
 /********/
 #menu {
@@ -434,7 +443,7 @@ ul.dijitMenu li {
 #menu ul li ul li {
     background: none;
     margin: 0;
-    padding: 2px 4px;
+    padding: 2px 4px 3px 4px;
 }
 
 .menuselected a span, 
@@ -457,7 +466,7 @@ li ul {
     position: absolute;
     left: 95px; /* Set 1px less than menu width */
     top: -2px;
-    width: 175px; /* Width of Menu Items */
+    width: 200px; /* Width of Menu Items */
     display: none;
 }
 

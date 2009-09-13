@@ -15,9 +15,14 @@ class ACI_Model_Search
     protected $_db;
     protected $_logger;
     
-    const API_ROWSET_LIMIT = 2000;
-    const API_MIN_STRLEN = 3;
     const ITEMS_PER_PAGE = 20;
+    const API_ROWSET_LIMIT = 2000;
+    protected static $_apiMinStrLen = array(
+        'kingdom' => 0,
+        'genus' => 2,
+        'species' => 3,
+        'infraspecies' => 2    
+    );
     
     public function __construct(Zend_Db_Adapter_Abstract $dbAdapter)
     {
@@ -275,14 +280,17 @@ class ACI_Model_Search
     
     /**
      * Returns the all the existing record names of a specific rank only
-     * if the total is less than the constant API_ROWSET_LIMIT
+     * if the total is less than the constant API_ROWSET_LIMIT and the
+     * search string is shorter than the minimum per rank (@see _getMinStrLen)
      *
+     * @param string $rank
+     * @param string $query
      * @return array
      */
     public function getRankEntries($rank, $query)
     {
         $substr = trim(str_replace('*', '', $query));
-        if (strlen($substr) < self::API_MIN_STRLEN) {
+        if (strlen($substr) < $this->_getMinStrLen($rank)) {
             return array();
         }
         $qSubstr = trim(str_replace('*', '%', $query));
@@ -302,6 +310,55 @@ class ACI_Model_Search
         if($total > self::API_ROWSET_LIMIT) {
             return array();
         }        
+        return $res;
+    }
+    
+    private function _getMinStrLen($rank) 
+    {
+        return isset(self::$_apiMinStrLen[$rank]) ?
+            self::$_apiMinStrLen[$rank] : 1;
+    }
+    
+    public function getTaxaEntries($parentId)
+    {        
+        $select = new Zend_Db_Select($this->_db);
+        $select->from(
+                   array('tx' => 'taxa'),
+                   array(
+                       'id' => 'tx.record_id',
+                       'snId' => 'sn.record_id', 
+                       'name' => 'tx.name',
+                       'type' => 'tx.taxon',
+                       'parentId' => 'tx.parent_id',
+                       'lsid' => 'tx.lsid',
+                       'numChildren' => new Zend_Db_Expr('COUNT(txc.record_id)')
+                   )
+               )
+               ->joinLeft(
+                   array('txc' => 'taxa'), 
+                   'tx.record_id = txc.parent_id',
+                   array()
+               )
+               ->joinLeft(
+                   array('sn' => 'scientific_names'), 
+                   'tx.name_code = sn.name_code',
+                   array()
+               )
+               ->where(
+                   'tx.parent_id = ? AND tx.is_accepted_name = 1', 
+                   $parentId
+               )
+               ->group(array('tx.parent_id', 'tx.name'))
+               ->order(
+                   array(
+                       new Zend_Db_Expr('tx.taxon <> "Superfamily"'),
+                       new Zend_Db_Expr('INSTR(tx.name, "Not assigned")'),
+                       'tx.name'
+                   )
+               );               
+        $res = $select->query()->fetchAll();
+        $total = count($res);
+        $this->_logger->debug("$total children of $parentId");              
         return $res;
     }
 }

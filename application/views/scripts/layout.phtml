@@ -24,23 +24,21 @@
     $this->headLink()->appendStylesheet(
         $this->baseUrl() . '/styles/style-ie7.css', 'screen', 'IE 7'
     );
+    //TODO: compress Dojo output
     if ($this->dojo()->isEnabled()) {
         $this->dojo()->setLocalPath(
             $this->baseUrl() . '/scripts/library/dojo/dojo/dojo.js'
-        )->addStyleSheetModule('dijit.themes.tundra');
+        )
+        ->addStyleSheetModule('dijit.themes.tundra');        
    	    echo $this->dojo();
-   	    // ComboBox (v1.3.2) custom extension
-   	    $this->headScript()->appendFile(
-   	        $this->baseUrl() . '/scripts/library/ComboBox.ext.js'
-   	    );
     }
     echo $this->headScript()->appendFile(
         $this->baseUrl() . '/scripts/menu.js'
     );
     echo $this->headLink()->appendStylesheet(
         $this->baseUrl() . '/styles/style.css'
-    );    
-    ?>
+    );
+    ?> 
 </head>
 <body class="tundra">
     <div id="header">

@@ -52,6 +52,10 @@ class SearchController extends Zend_Controller_Action
         }
         $this->view->title = $this->view->translate('Search_scientific_names');
         $this->view->headTitle($this->view->title, 'APPEND');
+        // ComboBox (v1.3.2) custom extension
+        $this->view->headScript()->appendFile(
+            $this->view->baseUrl() . '/scripts/library/ComboBox.ext.js'
+        );
         // TODO: implement search query
         $this->_renderFormPage(
             $this->view->title,
@@ -324,12 +328,11 @@ class SearchController extends Zend_Controller_Action
         $this->_logger->debug($substr);        
         $search = new ACI_Model_Search($this->_db);
         $res = $search->getRankEntries($rank, $this->_getParam('name'));
-        foreach ($res as &$v) {
-            $v['label'] = $this->_highlightMatch($v['name'], $substr);
+        foreach ($res as &$row) {
+            $row['label'] = $this->_highlightMatch($row['name'], $substr);
         }
-        $this->_logger->debug($res);
-        $this->view->data = new Zend_Dojo_Data('name', $res, $rank);
-        $this->renderScript('search/data.phtml');
+        $this->_logger->debug($res);        
+        exit(new Zend_Dojo_Data('name', $res, $rank));
     }
     
     public function __call($name, $arguments)
