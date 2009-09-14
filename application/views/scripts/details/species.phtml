@@ -2,7 +2,7 @@
 <?php printf($this->title, '"' . $this->key . '"') ?>
 </div>
 <?php
-if ($this->species instanceof ACI_Model_Taxa):
+if ($this->species instanceof ACI_Model_Table_Taxa):
 ?>
 <a href="<?php echo $this->baseUrl() . '/details/database/id/' . $this->species->dbId; ?>"><img
     class="wrapLogo"
@@ -21,12 +21,12 @@ if ($this->species instanceof ACI_Model_Taxa):
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Synonym'); ?>:</th>
         <td>
-        <?php 
+        <?php
         if (is_array($this->species->synonyms)):
         foreach ($this->species->synonyms as $synonym):
             echo '<span class="taxonomicName">' . $synonym['name'] .
                  '</span> ' . $synonym['author'] . ' (' .
-                 $this->translate($synonym['status']) . ')<br />';               
+                 $this->translate($synonym['status']) . ')<br />';
         endforeach;
         else: echo $this->species->synonyms;
         endif;

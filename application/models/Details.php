@@ -1,4 +1,5 @@
 <?php
+require_once 'AModel.php';
 /**
  * Annual Checklist Interface
  *
@@ -10,24 +11,15 @@
  * @subpackage  models
  *
  */
-class ACI_Model_Details
+class ACI_Model_Details extends AModel
 {
-    protected $_db;
-    protected $_logger;
-    
-    public function __construct(Zend_Db_Adapter_Abstract $dbAdapter)
-    {
-        $this->_db = $dbAdapter;
-        $this->_logger = Zend_Registry::get('logger');
-    }
-    
     /**
      * Gets all the details of a species
      *
      * @param int $id
      * @param string $fromType common or taxa
      * @param int $fromId id of the common name or taxa of reference
-     * @return ACI_Model_Taxa
+     * @return ACI_Model_Table_Taxa
      */
     public function species($id, $fromType = null, $fromId = null)
     {
@@ -56,8 +48,8 @@ class ACI_Model_Details
                 'lsid' => 't.lsid',
                 'rank' => new Zend_Db_Expr(
                             'IF(t.taxon = "Infraspecies", ' .
-                                ACI_Model_Taxa::RANK_INFRASPECIES . ', ' .
-                                ACI_Model_Taxa::RANK_SPECIES . ')')
+                                ACI_Model_Table_Taxa::RANK_INFRASPECIES . ', ' .
+                                ACI_Model_Table_Taxa::RANK_SPECIES . ')')
             );
             
         switch ($fromType) {
@@ -67,7 +59,9 @@ class ACI_Model_Details
                     'taxa_name' => 'cn.common_name',
                     'taxa_language' => 'cn.language',
                     'taxa_status' =>
-                        new Zend_Db_Expr(ACI_Model_Taxa::STATUS_COMMON_NAME)
+                        new Zend_Db_Expr(
+                            ACI_Model_Table_Taxa::STATUS_COMMON_NAME
+                        )
                 );
                 $joinLeft = array(
                     array(
@@ -127,9 +121,9 @@ class ACI_Model_Details
             $select->joinLeft($jl['name'], $jl['cond'], $jl['columns']);
         }
         
-        $species = $select->query()->fetchObject('ACI_Model_Taxa');
+        $species = $select->query()->fetchObject('ACI_Model_Table_Taxa');
         
-        if (!$species instanceof ACI_Model_Taxa) {
+        if (!$species instanceof ACI_Model_Table_Taxa) {
             return false;
         }
         
@@ -227,7 +221,9 @@ class ACI_Model_Details
         
         foreach ($synonyms as &$synonym) {
             $synonym['status'] =
-                ACI_Model_Taxa::getStatusString($synonym['status'], false);
+                ACI_Model_Table_Taxa::getStatusString(
+                    $synonym['status'], false
+                );
         }
         
         return $synonyms;
@@ -297,7 +293,7 @@ class ACI_Model_Details
         foreach ($rowSet as $row) {
             $infraspecies[$i]['id'] = $row['id'];
             $infraspecies[$i]['name'] =
-                ACI_Model_Taxa::getAcceptedScientificName(
+                ACI_Model_Table_Taxa::getAcceptedScientificName(
                     $genus, $species, $row['infraspecies'],
                     $row['infraspecies_marker'], $row['author']
                 );

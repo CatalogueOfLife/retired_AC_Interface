@@ -1,4 +1,5 @@
 <?php
+require_once 'AModel.php';
 /**
  * Annual Checklist Interface
  *
@@ -10,15 +11,8 @@
  * @subpackage  models
  *
  */
-class ACI_Model_Info
+class ACI_Model_Info extends AModel
 {
-    protected $_logger;
-    
-    public function __construct(Zend_Db_Adapter_Abstract $dbAdapter)
-    {
-        $this->_logger = Zend_Registry::get('logger');
-    }
-    
     public static function getRightColumnName($columName)
     {
         $columMap = array(

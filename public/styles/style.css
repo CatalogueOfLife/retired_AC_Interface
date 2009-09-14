@@ -466,7 +466,7 @@ li ul {
     position: absolute;
     left: 95px; /* Set 1px less than menu width */
     top: -2px;
-    width: 200px; /* Width of Menu Items */
+    width: 180px; /* Width of Menu Items */
     display: none;
 }
 

@@ -2,7 +2,7 @@
 /**
  * Annual Checklist Interface
  *
- * Class ACI_Model_Taxa
+ * Class ACI_Model_Table_Taxa
  * Species data storage model
  *
  * @category    ACI
@@ -10,7 +10,7 @@
  * @subpackage  models
  *
  */
-class ACI_Model_Taxa
+class ACI_Model_Table_Taxa
 {
     const STATUS_ACCEPTED_NAME = 1;
     const STATUS_AMBIGUOUS_SYNONYM = 2;
@@ -63,13 +63,6 @@ class ACI_Model_Taxa
     public $commonNames = array();
     public $distribution = array();
     public $references = array();
-    
-    protected $_logger;
-    
-    public function __construct() 
-    {
-        $this->_logger = Zend_Registry::get('logger');
-    }
      
     /**
      * Returns a string for the status what can be translated
@@ -81,17 +74,17 @@ class ACI_Model_Taxa
     public static function getStatusString($id, $phrased = true)
     {
         $statuses = array(
-            ACI_Model_Taxa::STATUS_ACCEPTED_NAME =>
+            self::STATUS_ACCEPTED_NAME =>
                 'STATUS_ACCEPTED_NAME',
-            ACI_Model_Taxa::STATUS_AMBIGUOUS_SYNONYM => $phrased ?
+            self::STATUS_AMBIGUOUS_SYNONYM => $phrased ?
                 'STATUS_AMBIGUOUS_SYNONYM_FOR' : 'STATUS_AMBIGUOUS_SYNONYM',
-            ACI_Model_Taxa::STATUS_MISAPPLIED_NAME => $phrased ?
+            self::STATUS_MISAPPLIED_NAME => $phrased ?
                 'STATUS_MISAPPLIED_NAME_FOR' : 'STATUS_MISAPPLIED_NAME',
-            ACI_Model_Taxa::STATUS_PROVISIONALLY_ACCEPTED_NAME =>
+            self::STATUS_PROVISIONALLY_ACCEPTED_NAME =>
                 'STATUS_PROVISIONALLY_ACCEPTED_NAME',
-            ACI_Model_Taxa::STATUS_SYNONYM => $phrased ?
+            self::STATUS_SYNONYM => $phrased ?
                 'STATUS_SYNONYM_FOR' : 'STATUS_SYNONYM',
-            ACI_Model_Taxa::STATUS_COMMON_NAME => $phrased ?
+            self::STATUS_COMMON_NAME => $phrased ?
                 'STATUS_COMMON_NAME_FOR' : 'STATUS_COMMON_NAME'
         );
         return isset($statuses[$id]) ? $statuses[$id] : '';
@@ -106,15 +99,15 @@ class ACI_Model_Taxa
     public static function getRankString($id)
     {
         $ranks = array(
-            ACI_Model_Taxa::RANK_KINGDOM => 'RANK_KINGDOM',
-            ACI_Model_Taxa::RANK_PHYLUM => 'RANK_PHYLUM',
-            ACI_Model_Taxa::RANK_CLASS => 'RANK_CLASS',
-            ACI_Model_Taxa::RANK_ORDER => 'RANK_ORDER',
-            ACI_Model_Taxa::RANK_SUPERFAMILY => 'RANK_SUPERFAMILY',
-            ACI_Model_Taxa::RANK_FAMILY => 'RANK_FAMILY',
-            ACI_Model_Taxa::RANK_GENUS => 'RANK_GENUS',
-            ACI_Model_Taxa::RANK_SPECIES => 'RANK_SPECIES',
-            ACI_Model_Taxa::RANK_INFRASPECIES => 'RANK_INFRASPECIES'
+            self::RANK_KINGDOM => 'RANK_KINGDOM',
+            self::RANK_PHYLUM => 'RANK_PHYLUM',
+            self::RANK_CLASS => 'RANK_CLASS',
+            self::RANK_ORDER => 'RANK_ORDER',
+            self::RANK_SUPERFAMILY => 'RANK_SUPERFAMILY',
+            self::RANK_FAMILY => 'RANK_FAMILY',
+            self::RANK_GENUS => 'RANK_GENUS',
+            self::RANK_SPECIES => 'RANK_SPECIES',
+            self::RANK_INFRASPECIES => 'RANK_INFRASPECIES'
         );
         return isset($ranks[$id]) ? $ranks[$id] : '';
     }
@@ -134,7 +127,7 @@ class ACI_Model_Taxa
         switch ($name) {
             case 'name':
                 $this->name =
-                    ACI_Model_Taxa::getAcceptedScientificName(
+                    self::getAcceptedScientificName(
                         $this->genus,
                         $this->species,
                         $this->infra,
@@ -143,9 +136,9 @@ class ACI_Model_Taxa
                     );
                 return $this->name;
                 break;
-            case 'taxaFullName':                
+            case 'taxaFullName':
                 $this->taxaFullName =
-                    ACI_Model_Taxa::getTaxaFullName(
+                    self::getTaxaFullName(
                         $this->taxaName,
                         $this->taxaStatus,
                         $this->taxaAuthor,
@@ -164,7 +157,7 @@ class ACI_Model_Taxa
         }
         $taxaFullName = '<i>' . $name . '</i>';
         switch ($status) {
-            case ACI_Model_Taxa::STATUS_COMMON_NAME:
+            case self::STATUS_COMMON_NAME:
                 if ($language) {
                     $taxaFullName .= ' (' . $language . ')';
                 }
@@ -188,11 +181,11 @@ class ACI_Model_Taxa
         return $name;
     }
     
-    public function __set($key, $value) 
-    {        
+    public function __set($key, $value)
+    {
         if (strpos($key, '_')) {
             $nameParts = explode('_', $key);
-            $key = '';      
+            $key = '';
             $i = 0;
             foreach ($nameParts as $part) {
                 $part = strtolower($part);
@@ -203,8 +196,8 @@ class ACI_Model_Taxa
                 $i++;
             }
         } else {
-            $this->_logger->debug("UNDEFINED attribute $key");
+            Zend_Registry::get('logger')->debug("UNDEFINED attribute $key");
         }
-        $this->$key = $value;        
+        $this->$key = $value;
     }
 }

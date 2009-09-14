@@ -1,4 +1,5 @@
 <?php
+require_once 'AModel.php';
 /**
  * Annual Checklist Interface
  *
@@ -10,25 +11,16 @@
  * @subpackage  models
  *
  */
-class ACI_Model_Search
+class ACI_Model_Search extends AModel
 {
-    protected $_db;
-    protected $_logger;
-    
     const ITEMS_PER_PAGE = 20;
     const API_ROWSET_LIMIT = 2000;
     protected static $_apiMinStrLen = array(
         'kingdom' => 0,
         'genus' => 2,
         'species' => 3,
-        'infraspecies' => 2    
+        'infraspecies' => 2
     );
-    
-    public function __construct(Zend_Db_Adapter_Abstract $dbAdapter)
-    {
-        $this->_db = $dbAdapter;
-        $this->_logger = Zend_Registry::get('logger');
-    }
     
     public function commonNames($searchKey, $matchWholeWords, $sort)
     {
@@ -102,30 +94,30 @@ class ACI_Model_Search
     {
         $select = new Zend_Db_Select($this->_db);
         
-        $fields = 
+        $fields =
             array(
                 'id' => 'sn.record_id',
                 'taxa_id' => 'tx.record_id',
                 'rank' => new Zend_Db_Expr(
                     'CASE tx.taxon ' .
                     'WHEN "Kingdom" THEN ' .
-                        ACI_Model_Taxa::RANK_KINGDOM . ' ' .
+                        ACI_Model_Table_Taxa::RANK_KINGDOM . ' ' .
                     'WHEN "Phylum" THEN ' .
-                        ACI_Model_Taxa::RANK_PHYLUM . ' ' .
+                        ACI_Model_Table_Taxa::RANK_PHYLUM . ' ' .
                     'WHEN "Class" THEN ' .
-                        ACI_Model_Taxa::RANK_CLASS . ' ' .
+                        ACI_Model_Table_Taxa::RANK_CLASS . ' ' .
                     'WHEN "Order" THEN ' .
-                        ACI_Model_Taxa::RANK_ORDER . ' ' .
+                        ACI_Model_Table_Taxa::RANK_ORDER . ' ' .
                     'WHEN "Supefamily" THEN ' .
-                        ACI_Model_Taxa::RANK_SUPERFAMILY . ' ' .
+                        ACI_Model_Table_Taxa::RANK_SUPERFAMILY . ' ' .
                     'WHEN "Family" THEN ' .
-                        ACI_Model_Taxa::RANK_FAMILY . ' ' .
+                        ACI_Model_Table_Taxa::RANK_FAMILY . ' ' .
                     'WHEN "Genus" THEN ' .
-                        ACI_Model_Taxa::RANK_GENUS . ' ' .
+                        ACI_Model_Table_Taxa::RANK_GENUS . ' ' .
                     'WHEN "Species" THEN ' .
-                        ACI_Model_Taxa::RANK_SPECIES . ' ' .
+                        ACI_Model_Table_Taxa::RANK_SPECIES . ' ' .
                     'WHEN "Infraspecies" THEN ' .
-                        ACI_Model_Taxa::RANK_INFRASPECIES . ' ' .
+                        ACI_Model_Table_Taxa::RANK_INFRASPECIES . ' ' .
                     'END'),
                 'tx.name',
                 'tx.name_code',
@@ -140,7 +132,7 @@ class ACI_Model_Search
                 'accepted_species_author' => 'sna.author',
                 'db_name' => 'db.database_name',
                 'db_id' => 'db.record_id',
-                'db_thumb' => 
+                'db_thumb' =>
                     'CONCAT(REPLACE(db.database_name, " ", "_"), ".gif")',
                 'kingdom' => 'fm.kingdom',
                 'status' => 'tx.sp2000_status_id'
@@ -226,8 +218,8 @@ class ACI_Model_Search
                 'taxa_id' => 'cn.record_id',
                 'rank' => new Zend_Db_Expr(
                     'IF(cn.is_infraspecies, "' .
-                    ACI_Model_Taxa::RANK_INFRASPECIES . '", "' .
-                    ACI_Model_Taxa::RANK_SPECIES . '")'
+                    ACI_Model_Table_Taxa::RANK_INFRASPECIES . '", "' .
+                    ACI_Model_Table_Taxa::RANK_SPECIES . '")'
                 ),
                 'name' => 'cn.common_name',
                 'cn.name_code',
@@ -242,10 +234,12 @@ class ACI_Model_Search
                 'accepted_species_author' => 'sn.author',
                 'db_name' => 'db.database_name',
                 'db_id' => 'db.record_id',
-                'db_thumb' => 
+                'db_thumb' =>
                     'CONCAT(REPLACE(db.database_name, " ", "_"), ".gif")',
                 'kingdom' => 'fm.kingdom',
-                'status' => new Zend_Db_Expr(ACI_Model_Taxa::STATUS_COMMON_NAME)
+                'status' => new Zend_Db_Expr(
+                    ACI_Model_Table_Taxa::STATUS_COMMON_NAME
+                )
             )
         )
         ->joinLeft(
@@ -287,7 +281,7 @@ class ACI_Model_Search
      * @param string $query
      * @return array
      */
-    public function getRankEntries($rank, $query)
+    public function fetchTaxaByRank($rank, $query)
     {
         $substr = trim(str_replace('*', '', $query));
         if (strlen($substr) < $this->_getMinStrLen($rank)) {
@@ -307,58 +301,55 @@ class ACI_Model_Search
         $res = $select->query()->fetchAll();
         $total = count($res);
         $this->_logger->debug("$total results found for $rank \"$substr\"");
-        if($total > self::API_ROWSET_LIMIT) {
+        if ($total > self::API_ROWSET_LIMIT) {
             return array();
-        }        
+        }
         return $res;
     }
     
-    private function _getMinStrLen($rank) 
+    private function _getMinStrLen($rank)
     {
         return isset(self::$_apiMinStrLen[$rank]) ?
             self::$_apiMinStrLen[$rank] : 1;
     }
     
-    public function getTaxaEntries($parentId)
-    {        
+    public function getTaxonChildren($parentId)
+    {
         $select = new Zend_Db_Select($this->_db);
         $select->from(
-                   array('tx' => 'taxa'),
-                   array(
-                       'id' => 'tx.record_id',
-                       'snId' => 'sn.record_id', 
-                       'name' => 'tx.name',
-                       'type' => 'tx.taxon',
-                       'parentId' => 'tx.parent_id',
-                       'lsid' => 'tx.lsid',
-                       'numChildren' => new Zend_Db_Expr('COUNT(txc.record_id)')
-                   )
-               )
-               ->joinLeft(
-                   array('txc' => 'taxa'), 
-                   'tx.record_id = txc.parent_id',
-                   array()
-               )
-               ->joinLeft(
-                   array('sn' => 'scientific_names'), 
-                   'tx.name_code = sn.name_code',
-                   array()
-               )
-               ->where(
-                   'tx.parent_id = ? AND tx.is_accepted_name = 1', 
-                   $parentId
-               )
-               ->group(array('tx.parent_id', 'tx.name'))
-               ->order(
-                   array(
-                       new Zend_Db_Expr('tx.taxon <> "Superfamily"'),
-                       new Zend_Db_Expr('INSTR(tx.name, "Not assigned")'),
-                       'tx.name'
-                   )
-               );               
+            array('tx' => 'taxa'),
+            array(
+                'id' => 'tx.record_id',
+                'snId' => 'sn.record_id',
+                'name' => 'tx.name',
+                'type' => 'tx.taxon',
+                'parentId' => 'tx.parent_id',
+                'lsid' => 'tx.lsid',
+                'numChildren' => new Zend_Db_Expr('COUNT(txc.record_id)')
+            )
+        )
+        ->joinLeft(
+            array('txc' => 'taxa'),
+            'tx.record_id = txc.parent_id',
+            array()
+        )
+        ->joinLeft(
+            array('sn' => 'scientific_names'),
+            'tx.name_code = sn.name_code',
+            array()
+        )
+        ->where('tx.parent_id = ? AND tx.is_accepted_name = 1', $parentId)
+        ->group(array('tx.parent_id', 'tx.name'))
+        ->order(
+            array(
+                new Zend_Db_Expr('tx.taxon <> "Superfamily"'),
+                new Zend_Db_Expr('INSTR(tx.name, "Not assigned")'),
+                'tx.name'
+            )
+        );
         $res = $select->query()->fetchAll();
         $total = count($res);
-        $this->_logger->debug("$total children of $parentId");              
+        $this->_logger->debug("$total children of $parentId");
         return $res;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+require_once 'AController.php';
 /**
  * Annual Checklist Interface
  *
@@ -10,20 +11,8 @@
  * @subpackage  controllers
  *
  */
-class SearchController extends Zend_Controller_Action
+class SearchController extends AController
 {
-    protected $_logger;
-    protected $_db;
-        
-    public function init()
-    {
-        $this->_logger = Zend_Registry::get('logger');
-        $this->_logger->debug($this->_getAllParams());
-        $this->_db = Zend_Registry::get('db');
-        $this->view->controller = $this->getRequest()->controller;
-        $this->view->action = $this->getRequest()->action;
-    }
-    
     protected function _getSearchForm()
     {
         return new ACI_Form_Dojo_Search();
@@ -47,8 +36,7 @@ class SearchController extends Zend_Controller_Action
         $fetch = $this->_getParam('fetch', false);
         if ($fetch) {
             $this->view->layout()->disableLayout();
-            $this->_sendRankData($fetch);
-            return;
+            exit($this->_fetchTaxaByRank($fetch));
         }
         $this->view->title = $this->view->translate('Search_scientific_names');
         $this->view->headTitle($this->view->title, 'APPEND');
@@ -174,15 +162,15 @@ class SearchController extends Zend_Controller_Action
         $i = 0;
         
         foreach ($this->view->paginator as $row) {
-            if ($row['rank'] >= ACI_Model_Taxa::RANK_SPECIES) {
-                $resultTable[$i]['link'] = 
+            if ($row['rank'] >= ACI_Model_Table_Taxa::RANK_SPECIES) {
+                $resultTable[$i]['link'] =
                     $this->view->translate('Show_details');
                 $resultTable[$i]['url'] =
                     '/details/species/id/' . $row['accepted_species_id'] .
                     '/search/' . $this->view->action .
                     '/key/' . $this->_getParam('key');
                 if (!$row['is_accepted_name']) {
-                    if ($row['status'] == ACI_Model_Taxa::STATUS_COMMON_NAME) {
+                    if ($row['status'] == ACI_Model_Table_Taxa::STATUS_COMMON_NAME) {
                         $resultTable[$i]['url'] .= '/common/' . $row['taxa_id'];
                     } else {
                         $resultTable[$i]['url'] .= '/taxa/' . $row['taxa_id'];
@@ -201,15 +189,15 @@ class SearchController extends Zend_Controller_Action
                     $row['rank']
                 ),
                 $row['status'],
-                $row['status'] == ACI_Model_Taxa::STATUS_COMMON_NAME ?
+                $row['status'] == ACI_Model_Table_Taxa::STATUS_COMMON_NAME ?
                 $row['language'] : $row['author']
             );
             $resultTable[$i]['rank'] = $this->view->translate(
-                ACI_Model_Taxa::getRankString($row['rank'])
+                ACI_Model_Table_Taxa::getRankString($row['rank'])
             );
             if ($this->_getParam('action') == 'all') {
                 $resultTable[$i]['status'] = $this->view->translate(
-                    ACI_Model_Taxa::getStatusString($row['status'])
+                    ACI_Model_Table_Taxa::getStatusString($row['status'])
                 );
             } else {
                 $resultTable[$i]['status'] = '%s';
@@ -241,7 +229,7 @@ class SearchController extends Zend_Controller_Action
     protected function _getSuffix($source, $status, $suffix)
     {
         switch($status && $suffix != "") {
-            case ACI_Model_Taxa::STATUS_COMMON_NAME:
+            case ACI_Model_Table_Taxa::STATUS_COMMON_NAME:
                 $source .= ' (' . $suffix . ')';
                 break;
             default:
@@ -253,20 +241,11 @@ class SearchController extends Zend_Controller_Action
 
     protected function _getSpanTaxonomicName($source, $status, $rank)
     {
-        if ($status != ACI_Model_Taxa::STATUS_COMMON_NAME &&
-            $rank >= ACI_Model_Taxa::RANK_SPECIES) {
+        if ($status != ACI_Model_Table_Taxa::STATUS_COMMON_NAME &&
+            $rank >= ACI_Model_Table_Taxa::RANK_SPECIES) {
             $source = '<span class="taxonomicName">' . $source . '</span>';
         }
         return $source;
-    }
-    
-    protected function _highlightMatch($haystack, $needle)
-    {
-        return preg_replace(
-            '/(' . $needle . ')/i',
-            "<span class=\"matchHighlight\">$1</span>",
-            $haystack
-        );
     }
     
     /**
@@ -322,17 +301,17 @@ class SearchController extends Zend_Controller_Action
      *
      * @return void
      */
-    protected function _sendRankData($rank)
-    {    
+    protected function _fetchTaxaByRank($rank)
+    {
         $substr = trim(str_replace('*', '', $this->_getParam('name')));
-        $this->_logger->debug($substr);        
+        $this->_logger->debug($substr);
         $search = new ACI_Model_Search($this->_db);
-        $res = $search->getRankEntries($rank, $this->_getParam('name'));
+        $res = $search->fetchTaxaByRank($rank, $this->_getParam('name'));
         foreach ($res as &$row) {
             $row['label'] = $this->_highlightMatch($row['name'], $substr);
         }
-        $this->_logger->debug($res);        
-        exit(new Zend_Dojo_Data('name', $res, $rank));
+        $this->_logger->debug($res);
+        return new Zend_Dojo_Data('name', $res, $rank);
     }
     
     public function __call($name, $arguments)

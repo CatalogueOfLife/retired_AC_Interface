@@ -1,4 +1,5 @@
 <?php
+require_once 'AController.php';
 /**
  * Annual Checklist Interface
  *
@@ -10,19 +11,8 @@
  * @subpackage  controllers
  *
  */
-class InfoController extends Zend_Controller_Action
+class InfoController extends AController
 {
-    protected $_logger;
-    protected $_db;
-    
-    public function init ()
-    {
-        $this->_logger = Zend_Registry::get('logger');
-        $this->_db = Zend_Registry::get('db');
-        $this->view->controller = $this->getRequest()->controller;
-        $this->view->action = $this->getRequest()->action;
-    }
-    
     public function aboutAction ()
     {
         $this->view->title = $this->view->translate('Info_about');
@@ -31,9 +21,9 @@ class InfoController extends Zend_Controller_Action
     
     public function acAction ()
     {
-        $this->view->title = 
+        $this->view->title =
             sprintf(
-                $this->view->translate('Info_annual_checklist'), 
+                $this->view->translate('Info_annual_checklist'),
                 $this->view->app->version
             );
         $this->view->headTitle($this->view->title, 'APPEND');
