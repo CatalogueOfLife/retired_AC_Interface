@@ -14,7 +14,7 @@
 define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../application'));
 
 // Define application environment
-define('APPLICATION_ENV', 'testing');
+define('APPLICATION_ENV', 'development');
 
 // Ensure library/ is on include_path
 set_include_path(
