@@ -22,13 +22,20 @@ class BrowseController extends AController
             $this->view->layout()->disableLayout();
             exit($this->_getTaxonChildren($this->_getParam('id', 0)));
         }
+        $id = $this->_getParam('id', false);
+        $hierarchy = array();
+        if ($id !== false) {
+            $hierarchy = $this->_getHierarchy($id);
+        }
+        $this->_logger->debug($hierarchy);
+        $this->view->hierarchy = implode(',', $hierarchy);
         $this->view->title = $this->view->translate('Taxonomic_tree');
         $this->view->headTitle($this->view->title, 'APPEND');
         $this->view->dojo()->enable()
-            ->requireModule('dojo.parser')
-            ->requireModule('dijit.TitlePane')
-            ->requireModule('dijit.Tree')
-            ->requireModule('dojox.data.QueryReadStore');
+             ->requireModule('dojo.parser')
+             ->requireModule('dijit.TitlePane')
+             ->requireModule('dijit.Tree')
+             ->requireModule('dojox.data.QueryReadStore');
         $this->view->headScript()->appendFile(
             $this->view->baseUrl() . '/scripts/library/ACI.dojo.js'
         );
@@ -103,6 +110,23 @@ class BrowseController extends AController
         $data = new Zend_Dojo_Data('id', $res, $parentId);
         $data->setLabel('name');
         return $data;
+    }
+    
+    /**
+     * Gets the upwards hierarchy for a given taxa id
+     *
+     * @param $id
+     * @return array | false
+     */
+    protected function _getHierarchy($id)
+    {
+        $details = new ACI_Model_Details($this->_db);
+        $res = $details->speciesHierarchy($id);
+        $hierarchy = array(0);
+        foreach ($res as $row) {
+            $hierarchy[] = $row['record_id'];
+        }
+        return $hierarchy;
     }
     
     public function __call($name, $arguments)

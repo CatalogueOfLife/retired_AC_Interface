@@ -407,6 +407,9 @@ ul.dijitMenu li {
 .dijitTreeRow a {
     margin-left: 5px;
 }
+.dijitTreeNodeSelected a {
+    background:#e2ebfe none repeat scroll 0 0;
+}
 .dijitTreeIcon {
     display: none;
 }
