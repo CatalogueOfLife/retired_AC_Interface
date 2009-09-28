@@ -16,7 +16,6 @@ class BrowseController extends AController
     public function treeAction()
     {
         //TODO: add LSIDs
-        //TODO: implement automatic deployment for a given taxa id
         $fetch = $this->_getParam('fetch', false);
         if ($fetch !== false) {
             $this->view->layout()->disableLayout();
