@@ -103,6 +103,7 @@ class BrowseController extends AController
         $res = $search->getTaxonChildren($parentId);
         $this->_logger->debug($res);
         foreach ($res as &$row) {
+            $row['type'] = $row['type'] == 'Kingdom' ? '' : $row['type'];
             $row['url'] = $row['snId'] ?
                 $this->view->baseUrl() . '/details/species/id/' . $row['snId'] :
                 null;

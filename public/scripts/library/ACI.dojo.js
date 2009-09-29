@@ -47,17 +47,15 @@ dojo.addOnLoad(function() {
     });
     dojo.declare('ACI.dojo._TxTreeNode', dijit._TreeNode, {                
         setLabelNode : function(label) {
-            if (this.item.root
-                    || this.tree.model.store.getValue(this.item,
-                            'parentId') == 0) {
+            if (this.item.root) {
                 return this.inherited(arguments);
             }
             var lsid = dojo.doc.createElement('span');
             lsid.className = 'lsid';
             lsid.appendChild(dojo.doc.createTextNode(
-                    this.tree.model.store.getValue(this.item, 'lsid')));
+                this.tree.model.store.getValue(this.item, 'lsid')));
             if (this.tree.model.store
-                    .getValue(this.item, 'url') == null) {
+                    .getValue(this.item, 'url') == null) {                
                 var span = dojo.doc.createElement('span');
                 span.appendChild(dojo.doc
                         .createTextNode(this.tree.model.store.getValue(

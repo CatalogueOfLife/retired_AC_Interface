@@ -423,6 +423,12 @@ ul.dijitMenu li {
 }
 .dijitTreeRow .lsid {
     display: none;
+    margin-left: 10px;
+    font-size: 9px;
+    color: #666;
+}
+.dijitTreeNodeHover .lsid {
+    display: inline;    
 }
 /* Menu */
 /********/
