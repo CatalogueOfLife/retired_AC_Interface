@@ -404,17 +404,25 @@ ul.dijitMenu li {
 }
 /* Tree */
 /********/
-.dijitTreeRow a {
+.tundra .dijitTreeRow a {
     margin-left: 5px;
+    font-style: italic;
 }
-.dijitTreeNodeSelected a {
+.tundra .dijitTreeRow .subsp {
+    font-style: normal;
+    color: #666;
+}
+.tundra .dijitTreeNodeSelected a {
     background:#e2ebfe none repeat scroll 0 0;
 }
-.dijitTreeIcon {
+.tundra .dijitTreeIcon {
     display: none;
 }
-.dijitTreeLabel span {
+.tundra .dijitTreeLabel span {
     color: #666;
+}
+.dijitTreeRow .lsid {
+    display: none;
 }
 /* Menu */
 /********/
