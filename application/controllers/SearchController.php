@@ -40,9 +40,14 @@ class SearchController extends AController
         }
         $this->view->title = $this->view->translate('Search_scientific_names');
         $this->view->headTitle($this->view->title, 'APPEND');
+        
+        $this->view->dojo()
+             ->registerModulePath(
+                'ACI', $this->view->baseUrl() . '/scripts/library/ACI'
+             )->requireModule('ACI.dojo.TxReadStore');
         // ComboBox (v1.3.2) custom extension
         $this->view->headScript()->appendFile(
-            $this->view->baseUrl() . '/scripts/library/ComboBox.ext.js'
+            $this->view->baseUrl() . '/scripts/ComboBox.ext.js'
         );
         // TODO: implement search query
         $this->_renderFormPage(
@@ -303,10 +308,11 @@ class SearchController extends AController
      */
     protected function _fetchTaxaByRank($rank)
     {
-        $substr = trim(str_replace('*', '', $this->_getParam('name')));
+        $params = Zend_Json::decode(stripslashes($this->_getParam('p')));
+        $substr = trim(str_replace('*', '', $this->_getParam('q')));
         $this->_logger->debug($substr);
         $search = new ACI_Model_Search($this->_db);
-        $res = $search->fetchTaxaByRank($rank, $this->_getParam('name'));
+        $res = $search->fetchTaxaByRank($rank, $this->_getParam('q'), $params);
         foreach ($res as &$row) {
             $row['label'] = $this->_highlightMatch($row['name'], $substr);
         }

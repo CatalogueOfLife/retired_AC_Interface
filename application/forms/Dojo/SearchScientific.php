@@ -36,16 +36,17 @@ class ACI_Form_Dojo_SearchScientific extends Zend_Dojo_Form
                     'labelType' => 'html',
                     'labelAttr' => 'label',
                     'storeId' => $rank . 'Store',
-                    'storeType' => 'dojox.data.QueryReadStore',
+                    'storeType' => 'ACI.dojo.TxReadStore',
                     'storeParams' => array(
-                        'url' => 'scientific/fetch/' . $rank,
+                        'url' => 'scientific/fetch/' . $rank
                     ),
                     'dijitParams' => array(
                         'searchAttr' => 'name',
                         'hasDownArrow'   => true,
                         'highlightMatch' => 'none', //highlight is done manually
                         'queryExpr' => '*${0}*',
-                        'searchAttr' => 'name'
+                        'searchAttr' => 'name',
+                        'onChange' => 'updateParams'
                     ),
                     'style' => 'width: 300px'
                 )
@@ -53,11 +54,24 @@ class ACI_Form_Dojo_SearchScientific extends Zend_Dojo_Form
             
             $this->addElement($comboBox);
             $this->addDisplayGroup(
-                array($rank), 
-                $rank . 'Group', 
+                array($rank),
+                $rank . 'Group',
                 array('class' => 'searchGroup')
             );
         }
+        
+        $this->addElement(
+            $this->createElement('hidden', 'params')
+            ->setValue(
+                Zend_Json::encode(
+                    array(
+                        'genus' => '',
+                        'species' => '',
+                        'infraspecies' => ''
+                    )
+                )
+            )
+        );
         
         $submit = $this->createElement('submit', 'search')
             ->setLabel($translator->translate('Search') . ' >>');

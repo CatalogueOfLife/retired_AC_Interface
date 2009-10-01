@@ -281,7 +281,7 @@ class ACI_Model_Search extends AModel
      * @param string $query
      * @return array
      */
-    public function fetchTaxaByRank($rank, $query)
+    public function fetchTaxaByRank($rank, $query, $params)
     {
         $substr = trim(str_replace('*', '', $query));
         if (strlen($substr) < $this->_getMinStrLen($rank)) {

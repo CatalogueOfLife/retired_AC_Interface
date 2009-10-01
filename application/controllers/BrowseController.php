@@ -15,7 +15,6 @@ class BrowseController extends AController
 {
     public function treeAction()
     {
-        //TODO: add LSIDs
         $fetch = $this->_getParam('fetch', false);
         if ($fetch !== false) {
             $this->view->layout()->disableLayout();
@@ -31,13 +30,14 @@ class BrowseController extends AController
         $this->view->title = $this->view->translate('Taxonomic_tree');
         $this->view->headTitle($this->view->title, 'APPEND');
         $this->view->dojo()->enable()
+             ->registerModulePath(
+                 'ACI', $this->view->baseUrl() . '/scripts/library/ACI'
+             )
              ->requireModule('dojo.parser')
-             ->requireModule('dijit.TitlePane')
-             ->requireModule('dijit.Tree')
-             ->requireModule('dojox.data.QueryReadStore');
-        $this->view->headScript()->appendFile(
-            $this->view->baseUrl() . '/scripts/library/ACI.dojo.js'
-        );
+             ->requireModule('dojox.data.QueryReadStore')
+             ->requireModule('ACI.dojo.TxStoreModel')
+             ->requireModule('ACI.dojo.TxTree')
+             ->requireModule('ACI.dojo.TxTreeNode');
     }
     
     public function classificationAction()
@@ -52,7 +52,11 @@ class BrowseController extends AController
         $this->view->title = $this->view
             ->translate('Taxonomic_classification');
         $this->view->headTitle($this->view->title, 'APPEND');
+        
         // ComboBox (v1.3.2) custom extension
+        $this->view->headScript()->appendFile(
+            $this->view->baseUrl() . '/scripts/library/ACI.dojo.js'
+        );
         $this->view->headScript()->appendFile(
             $this->view->baseUrl() . '/scripts/library/ComboBox.ext.js'
         );
