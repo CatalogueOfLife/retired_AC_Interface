@@ -46,6 +46,7 @@ class ACI_Form_Dojo_SearchScientific extends Zend_Dojo_Form
                         'highlightMatch' => 'none', //highlight is done manually
                         'queryExpr' => '*${0}*',
                         'searchAttr' => 'name',
+                        'searchDelay' => 500,
                         'onChange' => 'updateParams'
                     ),
                     'style' => 'width: 300px'
@@ -61,7 +62,7 @@ class ACI_Form_Dojo_SearchScientific extends Zend_Dojo_Form
         }
         
         $this->addElement(
-            $this->createElement('hidden', 'params')
+            $this->createElement('hidden', 'key')
             ->setValue(
                 Zend_Json::encode(
                     array(

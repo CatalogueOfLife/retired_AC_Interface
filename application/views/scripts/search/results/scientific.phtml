@@ -1,0 +1,49 @@
+<table class="results">
+<?php $rowClass = "odd"; ?>
+    <tr class="even">
+        <th class="horizontal<?php echo ($this->sort == 'name' ? " current" : "");?>">
+        <a href="<?php echo $this->url(array_merge($this->urlParams, array(
+          'sort' => 'name'))); ?>"><?php echo $this->translate('Name'); ?></a>
+        </th>
+        <th class="horizontal<?php echo ($this->sort == 'status' ? " current" : "");?>">
+        <a href="<?php echo $this->url(array_merge($this->urlParams, array(
+          'sort' => 'status'))); ?>"><?php echo $this->translate('Name_status'); ?>
+        </a></th>
+        <th class="horizontal<?php echo ($this->sort == 'group' ? " current" : "");?>">
+        <a href="<?php echo $this->url(array_merge($this->urlParams, array(
+          'sort' => 'group'))); ?>"><?php echo $this->translate('Group'); ?>
+        </a></th>
+        <th class="horizontal<?php echo ($this->sort == 'db' ? " current" : "");?>">
+        <a href="<?php echo $this->url(array_merge($this->urlParams, array(
+          'sort' => 'db'))); ?>"><?php echo $this->translate('Source_database'); ?>
+        </a></th>
+        <th class="horizontal"> </th>
+    </tr>
+<?php foreach ($this->data as $row): ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <td class="field_header_black">
+            <a href="<?php echo $this->baseUrl() . $row['url']; ?>">
+                <?php echo $row['name']; ?>
+            </a>
+        </td>
+        <td><?php echo $row['status']; ?></td>
+        <td><?php echo $row['group']; ?></td>
+        <td>
+<?php if($row['dbLabel'] != ""): ?>
+        <a href="<?php echo $this->baseUrl() . $row['dbUrl']; ?>">
+        <img
+          class="wrapLogo"
+          src="<?php echo $this->baseUrl() . $row['dbLogo']; ?>"
+          alt="<?php echo $row['dbLabel']; ?>"
+          title="<?php echo $row['dbLabel']; ?>" /></a>
+<?php endif; ?>
+        </td>
+        <td>
+            <a href="<?php echo $this->baseUrl() . $row['url']; ?>">
+                <?php echo $row['link']; ?>
+            </a>
+        </td>
+    </tr>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+<?php endforeach; ?>
+</table>

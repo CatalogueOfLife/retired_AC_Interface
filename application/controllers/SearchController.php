@@ -41,19 +41,24 @@ class SearchController extends AController
         $this->view->title = $this->view->translate('Search_scientific_names');
         $this->view->headTitle($this->view->title, 'APPEND');
         
-        $this->view->dojo()
-             ->registerModulePath(
-                'ACI', $this->view->baseUrl() . '/scripts/library/ACI'
-             )->requireModule('ACI.dojo.TxReadStore');
-        // ComboBox (v1.3.2) custom extension
-        $this->view->headScript()->appendFile(
-            $this->view->baseUrl() . '/scripts/ComboBox.ext.js'
-        );
-        // TODO: implement search query
-        $this->_renderFormPage(
-            $this->view->title,
-            new ACI_Form_Dojo_SearchScientific()
-        );
+        $form = new ACI_Form_Dojo_SearchScientific();
+        
+        if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
+            $form->isValid($this->_getAllParams())) {
+            $this->_renderResultsPage();
+        } else {
+            $this->view->dojo()
+                 ->registerModulePath(
+                    'ACI', $this->view->baseUrl() . '/scripts/library/ACI'
+                 )->requireModule('ACI.dojo.TxReadStore');
+            // ComboBox (v1.3.2) custom extension
+            $this->view->headScript()->appendFile(
+                $this->view->baseUrl() . '/scripts/ComboBox.ext.js'
+            );
+            $this->_renderFormPage(
+                $this->view->title, $form
+            );
+        }
     }
     
     public function distributionAction()
@@ -289,6 +294,13 @@ class SearchController extends AController
                     $this->_getParam('sort')
                 );
                 break;
+            case 'scientific':
+                $key =
+                    Zend_Json::decode(stripslashes($this->_getParam('key')));
+                $query = $select->scientificNames(
+                    $key, $this->_getParam('sort')
+                );
+                break;
             case 'all':
             default:
                 $query = $select->all(
@@ -308,7 +320,9 @@ class SearchController extends AController
      */
     protected function _fetchTaxaByRank($rank)
     {
-        $params = Zend_Json::decode(stripslashes($this->_getParam('p')));
+        $params = $this->_filterParams(
+            Zend_Json::decode(stripslashes($this->_getParam('p'))), $rank
+        );
         $substr = trim(str_replace('*', '', $this->_getParam('q')));
         $this->_logger->debug($substr);
         $search = new ACI_Model_Search($this->_db);
@@ -318,6 +332,26 @@ class SearchController extends AController
         }
         $this->_logger->debug($res);
         return new Zend_Dojo_Data('name', $res, $rank);
+    }
+    
+    protected function _filterParams($params, $rank) {
+        if(isset($params[$rank])) {
+            unset($params[$rank]);
+        }
+        if(empty($params)) {
+            return array();
+        }
+        $search = new ACI_Model_Search($this->_db);
+        foreach($params as $r => $str) {
+            if(trim($str) == '') {
+                unset($params[$r]);
+                continue;
+            }
+            if(!$search->taxaExists($r, $str)) {
+                unset($params[$r]);
+            }
+        }
+        return $params;
     }
     
     public function __call($name, $arguments)

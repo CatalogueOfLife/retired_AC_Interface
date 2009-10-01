@@ -17,9 +17,9 @@ class ACI_Model_Search extends AModel
     const API_ROWSET_LIMIT = 2000;
     protected static $_apiMinStrLen = array(
         'kingdom' => 0,
-        'genus' => 2,
-        'species' => 3,
-        'infraspecies' => 2
+        'genus' => 1,
+        'species' => 1,
+        'infraspecies' => 1
     );
     
     public function commonNames($searchKey, $matchWholeWords, $sort)
@@ -41,6 +41,11 @@ class ACI_Model_Search extends AModel
     public function taxa($searchKey, $matchWholeWords)
     {
         return $this->_selectTaxa($searchKey, $matchWholeWords);
+    }
+    
+    public function scientificNames(array $key)
+    {
+        return $this->_selectScientificNames($key);
     }
     
     public function all($searchKey, $matchWholeWords, $sort)
@@ -83,16 +88,7 @@ class ACI_Model_Search extends AModel
             $columMap[$columName] : null;
     }
     
-    /**
-     * Builds the select query to search taxa by name
-     *
-     * @param string $searchKey
-     * @param boolean $matchWholeWords
-     * @return Zend_Db_Select
-     */
-    protected function _selectTaxa($searchKey, $matchWholeWords)
-    {
-        $select = new Zend_Db_Select($this->_db);
+    protected function _getFields() {
         
         $fields =
             array(
@@ -137,6 +133,20 @@ class ACI_Model_Search extends AModel
                 'kingdom' => 'fm.kingdom',
                 'status' => 'tx.sp2000_status_id'
             );
+            
+        return $fields;
+    }
+    
+    /**
+     * Builds the select query to search taxa by name
+     *
+     * @param string $searchKey
+     * @param boolean $matchWholeWords
+     * @return Zend_Db_Select
+     */
+    protected function _selectTaxa($searchKey, $matchWholeWords)
+    {
+        $select = new Zend_Db_Select($this->_db);
         
         if ($matchWholeWords) {
         
@@ -144,7 +154,7 @@ class ACI_Model_Search extends AModel
                 array(
                     'ss' => 'simple_search'
                 ),
-                $fields
+                $this->_getFields()
             )
             ->join(
                 array('tx' => 'taxa'),
@@ -161,7 +171,7 @@ class ACI_Model_Search extends AModel
                 array(
                     'tx' => 'taxa'
                 ),
-                $fields
+                $this->_getFields()
             )
             ->where(
                 'tx.name LIKE "%' . $searchKey . '%" AND ' .
@@ -272,6 +282,56 @@ class ACI_Model_Search extends AModel
         return $select;
     }
     
+    protected function _selectScientificNames(array $key)
+    {
+        $select = new Zend_Db_Select($this->_db);
+        
+        $select->from(
+                array(
+                    'sn' => 'scientific_names'
+                ),
+                $this->_getFields()
+            )
+        ->where('tx.is_species_or_nonsynonymic_higher_taxon = 1');
+            
+        foreach($key as $rank => $name) {
+            if(trim($name) != '') {
+                if($this->taxaExists($rank, $name)) {
+                    $select->where('sn.' . $rank . ' = ?', $name);
+                }
+                else {
+                    $select->where('sn.' . $rank . ' LIKE "%' . $name . '%"');
+                }
+            }
+        }
+           
+        $select
+        ->joinLeft(
+            array('tx' => 'taxa'),
+            'sn.name_code = tx.name_code',
+            array()
+        )
+        ->joinLeft(
+            array('fm' => 'families'),
+            'sn.family_id = fm.record_id',
+            array()
+        )
+        ->joinLeft(
+            array('sna' => 'scientific_names'),
+            'sna.accepted_name_code = sn.accepted_name_code AND ' .
+            'sna.is_accepted_name = 1',
+            array()
+        )
+        ->joinLeft(
+            array('db' => 'databases'),
+            'sn.database_id = db.record_id',
+            array()
+        )
+        ->order(array('name', 'status'));
+        
+        return $select;
+    }
+    
     /**
      * Returns the all the existing record names of a specific rank only
      * if the total is less than the constant API_ROWSET_LIMIT and the
@@ -279,25 +339,21 @@ class ACI_Model_Search extends AModel
      *
      * @param string $rank
      * @param string $query
+     * @param array $key
      * @return array
      */
-    public function fetchTaxaByRank($rank, $query, $params)
+    public function fetchTaxaByRank($rank, $query, array $key)
     {
         $substr = trim(str_replace('*', '', $query));
-        if (strlen($substr) < $this->_getMinStrLen($rank)) {
+        if (strlen($substr) < $this->_getMinStrLen($rank, $key)) {
             return array();
         }
         $qSubstr = trim(str_replace('*', '%', $query));
-        $select = new Zend_Db_Select($this->_db);
-        $select->distinct()
-               ->from(array('hard_coded_taxon_lists'), array('name'))
-               ->where('rank = ? AND name LIKE "' . $qSubstr . '"', $rank)
-               ->order(
-                   array(
-                       new Zend_Db_Expr('INSTR(name, "' . $substr . '")'),
-                       'name'
-                   )
-               );
+        
+        $select = empty($key) ?
+            $this->_getTaxaNameQuery($rank, $qSubstr, $substr) :
+            $this->_getTaxaNameFilteredQuery($rank, $qSubstr, $substr, $key);
+        
         $res = $select->query()->fetchAll();
         $total = count($res);
         $this->_logger->debug("$total results found for $rank \"$substr\"");
@@ -307,12 +363,103 @@ class ACI_Model_Search extends AModel
         return $res;
     }
     
-    private function _getMinStrLen($rank)
+    /**
+     *
+     * @param string $rank
+     * @param string $str
+     * @param array $key
+     * @return Zend_Db_Select
+     */
+    protected function _getTaxaNameFilteredQuery($rank, $qStr, $str, array $key)
     {
-        return isset(self::$_apiMinStrLen[$rank]) ?
-            self::$_apiMinStrLen[$rank] : 1;
+        $select = new Zend_Db_Select($this->_db);
+        $select->from(array('scientific_names'), array('name' => $rank))
+               ->where($rank . ' LIKE "' . $qStr . '"');
+        foreach($key as $p => $v) {
+            $select->where($p . ' = ?', $v);
+        }
+        $select->order(
+                   array(
+                       new Zend_Db_Expr(
+                           'INSTR(' . $rank . ', "' . $str . '")'
+                       ), $rank
+                   )
+               );
+        return $select;
     }
     
+    /**
+     *
+     * @param string $rank
+     * @param string $str
+     * @return Zend_Db_Select
+     */
+    protected function _getTaxaNameQuery($rank, $qStr, $str)
+    {
+        $select = new Zend_Db_Select($this->_db);
+        $select->distinct()
+               ->from(array('hard_coded_taxon_lists'), array('name'))
+               ->where('rank = ? AND name LIKE "' . $qStr . '"', $rank)
+               ->order(
+                   array(
+                       new Zend_Db_Expr('INSTR(name, "' . $str . '")'),
+                       'name'
+                   )
+               );
+        return $select;
+    }
+    
+    /**
+     * Check whether a taxa name exists for the given rank
+     *
+     * @param string $rank
+     * @param string $name
+     * @return boolean
+     */
+    public function taxaExists($rank, $name) {
+        $select = new Zend_Db_Select($this->_db);
+        $select->from(
+            array('hard_coded_taxon_lists'),
+            array('total' => new Zend_Db_Expr('COUNT(*)'))
+        )->where('rank = ? AND name = ? AND accepted_names_only = 1');
+        $select->bind(array($rank, $name));
+        return (bool)$select->query()->fetchColumn(0);
+    }
+    
+    /**
+     * Gets the minimum query length when searching for taxa based on the rank
+     *
+     * @param string $rank
+     * @param array $key
+     * @return int
+     */
+    protected function _getMinStrLen($rank, array $key)
+    {
+        $min = isset(self::$_apiMinStrLen[$rank]) ?
+            self::$_apiMinStrLen[$rank] : 1;
+            
+        switch($rank) {
+            case 'species':
+                if(isset($key['genus'])) {
+                    $min = 0;
+                }
+            break;
+            case 'infraspecies':
+                if(!empty($key)) {
+                    $min = 0;
+                }
+            break;
+        }
+        return $min;
+    }
+    
+    /**
+     * Gets the children of a given taxon
+     * Used to unfold the browse tree branches
+     *
+     * @param int $parentId
+     * @return array
+     */
     public function getTaxonChildren($parentId)
     {
         $select = new Zend_Db_Select($this->_db);

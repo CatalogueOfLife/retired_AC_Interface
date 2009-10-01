@@ -14,8 +14,8 @@ dojo.extend(dijit.form.ComboBox, {
 	}
 });
 updateParams = function(val) {
-    var params = '{"genus":"' + dojo.byId('genus').value + '",' +
+    var key = '{"genus":"' + dojo.byId('genus').value + '",' +
                  '"species":"' + dojo.byId('species').value + '",' +
                  '"infraspecies":"' + dojo.byId('infraspecies').value + '"}';
-    dojo.byId('params').value = params;
+    dojo.byId('key').value = key;
 }
