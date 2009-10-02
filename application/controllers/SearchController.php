@@ -44,7 +44,7 @@ class SearchController extends AController
         $form = new ACI_Form_Dojo_SearchScientific();
         
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
-            $form->isValid($this->_getAllParams())) {
+            $form->isValid($this->_getAllParams())) {            
             $this->_renderResultsPage();
         } else {
             $this->view->dojo()
@@ -65,12 +65,10 @@ class SearchController extends AController
     {
         $this->view->title = $this->view->translate('Search_distribution');
         $this->view->headTitle($this->view->title, 'APPEND');
-        // TODO: implement search query
         $form = $this->_getSearchForm();
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
-            //$this->_renderResultsPage();
-            $this->_renderFormPage($this->view->title, $form);
+            $this->_renderResultsPage();
         } else {
             $this->_renderFormPage($this->view->title, $form);
         }
@@ -102,7 +100,7 @@ class SearchController extends AController
         $key = $form->getElement('key');
         if ($key) {
             $key->setValue($this->_getParam('key', ''));
-        }
+        }        
         $this->view->contentClass = 'search-box';
         $form->setAction(
             $this->view->baseUrl() . '/' . $this->view->controller . '/' .
@@ -299,6 +297,12 @@ class SearchController extends AController
                     Zend_Json::decode(stripslashes($this->_getParam('key')));
                 $query = $select->scientificNames(
                     $key, $this->_getParam('sort')
+                );
+                break;
+            case 'distribution':
+                $query = $select->distributions(
+                    $this->_getParam('key'), $this->_getParam('match'),
+                    $this->_getParam('sort')
                 );
                 break;
             case 'all':
