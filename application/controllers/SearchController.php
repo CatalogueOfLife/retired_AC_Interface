@@ -195,13 +195,10 @@ class SearchController extends AController
             $resultTable[$i]['rank'] = $this->view->translate(
                 ACI_Model_Table_Taxa::getRankString($row['rank'])
             );
-            if ($this->_getParam('action') == 'all') {
-                $resultTable[$i]['status'] = $this->view->translate(
-                    ACI_Model_Table_Taxa::getStatusString($row['status'])
-                );
-            } else {
-                $resultTable[$i]['status'] = '%s';
-            }
+            
+            $resultTable[$i]['status'] = $this->view->translate(
+                ACI_Model_Table_Taxa::getStatusString($row['status'])
+            );
             
             $resultTable[$i]['group'] = $row['kingdom'];
             
