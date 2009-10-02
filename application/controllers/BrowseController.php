@@ -13,11 +13,6 @@ require_once 'AController.php';
  */
 class BrowseController extends AController
 {
-    protected function _getSearchForm()
-    {
-        return $this->getHelper('FormLoader')->getSearchForm();
-    }
-    
     public function treeAction()
     {
         $fetch = $this->_getParam('fetch', false);

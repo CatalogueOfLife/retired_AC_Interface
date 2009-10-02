@@ -13,11 +13,6 @@ require_once 'AController.php';
  */
 class SearchController extends AController
 {
-    protected function _getSearchForm()
-    {
-        return $this->getHelper('FormLoader')->getSearchForm();
-    }
-    
     public function commonAction()
     {
         $this->view->title = $this->view->translate('Search_common_names');

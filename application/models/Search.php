@@ -213,7 +213,7 @@ class ACI_Model_Search extends AModel
      *
      * @return array
      */
-    protected function _getFields($searchKey, $matchWholeWords) {
+    protected function _getFields() {
         
         $fields =
             array(

@@ -24,12 +24,14 @@ abstract class AController extends Zend_Controller_Action
         $this->view->action = $this->getRequest()->action;
     }
     
+    protected function _getSearchForm()
+    {
+        return $this->getHelper('FormLoader')->getSearchForm();
+    }
+    
     protected function _highlightMatch($haystack, $needle)
     {
-        return preg_replace(
-            '/(' . $needle . ')/i',
-            "<span class=\"matchHighlight\">$1</span>",
-            $haystack
-        );
+        return $this->getHelper('TextDecorator')
+            ->highlightMatch($haystack, $needle);
     }
 }
