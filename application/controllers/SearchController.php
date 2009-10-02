@@ -15,7 +15,7 @@ class SearchController extends AController
 {
     protected function _getSearchForm()
     {
-        return new ACI_Form_Dojo_Search();
+        return $this->getHelper('FormLoader')->getSearchForm();
     }
     
     public function commonAction()
@@ -41,10 +41,10 @@ class SearchController extends AController
         $this->view->title = $this->view->translate('Search_scientific_names');
         $this->view->headTitle($this->view->title, 'APPEND');
         
-        $form = new ACI_Form_Dojo_SearchScientific();
+        $form = $this->_getSearchForm();
         
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
-            $form->isValid($this->_getAllParams())) {            
+            $form->isValid($this->_getAllParams())) {
             $this->_renderResultsPage();
         } else {
             $this->view->dojo()
@@ -55,9 +55,7 @@ class SearchController extends AController
             $this->view->headScript()->appendFile(
                 $this->view->baseUrl() . '/scripts/ComboBox.ext.js'
             );
-            $this->_renderFormPage(
-                $this->view->title, $form
-            );
+            $this->_renderFormPage($this->view->title, $form);
         }
     }
     
@@ -93,14 +91,13 @@ class SearchController extends AController
         }
     }
     
-    protected function _renderFormPage($formHeader, $form = null)
+    protected function _renderFormPage($formHeader, $form)
     {
         $this->view->formHeader = $formHeader;
-        $form = $form instanceof Zend_Form ? $form : $this->_getSearchForm();
         $key = $form->getElement('key');
         if ($key) {
             $key->setValue($this->_getParam('key', ''));
-        }        
+        }
         $this->view->contentClass = 'search-box';
         $form->setAction(
             $this->view->baseUrl() . '/' . $this->view->controller . '/' .

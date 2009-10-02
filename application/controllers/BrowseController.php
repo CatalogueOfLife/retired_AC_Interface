@@ -13,6 +13,11 @@ require_once 'AController.php';
  */
 class BrowseController extends AController
 {
+    protected function _getSearchForm()
+    {
+        return $this->getHelper('FormLoader')->getSearchForm();
+    }
+    
     public function treeAction()
     {
         $fetch = $this->_getParam('fetch', false);
@@ -64,7 +69,7 @@ class BrowseController extends AController
         $this->view->formHeader =
             $this->view->translate('Browse_by_classification');
         // TODO: implement search query
-        $form = new ACI_Form_Dojo_BrowseClassification();
+        $form = $this->_getSearchForm();
         $form->setAction(
             $this->view->baseUrl() . '/' . $this->view->controller . '/' .
             $this->view->action

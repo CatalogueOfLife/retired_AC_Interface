@@ -81,6 +81,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Dojo::enableView($view);
         $view->dojo()->disable();
         Zend_Controller_Action_HelperBroker::addHelper($viewRenderer);
+        Zend_Controller_Action_HelperBroker::addPath(
+            APPLICATION_PATH . '/controllers/helpers', 'ACI_Helper'
+        );
         //Variables
         $view->app = $config->custom->application;
         return $view;
