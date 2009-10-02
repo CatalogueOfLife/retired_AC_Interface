@@ -10,7 +10,7 @@
  * @subpackage  forms
  *
  */
-class ACI_Form_Dojo_BrowseClassification extends ACI_Form_Dojo_MultiCombo
+class ACI_Form_Dojo_BrowseClassification extends ACI_Form_Dojo_AMultiCombo
 {
     public function init()
     {

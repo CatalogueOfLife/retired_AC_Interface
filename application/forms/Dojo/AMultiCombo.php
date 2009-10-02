@@ -10,7 +10,7 @@
  * @subpackage  forms
  *
  */
-abstract class ACI_Form_Dojo_MultiCombo extends Zend_Dojo_Form
+abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
 {
     protected $_combos;
     
