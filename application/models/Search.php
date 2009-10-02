@@ -22,35 +22,92 @@ class ACI_Model_Search extends AModel
         'infraspecies' => 1
     );
     
+    /**
+     * Returns the final query (sorted) to search for common names
+     *
+     * @param string $searchKey
+     * @param boolean $matchWholeWords
+     * @param string $sort
+     * @return Zend_Db_Select
+     */
     public function commonNames($searchKey, $matchWholeWords, $sort)
     {
-        $selectCommon = $this->_selectCommonNames($searchKey, $matchWholeWords)
+        return $this->_selectCommonNames($searchKey, $matchWholeWords)
         ->order(
             array_merge(
                 array(
-                    ACI_Model_Search::getRightColumnName($sort)
+                    self::getRightColumnName($sort)
                 ),
                 array('name')
             )
         );
-        $this->_logger->debug($selectCommon->__toString());
-        
-        return $selectCommon;
     }
     
+    /**
+     * Returns the final query to search for taxa
+     *
+     * @param string $searchKey
+     * @param boolean $matchWholeWords
+     * @return Zend_Db_Select
+     */
     public function taxa($searchKey, $matchWholeWords)
     {
         return $this->_selectTaxa($searchKey, $matchWholeWords);
     }
     
-    public function scientificNames(array $key)
+    /**
+     * Returns the final query (sorted) to search for scientific names
+     *
+     * @param string $searchKey
+     * @param string $sort
+     * @return Zend_Db_Select
+     */
+    public function scientificNames(array $key, $sort)
     {
-        return $this->_selectScientificNames($key);
+        return $this->_selectScientificNames($key)
+        ->order(
+            array_merge(
+                array(
+                    self::getRightColumnName($sort)
+                ),
+                array('name')
+            )
+        );
     }
     
+    /**
+     * Returns the final query (sorted) to search for distributions
+     *
+     * @param string $searchKey
+     * @param boolean $matchWholeWords
+     * @param string $sort
+     * @return Zend_Db_Select
+     */
+    public function distributions($searchKey, $matchWholeWords, $sort)
+    {
+        return $this->_selectDistributions($searchKey, $matchWholeWords)
+        ->order(
+            array_merge(
+                array(
+                    self::getRightColumnName($sort)
+                ),
+                array('distribution')
+            )
+        );
+    }
+    
+    /**
+     * Returnes a Zend_Db_Select object joining and sorting the scientific and
+     * common names search queries
+     *
+     * @param string $searchKey
+     * @param boolean $matchWholeWords
+     * @param string $sort
+     * @return Zend_Db_Select
+     */
     public function all($searchKey, $matchWholeWords, $sort)
     {
-        $selectAll = $this->_db->select()->union(
+        return $this->_db->select()->union(
             array(
                 $this->_selectTaxa(
                     $searchKey, $matchWholeWords
@@ -63,17 +120,19 @@ class ACI_Model_Search extends AModel
         ->order(
             array_merge(
                 array(
-                    ACI_Model_Search::getRightColumnName($sort)
+                    self::getRightColumnName($sort)
                 ),
                 array('rank','name')
             )
         );
-        
-        $this->_logger->debug($selectAll->__toString());
-        
-        return $selectAll;
     }
     
+    /**
+     * Maps the sorting parameters to the real field names in the database
+     *
+     * @param string $columName
+     * @return string | null
+     */
     public static function getRightColumnName($columName)
     {
         $columMap = array(
@@ -82,13 +141,79 @@ class ACI_Model_Search extends AModel
             'status' => 'status',
             'db' => 'db_name',
             'scientificName' => 'accepted_species_name',
-            'group' => 'kingdom'
+            'group' => 'kingdom',
+            'distribution' => 'distribution'
         );
         return isset($columMap[$columName]) ?
             $columMap[$columName] : null;
     }
     
-    protected function _getFields() {
+    /**
+     * Search by distribution query
+     *
+     * @param string $searchKey
+     * @param boolean $matchWholeWords
+     * @return Zend_Db_Select
+     */
+    protected function _selectDistributions($searchKey, $matchWholeWords)
+    {
+        $select = new Zend_Db_Select($this->_db);
+        
+        $select->from(
+            array('ds' => 'distribution'),
+            array('ds.distribution')
+        )
+        ->join(
+            array('sn' => 'scientific_names'),
+            'sn.name_code = ds.name_code',
+            array(
+                'sn.genus',
+                'sn.species',
+                'sn.infraspecies_marker',
+                'sn.infraspecies',
+                'sn.author'
+            )
+        )
+        ->join(
+            array('fm' => 'families'),
+            'sn.family_id = fm.record_id',
+            array('fm.kingdom')
+        )
+        ->join(
+            array('db' => 'databases'),
+            'sn.database_id = db.record_id',
+            array(
+                'db_name' => 'db.database_name',
+                'db_id' => 'db.record_id',
+                'db_thumb' =>
+                    'CONCAT(REPLACE(db.database_name, " ", "_"), ".gif")'
+            )
+        )
+        ->where('ds.distribution LIKE ?', '%' . $searchKey . '%');
+        
+        if ($matchWholeWords) {
+            $wordDelimiterChars = '[ \.\"\'\(\),;:-]';
+            $select->where(
+                'ds.distribution = ?
+                OR ds.distribution REGEXP "^' . $searchKey .
+                    $wordDelimiterChars . '+.*$" = 1
+                OR ds.distribution REGEXP "^.*' . $wordDelimiterChars . '+' .
+                    $searchKey . '$" = 1
+                OR ds.distribution REGEXP "^.*' . $wordDelimiterChars . '+' .
+                    $searchKey . $wordDelimiterChars . '+.*$" = 1',
+                $searchKey
+            );
+        }
+        return $select;
+    }
+    
+    /**
+     * Returns the fields needed to display the results of the main search
+     * queries (common names, scientific names and the combination of both)
+     *
+     * @return array
+     */
+    protected function _getFields($searchKey, $matchWholeWords) {
         
         $fields =
             array(
@@ -282,6 +407,12 @@ class ACI_Model_Search extends AModel
         return $select;
     }
     
+    /**
+     * Search for scientific names query
+     *
+     * @param array $key
+     * @return Zend_Db_Select
+     */
     protected function _selectScientificNames(array $key)
     {
         $select = new Zend_Db_Select($this->_db);
