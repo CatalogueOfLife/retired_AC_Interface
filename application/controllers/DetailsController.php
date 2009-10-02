@@ -24,6 +24,73 @@ class DetailsController extends AController
         $this->view->contentClass = 'details';
     }
     
+    public function referenceAction()
+    {
+    	
+    	
+    	
+    	$taxa = $this->_getParam('taxa');
+    	$common = $this->_getParam('common');
+    	$id = 0;
+    	$type = '';
+    	
+        $preface = '<p>';
+
+        if($taxa){
+        	$id = $taxa;
+            $type = 'taxa';
+	        $preface .= preg_replace(
+	            array(
+	                '(%count%)',
+	                '(%name%)'
+	            ),
+	            array(
+	                count($this->view->ref),
+	                $taxaDetails->name
+	            ),
+	            (count($this->view->ref) == 1 ?
+	                $this->view->translate('literature_reference_found_for') :
+	                $this->view->translate('literature_references_found_for'))
+	        );
+	        $detailsModel = new ACI_Model_Details($this->_db);
+	        $taxaDetails = $detailsModel->getReferenceTaxa($id);
+
+	        $referenceModel = new ACI_Model_Table_References();
+	        $refDetails = $referenceModel->get($taxaDetails->nameCode);
+        }
+        if($common){
+        	$id = $common;
+            $type = 'common';
+            $preface .= preg_replace(
+            array(
+                '(%count%)'
+            ),
+            array(
+                count($this->view->ref)
+            ),
+            (count($this->view->ref) == 1 ?
+                $this->view->translate('literature_reference_found') :
+                $this->view->translate('literature_references_found'))
+            );
+            $detailsModel = new ACI_Model_Details($this->_db);
+            $taxaDetails = $detailsModel->getReferenceTaxa($id);
+        }
+
+        $preface .= ':</p>';
+        
+        
+        
+        $this->view->title = $this->view->translate('Literature_references');
+        $this->view->headTitle($this->view->title, 'APPEND');
+        
+        $this->_logger->debug($refDetails);
+        $this->view->ref = $refDetails;
+        
+        
+        
+        $this->view->preface = $preface;
+    }
+    
     public function databaseAction()
     {
         $this->view->title = $this->view->translate('Database_details');

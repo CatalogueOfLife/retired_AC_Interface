@@ -358,4 +358,58 @@ class ACI_Model_Details extends AModel
         
         return $select->query()->fetchAll();
     }
+    
+    public function referenceDetails ($id,$type)
+    {
+        $select = new Zend_Db_Select($this->_db);
+        
+        if($type == 'common')
+        {
+            $select->distinct()
+            ->from(
+                array('r' => 'references'),
+                array(
+                    'r.*',
+                    'db.database_name'
+                )
+            )
+            ->join(
+                array('db' => 'databases'),
+                    'r.database_id = db.record_id',
+                array()
+            )
+            ->where('r.record_id = ?', $id)
+            ->order(array('r.author', 'r.title'));
+        }
+	        
+        $result = array();
+        $species = $select->query()->fetchObject('ACI_Model_Table_Taxa');
+        $species->name;
+        foreach($select->query()->fetchAll() as $key => $value)
+        {
+        	$result[$key] = $value;
+        	$result[$key]['db_image'] = $db->getThumbFromName($value['database_name']);
+            $result[$key]['url'] = $db->getUrlFromId($value['database_id']);
+        }
+        return $result;
+    }
+    
+    public function getReferenceTaxa ($id)
+    {
+        $select = new Zend_Db_Select($this->_db);
+    	$select->from(
+            array('sn' => 'scientific_names'),
+            array(
+                'sn.genus',
+                'sn.species',
+                'sn.infraspecies',
+                'sn.infraspecies_marker',
+                'sn.author',
+                'sn.name_code'
+            )
+        )
+        ->where('sn.record_id = ?', $id);
+        $species = $select->query()->fetchObject('ACI_Model_Table_Taxa');
+        return $species;
+    }
 }

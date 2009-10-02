@@ -38,13 +38,35 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
         return $results;
     }
     
+    public function getImageFromName ($imageName)
+    {
+        return '/images/databases/' . $this->getImagenameFromName(
+            $imageName) . '.jpg';
+    }
+
+    public function getThumbFromName ($imageName)
+    {
+        return '/images/databases/' . $this->getImagenameFromName(
+            $imageName) . '.gif';
+    }
+
+    public function getUrlFromId ($id)
+    {
+        return '/details/database/id/' . $id;
+    }    
+
+    private function getImagenameFromName ($imageName)
+    {
+        return str_replace(' ', '_', $imageName);
+    }
+    
     protected function _decorate(array $row)
     {
-        $imageName = str_replace(' ', '_', $row['database_name']);
-        $row['image'] = '/images/databases/' . $imageName . '.jpg';
-        $row['thumb'] = '/images/databases/' . $imageName . '.gif';
-        $row['url'] = '/details/database/id/' . $row['record_id'];
-        $row['name'] = $row['database_name_displayed'];
+    	$row['image'] = $this->getImageFromName($row['database_name']);
+        $row['thumb'] = $this->getThumbFromName($row['database_name']);
+        $row['url'] = $this->getUrlFromId($row['record_id']);
+    	
+    	$row['name'] = $row['database_name_displayed'];
         $row['label'] = $row['database_name'];
         $row['accepted_species_names'] =
             number_format($row['accepted_species_names']);

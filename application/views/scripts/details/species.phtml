@@ -12,7 +12,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
 /></a>
 <?php echo $this->species->preface; ?>
 <table class="details-table">
-<?php if($rowClass = "even")?>
+<?php $rowClass = "even"?>
     <tr class="<?php echo $rowClass; ?>">
         <th width="150" class="vertical"><?php echo $this->translate('Accepted_scientific_name'); ?>:</th>
         <td><?php echo $this->species->name; ?></td>
@@ -61,7 +61,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                     <td><?php echo $common['language']; ?></td>
                     <td><?php echo $common['country']; ?></td>
                     <td align="right"><a href="<?php echo $this->baseUrl() .
-                          '/references/id/' . $common['reference_id']; ?>"><img
+                          '/details/reference/id/' . $common['reference_id']; ?>"><img
 					    src="<?php echo $this->baseUrl() . '/images/book.gif'; ?>"
 					    alt="<?php echo $this->translate('Reference'); ?>"
 					    title="<?php echo $this->translate('Click_here_to_show_the_literature_reference'); ?>"
