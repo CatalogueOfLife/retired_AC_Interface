@@ -161,33 +161,33 @@ class ACI_Model_Search extends AModel
         
         $select->from(
             array('ds' => 'distribution'),
-            array('ds.distribution')
+            array_merge($this->_getFields(), array('ds.distribution'))
         )
-        ->join(
+        ->joinLeft(
             array('sn' => 'scientific_names'),
             'sn.name_code = ds.name_code',
-            array(
-                'sn.genus',
-                'sn.species',
-                'sn.infraspecies_marker',
-                'sn.infraspecies',
-                'sn.author'
-            )
+            array()
         )
-        ->join(
+        ->joinLeft(
+            array('sna' => 'scientific_names'),
+            'sna.accepted_name_code = sn.accepted_name_code AND ' .
+            'sna.is_accepted_name = 1',
+            array()
+        )
+        ->joinLeft(
+            array('tx' => 'taxa'),
+            'sn.name_code = tx.name_code',
+            array()
+        )
+        ->joinLeft(
             array('fm' => 'families'),
             'sn.family_id = fm.record_id',
-            array('fm.kingdom')
+            array()
         )
-        ->join(
+        ->joinLeft(
             array('db' => 'databases'),
             'sn.database_id = db.record_id',
-            array(
-                'db_name' => 'db.database_name',
-                'db_id' => 'db.record_id',
-                'db_thumb' =>
-                    'CONCAT(REPLACE(db.database_name, " ", "_"), ".gif")'
-            )
+            array()
         )
         ->where('ds.distribution LIKE ?', '%' . $searchKey . '%');
         
