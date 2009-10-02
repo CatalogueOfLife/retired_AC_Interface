@@ -91,7 +91,7 @@ class SearchController extends AController
                 $this->view->translate('Annual_Checklist') . '</span>'
             );
         $form = $this->_getSearchForm();
-        
+        $sn = $this->getHelper('SessionHandler');
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
             $sn->set('key', $this->_getParam('key'));
