@@ -18,10 +18,13 @@ class SearchController extends AController
         $this->view->title = $this->view->translate('Search_common_names');
         $this->view->headTitle($this->view->title, 'APPEND');
         $form = $this->_getSearchForm();
+        $sn = $this->getHelper('SessionHandler');
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
+            $sn->set('key', $this->_getParam('key'));
             $this->_renderResultsPage();
         } else {
+            $this->_setParam('key', $sn->get('key'));
             $this->_renderFormPage($this->view->title, $form);
         }
     }
@@ -37,11 +40,18 @@ class SearchController extends AController
         $this->view->headTitle($this->view->title, 'APPEND');
         
         $form = $this->_getSearchForm();
+        $sn = $this->getHelper('SessionHandler');
         
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
+            $sn->set('genus', $this->_getParam('genus'));
+            $sn->set('species', $this->_getParam('species'));
+            $sn->set('infraspecies', $this->_getParam('infraspecies'));
             $this->_renderResultsPage();
         } else {
+            $this->_setParam('genus', $sn->get('genus'));
+            $this->_setParam('species', $sn->get('species'));
+            $this->_setParam('infraspecies', $sn->get('infraspecies'));
             $this->view->dojo()
                  ->registerModulePath(
                     'ACI', $this->view->baseUrl() . '/scripts/library/ACI'
@@ -59,10 +69,13 @@ class SearchController extends AController
         $this->view->title = $this->view->translate('Search_distribution');
         $this->view->headTitle($this->view->title, 'APPEND');
         $form = $this->_getSearchForm();
+        $sn = $this->getHelper('SessionHandler');
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
+            $sn->set('key', $this->_getParam('key'));
             $this->_renderResultsPage();
         } else {
+            $this->_setParam('key', $sn->get('key'));
             $this->_renderFormPage($this->view->title, $form);
         }
     }
@@ -78,10 +91,13 @@ class SearchController extends AController
                 $this->view->translate('Annual_Checklist') . '</span>'
             );
         $form = $this->_getSearchForm();
+        
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
+            $sn->set('key', $this->_getParam('key'));
             $this->_renderResultsPage();
         } else {
+            $this->_setParam('key', $sn->get('key'));
             $this->_renderFormPage($formHeader, $form);
         }
     }

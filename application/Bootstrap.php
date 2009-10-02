@@ -101,6 +101,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Registry::set('db', $db);
     }
     
+    public function _initSession()
+    {
+        Zend_Session::setOptions(array('strict' => true));
+    }
+    
     public function _initLayout()
     {
         Zend_Layout::startMvc();
