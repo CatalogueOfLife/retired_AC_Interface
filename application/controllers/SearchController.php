@@ -21,10 +21,10 @@ class SearchController extends AController
         $sn = $this->getHelper('SessionHandler');
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
-            $sn->set('key', $this->_getParam('key'));
-            $this->_renderResultsPage();
+            $this->_setSessionFromParams(array($form->getInputElements()));
+            $this->_renderResultsPage($form->getInputElements());
         } else {
-            $this->_setParam('key', $sn->get('key'));
+            $this->_setParamsFromSession(array($form->getInputElements()));
             $this->_renderFormPage($this->view->title, $form);
         }
     }
@@ -42,22 +42,17 @@ class SearchController extends AController
         
         $form = $this->_getSearchForm();
         $sn = $this->getHelper('SessionHandler');
-        if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
+        if ($this->_hasParam('genus') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
-            $sn->setFromParam(array('genus', 'species', 'infraspecies'));
-            $this->_setParam('key', trim(implode(
-                ' ',
-                array(
-                    $this->_getParam('genus'),
-                    $this->_getParam('species'),
-                    $this->_getParam('infraspecies')
-                )
-            )));
-            $this->_renderResultsPage();
+            $this->_setSessionFromParams($form->getInputElements());
+            $key = '';
+            foreach($form->getInputElements() as $el) {
+                $key .= ' ' . $this->_getParam($el);
+            }
+            $this->_setParam('key', trim($key));
+            $this->_renderResultsPage($form->getInputElements());
         } else {
-            $this->_setParam('genus', $sn->get('genus'));
-            $this->_setParam('species', $sn->get('species'));
-            $this->_setParam('infraspecies', $sn->get('infraspecies'));
+            $this->_setParamsFromSession($form->getInputElements());
             $this->view->dojo()
                  ->registerModulePath(
                     'ACI', $this->view->baseUrl() . '/scripts/library/ACI'
@@ -78,10 +73,10 @@ class SearchController extends AController
         $sn = $this->getHelper('SessionHandler');
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
-            $sn->setFromParam(array('key'));
-            $this->_renderResultsPage();
+            $this->_setSessionFromParams($form->getInputElements());
+            $this->_renderResultsPage($form->getInputElements());
         } else {
-            $this->_setParam('key', $sn->get('key'));
+            $this->_setParamsFromSession($form->getInputElements());
             $this->_renderFormPage($this->view->title, $form);
         }
     }
@@ -100,10 +95,10 @@ class SearchController extends AController
         $sn = $this->getHelper('SessionHandler');
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
-            $sn->setFromParam(array('key'));
-            $this->_renderResultsPage();
+            $this->_setSessionFromParams($form->getInputElements());
+            $this->_renderResultsPage($form->getInputElements());
         } else {
-            $this->_setParam('key', $sn->get('key'));
+            $this->_setParamsFromSession($form->getInputElements());
             $this->_renderFormPage($formHeader, $form);
         }
     }
@@ -111,34 +106,26 @@ class SearchController extends AController
     protected function _renderFormPage($formHeader, $form)
     {
         $this->view->formHeader = $formHeader;
-        $key = $form->getElement('key');
-        if ($key) {
-            $key->setValue($this->_getParam('key', ''));
-        }
-        $genus = $form->getElement('genus');
-        if ($genus) {
-            $genus->setValue($this->_getParam('genus', ''));
-        }
-        $species = $form->getElement('species');
-        if ($species) {
-            $species->setValue($this->_getParam('species', ''));
-        }
-        $infraspecies = $form->getElement('infraspecies');
-        if ($infraspecies) {
-            $infraspecies->setValue($this->_getParam('infraspecies', ''));
+        $elements = $form->getInputElements();
+        // Set form input values from request params
+        foreach($elements as $el) {
+            $field = $form->getElement($el);
+            if($field) {
+                $field->setValue($this->_getParam($el));
+            }
         }
         $this->view->contentClass = 'search-box';
         $this->view->form = $form;
         $this->renderScript('search/form.phtml');
     }
     
-    protected function _renderResultsPage()
+    protected function _renderResultsPage(array $elements)
     {
         $items = (int)$this->_getParam(
             'items',
             ACI_Model_Search::ITEMS_PER_PAGE
         );
-        
+
         $this->view->urlParams = array(
             'key' => $this->_getParam('key'),
             'match' => $this->_getParam('match'),
@@ -158,16 +145,19 @@ class SearchController extends AController
         $this->_logger->debug($this->view->paginator->getCurrentItems());
         $this->view->data = $this->_createTableFromResults();
         
+        $this->_logger->debug($elements);
+        
         // Build items per page form
         $form = new ACI_Form_Dojo_ItemsPerPage();
-
-        $form->getElement('key')->setValue($this->_getParam('key'));
-        $form->getElement('match')->setValue($this->_getParam('match'));
+        // Dynamically set hidden fields
+        foreach($elements as $el) {
+            $form->addElement(
+                $form->createElement('hidden', $el)
+                     ->setValue($this->_getParam($el))
+            );
+        }
         $form->getElement('items')->setValue($items);
-        
-        $form->setAction(
-            $this->view->baseUrl() . '/search/' . $this->_getParam('action')
-        );
+        $form->setAction($this->getHelper('FormLoader')->getAction());
         
         $this->view->search = $this->_getParam('search');
         $this->view->form = $form;
@@ -246,7 +236,7 @@ class SearchController extends AController
                 '/details/database/id/' . $row['db_id'];
             if(isset($row['distribution']))
             {
-                $resultTable[$i]['distribution'] = $row['distribution'];	
+                $resultTable[$i]['distribution'] = $row['distribution'];
             }
             $i++;
         }
@@ -382,6 +372,7 @@ class SearchController extends AController
     
     public function __call($name, $arguments)
     {
+        $this->_logger->debug("$name");
         $this->_forward('all');
     }
 }

@@ -45,10 +45,7 @@ class ACI_Form_Dojo_ItemsPerPage extends Zend_Dojo_Form
             )
         )->setLabel('Update');
        
-        $this->addElement($items)
-             ->addElement($this->createElement('hidden', 'key'))
-             ->addElement($this->createElement('hidden', 'match'))
-             ->addElement($submit);
+        $this->addElement($items)->addElement($submit);
              
         $this->addDisplayGroup(array('items', 'update'), 'itemsGroup');
         

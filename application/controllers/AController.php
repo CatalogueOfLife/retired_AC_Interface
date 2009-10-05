@@ -37,4 +37,17 @@ abstract class AController extends Zend_Controller_Action
         return $this->getHelper('TextDecorator')
             ->highlightMatch($haystack, $needle);
     }
+    
+    protected function _setSessionFromParams(array $values)
+    {
+        foreach($values as $v) {
+            $this->getHelper('SessionHandler')->set($v, $this->_getParam($v));
+        }
+    }
+    protected function _setParamsFromSession(array $values)
+    {
+        foreach($values as $v) {
+            $this->_setParam($v, $this->getHelper('SessionHandler')->get($v));
+        }
+    }
 }

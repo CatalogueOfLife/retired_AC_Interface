@@ -50,6 +50,11 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
         );
     }
     
+    public function getInputElements()
+    {
+        return array('key', 'match');
+    }
+    
     public function render(Zend_View_Interface $view = null)
     {
         if (null === $view) {

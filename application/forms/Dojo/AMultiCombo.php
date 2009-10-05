@@ -84,6 +84,11 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
         );
     }
     
+    public function getInputElements()
+    {
+        return array_keys($this->_combos);
+    }
+    
     /**
      * Validates the form, making input mandatory in at least one of the
      * combo boxes

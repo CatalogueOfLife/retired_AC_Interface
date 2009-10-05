@@ -20,6 +20,8 @@ class ACI_Helper_SessionHandler extends Zend_Controller_Action_Helper_Abstract
         $this->_session = new Zend_Session_Namespace();
         $this->_controller = $this->getRequest()->getControllerName();
         $this->_action = $this->getRequest()->getActionName();
+        Zend_Registry::get('logger')
+            ->debug("SESS Obj: " . var_export($this->getIterator(), true));
     }
     public function set($property, $value)
     {
@@ -28,12 +30,6 @@ class ACI_Helper_SessionHandler extends Zend_Controller_Action_Helper_Abstract
         Zend_Registry::get('logger')
             ->debug("SESS: Setting $property to $value");
         $this->_session->$property = $value;
-    }
-    public function setFromParam(array $values)
-    {
-        foreach($values as $v) {
-            $this->set($v, $this->getRequest()->getParam($v));
-        }
     }
     public function get($property)
     {
@@ -55,5 +51,9 @@ class ACI_Helper_SessionHandler extends Zend_Controller_Action_Helper_Abstract
     protected function _addContext(&$property)
     {
         $property = $this->_controller . '_' . $this->_action . '_' . $property;
+    }
+    public function getIterator()
+    {
+        return $this->_session->getIterator();
     }
 }

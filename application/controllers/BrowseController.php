@@ -53,12 +53,13 @@ class BrowseController extends AController
             ->translate('Taxonomic_classification');
         $this->view->headTitle($this->view->title, 'APPEND');
         
+        $this->view->dojo()
+             ->registerModulePath(
+                'ACI', $this->view->baseUrl() . '/scripts/library/ACI'
+             )->requireModule('ACI.dojo.TxReadStore');
         // ComboBox (v1.3.2) custom extension
         $this->view->headScript()->appendFile(
-            $this->view->baseUrl() . '/scripts/library/ACI.dojo.js'
-        );
-        $this->view->headScript()->appendFile(
-            $this->view->baseUrl() . '/scripts/library/ComboBox.ext.js'
+            $this->view->baseUrl() . '/scripts/ComboBox.ext.js'
         );
         $this->view->contentClass = 'search-box';
         $this->view->formHeader =
