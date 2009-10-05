@@ -110,10 +110,6 @@ class SearchController extends AController
             $key->setValue($this->_getParam('key', ''));
         }
         $this->view->contentClass = 'search-box';
-        $form->setAction(
-            $this->view->baseUrl() . '/' . $this->view->controller . '/' .
-            $this->view->action
-        );
         $this->view->form = $form;
         $this->renderScript('search/form.phtml');
     }

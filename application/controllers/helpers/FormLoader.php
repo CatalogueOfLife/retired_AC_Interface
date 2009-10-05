@@ -1,4 +1,15 @@
 <?php
+/**
+ * Annual Checklist Interface
+ *
+ * Class ACI_Helper_FormLoader
+ * Form loader helper
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  helpers
+ *
+ */
 class ACI_Helper_FormLoader extends Zend_Controller_Action_Helper_Abstract
 {
     protected $_controller;
@@ -14,21 +25,30 @@ class ACI_Helper_FormLoader extends Zend_Controller_Action_Helper_Abstract
     {
         switch($this->_controller) {
             case 'browse':
-                return new ACI_Form_Dojo_BrowseClassification();
+                $form = new ACI_Form_Dojo_BrowseClassification();
                 break;
             case 'search':
                 switch($this->_action) {
                     case 'scientific':
-                        return new ACI_Form_Dojo_SearchScientific();
+                        $form = new ACI_Form_Dojo_SearchScientific();
                         break;
                     case 'all':
                     case 'common':
                     case 'distribution':
-                        return new ACI_Form_Dojo_Search();
+                        $form = new ACI_Form_Dojo_Search();
                         break;
                 }
                 break;
         }
-        return null;
+        if(!$form instanceof Zend_Form) {
+            return null;
+        }
+        return $form->setAction($this->getAction());
+    }
+    
+    public function getAction()
+    {
+        return $this->getFrontController()->getBaseUrl() . '/' .
+            $this->_controller . '/' . $this->_action;
     }
 }
