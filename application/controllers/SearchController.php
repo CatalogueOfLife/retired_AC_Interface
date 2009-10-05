@@ -21,10 +21,10 @@ class SearchController extends AController
         $sn = $this->getHelper('SessionHandler');
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
-            $this->_setSessionFromParams(array($form->getInputElements()));
+            $this->_setSessionFromParams($form->getInputElements());
             $this->_renderResultsPage($form->getInputElements());
         } else {
-            $this->_setParamsFromSession(array($form->getInputElements()));
+            $this->_setParamsFromSession($form->getInputElements());
             $this->_renderFormPage($this->view->title, $form);
         }
     }
