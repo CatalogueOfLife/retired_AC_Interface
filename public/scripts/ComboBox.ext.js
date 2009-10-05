@@ -13,9 +13,29 @@ dojo.extend(dijit.form.ComboBox, {
 		}
 	}
 });
-updateParams = function(val) {
-    var key = '{"genus":"' + dojo.byId('genus').value + '",' +
-                 '"species":"' + dojo.byId('species').value + '",' +
-                 '"infraspecies":"' + dojo.byId('infraspecies').value + '"}';
-    dojo.byId('key').value = key;
+dojo.addOnLoad(function() {
+    updateKey(null); 
+});
+var formInputElements = null;
+getFormInputElements = function () {
+    if(formInputElements == null) {
+        formInputElements = dojo.query('form .dijitInputField input');
+    }
+    return formInputElements;
+}
+updateKey = function(val) {
+    var elements = getFormInputElements();    
+    var key = new Object;    
+    for(var i = 0; i < elements.length; i++) {
+        key[elements[i].id] = elements[i].value;
+    }
+    dojo.byId('key').value = dojo.toJson(key);
+}
+clearForm = function() {
+    var elements = getFormInputElements();
+    dojo.forEach(elements,
+        function(inputEl, index, array) {
+            inputEl.value = '';
+        }
+    );
 }

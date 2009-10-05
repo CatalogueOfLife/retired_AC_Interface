@@ -29,6 +29,12 @@ class ACI_Helper_SessionHandler extends Zend_Controller_Action_Helper_Abstract
             ->debug("SESS: Setting $property to $value");
         $this->_session->$property = $value;
     }
+    public function setFromParam(array $values)
+    {
+        foreach($values as $v) {
+            $this->set($v, $this->getRequest()->getParam($v));
+        }
+    }
     public function get($property)
     {
         $this->_addContext($property);

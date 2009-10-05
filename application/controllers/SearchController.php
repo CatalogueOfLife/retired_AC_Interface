@@ -36,17 +36,23 @@ class SearchController extends AController
             $this->view->layout()->disableLayout();
             exit($this->_fetchTaxaByRank($fetch));
         }
+        
         $this->view->title = $this->view->translate('Search_scientific_names');
         $this->view->headTitle($this->view->title, 'APPEND');
         
         $form = $this->_getSearchForm();
         $sn = $this->getHelper('SessionHandler');
-        
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
-            $sn->set('genus', $this->_getParam('genus'));
-            $sn->set('species', $this->_getParam('species'));
-            $sn->set('infraspecies', $this->_getParam('infraspecies'));
+            $sn->setFromParam(array('genus', 'species', 'infraspecies'));
+            $this->_setParam('key', trim(implode(
+                ' ',
+                array(
+                    $this->_getParam('genus'),
+                    $this->_getParam('species'),
+                    $this->_getParam('infraspecies')
+                )
+            )));
             $this->_renderResultsPage();
         } else {
             $this->_setParam('genus', $sn->get('genus'));
@@ -72,7 +78,7 @@ class SearchController extends AController
         $sn = $this->getHelper('SessionHandler');
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
-            $sn->set('key', $this->_getParam('key'));
+            $sn->setFromParam(array('key'));
             $this->_renderResultsPage();
         } else {
             $this->_setParam('key', $sn->get('key'));
@@ -94,7 +100,7 @@ class SearchController extends AController
         $sn = $this->getHelper('SessionHandler');
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
-            $sn->set('key', $this->_getParam('key'));
+            $sn->setFromParam(array('key'));
             $this->_renderResultsPage();
         } else {
             $this->_setParam('key', $sn->get('key'));
@@ -108,6 +114,18 @@ class SearchController extends AController
         $key = $form->getElement('key');
         if ($key) {
             $key->setValue($this->_getParam('key', ''));
+        }
+        $genus = $form->getElement('genus');
+        if ($genus) {
+            $genus->setValue($this->_getParam('genus', ''));
+        }
+        $species = $form->getElement('species');
+        if ($species) {
+            $species->setValue($this->_getParam('species', ''));
+        }
+        $infraspecies = $form->getElement('infraspecies');
+        if ($infraspecies) {
+            $infraspecies->setValue($this->_getParam('infraspecies', ''));
         }
         $this->view->contentClass = 'search-box';
         $this->view->form = $form;
@@ -294,10 +312,12 @@ class SearchController extends AController
                 );
                 break;
             case 'scientific':
-                $key =
-                    Zend_Json::decode(stripslashes($this->_getParam('key')));
                 $query = $select->scientificNames(
-                    $key, $this->_getParam('sort')
+                    array(
+                        'genus' => $this->_getParam('genus'),
+                        'species' => $this->_getParam('species'),
+                        'infraspecies' => $this->_getParam('infraspecies')
+                    ), $this->_getParam('sort')
                 );
                 break;
             case 'distribution':
@@ -328,6 +348,7 @@ class SearchController extends AController
         $params = $this->_filterParams(
             Zend_Json::decode(stripslashes($this->_getParam('p'))), $rank
         );
+        $this->_logger->debug($params);
         $substr = trim(str_replace('*', '', $this->_getParam('q')));
         $this->_logger->debug($substr);
         $search = new ACI_Model_Search($this->_db);

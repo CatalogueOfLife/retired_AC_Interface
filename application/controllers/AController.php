@@ -31,6 +31,9 @@ abstract class AController extends Zend_Controller_Action
     
     protected function _highlightMatch($haystack, $needle)
     {
+        if(trim($needle) == '') {
+            return $haystack;
+        }
         return $this->getHelper('TextDecorator')
             ->highlightMatch($haystack, $needle);
     }

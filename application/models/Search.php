@@ -504,7 +504,8 @@ class ACI_Model_Search extends AModel
     protected function _getTaxaNameFilteredQuery($rank, $qStr, $str, array $key)
     {
         $select = new Zend_Db_Select($this->_db);
-        $select->from(array('scientific_names'), array('name' => $rank))
+        $select->distinct()
+               ->from(array('scientific_names'), array('name' => $rank))
                ->where($rank . ' LIKE "' . $qStr . '"');
         foreach($key as $p => $v) {
             $select->where($p . ' = ?', $v);

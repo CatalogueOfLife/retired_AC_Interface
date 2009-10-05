@@ -38,7 +38,7 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
                         'queryExpr' => '*${0}*',
                         'searchAttr' => 'name',
                         'searchDelay' => 500,
-                        'onChange' => 'updateParams'
+                        'onChange' => 'updateKey'
                     ),
                     'style' => 'width: 300px'
                 )
@@ -61,11 +61,17 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
         
         $translator = Zend_Registry::get('Zend_Translate');
         
+        $clear = new Zend_Form_Element_Button('clear');
+        $clear
+            ->setOptions(array('onclick' => 'clearForm()'))
+            ->setLabel('Clear_form');
+        
         $submit = $this->createElement('submit', 'search')
             ->setLabel($translator->translate('Search') . ' >>');
         
+        $this->addElement($clear);
         $this->addElement($submit);
-        $this->addDisplayGroup(array('search'), 'submitGroup');
+        $this->addDisplayGroup(array('clear', 'search'), 'submitGroup');
         
         $this->setDecorators(
             array(
@@ -76,5 +82,23 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
                     'Form'
             )
         );
+    }
+    
+    /**
+     * Validates the form, making input mandatory in at least one of the
+     * combo boxes
+     * @see library/Zend/Zend_Form#isValid($data)
+     * @param array $value
+     * @return boolean
+     */
+    public function isValid($data)
+    {
+        $empty = true;
+        foreach(array_keys($this->_combos) as $comboId) {
+            if(strlen(trim($data[$comboId])) > 0) {
+                $empty = false;
+            }
+        }
+        return !$empty;
     }
 }
