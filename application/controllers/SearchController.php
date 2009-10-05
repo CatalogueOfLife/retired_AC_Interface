@@ -196,9 +196,7 @@ class SearchController extends AController
                 $resultTable[$i]['link'] =
                     $this->view->translate('Show_details');
                 $resultTable[$i]['url'] =
-                    '/details/species/id/' . $row['accepted_species_id'] .
-                    '/search/' . $this->view->action .
-                    '/key/' . $this->_getParam('key');
+                    '/details/species/id/' . $row['accepted_species_id'];
                 if (!$row['is_accepted_name']) {
                     if ($row['status'] == ACI_Model_Table_Taxa::STATUS_COMMON_NAME) {
                         $resultTable[$i]['url'] .= '/common/' . $row['taxa_id'];
@@ -245,9 +243,11 @@ class SearchController extends AController
                 $row['db_thumb'];
             $resultTable[$i]['dbLabel'] = $row['db_name'];
             $resultTable[$i]['dbUrl'] =
-                '/details/database/id/' . $row['db_id'] .
-                '/search/' . $this->view->action .
-                '/key/' . $this->_getParam('key');
+                '/details/database/id/' . $row['db_id'];
+            if(isset($row['distribution']))
+            {
+                $resultTable[$i]['distribution'] = $row['distribution'];	
+            }
             $i++;
         }
         return $resultTable;
