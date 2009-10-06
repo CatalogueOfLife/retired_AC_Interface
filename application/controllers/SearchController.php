@@ -35,17 +35,23 @@ class SearchController extends AController
             $this->view->layout()->disableLayout();
             exit($this->_fetchTaxaByRank($fetch));
         }
-        
         $this->view->title = $this->view->translate('Search_scientific_names');
         $this->view->headTitle($this->view->title, 'APPEND');
         
+        $params = $this->_decodeKey($this->_getParam('key'));
+            foreach ($params as $k => $v) {
+                if (!($this->_getParam($k, false))) {
+                    $this->_setParam($k, $v);
+            }
+        }
+        
         $form = $this->_getSearchForm();
-        if ($this->_hasParam('genus') && $this->_getParam('submit', 1) &&
+        if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
             $this->_setSessionFromParams($form->getInputElements());
             $str = '';
-            foreach($form->getInputElements() as $el) {
-                if($el != 'match') {
+            foreach ($form->getInputElements() as $el) {
+                if ($el != 'match') {
                     $str .= ' ' . $this->_getParam($el);
                 }
             }
@@ -120,7 +126,7 @@ class SearchController extends AController
         $this->renderScript('search/form.phtml');
     }
     
-    protected function _renderResultsPage(array $elements)
+    protected function _renderResultsPage(array $elements = array())
     {
         $items = $this->_getItemsPerPage();
         
@@ -129,6 +135,7 @@ class SearchController extends AController
         }
         $this->view->urlParams = array(
             'key' => $this->_getParam('key'),
+            'match' => $this->_getParam('match'),
             'sort' => $this->_getParam('sort', 'name')
         );
         $paginator = $this->_getPaginator(
@@ -143,7 +150,9 @@ class SearchController extends AController
         $this->view->paginator = $paginator;
         $this->view->sort = $this->_getParam('sort', 'name');
         $this->view->form = $this->getHelper('FormLoader')
-            ->getItemsForm($elements, $items);
+            ->getItemsForm(
+                array_merge(array('key'), $elements), $items
+            );
         
         // Results table differs depending on the action
         $this->view->results = $this->view->render(
@@ -241,7 +250,7 @@ class SearchController extends AController
     protected function _fetchTaxaByRank($rank)
     {
         $params = $this->_filterParams(
-            Zend_Json::decode(stripslashes($this->_getParam('p'))), $rank
+            $this->_decodeKey($this->_getParam('p')), $rank
         );
         $substr = trim(str_replace('*', '', $this->_getParam('q')));
         $this->_logger->debug($substr);
@@ -272,6 +281,15 @@ class SearchController extends AController
             }
         }
         return $params;
+    }
+    
+    protected function _decodeKey($key)
+    {
+        $res = Zend_Json::decode(stripslashes($key));
+        if(!is_array($res)) {
+            return array();
+        }
+        return $res;
     }
     
     public function __call($name, $arguments)

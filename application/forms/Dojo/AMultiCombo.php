@@ -107,7 +107,7 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
     {
         $empty = true;
         foreach(array_keys($this->_combos) as $comboId) {
-            if(strlen(trim($data[$comboId])) > 0) {
+            if(isset($data[$comboId]) && strlen(trim($data[$comboId])) > 0) {
                 $empty = false;
             }
         }
