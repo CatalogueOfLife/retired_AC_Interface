@@ -59,6 +59,10 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
                           array_fill_keys(array_keys($this->_combos), '')
         )));
         
+        $match = $this->createElement('CheckBox', 'match')->setValue(1)
+            ->setLabel('Match_whole_words_only');
+        $match->getDecorator('label')->setOption('placement', 'append');
+        
         $translator = Zend_Registry::get('Zend_Translate');
         
         $clear = new Zend_Form_Element_Button('clear');
@@ -69,8 +73,11 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
         $submit = $this->createElement('submit', 'search')
             ->setLabel($translator->translate('Search') . ' >>');
         
-        $this->addElement($clear);
-        $this->addElement($submit);
+        $this->addElement($match)
+             ->addElement($clear)
+             ->addElement($submit);
+        
+        $this->addDisplayGroup(array('match'), 'matchGroup');
         $this->addDisplayGroup(array('clear', 'search'), 'submitGroup');
         
         $this->setDecorators(
@@ -86,7 +93,7 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
     
     public function getInputElements()
     {
-        return array_keys($this->_combos);
+        return array_merge(array('match'), array_keys($this->_combos));
     }
     
     /**
