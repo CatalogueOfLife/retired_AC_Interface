@@ -236,7 +236,9 @@ class SearchController extends AController
                 '/details/database/id/' . $row['db_id'];
             if(isset($row['distribution']))
             {
-                $resultTable[$i]['distribution'] = $row['distribution'];
+                $resultTable[$i]['distribution'] = $this->_highlightMatch(
+                    $row['distribution'], $this->_getParam('key')
+                );	
             }
             $i++;
         }
