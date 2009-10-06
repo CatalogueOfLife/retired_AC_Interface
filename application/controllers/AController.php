@@ -44,10 +44,14 @@ abstract class AController extends Zend_Controller_Action
             $this->getHelper('SessionHandler')->set($v, $this->_getParam($v));
         }
     }
-    protected function _setParamsFromSession(array $values)
+    protected function _setParamsFromSession(array $params)
     {
-        foreach($values as $v) {
-            $this->_setParam($v, $this->getHelper('SessionHandler')->get($v));
+        foreach($params as $p) {
+            $v = $this->getHelper('SessionHandler')->get($p);
+            if($v !== null) {
+                $this->_logger->debug("Setting $p to $v from session");
+                $this->_setParam($p, $v);
+            }
         }
     }
 }

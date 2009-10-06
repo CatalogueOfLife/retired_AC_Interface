@@ -18,7 +18,6 @@ class SearchController extends AController
         $this->view->title = $this->view->translate('Search_common_names');
         $this->view->headTitle($this->view->title, 'APPEND');
         $form = $this->_getSearchForm();
-        $sn = $this->getHelper('SessionHandler');
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
             $this->_setSessionFromParams($form->getInputElements());
@@ -41,13 +40,14 @@ class SearchController extends AController
         $this->view->headTitle($this->view->title, 'APPEND');
         
         $form = $this->_getSearchForm();
-        $sn = $this->getHelper('SessionHandler');
         if ($this->_hasParam('genus') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
             $this->_setSessionFromParams($form->getInputElements());
             $key = '';
             foreach($form->getInputElements() as $el) {
-                $key .= ' ' . $this->_getParam($el);
+                if($el != 'match') {
+                    $key .= ' ' . $this->_getParam($el);
+                }
             }
             $this->_setParam('key', trim($key));
             $this->_renderResultsPage($form->getInputElements());
@@ -70,7 +70,6 @@ class SearchController extends AController
         $this->view->title = $this->view->translate('Search_distribution');
         $this->view->headTitle($this->view->title, 'APPEND');
         $form = $this->_getSearchForm();
-        $sn = $this->getHelper('SessionHandler');
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
             $this->_setSessionFromParams($form->getInputElements());
@@ -92,7 +91,6 @@ class SearchController extends AController
                 $this->view->translate('Annual_Checklist') . '</span>'
             );
         $form = $this->_getSearchForm();
-        $sn = $this->getHelper('SessionHandler');
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
             $this->_setSessionFromParams($form->getInputElements());
@@ -111,7 +109,10 @@ class SearchController extends AController
         foreach($elements as $el) {
             $field = $form->getElement($el);
             if($field) {
-                $field->setValue($this->_getParam($el));
+                $v = $this->_getparam($el, null);
+                if($v !== null) {
+                    $field->setValue($this->_getParam($el));
+                }
             }
         }
         $this->view->contentClass = 'search-box';
@@ -133,19 +134,16 @@ class SearchController extends AController
             'sort' => $this->_getParam('sort', 'name')
         );
         
-        // Get the paginator
-        $this->view->paginator = $this->_getPaginator(
+        $paginator = $this->_getPaginator(
             $this->_getSearchQuery($this->_getParam('action')),
             $this->_getParam('page', 1),
             $items
         );
         
-        $this->view->paginator->urlParams = $this->view->urlParams;
-        
-        $this->_logger->debug($this->view->paginator->getCurrentItems());
-        $this->view->data = $this->_createTableFromResults();
-        
-        $this->_logger->debug($elements);
+        $this->_logger->debug($paginator->getCurrentItems());
+        $this->view->data =
+            $this->getHelper('DataFormatter')->getDataFromPaginator($paginator);
+        $this->view->paginator = $paginator;
         
         // Build items per page form
         $form = new ACI_Form_Dojo_ItemsPerPage();
@@ -159,7 +157,8 @@ class SearchController extends AController
         $form->getElement('items')->setValue($items);
         $form->setAction($this->getHelper('FormLoader')->getAction());
         
-        $this->view->search = $this->_getParam('search');
+        $this->view->sort = $this->_getParam('sort', 'name');
+        //$this->view->search = $this->_getParam('search');
         $this->view->form = $form;
         
         // Results table differs depending on the action
@@ -169,102 +168,6 @@ class SearchController extends AController
         
         // Render the results layout
         $this->renderScript('search/results/layout.phtml');
-    }
-    
-    /**
-     * Builds the result table
-     *
-     * @return $resultTable
-     */
-    protected function _createTableFromResults()
-    {
-        $resultTable = array();
-        $i = 0;
-        
-        foreach ($this->view->paginator as $row) {
-            if ($row['rank'] >= ACI_Model_Table_Taxa::RANK_SPECIES) {
-                $resultTable[$i]['link'] =
-                    $this->view->translate('Show_details');
-                $resultTable[$i]['url'] =
-                    '/details/species/id/' . $row['accepted_species_id'];
-                if (!$row['is_accepted_name']) {
-                    if ($row['status'] == ACI_Model_Table_Taxa::STATUS_COMMON_NAME) {
-                        $resultTable[$i]['url'] .= '/common/' . $row['taxa_id'];
-                    } else {
-                        $resultTable[$i]['url'] .= '/taxa/' . $row['taxa_id'];
-                    }
-                }
-            } else {
-                $resultTable[$i]['link'] = $this->view->translate('Show_tree');
-                $resultTable[$i]['url'] = '/browse/tree/id/' . $row['taxa_id'];
-            }
-            $resultTable[$i]['name'] = $this->_getSuffix(
-                $this->_getSpanTaxonomicName(
-                    $this->_highlightMatch(
-                        $row['name'], $this->_getParam('key')
-                    ),
-                    $row['status'],
-                    $row['rank']
-                ),
-                $row['status'],
-                $row['status'] == ACI_Model_Table_Taxa::STATUS_COMMON_NAME ?
-                $row['language'] : $row['author']
-            );
-            $resultTable[$i]['rank'] = $this->view->translate(
-                ACI_Model_Table_Taxa::getRankString($row['rank'])
-            );
-            
-            $resultTable[$i]['status'] = $this->view->translate(
-                ACI_Model_Table_Taxa::getStatusString($row['status'])
-            );
-            
-            $resultTable[$i]['group'] = $row['kingdom'];
-            
-            if (!$row['is_accepted_name']) {
-                $resultTable[$i]['status'] = sprintf(
-                    $resultTable[$i]['status'],
-                    '<span class="taxonomicName">' .
-                    $row['accepted_species_name'] . '</span> ' .
-                    $row['accepted_species_author']
-                );
-            }
-            
-            $resultTable[$i]['dbLogo'] = '/images/databases/' .
-                $row['db_thumb'];
-            $resultTable[$i]['dbLabel'] = $row['db_name'];
-            $resultTable[$i]['dbUrl'] =
-                '/details/database/id/' . $row['db_id'];
-            if(isset($row['distribution']))
-            {
-                $resultTable[$i]['distribution'] = $this->_highlightMatch(
-                    $row['distribution'], $this->_getParam('key')
-                );	
-            }
-            $i++;
-        }
-        return $resultTable;
-    }
-    
-    protected function _getSuffix($source, $status, $suffix)
-    {
-        switch($status && $suffix != "") {
-            case ACI_Model_Table_Taxa::STATUS_COMMON_NAME:
-                $source .= ' (' . $suffix . ')';
-                break;
-            default:
-                $source .= '  ' . $suffix;
-                break;
-        }
-        return $source;
-    }
-
-    protected function _getSpanTaxonomicName($source, $status, $rank)
-    {
-        if ($status != ACI_Model_Table_Taxa::STATUS_COMMON_NAME &&
-            $rank >= ACI_Model_Table_Taxa::RANK_SPECIES) {
-            $source = '<span class="taxonomicName">' . $source . '</span>';
-        }
-        return $source;
     }
     
     /**
@@ -281,7 +184,6 @@ class SearchController extends AController
         $this->_logger->debug($query);
         $paginator = new Zend_Paginator(
             new Zend_Paginator_Adapter_DbSelect($query));
-                
         $paginator->setItemCountPerPage((int)$items);
         $paginator->setCurrentPageNumber((int)$page);
         return $paginator;
