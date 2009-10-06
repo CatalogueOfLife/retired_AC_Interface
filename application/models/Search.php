@@ -219,27 +219,7 @@ class ACI_Model_Search extends AModel
             array(
                 'id' => 'sn.record_id',
                 'taxa_id' => 'tx.record_id',
-                'rank' => new Zend_Db_Expr(
-                    'CASE tx.taxon ' .
-                    'WHEN "Kingdom" THEN ' .
-                        ACI_Model_Table_Taxa::RANK_KINGDOM . ' ' .
-                    'WHEN "Phylum" THEN ' .
-                        ACI_Model_Table_Taxa::RANK_PHYLUM . ' ' .
-                    'WHEN "Class" THEN ' .
-                        ACI_Model_Table_Taxa::RANK_CLASS . ' ' .
-                    'WHEN "Order" THEN ' .
-                        ACI_Model_Table_Taxa::RANK_ORDER . ' ' .
-                    'WHEN "Supefamily" THEN ' .
-                        ACI_Model_Table_Taxa::RANK_SUPERFAMILY . ' ' .
-                    'WHEN "Family" THEN ' .
-                        ACI_Model_Table_Taxa::RANK_FAMILY . ' ' .
-                    'WHEN "Genus" THEN ' .
-                        ACI_Model_Table_Taxa::RANK_GENUS . ' ' .
-                    'WHEN "Species" THEN ' .
-                        ACI_Model_Table_Taxa::RANK_SPECIES . ' ' .
-                    'WHEN "Infraspecies" THEN ' .
-                        ACI_Model_Table_Taxa::RANK_INFRASPECIES . ' ' .
-                    'END'),
+                'rank' => $this->_getRankDefinition(),
                 'tx.name',
                 'tx.name_code',
                 'tx.is_accepted_name',
@@ -260,6 +240,32 @@ class ACI_Model_Search extends AModel
             );
             
         return $fields;
+    }
+    
+    protected function _getRankDefinition()
+    {
+        return new Zend_Db_Expr(
+            'CASE tx.taxon ' .
+            'WHEN "Kingdom" THEN ' .
+                ACI_Model_Table_Taxa::RANK_KINGDOM . ' ' .
+            'WHEN "Phylum" THEN ' .
+                ACI_Model_Table_Taxa::RANK_PHYLUM . ' ' .
+            'WHEN "Class" THEN ' .
+                ACI_Model_Table_Taxa::RANK_CLASS . ' ' .
+            'WHEN "Order" THEN ' .
+                ACI_Model_Table_Taxa::RANK_ORDER . ' ' .
+            'WHEN "Supefamily" THEN ' .
+                ACI_Model_Table_Taxa::RANK_SUPERFAMILY . ' ' .
+            'WHEN "Family" THEN ' .
+                ACI_Model_Table_Taxa::RANK_FAMILY . ' ' .
+            'WHEN "Genus" THEN ' .
+                ACI_Model_Table_Taxa::RANK_GENUS . ' ' .
+            'WHEN "Species" THEN ' .
+                ACI_Model_Table_Taxa::RANK_SPECIES . ' ' .
+            'WHEN "Infraspecies" THEN ' .
+                ACI_Model_Table_Taxa::RANK_INFRASPECIES . ' ' .
+            'END'
+        );
     }
     
     /**
@@ -417,13 +423,7 @@ class ACI_Model_Search extends AModel
     {
         $select = new Zend_Db_Select($this->_db);
         
-        $select->from(
-                array(
-                    'sn' => 'scientific_names'
-                ),
-                $this->_getFields()
-            )
-        ->where('tx.is_species_or_nonsynonymic_higher_taxon = 1');
+        $select->from(array('sn' => 'scientific_names'), $this->_getFields());
             
         foreach($key as $rank => $name) {
             if(trim($name) != '') {
