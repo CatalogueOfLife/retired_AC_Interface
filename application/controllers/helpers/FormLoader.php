@@ -57,6 +57,7 @@ class ACI_Helper_FormLoader extends Zend_Controller_Action_Helper_Abstract
                      ->setValue($this->getRequest()->getParam($field))
             );
         }
+        $form->addDisplayGroup($hiddenFields, 'hidden');
         $form->getElement('items')->setValue($items);
         $form->setAction($this->getAction());
         return $form;

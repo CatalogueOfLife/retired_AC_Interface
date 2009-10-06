@@ -24,11 +24,13 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
         $key->setLabel($translator->translate('Search_for') . ':')
             ->addValidator('stringLength', false, array(2))
             ->setRequired(true)
-            ->addErrorMessage($translator->translate('Error_key_too_short'));
+            ->addErrorMessage('');
         
         $match = $this->createElement('CheckBox', 'match')->setValue(1)
             ->setLabel('Match_whole_words_only');
         $match->getDecorator('label')->setOption('placement', 'append');
+        
+        $this->addErrorMessage($translator->translate('Error_key_too_short'));
         
         $submit = $this->createElement('submit', 'search')
             ->setLabel($translator->translate('Search') . ' >>');
@@ -65,5 +67,13 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
             $loader->removePrefixPath('Zend_Dojo_View_Helper');
         }
         return parent::render($view);
+    }
+    
+    public function getErrorMessage()
+    {
+        $em = $this->getErrorMessages();
+        return $em ?
+            Zend_Registry::get('Zend_Translate')->translate(current($em)) :
+            null;
     }
 }

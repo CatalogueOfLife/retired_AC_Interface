@@ -30,6 +30,7 @@ class SearchController extends AController
     
     public function scientificAction()
     {
+        // Search hint query request
         $fetch = $this->_getParam('fetch', false);
         if ($fetch) {
             $this->view->layout()->disableLayout();
@@ -37,17 +38,17 @@ class SearchController extends AController
         }
         $this->view->title = $this->view->translate('Search_scientific_names');
         $this->view->headTitle($this->view->title, 'APPEND');
-        
         $params = $this->_decodeKey($this->_getParam('key'));
             foreach ($params as $k => $v) {
                 if (!($this->_getParam($k, false))) {
                     $this->_setParam($k, $v);
             }
         }
-        
         $form = $this->_getSearchForm();
+        $formIsValid = $form->isValid($this->_getAllParams());
+        $this->_logger->debug($form);
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
-            $form->isValid($this->_getAllParams())) {
+            $formIsValid) {
             $this->_setSessionFromParams($form->getInputElements());
             $str = '';
             foreach ($form->getInputElements() as $el) {
@@ -57,7 +58,12 @@ class SearchController extends AController
             }
             $this->view->searchString = trim($str);
             $this->_renderResultsPage($form->getInputElements());
+        // Form page
         } else {
+            if(!$formIsValid && $this->_hasParam('key')) {
+                $this->view->formError = true;
+                $this->_setSessionFromParams($form->getInputElements());
+            }
             $this->_setParamsFromSession($form->getInputElements());
             $this->view->dojo()
                  ->registerModulePath(

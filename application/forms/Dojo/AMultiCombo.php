@@ -80,6 +80,8 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
         $this->addDisplayGroup(array('match'), 'matchGroup');
         $this->addDisplayGroup(array('clear', 'search'), 'submitGroup');
         
+        $this->addErrorMessage($translator->translate('Error_empty_key'));
+        
         $this->setDecorators(
             array(
                 'FormElements',
@@ -105,12 +107,25 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
      */
     public function isValid($data)
     {
+        // Form not submited
+        if(!isset($data['key'])) {
+            return true;
+        }
         $empty = true;
         foreach(array_keys($this->_combos) as $comboId) {
             if(isset($data[$comboId]) && strlen(trim($data[$comboId])) > 0) {
                 $empty = false;
             }
         }
+        $this->_errorsExist = $empty;
         return !$empty;
+    }
+    
+    public function getErrorMessage()
+    {
+        $em = $this->getErrorMessages();
+        return $em ?
+            Zend_Registry::get('Zend_Translate')->translate(current($em)) :
+            null;
     }
 }

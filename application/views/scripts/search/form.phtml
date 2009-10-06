@@ -2,5 +2,10 @@
 <?php echo $this->formHeader; ?>
 </div>
 <div id="form-box">
+<?php if($this->form->isErrors()): ?>
+    <ul class="errors">
+        <li><?php echo $this->form->getErrorMessage(); ?></li>
+    </ul>
+<?php endif; ?>
 <?php echo $this->form; ?>
 </div>

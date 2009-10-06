@@ -88,6 +88,9 @@ table.details-table tr th {
 .details p {
     padding-top: 10px;
 }
+fieldset ul.errors li {
+    display: none;
+}
 ul.errors li {
     padding: 8px 0;
     color: #b41a1a;
@@ -398,6 +401,11 @@ form dd#update-element input {
     font-family: Verdana, "MS Sans Serif", "Espy Sans", Geneva, Arial;
     font-size: 13px;
     margin-top: 10px;
+}
+form dt#hidden-label,
+form dd#hidden-element,
+form fieldset#fieldset-hidden {
+    display: none;
 }
 ul.dijitMenu li {
     line-height: 14px;
