@@ -1,5 +1,4 @@
 @import 'reset.css';
-
 body {
     background-color: #fff;
     background-image: url(../images/Border_Left.gif);
@@ -13,7 +12,14 @@ body, table, p, div, ul {
     font-size: 11px;
     color: #000;
 }
-
+p {
+    line-height: 14px;
+}
+table tr td, table tr th {    
+    vertical-align: middle;
+    padding: 6px;
+    line-height: 14px;    
+}
 a:link {
     color: #0B0BF2;
     text-decoration: none;
@@ -67,22 +73,13 @@ tr.odd td, tr.odd th {
 table.results {
     width: 100%;
     margin: 15px 0;
-    line-height: 14px;
 }
-
-table.results tr td {
-    vertical-align: middle;
-    padding: 6px;    
-}
-
 table.details-table {
     margin: 15px 0;
-    line-height: 14px;
 }
 
 table.details-table tr td, 
-table.details-table tr th {
-    vertical-align: top;
+table.details-table tr th {    
     padding: 6px 4px;
 }
 .details p {
@@ -221,11 +218,9 @@ th.horizontal a:hover {
     color: #666;
     text-decoration: underline
 }
-th.horizontal {
-    vertical-align:top;
+th.horizontal {    
     color: #336;
 }
-
 th.vertical a:link,
 th.vertical a:visited,
 th.vertical a:active
