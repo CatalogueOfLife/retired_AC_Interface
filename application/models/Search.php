@@ -62,15 +62,15 @@ class ACI_Model_Search extends AModel
      * @param string $sort
      * @return Zend_Db_Select
      */
-    public function scientificNames(array $key, $sort)
+    public function scientificNames(array $key, $matchWholeWords, $sort)
     {
-        return $this->_selectScientificNames($key)
+        return $this->_selectScientificNames($key, $matchWholeWords)
         ->order(
             array_merge(
                 array(
                     self::getRightColumnName($sort)
                 ),
-                array('name')
+                array('rank', 'name', 'status')
             )
         );
     }
@@ -417,9 +417,10 @@ class ACI_Model_Search extends AModel
      * Search for scientific names query
      *
      * @param array $key
+     * @param boolean $matchWholeWords
      * @return Zend_Db_Select
      */
-    protected function _selectScientificNames(array $key)
+    protected function _selectScientificNames(array $key,$matchWholeWords)
     {
         $select = new Zend_Db_Select($this->_db);
         
@@ -427,7 +428,7 @@ class ACI_Model_Search extends AModel
             
         foreach($key as $rank => $name) {
             if(trim($name) != '') {
-                if($this->taxaExists($rank, $name)) {
+                if($matchWholeWords) {
                     $select->where('sn.' . $rank . ' = ?', $name);
                 }
                 else {
@@ -457,8 +458,7 @@ class ACI_Model_Search extends AModel
             array('db' => 'databases'),
             'sn.database_id = db.record_id',
             array()
-        )
-        ->order(array('name', 'status'));
+        );
         
         return $select;
     }
@@ -553,7 +553,7 @@ class ACI_Model_Search extends AModel
         $select->from(
             array('hard_coded_taxon_lists'),
             array('total' => new Zend_Db_Expr('COUNT(*)'))
-        )->where('rank = ? AND name = ? AND accepted_names_only = 1');
+        )->where('rank = ? AND name = ?');
         $select->bind(array($rank, $name));
         return (bool)$select->query()->fetchColumn(0);
     }

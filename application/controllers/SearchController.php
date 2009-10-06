@@ -210,7 +210,9 @@ class SearchController extends AController
                         'genus' => $this->_getParam('genus'),
                         'species' => $this->_getParam('species'),
                         'infraspecies' => $this->_getParam('infraspecies')
-                    ), $this->_getParam('sort')
+                    ),
+                    $this->_getParam('match'),
+                    $this->_getParam('sort')
                 );
                 break;
             case 'distribution':
@@ -241,7 +243,6 @@ class SearchController extends AController
         $params = $this->_filterParams(
             Zend_Json::decode(stripslashes($this->_getParam('p'))), $rank
         );
-        $this->_logger->debug($params);
         $substr = trim(str_replace('*', '', $this->_getParam('q')));
         $this->_logger->debug($substr);
         $search = new ACI_Model_Search($this->_db);
