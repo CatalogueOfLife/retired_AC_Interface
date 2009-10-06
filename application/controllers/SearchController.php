@@ -122,10 +122,7 @@ class SearchController extends AController
     
     protected function _renderResultsPage(array $elements)
     {
-        $items = (int)$this->_getParam(
-            'items',
-            ACI_Model_Search::ITEMS_PER_PAGE
-        );
+        $items = $this->_getItemsPerPage();
 
         $this->view->urlParams = array(
             'key' => $this->_getParam('key'),
@@ -168,6 +165,21 @@ class SearchController extends AController
         
         // Render the results layout
         $this->renderScript('search/results/layout.phtml');
+    }
+    
+    protected function _getItemsPerPage()
+    {
+        $items = (int)$this->_getParam('items', null);
+        if(!$items) {
+            $items =
+                (int)$this->getHelper('SessionHandler')->get('items', false);
+            if(!$items) {
+                $items = ACI_Model_Search::ITEMS_PER_PAGE;
+            }
+        }
+        $this->getHelper('SessionHandler')->set('items', $items, false);
+        $this->_setParam('items', $items);
+        return $items;
     }
     
     /**
@@ -276,7 +288,6 @@ class SearchController extends AController
     
     public function __call($name, $arguments)
     {
-        $this->_logger->debug("$name");
         $this->_forward('all');
     }
 }

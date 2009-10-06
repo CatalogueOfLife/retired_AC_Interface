@@ -20,22 +20,20 @@ class ACI_Helper_SessionHandler extends Zend_Controller_Action_Helper_Abstract
         $this->_session = new Zend_Session_Namespace();
         $this->_controller = $this->getRequest()->getControllerName();
         $this->_action = $this->getRequest()->getActionName();
-        Zend_Registry::get('logger')
-            ->debug("SESS Obj: " . var_export($this->getIterator(), true));
     }
-    public function set($property, $value)
+    public function set($property, $value, $addContext = true)
     {
         $this->_session->unlockAll();
-        $this->_addContext($property);
-        Zend_Registry::get('logger')
-            ->debug("SESS: Setting $property to $value");
+        if($addContext == true) {
+            $this->_addContext($property);
+        }
         $this->_session->$property = $value;
     }
-    public function get($property)
+    public function get($property, $addContext = true)
     {
-        $this->_addContext($property);
-        Zend_Registry::get('logger')
-            ->debug("SESS: Getting $property = " . $this->_session->$property);
+        if($addContext == true) {
+            $this->_addContext($property);
+        }
         return $this->_session->$property;
     }
     public function clear($property = null)
