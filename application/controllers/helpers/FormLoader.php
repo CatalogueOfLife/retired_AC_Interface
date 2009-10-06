@@ -46,6 +46,22 @@ class ACI_Helper_FormLoader extends Zend_Controller_Action_Helper_Abstract
         return $form->setAction($this->getAction());
     }
     
+    public function getItemsForm($hiddenFields, $items)
+    {
+        // Build items per page form
+        $form = new ACI_Form_Dojo_ItemsPerPage();
+        // Dynamically set hidden fields
+        foreach($hiddenFields as $field) {
+            $form->addElement(
+                $form->createElement('hidden', $field)
+                     ->setValue($this->getRequest()->getParam($field))
+            );
+        }
+        $form->getElement('items')->setValue($items);
+        $form->setAction($this->getAction());
+        return $form;
+    }
+    
     public function getAction()
     {
         return $this->getFrontController()->getBaseUrl() . '/' .

@@ -43,13 +43,13 @@ class SearchController extends AController
         if ($this->_hasParam('genus') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
             $this->_setSessionFromParams($form->getInputElements());
-            $key = '';
+            $str = '';
             foreach($form->getInputElements() as $el) {
                 if($el != 'match') {
-                    $key .= ' ' . $this->_getParam($el);
+                    $str .= ' ' . $this->_getParam($el);
                 }
             }
-            $this->_setParam('key', trim($key));
+            $this->view->searchString = trim($str);
             $this->_renderResultsPage($form->getInputElements());
         } else {
             $this->_setParamsFromSession($form->getInputElements());
@@ -123,14 +123,14 @@ class SearchController extends AController
     protected function _renderResultsPage(array $elements)
     {
         $items = $this->_getItemsPerPage();
-
+        
+        if(!isset($this->view->searchString)) {
+            $this->view->searchString = $this->_getParam('key');
+        }
         $this->view->urlParams = array(
             'key' => $this->_getParam('key'),
-            'match' => $this->_getParam('match'),
-            'items' => $items,
             'sort' => $this->_getParam('sort', 'name')
         );
-        
         $paginator = $this->_getPaginator(
             $this->_getSearchQuery($this->_getParam('action')),
             $this->_getParam('page', 1),
@@ -141,22 +141,9 @@ class SearchController extends AController
         $this->view->data =
             $this->getHelper('DataFormatter')->getDataFromPaginator($paginator);
         $this->view->paginator = $paginator;
-        
-        // Build items per page form
-        $form = new ACI_Form_Dojo_ItemsPerPage();
-        // Dynamically set hidden fields
-        foreach($elements as $el) {
-            $form->addElement(
-                $form->createElement('hidden', $el)
-                     ->setValue($this->_getParam($el))
-            );
-        }
-        $form->getElement('items')->setValue($items);
-        $form->setAction($this->getHelper('FormLoader')->getAction());
-        
         $this->view->sort = $this->_getParam('sort', 'name');
-        //$this->view->search = $this->_getParam('search');
-        $this->view->form = $form;
+        $this->view->form = $this->getHelper('FormLoader')
+            ->getItemsForm($elements, $items);
         
         // Results table differs depending on the action
         $this->view->results = $this->view->render(

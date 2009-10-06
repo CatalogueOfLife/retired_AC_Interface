@@ -3,11 +3,11 @@ $paginator = $this->paginationControl(
     $this->paginator,
     'Sliding',
     'search/pagination_control.phtml',
-    $this->urlParams
+    array('urlParams' => $this->urlParams)
 );
 ?>
 <div class="form_header">
-<?php printf($this->translate('Search_results_for'), '"' . $this->urlParams['key'] . '"') ?>
+<?php printf($this->translate('Search_results_for'), '"' . $this->searchString . '"') ?>
 </div>
 <div class="results_header">
 <div class="results_counter">
