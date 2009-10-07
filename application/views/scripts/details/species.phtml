@@ -32,7 +32,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         endif;
         ?></td>
     </tr>
-<?php if($this->species->infraspecies != null): ?>
+<?php if($this->species->infraspecies != null && !strstr($this->title,$this->translate('Infraspecies_details'))): ?>
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd"); ?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Infraspecies'); ?>:</th>
