@@ -189,7 +189,8 @@ ul.errors li {
     margin-left: 2px;
 }
 
-.lsid {
+.details .lsid {
+    padding: 0;
     font-size: 9px;
 }
 
