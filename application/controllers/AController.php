@@ -31,7 +31,20 @@ abstract class AController extends Zend_Controller_Action
     
     protected function _highlightMatch($haystack, $needle)
     {
-        if(trim($needle) == '') {
+        if (is_array($needle)) {
+            // Clean blank susbtrings
+            foreach($needle as $k => $v) {
+                if(trim((string)$v) == '') {
+                    unset($needle[$k]);
+                }
+            }
+            // Ignore empty arrays
+            if(empty($needle)) {
+                return $haystack;
+            }
+        }
+        // Ignore blank substrings
+        else if (trim((string)$needle) == '') {
             return $haystack;
         }
         return $this->getHelper('TextDecorator')
@@ -40,7 +53,7 @@ abstract class AController extends Zend_Controller_Action
     
     protected function _setSessionFromParams(array $values)
     {
-        foreach($values as $v) {
+        foreach ($values as $v) {
             $this->getHelper('SessionHandler')->set($v, $this->_getParam($v));
         }
     }
@@ -48,7 +61,7 @@ abstract class AController extends Zend_Controller_Action
     {
         foreach($params as $p) {
             $v = $this->getHelper('SessionHandler')->get($p);
-            if($v !== null) {
+            if ($v !== null) {
                 $this->_logger->debug("Setting $p to $v from session");
                 $this->_setParam($p, $v);
             }

@@ -34,7 +34,11 @@ class SearchController extends AController
         $fetch = $this->_getParam('fetch', false);
         if ($fetch) {
             $this->view->layout()->disableLayout();
-            exit($this->_fetchTaxaByRank($fetch));
+            exit(
+                $this->_fetchTaxaByRank(
+                    $fetch, $this->_getParam('q'), $this->_getParam('p')
+                )
+            );
         }
         $this->view->title = $this->view->translate('Search_scientific_names');
         $this->view->headTitle($this->view->title, 'APPEND');
@@ -253,15 +257,15 @@ class SearchController extends AController
      *
      * @return void
      */
-    protected function _fetchTaxaByRank($rank)
+    protected function _fetchTaxaByRank($rank, $query, $params)
     {
         $params = $this->_filterParams(
-            $this->_decodeKey($this->_getParam('p')), $rank
+            $this->_decodeKey($params), $rank
         );
-        $substr = trim(str_replace('*', '', $this->_getParam('q')));
-        $this->_logger->debug($substr);
+        $query = str_replace('\\', '', $query);
+        $substr = explode('*', $query);
         $search = new ACI_Model_Search($this->_db);
-        $res = $search->fetchTaxaByRank($rank, $this->_getParam('q'), $params);
+        $res = $search->fetchTaxaByRank($rank, $query, $params);
         foreach ($res as &$row) {
             $row['label'] = $this->_highlightMatch($row['name'], $substr);
         }

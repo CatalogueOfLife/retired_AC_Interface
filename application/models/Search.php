@@ -15,6 +15,7 @@ class ACI_Model_Search extends AModel
 {
     const ITEMS_PER_PAGE = 20;
     const API_ROWSET_LIMIT = 2000;
+    
     protected static $_apiMinStrLen = array(
         'kingdom' => 0,
         'genus' => 1,
@@ -486,16 +487,15 @@ class ACI_Model_Search extends AModel
      */
     public function fetchTaxaByRank($rank, $query, array $key)
     {
-        $substr = trim(str_replace('*', '', $query));
-        if (strlen($substr) < $this->_getMinStrLen($rank, $key)) {
+        $cleanStr = trim(str_replace('*', '', $query));
+        if (strlen($cleanStr) < $this->_getMinStrLen($rank, $key)) {
             return array();
         }
+        $substr = explode('*', $query);
         $qSubstr = trim(str_replace('*', '%', $query));
-        
         $select = empty($key) ?
-            $this->_getTaxaNameQuery($rank, $qSubstr, $substr) :
-            $this->_getTaxaNameFilteredQuery($rank, $qSubstr, $substr, $key);
-        
+            $this->_getTaxaNameQuery($rank, $qSubstr, $substr[0]) :
+            $this->_getTaxaNameFilteredQuery($rank, $qSubstr, $substr[0], $key);
         $res = $select->query()->fetchAll();
         $total = count($res);
         $this->_logger->debug("$total results found for $rank \"$substr\"");
