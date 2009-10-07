@@ -179,6 +179,8 @@ class ACI_Model_Details extends AModel
             $id = $res[0]['parent_id'];
         } while ($id > 0);
         
+        // Do not include the species or infraspecies itself
+        array_shift($hierarchy);
         return array_reverse($hierarchy);
     }
     

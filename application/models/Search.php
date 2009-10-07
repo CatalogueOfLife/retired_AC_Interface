@@ -14,7 +14,7 @@ require_once 'AModel.php';
 class ACI_Model_Search extends AModel
 {
     const ITEMS_PER_PAGE = 20;
-    const API_ROWSET_LIMIT = 2000;
+    const API_ROWSET_LIMIT = 1000;
     
     protected static $_apiMinStrLen = array(
         'kingdom' => 0,
@@ -200,7 +200,7 @@ class ACI_Model_Search extends AModel
             $select->where(
                 'ds.distribution ' .
                 (strstr($searchKey, '%') ? 'LIKE ?' : '= ?') .
-                'OR ds.distribution REGEXP "^' . $replacedSearchKey .
+                ' OR ds.distribution REGEXP "^' . $replacedSearchKey .
                     $wordDelimiterChars . '+.*$" = 1
                 OR ds.distribution REGEXP "^.*' . $wordDelimiterChars . '+' .
                     $replacedSearchKey . '$" = 1
@@ -247,6 +247,12 @@ class ACI_Model_Search extends AModel
         return $fields;
     }
     
+    /**
+     * Gets the part of the query that maps the rank names to internal integer
+     * constants
+     *
+     * @return Zend_Db_Expr
+     */
     protected function _getRankDefinition()
     {
         return new Zend_Db_Expr(
