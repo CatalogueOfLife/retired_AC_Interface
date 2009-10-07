@@ -30,7 +30,9 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $res[$i]['name'] = $this->_getTaxaSuffix(
                 $this->_wrapTaxaName(
                     $textDecorator->highlightMatch(
-                        $row['name'], $this->getRequest()->getParam('key')
+                        $row['name'],
+                        $this->getRequest()->getParam('key'),
+                        (bool)$this->getRequest()->getParam('match')
                     ),
                     $row['status'],
                     $row['rank']
@@ -66,7 +68,9 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             if(isset($row['distribution']))
             {
                 $res[$i]['distribution'] = $textDecorator->highlightMatch(
-                    $row['distribution'], $this->getRequest()->getParam('key')
+                    $row['distribution'],
+                    $this->getRequest()->getParam('key'),
+                    (bool)$this->getRequest()->getParam('match')
                 );
             }
             $i++;

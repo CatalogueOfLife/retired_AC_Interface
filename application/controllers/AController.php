@@ -29,28 +29,6 @@ abstract class AController extends Zend_Controller_Action
         return $this->getHelper('FormLoader')->getSearchForm();
     }
     
-    protected function _highlightMatch($haystack, $needle)
-    {
-        if (is_array($needle)) {
-            // Clean blank susbtrings
-            foreach($needle as $k => $v) {
-                if(trim((string)$v) == '') {
-                    unset($needle[$k]);
-                }
-            }
-            // Ignore empty arrays
-            if(empty($needle)) {
-                return $haystack;
-            }
-        }
-        // Ignore blank substrings
-        else if (trim((string)$needle) == '') {
-            return $haystack;
-        }
-        return $this->getHelper('TextDecorator')
-            ->highlightMatch($haystack, $needle);
-    }
-    
     protected function _setSessionFromParams(array $values)
     {
         foreach ($values as $v) {

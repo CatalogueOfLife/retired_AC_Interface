@@ -82,13 +82,13 @@ class BrowseController extends AController
      */
     protected function _sendRankData($rank)
     {
-        //TODO: review, may need to be replaced to support all taxons
         $substr = trim(str_replace('*', '', $this->_getParam('name')));
         $this->_logger->debug($substr);
         $search = new ACI_Model_Search($this->_db);
         $res = $search->getRankEntries($rank, $this->_getParam('name'));
         foreach ($res as &$row) {
-            $row['label'] = $this->_highlightMatch($row['name'], $substr);
+            $row['label'] = $this->getHelper('TextDecorator')
+                ->highlightMatch($row['name'], $substr, false);
         }
         $this->_logger->debug($res);
         exit(new Zend_Dojo_Data('name', $res, $rank));

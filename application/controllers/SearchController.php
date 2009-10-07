@@ -263,11 +263,12 @@ class SearchController extends AController
             $this->_decodeKey($params), $rank
         );
         $query = str_replace('\\', '', $query);
-        $substr = explode('*', $query);
         $search = new ACI_Model_Search($this->_db);
         $res = $search->fetchTaxaByRank($rank, $query, $params);
         foreach ($res as &$row) {
-            $row['label'] = $this->_highlightMatch($row['name'], $substr);
+            $row['label'] = $this->getHelper('TextDecorator')->highlightMatch(
+                $row['name'], substr($query, 1, -1)
+            );
         }
         $this->_logger->debug($res);
         return new Zend_Dojo_Data('name', $res, $rank);

@@ -14,27 +14,22 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
 {
     /**
      * Wraps the needle with styled spans in the haystack
-     * The needle can be an array for multiple highlights
+     * The needle may contain the * wildcard
      *
      * @param string $haystack
-     * @param mixed $needle
+     * @param string $needle
      * @return string
      */
-    public function highlightMatch($haystack, $needle)
+    public function highlightMatch($haystack, $needle, $wrapWords = false)
     {
-        if(is_array($needle)) {
-            foreach($needle as $n) {
-                $haystack =
-                    preg_replace('/(' . $n . ')/i', "<*$1*>", $haystack);
-            }
-            return str_replace(
-                '*>', '</span>', str_replace(
-                    '<*', '<span class="matchHighlight">', $haystack
-                )
-            );
+        if (trim($needle) == '') {
+            return $haystack;
         }
+        //TODO: review regexp
+        $regexp = '/(' .
+            str_replace('*', $wrapWords ? '[^ ]*' : '.*', $needle) . ')/i';
         return preg_replace(
-            '/(' . $needle . ')/i',
+            $regexp,
             "<span class=\"matchHighlight\">$1</span>",
             $haystack
         );
