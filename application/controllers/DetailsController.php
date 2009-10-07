@@ -120,56 +120,72 @@ class DetailsController extends AController
         
         if ($id) {
             $detailsModel = new ACI_Model_Details($this->_db);
-            $speciesDetails = $this->_decorateSpeciesDetails(
-                $detailsModel->species($id, $fromType, $fromId)
-            );
+            if($detailsModel->species($id, $fromType, $fromId))
+            {
+                $speciesDetails = $this->_decorateSpeciesDetails(
+                    $detailsModel->species($id, $fromType, $fromId)
+                );
+            }
+            else
+            {
+            	$speciesDetails = false;
+            }
         } else {
             $speciesDetails = false;
         }
 
-        if (empty($speciesDetails->synonyms)) {
-            $speciesDetails->synonyms = $this->_empty;
+        if($speciesDetails != false)
+        {
+	        if (empty($speciesDetails->synonyms)) {
+	            $speciesDetails->synonyms = $this->_empty;
+	        }
+	        if (empty($speciesDetails->commonNames)) {
+	            $speciesDetails->commonNames = $this->_empty;
+	        }
+	        if ($speciesDetails->hierarchy == '') {
+	            $speciesDetails->hierarchy = $this->_empty;
+	        }
+	        if ($speciesDetails->distribution == '') {
+	            $speciesDetails->distribution = $this->_empty;
+	        } else {
+	            $speciesDetails->distribution = implode(
+	                '; ', $speciesDetails->distribution
+	            );
+	        }
+	        if ($speciesDetails->comment == '') {
+	            $speciesDetails->comment = $this->_empty;
+	        }
+	        if ($speciesDetails->dbId == '' && $speciesDetails->dbName = '' &&
+	            $speciesDetails->dbVersion = '') {
+	            $speciesDetails->dbName = $this->_empty;
+	        }
+	        if ($speciesDetails->scrutinyDate == '' &&
+	            $speciesDetails->specialistName = '') {
+	            $speciesDetails->scrutinyDate = $$this->_empty;
+	        }
+	        if ($speciesDetails->webSite == '') {
+	            $speciesDetails->webSite = $this->_empty;
+	        }
+	        if ($speciesDetails->lsid == '') {
+	            $speciesDetails->lsid = $this->_empty;
+	        }
+	        
+	        $title =
+	            $speciesDetails &&
+	            $speciesDetails->rank == ACI_Model_Table_Taxa::RANK_INFRASPECIES ?
+	                'Infraspecies_details' : 'Species_details';
+	        $this->view->title = $this->view->translate($title);
+	        $this->view->headTitle($this->view->title, 'APPEND');
+	        
+	        $this->_logger->debug($speciesDetails);
+	        $this->view->species = $speciesDetails;
         }
-        if (empty($speciesDetails->commonNames)) {
-            $speciesDetails->commonNames = $this->_empty;
+        else
+        {
+            $this->view->title = $this->view->translate('Species_details');
+            $this->view->headTitle($this->view->title, 'APPEND');
+            $this->view->species = $speciesDetails;
         }
-        if ($speciesDetails->hierarchy == '') {
-            $speciesDetails->hierarchy = $this->_empty;
-        }
-        if ($speciesDetails->distribution == '') {
-            $speciesDetails->distribution = $this->_empty;
-        } else {
-            $speciesDetails->distribution = implode(
-                '; ', $speciesDetails->distribution
-            );
-        }
-        if ($speciesDetails->comment == '') {
-            $speciesDetails->comment = $this->_empty;
-        }
-        if ($speciesDetails->dbId == '' && $speciesDetails->dbName = '' &&
-            $speciesDetails->dbVersion = '') {
-            $speciesDetails->dbName = $this->_empty;
-        }
-        if ($speciesDetails->scrutinyDate == '' &&
-            $speciesDetails->specialistName = '') {
-            $speciesDetails->scrutinyDate = $$this->_empty;
-        }
-        if ($speciesDetails->webSite == '') {
-            $speciesDetails->webSite = $this->_empty;
-        }
-        if ($speciesDetails->lsid == '') {
-            $speciesDetails->lsid = $this->_empty;
-        }
-        
-        $title =
-            $speciesDetails &&
-            $speciesDetails->rank == ACI_Model_Table_Taxa::RANK_INFRASPECIES ?
-                'Infraspecies_details' : 'Species_details';
-        $this->view->title = $this->view->translate($title);
-        $this->view->headTitle($this->view->title, 'APPEND');
-        
-        $this->_logger->debug($speciesDetails);
-        $this->view->species = $speciesDetails;
     }
     
     protected function _decorateSpeciesDetails(ACI_Model_Table_Taxa
