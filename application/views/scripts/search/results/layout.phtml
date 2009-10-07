@@ -12,7 +12,7 @@ $paginator = $this->paginationControl(
 <div class="results_header">
 <div class="results_counter">
 <?php echo $this->translate('Records_found'); ?>:
-<?php echo $this->paginator->getTotalItemCount(); ?>
+<?php echo number_format($this->paginator->getTotalItemCount()); ?>
 </div>
 <?php if ($this->paginator->getTotalItemCount() > 0): ?>
 <?php echo $this->form; ?>
