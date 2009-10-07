@@ -436,11 +436,14 @@ class ACI_Model_Search extends AModel
             
         foreach($key as $rank => $name) {
             if(trim($name) != '') {
+            	$searchKey = $this->_wildcardHandling($name);
                 if($matchWholeWords) {
-                    $select->where('sn.' . $rank . ' = ?', $name);
+                    $select->where('sn.' . $rank . ' '. (
+                        strstr($searchKey, '%') ? 'LIKE' : '='
+                    ) .' ?', $searchKey);
                 }
                 else {
-                    $select->where('sn.' . $rank . ' LIKE "%' . $name . '%"');
+                    $select->where('sn.' . $rank . ' LIKE "%' . $searchKey . '%"');
                 }
             }
         }
