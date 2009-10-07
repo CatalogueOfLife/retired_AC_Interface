@@ -80,7 +80,7 @@ table.details-table {
 
 table.details-table tr td, 
 table.details-table tr th {    
-    padding: 6px 4px;
+    padding: 2px;
 }
 .details p {
     padding-top: 10px;
