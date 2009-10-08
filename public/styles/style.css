@@ -222,6 +222,9 @@ th.horizontal a:hover {
 th.horizontal {    
     color: #336;
 }
+th.vertical {    
+    vertical-align: top;
+}
 th.vertical a:link,
 th.vertical a:visited,
 th.vertical a:active

@@ -21,6 +21,7 @@ class SearchController extends AController
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
             $this->_setSessionFromParams($form->getInputElements());
+            $this->_tagLatestSearch();
             $this->_renderResultsPage($form->getInputElements());
         } else {
             $this->_setParamsFromSession($form->getInputElements());
@@ -61,6 +62,7 @@ class SearchController extends AController
                 }
             }
             $this->view->searchString = trim($str);
+            $this->_tagLatestSearch();
             $this->_renderResultsPage($form->getInputElements());
         // Form page
         } else {
@@ -89,6 +91,7 @@ class SearchController extends AController
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
             $this->_setSessionFromParams($form->getInputElements());
+            $this->_tagLatestSearch();
             $this->_renderResultsPage($form->getInputElements());
         } else {
             $this->_setParamsFromSession($form->getInputElements());
@@ -110,6 +113,7 @@ class SearchController extends AController
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
             $this->_setSessionFromParams($form->getInputElements());
+            $this->_tagLatestSearch();
             $this->_renderResultsPage($form->getInputElements());
         } else {
             $this->_setParamsFromSession($form->getInputElements());
@@ -168,7 +172,6 @@ class SearchController extends AController
         $this->view->results = $this->view->render(
             'search/results/' . $this->_getParam('action') . '.phtml'
         );
-        
         // Render the results layout
         $this->renderScript('search/results/layout.phtml');
     }
@@ -301,6 +304,15 @@ class SearchController extends AController
             return array();
         }
         return $res;
+    }
+    
+    protected function _tagLatestSearch()
+    {
+        $this->getHelper('SessionHandler')->set(
+            'latest_search',
+            $this->getRequest()->getActionName(),
+            false
+        );
     }
     
     public function __call($name, $arguments)
