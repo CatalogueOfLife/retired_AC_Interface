@@ -27,7 +27,6 @@ class ACI_Model_Search extends AModel
      * Returns the final query (sorted) to search for common names
      *
      * @param string $searchKey
-     * @param boolean $matchWholeWords
      * @param string $sort
      * @return Zend_Db_Select
      */
@@ -193,22 +192,11 @@ class ACI_Model_Search extends AModel
         )
         ->where('ds.distribution LIKE ?', '%' . $searchKey . '%');
         
-        if ($matchWholeWords) {
-            $wordDelimiterChars = '[ \.\"\'\(\),;:-]';
-            $replacedSearchKey =
-                $this->_wildcardHandlingInRegExpression($searchKey);
-            $select->where(
-                'ds.distribution ' .
-                (strstr($searchKey, '%') ? 'LIKE ?' : '= ?') .
-                ' OR ds.distribution REGEXP "^' . $replacedSearchKey .
-                    $wordDelimiterChars . '+.*$" = 1
-                OR ds.distribution REGEXP "^.*' . $wordDelimiterChars . '+' .
-                    $replacedSearchKey . '$" = 1
-                OR ds.distribution REGEXP "^.*' . $wordDelimiterChars . '+' .
-                    $replacedSearchKey . $wordDelimiterChars . '+.*$" = 1',
-                $searchKey
-            );
-        }
+        $replacedSearchKey =
+            $this->_wildcardHandlingInRegExpression($searchKey,$matchWholeWords);
+        $select->where(
+            ' ds.distribution REGEXP "' . $replacedSearchKey . '" = 1'
+        );
         return $select;
     }
     
@@ -657,6 +645,13 @@ class ACI_Model_Search extends AModel
     protected function _wildcardHandlingInRegExpression($searchString,
         $matchWholeWords=true)
     {
-    	return str_replace('%', '.*', $searchString);
+    	if($matchWholeWords == true)
+    	{
+    	    return str_replace('%', '[^ \b]*', '[[:<:]]' . $searchString . '[[:>:]]');
+    	}
+    	else
+    	{
+    	    return str_replace('%', '.*', $searchString);
+    	}
     }
 }
