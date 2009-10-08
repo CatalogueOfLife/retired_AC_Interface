@@ -22,12 +22,25 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
      */
     public function highlightMatch($haystack, $needle, $wrapWords = false)
     {
-        if (trim($needle) == '') {
+        if (trim($needle) == '') 
+        {
             return $haystack;
         }
         //TODO: review regexp
+        if($wrapWords == true)
+        {
+        	$prefix = '\b';
+        	$suffix = '\b';
+        	$replace = '[^ \b]*';
+        }
+        else
+        {
+        	$prefix = '';
+            $suffix = '';
+            $replace = '.*';
+        }
         $regexp = '/(' .
-            str_replace('*', $wrapWords ? '[^ ]*' : '.*', $needle) . ')/i';
+            str_replace('*', $replace, $prefix . $needle . $suffix) . ')/i';
         return preg_replace(
             $regexp,
             "<span class=\"matchHighlight\">$1</span>",
