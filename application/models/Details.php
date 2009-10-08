@@ -141,7 +141,7 @@ class ACI_Model_Details extends AModel
         $species->commonNames = $this->commonNames($species->nameCode);
         $species->infraspecies =
             $this->infraspecies($species->genus, $species->species);
-        $species->references   = $this->references($species->id);
+        $species->references   = $this->references($species->nameCode);
         $species->distribution = $this->distributions($species->nameCode);
         
         return $species;
@@ -381,69 +381,29 @@ class ACI_Model_Details extends AModel
         return $dist;
     }
     
-    public function references ($nameCode)
+    /**
+     * Alias of getReferencesByNameCode
+     * @param $nameCode
+     * @return array $references
+     */
+    public function references($nameCode)
     {
-        //TODO: optimize reference retrieval
-        //only the total of references is needed here
-        //TODO: create a table model for references
-        return array();
-        $select = new Zend_Db_Select($this->_db);
-        
-        $select->distinct()
-        ->from(
-            array('snr' => 'scientific_name_references'),
-            array(
-                'snr.reference_type',
-                'r.*'
-            )
-        )
-        ->join(
-            array('r' => 'references'),
-            'snr.reference_id = r.record_id',
-            array()
-        )
-        ->where('snr.name_code = ?', $nameCode)
-        ->order(array('snr.reference_type', 'snr.reference_id'));
-        
-        return $select->query()->fetchAll();
+        return $this->getReferencesByNameCode($nameCode);
     }
     
-    public function referenceDetails ($id,$type)
+    public function getReferenceById($id)
     {
-        $select = new Zend_Db_Select($this->_db);
-        
-        if($type == 'common')
-        {
-            $select->distinct()
-            ->from(
-                array('r' => 'references'),
-                array(
-                    'r.*',
-                    'db.database_name'
-                )
-            )
-            ->join(
-                array('db' => 'databases'),
-                    'r.database_id = db.record_id',
-                array()
-            )
-            ->where('r.record_id = ?', $id)
-            ->order(array('r.author', 'r.title'));
-        }
-	        
-        $result = array();
-        $species = $select->query()->fetchObject('ACI_Model_Table_Taxa');
-        $species->name;
-        foreach($select->query()->fetchAll() as $key => $value)
-        {
-        	$result[$key] = $value;
-        	$result[$key]['db_image'] = $db->getThumbFromName($value['database_name']);
-            $result[$key]['url'] = $db->getUrlFromId($value['database_id']);
-        }
-        return $result;
+        $modelRef = new ACI_Model_Table_References();
+        return $modelRef->get($id);
     }
     
-    public function getReferenceTaxa ($id)
+    public function getReferencesByNameCode($nameCode)
+    {
+        $modelRef = new ACI_Model_Table_References();
+        return $modelRef->getByNameCode($nameCode);
+    }
+    
+    public function getScientificName($id)
     {
         $select = new Zend_Db_Select($this->_db);
     	$select->from(

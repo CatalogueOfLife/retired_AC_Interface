@@ -160,7 +160,7 @@ class SearchController extends AController
         
         $this->_logger->debug($paginator->getCurrentItems());
         $this->view->data =
-            $this->getHelper('DataFormatter')->getDataFromPaginator($paginator);
+            $this->getHelper('DataFormatter')->formatSearchResults($paginator);
         $this->view->paginator = $paginator;
         $this->view->sort = $this->_getParam('sort', 'name');
         $this->view->form = $this->getHelper('FormLoader')

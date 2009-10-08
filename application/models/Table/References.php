@@ -15,24 +15,26 @@ class ACI_Model_Table_References extends Zend_Db_Table_Abstract
     protected $_name = 'references';
     protected $_primary = 'record_id';
     
-    public function get($nameCode)
+    public function getByNameCode($nameCode)
     {
     	$snr = new ACI_Model_Table_ScientificNameReferences();
     	$refIds = $snr->get($nameCode);
+    	if(empty($refIds)) {
+    	    return array();
+    	}
     	$select = $this->select(true)->where(
-    	   'record_id IN (' . implode(',',$refIds) . ')'
+    	   'record_id IN (' . implode(',', $refIds) . ')'
     	);
     	
     	$stmt = $this->_db->query($select);
         $data = $stmt->fetchAll(Zend_Db::FETCH_ASSOC);
         return $data;
-    	
     }
     
-    public function getFromId($id)
+    public function get($id)
     {
-        $select = $this->select(true)->where(
-           'record_id = ?', $id
-        );
+        $res = $this->find((int)$id);
+        $firstRef = $res->current();
+        return $firstRef ? $firstRef->toArray() : false;
     }
 }

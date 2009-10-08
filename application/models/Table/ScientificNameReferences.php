@@ -17,7 +17,10 @@ class ACI_Model_Table_ScientificNameReferences extends Zend_Db_Table_Abstract
     
     public function get ($nameCode)
     {
-        $select = $this->select(true)->where('name_code = ? AND reference_type <> "ComNameRef"', $nameCode);
+        $select = $this->select(true)
+            ->where(
+                'name_code = ? AND reference_type <> "ComNameRef"', $nameCode
+            );
         $stmt = $this->_db->query($select);
         $data = $stmt->fetchAll();
         return $this->_filterData($data);
