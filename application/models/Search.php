@@ -401,10 +401,9 @@ class ACI_Model_Search extends AModel
         );
          
         if ($matchWholeWords) {
+            $replacedSearchKey = $this->_wildcardHandlingInRegExpression($searchKey,$matchWholeWords);
             $select->where(
-                'cn.common_name REGEXP "[[:<:]]' .
-                $this->_wildcardHandlingInRegExpression($searchKey) .
-                '[[:>:]]"'
+                ' cn.common_name REGEXP "' . $replacedSearchKey . '" = 1'
             );
         } else {
             $select
