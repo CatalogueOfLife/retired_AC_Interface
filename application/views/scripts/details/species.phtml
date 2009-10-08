@@ -15,22 +15,51 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
 <?php $rowClass = "even"?>
     <tr class="<?php echo $rowClass; ?>">
         <th width="150" class="vertical"><?php echo $this->translate('Accepted_scientific_name'); ?>:</th>
-        <td><?php echo $this->species->name; ?></td>
+        <td>
+            <table>
+                <tr>
+                    <td><?php echo $this->species->name; ?></td>
+                    <td align="right">
+                    <a href="<?php echo $this->baseUrl() .
+                        '/details/reference/species/' . $this->species->id; ?>"><img
+                        src="<?php echo $this->baseUrl() . '/images/book.gif'; ?>"
+                        alt="<?php echo $this->translate('Reference'); ?>"
+                        title="<?php echo $this->translate('Click_here_to_show_the_literature_reference'); ?>"/>
+                    </td>
+                </tr>
+            </table>
+        </td>
     </tr>
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd"); ?>
     <tr class="<?php echo $rowClass; ?>">
-        <th class="vertical"><?php echo $this->translate('Synonym'); ?>:</th>
+        <th class="vertical"><?php echo $this->translate('Synonyms'); ?>:</th>
         <td>
-        <?php
-        if (is_array($this->species->synonyms)):
-        foreach ($this->species->synonyms as $synonym):
-            echo '<span class="taxonomicName">' . $synonym['name'] .
-                 '</span> ' . $synonym['author'] . ' (' .
-                 $this->translate($synonym['status']) . ')<br />';
-        endforeach;
-        else: echo $this->species->synonyms;
-        endif;
-        ?></td>
+        <?php if (is_array($this->species->synonyms)): ?>
+            <table>
+                <?php foreach ($this->species->synonyms as $synonym): ?>
+                    <tr>
+                    <td>
+                    <?php
+                    echo '<span class="taxonomicName">' . $synonym['name'] .
+                         '</span> ' . $synonym['author'] . ' (' .
+                         $this->translate($synonym['status']) . ')</td>';
+                    ?>
+                    </td>
+                    <td align="right">
+                    <a href="<?php echo $this->baseUrl() .
+                          '/details/reference/species/' . $synonym['id']; ?>"><img
+                        src="<?php echo $this->baseUrl() . '/images/book.gif'; ?>"
+                        alt="<?php echo $this->translate('Reference'); ?>"
+                        title="<?php echo $this->translate('Click_here_to_show_the_literature_reference'); ?>"/>
+                    </td>
+                    </tr>
+                    <?php
+                endforeach;
+                else: echo '-';
+                endif;
+                ?>
+            </table>
+        </td>
     </tr>
 <?php if($this->species->rank != ACI_Model_Table_Taxa::RANK_INFRASPECIES &&
     $this->species->infraspecies): ?>
@@ -51,22 +80,25 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
             <table>
                 <tr>
                     <th width="150px"><?php echo $this->translate('Common_name'); ?></th>
-                    <th width="150px"><?php echo $this->translate('Language'); ?></th>
-                    <th><?php echo $this->translate('Country'); ?></th>
-                    <th width="50px"><?php echo $this->translate('Reference'); ?></th>
+                    <th width="100px"><?php echo $this->translate('Language'); ?></th>
+                    <th width="100px"><?php echo $this->translate('Country'); ?></th>
+                    <th width="50px"></th>
                 </tr>
 
             <?php foreach ($this->species->commonNames as $common): ?>
                 <tr>
                     <td><?php echo $common['common_name']; ?></td>
-                    <td><?php echo $common['language']; ?></td>
-                    <td><?php echo $common['country']; ?></td>
-                    <td align="right"><a href="<?php echo $this->baseUrl() .
+                    <td><?php echo $common['language'] ? $common['language'] : '-'; ?></td>
+                    <td><?php echo $common['country'] ? $common['country'] : '-'; ?></td>
+                    <td align="right">
+                        <?php if($common['reference_id']): ?>
+                        <a href="<?php echo $this->baseUrl() .
                           '/details/reference/id/' . $common['reference_id']; ?>"><img
 					    src="<?php echo $this->baseUrl() . '/images/book.gif'; ?>"
 					    alt="<?php echo $this->translate('Reference'); ?>"
-					    title="<?php echo $this->translate('Click_here_to_show_the_literature_reference'); ?>"
-                    /></td>
+					    title="<?php echo $this->translate('Click_here_to_show_the_literature_reference'); ?>"/>
+					    <?php endif; ?>
+					</td>
                 </tr>
             <?php endforeach; ?>
             </table>

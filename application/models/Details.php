@@ -254,14 +254,20 @@ class ACI_Model_Details extends AModel
                 'sn.infraspecies_marker',
                 'sn.infraspecies',
                 'sn.author',
+                'num_references' => new Zend_Db_Expr('COUNT(*)'),
                 'name' =>
                     "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
                     ", ' ', IF(sn.species IS NULL, '', sn.species)))"
             )
+        )->joinLeft(
+            array('snr' => 'scientific_name_references'),
+            'sn.name_code = snr.name_code',
+            array()
         )
         ->where(
             'sn.accepted_name_code = ? AND sn.is_accepted_name = ?'
         )
+        ->group('sn.name_code')
         ->order(array('genus', 'species', 'infraspecies', 'author'));
         
         $select->bind(array($nameCode, 0));
