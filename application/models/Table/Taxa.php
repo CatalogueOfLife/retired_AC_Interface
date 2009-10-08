@@ -171,6 +171,16 @@ class ACI_Model_Table_Taxa
         return $taxaFullName;
     }
     
+    public static function isSynonym($status = null)
+    {
+        $synonymStatuses = array(
+           self::STATUS_SYNONYM,
+           self::STATUS_AMBIGUOUS_SYNONYM
+        );
+        $status = is_null($status) ? $this->status : (int)$status;
+        return in_array($status, $synonymStatuses);
+    }
+    
     public static function getAcceptedScientificName($genus, $species,
         $infraspecies, $infraspeciesMarker, $author)
     {

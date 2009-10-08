@@ -25,6 +25,8 @@ class ACI_Model_Details extends AModel
     {
         $select = new Zend_Db_Select($this->_db);
         
+        $this->_logger->debug(__METHOD__ . " $id, $fromType, $fromId");
+        
         $fields =
             array(
                 'id' => 'sn.record_id',
@@ -143,6 +145,51 @@ class ACI_Model_Details extends AModel
         $species->distribution = $this->distributions($species->nameCode);
         
         return $species;
+    }
+    
+    /**
+     * Returns the status of a scientific name
+     *
+     * @param int $id
+     * @return int $status
+     */
+    public function speciesStatus($id)
+    {
+        $select = new Zend_Db_Select($this->_db);
+        $select->from(
+            array('sn' => 'scientific_names'),
+            array('status' => 'sp2000_status_id')
+        )->where('sn.record_id = ?', (int)$id);
+        return (int)$select->query()->fetchColumn(0);
+    }
+    
+    /**
+     * Returns the accepted name id and the taxa id for synonyms
+     *
+     * @param int $id
+     * @return array $id
+     */
+    public function synonymLinks($id)
+    {
+        $select = new Zend_Db_Select($this->_db);
+        $select->from(
+            array('sn' => 'scientific_names'),
+            array('id' => 'sna.record_id', 'taxa_id' => 'tx.record_id')
+        )->joinLeft(
+            array('sna' => 'scientific_names'),
+            'sn.accepted_name_code = sna.name_code AND ' .
+            'sna.is_accepted_name = 1',
+            array()
+        )->joinLeft(
+            array('tx' => 'taxa'),
+            'tx.name_code = sn.name_code',
+            array()
+        )->where('sn.record_id = ?', (int)$id);
+        $links = $select->query()->fetchAll();
+        if(isset($links[0])) {
+            return $links[0];
+        }
+        return array($id, null);
     }
     
     /**

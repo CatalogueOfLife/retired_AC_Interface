@@ -13,15 +13,16 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             
             if ($row['rank'] >= ACI_Model_Table_Taxa::RANK_SPECIES) {
                 $res[$i]['link'] = $translator->translate('Show_details');
+                if(ACI_Model_Table_Taxa::isSynonym($row['status'])) {
+                    $res[$i]['url'] = '/details/species/id/' . $row['id'];
+                }
+                else {
                 $res[$i]['url'] =
                     '/details/species/id/' . $row['accepted_species_id'];
-                if (!$row['is_accepted_name']) {
-                    if ($row['status'] ==
+                }
+                if ($row['status'] ==
                         ACI_Model_Table_Taxa::STATUS_COMMON_NAME) {
                         $res[$i]['url'] .= '/common/' . $row['taxa_id'];
-                    } else {
-                        $res[$i]['url'] .= '/taxa/' . $row['taxa_id'];
-                    }
                 }
             } else {
                 $res[$i]['link'] = $translator->translate('Show_tree');
