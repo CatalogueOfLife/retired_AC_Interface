@@ -18,7 +18,6 @@ class DetailsController extends AController
     public function init()
     {
         parent::init();
-        $this->view->search = $this->_getParam('search', 'all');
         $this->view->key = $this->_getParam('key');
         $this->_empty = "-";
         $this->view->contentClass = 'details';
