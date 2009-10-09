@@ -4,7 +4,7 @@
 <?php
 if (is_array($this->references)):
 ?>
-<p><?php echo $this->preface; ?></p>
+<p><?php echo $this->preface; if(count($this->references) > 0) echo ':'; ?></p>
 <?php foreach($this->references as $ref): ?>
 <?php $rowClass = "odd"; ?>
 <table class="details-table">
@@ -35,7 +35,6 @@ if (is_array($this->references)):
 else:
 ?>
 <p><?php echo $this->translate('No_references_found'); ?></p>
-<br/>
 <?php
 endif;
 ?>

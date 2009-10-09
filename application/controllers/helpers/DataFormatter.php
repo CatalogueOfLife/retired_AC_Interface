@@ -210,7 +210,6 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                         $translator->translate('1_literature_reference_for'),
                         $name
                     );
-                $label .= ':';
                 break;
             default:
                 $label = is_null($name) ?
@@ -222,7 +221,6 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                         $translator->translate('n_literature_references_for'),
                         $numReferences, $name
                     );
-                $label .= ':';
                 break;
         }
         return $label;
