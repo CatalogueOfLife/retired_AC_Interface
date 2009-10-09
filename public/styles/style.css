@@ -370,7 +370,7 @@ form div.search-form dd {
 form div.search-form dd fieldset dl dt label {
     line-height: 18px;
     padding: 0 10px 0 0;
-    display: table;
+    display: block;
     width: 70px;
 }
 form div.search-form dd fieldset dl dt#match-label label {
