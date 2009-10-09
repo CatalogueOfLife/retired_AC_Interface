@@ -279,18 +279,36 @@ class ACI_Model_Search extends AModel
     	$searchKey = $this->_wildcardHandling($searchKey);
         $select = new Zend_Db_Select($this->_db);
         
-        $replacedSearchKey =
-            $this->_wildcardHandlingInRegExpression($searchKey,$matchWholeWords);
-        $select->from(
-            array(
-                'tx' => 'taxa'
-            ),
-            $this->_getFields()
-        )
-        ->where(
-            'tx.name REGEXP "' . $replacedSearchKey . '" = 1 AND ' .
-            'tx.is_species_or_nonsynonymic_higher_taxon = 1'
-        );
+        if ($matchWholeWords) {
+        
+            $select->from(
+                array(
+                    'ss' => 'simple_search'
+                ),
+                $this->_getFields()
+            )
+            ->join(
+                array('tx' => 'taxa'),
+                'ss.taxa_id = tx.record_id',
+                array()
+            )
+            ->where(
+                'ss.words ' . (strstr($searchKey,'%') ? 'LIKE' : '=') . ' ? ' .
+                'AND tx.is_species_or_nonsynonymic_higher_taxon = 1',
+                $searchKey
+            );
+        } else {
+            $select->from(
+                array(
+                    'tx' => 'taxa'
+                ),
+                $this->_getFields()
+            )
+            ->where(
+                'tx.name LIKE "%' . $searchKey . '%" AND ' .
+                'tx.is_species_or_nonsynonymic_higher_taxon = 1'
+            );
+        }
            
         $select
         ->joinLeft(
@@ -391,7 +409,6 @@ class ACI_Model_Search extends AModel
             $select
                 ->where('cn.common_name LIKE "%' . $searchKey . '%"');
         }
-        $select->where('sn.is_accepted_name =1');
         
         $select->group(array('name', 'language', 'accepted_species_id'));
          
@@ -414,8 +431,14 @@ class ACI_Model_Search extends AModel
         foreach($key as $rank => $name) {
             if(trim($name) != '') {
             	$searchKey = $this->_wildcardHandling($name);
-            	$replacedSearchKey = $this->_wildcardHandlingInRegExpression($searchKey,$matchWholeWords);
-                $select->where('sn.' . $rank . ' REGEXP "' . $replacedSearchKey . '"');
+                if($matchWholeWords) {
+                    $select->where('sn.' . $rank . ' '. (
+                        strstr($searchKey, '%') ? 'LIKE' : '='
+                    ) .' ?', $searchKey);
+                }
+                else {
+                    $select->where('sn.' . $rank . ' LIKE "%' . $searchKey . '%"');
+                }
             }
         }
            
