@@ -5,15 +5,13 @@ body {
     background-repeat: repeat-y;
     background-position: 0px 0px;
     margin: 0px 0px 30px 0px;
+    line-height: 14px;
 }
 
 body, table, p, div, ul {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 11px;
     color: #000;
-}
-p {
-    line-height: 14px;
 }
 table tr td, table tr th {    
     vertical-align: middle;
@@ -272,10 +270,15 @@ div.results_header {
     display: table;
     width: 100%;
     margin: 0;
+    padding: 0;
 }
 div.results_header div.results_counter {
     float: left;
-    margin: 15px 0 0 0;
+    padding: 13px 0 0 0;
+}
+div.results_header div.results_form {
+    float: right;
+    padding: 5px 0 0 0;
 }
 div.paginationControl {
     width: 100%;
@@ -309,7 +312,10 @@ div.results_links {
     padding: 15px;
     margin: 0;
     display: block;
-    min-width: 350px;
+    min-width: 400px; 
+}
+.search-box {
+    width: 400px;
 }
 #content.search-box,
 #content.details {
@@ -353,24 +359,41 @@ form div.items-form dd#items-element input,
 form div.items-form dd#update-element {
     float: left;    
 }
+form div.items-form dt#items-label {
+    padding: 3px 5px 0 0;
+}
 /* Search */
 form div.search-form dd {
     clear: both;
     float: none;	
 }
-form div dd fieldset dl dt label {
+form div.search-form dd fieldset dl dt label {
     line-height: 18px;
-    padding: 0 10px 0 0; 
+    padding: 0 10px 0 0;
+    display: table;
+    width: 70px;
 }
 form div.search-form dd fieldset dl dt#match-label label {
     padding: 0 0 0 5px;
+    width: auto;
+}
+form div.search-form dd fieldset#fieldset-submitGroup {
+    width: 300px;
+    padding: 0;
+    margin:0; 
+}
+form div.search-form dd fieldset#fieldset-submitGroup dl {
+    float:right;
+    padding-right: 16px;
 }
 form div.search-form dd fieldset#fieldset-matchGroup {
-    margin-left: 20%;
+    margin-left: 80px;
 }
-form div.search-form dd#submitGroup-element,
-form div.search-form dd fieldset.searchGroup dl dd {
+form div.search-form dd#submitGroup-element {
     float: right;
+}
+form div.search-form fieldset.searchGroup dl dd {
+    float: left;
 }
 form div.items-form dd fieldset dl dd div,
 form div.search-form dd fieldset dl dd div,
@@ -390,7 +413,7 @@ form div.items-form dd fieldset dl dd
     padding: 0;
 }
 form div.items-form dd fieldset {
-    padding:15px 0 10px 0;
+    padding: 5px 0 0 0;
 }
 form div.items-form dd#update-element {
     margin: -13px 0 0 10px;
@@ -401,7 +424,8 @@ form dd#update-element input {
     color: #006;
     font-family: Verdana, "MS Sans Serif", "Espy Sans", Geneva, Arial;
     font-size: 13px;
-    margin-top: 10px;
+    margin-top: 10px;    
+    line-height: 16px;
 }
 form dt#hidden-label,
 form dd#hidden-element,
@@ -409,7 +433,6 @@ form fieldset#fieldset-hidden {
     display: none;
 }
 ul.dijitMenu li {
-    line-height: 14px;
     font-size: 13px;	
 }
 /* Tree */

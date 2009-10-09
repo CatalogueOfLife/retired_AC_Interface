@@ -51,12 +51,11 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                             title="<?php echo $synonym['referenceLabel'] ?>"/>
                         </td>
                     </tr>
-                    <?php
-                endforeach;
-                else: echo '-';
-                endif;
+                    <?php endforeach; ?>
+                    </table>
+                <?php
+                else: echo '-'; endif;
                 ?>
-            </table>
         </td>
     </tr>
 <?php if($this->species->rank != ACI_Model_Table_Taxa::RANK_INFRASPECIES &&
