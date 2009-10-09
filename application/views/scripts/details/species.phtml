@@ -114,7 +114,12 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                     <th><?php echo $this->translate('LSID'); ?></th>
                 </tr>
         
-                <?php foreach ($this->species->hierarchy as $hierarchy): ?>
+                <?php
+                $latest = count($this->species->hierarchy) - 1;
+                $i = 0;
+                foreach ($this->species->hierarchy as $hierarchy):
+                if ($i != $latest):
+                ?>
                 <tr>
                     <td><?php echo $hierarchy['taxon']; ?></td>
                     <td><a href="<?php echo $this->baseUrl() . '/browse/tree/id/' .
@@ -123,7 +128,10 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                         </a></td>
                     <td class="lsid"><?php echo $hierarchy['LSID']; ?></td>
                 </tr>
-                <?php endforeach; ?>
+                <?php
+                endif;
+                $i++;
+                endforeach; ?>
             </table>
          <?php endif; ?></td>
      </tr>
