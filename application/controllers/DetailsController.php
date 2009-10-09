@@ -45,7 +45,7 @@ class DetailsController extends AController
     	        $references = array($reference);
     	    }
     	    $preface =
-    	       $this->view->translate('literature_reference_found');
+    	       $this->view->translate('1_literature_reference');
     	}
     	else if($speciesId) {
     	    $taxa = $detailsModel->getScientificName($speciesId);
@@ -53,19 +53,8 @@ class DetailsController extends AController
         	    $references =
         	       $detailsModel->getReferencesByNameCode($taxa->nameCode);
         	    $numReferences = count($references);
-        	    $preface = preg_replace(
-                    array(
-                        '(%count%)',
-                        '(%name%)'
-                    ),
-                    array(
-                        $numReferences,
-                        $taxa->name
-                    ),
-                    ($numReferences > 1 ?
-                        $this->view->translate('literature_references_found_for') :
-                        $this->view->translate('literature_reference_found_for'))
-                );
+        	    $preface = $this->getHelper('DataFormatter')
+        	       ->getReferencesLabel($numReferences, $taxa->name);
     	    }
     	}
         $this->view->title = $this->view->translate('Literature_references');

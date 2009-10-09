@@ -60,7 +60,6 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     $row['accepted_species_author']
                 );
             }
-            
             $res[$i]['dbLogo'] = '/images/databases/' .
                 $row['db_thumb'];
             $res[$i]['dbLabel'] = $row['db_name'];
@@ -121,15 +120,29 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     break;
             }
         }
+        $numRefs = count($speciesDetails->references);
+        $speciesDetails->referencesLabel = $numRefs ?
+            $this->getReferencesLabel(
+                $numRefs, strip_tags($speciesDetails->name)
+            ) : null;
         $speciesDetails->name .= ' (' .
             $translator->translate(
                 ACI_Model_Table_Taxa::getStatusString($speciesDetails->status)
             ) . ')';
-        
-        // TODO: optimize the following code:
-        if (empty($speciesDetails->synonyms)) {
+            
+        if (!empty($speciesDetails->synonyms)) {
+            foreach ($speciesDetails->synonyms as &$synonym) {
+                $synonym['name'] = '<span class="taxonomicName">' .
+                    $synonym['name'] . '</span> ' . $synonym['author'];
+                $synonym['referenceLabel'] = $this->getReferencesLabel(
+                    $synonym['num_references'], strip_tags($synonym['name'])
+                );
+            }
+        }
+        else {
             $speciesDetails->synonyms = '-';
         }
+        // TODO: optimize the following code:
         if (empty($speciesDetails->commonNames)) {
             $speciesDetails->commonNames = '-';
         }
@@ -161,18 +174,64 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $speciesDetails->lsid = '-';
         }
         $speciesDetails->preface = $preface;
+        
         return $speciesDetails;
+    }
+    
+    /**
+     * Returns the references label based on the number of references and
+     * the name of the species
+     *
+     * @param int $numReferences
+     * @param string $name
+     * @return string
+     */
+    public function getReferencesLabel($numReferences, $name = null)
+    {
+        $translator = Zend_Registry::get('Zend_Translate');
+        switch($numReferences) {
+            case 0:
+                $label = is_null($name) ?
+                    $translator->translate('No_references_found') :
+                    sprintf(
+                        $translator->translate('No_references_for'),
+                        $name
+                    );
+                break;
+            case 1:
+                $label = is_null($name) ?
+                    $translator->translate('1_literature_reference') :
+                    sprintf(
+                        $translator->translate('1_literature_reference_for'),
+                        $name
+                    );
+                break;
+            default:
+                $label = is_null($name) ?
+                    sprintf(
+                        $translator->translate('n_literature_references'),
+                        $numReferences
+                    ) :
+                    sprintf(
+                        $translator->translate('n_literature_references_for'),
+                        $numReferences, $name
+                    );
+                break;
+        }
+        return $label;
     }
     
     protected function _getTaxaSuffix($source, $status, $suffix)
     {
-        switch($status && $suffix != "") {
-            case ACI_Model_Table_Taxa::STATUS_COMMON_NAME:
-                $source .= ' (' . $suffix . ')';
-                break;
-            default:
-                $source .= '  ' . $suffix;
-                break;
+        if($suffix) {
+            switch($status) {
+                case ACI_Model_Table_Taxa::STATUS_COMMON_NAME:
+                    $source .= ' (' . $suffix . ')';
+                    break;
+                default:
+                    $source .= '  ' . $suffix;
+                    break;
+            }
         }
         return $source;
     }
