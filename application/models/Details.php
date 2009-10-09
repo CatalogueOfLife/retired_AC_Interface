@@ -252,7 +252,9 @@ class ACI_Model_Details extends AModel
                 'sn.infraspecies_marker',
                 'sn.infraspecies',
                 'sn.author',
-                'num_references' => new Zend_Db_Expr('COUNT(*)'),
+                'num_references' => new Zend_Db_Expr(
+                    'IF(snr.name_code IS NULL, 0, COUNT(*))'
+                ),
                 'name' =>
                     "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
                     ", ' ', IF(sn.species IS NULL, '', sn.species)))"

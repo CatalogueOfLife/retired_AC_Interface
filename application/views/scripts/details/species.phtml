@@ -46,11 +46,13 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                         ?>
                         </td>
                         <td align="right">
+                        <?php if($synonym['num_references']): ?>
                         <a href="<?php echo $this->baseUrl() .
                               '/details/reference/species/' . $synonym['id']; ?>"><img
                             src="<?php echo $this->baseUrl() . '/images/book.gif'; ?>"
                             alt="<?php echo $synonym['referenceLabel']; ?>"
                             title="<?php echo $synonym['referenceLabel'] ?>"/>
+                        <?php endif; ?>
                         </td>
                     </tr>
                     <?php endforeach; ?>
