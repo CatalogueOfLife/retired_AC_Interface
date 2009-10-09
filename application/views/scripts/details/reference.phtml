@@ -4,7 +4,7 @@
 <?php
 if (is_array($this->references)):
 ?>
-<p><?php echo $this->preface; ?>:</p>
+<p><?php echo $this->preface; ?></p>
 <?php foreach($this->references as $ref): ?>
 <?php $rowClass = "odd"; ?>
 <table class="details-table">
@@ -39,6 +39,7 @@ else:
 <?php
 endif;
 ?>
+<br/>
 <div class="results_links">
 <a href="javascript:history.back()">
     <?php echo $this->translate('Back_to_last_page'); ?>
