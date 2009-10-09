@@ -28,11 +28,16 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 $res[$i]['link'] = $translator->translate('Show_tree');
                 $res[$i]['url'] = '/browse/tree/id/' . $row['taxa_id'];
             }
+            //TODO:
+            //this is a workaround for hightligthing the whole sentence when you
+            //search for a scientific name.
+            //The highlighting for scientific names should be created propperly.
             $res[$i]['name'] = $this->_getTaxaSuffix(
                 $this->_wrapTaxaName(
                     $textDecorator->highlightMatch(
                         $row['name'],
-                        $this->getRequest()->getParam('key'),
+                        ($this->getRequest()->getActionName() == 'scientific' ?
+                            $row['name'] : $this->getRequest()->getParam('key')),
                         (bool)$this->getRequest()->getParam('match')
                     ),
                     $row['status'],
