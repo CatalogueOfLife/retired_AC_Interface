@@ -20,11 +20,13 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                 <tr>
                     <td><?php echo $this->species->name; ?></td>
                     <td align="right">
+                    <?php if($this->species->references): ?>
                     <a href="<?php echo $this->baseUrl() .
                         '/details/reference/species/' . $this->species->id; ?>"><img
                         src="<?php echo $this->baseUrl() . '/images/book.gif'; ?>"
                         alt="<?php echo $this->species->referencesLabel; ?>"
                         title="<?php echo $this->species->referencesLabel; ?>"/>
+                    <?php endif; ?>
                     </td>
                 </tr>
             </table>
