@@ -148,8 +148,15 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $speciesDetails->synonyms = '-';
         }
         // TODO: optimize the following code:
-        if (empty($speciesDetails->commonNames)) {
-            $speciesDetails->commonNames = '-';
+        if (!empty($speciesDetails->commonNames)) {
+            foreach ($speciesDetails->commonNames as &$common) {
+                    $common['referenceLabel'] = $this->getReferencesLabel(
+                    $common['num_references'], strip_tags($common['common_name'])
+                );
+            }
+        }
+        else {
+        	$speciesDetails->commonNames = '-';
         }
         if ($speciesDetails->hierarchy == '') {
             $speciesDetails->hierarchy = '-';
