@@ -12,8 +12,6 @@ class ACI_Form_ItemsPerPage extends Zend_Form
               ->setDescription($translator->translate('records_per_page'));
               
         $this->addElement($items)
-             ->addElement($this->createElement('hidden', 'key'))
-             ->addElement($this->createElement('hidden', 'match'))
              ->addElement(
                  $this->createElement(
                      'submit', 'update'

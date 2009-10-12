@@ -110,7 +110,7 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
     public function isValid($data)
     {
         // Form not submited
-        if(!isset($data['key'])) {
+        if(!isset($data['match'])) {
             return true;
         }
         $empty = true;

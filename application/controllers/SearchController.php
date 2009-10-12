@@ -54,7 +54,7 @@ class SearchController extends AController
         $form = $this->_getSearchForm();
         $formIsValid = $form->isValid($this->_getAllParams());
         $this->_logger->debug($form);
-        if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
+        if ($this->_hasParam('match') && $this->_getParam('submit', 1) &&
             $formIsValid) {
             $this->_setSessionFromParams($form->getInputElements());
             $str = '';
@@ -149,15 +149,18 @@ class SearchController extends AController
     protected function _renderResultsPage(array $elements = array())
     {
         $items = $this->_getItemsPerPage();
+        $sortParam = $this->_getParam('sort',
+            ACI_Model_Search::getDefaultSortParam($this->getRequest()->action));
         
         if(!isset($this->view->searchString)) {
             $this->view->searchString = $this->_getParam('key');
         }
         $this->view->urlParams = array(
-            'key' => $this->_getParam('key'),
-            'match' => $this->_getParam('match'),
-            'sort' => $this->_getParam('sort', 'name')
+            'sort' => $sortParam
         );
+        foreach($elements as $e) {
+            $this->view->urlParams[$e] = $this->_getParam($e);
+        }
         $paginator = $this->_getPaginator(
             $this->_getSearchQuery($this->_getParam('action')),
             $this->_getParam('page', 1),
@@ -168,12 +171,9 @@ class SearchController extends AController
         $this->view->data =
             $this->getHelper('DataFormatter')->formatSearchResults($paginator);
         $this->view->paginator = $paginator;
-        $this->view->sort = $this->_getParam('sort',
-            ACI_Model_Search::getDefaultSortParam($this->getRequest()->action));
+        $this->view->sort = $sortParam;
         $this->view->form = $this->getHelper('FormLoader')
-            ->getItemsForm(
-                array_merge(array('key'), $elements), $items
-            );
+            ->getItemsForm($elements, $items);
         
         // Results table differs depending on the action
         $this->view->results = $this->view->render(
