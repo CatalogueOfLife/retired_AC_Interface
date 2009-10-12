@@ -15,6 +15,7 @@ class ACI_Form_Dojo_SearchScientific extends ACI_Form_Dojo_AMultiCombo
     public function init()
     {
         $this->setAttribs(array('id' => 'searchScientificForm'));
+        $this->setMethod(Zend_Form::METHOD_GET);
         $this->_combos = array(
             'genus' => 'Genus',
             'species' => 'Species',

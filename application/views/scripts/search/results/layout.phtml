@@ -6,7 +6,7 @@ $paginator = $this->paginationControl(
     array('urlParams' => $this->urlParams)
 );
 ?>
-<div class="form_header">
+<div class="page_header">
 <?php printf(
     $this->translate('Search_results_for'), '"' .
     stripslashes($this->searchString) . '"'
@@ -20,8 +20,8 @@ $paginator = $this->paginationControl(
 <?php if ($this->paginator->getTotalItemCount() > 0): ?>
 <div class="results_form"><?php echo $this->form; ?></div>
 </div>
-<div class="results_links">
-<a href="#">
+<div class="page_links">
+<a href="<?php echo $this->baseUrl() . '/search/export';?>">
     <?php echo $this->translate('Export_search_results'); ?>
 </a> |
 <a href="<?php echo $this->form->getAction(); ?>">
@@ -32,8 +32,8 @@ $paginator = $this->paginationControl(
 <?php echo $this->results; ?>
 <?php echo $paginator; ?>
 <?php else: ?></div><?php endif; ?>
-<div class="results_links">
-<a href="#">
+<div class="page_links">
+<a href="<?php echo $this->baseUrl() . '/search/export';?>">
     <?php echo $this->translate('Export_search_results'); ?>
 </a> |
 <a href="<?php echo $this->form->getAction(); ?>">

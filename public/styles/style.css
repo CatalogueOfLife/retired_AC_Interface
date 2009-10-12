@@ -134,7 +134,7 @@ ul.errors li {
     text-decoration: underline;
 }
 
-.form_header {
+.page_header {
     color: #336;
     font-weight: bold;
     margin: 0 0 10px 0;
@@ -142,7 +142,11 @@ ul.errors li {
     padding: 0 0 5px 0;
     border-bottom: 1px solid #336;
 }
-
+.page_title {
+    color: #336;
+    font-weight: bold;
+    padding: 0 0 10px 0;
+}
 .listlink {    
     color: #000;
 }
@@ -294,12 +298,19 @@ div.paginationControl .page-slider,
 div.paginationControl .page-current {
     font-weight: bold;    
 }
-div.results_links {
+div.page_links {
     width: 100%;
     text-align: center;
     margin: 5px 0;
     clear: both;
     display: table;
+}
+div.align-left {
+    text-align: left;
+}
+div.copyright_notice {
+    padding: 10px;
+    border: 1px solid #000;
 }
 #header {
     margin: 27px 0 16px 0;
@@ -419,8 +430,10 @@ form div.items-form dd#update-element {
     margin: -13px 0 0 10px;
 }
 form dd#search-element input,
+form dd#clear-element input,
 form dd#clear-element button,
-form dd#update-element input {
+form dd#update-element input,
+form#exportForm input {
     color: #006;
     font-family: Verdana, "MS Sans Serif", "Espy Sans", Geneva, Arial;
     font-size: 13px;        

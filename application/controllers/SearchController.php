@@ -53,7 +53,6 @@ class SearchController extends AController
         }
         $form = $this->_getSearchForm();
         $formIsValid = $form->isValid($this->_getAllParams());
-        $this->_logger->debug($form);
         if ($this->_hasParam('match') && $this->_getParam('submit', 1) &&
             $formIsValid) {
             $this->_setSessionFromParams($form->getInputElements());
@@ -68,7 +67,7 @@ class SearchController extends AController
             $this->_renderResultsPage($form->getInputElements());
         // Form page
         } else {
-            if(!$formIsValid && $this->_hasParam('key')) {
+            if(!$formIsValid && $this->_hasParam('match')) {
                 $this->view->formError = true;
                 $this->_setSessionFromParams($form->getInputElements());
             }
@@ -125,6 +124,11 @@ class SearchController extends AController
             }
             $this->_renderFormPage($formHeader, $form);
         }
+    }
+    
+    public function exportAction()
+    {
+        $this->view->form = new ACI_Form_Export();
     }
     
     protected function _renderFormPage($formHeader, $form)

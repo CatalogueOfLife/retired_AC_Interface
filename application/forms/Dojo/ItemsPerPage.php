@@ -14,8 +14,8 @@ class ACI_Form_Dojo_ItemsPerPage extends Zend_Dojo_Form
 {
     public function init()
     {
-        $this->setMethod('post');
         $this->setName('itemsPerPage');
+        $this->setMethod(Zend_Form::METHOD_GET);
 
         $translator = Zend_Registry::get('Zend_Translate');
 
