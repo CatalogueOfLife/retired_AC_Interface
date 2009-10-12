@@ -24,7 +24,9 @@ class SearchController extends AController
             $this->_tagLatestSearch();
             $this->_renderResultsPage($form->getInputElements());
         } else {
-            $this->_setParamsFromSession($form->getInputElements());
+            if(!$this->_hasParam('key')) {
+                $this->_setParamsFromSession($form->getInputElements());
+            }
             $this->_renderFormPage($this->view->title, $form);
         }
     }
@@ -94,7 +96,9 @@ class SearchController extends AController
             $this->_tagLatestSearch();
             $this->_renderResultsPage($form->getInputElements());
         } else {
-            $this->_setParamsFromSession($form->getInputElements());
+            if(!$this->_hasParam('key')) {
+                $this->_setParamsFromSession($form->getInputElements());
+            }
             $this->_renderFormPage($this->view->title, $form);
         }
     }
@@ -116,7 +120,9 @@ class SearchController extends AController
             $this->_tagLatestSearch();
             $this->_renderResultsPage($form->getInputElements());
         } else {
-            $this->_setParamsFromSession($form->getInputElements());
+            if(!$this->_hasParam('key')) {
+                $this->_setParamsFromSession($form->getInputElements());
+            }
             $this->_renderFormPage($formHeader, $form);
         }
     }

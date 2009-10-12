@@ -1,5 +1,27 @@
+var formInputElements = null;
+getFormInputElements = function () {
+    if(formInputElements == null) {
+        formInputElements = dojo.query('form .dijitInputField input');
+    }
+    return formInputElements;
+}
 showLoader = function() {
-    dojo.byId('loader').style.visibility = 'visible';
+    if(isFormValid()) {
+        dojo.byId('loader').style.visibility = 'visible';
+    }
+}
+isFormValid = function() {
+    var elements = getFormInputElements();    
+    if(elements.length > 0) {        
+        var val = '';
+        dojo.forEach(elements,
+            function(inputEl, index, array) {
+                val += inputEl.value;
+            }
+        );
+        return dojo.trim(val).length > 0 ? true : false;
+    }
+    return dojo.trim(dojo.byId('key').value).length > 1 ? true : false;
 }
 startList = function() {
     if (document.all && document.getElementById) {
