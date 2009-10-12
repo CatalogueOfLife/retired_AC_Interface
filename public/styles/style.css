@@ -371,7 +371,7 @@ form div.search-form dd fieldset dl dt label {
     line-height: 18px;
     padding: 0 10px 0 0;
     display: block;
-    width: 70px;
+    width: 80px;
 }
 form div.search-form dd fieldset dl dt#match-label label {
     padding: 0 0 0 5px;
@@ -384,10 +384,10 @@ form div.search-form dd fieldset#fieldset-submitGroup {
 }
 form div.search-form dd fieldset#fieldset-submitGroup dl {
     float:right;
-    padding-right: 16px;
+    padding-right: 6px;
 }
 form div.search-form dd fieldset#fieldset-matchGroup {
-    margin-left: 80px;
+    margin-left: 90px;
 }
 form div.search-form dd#submitGroup-element {
     float: right;

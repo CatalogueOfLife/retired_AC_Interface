@@ -27,7 +27,7 @@ class ACI_Helper_SessionHandler extends Zend_Controller_Action_Helper_Abstract
         if($addContext == true) {
             $this->_addContext($property);
         }
-        $this->_session->$property = $value;
+        $this->_session->$property = $this->_cleanString($value);
     }
     public function get($property, $addContext = true)
     {
@@ -49,6 +49,10 @@ class ACI_Helper_SessionHandler extends Zend_Controller_Action_Helper_Abstract
     protected function _addContext(&$property)
     {
         $property = $this->_controller . '_' . $this->_action . '_' . $property;
+    }
+    protected function _cleanString($str)
+    {
+        return stripslashes($str);
     }
     public function getIterator()
     {

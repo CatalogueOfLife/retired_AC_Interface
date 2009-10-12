@@ -7,7 +7,10 @@ $paginator = $this->paginationControl(
 );
 ?>
 <div class="form_header">
-<?php printf($this->translate('Search_results_for'), '"' . $this->searchString . '"') ?>
+<?php printf(
+    $this->translate('Search_results_for'), '"' .
+    stripslashes($this->searchString) . '"'
+); ?>
 </div>
 <div class="results_header">
 <div class="results_counter" align="right">
