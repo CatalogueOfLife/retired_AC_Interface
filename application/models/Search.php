@@ -410,7 +410,7 @@ class ACI_Model_Search extends AModel
                 ->where('cn.common_name LIKE "%' . $searchKey . '%"');
         }
         
-        $select->group(array('name', 'language', 'accepted_species_id'));
+        $select->group(array('name', 'language', 'accepted_species_id', 'db.record_id'));
          
         return $select;
     }
