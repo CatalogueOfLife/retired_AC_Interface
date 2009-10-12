@@ -92,9 +92,10 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                     <td><?php echo $common['language'] ? $common['language'] : '-'; ?></td>
                     <td><?php echo $common['country'] ? $common['country'] : '-'; ?></td>
                     <td align="right">
-                        <?php if($common['reference_id']): ?>
+                        <?php if($common['references']): ?>
                         <a href="<?php echo $this->baseUrl() .
-                          '/details/reference/id/' . $common['reference_id']; ?>"><img
+                          '/details/reference/id/' . $common['references']; ?>">
+                        <img
 					    src="<?php echo $this->baseUrl() . '/images/book.gif'; ?>"
 					    alt="<?php echo $this->translate('Click_here_to_show_the_literature_reference'); ?>"
 					    title="<?php echo $this->translate('Click_here_to_show_the_literature_reference'); ?>"/>

@@ -302,7 +302,8 @@ class ACI_Model_Details extends AModel
                 'cn.common_name',
                 'cn.language',
                 'cn.country',
-                'reference_id' => 'r.record_id'
+                'num_references' => 'IF(reference_id IS NULL OR reference_id = "", SUM(0), SUM(1))',
+                'references' => 'GROUP_CONCAT(reference_id)'
             )
         )
         ->joinLeft(
@@ -311,6 +312,7 @@ class ACI_Model_Details extends AModel
             array()
         )
         ->where('cn.name_code = ?', $nameCode)
+        ->group(array('cn.common_name', 'cn.language', 'cn.country'))
         ->order(array('cn.common_name', 'cn.language', 'cn.country'));
         
         return $select->query()->fetchAll();
