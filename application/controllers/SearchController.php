@@ -168,7 +168,8 @@ class SearchController extends AController
         $this->view->data =
             $this->getHelper('DataFormatter')->formatSearchResults($paginator);
         $this->view->paginator = $paginator;
-        $this->view->sort = $this->_getParam('sort', 'name');
+        $this->view->sort = $this->_getParam('sort',
+            ACI_Model_Search::getDefaultSortParam($this->getRequest()->action));
         $this->view->form = $this->getHelper('FormLoader')
             ->getItemsForm(
                 array_merge(array('key'), $elements), $items

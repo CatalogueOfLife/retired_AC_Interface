@@ -23,6 +23,39 @@ class ACI_Model_Search extends AModel
         'infraspecies' => 1
     );
     
+    // Sort fields that are always added as the first of the list
+    protected static $_prioritarySortParams = array(
+        'all' => array('rank')
+    );
+    // Default sort params, also added after the custom sort fields
+    protected static $_defaultSortParams = array(
+        'common' => array('name'),
+        'scientific' => array('name', 'status'),
+        'all' => array('name'),
+        'distribution' => array('distribution'),
+        'classification' => array('name', 'status')
+    );
+    
+    protected static function _getSortParams($action)
+    {
+        if(!isset(self::$_defaultSortParams[$action])) {
+            return false;
+        }
+        $params = self::$_defaultSortParams[$action];
+        if(isset(self::$_prioritarySortParams[$action])) {
+            $params = array_merge(
+                self::$_prioritarySortParams[$action], $params
+            );
+        }
+        return $params;
+    }
+    
+    public static function getDefaultSortParam($action)
+    {
+        $params = self::_getSortParams($action);
+        return $params ? current($params) : '';
+    }
+    
     /**
      * Returns the final query (sorted) to search for common names
      *
@@ -38,7 +71,7 @@ class ACI_Model_Search extends AModel
                 array(
                     self::getRightColumnName($sort)
                 ),
-                array('name')
+                self::_getSortParams('common')
             )
         );
     }
@@ -70,7 +103,7 @@ class ACI_Model_Search extends AModel
                 array(
                     self::getRightColumnName($sort)
                 ),
-                array('rank', 'name', 'status')
+                self::_getSortParams('scientific')
             )
         );
     }
@@ -92,7 +125,7 @@ class ACI_Model_Search extends AModel
                 array(
                     self::getRightColumnName($sort)
                 ),
-                array('distribution')
+                self::_getSortParams('distribution')
             )
         );
     }
@@ -123,7 +156,7 @@ class ACI_Model_Search extends AModel
                 array(
                     self::getRightColumnName($sort)
                 ),
-                array('rank','name')
+                self::_getSortParams('all')
             )
         );
     }
