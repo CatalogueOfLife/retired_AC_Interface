@@ -1,3 +1,6 @@
+showLoader = function() {
+    dojo.byId('loader').style.visibility = 'visible';
+}
 startList = function() {
     if (document.all && document.getElementById) {
         navRoot = document.getElementById("nav");

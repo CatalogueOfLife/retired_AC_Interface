@@ -423,9 +423,13 @@ form dd#clear-element button,
 form dd#update-element input {
     color: #006;
     font-family: Verdana, "MS Sans Serif", "Espy Sans", Geneva, Arial;
-    font-size: 13px;
-    margin-top: 10px;    
+    font-size: 13px;        
     line-height: 16px;
+}
+form dd#search-element,
+form dd#clear-element,
+form dd#update-element {
+    padding-top: 12px;
 }
 form dt#hidden-label,
 form dd#hidden-element,
@@ -434,6 +438,19 @@ form fieldset#fieldset-hidden {
 }
 ul.dijitMenu li {
     font-size: 13px;	
+}
+/** Loader **/
+span#loader {
+    background-image: url(../images/loader.gif);
+    background-repeat: no-repeat;
+    background-position: 0 4px;
+    position: absolute;
+    width: 150px;
+    height: 30px;
+    margin-top: 15px;
+    padding: 15px 0 0 40px;    
+    color: #333;    
+    visibility: hidden;
 }
 /* Tree */
 /********/

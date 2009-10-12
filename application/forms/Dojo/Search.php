@@ -50,6 +50,8 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
                     'Form'
             )
         );
+        
+        $this->setAttrib('onSubmit', 'showLoader');
     }
     
     public function getInputElements()
