@@ -233,6 +233,62 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         return $label;
     }
     
+    public function getTaxonLinksInDatabaseDetailsPage($taxonCoverage)
+    {
+    	$firstKingdom = true;
+    	echo $taxonCoverage;
+    	$output = '';
+    	$splitByKingdom = explode(';',$taxonCoverage);
+    	foreach ($splitByKingdom as $kingdom)
+    	{
+            $firstRank = true;
+    		if($firstKingdom == true)
+    		{
+    			$firstKingdom = false;
+    		}
+    		else
+    		{
+    			$output .= ';<br />';
+    		}
+    		$splitByRank = explode('-',$kingdom);
+    		foreach ($splitByRank as $rank)
+    		{
+	            if($firstRank == true)
+	            {
+	                $firstRank = false;
+	            }
+	            else
+	            {
+	                $output .= ' - ';
+	            }
+    			$firstSameRank = true;
+    			$splitBySameRank = explode(',',$rank);
+    			foreach ($splitBySameRank as $sameRank)
+    			{
+	                if($firstSameRank == true)
+	                {
+	                    $firstSameRank = false;
+	                }
+	                else
+	                {
+	                    $output .= ', ';
+	                }
+    				$trimmedRank = trim($sameRank);
+/*    				$output .= preg_replace(
+    				    '#[^ ]+#',
+    				    '<a href="something">' . $trimmedRank . '</a>',
+    				    $trimmedRank
+    				);*/
+    				$output .= (!strstr($trimmedRank, ' ') ?
+    				    '<a href="something">' . $trimmedRank . '</a>' :
+    				    $trimmedRank
+    				);
+    			}
+    		}
+    	}
+    	return $output;
+    }
+    
     protected function _getTaxaSuffix($source, $status, $suffix)
     {
         if($suffix) {
