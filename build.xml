@@ -48,9 +48,8 @@
             checkreturn="false" 
             command="phpunit
             --configuration tests/phpunit.xml
-            --log-xml ${build}/logs/phpunit.xml            
-            --log-metrics ${build}/logs/phpunit.metrics.xml
-            --coverage-xml ${build}/logs/phpunit.coverage.xml
+            --log-junit ${build}/logs/phpunit.xml
+            --coverage-clover ${build}/logs/phpunit.coverage.xml
             --coverage-html ${build}/coverage                      
             tests" />
     </target>
