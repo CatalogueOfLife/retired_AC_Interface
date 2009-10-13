@@ -236,7 +236,6 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     public function getTaxonLinksInDatabaseDetailsPage($taxonCoverage)
     {
     	$firstKingdom = true;
-    	echo $taxonCoverage;
     	$output = '';
     	$splitByKingdom = explode(';',$taxonCoverage);
     	foreach ($splitByKingdom as $kingdom)
@@ -280,7 +279,9 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     				    $trimmedRank
     				);*/
     				$output .= (!strstr($trimmedRank, ' ') ?
-    				    '<a href="something">' . $trimmedRank . '</a>' :
+    				    '<a href="' . $this->getFrontController()->getBaseUrl() .
+    				    '/browse/tree/name/' . $trimmedRank . '">' .
+    				    $trimmedRank . '</a>' :
     				    $trimmedRank
     				);
     			}
