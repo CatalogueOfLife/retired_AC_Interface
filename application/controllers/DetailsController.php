@@ -32,7 +32,7 @@ class DetailsController extends AController
     public function referenceAction()
     {
     	$speciesId = (int)$this->_getParam('species');
-    	$referenceId = (int)$this->_getParam('id');
+    	$referenceId = $this->_getParam('id');
     	$references = false;
     	$sn = false;
     	$preface = '';
@@ -40,12 +40,15 @@ class DetailsController extends AController
     	$detailsModel = new ACI_Model_Details($this->_db);
     	
     	if($referenceId) {
-    	    $reference = $detailsModel->getReferenceById($referenceId);
-    	    if($reference) {
-    	        $references = array($reference);
-    	    }
-    	    $preface =
-    	       $this->view->translate('1_literature_reference');
+    		$ids = explode(',',$referenceId);
+    		foreach($ids as $id)
+    		{
+    			$references[] = $detailsModel->getReferenceById($id);
+    		}
+    		$preface = (count($ids) > 1 ?
+    		    $this->view->translate('n_literature_references') :
+    		    $this->view->translate('1_literature_reference')
+    		);
     	}
     	else if($speciesId) {
     	    $taxa = $detailsModel->getScientificName($speciesId);
