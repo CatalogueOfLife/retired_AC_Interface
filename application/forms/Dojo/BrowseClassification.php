@@ -14,7 +14,11 @@ class ACI_Form_Dojo_BrowseClassification extends ACI_Form_Dojo_AMultiCombo
 {
     public function init()
     {
-        $this->setAttribs(array('id' => 'browseClassificationForm'));
+        $this->setAttribs(array(
+            'id' => 'browseClassificationForm',
+            'name' => 'browseClassificationForm'
+        ));
+        
         $this->setMethod(Zend_Form::METHOD_GET);
         $this->_combos = array(
             'kingdom' => 'Top_level_group',

@@ -92,7 +92,7 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
             )
         );
         
-        $this->setAttrib('onSubmit', 'showLoader');
+        $this->setAttrib('onsubmit', 'showLoader');
     }
     
     public function getInputElements()

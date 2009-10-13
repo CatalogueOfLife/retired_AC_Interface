@@ -42,7 +42,8 @@
 </head>
 <body class="tundra">
     <div id="header">
-        <img src="<?php echo $this->baseUrl(); ?>/images/Annual_Checklist_Top_Banner.gif" />
+        <img src="<?php echo $this->baseUrl(); ?>/images/Annual_Checklist_Top_Banner.gif"
+             alt="<?php echo $this->headTitle(); ?>"/>
     </div>
     <div id="menu" class="view">
         <span id="log"></span>
@@ -50,7 +51,9 @@
           <li class="<?php echo $this->controller == 'browse' ?
                 'menuselected' : ''; ?>">
             <a href="<?php echo $this->baseUrl() ?>/browse/tree">
-            <span class="menu_icon"><img src="<?php echo $this->baseUrl(); ?>/images/Icon_Browse.gif" /></span>
+            <span class="menu_icon"><img
+                src="<?php echo $this->baseUrl(); ?>/images/Icon_Browse.gif"
+                alt="<?php echo $this->translate('Browse');?>"/></span>
             <span><?php echo $this->translate('Browse'); ?></span></a>
             <ul>
               <li class="<?php echo $this->action == 'tree' ?
@@ -64,7 +67,8 @@
           <li class="<?php echo $this->controller == 'search' ?
                 'menuselected' : ''; ?>">
             <a href="<?php echo $this->baseUrl(); ?>/search/all">
-            <img src="<?php echo $this->baseUrl(); ?>/images/Icon_Search.gif" />
+            <img src="<?php echo $this->baseUrl(); ?>/images/Icon_Search.gif"
+                 alt="<?php echo $this->translate('Search'); ?>"/>
             <span><?php echo $this->translate('Search'); ?></span></a>
             <ul>
               <li class="<?php echo $this->action == 'all' ?
@@ -84,7 +88,8 @@
           <li class="<?php echo $this->controller == 'info' ?
                 'menuselected' : ''; ?>">
             <a href="<?php echo $this->baseUrl(); ?>/info/about">
-            <img src="<?php echo $this->baseUrl(); ?>/images/Icon_Info.gif" />
+            <img src="<?php echo $this->baseUrl(); ?>/images/Icon_Info.gif"
+                 alt="<?php echo $this->translate('Info'); ?>"/>
             <span><?php echo $this->translate('Info'); ?></span></a>
             <ul>
               <li class="<?php echo $this->action == 'about' ?
