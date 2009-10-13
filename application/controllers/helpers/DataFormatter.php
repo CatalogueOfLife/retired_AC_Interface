@@ -264,23 +264,11 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     			$splitBySameRank = explode(',',$rank);
     			foreach ($splitBySameRank as $sameRank)
     			{
-	                if($firstSameRank == true)
-	                {
-	                    $firstSameRank = false;
-	                }
-	                else
-	                {
-	                    $output .= ', ';
-	                }
+	                ($firstSameRank == true ? $firstSameRank = false : $output .= ', ');
     				$trimmedRank = trim($sameRank);
-/*    				$output .= preg_replace(
-    				    '#[^ ]+#',
-    				    '<a href="something">' . $trimmedRank . '</a>',
-    				    $trimmedRank
-    				);*/
     				$output .= (!strstr($trimmedRank, ' ') ?
     				    '<a href="' . $this->getFrontController()->getBaseUrl() .
-    				    '/browse/tree/name/' . $trimmedRank . '">' .
+    				    '/browse/classification/name/' . $trimmedRank . '">' .
     				    $trimmedRank . '</a>' :
     				    $trimmedRank
     				);
