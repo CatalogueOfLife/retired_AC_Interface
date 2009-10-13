@@ -45,10 +45,8 @@ class DetailsController extends AController
     		{
     			$references[] = $detailsModel->getReferenceById($id);
     		}
-    		$preface = (count($ids) > 1 ?
-    		    $this->view->translate('n_literature_references') :
-    		    $this->view->translate('1_literature_reference')
-    		);
+    		$preface = $this->getHelper('DataFormatter')
+                ->getReferencesLabel(count($ids));
     	}
     	else if($speciesId) {
     	    $taxa = $detailsModel->getScientificName($speciesId);
