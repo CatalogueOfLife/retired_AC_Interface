@@ -22,19 +22,12 @@ abstract class AController extends Zend_Controller_Action
         $this->_logger->debug($this->_getAllParams());
         $this->view->controller = $this->getRequest()->controller;
         $this->view->action = $this->getRequest()->action;
-        $this->view->latestSearch = $this->_getLatestSearch();
+        $this->view->latestSearch = $this->getHelper('Query')->getLatestQuery();
     }
     
     protected function _getSearchForm()
     {
         return $this->getHelper('FormLoader')->getSearchForm();
-    }
-    
-    protected function _getLatestSearch()
-    {
-        $latestSearch =
-            $this->getHelper('SessionHandler')->get('latest_search', false);
-        return $latestSearch ? $latestSearch : 'all';
     }
     
     protected function _setSessionFromParams(array $values)

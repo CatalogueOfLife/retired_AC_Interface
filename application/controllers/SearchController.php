@@ -21,7 +21,7 @@ class SearchController extends AController
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
             $this->_setSessionFromParams($form->getInputElements());
-            $this->_tagLatestSearch();
+            $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage($form->getInputElements());
         } else {
             if(!$this->_hasParam('key')) {
@@ -63,7 +63,7 @@ class SearchController extends AController
                 }
             }
             $this->view->searchString = trim($str);
-            $this->_tagLatestSearch();
+            $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage($form->getInputElements());
         // Form page
         } else {
@@ -92,7 +92,7 @@ class SearchController extends AController
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
             $this->_setSessionFromParams($form->getInputElements());
-            $this->_tagLatestSearch();
+            $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage($form->getInputElements());
         } else {
             if(!$this->_hasParam('key')) {
@@ -116,7 +116,7 @@ class SearchController extends AController
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $form->isValid($this->_getAllParams())) {
             $this->_setSessionFromParams($form->getInputElements());
-            $this->_tagLatestSearch();
+            $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage($form->getInputElements());
         } else {
             if(!$this->_hasParam('key')) {
@@ -128,6 +128,13 @@ class SearchController extends AController
     
     public function exportAction()
     {
+        $select = $this->getHelper('Query')->getLatestSelect();
+        if($this->_hasParam('export') && $select) {
+            exit($this->getHelper('Export')->csv(
+                'CoL_data.csv', $select
+            ));
+        }
+        $this->getHelper('Query')->getLatestSelect();
         $this->view->form = new ACI_Form_Export();
     }
     
@@ -315,15 +322,6 @@ class SearchController extends AController
             return array();
         }
         return $res;
-    }
-    
-    protected function _tagLatestSearch()
-    {
-        $this->getHelper('SessionHandler')->set(
-            'latest_search',
-            $this->getRequest()->getActionName(),
-            false
-        );
     }
     
     public function __call($name, $arguments)

@@ -46,6 +46,19 @@ class ACI_Helper_SessionHandler extends Zend_Controller_Action_Helper_Abstract
             unset($this->_session->$property);
         }
     }
+    public function getContextParams($context) {
+        $it = $this->getIterator();
+        $params = array();
+        foreach($it as $k => $v) {
+            if(strpos($k, $context) === 0) {
+                $i = substr(
+                    $k, strlen($context) + 1, strlen($k) - strlen($context)
+                );
+                $params[$i] = $v;
+            }
+        }
+        return $params;
+    }
     protected function _addContext(&$property)
     {
         $property = $this->_controller . '_' . $this->_action . '_' . $property;

@@ -63,16 +63,17 @@ class ACI_Model_Search extends AModel
      * @param string $sort
      * @return Zend_Db_Select
      */
-    public function commonNames($searchKey, $matchWholeWords, $sort)
+    public function commonNames($searchKey, $matchWholeWords, $sort = null)
     {
         return $this->_selectCommonNames($searchKey, $matchWholeWords)
         ->order(
+            $sort ?
             array_merge(
                 array(
                     self::getRightColumnName($sort)
                 ),
                 self::_getSortParams('common')
-            )
+            ) : self::_getSortParams('common')
         );
     }
     
@@ -95,16 +96,17 @@ class ACI_Model_Search extends AModel
      * @param string $sort
      * @return Zend_Db_Select
      */
-    public function scientificNames(array $key, $matchWholeWords, $sort)
+    public function scientificNames(array $key, $matchWholeWords, $sort = null)
     {
         return $this->_selectScientificNames($key, $matchWholeWords)
         ->order(
+            $sort ?
             array_merge(
                 array(
                     self::getRightColumnName($sort)
                 ),
                 self::_getSortParams('scientific')
-            )
+            ) : self::_getSortParams('scientific')
         );
     }
     
@@ -116,17 +118,18 @@ class ACI_Model_Search extends AModel
      * @param string $sort
      * @return Zend_Db_Select
      */
-    public function distributions($searchKey, $matchWholeWords, $sort)
+    public function distributions($searchKey, $matchWholeWords, $sort = null)
     {
         $searchKey = $this->_wildcardHandling($searchKey);
         return $this->_selectDistributions($searchKey, $matchWholeWords)
         ->order(
+            $sort ?
             array_merge(
                 array(
                     self::getRightColumnName($sort)
                 ),
                 self::_getSortParams('distribution')
-            )
+            ) : self::_getSortParams('distribution')
         );
     }
     
@@ -139,7 +142,7 @@ class ACI_Model_Search extends AModel
      * @param string $sort
      * @return Zend_Db_Select
      */
-    public function all($searchKey, $matchWholeWords, $sort)
+    public function all($searchKey, $matchWholeWords, $sort = null)
     {
         return $this->_db->select()->union(
             array(
@@ -152,12 +155,13 @@ class ACI_Model_Search extends AModel
             )
         )
         ->order(
+            $sort ?
             array_merge(
                 array(
                     self::getRightColumnName($sort)
                 ),
                 self::_getSortParams('all')
-            )
+            ) : self::_getSortParams('all')
         );
     }
     
@@ -455,7 +459,7 @@ class ACI_Model_Search extends AModel
      * @param boolean $matchWholeWords
      * @return Zend_Db_Select
      */
-    protected function _selectScientificNames(array $key,$matchWholeWords)
+    protected function _selectScientificNames(array $key, $matchWholeWords)
     {
         $select = new Zend_Db_Select($this->_db);
         
