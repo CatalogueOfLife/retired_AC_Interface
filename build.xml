@@ -13,7 +13,7 @@
 
 	<!-- Checkout latest version from SVN -->
 	<target name="checkout">
-		<svnupdate svnpath="svn" nocache="true" todir="${basedir}" />		
+		<svnupdate svnpath="svn" nocache="true" todir="${basedir}" />				
 	</target>
 
 	<!-- Clean and set up build/dist directories -->
@@ -74,7 +74,11 @@
             </fileset>
 		</phplint>
 	</target>
+	
+	<target name="updateworkingcopy">
+	   <svnupdate svnpath="svn" nocache="true" todir="${project.path}" />
+	</target>
 
-	<target name="build" depends="clean,checkout,phplint,phpunit,phpcs,phpdoc,pdepend" />
+	<target name="build" depends="clean,checkout,phplint,phpunit,phpcs,phpdoc,pdepend,updateworkingcopy" />
 
 </project>
