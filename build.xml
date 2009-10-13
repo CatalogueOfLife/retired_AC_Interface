@@ -45,7 +45,7 @@
     <!-- PHPUnit -->
     <target name="phpunit">
         <exec dir="${basedir}"
-            checkreturn="true" 
+            checkreturn="false" 
             command="phpunit
             --configuration tests/phpunit.xml
             --log-xml ${build}/logs/phpunit.xml            
@@ -53,7 +53,7 @@
             --coverage-xml ${build}/logs/phpunit.coverage.xml
             --coverage-html ${build}/coverage                      
             tests" />
-    </target> 
+    </target>
     
     <!-- Execute pdepend and store reports -->
     <target name="pdepend">
