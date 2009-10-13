@@ -25,6 +25,11 @@ abstract class AController extends Zend_Controller_Action
         $this->view->latestSearch = $this->getHelper('Query')->getLatestQuery();
     }
     
+    public function getDbAdapter()
+    {
+        return $this->_db;
+    }
+    
     protected function _getSearchForm()
     {
         return $this->getHelper('FormLoader')->getSearchForm();

@@ -8,9 +8,10 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         $translator = Zend_Registry::get('Zend_Translate');
         $textDecorator =
             $this->getActionController()->getHelper('TextDecorator');
+        $it = $paginator->getIterator();
+        unset($paginator);
         
-        foreach ($paginator as $row) {
-            
+        foreach ($it as $k => $row) {
             if ($row['rank'] >= ACI_Model_Table_Taxa::RANK_SPECIES) {
                 $res[$i]['link'] = $translator->translate('Show_details');
                 if(ACI_Model_Table_Taxa::isSynonym($row['status'])) {
@@ -78,9 +79,41 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     (bool)$this->getRequest()->getParam('match')
                 );
             }
+            unset($it[$k]);
             $i++;
         }
         return $res;
+    }
+    
+    public function getTab()
+    {
+        return self::TAB;
+    }
+    
+    public function formatPlain(array $data)
+    {
+        $translator = Zend_Registry::get('Zend_Translate');
+        /*$textDecorator =
+            $this->getActionController()->getHelper('TextDecorator');*/
+        foreach($data as &$row)
+        {
+            $row['name'] = $this->_getTaxaSuffix($row['name'], $row['status'],
+                $row['status'] == ACI_Model_Table_Taxa::STATUS_COMMON_NAME ?
+                $row['language'] : $row['author']
+            );
+            $row['rank'] = $translator->translate(
+                ACI_Model_Table_Taxa::getRankString($row['rank'])
+            );
+            $row['status'] = $translator->translate(
+                ACI_Model_Table_Taxa::getStatusString($row['status'], false)
+            );
+            $row['accepted_species_name'] = $this->_getTaxaSuffix(
+                $row['accepted_species_name'],
+                ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME,
+                $row['author']
+            );
+        }
+        return $data;
     }
     
     /**

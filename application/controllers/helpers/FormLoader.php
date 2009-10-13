@@ -63,6 +63,12 @@ class ACI_Helper_FormLoader extends Zend_Controller_Action_Helper_Abstract
         return $form;
     }
     
+    public function getExportForm()
+    {
+        $form = new ACI_Form_Export();
+        return $form->setAction($this->getAction());
+    }
+    
     public function getAction()
     {
         return $this->getFrontController()->getBaseUrl() . '/' .

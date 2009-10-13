@@ -128,14 +128,20 @@ class SearchController extends AController
     
     public function exportAction()
     {
-        $select = $this->getHelper('Query')->getLatestSelect();
-        if($this->_hasParam('export') && $select) {
-            exit($this->getHelper('Export')->csv(
-                'CoL_data.csv', $select
-            ));
+        $query = $this->getHelper('Query')->getLatestQuery();
+        if($this->_hasParam('export') && $query) {
+            $this->view->layout()->disableLayout();
+            $controller = $this->getHelper('Query')->getLatestQueryController();
+            $action = $this->getHelper('Query')->getLatestQueryAction();
+            $this->getHelper('Export')->csv(
+                $controller,
+                $action,
+                $this->getHelper('Query')->getLatestSelect(),
+                'CoL_data.csv'
+            );
         }
         $this->getHelper('Query')->getLatestSelect();
-        $this->view->form = new ACI_Form_Export();
+        $this->view->form = $this->getHelper('FormLoader')->getExportForm();
     }
     
     protected function _renderFormPage($formHeader, $form)
@@ -177,6 +183,8 @@ class SearchController extends AController
             $this->_getParam('page', 1),
             $items
         );
+        $this->view->exportable = $paginator->getTotalItemCount() <=
+            $this->getHelper('Export')->getNumRowsLimit();
         
         $this->_logger->debug($paginator->getCurrentItems());
         $this->view->data =

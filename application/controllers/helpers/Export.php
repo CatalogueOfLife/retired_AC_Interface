@@ -1,9 +1,32 @@
 <?php
 class ACI_Helper_Export extends Zend_Controller_Action_Helper_Abstract
 {
-    const TAB = '\t';
+    const MAX_ROWS = 65535;
+    const TAB = "\t";
     
-    public function csv($fileName, Zend_Db_Select $select)
+    public function csv($controller, $action, Zend_Db_Select $select, $fileName)
+    {
+        $this->setHeaders($fileName);
+        $actionController = $this->getActionController();
+        $actionController->view->data =
+            $this->_loadData($controller, $action, $select);
+        $actionController->view->tab = self::TAB;
+        $actionController->renderScript(
+            $controller . '/export/' . $action . '.phtml'
+        );
+    }
+    
+    protected function _loadData($controller, $action, Zend_Db_Select $select)
+    {
+        $db = $this->getActionController()->getDbAdapter();
+        $res = $this->getActionController()
+            ->getHelper('DataFormatter')->formatPlain(
+                $select->query()->fetchAll()
+            );
+        return $res;
+    }
+    
+    protected function setHeaders($fileName)
     {
         header('Expires: 0');
         header('Cache-control: private');
@@ -11,6 +34,15 @@ class ACI_Helper_Export extends Zend_Controller_Action_Helper_Abstract
         header('Content-Description: File Transfer');
         header('Content-Type: application/csv');
         header('Content-disposition: attachment; filename=' . $fileName);
-        echo '';
+    }
+    
+    /**
+     * The CSV format cannot contain over 65535 rows
+     *
+     * @return int
+     */
+    public function getNumRowsLimit()
+    {
+        return self::MAX_ROWS;
     }
 }

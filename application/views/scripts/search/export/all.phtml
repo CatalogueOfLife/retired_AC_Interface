@@ -1,0 +1,16 @@
+<?php
+echo $this->translate('Name') . $this->tab .
+     $this->translate('Rank') . $this->tab .
+     $this->translate('Name_status') . $this->tab .
+     $this->translate('Accepted_name') . $this->tab .
+     $this->translate('Group') . $this->tab .
+     $this->translate('Database') . PHP_EOL;
+foreach($this->data as $k => $data) {
+    echo $data['name'] . $this->tab .
+         $data['rank'] . $this->tab .
+         $data['status'] . $this->tab .
+         $data['accepted_species_name'] . $this->tab .
+         $data['kingdom'] . $this->tab .
+         $data['db_name'] . PHP_EOL;
+         unset($this->data[$k]);
+}

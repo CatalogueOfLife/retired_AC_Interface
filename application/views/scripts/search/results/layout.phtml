@@ -21,9 +21,11 @@ $paginator = $this->paginationControl(
 <div class="results_form"><?php echo $this->form; ?></div>
 </div>
 <div class="page_links">
+<?php if($this->exportable): ?>
 <a href="<?php echo $this->baseUrl() . '/search/export';?>">
     <?php echo $this->translate('Export_search_results'); ?>
 </a> |
+<?php endif;?>
 <a href="<?php echo $this->form->getAction(); ?>">
     <?php echo $this->translate('New_search'); ?>
 </a>
@@ -33,9 +35,11 @@ $paginator = $this->paginationControl(
 <?php echo $paginator; ?>
 <?php else: ?></div><?php endif; ?>
 <div class="page_links">
+<?php if($this->exportable): ?>
 <a href="<?php echo $this->baseUrl() . '/search/export';?>">
     <?php echo $this->translate('Export_search_results'); ?>
 </a> |
+<?php endif;?>
 <a href="<?php echo $this->form->getAction(); ?>">
     <?php echo $this->translate('New_search'); ?>
 </a>

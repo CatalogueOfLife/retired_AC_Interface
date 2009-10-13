@@ -14,8 +14,8 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         if(!$latestQuery) {
             return null;
         }
-        list($controller, $action) =
-            explode('/', $sh->get('latest_query', false));
+        $controller = $this->getLatestQueryController();
+        $action = $this->getLatestQueryAction();
         $params = $sh->getContextParams($controller . '_' . $action);
         $select = $this->getSelect($controller, $action, $params);
         return $select;
@@ -35,7 +35,9 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         $select = null;
         switch($controller) {
             case 'search':
-                $model = new ACI_Model_Search(Zend_Registry::get('db'));
+                $model = new ACI_Model_Search(
+                    $this->getActionController()->getDbAdapter()
+                );
                 switch($action) {
                     case 'all':
                         $select = $model->all($params['key'], $params['match']);
@@ -44,7 +46,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                         $match = $params['match'];
                         unset($params['match']);
                         $select = $model->scientificNames(
-                            $params, $params['match']
+                            $params, $match
                         );
                         break;
                     case 'common':
@@ -77,6 +79,24 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
             $this->getRequest()->getActionName(),
             false
         );
+    }
+    
+    public function getLatestQueryController()
+    {
+        $latestQuery = $this->getLatestQuery();
+        if($latestQuery) {
+            list($controller, $action) = explode('/', $latestQuery);
+        }
+        return $controller;
+    }
+    
+    public function getLatestQueryAction()
+    {
+        $latestQuery = $this->getLatestQuery();
+        if($latestQuery) {
+            list($controller, $action) = explode('/', $latestQuery);
+        }
+        return $action;
     }
     
     public function getLatestQuery()
