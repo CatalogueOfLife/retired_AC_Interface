@@ -512,7 +512,7 @@ class ACI_Model_Search extends AModel
     {
         $cleanStr = trim(str_replace('*', '', $query));
         if (strlen($cleanStr) < $this->_getMinStrLen($rank, $key)) {
-            return array();
+            return array('error' => 1);
         }
         $substr = explode('*', $query);
         $orderSubstr = $substr[0] ? $substr[0] : $substr[1];
@@ -527,11 +527,10 @@ class ACI_Model_Search extends AModel
             );
         $res = $select->query()->fetchAll();
         $total = count($res);
-        $this->_logger->debug("$total results found for $rank \"$substr\"");
         if ($total > self::API_ROWSET_LIMIT) {
-            return array();
+            return array('error' => 2);
         }
-        return $res;
+        return array_merge(array('error' => 0), $res);
     }
     
     /**
@@ -566,8 +565,9 @@ class ACI_Model_Search extends AModel
             );
         }
         $select->order(
-           array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"))
-        );
+            array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"),
+            $rank
+        ));
         return $select;
     }
     
@@ -592,8 +592,9 @@ class ACI_Model_Search extends AModel
                    "`$rank` LIKE \"" . $qStr . "\""
                )
                ->order(
-                   array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"))
-               );
+                   array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"),
+                   $rank
+               ));
         }
         // Search for species in hard_coded_taxon_lists
         else {
@@ -652,7 +653,7 @@ class ACI_Model_Search extends AModel
     protected function _getMinStrLen($rank, array $key)
     {
         return empty($key) ?
-            ($this->_stringRefersToHigherTaxa($rank) ? 0 : 1) : 0;
+            ($this->_stringRefersToHigherTaxa($rank) ? 0 : 2) : 0;
     }
     
     /**

@@ -115,7 +115,10 @@ ul.errors li {
     color: #F20B0B;
     text-decoration: underline;
 }
-
+.disabledLabel {
+    color: #333;
+    font-style: italic;
+}
 .field_header_black {    
     color: #000;
     margin: 1px 0 3px 0;

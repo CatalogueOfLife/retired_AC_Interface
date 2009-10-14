@@ -16,7 +16,7 @@ dojo.extend(dijit.form.ComboBox, {
 dojo.addOnLoad(function() {
     updateKey(null); 
 });
-updateKey = function(val) {
+updateKey = function() {
     var elements = getFormInputElements();    
     var key = new Object;    
     for(var i = 0; i < elements.length; i++) {
@@ -31,4 +31,5 @@ clearForm = function() {
             inputEl.value = '';
         }
     );
+    updateKey();
 }

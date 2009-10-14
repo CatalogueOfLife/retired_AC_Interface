@@ -31,11 +31,10 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
     		}
     		return $haystack;
     	}
-        if (trim($needle) == '') 
+        if (trim($needle) == '')
         {
             return $haystack;
         }
-        //TODO: review regexp
         if($wrapWords == true)
         {
         	$prefix = '\b';
@@ -55,5 +54,12 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
             "<span class=\"matchHighlight\">$1</span>",
             $haystack
         );
+    }
+    
+    public function decorateComboLabel($label)
+    {
+        $translator = Zend_Registry::get('Zend_Translate');
+        return "<span class=\"disabledLabel\">" .
+            $translator->translate($label) . "</span>";
     }
 }

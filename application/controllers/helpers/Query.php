@@ -117,13 +117,38 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
             $this->decodeKey($params), $rank
         );
         $query = str_replace('\\', '', $query);
+        $cleanQuery = substr($query, 1, -1);
         $search = new ACI_Model_Search(Zend_Registry::get('db'));
         $res = $search->fetchTaxaByRank($rank, $query, $params);
-        foreach ($res as &$row) {
-            $row['label'] = $this->getActionController()
-                ->getHelper('TextDecorator')->highlightMatch(
-                    $row['name'], substr($query, 1, -1)
-                );
+        $error = $res['error'];
+        unset($res['error']);
+        if (!$res || $error) {
+            switch ($error) {
+                case 1:
+                    $errStr = 'Error_key_too_short';
+                    break;
+                case 2:
+                    $errStr = 'Too_many_results_to_display';
+                    break;
+                default:
+                    $errStr = 'No_matching_results_found';
+                    break;
+            }
+            $res = array(
+                array(
+                    'label' => $this->getActionController()
+                        ->getHelper('TextDecorator')
+                        ->decorateComboLabel($errStr),
+                    'name' => $cleanQuery)
+            );
+        }
+        else {
+            foreach ($res as &$row) {
+                $row['label'] = $this->getActionController()
+                    ->getHelper('TextDecorator')->highlightMatch(
+                        $row['name'], $cleanQuery
+                    );
+            }
         }
         return new Zend_Dojo_Data('name', $res, $rank);
     }
