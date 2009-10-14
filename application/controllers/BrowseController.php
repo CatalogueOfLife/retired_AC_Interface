@@ -42,6 +42,10 @@ class BrowseController extends AController
     
     public function classificationAction()
     {
+    	if($this->_getParam('name'))
+    	{
+    	   $this->_setParamForTaxa($this->_getParam('name'));
+    	}
         //TODO: fix fetch action to work for all search fields
         $fetch = $this->_getParam('fetch', false);
         if ($fetch) {
@@ -70,8 +74,45 @@ class BrowseController extends AController
             $this->view->baseUrl() . '/' . $this->view->controller . '/' .
             $this->view->action
         );
+
+        $elements = $form->getInputElements();
+        // Set form input values from request params
+        foreach($elements as $el) {
+            $field = $form->getElement($el);
+            if($field) { 
+                $v = $this->_getParam($el, null);
+                if($v !== null) {
+                    $field->setValue($this->_getParam($el));
+                }
+            }
+        }
         $this->view->form = $form;
         $this->renderScript('search/form.phtml');
+    }
+    
+    private function _setParamForTaxa($name)
+    {
+    	//TODO:
+    	//Get `record_id` from `taxa`
+    	$select = new ACI_Model_Search($this->_db);
+    	$recordId = $select->getRecordIdFromName($name);
+    	//TODO:
+    	//Pass the `record_id` to _getHierarchy()
+    	if($recordId)
+        	$hierarchy = $this->_getHierarchy($recordId[0]['id']);
+    	//TODO:
+    	//read hierachy out and _setParam()'s.
+    	if($hierarchy && is_array($hierarchy))
+    	{
+	    	foreach($hierarchy as $rank)
+	    	{
+	    		if($rank != 0)
+	    		{
+		    		$temp = $select->getRankAndNameFromRecordId($rank);
+		            $this->_setParam(strtolower($temp[0]['rank']),$temp[0]['name']);
+	    		}
+	    	}
+    	}
     }
         
     /**

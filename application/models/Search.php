@@ -673,6 +673,35 @@ class ACI_Model_Search extends AModel
         return $res;
     }
     
+    public function getRecordIdFromName($name)
+    {
+        $select = new Zend_Db_Select($this->_db);
+        $select->from(
+            array('tx' => 'taxa'),
+            array(
+                'id' => 'tx.record_id',
+                'rank' => 'tx.taxon'
+            )
+        )
+        ->where('tx.name = ?', $name);
+        return $select->query()->fetchAll();
+    }
+    
+    public function getRankAndNameFromRecordId($recordId)
+    {
+        $select = new Zend_Db_Select($this->_db);
+        $select->from(
+            array('tx' => 'taxa'),
+            array(
+                'id' => 'tx.record_id',
+                'rank' => 'tx.taxon',
+                'name' => 'tx.name'
+            )
+        )
+        ->where('tx.record_id = ?', $recordId);
+        return $select->query()->fetchAll();
+    }
+    
     protected function _wildcardHandling($searchString)
     {
         return str_replace(array('%','*'), array('','%'), $searchString);
