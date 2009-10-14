@@ -22,6 +22,15 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
      */
     public function highlightMatch($haystack, $needle, $wrapWords = false)
     {
+    	if(is_array($needle))
+    	{
+    		$output = '';
+    		foreach($needle as $n)
+    		{
+    			$haystack = $this->highlightMatch($haystack, $n, $wrapWords);
+    		}
+    		return $haystack;
+    	}
         if (trim($needle) == '') 
         {
             return $haystack;

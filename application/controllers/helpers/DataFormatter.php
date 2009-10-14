@@ -38,7 +38,12 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     $textDecorator->highlightMatch(
                         $row['name'],
                         ($this->getRequest()->getActionName() == 'scientific' ?
-                            $row['name'] : $this->getRequest()->getParam('key')),
+                            array(
+                                $this->getRequest()->getParam('genus'),
+                                $this->getRequest()->getParam('species'),
+                                $this->getRequest()->getParam('infraspecies')
+                            ) : $this->getRequest()->getParam('key')
+                        ),
                         (bool)$this->getRequest()->getParam('match')
                     ),
                     $row['status'],
