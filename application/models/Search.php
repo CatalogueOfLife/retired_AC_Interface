@@ -16,13 +16,6 @@ class ACI_Model_Search extends AModel
     const ITEMS_PER_PAGE = 20;
     const API_ROWSET_LIMIT = 1000;
     
-    protected static $_apiMinStrLen = array(
-        'kingdom' => 0,
-        'genus' => 1,
-        'species' => 1,
-        'infraspecies' => 1
-    );
-    
     // Sort fields that are always added as the first of the list
     protected static $_prioritarySortParams = array(
         'all' => array('rank')
@@ -522,10 +515,16 @@ class ACI_Model_Search extends AModel
             return array();
         }
         $substr = explode('*', $query);
+        $orderSubstr = $substr[0] ? $substr[0] : $substr[1];
         $qSubstr = trim(str_replace('*', '%', $query));
         $select = empty($key) ?
-            $this->_getTaxaNameQuery($rank, $qSubstr, $substr[0]) :
-            $this->_getTaxaNameFilteredQuery($rank, $qSubstr, $substr[0], $key);
+            // No other fields have been filled in
+            $this->_getTaxaNameQuery($rank, $qSubstr, $orderSubstr) :
+            // At least another filed has been filled in - must use it as a
+            // filter
+            $this->_getTaxaNameFilteredQuery(
+                $rank, $qSubstr, $orderSubstr, $key
+            );
         $res = $select->query()->fetchAll();
         $total = count($res);
         $this->_logger->debug("$total results found for $rank \"$substr\"");
@@ -546,22 +545,35 @@ class ACI_Model_Search extends AModel
     {
         $select = new Zend_Db_Select($this->_db);
         $select->distinct()
-               ->from(array('scientific_names'), array('name' => $rank))
-               ->where($rank . ' LIKE "' . $qStr . '"');
+        ->from(
+            array('sn' => 'scientific_names'),
+            array('name' =>
+                $this->_stringRefersToHigherTaxa($rank) ?
+                "f.$rank" : "sn.$rank"
+            )
+        )->join(
+            array('f' => 'families'),
+            'f.record_id = sn.family_id',
+            array()
+        );
+        if($str) {
+            $select->where("`$rank` LIKE \"" . $qStr . "\"");
+        }
         foreach($key as $p => $v) {
-            $select->where($p . ' = ?', $v);
+            $select->where(
+                $this->_stringRefersToHigherTaxa($p) ?
+                "f.$p = ?" : "sn.$p = ?", $v
+            );
         }
         $select->order(
-                   array(
-                       new Zend_Db_Expr(
-                           'INSTR(' . $rank . ', "' . $str . '")'
-                       ), $rank
-                   )
-               );
+           array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"))
+        );
         return $select;
     }
     
     /**
+     * Returns the query to get all the names matching the given string query
+     * for a specific rank
      *
      * @param string $rank
      * @param string $str
@@ -570,7 +582,22 @@ class ACI_Model_Search extends AModel
     protected function _getTaxaNameQuery($rank, $qStr, $str)
     {
         $select = new Zend_Db_Select($this->_db);
-        $select->distinct()
+        // Search for higher taxa in families
+        if ($this->_stringRefersToHigherTaxa($rank)) {
+            $select->distinct()
+               ->from(array('families'), array('name' => $rank))
+               ->where(
+                   "`$rank` NOT IN('', 'Not assigned') AND " .
+                   "is_accepted_name = 1 AND " .
+                   "`$rank` LIKE \"" . $qStr . "\""
+               )
+               ->order(
+                   array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"))
+               );
+        }
+        // Search for species in hard_coded_taxon_lists
+        else {
+            $select->distinct()
                ->from(array('hard_coded_taxon_lists'), array('name'))
                ->where('rank = ? AND name LIKE "' . $qStr . '"', $rank)
                ->order(
@@ -579,6 +606,7 @@ class ACI_Model_Search extends AModel
                        'name'
                    )
                );
+        }
         return $select;
     }
     
@@ -591,12 +619,27 @@ class ACI_Model_Search extends AModel
      */
     public function taxaExists($rank, $name) {
         $select = new Zend_Db_Select($this->_db);
-        $select->from(
-            array('hard_coded_taxon_lists'),
-            array('total' => new Zend_Db_Expr('COUNT(*)'))
-        )->where('rank = ? AND name = ?');
-        $select->bind(array($rank, $name));
+        // Higher taxa
+        if($this->_stringRefersToHigherTaxa($rank)) {
+            $select->from(
+                array('families'),
+                array('total' => new Zend_Db_Expr('COUNT(*)'))
+            )->where("`$rank` = ?", $name);
+        }
+        // Genus, species, infraspecies
+        else {
+            $select->from(
+                array('hard_coded_taxon_lists'),
+                array('total' => new Zend_Db_Expr('COUNT(*)'))
+            )->where('rank = ? AND name = ?');
+            $select->bind(array($rank, $name));
+        }
         return (bool)$select->query()->fetchColumn(0);
+    }
+    
+    protected function _stringRefersToHigherTaxa($rank)
+    {
+        return !in_array($rank, array('genus', 'species', 'infraspecies'));
     }
     
     /**
@@ -608,22 +651,8 @@ class ACI_Model_Search extends AModel
      */
     protected function _getMinStrLen($rank, array $key)
     {
-        $min = isset(self::$_apiMinStrLen[$rank]) ?
-            self::$_apiMinStrLen[$rank] : 1;
-            
-        switch($rank) {
-            case 'species':
-                if(isset($key['genus'])) {
-                    $min = 0;
-                }
-            break;
-            case 'infraspecies':
-                if(!empty($key)) {
-                    $min = 0;
-                }
-            break;
-        }
-        return $min;
+        return empty($key) ?
+            ($this->_stringRefersToHigherTaxa($rank) ? 0 : 1) : 0;
     }
     
     /**
