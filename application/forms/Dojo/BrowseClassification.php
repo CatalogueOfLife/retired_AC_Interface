@@ -31,6 +31,7 @@ class ACI_Form_Dojo_BrowseClassification extends ACI_Form_Dojo_AMultiCombo
             'species' => 'Species',
             'infraspecies' => 'Infraspecies'
         );
+        $this->_fetchUrl = 'classification/fetch';
         parent::init();
     }
 }

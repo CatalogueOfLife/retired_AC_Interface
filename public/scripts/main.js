@@ -10,6 +10,16 @@ showLoader = function() {
         dojo.byId('loader').style.visibility = 'visible';
     }
 }
+removeKey = function () {
+    dojo._destroyElement(dojo.byId('key'));
+}
+submitMultiForm = function() {
+    showLoader();
+    removeKey();
+}
+submitSimpleForm = function() {
+    showLoader();
+}
 isFormValid = function() {
     var elements = getFormInputElements();    
     if(elements.length > 0) {        

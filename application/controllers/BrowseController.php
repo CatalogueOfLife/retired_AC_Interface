@@ -42,16 +42,19 @@ class BrowseController extends AController
     
     public function classificationAction()
     {
-    	if($this->_getParam('name'))
-    	{
-    	   $this->_setParamForTaxa($this->_getParam('name'));
-    	}
-        //TODO: fix fetch action to work for all search fields
+        // Search hint query request
         $fetch = $this->_getParam('fetch', false);
         if ($fetch) {
             $this->view->layout()->disableLayout();
-            $this->_sendRankData($fetch);
-            return;
+            exit(
+                $this->getHelper('Query')->fetchTaxaByRank(
+                    $fetch, $this->_getParam('q'), $this->_getParam('p')
+                )
+            );
+        }
+        if($this->_getParam('name', false))
+        {
+           $this->_setParamForTaxa($this->_getParam('name'));
         }
         $this->view->title = $this->view
             ->translate('Taxonomic_classification');
@@ -79,7 +82,7 @@ class BrowseController extends AController
         // Set form input values from request params
         foreach($elements as $el) {
             $field = $form->getElement($el);
-            if($field) { 
+            if($field) {
                 $v = $this->_getParam($el, null);
                 if($v !== null) {
                     $field->setValue($this->_getParam($el));

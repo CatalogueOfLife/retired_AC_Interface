@@ -13,7 +13,8 @@
 abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
 {
     protected $_combos;
-    
+    protected $_fetchUrl;
+   
     public function init()
     {
         foreach ($this->_combos as $comboId => $comboLabel) {
@@ -29,7 +30,7 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
                     'storeId' => $comboId . 'Store',
                     'storeType' => 'ACI.dojo.TxReadStore',
                     'storeParams' => array(
-                        'url' => 'scientific/fetch/' . $comboId
+                        'url' => $this->_fetchUrl . '/' . $comboId
                     ),
                     'dijitParams' => array(
                         'searchAttr' => 'name',
@@ -92,7 +93,7 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
             )
         );
         
-        $this->setAttrib('onsubmit', 'showLoader');
+        $this->setAttrib('onsubmit', 'submitMultiForm');
     }
     
     public function getInputElements()

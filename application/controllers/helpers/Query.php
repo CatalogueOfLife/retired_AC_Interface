@@ -104,4 +104,72 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         return $this->getActionController()->getHelper('SessionHandler')
             ->get('latest_query', false);
     }
+    
+    /**
+     * Returns an array with all taxa names by rank on a dojo-suitable format
+     * Used to populate the scientific search combo boxes
+     *
+     * @return void
+     */
+    public function fetchTaxaByRank($rank, $query, $params)
+    {
+        $params = $this->_filterRankParams(
+            $this->decodeKey($params), $rank
+        );
+        $query = str_replace('\\', '', $query);
+        $search = new ACI_Model_Search(Zend_Registry::get('db'));
+        $res = $search->fetchTaxaByRank($rank, $query, $params);
+        foreach ($res as &$row) {
+            $row['label'] = $this->getActionController()
+                ->getHelper('TextDecorator')->highlightMatch(
+                    $row['name'], substr($query, 1, -1)
+                );
+        }
+        return new Zend_Dojo_Data('name', $res, $rank);
+    }
+    
+    /**
+     * It takes a key -> value array with the submitted rank -> string pairs
+     * and removes those that are not relevant for the filtering of the main
+     * rank ($rank)
+     *
+     * @param array $params
+     * @param string $rank
+     * @return array $params
+     */
+    protected function _filterRankParams(array $params, $rank) {
+        if(isset($params[$rank])) {
+            unset($params[$rank]);
+        }
+        if(empty($params)) {
+            return array();
+        }
+        $search = new ACI_Model_Search(Zend_Registry::get('db'));
+        foreach($params as $r => $str) {
+            if(trim($str) == '') {
+                unset($params[$r]);
+                continue;
+            }
+            if(!$search->taxaExists($r, $str)) {
+                unset($params[$r]);
+            }
+        }
+        return $params;
+    }
+    
+    /**
+     * Converts a JSON string to array or object, although it always returns
+     * an array
+     *
+     * @param string $key
+     * @return array $res
+     */
+    public function decodeKey($key)
+    {
+        $res = Zend_Json::decode(stripslashes($key));
+        if(!is_array($res)) {
+            return array();
+        }
+        return $res;
+    }
 }
