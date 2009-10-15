@@ -313,7 +313,7 @@ class ACI_Model_Details extends AModel
         )
         ->where('cn.name_code = ?', $nameCode)
         ->group(array('cn.common_name', 'cn.language', 'cn.country'))
-        ->order(array('cn.common_name', 'cn.language', 'cn.country'));
+        ->order(array('cn.language', 'cn.common_name', 'cn.country'));
         
         return $select->query()->fetchAll();
     }
