@@ -119,13 +119,20 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         $query = str_replace('\\', '', $query);
         $cleanQuery = substr($query, 1, -1);
         $search = new ACI_Model_Search(Zend_Registry::get('db'));
-        $res = $search->fetchTaxaByRank($rank, $query, $params);
+        $res = $this->parseFetchedResults(
+            $search->fetchTaxaByRank($rank, $query, $params), $cleanQuery
+        );
+        return new Zend_Dojo_Data('name', $res, $rank);
+    }
+    
+    protected function parseFetchedResults(array $res, $query)
+    {
         $error = $res['error'];
         unset($res['error']);
         if (!$res || $error) {
             switch ($error) {
                 case 1:
-                    $errStr = 'Error_key_too_short';
+                    $errStr = 'Please_enter_a_longer_search_string';
                     break;
                 case 2:
                     $errStr = 'Too_many_results_to_display';
@@ -139,18 +146,18 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                     'label' => $this->getActionController()
                         ->getHelper('TextDecorator')
                         ->decorateComboLabel($errStr),
-                    'name' => $cleanQuery)
+                    'name' => $query)
             );
         }
         else {
             foreach ($res as &$row) {
                 $row['label'] = $this->getActionController()
                     ->getHelper('TextDecorator')->highlightMatch(
-                        $row['name'], $cleanQuery
+                        $row['name'], $query
                     );
             }
         }
-        return new Zend_Dojo_Data('name', $res, $rank);
+        return $res;
     }
     
     /**

@@ -98,6 +98,12 @@ class ACI_Model_Table_Taxa
      */
     public static function getRankString($id)
     {
+        $ranks = self::getRanks();
+        return isset($ranks[$id]) ? $ranks[$id] : '';
+    }
+    
+    public static function getRanks()
+    {
         $ranks = array(
             self::RANK_KINGDOM => 'RANK_KINGDOM',
             self::RANK_PHYLUM => 'RANK_PHYLUM',
@@ -109,7 +115,7 @@ class ACI_Model_Table_Taxa
             self::RANK_SPECIES => 'RANK_SPECIES',
             self::RANK_INFRASPECIES => 'RANK_INFRASPECIES'
         );
-        return isset($ranks[$id]) ? $ranks[$id] : '';
+        return $ranks;
     }
     
     public function hasSynonyms()

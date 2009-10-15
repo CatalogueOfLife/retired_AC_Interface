@@ -543,13 +543,12 @@ class ACI_Model_Search extends AModel
     protected function _getTaxaNameFilteredQuery($rank, $qStr, $str, array $key)
     {
         $select = new Zend_Db_Select($this->_db);
+        $field = $this->stringRefersToHigherTaxa($rank) ?
+            "f.$rank" : "sn.$rank";
         $select->distinct()
         ->from(
             array('sn' => 'scientific_names'),
-            array('name' =>
-                $this->_stringRefersToHigherTaxa($rank) ?
-                "f.$rank" : "sn.$rank"
-            )
+            array('name' => $field)
         )->join(
             array('f' => 'families'),
             'f.record_id = sn.family_id',
@@ -560,10 +559,11 @@ class ACI_Model_Search extends AModel
         }
         foreach($key as $p => $v) {
             $select->where(
-                $this->_stringRefersToHigherTaxa($p) ?
+                $this->stringRefersToHigherTaxa($p) ?
                 "f.$p = ?" : "sn.$p = ?", $v
             );
         }
+        $select->where("$field IS NOT NULL");
         $select->order(
             array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"),
             $rank
@@ -583,7 +583,7 @@ class ACI_Model_Search extends AModel
     {
         $select = new Zend_Db_Select($this->_db);
         // Search for higher taxa in families
-        if ($this->_stringRefersToHigherTaxa($rank)) {
+        if ($this->stringRefersToHigherTaxa($rank)) {
             $select->distinct()
                ->from(array('families'), array('name' => $rank))
                ->where(
@@ -621,7 +621,7 @@ class ACI_Model_Search extends AModel
     public function taxaExists($rank, $name) {
         $select = new Zend_Db_Select($this->_db);
         // Higher taxa
-        if($this->_stringRefersToHigherTaxa($rank)) {
+        if($this->stringRefersToHigherTaxa($rank)) {
             $select->from(
                 array('families'),
                 array('total' => new Zend_Db_Expr('COUNT(*)'))
@@ -638,13 +638,17 @@ class ACI_Model_Search extends AModel
         return (bool)$select->query()->fetchColumn(0);
     }
     
-    protected function _stringRefersToHigherTaxa($rank)
+    public function stringRefersToHigherTaxa($rank)
     {
-        return !in_array($rank, array('genus', 'species', 'infraspecies'));
+        $rankId = array_search(
+            $this->normalizeRank($rank), ACI_Model_Table_Taxa::getRanks()
+        );
+        return $rankId < ACI_Model_Table_Taxa::RANK_GENUS;
     }
     
     /**
-     * Gets the minimum query length when searching for taxa based on the rank
+     * Rules to decide the minimum string length of a field in what refers
+     * to search hinting
      *
      * @param string $rank
      * @param array $key
@@ -652,8 +656,43 @@ class ACI_Model_Search extends AModel
      */
     protected function _getMinStrLen($rank, array $key)
     {
-        return empty($key) ?
-            ($this->_stringRefersToHigherTaxa($rank) ? 0 : 2) : 0;
+        $ranks = ACI_Model_Table_Taxa::getRanks();
+        
+        // no limit for higher taxa
+        if ($this->stringRefersToHigherTaxa($rank)) {
+            return 0;
+        }
+        // if no other keys exist, require 2 chars min
+        else if(empty($key)) {
+            return 2;
+        }
+        // Genus
+        if($this->normalizeRank($rank)
+            == $ranks[ACI_Model_Table_Taxa::RANK_GENUS]) {
+            return 0;
+        }
+        // Species and infraspecies
+        return isset($key['kingdom']) ? (count($key) > 1 ? 0 : 1) : 0;
+    }
+    
+    /**
+     * Returns the normalized name of a rank from the simple one, ex:
+     * phylum -> RANK_PHYLUM
+     * genus -> RANK_GENUS
+     *
+     * @see ACI_Model_Table_Taxa::getRanks
+     *
+     * @param string $rank
+     * @return string
+     */
+    protected function normalizeRank($rank)
+    {
+        $prefix = 'RANK_';
+        $rank = strtoupper($rank);
+        if(strpos($rank, $prefix) === 0) {
+            return $rank;
+        }
+        return $prefix . $rank;
     }
     
     /**
