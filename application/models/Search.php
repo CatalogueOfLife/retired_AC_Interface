@@ -31,11 +31,11 @@ class ACI_Model_Search extends AModel
     
     protected static function _getSortParams($action)
     {
-        if(!isset(self::$_defaultSortParams[$action])) {
+        if (!isset(self::$_defaultSortParams[$action])) {
             return false;
         }
         $params = self::$_defaultSortParams[$action];
-        if(isset(self::$_prioritarySortParams[$action])) {
+        if (isset(self::$_prioritarySortParams[$action])) {
             $params = array_merge(
                 self::$_prioritarySortParams[$action], $params
             );
@@ -222,8 +222,9 @@ class ACI_Model_Search extends AModel
         )
         ->where('ds.distribution LIKE ?', '%' . $searchKey . '%');
         
-        $replacedSearchKey =
-            $this->_wildcardHandlingInRegExpression($searchKey,$matchWholeWords);
+        $replacedSearchKey = $this->_wildcardHandlingInRegExpression(
+            $searchKey, $matchWholeWords
+        );
         $select->where(
             ' ds.distribution REGEXP "' . $replacedSearchKey . '" = 1'
         );
@@ -363,7 +364,7 @@ class ACI_Model_Search extends AModel
                 array()
             )
             ->where(
-                'ss.words ' . (strstr($searchKey,'%') ? 'LIKE' : '=') . ' ? ' .
+                'ss.words ' . (strstr($searchKey, '%') ? 'LIKE' : '=') . ' ? ' .
                 'AND tx.is_species_or_nonsynonymic_higher_taxon = 1',
                 $searchKey
             );
@@ -471,16 +472,19 @@ class ACI_Model_Search extends AModel
         );
          
         if ($matchWholeWords) {
-            $replacedSearchKey = $this->_wildcardHandlingInRegExpression($searchKey,$matchWholeWords);
+            $replacedSearchKey = $this->_wildcardHandlingInRegExpression(
+                $searchKey, $matchWholeWords
+            );
             $select->where(
                 ' cn.common_name REGEXP "' . $replacedSearchKey . '" = 1'
             );
         } else {
             $select
                 ->where('cn.common_name LIKE "%' . $searchKey . '%"');
-        }
-        
-        $select->group(array('name', 'language', 'accepted_species_id', 'db.record_id'));
+        }        
+        $select->group(
+            array('name', 'language', 'accepted_species_id', 'db.record_id')
+        );
          
         return $select;
     }
@@ -497,23 +501,22 @@ class ACI_Model_Search extends AModel
         $select = new Zend_Db_Select($this->_db);
         $joinSn = true;
 
-        foreach($key as $rank => $name) {
-            if($this->stringRefersToHigherTaxa($rank)) {
+        foreach ($key as $rank => $name) {
+            if ($this->stringRefersToHigherTaxa($rank)) {
                 $field = "fm.$rank";
                 $joinSn = false;
-            }
-            else {
+            } else {
                 $field = "sn.$rank";
             }
-            if(trim($name) != '') {
+            if (trim($name) != '') {
                 $searchKey = $this->_wildcardHandling($name);
-                if($matchWholeWords) {
-                    $select->where($field . ' ' .
+                if ($matchWholeWords) {
+                    $select->where(
+                        $field . ' ' .
                         (strstr($searchKey, '%') ? 'LIKE' : '=') . ' ?',
                         $searchKey
                     );
-                }
-                else {
+                } else {
                     $select->where($field . ' LIKE "%' . $searchKey . '%"');
                 }
             }
@@ -532,7 +535,7 @@ class ACI_Model_Search extends AModel
             'sn.database_id = db.record_id',
             array()
         );
-        if($joinSn) {
+        if ($joinSn) {
             $select
             ->joinLeft(
                 array('sna' => 'scientific_names'),
@@ -545,8 +548,7 @@ class ACI_Model_Search extends AModel
                 'sn.name_code = tx.name_code',
                 array()
             );
-        }
-        else {
+        } else {
             $select->where('sn.is_accepted_name = 1');
         }
         return $select;
@@ -608,10 +610,10 @@ class ACI_Model_Search extends AModel
             'f.record_id = sn.family_id',
             array()
         );
-        if($str) {
+        if ($str) {
             $select->where("`$rank` LIKE \"" . $qStr . "\"");
         }
-        foreach($key as $p => $v) {
+        foreach ($key as $p => $v) {
             $select->where(
                 $this->stringRefersToHigherTaxa($p) ?
                 "f.$p = ?" : "sn.$p = ?", $v
@@ -619,9 +621,8 @@ class ACI_Model_Search extends AModel
         }
         $select->where("$field IS NOT NULL");
         $select->order(
-            array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"),
-            $rank
-        ));
+            array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"), $rank)
+        );
         return $select;
     }
     
@@ -646,12 +647,9 @@ class ACI_Model_Search extends AModel
                    "`$rank` LIKE \"" . $qStr . "\""
                )
                ->order(
-                   array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"),
-                   $rank
-               ));
-        }
-        // Search for species in hard_coded_taxon_lists
-        else {
+                   array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"), $rank)
+               );
+        } else { // Search for species in hard_coded_taxon_lists
             $select->distinct()
                ->from(array('hard_coded_taxon_lists'), array('name'))
                ->where('rank = ? AND name LIKE "' . $qStr . '"', $rank)
@@ -672,17 +670,16 @@ class ACI_Model_Search extends AModel
      * @param string $name
      * @return boolean
      */
-    public function taxaExists($rank, $name) {
+    public function taxaExists($rank, $name)
+    {
         $select = new Zend_Db_Select($this->_db);
         // Higher taxa
-        if($this->stringRefersToHigherTaxa($rank)) {
+        if ($this->stringRefersToHigherTaxa($rank)) {
             $select->from(
                 array('families'),
                 array('total' => new Zend_Db_Expr('COUNT(*)'))
             )->where("`$rank` = ?", $name);
-        }
-        // Genus, species, infraspecies
-        else {
+        } else { // Genus, species, infraspecies
             $select->from(
                 array('hard_coded_taxon_lists'),
                 array('total' => new Zend_Db_Expr('COUNT(*)'))
@@ -715,13 +712,11 @@ class ACI_Model_Search extends AModel
         // no limit for higher taxa
         if ($this->stringRefersToHigherTaxa($rank)) {
             return 0;
-        }
-        // if no other keys exist, require 2 chars min
-        else if(empty($key)) {
+        } else if (empty($key)) { // if no other keys exist, require 2 chars min
             return 2;
         }
         // Genus
-        if($this->normalizeRank($rank)
+        if ($this->normalizeRank($rank)
             == $ranks[ACI_Model_Table_Taxa::RANK_GENUS]) {
             return 0;
         }
@@ -743,7 +738,7 @@ class ACI_Model_Search extends AModel
     {
         $prefix = 'RANK_';
         $rank = strtoupper($rank);
-        if(strpos($rank, $prefix) === 0) {
+        if (strpos($rank, $prefix) === 0) {
             return $rank;
         }
         return $prefix . $rank;
@@ -833,12 +828,13 @@ class ACI_Model_Search extends AModel
     protected function _wildcardHandlingInRegExpression($searchString,
         $matchWholeWords=true)
     {
-        if($matchWholeWords == true)
-        {
-            return str_replace('%', '[^ \.\"\'\(\),;:-]*', '[[:<:]]' . $searchString . '[[:>:]]');
-        }
-        else
-        {
+        if ($matchWholeWords == true) {
+            return str_replace(
+                '%', '[^ \.\"\'\(\),;:-]*', '[[:<:]]' . 
+                $searchString . 
+                '[[:>:]]'
+            );
+        } else {
             return str_replace('%', '.*', $searchString);
         }
     }

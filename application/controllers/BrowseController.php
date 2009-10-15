@@ -39,9 +39,6 @@ class BrowseController extends AController
              ->requireModule('ACI.dojo.TxTree')
              ->requireModule('ACI.dojo.TxTreeNode');
     }
-    public function ss() {
-        
-    }
     
     public function classificationAction()
     {
@@ -81,11 +78,11 @@ class BrowseController extends AController
             $this->_renderResultsPage($form->getInputElements());
         // Form page
         } else {
-            if(!$formIsValid && $this->_hasParam('match')) {
+            if (!$formIsValid && $this->_hasParam('match')) {
                 $this->view->formError = true;
                 $this->_setSessionFromParams($form->getInputElements());
             }
-            if($this->_getParam('submit', 1)) {
+            if ($this->_getParam('submit', 1)) {
                 $this->_setParamsFromSession($form->getInputElements());
             }
             $this->_renderFormPage($this->view->title, $form);
@@ -96,18 +93,15 @@ class BrowseController extends AController
     {
         $select = new ACI_Model_Search($this->_db);
         $recordId = $select->getRecordIdFromName($name);
-        if($recordId) {
+        if ($recordId) {
             $hierarchy = $this->_getHierarchy($recordId[0]['id']);
         }
-        if($hierarchy && is_array($hierarchy))
-        {
-            foreach($hierarchy as $rank)
-            {
-                if($rank != 0)
-                {
+        if ($hierarchy && is_array($hierarchy)) {
+            foreach ($hierarchy as $rank) {
+                if ($rank != 0) {
                     $temp = $select->getRankAndNameFromRecordId($rank);
                     $this->_setParam(
-                        strtolower($temp[0]['rank']),$temp[0]['name']
+                        strtolower($temp[0]['rank']), $temp[0]['name']
                     );
                 }
             }
@@ -153,9 +147,9 @@ class BrowseController extends AController
                 $this->view->baseUrl() . '/details/species/id/' . $row['snId'] :
                 null;
             $row['subsp'] = null;
-            if($row['type'] == 'Infraspecies') {
+            if ($row['type'] == 'Infraspecies') {
                 $split = explode('subsp.', $row['name']);
-                if(count($split) > 1) {
+                if (count($split) > 1) {
                     $row['name'] = $split[0];
                     $row['subsp'] = $split[1];
                 }

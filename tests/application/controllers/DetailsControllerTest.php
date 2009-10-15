@@ -71,7 +71,8 @@ class DetailsControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         //LSID 
         $this->assertQueryContentContains(
             'table.details-table tr td p.lsid', 
-            'urn:lsid:catalogueoflife.org:taxon:f0c67b16-29c1-102b-9a4a-00304854f820:ac2009'
+            'urn:lsid:catalogueoflife.org:taxon:f0c67b16-29c1-102b-9a4a-' . 
+            '00304854f820:ac2009'
         );   
     }
     

@@ -4,8 +4,10 @@
  *
  * // Basic output:
  * <script type="text/javascript">
- * var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
- * document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+ * var gaJsHost = (("https:" == document.location.protocol) ? 
+ *     "https://ssl." : "http://www.");
+ * document.write(unescape("%3Cscript src='" + gaJsHost + 
+ *     "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
  * </script>
  * <script type="text/javascript">
  * try {
@@ -49,7 +51,7 @@ class Eti_View_Helper_GoogleAnalytics
      *
      * @return $this for more fluent interface
      */
-    public function GoogleAnalytics ($trackerId = null,
+    public function GoogleAnalytics($trackerId = null,
         array $options = array())
     {
         if (! is_null($trackerId)) {
@@ -70,17 +72,17 @@ class Eti_View_Helper_GoogleAnalytics
      *
      * @return $this for more fluent interface
      */
-    public function __call ($optionsName, $optionsArgs)
+    public function __call($optionsName, $optionsArgs)
     {
         if (in_array($optionsName, self::$_availableOptions) === false) {
             throw new Exception(
-                'Unknown "' . $optionFunc . '" GoogleAnalytics options'
+                'Unknown "' . $optionsName . '" GoogleAnalytics options'
             );
         }
         if (empty($optionsArgs)) {
             throw new Exception(
                 'Missing TrackerId has first Argument on
-                "$this->GoogleAnalytics->' . $optionFunc . '()" function call'
+                "$this->GoogleAnalytics->' . $optionsName . '()" function call'
             );
         }
         $trackerId = array_shift($optionsArgs);
@@ -96,7 +98,7 @@ class Eti_View_Helper_GoogleAnalytics
      *
      * @return $this for more fluent interface
      */
-    public function addTrackerOptions ($trackerId, array $options)
+    public function addTrackerOptions($trackerId, array $options)
     {
         foreach ($options as $optionsArgs) {
             $optionsName = array_shift($optionsArgs);
@@ -114,7 +116,7 @@ class Eti_View_Helper_GoogleAnalytics
      *
      * @return $this for more fluent interface
      */
-    protected function _addTrackerOption ($trackerId, $optionsName,
+    protected function _addTrackerOption($trackerId, $optionsName,
         array $optionsArgs = array())
     {
         $trackerOptions = &$this->_getTrackerOptions($trackerId);
@@ -130,9 +132,9 @@ class Eti_View_Helper_GoogleAnalytics
      *
      * @return array an array of options for requested tracker id
      */
-    protected function &_getTrackerOptions ($trackerId)
+    protected function &_getTrackerOptions($trackerId)
     {
-        if (! isset(self::$_trackerOptionsByIds[$trackerId])) {
+        if (!isset(self::$_trackerOptionsByIds[$trackerId])) {
             self::$_trackerOptionsByIds[$trackerId] = array();
         }
         return self::$_trackerOptionsByIds[$trackerId];
@@ -140,15 +142,14 @@ class Eti_View_Helper_GoogleAnalytics
     
     //
     // Render
-    //
-    
+    //    
 
     /**
      * Cast to string representation
      *
      * @return string
      */
-    public function __toString ()
+    public function __toString()
     {
         return $this->toString();
     }
@@ -156,7 +157,7 @@ class Eti_View_Helper_GoogleAnalytics
     /**
      * Rendering Google Anaytics Tracker script
      */
-    public function toString ()
+    public function toString()
     {
         if ((bool)$this->_trackerId == false) {
             return '';

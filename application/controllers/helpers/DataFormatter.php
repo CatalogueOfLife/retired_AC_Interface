@@ -14,10 +14,9 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         foreach ($it as $k => $row) {
             if ($row['rank'] >= ACI_Model_Table_Taxa::RANK_SPECIES) {
                 $res[$i]['link'] = $translator->translate('Show_details');
-                if(ACI_Model_Table_Taxa::isSynonym($row['status'])) {
+                if (ACI_Model_Table_Taxa::isSynonym($row['status'])) {
                     $res[$i]['url'] = '/details/species/id/' . $row['id'];
-                }
-                else {
+                } else {
                 $res[$i]['url'] =
                     '/details/species/id/' . $row['accepted_species_id'];
                 }
@@ -35,12 +34,12 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     $textDecorator->highlightMatch(
                         $row['name'],
                         $this->getRequest()->getParam('key', false) ?
-                            $this->getRequest()->getParam('key') :
-                            array(
-                                $this->getRequest()->getParam('genus'),
-                                $this->getRequest()->getParam('species'),
-                                $this->getRequest()->getParam('infraspecies')
-                            ),
+                        $this->getRequest()->getParam('key') :
+                        array(
+                            $this->getRequest()->getParam('genus'),
+                            $this->getRequest()->getParam('species'),
+                            $this->getRequest()->getParam('infraspecies')
+                        ),
                         (bool)$this->getRequest()->getParam('match')
                     ),
                     $row['status'],
@@ -73,8 +72,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $res[$i]['dbLabel'] = $row['db_name'];
             $res[$i]['dbUrl'] =
                 '/details/database/id/' . $row['db_id'];
-            if(isset($row['distribution']))
-            {
+            if (isset($row['distribution'])) {
                 $res[$i]['distribution'] = $textDecorator->highlightMatch(
                     $row['distribution'],
                     $this->getRequest()->getParam('key'),
@@ -94,12 +92,10 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     
     public function formatPlain(array $data)
     {
-        $translator = Zend_Registry::get('Zend_Translate');
-        /*$textDecorator =
-            $this->getActionController()->getHelper('TextDecorator');*/
-        foreach($data as &$row)
-        {
-            $row['name'] = $this->_getTaxaSuffix($row['name'], $row['status'],
+        $translator = Zend_Registry::get('Zend_Translate');        
+        foreach ($data as &$row) {
+            $row['name'] = $this->_getTaxaSuffix(
+                $row['name'], $row['status'],
                 $row['status'] == ACI_Model_Table_Taxa::STATUS_COMMON_NAME ?
                 $row['language'] : $row['author']
             );
@@ -178,20 +174,19 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     $synonym['num_references'], strip_tags($synonym['name'])
                 );
             }
-        }
-        else {
+        } else {
             $speciesDetails->synonyms = '-';
         }
         // TODO: optimize the following code:
         if (!empty($speciesDetails->commonNames)) {
             foreach ($speciesDetails->commonNames as &$common) {
-                    $common['referenceLabel'] = $this->getReferencesLabel(
-                    $common['num_references'], strip_tags($common['common_name'])
+                $common['referenceLabel'] = $this->getReferencesLabel(
+                    $common['num_references'], 
+                    strip_tags($common['common_name'])
                 );
             }
-        }
-        else {
-        	$speciesDetails->commonNames = '-';
+        } else {
+            $speciesDetails->commonNames = '-';
         }
         if ($speciesDetails->hierarchy == '') {
             $speciesDetails->hierarchy = '-';
@@ -270,52 +265,45 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     
     public function getTaxonLinksInDatabaseDetailsPage($taxonCoverage)
     {
-    	$firstKingdom = true;
-    	$output = '';
-    	$splitByKingdom = explode(';',$taxonCoverage);
-    	foreach ($splitByKingdom as $kingdom)
-    	{
+        $firstKingdom = true;
+        $output = '';
+        $splitByKingdom = explode(';', $taxonCoverage);
+        foreach ($splitByKingdom as $kingdom) {
             $firstRank = true;
-    		if($firstKingdom == true)
-    		{
-    			$firstKingdom = false;
-    		}
-    		else
-    		{
-    			$output .= ';<br />';
-    		}
-    		$splitByRank = explode('-',$kingdom);
-    		foreach ($splitByRank as $rank)
-    		{
-	            if($firstRank == true)
-	            {
-	                $firstRank = false;
-	            }
-	            else
-	            {
-	                $output .= ' - ';
-	            }
-    			$firstSameRank = true;
-    			$splitBySameRank = explode(',',$rank);
-    			foreach ($splitBySameRank as $sameRank)
-    			{
-	                ($firstSameRank == true ? $firstSameRank = false : $output .= ', ');
-    				$trimmedRank = trim($sameRank);
-    				$output .= (!strstr($trimmedRank, ' ') ?
-    				    '<a href="' . $this->getFrontController()->getBaseUrl() .
-    				    '/browse/classification/name/' . $trimmedRank . '">' .
-    				    $trimmedRank . '</a>' :
-    				    $trimmedRank
-    				);
-    			}
-    		}
-    	}
-    	return $output;
+            if ($firstKingdom == true) {
+                $firstKingdom = false;
+            } else {
+                $output .= ';<br />';
+            }
+            $splitByRank = explode('-', $kingdom);
+            foreach ($splitByRank as $rank) {
+                if ($firstRank == true) {
+                    $firstRank = false;
+                } else {
+                    $output .= ' - ';
+                }
+                $firstSameRank = true;
+                $splitBySameRank = explode(',', $rank);
+                foreach ($splitBySameRank as $sameRank) {
+                    ($firstSameRank == true ? 
+                        $firstSameRank = false : $output .= ', ');
+                    $trimmedRank = trim($sameRank);
+                    $output .= (!strstr($trimmedRank, ' ') ?
+                        '<a href="' . 
+                        $this->getFrontController()->getBaseUrl() .
+                        '/browse/classification/name/' . $trimmedRank . '">' .
+                        $trimmedRank . '</a>' :
+                        $trimmedRank
+                    );
+                }
+            }
+        }
+        return $output;
     }
     
     protected function _getTaxaSuffix($source, $status, $suffix)
     {
-        if($suffix) {
+        if ($suffix) {
             switch($status) {
                 case ACI_Model_Table_Taxa::STATUS_COMMON_NAME:
                     $source .= ' (' . $suffix . ')';

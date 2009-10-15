@@ -24,33 +24,33 @@ class ACI_Helper_SessionHandler extends Zend_Controller_Action_Helper_Abstract
     public function set($property, $value, $addContext = true)
     {
         $this->_session->unlockAll();
-        if($addContext == true) {
+        if ($addContext == true) {
             $this->_addContext($property);
         }
         $this->_session->$property = $this->_cleanString($value);
     }
     public function get($property, $addContext = true)
     {
-        if($addContext == true) {
+        if ($addContext == true) {
             $this->_addContext($property);
         }
         return $this->_session->$property;
     }
     public function clear($property = null)
     {
-        if(is_null($property)) {
+        if (is_null($property)) {
             $this->_session->unsetAll();
-        }
-        else {
+        } else {
             $this->_addContext($property);
             unset($this->_session->$property);
         }
     }
-    public function getContextParams($context) {
+    public function getContextParams($context)
+    {
         $it = $this->getIterator();
         $params = array();
-        foreach($it as $k => $v) {
-            if(strpos($k, $context) === 0) {
+        foreach ($it as $k => $v) {
+            if (strpos($k, $context) === 0) {
                 $i = substr(
                     $k, strlen($context) + 1, strlen($k) - strlen($context)
                 );

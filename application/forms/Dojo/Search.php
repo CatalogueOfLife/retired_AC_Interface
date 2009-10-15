@@ -14,10 +14,12 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
 {
     public function init ()
     {
-        $this->setAttribs(array(
-            'id' => 'searchForm',
-            'name' => 'searchForm'
-        ));
+        $this->setAttribs(
+            array(
+                'id' => 'searchForm',
+                'name' => 'searchForm'
+            )
+        );
         $this->setMethod(Zend_Form::METHOD_GET);
         $translator = Zend_Registry::get('Zend_Translate');
         

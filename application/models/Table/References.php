@@ -19,11 +19,11 @@ class ACI_Model_Table_References extends Zend_Db_Table_Abstract
     {
         $snr = new ACI_Model_Table_ScientificNameReferences();
         $refIds = $snr->get($nameCode);
-        if(empty($refIds)) {
+        if (empty($refIds)) {
             return array();
         }
         $select = $this->select(true)->where(
-           'record_id IN (' . implode(',', $refIds) . ')'
+            'record_id IN (' . implode(',', $refIds) . ')'
         );
         
         $stmt = $this->_db->query($select);

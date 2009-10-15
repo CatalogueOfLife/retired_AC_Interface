@@ -26,9 +26,10 @@ class ACI_Model_Table_ScientificNameReferences extends Zend_Db_Table_Abstract
         return $this->_filterData($data);
     }
     
-    protected function _filterData($data) {
+    protected function _filterData($data)
+    {
         $filteredData = array();
-        foreach($data as $d) {
+        foreach ($data as $d) {
             $filteredData[] = $d['reference_id'];
         }
         return $filteredData;

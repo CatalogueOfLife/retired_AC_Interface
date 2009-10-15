@@ -14,10 +14,12 @@ class ACI_Form_Dojo_ItemsPerPage extends Zend_Dojo_Form
 {
     public function init()
     {
-        $this->setAttribs(array(
-            'id' => 'itemsPerPage',
-            'name' => 'itemsPerPage'
-        ));
+        $this->setAttribs(
+            array(
+                'id' => 'itemsPerPage',
+                'name' => 'itemsPerPage'
+            )
+        );
         
         $this->setMethod(Zend_Form::METHOD_GET);
 

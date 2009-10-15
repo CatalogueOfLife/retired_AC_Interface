@@ -186,7 +186,7 @@ class ACI_Model_Details extends AModel
             array()
         )->where('sn.record_id = ?', (int)$id);
         $links = $select->query()->fetchAll();
-        if(isset($links[0])) {
+        if (isset($links[0])) {
             return $links[0];
         }
         return array($id, null);
@@ -302,7 +302,8 @@ class ACI_Model_Details extends AModel
                 'cn.common_name',
                 'cn.language',
                 'cn.country',
-                'num_references' => 'IF(reference_id IS NULL OR reference_id = "", SUM(0), SUM(1))',
+                'num_references' => 'IF(reference_id IS NULL OR ' . 
+                    'reference_id = "", SUM(0), SUM(1))',
                 'references' => 'GROUP_CONCAT(reference_id)'
             )
         )

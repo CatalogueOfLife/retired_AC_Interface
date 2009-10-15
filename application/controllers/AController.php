@@ -40,11 +40,12 @@ abstract class AController extends Zend_Controller_Action
     
     protected function _renderFormPage($header, $form)
     {
-        if($form instanceof ACI_Form_Dojo_AMultiCombo) {
+        if ($form instanceof ACI_Form_Dojo_AMultiCombo) {
             $this->view->dojo()
                  ->registerModulePath(
-                    'ACI', $this->view->baseUrl() . '/scripts/library/ACI'
-                 )->requireModule('ACI.dojo.TxReadStore');
+                     'ACI', $this->view->baseUrl() . '/scripts/library/ACI'
+                 )
+                 ->requireModule('ACI.dojo.TxReadStore');
             // ComboBox (v1.3.2) custom extension
             $this->view->headScript()->appendFile(
                 $this->view->baseUrl() . '/scripts/ComboBox.ext.js'
@@ -66,7 +67,7 @@ abstract class AController extends Zend_Controller_Action
     }
     protected function _setParamsFromSession(array $params)
     {
-        foreach($params as $p) {
+        foreach ($params as $p) {
             $v = $this->getHelper('SessionHandler')->get($p);
             if ($v !== null) {
                 $this->_logger->debug("Setting $p to $v from session");

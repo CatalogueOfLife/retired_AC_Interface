@@ -24,7 +24,7 @@ class SearchController extends AController
             $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage($form->getInputElements());
         } else {
-            if(!$this->_hasParam('key')) {
+            if (!$this->_hasParam('key')) {
                 $this->_setParamsFromSession($form->getInputElements());
             }
             $this->_renderFormPage($this->view->title, $form);
@@ -63,11 +63,11 @@ class SearchController extends AController
             $this->_renderResultsPage($form->getInputElements());
         // Form page
         } else {
-            if(!$formIsValid && $this->_hasParam('match')) {
+            if (!$formIsValid && $this->_hasParam('match')) {
                 $this->view->formError = true;
                 $this->_setSessionFromParams($form->getInputElements());
             }
-            if($this->_getParam('submit', 1)) {
+            if ($this->_getParam('submit', 1)) {
                 $this->_setParamsFromSession($form->getInputElements());
             }
             $this->_renderFormPage($this->view->title, $form);
@@ -85,7 +85,7 @@ class SearchController extends AController
             $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage($form->getInputElements());
         } else {
-            if(!$this->_hasParam('key')) {
+            if (!$this->_hasParam('key')) {
                 $this->_setParamsFromSession($form->getInputElements());
             }
             $this->_renderFormPage($this->view->title, $form);
@@ -109,7 +109,7 @@ class SearchController extends AController
             $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage($form->getInputElements());
         } else {
-            if(!$this->_hasParam('key')) {
+            if (!$this->_hasParam('key')) {
                 $this->_setParamsFromSession($form->getInputElements());
             }
             $this->_renderFormPage($formHeader, $form);
@@ -119,7 +119,7 @@ class SearchController extends AController
     public function exportAction()
     {
         $query = $this->getHelper('Query')->getLatestQuery();
-        if($this->_hasParam('export') && $query) {
+        if ($this->_hasParam('export') && $query) {
             $this->view->layout()->disableLayout();
             $controller = $this->getHelper('Query')->getLatestQueryController();
             $action = $this->getHelper('Query')->getLatestQueryAction();

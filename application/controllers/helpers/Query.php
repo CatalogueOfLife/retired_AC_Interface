@@ -11,7 +11,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
     {
         $sh = $this->getActionController()->getHelper('SessionHandler');
         $latestQuery = $sh->get('latest_query', false);
-        if(!$latestQuery) {
+        if (!$latestQuery) {
             return null;
         }
         $controller = $this->getLatestQueryController();
@@ -33,10 +33,10 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
     public function getSelect($controller, $action, $params)
     {
         $select = null;
-        switch($controller) {
+        switch ($controller) {
             case 'search':
                 $model = new ACI_Model_Search(Zend_Registry::get('db'));
-                switch($action) {
+                switch ($action) {
                     case 'all':
                         $select = $model->all($params['key'], $params['match']);
                         break;
@@ -79,7 +79,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         $select = new ACI_Model_Search(Zend_Registry::get('db'));
         $search = $controller . '/' . $action;
         
-        switch($search) {
+        switch ($search) {
             case 'search/common':
                 $query = $select->commonNames(
                     $this->getRequest()->getParam('key'),
@@ -150,7 +150,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
     public function getLatestQueryController()
     {
         $latestQuery = $this->getLatestQuery();
-        if($latestQuery) {
+        if ($latestQuery) {
             list($controller, $action) = explode('/', $latestQuery);
         }
         return $controller;
@@ -159,7 +159,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
     public function getLatestQueryAction()
     {
         $latestQuery = $this->getLatestQuery();
-        if($latestQuery) {
+        if ($latestQuery) {
             list($controller, $action) = explode('/', $latestQuery);
         }
         return $action;
@@ -168,7 +168,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
     public function getLatestQuery()
     {
         return $this->getActionController()->getHelper('SessionHandler')
-            ->get('latest_query', false);
+                    ->get('latest_query', false);
     }
     
     /**
@@ -214,8 +214,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                         ->decorateComboLabel($errStr),
                     'name' => $query)
             );
-        }
-        else {
+        } else {
             foreach ($res as &$row) {
                 $row['label'] = $this->getActionController()
                     ->getHelper('TextDecorator')->highlightMatch(
@@ -235,20 +234,21 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
      * @param string $rank
      * @return array $params
      */
-    protected function _filterRankParams(array $params, $rank) {
-        if(isset($params[$rank])) {
+    protected function _filterRankParams(array $params, $rank)
+    {
+        if (isset($params[$rank])) {
             unset($params[$rank]);
         }
-        if(empty($params)) {
+        if (empty($params)) {
             return array();
         }
         $search = new ACI_Model_Search(Zend_Registry::get('db'));
-        foreach($params as $r => $str) {
-            if(trim($str) == '') {
+        foreach ($params as $r => $str) {
+            if (trim($str) == '') {
                 unset($params[$r]);
                 continue;
             }
-            if(!$search->taxaExists($r, $str)) {
+            if (!$search->taxaExists($r, $str)) {
                 unset($params[$r]);
             }
         }
@@ -265,7 +265,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
     public function decodeKey($key)
     {
         $res = Zend_Json::decode(stripslashes($key));
-        if(!is_array($res)) {
+        if (!is_array($res)) {
             return array();
         }
         return $res;

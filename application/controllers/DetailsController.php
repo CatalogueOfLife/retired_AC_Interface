@@ -35,22 +35,19 @@ class DetailsController extends AController
         $referenceId = $this->_getParam('id');
         $references = false;
         $sn = false;
-        $preface = '';
         
         $detailsModel = new ACI_Model_Details($this->_db);
         
-        if($referenceId) {
-            $ids = explode(',',$referenceId);
-            foreach($ids as $id)
-            {
+        if ($referenceId) {
+            $ids = explode(',', $referenceId);
+            foreach ($ids as $id) {
                 $references[] = $detailsModel->getReferenceById($id);
             }
             $preface = $this->getHelper('DataFormatter')
                 ->getReferencesLabel(count($ids));
-        }
-        else if($speciesId) {
+        } elseif ($speciesId) {
             $taxa = $detailsModel->getScientificName($speciesId);
-            if($taxa instanceof ACI_Model_Table_Taxa && $taxa->nameCode) {
+            if ($taxa instanceof ACI_Model_Table_Taxa && $taxa->nameCode) {
                 $references =
                    $detailsModel->getReferencesByNameCode($taxa->nameCode);
                 $numReferences = count($references);
@@ -74,9 +71,11 @@ class DetailsController extends AController
         $dbTable = new ACI_Model_Table_Databases();
         $dbDetails = $dbTable->get($this->_getParam('id'));
 
-        $dbDetails['taxonomic_coverage'] = $this->getHelper('DataFormatter')->getTaxonLinksInDatabaseDetailsPage(
-            $dbDetails['taxonomic_coverage']
-        );
+        $dbDetails['taxonomic_coverage'] = 
+            $this->getHelper('DataFormatter')
+            ->getTaxonLinksInDatabaseDetailsPage(
+                $dbDetails['taxonomic_coverage']
+            );
         
         $this->_logger->debug($dbDetails);
         $this->view->db = $dbDetails;
@@ -99,14 +98,14 @@ class DetailsController extends AController
             // This will modify the id to that of the accepted name for synonyms
             // and keep the same for accepted names
             if (ACI_Model_Table_Taxa::isSynonym(
-                $detailsModel->speciesStatus($id))) {
+                $detailsModel->speciesStatus($id)
+            )) {
                 $fromType = 'taxa';
                 $links = $detailsModel->synonymLinks($id);
                 $id = $links['id'];
                 $fromId = $links['taxa_id'];
             }
-            if ($detailsModel->species($id, $fromType, $fromId))
-            {
+            if ($detailsModel->species($id, $fromType, $fromId)) {
                 $speciesDetails =
                     $this->getHelper('DataFormatter')->formatSpeciesDetails(
                         $detailsModel->species($id, $fromType, $fromId)

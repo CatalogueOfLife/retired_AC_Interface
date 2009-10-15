@@ -40,14 +40,14 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
     
     public function getImageFromName ($imageName)
     {
-        return '/images/databases/' . $this->getImagenameFromName(
-            $imageName) . '.jpg';
+        return '/images/databases/' . 
+            $this->getImagenameFromName($imageName) . '.jpg';
     }
 
     public function getThumbFromName ($imageName)
     {
-        return '/images/databases/' . $this->getImagenameFromName(
-            $imageName) . '.gif';
+        return '/images/databases/' . 
+            $this->getImagenameFromName($imageName) . '.gif';
     }
 
     public function getUrlFromId ($id)
@@ -62,11 +62,11 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
     
     protected function _decorate(array $row)
     {
-    	$row['image'] = $this->getImageFromName($row['database_name']);
+        $row['image'] = $this->getImageFromName($row['database_name']);
         $row['thumb'] = $this->getThumbFromName($row['database_name']);
         $row['url'] = $this->getUrlFromId($row['record_id']);
-    	
-    	$row['name'] = $row['database_name_displayed'];
+        
+        $row['name'] = $row['database_name_displayed'];
         $row['label'] = $row['database_name'];
         $row['accepted_species_names'] =
             number_format($row['accepted_species_names']);

@@ -13,11 +13,11 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
     {
         $elements = $form->getInputElements();
         // Set form input values from request params
-        foreach($elements as $el) {
+        foreach ($elements as $el) {
             $field = $form->getElement($el);
-            if($field) {
+            if ($field) {
                 $v = $this->getRequest()->getParam($el, null);
-                if($v !== null) {
+                if ($v !== null) {
                     $field->setValue($this->getRequest()->getParam($el));
                 }
             }
@@ -31,19 +31,20 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
     public function renderResultsPage(array $elements = array())
     {
         $items = $this->_getItemsPerPage();
-        $sortParam = $this->getRequest()->getParam('sort',
+        $sortParam = $this->getRequest()->getParam(
+            'sort',
             ACI_Model_Search::getDefaultSortParam(
                 $this->getRequest()->getActionName()
             )
         );
-        if(!isset($this->_ac->view->searchString)) {
+        if (!isset($this->_ac->view->searchString)) {
             $this->_ac->view->searchString =
                 $this->getRequest()->getParam('key');
         }
         $this->_ac->view->urlParams = array(
             'sort' => $sortParam
         );
-        foreach($elements as $e) {
+        foreach ($elements as $e) {
              $this->_ac->view->urlParams[$e] =
                 $this->getRequest()->getParam($e);
         }
@@ -98,11 +99,11 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
     protected function _getItemsPerPage()
     {
         $items = (int)$this->getRequest()->getParam('items', null);
-        if(!$items) {
+        if (!$items) {
             $items =
                 (int)$this->_ac->getHelper('SessionHandler')
                     ->get('items', false);
-            if(!$items) {
+            if (!$items) {
                 $items = ACI_Model_Search::ITEMS_PER_PAGE;
             }
         }

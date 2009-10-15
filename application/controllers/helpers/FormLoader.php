@@ -23,7 +23,7 @@ class ACI_Helper_FormLoader extends Zend_Controller_Action_Helper_Abstract
     
     public function getSearchForm()
     {
-        switch($this->_controller) {
+        switch ($this->_controller) {
             case 'browse':
                 $form = new ACI_Form_Dojo_BrowseClassification();
                 break;
@@ -40,7 +40,7 @@ class ACI_Helper_FormLoader extends Zend_Controller_Action_Helper_Abstract
                 }
                 break;
         }
-        if(!$form instanceof Zend_Form) {
+        if (!$form instanceof Zend_Form) {
             return null;
         }
         return $form->setAction($this->getAction());
@@ -51,10 +51,10 @@ class ACI_Helper_FormLoader extends Zend_Controller_Action_Helper_Abstract
         // Build items per page form
         $form = new ACI_Form_Dojo_ItemsPerPage();
         // Dynamically set hidden fields
-        foreach($hiddenFields as $field) {
+        foreach ($hiddenFields as $field) {
             $form->addElement(
                 $form->createElement('hidden', $field)
-                     ->setValue($this->getRequest()->getParam($field))
+                ->setValue($this->getRequest()->getParam($field))
             );
         }
         $form->addDisplayGroup($hiddenFields, 'hidden');
