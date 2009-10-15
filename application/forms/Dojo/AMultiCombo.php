@@ -54,11 +54,12 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
         }
         
         $this->addElement(
-            $this->createElement('hidden', 'key')
-                 ->setValue(
-                      Zend_Json::encode(
-                          array_fill_keys(array_keys($this->_combos), '')
-        )));
+            $this->createElement('hidden', 'key')->setValue(
+                Zend_Json::encode(
+                    array_fill_keys(array_keys($this->_combos), '')
+                )
+            )
+        );
         
         $match = $this->createElement('CheckBox', 'match')->setValue(1)
             ->setLabel('Match_whole_words_only');
@@ -111,16 +112,16 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
     public function isValid($data)
     {
         // Form not submited
-        if(!isset($data['match'])) {
+        if (!isset($data['match'])) {
             return true;
         }
         $empty = true;
-        foreach(array_keys($this->_combos) as $comboId) {
-            if(isset($data[$comboId]) && strlen(trim($data[$comboId])) > 0) {
+        foreach (array_keys($this->_combos) as $comboId) {
+            if (isset($data[$comboId]) && strlen(trim($data[$comboId])) > 0) {
                 $empty = false;
             }
         }
-        if($empty) {
+        if ($empty) {
             $this->markAsError();
             return false;
         }
