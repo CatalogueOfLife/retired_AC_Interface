@@ -67,7 +67,7 @@ class BrowseController extends AController
         $formIsValid = $form->isValid($this->_getAllParams());
         //TODO: enable searching
         // Results page
-        /*if ($this->_hasParam('match') && $this->_getParam('submit', 1) &&
+        if ($this->_hasParam('match') && $this->_getParam('submit', 1) &&
             $formIsValid) {
             $this->_setSessionFromParams($form->getInputElements());
             $str = '';
@@ -80,7 +80,7 @@ class BrowseController extends AController
             $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage($form->getInputElements());
         // Form page
-        } else {*/
+        } else {
             if(!$formIsValid && $this->_hasParam('match')) {
                 $this->view->formError = true;
                 $this->_setSessionFromParams($form->getInputElements());
@@ -89,7 +89,7 @@ class BrowseController extends AController
                 $this->_setParamsFromSession($form->getInputElements());
             }
             $this->_renderFormPage($this->view->title, $form);
-        //}
+        }
     }
     
     private function _setParamForTaxa($name)

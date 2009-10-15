@@ -234,10 +234,11 @@ class ACI_Model_Search extends AModel
      * Returns the fields needed to display the results of the main search
      * queries (common names, scientific names and the combination of both)
      *
+     * @param bool $joinSn
      * @return array
      */
-    protected function _getFields() {
-        
+    protected function _getFields()
+    {
         $fields =
             array(
                 'id' => 'sn.record_id',
@@ -263,6 +264,45 @@ class ACI_Model_Search extends AModel
             );
             
         return $fields;
+    }
+    
+    /**
+     * Fields for a query where only accepted names are fetched
+     *
+     * @return array
+     */
+    protected function _getRestrictedFields()
+    {
+        $fields =
+            array(
+                'id' => 'sn.record_id',
+                'taxa_id' => new Zend_Db_Expr(0),
+                'rank' => new Zend_Db_Expr("''"),
+                'name' =>
+                    "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
+                    ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
+                    "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
+                'sn.name_code',
+                'is_accepted_name' => new Zend_Db_Expr(1),
+                'sn.author',
+                'language' => new Zend_Db_Expr("''"),
+                'accepted_species_id' => 'sn.record_id',
+                'accepted_species_name' =>
+                    "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
+                    ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
+                    "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
+                'accepted_species_author' => 'sn.author',
+                'db_name' => 'db.database_name',
+                'db_id' => 'db.record_id',
+                'db_thumb' =>
+                    'CONCAT(REPLACE(db.database_name, " ", "_"), ".gif")',
+                'kingdom' => 'fm.kingdom',
+                'status' =>
+                    new Zend_Db_Expr(ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME)
+            );
+            
+        return $fields;
+        
     }
     
     /**
@@ -455,29 +495,32 @@ class ACI_Model_Search extends AModel
     protected function _selectScientificNames(array $key, $matchWholeWords)
     {
         $select = new Zend_Db_Select($this->_db);
-        
-        $select->from(array('sn' => 'scientific_names'), $this->_getFields());
-        
-        // TODO: adapt for higher taxa
+        $joinSn = true;
+
         foreach($key as $rank => $name) {
+            if($this->stringRefersToHigherTaxa($rank)) {
+                $field = "fm.$rank";
+                $joinSn = false;
+            }
+            else {
+                $field = "sn.$rank";
+            }
             if(trim($name) != '') {
                 $searchKey = $this->_wildcardHandling($name);
                 if($matchWholeWords) {
-                    $select->where('sn.' . $rank . ' '. (
-                        strstr($searchKey, '%') ? 'LIKE' : '='
-                    ) .' ?', $searchKey);
+                    $select->where($field . ' ' .
+                        (strstr($searchKey, '%') ? 'LIKE' : '=') . ' ?',
+                        $searchKey
+                    );
                 }
                 else {
-                    $select->where('sn.' . $rank . ' LIKE "%' . $searchKey . '%"');
+                    $select->where($field . ' LIKE "%' . $searchKey . '%"');
                 }
             }
         }
-           
-        $select
-        ->joinLeft(
-            array('tx' => 'taxa'),
-            'sn.name_code = tx.name_code',
-            array()
+        $select->from(
+            array('sn' => 'scientific_names'),
+            $joinSn ? $this->_getFields() : $this->_getRestrictedFields()
         )
         ->joinLeft(
             array('fm' => 'families'),
@@ -485,17 +528,27 @@ class ACI_Model_Search extends AModel
             array()
         )
         ->joinLeft(
-            array('sna' => 'scientific_names'),
-            'sna.accepted_name_code = sn.accepted_name_code AND ' .
-            'sna.is_accepted_name = 1',
-            array()
-        )
-        ->joinLeft(
             array('db' => 'databases'),
             'sn.database_id = db.record_id',
             array()
         );
-        
+        if($joinSn) {
+            $select
+            ->joinLeft(
+                array('sna' => 'scientific_names'),
+                'sna.accepted_name_code = sn.accepted_name_code
+                AND sna.is_accepted_name = 1',
+                array()
+            )
+            ->joinLeft(
+                array('tx' => 'taxa'),
+                'sn.name_code = tx.name_code',
+                array()
+            );
+        }
+        else {
+            $select->where('sn.is_accepted_name = 1');
+        }
         return $select;
     }
     
