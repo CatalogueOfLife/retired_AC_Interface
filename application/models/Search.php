@@ -457,7 +457,8 @@ class ACI_Model_Search extends AModel
         $select = new Zend_Db_Select($this->_db);
         
         $select->from(array('sn' => 'scientific_names'), $this->_getFields());
-            
+        
+        // TODO: adapt for higher taxa
         foreach($key as $rank => $name) {
             if(trim($name) != '') {
             	$searchKey = $this->_wildcardHandling($name);

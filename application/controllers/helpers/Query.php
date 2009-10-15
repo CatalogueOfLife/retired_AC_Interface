@@ -35,9 +35,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         $select = null;
         switch($controller) {
             case 'search':
-                $model = new ACI_Model_Search(
-                    $this->getActionController()->getDbAdapter()
-                );
+                $model = new ACI_Model_Search(Zend_Registry::get('db'));
                 switch($action) {
                     case 'all':
                         $select = $model->all($params['key'], $params['match']);
@@ -69,6 +67,74 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                 break;
         }
         return $select;
+    }
+    
+    /**
+     * Returns the corresponding search query based on the requested action
+     *
+     * @return Zend_Db_Select
+     */
+    public function getSearchQuery($controller, $action)
+    {
+        $select = new ACI_Model_Search(Zend_Registry::get('db'));
+        $search = $controller . '/' . $action;
+        
+        switch($search) {
+            case 'search/common':
+                $query = $select->commonNames(
+                    $this->getRequest()->getParam('key'),
+                    $this->getRequest()->getParam('match'),
+                    $this->getRequest()->getParam('sort')
+                );
+                break;
+            case 'search/scientific':
+                $query = $select->scientificNames(
+                    array(
+                        'genus' => $this->getRequest()->getParam('genus'),
+                        'species' => $this->getRequest()->getParam('species'),
+                        'infraspecies' =>
+                            $this->getRequest()->getParam('infraspecies')
+                    ),
+                    $this->getRequest()->getParam('match'),
+                    $this->getRequest()->getParam('sort')
+                );
+                break;
+            case 'browse/classification':
+                $query = $select->scientificNames(
+                    array(
+                        'kingdom' => $this->getRequest()->getParam('kingdom'),
+                        'phylum' => $this->getRequest()->getParam('phylum'),
+                        'class' => $this->getRequest()->getParam('class'),
+                        'order' => $this->getRequest()->getParam('order'),
+                        'superfamily' =>
+                            $this->getRequest()->getParam('superfamily'),
+                        'family' => $this->getRequest()->getParam('family'),
+                        'genus' => $this->getRequest()->getParam('genus'),
+                        'species' => $this->getRequest()->getParam('species'),
+                        'infraspecies' =>
+                            $this->getRequest()->getParam('infraspecies')
+                    ),
+                    $this->getRequest()->getParam('match'),
+                    $this->getRequest()->getParam('sort')
+                );
+                break;
+            case 'search/distribution':
+                $query = $select->distributions(
+                    $this->getRequest()->getParam,
+                    $this->getRequest()->getParam('match'),
+                    $this->getRequest()->getParam('sort')
+                );
+                break;
+            case 'search/all':
+            default:
+                $query = $select->all(
+                    $this->getRequest()->getParam('key'),
+                    $this->getRequest()->getParam('match'),
+                    $this->getRequest()->getParam('sort')
+                );
+                break;
+        }
+        return $query;
     }
     
     public function tagLatestQuery()

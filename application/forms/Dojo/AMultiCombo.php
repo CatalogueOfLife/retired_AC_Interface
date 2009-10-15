@@ -120,8 +120,11 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
                 $empty = false;
             }
         }
-        $this->_errorsExist = $empty;
-        return !$empty;
+        if($empty) {
+            $this->markAsError();
+            return false;
+        }
+        return true;
     }
     
     public function getErrorMessage()

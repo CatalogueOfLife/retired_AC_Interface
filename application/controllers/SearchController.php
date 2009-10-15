@@ -45,14 +45,10 @@ class SearchController extends AController
         }
         $this->view->title = $this->view->translate('Search_scientific_names');
         $this->view->headTitle($this->view->title, 'APPEND');
-        $params = $this->getHelper('Query')->decodeKey($this->_getParam('key'));
-            foreach ($params as $k => $v) {
-                if (!($this->_getParam($k, false))) {
-                    $this->_setParam($k, $v);
-            }
-        }
+        
         $form = $this->_getSearchForm();
         $formIsValid = $form->isValid($this->_getAllParams());
+        // Results page
         if ($this->_hasParam('match') && $this->_getParam('submit', 1) &&
             $formIsValid) {
             $this->_setSessionFromParams($form->getInputElements());
@@ -74,14 +70,6 @@ class SearchController extends AController
             if($this->_getParam('submit', 1)) {
                 $this->_setParamsFromSession($form->getInputElements());
             }
-            $this->view->dojo()
-                 ->registerModulePath(
-                    'ACI', $this->view->baseUrl() . '/scripts/library/ACI'
-                 )->requireModule('ACI.dojo.TxReadStore');
-            // ComboBox (v1.3.2) custom extension
-            $this->view->headScript()->appendFile(
-                $this->view->baseUrl() . '/scripts/ComboBox.ext.js'
-            );
             $this->_renderFormPage($this->view->title, $form);
         }
     }
@@ -144,142 +132,6 @@ class SearchController extends AController
         }
         $this->getHelper('Query')->getLatestSelect();
         $this->view->form = $this->getHelper('FormLoader')->getExportForm();
-    }
-    
-    protected function _renderFormPage($formHeader, $form)
-    {
-        $this->view->formHeader = $formHeader;
-        $elements = $form->getInputElements();
-        // Set form input values from request params
-        foreach($elements as $el) {
-            $field = $form->getElement($el);
-            if($field) {
-                $v = $this->_getparam($el, null);
-                if($v !== null) {
-                    $field->setValue($this->_getParam($el));
-                }
-            }
-        }
-        $this->view->contentClass = 'search-box';
-        $this->view->form = $form;
-        $this->renderScript('search/form.phtml');
-    }
-    
-    protected function _renderResultsPage(array $elements = array())
-    {
-        $items = $this->_getItemsPerPage();
-        $sortParam = $this->_getParam('sort',
-            ACI_Model_Search::getDefaultSortParam($this->getRequest()->action));
-        
-        if(!isset($this->view->searchString)) {
-            $this->view->searchString = $this->_getParam('key');
-        }
-        $this->view->urlParams = array(
-            'sort' => $sortParam
-        );
-        foreach($elements as $e) {
-            $this->view->urlParams[$e] = $this->_getParam($e);
-        }
-        $paginator = $this->_getPaginator(
-            $this->_getSearchQuery($this->_getParam('action')),
-            $this->_getParam('page', 1),
-            $items
-        );
-        $this->view->exportable = $paginator->getTotalItemCount() <=
-            $this->getHelper('Export')->getNumRowsLimit();
-        
-        $this->_logger->debug($paginator->getCurrentItems());
-        $this->view->data =
-            $this->getHelper('DataFormatter')->formatSearchResults($paginator);
-        $this->view->paginator = $paginator;
-        $this->view->sort = $sortParam;
-        $this->view->form = $this->getHelper('FormLoader')
-            ->getItemsForm($elements, $items);
-        
-        // Results table differs depending on the action
-        $this->view->results = $this->view->render(
-            'search/results/' . $this->_getParam('action') . '.phtml'
-        );
-        // Render the results layout
-        $this->renderScript('search/results/layout.phtml');
-    }
-    
-    protected function _getItemsPerPage()
-    {
-        $items = (int)$this->_getParam('items', null);
-        if(!$items) {
-            $items =
-                (int)$this->getHelper('SessionHandler')->get('items', false);
-            if(!$items) {
-                $items = ACI_Model_Search::ITEMS_PER_PAGE;
-            }
-        }
-        $this->getHelper('SessionHandler')->set('items', $items, false);
-        $this->_setParam('items', $items);
-        return $items;
-    }
-    
-    /**
-     * Builds the paginator
-     *
-     * @param Zend_Db_Select $query
-     * @param int $page
-     * @param int $items
-     *
-     * @return Zend_Paginator
-     */
-    protected function _getPaginator(Zend_Db_Select $query, $page, $items)
-    {
-        $this->_logger->debug($query);
-        $paginator = new Zend_Paginator(
-            new Zend_Paginator_Adapter_DbSelect($query));
-        $paginator->setItemCountPerPage((int)$items);
-        $paginator->setCurrentPageNumber((int)$page);
-        return $paginator;
-    }
-    
-    /**
-     * Returns the corresponding search query based on the requested action
-     *
-     * @return Zend_Db_Select
-     */
-    protected function _getSearchQuery($action)
-    {
-        $select = new ACI_Model_Search($this->_db);
-        
-        switch($action) {
-            case 'common':
-                $query = $select->commonNames(
-                    $this->_getParam('key'), $this->_getParam('match'),
-                    $this->_getParam('sort')
-                );
-                break;
-            case 'scientific':
-                $query = $select->scientificNames(
-                    array(
-                        'genus' => $this->_getParam('genus'),
-                        'species' => $this->_getParam('species'),
-                        'infraspecies' => $this->_getParam('infraspecies')
-                    ),
-                    $this->_getParam('match'),
-                    $this->_getParam('sort')
-                );
-                break;
-            case 'distribution':
-                $query = $select->distributions(
-                    $this->_getParam('key'), $this->_getParam('match'),
-                    $this->_getParam('sort')
-                );
-                break;
-            case 'all':
-            default:
-                $query = $select->all(
-                    $this->_getParam('key'), $this->_getParam('match'),
-                    $this->_getParam('sort')
-                );
-                break;
-        }
-        return $query;
     }
     
     public function __call($name, $arguments)

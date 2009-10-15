@@ -52,45 +52,41 @@ class BrowseController extends AController
                 )
             );
         }
-        if($this->_getParam('name', false))
-        {
+        // Prefill form fields from request
+        if ($this->_getParam('name', false)) {
            $this->_setParamForTaxa($this->_getParam('name'));
         }
         $this->view->title = $this->view
-            ->translate('Taxonomic_classification');
+            ->translate('Browse_by_classification');
         $this->view->headTitle($this->view->title, 'APPEND');
         
-        $this->view->dojo()
-             ->registerModulePath(
-                'ACI', $this->view->baseUrl() . '/scripts/library/ACI'
-             )->requireModule('ACI.dojo.TxReadStore');
-        // ComboBox (v1.3.2) custom extension
-        $this->view->headScript()->appendFile(
-            $this->view->baseUrl() . '/scripts/ComboBox.ext.js'
-        );
-        $this->view->contentClass = 'search-box';
-        $this->view->formHeader =
-            $this->view->translate('Browse_by_classification');
-        // TODO: implement search query
         $form = $this->_getSearchForm();
-        $form->setAction(
-            $this->view->baseUrl() . '/' . $this->view->controller . '/' .
-            $this->view->action
-        );
-
-        $elements = $form->getInputElements();
-        // Set form input values from request params
-        foreach($elements as $el) {
-            $field = $form->getElement($el);
-            if($field) {
-                $v = $this->_getParam($el, null);
-                if($v !== null) {
-                    $field->setValue($this->_getParam($el));
+        $formIsValid = $form->isValid($this->_getAllParams());
+        //TODO: enable searching
+        // Results page
+        /*if ($this->_hasParam('match') && $this->_getParam('submit', 1) &&
+            $formIsValid) {
+            $this->_setSessionFromParams($form->getInputElements());
+            $str = '';
+            foreach ($form->getInputElements() as $el) {
+                if ($el != 'match') {
+                    $str .= ' ' . $this->_getParam($el);
                 }
             }
-        }
-        $this->view->form = $form;
-        $this->renderScript('search/form.phtml');
+            $this->view->searchString = trim($str);
+            $this->getHelper('Query')->tagLatestQuery();
+            $this->_renderResultsPage($form->getInputElements());
+        // Form page
+        } else {*/
+            if(!$formIsValid && $this->_hasParam('match')) {
+                $this->view->formError = true;
+                $this->_setSessionFromParams($form->getInputElements());
+            }
+            if($this->_getParam('submit', 1)) {
+                $this->_setParamsFromSession($form->getInputElements());
+            }
+            $this->_renderFormPage($this->view->title, $form);
+        //}
     }
     
     private function _setParamForTaxa($name)

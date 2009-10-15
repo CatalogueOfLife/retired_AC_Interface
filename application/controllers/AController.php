@@ -38,6 +38,26 @@ abstract class AController extends Zend_Controller_Action
         return $this->getHelper('FormLoader')->getSearchForm();
     }
     
+    protected function _renderFormPage($header, $form)
+    {
+        if($form instanceof ACI_Form_Dojo_AMultiCombo) {
+            $this->view->dojo()
+                 ->registerModulePath(
+                    'ACI', $this->view->baseUrl() . '/scripts/library/ACI'
+                 )->requireModule('ACI.dojo.TxReadStore');
+            // ComboBox (v1.3.2) custom extension
+            $this->view->headScript()->appendFile(
+                $this->view->baseUrl() . '/scripts/ComboBox.ext.js'
+            );
+        }
+        $this->getHelper('Renderer')->renderFormPage($header, $form);
+    }
+    
+    protected function _renderResultsPage(array $elements = array())
+    {
+        $this->getHelper('Renderer')->renderResultsPage($elements);
+    }
+    
     protected function _setSessionFromParams(array $values)
     {
         foreach ($values as $v) {
