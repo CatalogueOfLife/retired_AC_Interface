@@ -414,7 +414,7 @@ class ACI_Model_Details extends AModel
     public function getScientificName($id)
     {
         $select = new Zend_Db_Select($this->_db);
-    	$select->from(
+        $select->from(
             array('sn' => 'scientific_names'),
             array(
                 'sn.genus',

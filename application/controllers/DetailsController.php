@@ -31,33 +31,33 @@ class DetailsController extends AController
      */
     public function referenceAction()
     {
-    	$speciesId = (int)$this->_getParam('species');
-    	$referenceId = $this->_getParam('id');
-    	$references = false;
-    	$sn = false;
-    	$preface = '';
-    	
-    	$detailsModel = new ACI_Model_Details($this->_db);
-    	
-    	if($referenceId) {
-    		$ids = explode(',',$referenceId);
-    		foreach($ids as $id)
-    		{
-    			$references[] = $detailsModel->getReferenceById($id);
-    		}
-    		$preface = $this->getHelper('DataFormatter')
+        $speciesId = (int)$this->_getParam('species');
+        $referenceId = $this->_getParam('id');
+        $references = false;
+        $sn = false;
+        $preface = '';
+        
+        $detailsModel = new ACI_Model_Details($this->_db);
+        
+        if($referenceId) {
+            $ids = explode(',',$referenceId);
+            foreach($ids as $id)
+            {
+                $references[] = $detailsModel->getReferenceById($id);
+            }
+            $preface = $this->getHelper('DataFormatter')
                 ->getReferencesLabel(count($ids));
-    	}
-    	else if($speciesId) {
-    	    $taxa = $detailsModel->getScientificName($speciesId);
-    	    if($taxa instanceof ACI_Model_Table_Taxa && $taxa->nameCode) {
-        	    $references =
-        	       $detailsModel->getReferencesByNameCode($taxa->nameCode);
-        	    $numReferences = count($references);
-        	    $preface = $this->getHelper('DataFormatter')
-        	       ->getReferencesLabel($numReferences, $taxa->name);
-    	    }
-    	}
+        }
+        else if($speciesId) {
+            $taxa = $detailsModel->getScientificName($speciesId);
+            if($taxa instanceof ACI_Model_Table_Taxa && $taxa->nameCode) {
+                $references =
+                   $detailsModel->getReferencesByNameCode($taxa->nameCode);
+                $numReferences = count($references);
+                $preface = $this->getHelper('DataFormatter')
+                   ->getReferencesLabel($numReferences, $taxa->name);
+            }
+        }
         $this->view->title = $this->view->translate('Literature_references');
         $this->view->headTitle($this->view->title, 'APPEND');
         $this->_logger->debug($references);
@@ -113,9 +113,9 @@ class DetailsController extends AController
                     );
             }
         }
-	    $title = $speciesDetails && $speciesDetails->rank ==
-	       ACI_Model_Table_Taxa::RANK_INFRASPECIES ?
-	       'Infraspecies_details' : 'Species_details';
+        $title = $speciesDetails && $speciesDetails->rank ==
+           ACI_Model_Table_Taxa::RANK_INFRASPECIES ?
+           'Infraspecies_details' : 'Species_details';
         $this->view->title = $this->view->translate($title);
         $this->view->headTitle($this->view->title, 'APPEND');
         $this->_logger->debug($speciesDetails);

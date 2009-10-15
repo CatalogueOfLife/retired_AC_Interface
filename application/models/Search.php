@@ -306,7 +306,7 @@ class ACI_Model_Search extends AModel
      */
     protected function _selectTaxa($searchKey, $matchWholeWords)
     {
-    	$searchKey = $this->_wildcardHandling($searchKey);
+        $searchKey = $this->_wildcardHandling($searchKey);
         $select = new Zend_Db_Select($this->_db);
         
         if ($matchWholeWords) {
@@ -461,7 +461,7 @@ class ACI_Model_Search extends AModel
         // TODO: adapt for higher taxa
         foreach($key as $rank => $name) {
             if(trim($name) != '') {
-            	$searchKey = $this->_wildcardHandling($name);
+                $searchKey = $this->_wildcardHandling($name);
                 if($matchWholeWords) {
                     $select->where('sn.' . $rank . ' '. (
                         strstr($searchKey, '%') ? 'LIKE' : '='
@@ -780,13 +780,13 @@ class ACI_Model_Search extends AModel
     protected function _wildcardHandlingInRegExpression($searchString,
         $matchWholeWords=true)
     {
-    	if($matchWholeWords == true)
-    	{
-    	    return str_replace('%', '[^ \.\"\'\(\),;:-]*', '[[:<:]]' . $searchString . '[[:>:]]');
-    	}
-    	else
-    	{
-    	    return str_replace('%', '.*', $searchString);
-    	}
+        if($matchWholeWords == true)
+        {
+            return str_replace('%', '[^ \.\"\'\(\),;:-]*', '[[:<:]]' . $searchString . '[[:>:]]');
+        }
+        else
+        {
+            return str_replace('%', '.*', $searchString);
+        }
     }
 }

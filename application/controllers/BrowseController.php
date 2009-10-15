@@ -39,6 +39,9 @@ class BrowseController extends AController
              ->requireModule('ACI.dojo.TxTree')
              ->requireModule('ACI.dojo.TxTreeNode');
     }
+    public function ss() {
+        
+    }
     
     public function classificationAction()
     {
@@ -91,29 +94,26 @@ class BrowseController extends AController
     
     private function _setParamForTaxa($name)
     {
-    	//TODO:
-    	//Get `record_id` from `taxa`
-    	$select = new ACI_Model_Search($this->_db);
-    	$recordId = $select->getRecordIdFromName($name);
-    	//TODO:
-    	//Pass the `record_id` to _getHierarchy()
-    	if($recordId)
-        	$hierarchy = $this->_getHierarchy($recordId[0]['id']);
-    	//TODO:
-    	//read hierachy out and _setParam()'s.
-    	if($hierarchy && is_array($hierarchy))
-    	{
-	    	foreach($hierarchy as $rank)
-	    	{
-	    		if($rank != 0)
-	    		{
-		    		$temp = $select->getRankAndNameFromRecordId($rank);
-		            $this->_setParam(strtolower($temp[0]['rank']),$temp[0]['name']);
-	    		}
-	    	}
-    	}
+        $select = new ACI_Model_Search($this->_db);
+        $recordId = $select->getRecordIdFromName($name);
+        if($recordId) {
+            $hierarchy = $this->_getHierarchy($recordId[0]['id']);
+        }
+        if($hierarchy && is_array($hierarchy))
+        {
+            foreach($hierarchy as $rank)
+            {
+                if($rank != 0)
+                {
+                    $temp = $select->getRankAndNameFromRecordId($rank);
+                    $this->_setParam(
+                        strtolower($temp[0]['rank']),$temp[0]['name']
+                    );
+                }
+            }
+        }
     }
-        
+    
     /**
      * Returns an array with all taxa names by rank on a dojo-suitable format
      * Used to populate the browse by classification search combo boxes
