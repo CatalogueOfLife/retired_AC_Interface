@@ -52,13 +52,7 @@ class SearchController extends AController
         if ($this->_hasParam('match') && $this->_getParam('submit', 1) &&
             $formIsValid) {
             $this->_setSessionFromParams($form->getInputElements());
-            $str = '';
-            foreach ($form->getInputElements() as $el) {
-                if ($el != 'match') {
-                    $str .= ' ' . $this->_getParam($el);
-                }
-            }
-            $this->view->searchString = trim($str);
+            $this->view->searchString = 'Search_results_for_scientific_names';
             $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage($form->getInputElements());
         // Form page

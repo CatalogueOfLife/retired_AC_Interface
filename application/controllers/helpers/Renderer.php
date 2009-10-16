@@ -37,9 +37,13 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
                 $this->getRequest()->getActionName()
             )
         );
-        if (!isset($this->_ac->view->searchString)) {
+        if (isset($this->_ac->view->searchString)) {
             $this->_ac->view->searchString =
-                $this->getRequest()->getParam('key');
+                $this->_ac->view->translate($this->_ac->view->searchString);
+        } else {
+            $this->_ac->view->searchString = sprintf(
+                $this->_ac->view->translate('Search_results_for'), '"' .
+                stripslashes($this->getRequest()->getParam('key')) . '"');
         }
         $this->_ac->view->urlParams = array(
             'sort' => $sortParam

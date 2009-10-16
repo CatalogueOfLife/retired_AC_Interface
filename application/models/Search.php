@@ -278,7 +278,9 @@ class ACI_Model_Search extends AModel
             array(
                 'id' => 'sn.record_id',
                 'taxa_id' => new Zend_Db_Expr(0),
-                'rank' => new Zend_Db_Expr("''"),
+                'rank' => 'IF(sn.infraspecies_marker, ' .
+                    ACI_Model_Table_Taxa::RANK_INFRASPECIES . ', ' .
+                    ACI_Model_Table_Taxa::RANK_SPECIES . ')',
                 'name' =>
                     "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
                     ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
@@ -481,7 +483,7 @@ class ACI_Model_Search extends AModel
         } else {
             $select
                 ->where('cn.common_name LIKE "%' . $searchKey . '%"');
-        }        
+        }
         $select->group(
             array('name', 'language', 'accepted_species_id', 'db.record_id')
         );
@@ -805,6 +807,22 @@ class ACI_Model_Search extends AModel
         return $select->query()->fetchAll();
     }
     
+    public function getTaxaFromSpeciesId($speciesId)
+    {
+        $select = new Zend_Db_Select($this->_db);
+        $select->from(
+            array('tx' => 'taxa'),
+            array('id' => 'tx.record_id')
+        )
+        ->join(
+            array('sn' => 'scientific_names'),
+            'sn.name_code = tx.name_code',
+            array()
+        )
+        ->where('sn.record_id = ?', $speciesId);
+        return $select->query()->fetchColumn(0);
+    }
+    
     public function getRankAndNameFromRecordId($recordId)
     {
         $select = new Zend_Db_Select($this->_db);
@@ -830,8 +848,8 @@ class ACI_Model_Search extends AModel
     {
         if ($matchWholeWords == true) {
             return str_replace(
-                '%', '[^ \.\"\'\(\),;:-]*', '[[:<:]]' . 
-                $searchString . 
+                '%', '[^ \.\"\'\(\),;:-]*', '[[:<:]]' .
+                $searchString .
                 '[[:>:]]'
             );
         } else {

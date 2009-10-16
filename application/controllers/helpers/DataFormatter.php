@@ -79,7 +79,6 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     (bool)$this->getRequest()->getParam('match')
                 );
             }
-            unset($it[$k]);
             $i++;
         }
         return $res;
@@ -92,7 +91,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     
     public function formatPlain(array $data)
     {
-        $translator = Zend_Registry::get('Zend_Translate');        
+        $translator = Zend_Registry::get('Zend_Translate');
         foreach ($data as &$row) {
             $row['name'] = $this->_getTaxaSuffix(
                 $row['name'], $row['status'],
@@ -181,7 +180,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         if (!empty($speciesDetails->commonNames)) {
             foreach ($speciesDetails->commonNames as &$common) {
                 $common['referenceLabel'] = $this->getReferencesLabel(
-                    $common['num_references'], 
+                    $common['num_references'],
                     strip_tags($common['common_name'])
                 );
             }
@@ -285,11 +284,11 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 $firstSameRank = true;
                 $splitBySameRank = explode(',', $rank);
                 foreach ($splitBySameRank as $sameRank) {
-                    ($firstSameRank == true ? 
+                    ($firstSameRank == true ?
                         $firstSameRank = false : $output .= ', ');
                     $trimmedRank = trim($sameRank);
                     $output .= (!strstr($trimmedRank, ' ') ?
-                        '<a href="' . 
+                        '<a href="' .
                         $this->getFrontController()->getBaseUrl() .
                         '/browse/classification/name/' . $trimmedRank . '">' .
                         $trimmedRank . '</a>' :

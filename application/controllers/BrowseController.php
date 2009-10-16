@@ -20,7 +20,10 @@ class BrowseController extends AController
             $this->view->layout()->disableLayout();
             exit($this->_getTaxonChildren($this->_getParam('id', 0)));
         }
-        $id = $this->_getParam('id', false);
+        $species = $this->_getParam('species', false);
+        $id = $species ?
+            $this->_getTaxaFromSpeciesId($species) :
+            $this->_getParam('id', false);
         $hierarchy = array();
         if ($id !== false) {
             $hierarchy = $this->_getHierarchy($id);
@@ -67,13 +70,8 @@ class BrowseController extends AController
         if ($this->_hasParam('match') && $this->_getParam('submit', 1) &&
             $formIsValid) {
             $this->_setSessionFromParams($form->getInputElements());
-            $str = '';
-            foreach ($form->getInputElements() as $el) {
-                if ($el != 'match') {
-                    $str .= ' ' . $this->_getParam($el);
-                }
-            }
-            $this->view->searchString = trim($str);
+            $this->view->searchString =
+                'Search_results_for_taxonomic_classification';
             $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage($form->getInputElements());
         // Form page
@@ -158,6 +156,12 @@ class BrowseController extends AController
         $data = new Zend_Dojo_Data('id', $res, $parentId);
         $data->setLabel('name');
         return $data;
+    }
+    
+    protected function _getTaxaFromSpeciesId($speciesId)
+    {
+        $search = new ACI_Model_Search($this->_db);
+        return $search->getTaxaFromSpeciesId($speciesId);
     }
     
     /**
