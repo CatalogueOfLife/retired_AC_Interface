@@ -621,7 +621,7 @@ class ACI_Model_Search extends AModel
                 "f.$p = ?" : "sn.$p = ?", $v
             );
         }
-        $select->where("$field IS NOT NULL");
+        $select->where("$field IS NOT NULL AND sn.is_accepted_name = 1");
         $select->order(
             array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"), $rank)
         );

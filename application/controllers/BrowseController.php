@@ -65,7 +65,6 @@ class BrowseController extends AController
         
         $form = $this->_getSearchForm();
         $formIsValid = $form->isValid($this->_getAllParams());
-        //TODO: enable searching
         // Results page
         if ($this->_hasParam('match') && $this->_getParam('submit', 1) &&
             $formIsValid) {
@@ -92,8 +91,7 @@ class BrowseController extends AController
         if ($this->_hasParam('export') &&
             $this->getHelper('Query')->getLatestQuery()) {
             $this->_exportResults();
-        }
-        else {
+        } else {
             $this->view->form = $this->getHelper('FormLoader')->getExportForm();
             $this->renderScript('search/export.phtml');
         }
