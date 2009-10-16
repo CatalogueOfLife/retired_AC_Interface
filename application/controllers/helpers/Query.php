@@ -33,9 +33,10 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
     public function getSelect($controller, $action, $params)
     {
         $select = null;
+        $model = new ACI_Model_Search(Zend_Registry::get('db'));
+        
         switch ($controller) {
             case 'search':
-                $model = new ACI_Model_Search(Zend_Registry::get('db'));
                 switch ($action) {
                     case 'all':
                         $select = $model->all($params['key'], $params['match']);
@@ -62,6 +63,11 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
             case 'browse':
                 switch($action) {
                     case 'classification':
+                        $match = $params['match'];
+                        unset($params['match']);
+                        $select = $model->scientificNames(
+                            $params, $match
+                        );
                         break;
                 }
                 break;

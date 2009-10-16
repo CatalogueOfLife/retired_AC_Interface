@@ -112,19 +112,10 @@ class SearchController extends AController
     
     public function exportAction()
     {
-        $query = $this->getHelper('Query')->getLatestQuery();
-        if ($this->_hasParam('export') && $query) {
-            $this->view->layout()->disableLayout();
-            $controller = $this->getHelper('Query')->getLatestQueryController();
-            $action = $this->getHelper('Query')->getLatestQueryAction();
-            $this->getHelper('Export')->csv(
-                $controller,
-                $action,
-                $this->getHelper('Query')->getLatestSelect(),
-                'CoL_data.csv'
-            );
+        if ($this->_hasParam('export') &&
+            $this->getHelper('Query')->getLatestQuery()) {
+            $this->_exportResults();
         }
-        $this->getHelper('Query')->getLatestSelect();
         $this->view->form = $this->getHelper('FormLoader')->getExportForm();
     }
     

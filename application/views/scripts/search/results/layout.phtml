@@ -19,7 +19,7 @@ $paginator = $this->paginationControl(
 </div>
 <div class="page_links">
 <?php if($this->exportable): ?>
-<a href="<?php echo $this->baseUrl() . '/search/export';?>">
+<a href="<?php echo $this->baseUrl() . '/' . $this->controller . '/export';?>">
     <?php echo $this->translate('Export_search_results'); ?>
 </a> |
 <?php endif;?>
@@ -33,7 +33,7 @@ $paginator = $this->paginationControl(
 <?php else: ?></div><?php endif; ?>
 <div class="page_links">
 <?php if($this->exportable): ?>
-<a href="<?php echo $this->baseUrl() . '/search/export';?>">
+<a href="<?php echo $this->baseUrl() . '/' . $this->controller . '/export';?>">
     <?php echo $this->translate('Export_search_results'); ?>
 </a> |
 <?php endif;?>

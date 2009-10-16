@@ -26,7 +26,7 @@ class ACI_Helper_Export extends Zend_Controller_Action_Helper_Abstract
         return $res;
     }
     
-    protected function setHeaders($fileName)
+    public function setHeaders($fileName)
     {
         header('Expires: 0');
         header('Cache-control: private');

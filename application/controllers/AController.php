@@ -59,6 +59,25 @@ abstract class AController extends Zend_Controller_Action
         $this->getHelper('Renderer')->renderResultsPage($elements);
     }
     
+    protected function _exportResults()
+    {
+        $this->view->layout()->disableLayout();
+        $fileName = 'CoL_data.csv';
+        $controller = $this->getHelper('Query')->getLatestQueryController();
+        $action = $this->getHelper('Query')->getLatestQueryAction();
+        $latestSelect = $this->getHelper('Query')->getLatestSelect();
+        if (!$latestSelect instanceof Zend_Db_Select) {
+            $this->getHelper('Export')->setHeaders($fileName);
+            exit('');
+        }
+        $this->getHelper('Export')->csv(
+            $controller,
+            $action,
+            $latestSelect,
+            $fileName
+        );
+    }
+    
     protected function _setSessionFromParams(array $values)
     {
         foreach ($values as $v) {

@@ -87,6 +87,18 @@ class BrowseController extends AController
         }
     }
     
+    public function exportAction()
+    {
+        if ($this->_hasParam('export') &&
+            $this->getHelper('Query')->getLatestQuery()) {
+            $this->_exportResults();
+        }
+        else {
+            $this->view->form = $this->getHelper('FormLoader')->getExportForm();
+            $this->renderScript('search/export.phtml');
+        }
+    }
+    
     private function _setParamForTaxa($name)
     {
         $select = new ACI_Model_Search($this->_db);
