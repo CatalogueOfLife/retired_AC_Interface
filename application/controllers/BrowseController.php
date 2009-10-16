@@ -60,7 +60,7 @@ class BrowseController extends AController
            $this->_setParamForTaxa($this->_getParam('name'));
         }
         $this->view->title = $this->view
-            ->translate('Browse_by_classification');
+            ->translate('Browse_taxonomic_classification');
         $this->view->headTitle($this->view->title, 'APPEND');
         
         $form = $this->_getSearchForm();
