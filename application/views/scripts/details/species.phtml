@@ -100,12 +100,12 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                         <a href="<?php echo $this->baseUrl() .
                           '/details/reference/id/' . $common['references']; ?>">
                         <img
-					    src="<?php echo $this->baseUrl() . '/images/book.gif'; ?>"
-					    alt="<?php echo $this->translate('Click_here_to_show_the_literature_reference'); ?>"
-					    title="<?php echo $common['referenceLabel']; ?>"/>
-					    </a>
-					    <?php endif; ?>
-					</td>
+                        src="<?php echo $this->baseUrl() . '/images/book.gif'; ?>"
+                        alt="<?php echo $this->translate('Click_here_to_show_the_literature_reference'); ?>"
+                        title="<?php echo $common['referenceLabel']; ?>"/>
+                        </a>
+                        <?php endif; ?>
+                    </td>
                 </tr>
                 <?php $previousLanguage = $common['language']; ?>
             <?php endforeach; ?>
