@@ -4,21 +4,23 @@
  *
  * // Basic output:
  * <script type="text/javascript">
- * var gaJsHost = (("https:" == document.location.protocol) ? 
+ * var gaJsHost = (("https:" == document.location.protocol) ?
  *     "https://ssl." : "http://www.");
- * document.write(unescape("%3Cscript src='" + gaJsHost + 
+ * document.write(unescape("%3Cscript src='" + gaJsHost +
  *     "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
  * </script>
  * <script type="text/javascript">
  * try {
  * var pageTracker = _gat._getTracker("UA-xxxxxxx-x");
  * pageTracker._trackPageview();
- * } catch(err) {}</script>
+ * } catch(err) {}
+ * </script>
  *
  * @category   Eti
- * @package    View Helpers
+ * @package    Eti_View
+ * @subpackage Helpers
  */
-class Eti_View_Helper_GoogleAnalytics
+class Eti_View_Helper_GoogleAnalytics extends Zend_View_Helper_Abstract
 {
     /**
      * Tracker options instance
@@ -142,7 +144,7 @@ class Eti_View_Helper_GoogleAnalytics
     
     //
     // Render
-    //    
+    //
 
     /**
      * Cast to string representation
@@ -196,7 +198,7 @@ class Eti_View_Helper_GoogleAnalytics
             }
             $i ++;
         }
-        $xhtml[] = '} catch(err) {}</script>';
+        $xhtml[] = '} catch(err) {}';
         $xhtml[] = '</script>';
         
         return implode("\n", $xhtml);

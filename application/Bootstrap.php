@@ -34,11 +34,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $resourceLoader = new Zend_Loader_Autoloader_Resource(
             array(
                 'basePath'  => APPLICATION_PATH,
-                'namespace' => 'ACI',
+                'namespace' => 'ACI'
             )
         );
         $resourceLoader->addResourceType('model', 'models/', 'Model')
                        ->addResourceType('form', 'forms/', 'Form');
+        $autoloader = Zend_Loader_Autoloader::getInstance();
+        $autoloader->registerNamespace('Eti_');
     }
     
     public function _initLogger()
