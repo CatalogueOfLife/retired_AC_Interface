@@ -78,7 +78,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Common_names'); ?>:</th>
         <td><?php if (is_array($this->species->commonNames)): ?>
-            <table class="details-table">
+            <table>
                 <tr>
                     <th width="150px"><?php echo $this->translate('Common_name'); ?></th>
                     <th width="100px"><?php echo $this->translate('Language'); ?></th>
@@ -116,7 +116,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Classification'); ?>:</th>
         <td><?php if (is_array($this->species->hierarchy)): ?>
-            <table>
+            <table >
                 <tr>
                     <th width="150px"><?php echo $this->translate('Rank'); ?></th>
                     <th width="150px"><?php echo $this->translate('Taxonomic_Name'); ?></th>
