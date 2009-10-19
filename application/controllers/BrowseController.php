@@ -56,7 +56,8 @@ class BrowseController extends AController
             );
         }
         // Prefill form fields from request
-        if ($this->_getParam('name', false)) {
+        $name = $this->_getParam('name', false);
+        if ($name) {
            $this->_setParamForTaxa($this->_getParam('name'));
         }
         $this->view->title = $this->view
@@ -79,7 +80,7 @@ class BrowseController extends AController
                 $this->view->formError = true;
                 $this->_setSessionFromParams($form->getInputElements());
             }
-            if ($this->_getParam('submit', 1)) {
+            if ($this->_getParam('submit', 1) && !$name) {
                 $this->_setParamsFromSession($form->getInputElements());
             }
             $this->_renderFormPage($this->view->title, $form);
