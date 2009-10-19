@@ -192,7 +192,10 @@ class ACI_Model_Search extends AModel
         
         $select->from(
             array('ds' => 'distribution'),
-            array_merge($this->_getFields(), array('ds.distribution'))
+            array_merge(
+                $this->_getScientificSearchFields(),
+                array('ds.distribution')
+            )
         )
         ->joinLeft(
             array('sn' => 'scientific_names'),
@@ -203,11 +206,6 @@ class ACI_Model_Search extends AModel
             array('sna' => 'scientific_names'),
             'sna.accepted_name_code = sn.accepted_name_code AND ' .
             'sna.is_accepted_name = 1',
-            array()
-        )
-        ->joinLeft(
-            array('tx' => 'taxa'),
-            'sn.name_code = tx.name_code',
             array()
         )
         ->joinLeft(
@@ -232,24 +230,25 @@ class ACI_Model_Search extends AModel
     }
     
     /**
-     * Returns the fields needed to display the results of the main search
-     * queries (common names, scientific names and the combination of both)
+     * Returns the fields needed to display the results of the scientific search
+     * queries (require a join from sn to sn for synonyms)
      *
-     * @param bool $joinSn
      * @return array
      */
-    protected function _getFields()
+    protected function _getScientificSearchFields()
     {
         $fields =
             array(
                 'id' => 'sn.record_id',
-                'taxa_id' => 'tx.record_id',
-                'rank' => $this->_getRankDefinition(),
-                'tx.name',
-                'tx.name_code',
-                'tx.is_accepted_name',
+                'rank' => 'IF(sn.infraspecies_marker, ' .
+                    ACI_Model_Table_Taxa::RANK_INFRASPECIES . ', ' .
+                    ACI_Model_Table_Taxa::RANK_SPECIES . ')',
+                'name' =>
+                    "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
+                    ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
+                    "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
+                'sn.is_accepted_name',
                 'sn.author',
-                'language' => new Zend_Db_Expr("''"),
                 'accepted_species_id' => 'sna.record_id',
                 'accepted_species_name' =>
                     "TRIM(CONCAT(IF(sna.genus IS NULL, '', sna.genus) " .
@@ -261,18 +260,19 @@ class ACI_Model_Search extends AModel
                 'db_thumb' =>
                     'CONCAT(REPLACE(db.database_name, " ", "_"), ".gif")',
                 'kingdom' => 'fm.kingdom',
-                'status' => 'tx.sp2000_status_id'
+                'status' => 'sn.sp2000_status_id'
             );
             
         return $fields;
     }
     
     /**
-     * Fields for a query where only accepted names are fetched
+     * Fields for a query where only accepted names are fetched (no join from
+     * sn to sn)
      *
      * @return array
      */
-    protected function _getRestrictedFields()
+    protected function _getStrictScientificSearchFields()
     {
         $fields =
             array(
@@ -352,16 +352,35 @@ class ACI_Model_Search extends AModel
         $searchKey = $this->_wildcardHandling($searchKey);
         $select = new Zend_Db_Select($this->_db);
         
-        if ($matchWholeWords) {
-        
-            $select->from(
-                array(
-                    'ss' => 'simple_search'
-                ),
-                $this->_getFields()
+        $select->from(
+            array('tx' => 'taxa'),
+            array(
+                'id' => 'sn.record_id',
+                'taxa_id' => 'tx.record_id',
+                'rank' => $this->_getRankDefinition(),
+                'tx.name',
+                'tx.name_code',
+                'tx.is_accepted_name',
+                'sn.author',
+                'language' => new Zend_Db_Expr("''"),
+                'accepted_species_id' => 'sn.record_id',
+                'accepted_species_name' =>
+                    "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
+                    ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
+                    "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
+                'accepted_species_author' => 'sn.author',
+                'db_name' => 'db.database_name',
+                'db_id' => 'db.record_id',
+                'db_thumb' =>
+                    'CONCAT(REPLACE(db.database_name, " ", "_"), ".gif")',
+                'kingdom' => 'fm.kingdom',
+                'status' => 'tx.sp2000_status_id'
             )
-            ->join(
-                array('tx' => 'taxa'),
+        );
+        
+        if($matchWholeWords) {
+            $select->join(
+                array('ss' => 'simple_search'),
                 'ss.taxa_id = tx.record_id',
                 array()
             )
@@ -370,14 +389,9 @@ class ACI_Model_Search extends AModel
                 'AND tx.is_species_or_nonsynonymic_higher_taxon = 1',
                 $searchKey
             );
-        } else {
-            $select->from(
-                array(
-                    'tx' => 'taxa'
-                ),
-                $this->_getFields()
-            )
-            ->where(
+        }
+        else {
+            $select->where(
                 'tx.name LIKE "%' . $searchKey . '%" AND ' .
                 'tx.is_species_or_nonsynonymic_higher_taxon = 1'
             );
@@ -392,12 +406,6 @@ class ACI_Model_Search extends AModel
         ->joinLeft(
             array('fm' => 'families'),
             'sn.family_id = fm.record_id',
-            array()
-        )
-        ->joinLeft(
-            array('sna' => 'scientific_names'),
-            'sna.accepted_name_code = sn.accepted_name_code AND ' .
-            'sna.is_accepted_name = 1',
             array()
         )
         ->joinLeft(
@@ -424,21 +432,20 @@ class ACI_Model_Search extends AModel
         $searchKey = $this->_wildcardHandling($searchKey);
         $select = new Zend_Db_Select($this->_db);
         
-        $select->distinct()->from(
+        $select->from(
             array(
                 'cn' => 'common_names'
             ),
             array(
                 'id' => new Zend_Db_Expr(0),
                 'taxa_id' => 'cn.record_id',
-                'rank' => new Zend_Db_Expr(
-                    'IF(cn.is_infraspecies, "' .
-                    ACI_Model_Table_Taxa::RANK_INFRASPECIES . '", "' .
-                    ACI_Model_Table_Taxa::RANK_SPECIES . '")'
-                ),
+                'rank' => new Zend_Db_Expr('IF(cn.is_infraspecies, ' .
+                    ACI_Model_Table_Taxa::RANK_INFRASPECIES . ', ' .
+                    ACI_Model_Table_Taxa::RANK_SPECIES . ')'),
                 'name' => 'cn.common_name',
                 'cn.name_code',
                 'is_accepted_name' => new Zend_Db_Expr(0),
+                'accepted_species_id' => 'sn.record_id',
                 'sn.author',
                 'cn.language',
                 'accepted_species_id' => 'sn.record_id',
@@ -472,22 +479,20 @@ class ACI_Model_Search extends AModel
             'cn.database_id = db.record_id',
             array()
         );
-         
-        if ($matchWholeWords) {
+        if($matchWholeWords) {
             $replacedSearchKey = $this->_wildcardHandlingInRegExpression(
-                $searchKey, $matchWholeWords
+                $searchKey, 1
             );
             $select->where(
-                ' cn.common_name REGEXP "' . $replacedSearchKey . '" = 1'
+                'cn.common_name REGEXP "' . $replacedSearchKey . '" = 1'
             );
-        } else {
-            $select
-                ->where('cn.common_name LIKE "%' . $searchKey . '%"');
+        }
+        else {
+            $select->where('cn.common_name LIKE "%' . $searchKey . '%"');
         }
         $select->group(
-            array('name', 'language', 'accepted_species_id', 'db.record_id')
+            array('name', 'language', 'accepted_species_name', 'db.record_id')
         );
-         
         return $select;
     }
     
@@ -496,11 +501,11 @@ class ACI_Model_Search extends AModel
      *
      * @param array $key
      * @param boolean $matchWholeWords
-     * @return Zend_Db_Select
+     * @return Eti_Db_Select
      */
     protected function _selectScientificNames(array $key, $matchWholeWords)
     {
-        $select = new Zend_Db_Select($this->_db);
+        $select = new Eti_Db_Select($this->_db);
         $joinSn = true;
 
         foreach ($key as $rank => $name) {
@@ -525,7 +530,9 @@ class ACI_Model_Search extends AModel
         }
         $select->from(
             array('sn' => 'scientific_names'),
-            $joinSn ? $this->_getFields() : $this->_getRestrictedFields()
+            $joinSn ?
+                $this->_getScientificSearchFields() :
+                $this->_getStrictScientificSearchFields()
         )
         ->joinLeft(
             array('fm' => 'families'),
@@ -543,11 +550,6 @@ class ACI_Model_Search extends AModel
                 array('sna' => 'scientific_names'),
                 'sna.accepted_name_code = sn.accepted_name_code
                 AND sna.is_accepted_name = 1',
-                array()
-            )
-            ->joinLeft(
-                array('tx' => 'taxa'),
-                'sn.name_code = tx.name_code',
                 array()
             );
         } else {

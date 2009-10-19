@@ -126,7 +126,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                 break;
             case 'search/distribution':
                 $query = $select->distributions(
-                    $this->getRequest()->getParam,
+                    $this->getRequest()->getParam('key'),
                     $this->getRequest()->getParam('match'),
                     $this->getRequest()->getParam('sort')
                 );
@@ -141,6 +141,35 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                 break;
         }
         return $query;
+    }
+    
+    /**
+     * Returns a custom row count query based on a group statement in case
+     * the instance of $query is Eti_Db_Select
+     *
+     * @param string $controller
+     * @param string $action
+     * @param Zend_Db_Select $query
+     * @return Zend_Db_Select
+     */
+    public function getCountQuery($controller, $action, Zend_Db_Select $query)
+    {
+        if (!$query instanceof Eti_Db_Select) {
+            return null;
+        }
+        $rowCount = clone $query;
+        $rowCount->reset(Zend_Db_Select::COLUMNS);
+        $rowCount->reset(Zend_Db_Select::ORDER);
+        $rowCount->from('',
+            array(
+                new Zend_Db_Expr('COUNT(1) AS zend_paginator_row_count')
+            )
+        );
+        // Group by sn.infraspecies_marker to get count of species and
+        // infraspecies together with the general count
+        $groupExpr = new Zend_Db_Expr('sn.infraspecies_marker IS NULL');
+        $rowCount->group($groupExpr)->order($groupExpr);
+        return $rowCount;
     }
     
     public function tagLatestQuery()

@@ -53,10 +53,16 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
              $this->_ac->view->urlParams[$e] =
                 $this->getRequest()->getParam($e);
         }
+        $query = $this->_ac->getHelper('Query')->getSearchQuery(
+            $this->getRequest()->getParam('controller'),
+            $this->getRequest()->getParam('action')
+        );
         $paginator = $this->_getPaginator(
-            $this->_ac->getHelper('Query')->getSearchQuery(
+            $query,
+            $this->_ac->getHelper('Query')->getCountQuery(
                 $this->getRequest()->getParam('controller'),
-                $this->getRequest()->getParam('action')
+                $this->getRequest()->getParam('action'),
+                $query
             ),
             $this->getRequest()->getParam('page', 1),
             $items
@@ -91,13 +97,22 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
      *
      * @return Zend_Paginator
      */
-    protected function _getPaginator(Zend_Db_Select $query, $page, $items)
+    protected function _getPaginator(Zend_Db_Select $query, $countQuery, $page,
+        $items)
     {
-        $this->_logger->debug($query);
-        $paginator = new Zend_Paginator(
-            new Zend_Paginator_Adapter_DbSelect($query));
+        if($countQuery instanceof Zend_Db_Select) {
+            $paginatorAdapter = new Eti_Paginator_Adapter_DbSelect($query);
+            $paginatorAdapter->setRowCount($countQuery);
+            $paginator = new Eti_Paginator($paginatorAdapter);
+        }
+        else {
+            $paginator = new Zend_Paginator(
+                new Zend_Paginator_Adapter_DbSelect($query)
+            );
+        }
         $paginator->setItemCountPerPage((int)$items);
         $paginator->setCurrentPageNumber((int)$page);
+        
         return $paginator;
     }
     
