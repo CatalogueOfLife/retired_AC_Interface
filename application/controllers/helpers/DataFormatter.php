@@ -1,4 +1,15 @@
 <?php
+/**
+ * Annual Checklist Interface
+ *
+ * Class ACI_Helper_DataFormatter
+ * Data formatter helper
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  helpers
+ *
+ */
 class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
 {
     public function formatSearchResults(Zend_Paginator $paginator)

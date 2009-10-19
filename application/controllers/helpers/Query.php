@@ -1,4 +1,15 @@
 <?php
+/**
+ * Annual Checklist Interface
+ *
+ * Class ACI_Helper_Query
+ * Query building helper
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  helpers
+ *
+ */
 class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
 {
     /**

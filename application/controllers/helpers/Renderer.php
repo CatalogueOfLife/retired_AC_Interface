@@ -1,4 +1,15 @@
 <?php
+/**
+ * Annual Checklist Interface
+ *
+ * Class ACI_Helper_Renderer
+ * Text rendering helper
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  helpers
+ *
+ */
 class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
 {
     protected $_ac;

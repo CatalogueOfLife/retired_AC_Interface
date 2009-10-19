@@ -1,4 +1,15 @@
 <?php
+/**
+ * Annual Checklist Interface
+ *
+ * Class ACI_Helper_Export
+ * Export (to CSV) helper
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  helpers
+ *
+ */
 class ACI_Helper_Export extends Zend_Controller_Action_Helper_Abstract
 {
     const MAX_ROWS = 65535;
