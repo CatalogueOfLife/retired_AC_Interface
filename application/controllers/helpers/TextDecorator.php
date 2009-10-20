@@ -55,4 +55,15 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
         return "<span class=\"disabledLabel\">" .
             $translator->translate($label) . "</span>";
     }
+
+    public function textDecoration($text)
+    {
+        $find = array(
+            '[new]'
+        );
+        $replace = array(
+            '<span class="new">NEW!</span>'
+        );
+        return str_replace($find,$replace,$text);
+    }
 }

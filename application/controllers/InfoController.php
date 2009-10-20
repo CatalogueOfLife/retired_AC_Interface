@@ -90,4 +90,5 @@ class InfoController extends AController
     {
         $this->_forward('about');
     }
+    
 }
