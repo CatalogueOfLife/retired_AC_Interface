@@ -6,10 +6,11 @@ class ACI_View_Helper_Placeholder extends Zend_View_Helper_Abstract
         $find = array(
             '#\[new\]#',
             '#\[b\]#',
-            '#\[b:([a-z]*)\]#',
+            '#\[b:([a-zA-Z]*)\]#',
             '#\[/b\]#',
-            '#\[span:([a-z]*)\]#',
-            '#\[/span\]#'
+            '#\[span:([a-zA-Z]*)\]#',
+            '#\[/span\]#',
+            '#\[a:([a-zA-Z0-9:/\-_\.]*)\]([a-zA-Z0-9:/\-_\. \(\)]*)\[/a\]#'
         );
         $replace = array(
             '<span class="new">NEW!</span>',
@@ -17,7 +18,8 @@ class ACI_View_Helper_Placeholder extends Zend_View_Helper_Abstract
             '<b class="$1">',
             '</b>',
             '<span class="$1">',
-            '</span>'
+            '</span>',
+            '<a href="$1">$2</a>'
         );
         $matches = array();
         $dbId = '';
