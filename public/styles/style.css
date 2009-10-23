@@ -13,6 +13,11 @@ body, table, p, div, ul {
     font-size: 11px;
     color: #000;
 }
+
+p {
+    margin-bottom : 15px;
+}
+
 table tr td, table tr th {    
     vertical-align: middle;
     padding: 6px;
@@ -135,6 +140,69 @@ ul.errors li {
 .field_header_black A:hover {
     color: #F20B0B;
     text-decoration: underline;
+}
+
+.formheader {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: #333366;
+    font-weight: bold;
+    margin-right: 0px;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    margin-left: 0px
+}
+
+.formheader1 {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    color: #333366;
+    font-weight: bold;
+    margin-right: 0px;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    margin-left: 0px;
+}
+.formheader2 {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: #333366;
+    font-weight: italics;
+    margin-right: 0px;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    margin-left: 0px;
+}
+.formheader3 {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color:#333366;
+    font-weight: bold;
+    margin-right: 50px;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    margin-left: 50px;
+}
+.formheader4 {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: #000000;
+    font-weight: normal;
+    margin-right: 50px;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    margin-left: 50px;
+}
+.formheader5 {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: #000000;
+    font-weight: normal;
+    margin-right: 50px;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    margin-left: 50px;
+    TEXT-INDENT: 0.75in;
 }
 
 .page_header {
