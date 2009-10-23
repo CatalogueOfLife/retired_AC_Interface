@@ -1,3 +1,27 @@
+<div class="page_header">
+<?php echo $this->translate('Management_hierarchy') ?>
+</div>
+<br/>
+
+<div align=center>
+    <input type='button' name='goPrev' class='formbutton' value='<< Previous' onClick="JavaScript: document.location.href='<?php echo $this->baseUrl(); ?>/info/databases'">
+    <img src='images/blank.gif' width='8' height='1' border='0'>
+    <select name='select_page' onchange='document.location.href=this.options[this.selectedIndex].value'>
+        <option value='<?php echo $this->baseUrl(); ?>/info/about'>About the Catalogue of Life</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/ac'>About the 2009 Annual Checklist</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/databases'>Source databases</option>
+        <option selected value='<?php echo $this->baseUrl(); ?>/info/hierarchy'>Towards Management Hierarchy</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/copyright'>Copyrights, reproduction & sale</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/cite'>How to cite this work</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/websites'>Web sites</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/contact'>Contact us</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/acknowledgements'>Acknowledgements</option>
+    </select>
+    <img src='images/blank.gif' width='8' height='1' border='0'>
+    <input type='button' name='goNext' class='formbutton' value=' Next >> ' onClick="JavaScript: document.location.href='<?php echo $this->baseUrl(); ?>/info/copyright'">
+</div>
+<br />
+
 <p class="formheader1" align="center">Towards a management hierarchy (classification) for the Catalogue of Life</p>
     <p class="formheader" align="center">&nbsp;</p>
     <p class="formheader2" align="center"><em>Draft Discussion Document</em></p>
@@ -377,3 +401,22 @@ The classification scheme used in the 2008 Annual Checklist would be considered 
           Wegener Parfrey, L.; Barbero, E.; Lasser, E.; Dunthorn, M.; Bhattacharya, D.; Petterson, D.; Katz, L.A. (2006). Evaluating support for the current classification of eukaryotic diversity. PLoS Genetics 2 (e220): 2062–2073.<br><br>
           Whittaker, R.H. (1959). On the broad classification of organisms. Quarterly Review of Biology 34: 210–226.<br><br>
           Woese, C.R.; Kandler, O.; Wheelis, M.L. (1990). Towards a natural system of organisms: proposal for the domains Archaea, Bacteria, and Eucarya. Proceedings of the National Academy of Sciences U.S.A. 87: 4576–4579.</p>
+          
+<div class="horizontal_line"><br /></div><br />
+<div align=center>
+    <input type='button' name='goPrev' class='formbutton' value='<< Previous' onClick="JavaScript: document.location.href='<?php echo $this->baseUrl(); ?>/info/databases'">
+    <img src='images/blank.gif' width='8' height='1' border='0'>
+    <select name='select_page' onchange='document.location.href=this.options[this.selectedIndex].value'>
+        <option value='<?php echo $this->baseUrl(); ?>/info/about'>About the Catalogue of Life</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/ac'>About the 2009 Annual Checklist</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/databases'>Source databases</option>
+        <option selected value='<?php echo $this->baseUrl(); ?>/info/hierarchy'>Towards Management Hierarchy</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/copyright'>Copyrights, reproduction & sale</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/cite'>How to cite this work</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/websites'>Web sites</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/contact'>Contact us</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/acknowledgements'>Acknowledgements</option>
+    </select>
+    <img src='images/blank.gif' width='8' height='1' border='0'>
+    <input type='button' name='goNext' class='formbutton' value=' Next >> ' onClick="JavaScript: document.location.href='<?php echo $this->baseUrl(); ?>/info/copyright'">
+</div>

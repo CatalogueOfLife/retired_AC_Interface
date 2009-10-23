@@ -4,6 +4,26 @@
 <?php printf($this->translate('The_2009_Annual_Checklist'), '"' . $this->key . '"') ?>
 </div>
 <br/>
+
+<div align=center>
+    <input type='button' name='goPrev' class='formbutton' value='<< Previous' onClick="JavaScript: document.location.href='<?php echo $this->baseUrl(); ?>/info/about'">
+    <img src='images/blank.gif' width='8' height='1' border='0'>
+    <select name='select_page' onchange='document.location.href=this.options[this.selectedIndex].value'>
+        <option value='<?php echo $this->baseUrl(); ?>/info/about'>About the Catalogue of Life</option>
+        <option selected value='<?php echo $this->baseUrl(); ?>/info/ac'>About the 2009 Annual Checklist</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/databases'>Source databases</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/hierarchy'>Towards Management Hierarchy</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/copyright'>Copyrights, reproduction & sale</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/cite'>How to cite this work</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/websites'>Web sites</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/contact'>Contact us</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/acknowledgements'>Acknowledgements</option>
+    </select>
+    <img src='images/blank.gif' width='8' height='1' border='0'>
+    <input type='button' name='goNext' class='formbutton' value=' Next >> ' onClick="JavaScript: document.location.href='<?php echo $this->baseUrl(); ?>/info/databases'">
+</div>
+<br />
+
 <img src="<?php $this->baseUrl(); ?>/aci/images/2009_checklist_cd_front_cover.jpg"
     alt="<?php echo $this->placeholder($this->translate('2009_Annual_Checklist_CD-ROM_front_cover')); ?>"
     vspace="5" width="320" align="right" border="0" height="320" hspace="5"> 
@@ -158,13 +178,48 @@
 <p><?php echo $this->placeholder($this->translate('The_Catalogue_of_Life_programme_combines_the_outputs')); ?>.
 </p><br />
 
-<p>&#8226; <?php echo $this->placeholder($this->translate('Frank_Bisby_Species_2000_Executive_Director')); ?>.<br />
-&#8226; <?php echo $this->placeholder($this->translate('Yuri_Roskov_Executive_Editor_at_the_Species_2000')); ?>.<br />
-&#8226;  <?php echo $this->placeholder($this->translate('Thomas_Orrell_Acting_Director_ITIS_at_the_ITIS_Secretariat')); ?>.<br />
-&#8226;  <?php echo $this->placeholder($this->translate('David_Nicolson_ITIS_Data_Development_Leader')); ?>.<br />
-&#8226;  <?php echo $this->placeholder($this->translate('Luvie_Paglinawan_Annual_Checklist_Dataset_Compiler')); ?>.<br />
-&#8226;  <?php echo $this->placeholder($this->translate('Nicolas_Bailly_Taxonomic_Editorial_Advisor_for_Marine_sectors')); ?>.<br />
-&#8226;  <?php echo $this->placeholder($this->translate('Paul_Kirk_Taxonomic_Editorial_Advisor_for_Fungi')); ?>.<br />
-&#8226;  <?php echo $this->placeholder($this->translate('Thierry_Bourgoin_Taxonomic_Editorial_Advisor_for_Insects')); ?>.<br />
-&#8226;  <?php echo $this->placeholder($this->translate('Guy_Baillargeon_Taxonomic_Editorial_Advisor_for_Plants')); ?>.
+<p>&#8226; <?php echo $this->placeholder($this->translate('Frank_Bisby_Species_2000_Executive_Director')); ?>
+</p><br />
+
+<p>&#8226; <?php echo $this->placeholder($this->translate('Yuri_Roskov_Executive_Editor_at_the_Species_2000')); ?>
+</p><br />
+
+<p>&#8226;  <?php echo $this->placeholder($this->translate('Thomas_Orrell_Acting_Director_ITIS_at_the_ITIS_Secretariat')); ?>
+</p><br />
+
+<p>&#8226;  <?php echo $this->placeholder($this->translate('David_Nicolson_ITIS_Data_Development_Leader')); ?>
+</p><br />
+
+<p>&#8226;  <?php echo $this->placeholder($this->translate('Luvie_Paglinawan_Annual_Checklist_Dataset_Compiler')); ?>
+</p><br />
+
+<p>&#8226;  <?php echo $this->placeholder($this->translate('Nicolas_Bailly_Taxonomic_Editorial_Advisor_for_Marine_sectors')); ?>
+</p><br />
+
+<p>&#8226;  <?php echo $this->placeholder($this->translate('Paul_Kirk_Taxonomic_Editorial_Advisor_for_Fungi')); ?>
+</p><br />
+
+<p>&#8226;  <?php echo $this->placeholder($this->translate('Thierry_Bourgoin_Taxonomic_Editorial_Advisor_for_Insects')); ?>
+</p><br />
+
+<p>&#8226;  <?php echo $this->placeholder($this->translate('Guy_Baillargeon_Taxonomic_Editorial_Advisor_for_Plants')); ?>
 </p>
+
+<div class="horizontal_line"><br /></div><br />
+<div align=center>
+    <input type='button' name='goPrev' class='formbutton' value='<< Previous' onClick="JavaScript: document.location.href='<?php echo $this->baseUrl(); ?>/info/about'">
+    <img src='images/blank.gif' width='8' height='1' border='0'>
+    <select name='select_page' onchange='document.location.href=this.options[this.selectedIndex].value'>
+        <option value='<?php echo $this->baseUrl(); ?>/info/about'>About the Catalogue of Life</option>
+        <option selected value='<?php echo $this->baseUrl(); ?>/info/ac'>About the 2009 Annual Checklist</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/databases'>Source databases</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/hierarchy'>Towards Management Hierarchy</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/copyright'>Copyrights, reproduction & sale</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/cite'>How to cite this work</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/websites'>Web sites</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/contact'>Contact us</option>
+        <option value='<?php echo $this->baseUrl(); ?>/info/acknowledgements'>Acknowledgements</option>
+    </select>
+    <img src='images/blank.gif' width='8' height='1' border='0'>
+    <input type='button' name='goNext' class='formbutton' value=' Next >> ' onClick="JavaScript: document.location.href='<?php echo $this->baseUrl(); ?>/info/databases'">
+</div>
