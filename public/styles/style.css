@@ -142,6 +142,14 @@ ul.errors li {
     text-decoration: underline;
 }
 
+.center {
+    text-align: center;
+}
+
+.indent {
+    
+}
+
 .formheader {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 11px;
@@ -180,7 +188,7 @@ ul.errors li {
     font-weight: bold;
     margin-right: 50px;
     margin-top: 0px;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     margin-left: 50px;
 }
 .formheader4 {
@@ -190,7 +198,7 @@ ul.errors li {
     font-weight: normal;
     margin-right: 50px;
     margin-top: 0px;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     margin-left: 50px;
 }
 .formheader5 {
@@ -200,9 +208,8 @@ ul.errors li {
     font-weight: normal;
     margin-right: 50px;
     margin-top: 0px;
-    margin-bottom: 5px;
-    margin-left: 50px;
-    TEXT-INDENT: 0.75in;
+    margin-bottom: 15px;
+    margin-left: 100px;
 }
 
 .page_header {
