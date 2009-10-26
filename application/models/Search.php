@@ -445,7 +445,6 @@ class ACI_Model_Search extends AModel
                 'name' => 'cn.common_name',
                 'cn.name_code',
                 'is_accepted_name' => new Zend_Db_Expr(0),
-                'accepted_species_id' => 'sn.record_id',
                 'sn.author',
                 'cn.language',
                 'accepted_species_id' => 'sn.record_id',
