@@ -30,18 +30,13 @@
         <td><?php echo $row['group']; ?></td>
         <td>
 <?php if($row['dbLabel'] != ""): ?>
+        <div class="wrapLogo">
         <a href="<?php echo $this->baseUrl() . $row['dbUrl']; ?>">
         <img
-          class="wrapLogo"
           src="<?php echo $this->baseUrl() . $row['dbLogo']; ?>"
           alt="<?php echo $row['dbLabel']; ?>"
-          title="<?php echo $row['dbLabel']; ?>" /></a>
+          title="<?php echo $row['dbLabel']; ?>" /></a></div>
 <?php endif; ?>
-        </td>
-        <td>
-            <a href="<?php echo $this->baseUrl() . $row['url']; ?>">
-                <?php echo $row['link']; ?>
-            </a>
         </td>
     </tr>
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>

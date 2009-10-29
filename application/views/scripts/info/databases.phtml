@@ -60,22 +60,17 @@ $urlParams = array(
         </th>
         <td>
 <?php if($items['label']): ?>
+        <div class="wrapLogo">
         <a href="<?php echo $this->baseUrl() . $items['url']; ?>">
         <img
-          class="wrapLogo"
           src="<?php echo $this->baseUrl() . $items['thumb']; ?>"
           alt="<?php echo $items['label']; ?>"
-          title="<?php echo $items['label']; ?>" /></a>
+          title="<?php echo $items['label']; ?>" /></a></div>
 <?php endif; ?>
         </td>
         <td><?php echo $items['taxa']; ?></td>
         <td>
           <?php echo $items['accepted_species_names']; ?>
-        </td>
-        <td>
-            <a href="<?php echo $this->baseUrl() . $items['url']; ?>">
-                <?php echo $this->translate('Show_details'); ?>
-            </a>
         </td>
     </tr>
 <?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd');?>

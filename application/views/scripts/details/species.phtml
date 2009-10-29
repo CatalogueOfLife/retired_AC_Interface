@@ -4,12 +4,11 @@
 <?php
 if ($this->species instanceof ACI_Model_Table_Taxa):
 ?>
-<a href="<?php echo $this->baseUrl() . '/details/database/id/' . $this->species->dbId; ?>"><img
-    class="wrapLogo"
+<div class="wrapLogo"><a href="<?php echo $this->baseUrl() . '/details/database/id/' . $this->species->dbId; ?>"><img
     src="<?php echo $this->baseUrl() . $this->species->dbImage; ?>"
     alt="<?php echo $this->species->dbName; ?>"
     title="<?php echo $this->species->dbName; ?>"
-/></a>
+/></a></div>
 <p><?php echo $this->species->preface; ?></p>
 <table class="details-table">
 <?php $rowClass = "even"?>
