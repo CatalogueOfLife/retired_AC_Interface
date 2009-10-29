@@ -17,12 +17,15 @@
     <?php
     echo $this->headMeta();
     echo $this->headTitle();
-    echo $this->headStyle();
-    $this->headLink()->appendStylesheet(
-        $this->baseUrl() . '/styles/style-ie6.css', 'screen', 'IE 6'
+    $this->headStyle();
+    $this->headLink()->setStylesheet(
+        $this->baseUrl() . '/styles/style.css', 'all'
     );
     $this->headLink()->appendStylesheet(
-        $this->baseUrl() . '/styles/style-ie7.css', 'screen', 'IE 7'
+        $this->baseUrl() . '/styles/style-ie6.css', 'all', 'IE 6'
+    );
+    $this->headLink()->appendStylesheet(
+        $this->baseUrl() . '/styles/style-ie7.css', 'all', 'IE 7'
     );
     //TODO: compress Dojo output
     if ($this->dojo()->isEnabled()) {
