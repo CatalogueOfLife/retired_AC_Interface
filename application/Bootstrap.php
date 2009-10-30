@@ -79,7 +79,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $view->headTitle()->setSeparator(' :: ');
         // Add custom view helpers path
         $view->addHelperPath('Eti/View/Helper/', 'Eti_View_Helper');
-        $view->addHelperPath(APPLICATION_PATH . '/views/helpers/', 'ACI_View_Helper');
+        $view->addHelperPath(
+            APPLICATION_PATH . '/views/helpers/', 'ACI_View_Helper'
+        );
         $viewRenderer = new Zend_Controller_Action_Helper_ViewRenderer();
         $viewRenderer->setView($view);
         // Initialize Dojo, disabled by default

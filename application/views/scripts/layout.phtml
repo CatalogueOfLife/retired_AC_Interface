@@ -17,7 +17,7 @@
     <?php
     echo $this->headMeta();
     echo $this->headTitle();
-    $this->headStyle();
+    // styles
     $this->headLink()->setStylesheet(
         $this->baseUrl() . '/styles/style.css', 'all'
     );
@@ -27,6 +27,7 @@
     $this->headLink()->appendStylesheet(
         $this->baseUrl() . '/styles/style-ie7.css', 'all', 'IE 7'
     );
+    echo $this->headLink();
     //TODO: compress Dojo output
     if ($this->dojo()->isEnabled()) {
         $this->dojo()->setLocalPath(
@@ -37,9 +38,6 @@
     }
     echo $this->headScript()->appendFile(
         $this->baseUrl() . '/scripts/main.js'
-    );
-    echo $this->headLink()->appendStylesheet(
-        $this->baseUrl() . '/styles/style.css'
     );
     ?>
 </head>
