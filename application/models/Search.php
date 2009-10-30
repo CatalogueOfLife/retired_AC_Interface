@@ -56,14 +56,15 @@ class ACI_Model_Search extends AModel
      * @param string $sort
      * @return Zend_Db_Select
      */
-    public function commonNames($searchKey, $matchWholeWords, $sort = null)
+    public function commonNames($searchKey, $matchWholeWords, $sort = null, $order = null)
     {
         return $this->_selectCommonNames($searchKey, $matchWholeWords)
         ->order(
             $sort ?
             array_merge(
                 array(
-                    self::getRightColumnName($sort)
+                    self::getRightColumnName($sort) .
+                    self::getRightSortOrder($order)
                 ),
                 self::_getSortParams('common')
             ) : self::_getSortParams('common')
@@ -89,14 +90,15 @@ class ACI_Model_Search extends AModel
      * @param string $sort
      * @return Zend_Db_Select
      */
-    public function scientificNames(array $key, $matchWholeWords, $sort = null)
+    public function scientificNames(array $key, $matchWholeWords, $sort = null, $order = null)
     {
         return $this->_selectScientificNames($key, $matchWholeWords)
         ->order(
             $sort ?
             array_merge(
                 array(
-                    self::getRightColumnName($sort)
+                    self::getRightColumnName($sort) .
+                    self::getRightSortOrder($order)
                 ),
                 self::_getSortParams('scientific')
             ) : self::_getSortParams('scientific')
@@ -111,7 +113,7 @@ class ACI_Model_Search extends AModel
      * @param string $sort
      * @return Zend_Db_Select
      */
-    public function distributions($searchKey, $matchWholeWords, $sort = null)
+    public function distributions($searchKey, $matchWholeWords, $sort = null, $order = null)
     {
         $searchKey = $this->_wildcardHandling($searchKey);
         return $this->_selectDistributions($searchKey, $matchWholeWords)
@@ -119,7 +121,8 @@ class ACI_Model_Search extends AModel
             $sort ?
             array_merge(
                 array(
-                    self::getRightColumnName($sort)
+                    self::getRightColumnName($sort) .
+                    self::getRightSortOrder($order)
                 ),
                 self::_getSortParams('distribution')
             ) : self::_getSortParams('distribution')
@@ -135,7 +138,7 @@ class ACI_Model_Search extends AModel
      * @param string $sort
      * @return Zend_Db_Select
      */
-    public function all($searchKey, $matchWholeWords, $sort = null)
+    public function all($searchKey, $matchWholeWords, $sort = null, $order = null)
     {
         return $this->_db->select()->union(
             array(
@@ -149,11 +152,10 @@ class ACI_Model_Search extends AModel
         )
         ->order(
             $sort ?
-            array_merge(
+            
                 array(
-                    self::getRightColumnName($sort)
-                ),
-                self::_getSortParams('all')
+                    self::getRightColumnName($sort) .
+                    self::getRightSortOrder($order)
             ) : self::_getSortParams('all')
         );
     }
@@ -177,6 +179,16 @@ class ACI_Model_Search extends AModel
         );
         return isset($columMap[$columName]) ?
             $columMap[$columName] : null;
+    }
+    
+    public static function getRightSortOrder($sortOrder)
+    {
+        $sortOptions = array(
+            'asc' => ' ASC',
+            'desc' => ' DESC'
+        );
+        return isset($sortOptions[$sortOrder]) ?
+            $sortOptions[$sortOrder] : null;
     }
     
     /**

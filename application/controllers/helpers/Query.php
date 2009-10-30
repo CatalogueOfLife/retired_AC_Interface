@@ -101,7 +101,8 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                 $query = $select->commonNames(
                     $this->getRequest()->getParam('key'),
                     $this->getRequest()->getParam('match'),
-                    $this->getRequest()->getParam('sort')
+                    $this->getRequest()->getParam('sort'),
+                    $this->getRequest()->getParam('order')
                 );
                 break;
             case 'search/scientific':
@@ -113,7 +114,8 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                             $this->getRequest()->getParam('infraspecies')
                     ),
                     $this->getRequest()->getParam('match'),
-                    $this->getRequest()->getParam('sort')
+                    $this->getRequest()->getParam('sort'),
+                    $this->getRequest()->getParam('order')
                 );
                 break;
             case 'browse/classification':
@@ -132,14 +134,16 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                             $this->getRequest()->getParam('infraspecies')
                     ),
                     $this->getRequest()->getParam('match'),
-                    $this->getRequest()->getParam('sort')
+                    $this->getRequest()->getParam('sort'),
+                    $this->getRequest()->getParam('order')
                 );
                 break;
             case 'search/distribution':
                 $query = $select->distributions(
                     $this->getRequest()->getParam('key'),
                     $this->getRequest()->getParam('match'),
-                    $this->getRequest()->getParam('sort')
+                    $this->getRequest()->getParam('sort'),
+                    $this->getRequest()->getParam('order')
                 );
                 break;
             case 'search/all':
@@ -147,7 +151,8 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                 $query = $select->all(
                     $this->getRequest()->getParam('key'),
                     $this->getRequest()->getParam('match'),
-                    $this->getRequest()->getParam('sort')
+                    $this->getRequest()->getParam('sort'),
+                    $this->getRequest()->getParam('order')
                 );
                 break;
         }

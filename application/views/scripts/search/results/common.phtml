@@ -1,3 +1,28 @@
+<?php 
+$order_arrow = '<img src="' . $this->baseUrl() . '/images/' .
+(isset($this->urlParams['order']) && $this->urlParams['order'] == 'desc' ?
+    'Arrow_up.gif' : 'Arrow_down.gif') .
+'" alt="' .
+(isset($this->urlParams['order']) && $this->urlParams['order'] == 'desc' ?
+    $this->translate('ascending') :
+    $this->translate('descending')
+) .
+'" />';
+
+$order = array(
+    'name' => 'asc',
+    'rank' => 'asc',
+    'status' => 'asc',
+    'group' => 'asc',
+    'db' => 'asc'
+);
+if(isset($this->sort) && isset($this->urlParams['order']) &&
+    $this->urlParams['order'] == 'asc')
+{
+    $order[$this->sort] = 'desc';
+}
+?>
+
 <table class="results">
 <?php $rowClass = "odd"; ?>
     <tr class="even">

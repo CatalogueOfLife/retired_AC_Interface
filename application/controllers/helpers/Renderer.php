@@ -48,6 +48,10 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
                 $this->getRequest()->getActionName()
             )
         );
+        $orderParam = $this->getRequest()->getParam(
+            'order',
+            'asc'
+        );
         if (isset($this->_ac->view->searchString)) {
             $this->_ac->view->searchString =
                 $this->_ac->view->translate($this->_ac->view->searchString);
@@ -58,7 +62,8 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
             );
         }
         $this->_ac->view->urlParams = array(
-            'sort' => $sortParam
+            'sort' => $sortParam,
+            'order' => $orderParam
         );
         foreach ($elements as $e) {
              $this->_ac->view->urlParams[$e] =
