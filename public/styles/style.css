@@ -77,13 +77,13 @@ table {
 .collapsable {
     background-image:url('http://localhost/aci/images/Menu_Arrow.gif');
     background-repeat: no-repeat;
-    background-position: right;
+    background-position: 27px;
 }
 
 .collapsed {
     background-image:url('http://localhost/aci/images/Menu_Arrow_backwards.gif');
     background-repeat: no-repeat;
-    background-position: right;
+    background-position: 27px;
 }
 
 .details a {
