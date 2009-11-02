@@ -136,7 +136,10 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                         <?php echo $hierarchy['taxon'] == 'Species' ?
                          "<i>$hierarchy[name]</i>" : $hierarchy['name']; ?>
                         </a></td>
-                    <td class="lsid"><?php echo $hierarchy['LSID']; ?></td>
+                    <td class="lsid"><div id="hierachyId_<?php echo $hierarchy['record_id']; ?>">
+                        <div class="collapsable"><a href="javascript:changeLSID(<?php echo $hierarchy['record_id']; ?>);">LSID</a></div>
+                        <div class="lsidhide"><?php echo $hierarchy['LSID']?></div>
+                    </div></td>
                 </tr>
                 <?php
                 endif;

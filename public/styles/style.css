@@ -66,6 +66,26 @@ table {
     text-align: right;
 }
 
+.lsidhide {
+    display: none;
+}
+
+.lsidshow {
+    display: block;
+}
+
+.collapsable {
+    background-image:url('http://localhost/aci/images/Menu_Arrow.gif');
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
+.collapsed {
+    background-image:url('http://localhost/aci/images/Menu_Arrow_backwards.gif');
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
 .details a {
     padding: 0;
     margin: 0;

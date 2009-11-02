@@ -1,3 +1,30 @@
+function changeLSID(id)
+{
+    //change class collapsable to collapsed
+    //change class lsidhide to lsidshow
+    div = document.getElementById('hierachyId_' + id);
+    for (i = 0; i < div.childNodes.length; i++) {
+        node = div.childNodes[i];
+        if (node.className == "collapsable") {
+            node.className = "collapsed";
+        }
+        else if (node.className == "collapsed") {
+            node.className = "collapsable";
+        }
+        if (node.className == "lsidhide") {
+            node.className = "lsidshow";
+        }
+        else if (node.className == "lsidshow") {
+            node.className = "lsidhide";
+        }
+    }
+}
+
+function changeLSIDclass()
+{
+	
+}
+
 var formInputElements = null;
 getFormInputElements = function () {
     if(formInputElements == null) {
