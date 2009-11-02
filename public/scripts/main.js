@@ -20,11 +20,6 @@ function changeLSID(id)
     }
 }
 
-function changeLSIDclass()
-{
-	
-}
-
 var formInputElements = null;
 getFormInputElements = function () {
     if(formInputElements == null) {
