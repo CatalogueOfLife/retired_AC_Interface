@@ -61,6 +61,11 @@ table {
     margin: 0;
     right: 1px;
 }
+
+.number {
+    text-align: right;
+}
+
 .details a {
     padding: 0;
     margin: 0;
