@@ -125,7 +125,10 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
             $paginator = new Zend_Paginator(
                 new Zend_Paginator_Adapter_DbSelect($query)
             );
-        }
+        }        
+        $paginator->setCache(
+            $this->_ac->getHelper('Cache')->getPaginatorCache()
+        );
         $paginator->setItemCountPerPage((int)$items);
         $paginator->setCurrentPageNumber((int)$page);
         
