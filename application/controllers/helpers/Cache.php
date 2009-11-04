@@ -22,7 +22,7 @@ class ACI_Helper_Cache extends Zend_Controller_Action_Helper_Abstract
      */
     public function getPaginatorCache()
     {
-        $fO = array('lifetime' => 3600, 'automatic_serialization' => true);
+        $fO = array('lifetime' => null, 'automatic_serialization' => true);
         $bO = array('cache_dir' => $this->_getCacheDir());
         try {
             $cache = Zend_Cache::factory('Core', 'File', $fO, $bO);
