@@ -16,30 +16,30 @@
 <div style="margin-top:27px; margin-bottom:18px"><img src="images/banner.gif" width="760" height="100"> </div>
 <div style="margin-left: 15px; margin-right:15px;">
 <table border="0" cellspacing="0" cellpadding="0">
-  <tr> 
-    <td valign=top> 
+  <tr>
+    <td valign=top>
       <?php
 	require_once "menu.php" ;
 ?>
     </td>
-    <td valign=top> <img src="images/blank.gif" width="8" height="1" border="0"> 
+    <td valign=top> <img src="images/blank.gif" width="8" height="1" border="0">
     </td>
-    <td valign=top> 
+    <td valign=top>
 	<table border="0" cellspacing="0" cellpadding="1" bgcolor="#333366" width="100%">
-        <tr> 
-          <td> 
+        <tr>
+          <td>
             <table border="0" cellspacing="0" cellpadding="5" width="100%" bgcolor="#FAFCFE">
-              <tr> 
-                <td> 
+              <tr>
+                <td>
                   <table width="100%" border="0" cellspacing="0" cellpadding="10">
-                    <tr> 
-                        <td> 
+                    <tr>
+                        <td>
                           <p class="formheader" align="center">Acknowledgements</p>
                         </td>
                     </tr>
                   </table>
                   <table border="0" cellspacing="5" cellpadding="0">
-                    <tr> 
+                    <tr>
                         <td><p>The Catalogue of Life partnership  thanks all who contributed to the content and production of this Annual Checklist. In particular, thanks this year to Encyclopedia of Life and SBNO for their contributions to the preparation, in addition to NBII, University of Reading (Centre for Plant Diversity and Systematics), European Commission (EC EDIT NoE and Key2Nature), WorldFish Center (SeaLifeBase project), NIES and ETI BioInformatics.</p>
                           <p> Publication of the CD coincides with the start of our next major European Commission project. The 4D4Life Project (Distributed Dynamic Diversity Databases for Life) runs from 2009 to 2012. </p>
                           <p>Thanks also go to <strong>Jorrit van Hertum</strong>, author of the Annual Checklist software, <strong>Gideon Gijswijt</strong>, <strong>Wouter Addink</strong> (ETI BioInformatics) and <strong>Peter Brewer</strong> (Cornell University) for technical assistance, and to <strong>Paul Klinkenberg </strong>(ETI BioInformatics) for the cover design. </p>
@@ -56,10 +56,10 @@
 
 
                   <table width="100%" border="0" cellspacing="0" cellpadding="10">
-                    <tr> 
-                      <td> 
+                    <tr>
+                      <td>
                         <table width="100%" border="0" cellspacing="0" cellpadding="0" height="0">
-                          <tr> 
+                          <tr>
                             <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td>
                           </tr>
                         </table>
@@ -95,9 +95,10 @@
   
 
 
-</map> 
+</map>
 
 
 </div>
+<?php include_once 'includes/gax.php'; ?>
 </body>
 </html>

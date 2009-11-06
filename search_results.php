@@ -1,5 +1,5 @@
 <?php
-	session_start(); 
+	session_start();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -14,7 +14,7 @@ function startAtRecord (thisPage) {
 }
 </SCRIPT>
 <?php
-	function compileScientificName($this_genus,$this_species,$this_infraspecies_marker,$this_infraspecies, 
+	function compileScientificName($this_genus,$this_species,$this_infraspecies_marker,$this_infraspecies,
 	  $this_kingdom,$this_author) {
 		if ($this_genus . $this_species . $this_infraspecies == "") {
 			return "" ;
@@ -53,24 +53,24 @@ function startAtRecord (thisPage) {
 	}
 	
 	$variables_to_get = Array(
-	  "search_type", 
-	  "search_string", 
-	  "kingdom", 
-	  "phylum", 
-	  "tax_class", 
-	  "order", 
+	  "search_type",
+	  "search_string",
+	  "kingdom",
+	  "phylum",
+	  "tax_class",
+	  "order",
 	  "superfamily",
-	  "family", 
-	  "genus", 
-	  "species", 
-	  "infraspecies", 
-	  "common_name", 
-	  "area", 
-	  "match_whole_words", 
-	  "sort_by_column", 
-	  "number_of_records_found", 
-	  "number_of_records_shown_per_page", 
-	  "first_record_shown", 
+	  "family",
+	  "genus",
+	  "species",
+	  "infraspecies",
+	  "common_name",
+	  "area",
+	  "match_whole_words",
+	  "sort_by_column",
+	  "number_of_records_found",
+	  "number_of_records_shown_per_page",
+	  "first_record_shown",
 	  "number_of_records_to_show" ) ;
 	foreach($variables_to_get as $variable){
 		if (isset($_REQUEST[$variable])) {
@@ -109,7 +109,7 @@ function startAtRecord (thisPage) {
 		$search_results_header = "Search results for common names" ;
 	} else if ($area != "") {
 		$search_results_header = "Search results for distribution" ;
-	} else if ($kingdom . $phylum . $tax_class . $order .  $family . 
+	} else if ($kingdom . $phylum . $tax_class . $order .  $family .
 	    $genus . $species . $infraspecies != "") {
 		$search_results_header = "Search results for scientific names" ;
 	} else {
@@ -134,12 +134,12 @@ function startAtRecord (thisPage) {
 	$new_search_url = (($search_type == "") ? "search.php" : urldecode($search_type) . ".php") ;
 	
 	$error = "" ;
-	if ($search_string . $area . $common_name . $kingdom . $phylum . $tax_class . $order . $superfamily . 
+	if ($search_string . $area . $common_name . $kingdom . $phylum . $tax_class . $order . $superfamily .
 	  $family . $genus . $species . $infraspecies == "" ) {
 		$error = "Error: you did not enter a search string." ;
 	} else if (strlen($search_string) == 1 || strlen($area) == 1 || strlen($common_name) == 1 ) {
 		$error = "Please enter a search string of at least two characters." ;
-	} 
+	}
 		
 	if ($error == "") {
 		//compile query
@@ -156,7 +156,7 @@ function startAtRecord (thisPage) {
 			if ($search_string == "") {
 				$search_query = "SELECT $find_total $select FROM $from WHERE $where ORDER BY $order_by" ;
 			} else {
-				$search_query = "SELECT $find_total $select FROM $from WHERE $where 
+				$search_query = "SELECT $find_total $select FROM $from WHERE $where
 						   UNION SELECT $select2 FROM $from2 WHERE $where2
 								 ORDER BY $order_by" ;
 			}
@@ -203,33 +203,33 @@ function startAtRecord (thisPage) {
 	}
 ?>
 <div style="margin-top:27px; margin-bottom:18px"><img src="images/banner.gif" width="760" height="100"> </div>
-<div style="margin-left: 15px; margin-right:15px;"> 
+<div style="margin-left: 15px; margin-right:15px;">
   <table border="0" cellspacing="0" cellpadding="0">
-    <tr> 
-      <td valign=top> 
+    <tr>
+      <td valign=top>
  <?php
 	require_once "menu.php" ;
 ?>
       </td>
-      <td valign=top> <img src="images/blank.gif" width="8" height="1" border="0"> 
+      <td valign=top> <img src="images/blank.gif" width="8" height="1" border="0">
       </td>
-      <td valign=top width="100%"> 
+      <td valign=top width="100%">
         <table border="0" cellspacing="0" cellpadding="1" bgcolor="#333366" width="100%">
-          <tr> 
-            <td> 
+          <tr>
+            <td>
               <table border="0" cellspacing="0" cellpadding="5" width="100%" bgcolor="#FAFCFE">
-                <tr> 
-                  <td> 
+                <tr>
+                  <td>
                     <table width="100%" border="0" cellspacing="0" cellpadding="10">
-                      <tr> 
-                        <td> 
-                          <p class="formheader" align="center"> 
+                      <tr>
+                        <td>
+                          <p class="formheader" align="center">
 <?php
 	echo $search_results_header ;
 ?>
                           </p>
                           <table width="100%" border="0" cellspacing="0" cellpadding="0" height="0">
-                            <tr> 
+                            <tr>
                               <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td>
                             </tr>
                           </table>
@@ -237,11 +237,11 @@ function startAtRecord (thisPage) {
                       </tr>
                     </table>
                     <table border="0" cellspacing="0" cellpadding="10" width="100%">
-                      <tr> 
-                        <td> 
+                      <tr>
+                        <td>
                           <table width='100%' border=0 cellspacing=0 cellpadding=0>
-                            <tr> 
-                              <td> 
+                            <tr>
+                              <td>
                                 <?php
 	if ($error != "") {
 	  	echo "<p>$error</p>\n" ;
@@ -259,7 +259,7 @@ function startAtRecord (thisPage) {
 	}
 ?>
                               </td>
-                              <td align=right> 
+                              <td align=right>
 <?php
 	if ($error == "" && $number_of_records_found > 1) {
 		echo "<form name='change_number_of_records_shown_per_page' method='get' action='search_results.php'>\n" ;
@@ -288,8 +288,8 @@ function startAtRecord (thisPage) {
 ?>
                               </td>
                             </tr>
-                            <tr> 
-                              <td colspan=2> 
+                            <tr>
+                              <td colspan=2>
                                 <?php
 	if ($error == "" && $search_query != "") {
 		if ($number_of_records_found > 0) {
@@ -442,7 +442,7 @@ function startAtRecord (thisPage) {
 					$this_kingdom = "" ;
 					if ($family_id  != "") {
 						$kingdom_query = "SELECT `kingdom` FROM `families` WHERE `record_id` = '$family_id' " ;
-						$kingdom_result = mysql_query($kingdom_query) or die("Error: MySQL query failed");	
+						$kingdom_result = mysql_query($kingdom_query) or die("Error: MySQL query failed");
 						if (mysql_num_rows($kingdom_result) > 0) {
 							$kingdom_row = mysql_fetch_row($kingdom_result);
 							$this_kingdom = $kingdom_row[0] ;
@@ -459,11 +459,11 @@ function startAtRecord (thisPage) {
 					if ($status == "common name") {
 						$languages = "" ;
 						$language_query = "SELECT DISTINCT `language`
-								  FROM `common_names` 
+								  FROM `common_names`
 								  WHERE `language` != '' AND `language` IS NOT NULL
-								    AND `common_name` = '" . addslashes($found_name) . "' 
-									AND `name_code` = '$name_code' 
-									AND `name_code` LIKE BINARY '$name_code' 
+								    AND `common_name` = '" . addslashes($found_name) . "'
+									AND `name_code` = '$name_code'
+									AND `name_code` LIKE BINARY '$name_code'
 								  ORDER by `language`" ;
 						$language_result = mysql_query($language_query) or die("Error: MySQL query failed");
 						$number_of_languages = mysql_num_rows($language_result);
@@ -480,9 +480,9 @@ function startAtRecord (thisPage) {
 						}
 
 						if ($name_code != "") {
-							$scientific_name_query = "SELECT `genus` , `species` , `infraspecies_marker`, `infraspecies` , `author` 
-								  FROM `scientific_names` 
-								  WHERE `name_code` = '$name_code' 
+							$scientific_name_query = "SELECT `genus` , `species` , `infraspecies_marker`, `infraspecies` , `author`
+								  FROM `scientific_names`
+								  WHERE `name_code` = '$name_code'
 								    AND `name_code` LIKE BINARY '$name_code' " ;
 							$scientific_name_result = mysql_query($scientific_name_query) or die("Error: MySQL query failed");
 							$row2 = mysql_fetch_row($scientific_name_result);
@@ -491,10 +491,10 @@ function startAtRecord (thisPage) {
 							$scientific_infraspecies_marker = $row2[2] ;
 							$scientific_infraspecies = $row2[3] ;
 							$scientific_author = $row2[4] ;
-							$kingdom_query = "SELECT `families`.`kingdom`  
-								  FROM `families`,`scientific_names` 
-								  WHERE `scientific_names`.`name_code` = '$name_code' 
-								    AND `scientific_names`.`name_code` LIKE BINARY '$name_code' 
+							$kingdom_query = "SELECT `families`.`kingdom`
+								  FROM `families`,`scientific_names`
+								  WHERE `scientific_names`.`name_code` = '$name_code'
+								    AND `scientific_names`.`name_code` LIKE BINARY '$name_code'
 									AND `scientific_names`.`family_id` = `families`.`record_id` " ;
 							$kingdom_result = mysql_query($kingdom_query) or die("Error: MySQL query failed");
 							$row2 = mysql_fetch_row($kingdom_result);
@@ -502,14 +502,14 @@ function startAtRecord (thisPage) {
 							
 							$scientific_name = compileScientificName($scientific_genus,$scientific_species,$scientific_infraspecies_marker,$scientific_infraspecies,$this_kingdom,$scientific_author) ;
 							if ($scientific_name != "") {
-								$status .= " for $scientific_name" ; 
+								$status .= " for $scientific_name" ;
 							}
 						}
 						$this_link = "show_common_name_details.php?name=" . urlencode($found_name) ;
 						$found_name .= $languages ;
 					} else if ($found_taxon == "Species" || $found_taxon == "Infraspecies") {
-						$species_query = "SELECT `record_id`, `author` 
-							  FROM `scientific_names` 
+						$species_query = "SELECT `record_id`, `author`
+							  FROM `scientific_names`
 							  WHERE `name_code` = '" . addslashes($name_code) . "'
 							    AND `name_code` LIKE BINARY '" . addslashes($name_code) . "'" ;
 						$species_result = mysql_query($species_query) or die("Error: MySQL query failed");
@@ -518,9 +518,9 @@ function startAtRecord (thisPage) {
 						$species_author = $row2[1] ;
 						
 						$kingdom_query = "SELECT `kingdom`
-							  FROM `families` ,`scientific_names` 
-							  WHERE `scientific_names`.`name_code` = '" . addslashes($name_code) . "' 
-							    AND `scientific_names`.`name_code` LIKE BINARY '" . addslashes($name_code) . "' 
+							  FROM `families` ,`scientific_names`
+							  WHERE `scientific_names`.`name_code` = '" . addslashes($name_code) . "'
+							    AND `scientific_names`.`name_code` LIKE BINARY '" . addslashes($name_code) . "'
 							    AND `scientific_names`.`family_id` = `families`.`record_id` " ;
 						$kingdom_result = mysql_query($kingdom_query) or die("Error: MySQL query failed");
 						$row3 = mysql_fetch_row($kingdom_result);
@@ -532,8 +532,8 @@ function startAtRecord (thisPage) {
 						$this_link = "show_species_details.php?record_id=$species_id" ;
 						if ($status != "accepted name" && $status != "provisionally accepted name") {
 							$accepted_name = "" ;
-							$accepted_name_code_query = "SELECT `accepted_name_code` 
-								  FROM `scientific_names` 
+							$accepted_name_code_query = "SELECT `accepted_name_code`
+								  FROM `scientific_names`
 								  WHERE `record_id` = '$species_id' " ;
 							$accepted_name_code_result = mysql_query($accepted_name_code_query) or die("Error: MySQL query failed");
 							$row2 = mysql_fetch_row($accepted_name_code_result);
@@ -541,9 +541,9 @@ function startAtRecord (thisPage) {
 							if ($accepted_name_code == "") {
 								$accepted_name_code = "unknown" ;
 							} else {
-								$accepted_name_query = "SELECT `genus` , `species` , `infraspecies_marker`, `infraspecies` , `author` 
-									  FROM `scientific_names` 
-									  WHERE `name_code` = '$accepted_name_code' 
+								$accepted_name_query = "SELECT `genus` , `species` , `infraspecies_marker`, `infraspecies` , `author`
+									  FROM `scientific_names`
+									  WHERE `name_code` = '$accepted_name_code'
 									    AND `name_code` LIKE BINARY '$accepted_name_code'" ;
 								$accepted_name_result = mysql_query($accepted_name_query) or die("Error: MySQL query failed");
 								$row2 = mysql_fetch_row($accepted_name_result);
@@ -552,16 +552,16 @@ function startAtRecord (thisPage) {
 								$accepted_infraspecies_marker = $row2[2] ;
 								$accepted_infraspecies = $row2[3] ;
 								$accepted_author = $row2[4] ;
-								$kingdom_query = "SELECT `families`.`kingdom`  
-									  FROM `families`,`scientific_names` 
-									  WHERE `scientific_names`.`record_id` = '$species_id' 
+								$kingdom_query = "SELECT `families`.`kingdom`
+									  FROM `families`,`scientific_names`
+									  WHERE `scientific_names`.`record_id` = '$species_id'
 									    AND `scientific_names`.`family_id` = `families`.`record_id` " ;
 								$kingdom_result = mysql_query($kingdom_query) or die("Error: MySQL query failed");
 								$row2 = mysql_fetch_row($kingdom_result);
 								$this_kingdom = $row2[0] ;
 								$accepted_name = compileScientificName($accepted_genus,$accepted_species,$accepted_infraspecies_marker,$accepted_infraspecies,$this_kingdom,$accepted_author) ;
 								if ($accepted_name != "") {
-									$status .= " for $accepted_name" ; 
+									$status .= " for $accepted_name" ;
 								}
 							}
 							if ($accepted_name == "") {
@@ -574,7 +574,7 @@ function startAtRecord (thisPage) {
 						if ($is_accepted_name == 1) {
 							$this_link = "browse_taxa.php?selected_taxon=$record_id" ;
 						} else {
-							$this_link = "JavaScript:alert('Sorry, can\'t show $found_taxon " . 
+							$this_link = "JavaScript:alert('Sorry, can\'t show $found_taxon " .
 								addslashes(strip_tags($found_name)) . " in the " .
 								"taxonomic tree because this taxon does not contain any accepted names " .
 								"(only synonyms and/or misapplied names).')" ;
@@ -593,7 +593,7 @@ function startAtRecord (thisPage) {
 					} else if ($match_whole_words == "on" ) {
 						if (substr($found_name_lc,0,$searchStringLength+1) == "$search_string_short_lc ") {
 							$searchStringStartOffset  = 0 ;
-						} else if (substr($found_name_lc,0,$searchStringLength+4) == "<i>$search_string_short_lc " 
+						} else if (substr($found_name_lc,0,$searchStringLength+4) == "<i>$search_string_short_lc "
 						  || substr($found_name_lc,0,$searchStringLength+8) == "<i>$search_string_short_lc</i> ") {
 							$searchStringStartOffset  = 3 ;
 						} else if (strpos($found_name_lc," $search_string_short_lc ") !== FALSE) {
@@ -604,7 +604,7 @@ function startAtRecord (thisPage) {
 							$searchStringStartOffset  = strpos($found_name_lc," $search_string_short_lc</i> ") + 1 ;
 						} else if (substr($found_name_lc,-($searchStringLength+1)) == " $search_string_short_lc") {
 							$searchStringStartOffset  = strlen($found_name) - $searchStringLength ;
-						} else if (substr($found_name_lc,-($searchStringLength+5)) == " $search_string_short_lc</i>" 
+						} else if (substr($found_name_lc,-($searchStringLength+5)) == " $search_string_short_lc</i>"
 						  || substr($found_name_lc,-($searchStringLength+8)) == " <i>$search_string_short_lc</i>") {
 							$searchStringStartOffset  = strlen($found_name) - $searchStringLength - 4 ;
 						}
@@ -617,14 +617,14 @@ function startAtRecord (thisPage) {
 						$nameLength = strlen($found_name) ;
 						$nameStartString = substr($found_name,0,$searchStringStartOffset) ;
 						$nameMiddleString = substr($found_name,$searchStringStartOffset,$searchStringLength) ;
-						$nameEndString = substr($found_name,$searchStringEndOffset+1, 
+						$nameEndString = substr($found_name,$searchStringEndOffset+1,
 							  $nameLength-$searchStringEndOffset-1) ;
 						$found_name = $nameStartString
-									  . "<span class='fieldheader'><u>" . $nameMiddleString . "</u></span>"  
+									  . "<span class='fieldheader'><u>" . $nameMiddleString . "</u></span>"
 									  . $nameEndString  ;
 					}
-					$found_name_full = "<p class='fieldheaderblack'><a href=\"$this_link\">" . $found_name . "</a></p>" ; 
-					$found_taxon_full = "<p class='fieldheaderblack'><a href=\"$this_link\">" . $found_taxon . "</a></p>" ; 
+					$found_name_full = "<p class='fieldheaderblack'><a href=\"$this_link\">" . $found_name . "</a></p>" ;
+					$found_taxon_full = "<p class='fieldheaderblack'><a href=\"$this_link\">" . $found_taxon . "</a></p>" ;
 					echo "<tr bgcolor='$row_color' id='record_$record_id'>\n" ;
 					echo "<td colspan=9><img src='images/blank.gif' width=1 height=2 border=0></td>" ;
 					echo "</tr>\n" ;
@@ -658,11 +658,11 @@ function startAtRecord (thisPage) {
 				
 					$languages = "" ;
 					$language_query = "SELECT DISTINCT `language`
-							  FROM `common_names` 
+							  FROM `common_names`
 							  WHERE `language` != '' AND `language` IS NOT NULL
-								AND `common_name` = '" . addslashes($this_common_name) . "' 
-								AND `name_code` = '$name_code' 
-								AND `name_code` LIKE BINARY '$name_code' 
+								AND `common_name` = '" . addslashes($this_common_name) . "'
+								AND `name_code` = '$name_code'
+								AND `name_code` LIKE BINARY '$name_code'
 							  ORDER by `language`" ;
 					$language_result = mysql_query($language_query) or die("Error: MySQL query failed");
 					$number_of_languages = mysql_num_rows($language_result);
@@ -682,7 +682,7 @@ function startAtRecord (thisPage) {
 					echo "<td colspan=7><img src='images/blank.gif' width=1 height=2 border=0></td>" ;
 					echo "</tr>\n" ;
 					echo "<tr bgcolor='$row_color'>\n" ;
-					echo "<td valign=top><p>" . 
+					echo "<td valign=top><p>" .
 					     "<span class='fieldheader'><a href='show_common_name_details.php?name=" . urlencode($this_common_name) . "'>$this_common_name</span></a>" . $languages ;
 					echo "</p></td>\n" ;
 					echo "<td><img src='images/blank.gif' width=15 height=1 border=0></td>" ;
@@ -717,10 +717,10 @@ function startAtRecord (thisPage) {
 						$this_distributionLength = strlen($this_distribution) ;
 						$this_distributionStartString = substr($this_distribution,0,$searchStringStartOffset) ;
 						$this_distributionMiddleString = substr($this_distribution,$searchStringStartOffset,$searchStringLength) ;
-						$this_distributionEndString = substr($this_distribution,$searchStringEndOffset+1, 
+						$this_distributionEndString = substr($this_distribution,$searchStringEndOffset+1,
 							  $this_distributionLength-$searchStringEndOffset-1) ;
 						$this_distribution = $this_distributionStartString
-									  . "<span class='fieldheader'><u>" . $this_distributionMiddleString . "</u></span>"  
+									  . "<span class='fieldheader'><u>" . $this_distributionMiddleString . "</u></span>"
 									  . $this_distributionEndString  ;
 					}
 					echo "<tr bgcolor='$row_color' id='record_$record_id'>\n" ;
@@ -767,8 +767,8 @@ function startAtRecord (thisPage) {
 													   `infraspecies_marker`,
 													   `infraspecies`,
 													   `author`
-							  					FROM `scientific_names` 
-												WHERE `name_code` = '" . addslashes($accepted_name_code) . "' 
+							  					FROM `scientific_names`
+												WHERE `name_code` = '" . addslashes($accepted_name_code) . "'
 												  AND `name_code` LIKE BINARY '" . addslashes($accepted_name_code) . "'" ;
 						$accepted_name_result = mysql_query($accepted_name_query) or die("Error: MySQL query failed");
 						$row3 = mysql_fetch_row($accepted_name_result);
@@ -932,24 +932,24 @@ function startAtRecord (thisPage) {
 	}
 	
 	$variables_to_store = Array(
-	  "search_type", 
-	  "search_string", 
-	  "kingdom", 
-	  "phylum", 
-	  "tax_class", 
-	  "order", 
+	  "search_type",
+	  "search_string",
+	  "kingdom",
+	  "phylum",
+	  "tax_class",
+	  "order",
 	  "superfamily",
-	  "family", 
-	  "genus", 
-	  "species", 
-	  "infraspecies", 
-	  "common_name", 
-	  "area", 
-	  "match_whole_words", 
-	  "sort_by_column", 
-	  "number_of_records_found", 
-	  "number_of_records_shown_per_page", 
-	  "first_record_shown", 
+	  "family",
+	  "genus",
+	  "species",
+	  "infraspecies",
+	  "common_name",
+	  "area",
+	  "match_whole_words",
+	  "sort_by_column",
+	  "number_of_records_found",
+	  "number_of_records_shown_per_page",
+	  "first_record_shown",
 	  "number_of_records_to_show" ) ;
 	foreach($variables_to_store as $variable){
 		$_SESSION["ac_$variable"] = $$variable ;
@@ -1022,5 +1022,6 @@ function startAtRecord (thisPage) {
     <input type="hidden" name="search_type" value="<?php echo urlencode($search_type) ?>">
    </form>
 </div>
+<?php include_once 'includes/gax.php'; ?>
 </body>
 </html>

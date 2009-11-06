@@ -40,9 +40,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <meta http-equiv="content-language" content="en-GB" />
 <meta name="keywords" content="<?php echo $selected_taxon_name ?> biodiversity species 2000 itis taxonomy taxa" />
-<meta name="description" content="The Species 2000/ITIS Catalogue of Life : 2006 Annual Checklist 
-  is a comprehensive index of all known plants, animals, fungi and micro-organisms. 
-  It can be used to search multiple databases simultaneously for the scientific name of an 
+<meta name="description" content="The Species 2000/ITIS Catalogue of Life : 2006 Annual Checklist
+  is a comprehensive index of all known plants, animals, fungi and micro-organisms.
+  It can be used to search multiple databases simultaneously for the scientific name of an
   organism." />
 <meta name="language" content="en-GB" />
 <meta name="robots" content="all" />
@@ -59,28 +59,28 @@
 <div style="margin-top:27px; margin-bottom:18px"><img src="images/banner.gif" width="760" height="100"> </div>
 <div style="margin-left: 15px; margin-right:15px;">
 <table border="0" cellspacing="0" cellpadding="0">
-  <tr> 
-    <td valign=top> 
+  <tr>
+    <td valign=top>
       <?php
 	require_once "menu.php" ;
 ?>
     </td>
-    <td valign=top> <img src="images/blank.gif" width="8" height="1" border="0"> 
+    <td valign=top> <img src="images/blank.gif" width="8" height="1" border="0">
     </td>
-    <td valign=top> 
+    <td valign=top>
 	<table border="0" cellspacing="0" cellpadding="1" bgcolor="#333366" width="100%">
-        <tr> 
-          <td> 
+        <tr>
+          <td>
             <table border="0" cellspacing="0" cellpadding="5" width="100%" bgcolor="#FAFCFE">
-              <tr> 
+              <tr>
                 <td>
 				<table width="100%" border="0" cellspacing="0" cellpadding="10">
-                    <tr> 
-                      <td> 
-                        <p class="formheader" align="center">Browse taxonomic 
+                    <tr>
+                      <td>
+                        <p class="formheader" align="center">Browse taxonomic
                           tree</p>
                         <table width="100%" border="0" cellspacing="0" cellpadding="0" height="0">
-                            <tr> 
+                            <tr>
                               <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td>
                             </tr>
                           </table>
@@ -88,8 +88,8 @@
                     </tr>
                   </table>
                   <table border="0" cellspacing="10" cellpadding="0">
-                    <tr> 
-                      <td> 
+                    <tr>
+                      <td>
                         <?php
 
 //	function used to determine children and build subtree; this is done recursively
@@ -114,15 +114,15 @@
 		
 		//	collect records of children by taxon name (to display in tree) and id (to create link to BIS record)
 		
-		$query = "SELECT `name_with_italics`, `taxon`, `name_code`, `record_id`, `is_accepted_name`,  `name`, `LSID` 
-							   FROM `taxa` 
+		$query = "SELECT `name_with_italics`, `taxon`, `name_code`, `record_id`, `is_accepted_name`,  `name`, `LSID`
+							   FROM `taxa`
 							   WHERE `parent_id` = '$parent_id' " .
-		  (($show_accepted_names_only === true) ? " AND `is_accepted_name` = 1 " : "") . 
+		  (($show_accepted_names_only === true) ? " AND `is_accepted_name` = 1 " : "") .
 		  "ORDER BY `taxon` != 'Superfamily', INSTR(`name`, 'Not assigned'),`name`";
 		$result = mysql_query($query) or die (mysql_error());
 		$childnr = 1;
 		
-		//	process children row by row; 
+		//	process children row by row;
 		//	each row is a node in the tree, each row is displayed in a table inside a table row
 
 		while($row = mysql_fetch_row($result)) {
@@ -187,7 +187,7 @@ if($_SERVER['QUERY_STRING']>' ')
 			//	build main table
 			$count++;
 			echo "<tr id='tree_row$count'>\n<td>\n<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n<tr>\n<td>";
-			//	draw blank or vertical node based on previous subtrees 
+			//	draw blank or vertical node based on previous subtrees
 			for($i = 0; $i < $level-1; $i++) {
 				echo ($treestem[$i] == "vertline") ? $vertline : $blank;
 			}
@@ -204,8 +204,8 @@ if($_SERVER['QUERY_STRING']>' ')
 			//  used to build link to specific record
 			$childlink = $childlink2 = "";
 			if($child_name_code != "") {
-				$query2 = "SELECT `record_id` 
-						  FROM `scientific_names` WHERE `name_code` = '" . addslashes($child_name_code) . 
+				$query2 = "SELECT `record_id`
+						  FROM `scientific_names` WHERE `name_code` = '" . addslashes($child_name_code) .
 						    "' AND `name_code` LIKE BINARY '" . addslashes($child_name_code) . "' " ;
 				$result2 = mysql_query($query2) or die("Error: MySQL query failed");
 				if (mysql_num_rows($result2) == 0) {
@@ -215,7 +215,7 @@ if($_SERVER['QUERY_STRING']>' ')
 					$child_record_id = $row2[0] ;
 				}
 				$childlink = "<a href=\"show_species_details.php?record_id=$child_record_id\">";
-				$childlink2 = "</a>"; 
+				$childlink2 = "</a>";
 			}
 			
 			if (strpos(strtolower($child), "inside series of bacteria") === FALSE) {
@@ -229,8 +229,8 @@ if($_SERVER['QUERY_STRING']>' ')
 					$full_link .= "$childlink$child$childlink2" ;
 				} else {
 					$taxon_lc = strtolower($taxon) ;
-					$full_link = $childlink . "Not assigned to a" . 
-						((strpos("aehiou",substr($taxon_lc,0,1)) === false) ? " " : "n ") . 
+					$full_link = $childlink . "Not assigned to a" .
+						((strpos("aehiou",substr($taxon_lc,0,1)) === false) ? " " : "n ") .
 						$taxon_lc . $childlink2 ;
 				}
 			} else {
@@ -261,7 +261,7 @@ if($_SERVER['QUERY_STRING']>' ')
 				//  update treestem, if has children add vertline to array, otherwise blank
 				array_push($treestem, ($hassiblings) ? "vertline" : "blank");
 				handleSubtree($level, $treestem, $this_link.",$child_id", $parents);
-			} else { 
+			} else {
 				// node is not in selection, so don't build subtree
 				
 				$query2 = "SELECT `name_with_italics`
@@ -271,7 +271,7 @@ if($_SERVER['QUERY_STRING']>' ')
 				$result2 = mysql_query($query2) or die (mysql_error());
 				$number_of_rows2 = mysql_num_rows($result2) ;
 				mysql_free_result($result2) ;
-				// test whether this is the last node (no children)		
+				// test whether this is the last node (no children)
 				if($number_of_rows2 == 0) {
 					echo "<img src=\"images/tree/".$last."node.gif\" border=\"0\"></td>\n" ;
 					echo "<td><span class='treenode'>$full_link</span></td></tr>\n</table><td>$lsidlink";
@@ -382,7 +382,7 @@ if($_SERVER['QUERY_STRING']>' ')
 </table>
 <script type="text/javascript">
 	function scrollWindowToSelected() {
-		theRowToShow = 
+		theRowToShow =
 <?php
 		global $selected_row;
 		if (isset($selected_row)) {
@@ -419,5 +419,6 @@ if($_SERVER['QUERY_STRING']>' ')
 	}
 </script>
 </div>
+<?php include_once 'includes/gax.php'; ?>
 </body>
 </html>

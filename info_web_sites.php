@@ -16,27 +16,27 @@
 <div style="margin-top:27px; margin-bottom:18px"><img src="images/banner.gif" width="760" height="100"> </div>
 <div style="margin-left: 15px; margin-right:15px;">
 <table border="0" cellspacing="0" cellpadding="0">
-  <tr> 
-    <td valign=top> 
+  <tr>
+    <td valign=top>
       <?php
 	require_once "menu.php" ;
 ?>
     </td>
-    <td valign=top> <img src="images/blank.gif" width="8" height="1" border="0"> 
+    <td valign=top> <img src="images/blank.gif" width="8" height="1" border="0">
     </td>
-    <td valign=top> 
+    <td valign=top>
 	<table border="0" cellspacing="0" cellpadding="1" bgcolor="#333366" width="100%">
-        <tr> 
-          <td> 
+        <tr>
+          <td>
             <table border="0" cellspacing="0" cellpadding="5" width="100%" bgcolor="#FAFCFE">
-              <tr> 
-                <td> 
+              <tr>
+                <td>
                   <table width="100%" border="0" cellspacing="0" cellpadding="10">
-                    <tr> 
-                      <td> 
+                    <tr>
+                      <td>
                           <p class="formheader" align="center">Web sites</p>
 						<table width="100%" border="0" cellspacing="0" cellpadding="0" height="0">
-                            <tr> 
+                            <tr>
                               <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td>
                             </tr>
                           </table>
@@ -44,8 +44,8 @@
                     </tr>
                   </table>
                   <table border="0" cellspacing="10" cellpadding="0">
-                    <tr> 
-                      <td> 
+                    <tr>
+                      <td>
                           <p><b>Online version of the Annual Checklist:</b></p>
                           <p><a href="http://www.catalogueoflife.org/annual-checklist/2009/" target="_blank">www.catalogueoflife.org/annual-checklist/2009/</a>
                           <p><strong> Web service </strong>
@@ -59,10 +59,10 @@
                     </tr>
                   </table>
                   <table width="100%" border="0" cellspacing="0" cellpadding="10">
-                    <tr> 
-                      <td> 
+                    <tr>
+                      <td>
                         <table width="100%" border="0" cellspacing="0" cellpadding="0" height="0">
-                          <tr> 
+                          <tr>
                             <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td>
                           </tr>
                         </table>
@@ -81,5 +81,6 @@
   </tr>
 </table>
 </div>
+<?php include_once 'includes/gax.php'; ?>
 </body>
 </html>

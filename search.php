@@ -40,7 +40,7 @@
 <div style="margin-left:15px; margin-right:15px;">
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td valign=top> 
+    <td valign=top>
 <?php
 	require_once "menu.php" ;
 ?>
@@ -48,19 +48,19 @@
       
     <td valign=top> <img src="images/blank.gif" width="8" height="1" border="0"> </td>
 	  
-    <td valign=top> 
+    <td valign=top>
         <table border="0" cellspacing="0" cellpadding="1" bgcolor="#333366">
-          <tr> 
-            <td> 
+          <tr>
+            <td>
               <table border="0" cellspacing="0" cellpadding="5" width="100%" bgcolor="#FAFCFE">
-                <tr> 
-                  <td> 
+                <tr>
+                  <td>
                     <table width="100%" border="0" cellspacing="0" cellpadding="10">
-                      <tr> 
+                      <tr>
                         <td>
                           <p class="formheader" align="center">Search the <span style="color:#B41A1A">Annual Checklist</span> - fixed edition each year</p>
                           <table width="100%" border="0" cellspacing="0" cellpadding="0" height="0">
-                            <tr> 
+                            <tr>
                               <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td>
                             </tr>
                           </table>
@@ -68,30 +68,30 @@
                       </tr>
                     </table>
                     <table border="0" cellspacing="5" cellpadding="0">
-                      <tr> 
-                        <td> 
+                      <tr>
+                        <td>
                           <table border="0" cellspacing="0" cellpadding="4">
-                            <tr> 
-                              <td valign="top"> 
+                            <tr>
+                              <td valign="top">
                                 <p class="formfieldheader">Search for:</p>
                               </td>
-                              <td valign=top> 
+                              <td valign=top>
 							  
 	      <form name="search_form" method="get" action="search_results.php" onsubmit="JavaScript:showWaitScreen('Search in progress. ');">
                                <input type="text" name="search_string" size="40" value="<?php echo str_replace("%","*",stripslashes(htmlentities($search_string))) ?>">
  
                                 <table border="0" cellspacing="0" cellpadding="0">
-                                    <td width="24px"> 
+                                    <td width="24px">
                                      </td>
-                                  <tr> 
+                                  <tr>
                                     <td> <img src="images/blank.gif" border="0" height="5" width="1"></td>
                                   </tr>
-                                  <tr> 
-                                    <td width="24px"> 
+                                  <tr>
+                                    <td width="24px">
                                         <input type="checkbox" name="match_whole_words" <?php if ($match_whole_words == "on") { echo " checked" ; } ?>>
                                     </td>
-                                    <td valign=top> 
-                                      <p class="formfieldheader">Match whole words 
+                                    <td valign=top>
+                                      <p class="formfieldheader">Match whole words
                                         only</p>
                                     </td>
                                   </tr>
@@ -101,13 +101,13 @@
 								
                               </td>
                             </tr>
-                            <tr height="42px"> 
+                            <tr height="42px">
                               <td valign=bottom>&nbsp;</td>
-                              <td valign=bottom> 
-                                <div align="right"> 
+                              <td valign=bottom>
+                                <div align="right">
                                   <table border="0" cellspacing="0" cellpadding="0">
-                                    <tr> 
-                                      <td> 
+                                    <tr>
+                                      <td>
                                         <input type="button" value="Search >>" class="formbutton" name="Button" onclick="JavaScript:document.search_form.submit();">
                                       </td>
                                     </tr>
@@ -128,5 +128,6 @@
   </tr>
 </table>
 </div>
+<?php include_once 'includes/gax.php'; ?>
 </body>
 </html>

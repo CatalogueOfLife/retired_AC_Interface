@@ -13,19 +13,19 @@
 		include "cd_rom_version_icon.php" ;
 	}
 ?>
-<div style="margin-top:27px; margin-bottom:18px"><img src="images/banner.gif" width="760" height="100"> 
-</div><div style="margin-left: 17px; margin-right:17px"> <form name="show_database" method="get" action="show_database_details.php"> 
-<input type="hidden" name="database_name"> </form><table border="0" cellspacing="0" cellpadding="0"> 
+<div style="margin-top:27px; margin-bottom:18px"><img src="images/banner.gif" width="760" height="100">
+</div><div style="margin-left: 17px; margin-right:17px"> <form name="show_database" method="get" action="show_database_details.php">
+<input type="hidden" name="database_name"> </form><table border="0" cellspacing="0" cellpadding="0">
 <tr> <td valign=top> <?php
 	require_once "menu.php" ;
-?> </td><td valign=top> <img src="images/blank.gif" width="8" height="1" border="0"> 
-</td><td valign=top> <table border="0" cellspacing="0" cellpadding="1" bgcolor="#333366" width="100%"> 
-<tr> <td> <table border="0" cellspacing="0" cellpadding="5" width="100%" bgcolor="#FAFCFE"> 
-<tr> <td> <table width="100%" border="0" cellspacing="0" cellpadding="10"> 
-<tr> <td> <p class="formheader" align="center">Source databases</p><table width="100%" border="0" cellspacing="0" cellpadding="0" height="0"> 
-<tr> <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td></tr> 
-</table></td></tr> </table><table border="0" cellspacing="10" cellpadding="0" > 
-<tr> <td> <?php	
+?> </td><td valign=top> <img src="images/blank.gif" width="8" height="1" border="0">
+</td><td valign=top> <table border="0" cellspacing="0" cellpadding="1" bgcolor="#333366" width="100%">
+<tr> <td> <table border="0" cellspacing="0" cellpadding="5" width="100%" bgcolor="#FAFCFE">
+<tr> <td> <table width="100%" border="0" cellspacing="0" cellpadding="10">
+<tr> <td> <p class="formheader" align="center">Source databases</p><table width="100%" border="0" cellspacing="0" cellpadding="0" height="0">
+<tr> <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td></tr>
+</table></td></tr> </table><table border="0" cellspacing="10" cellpadding="0" >
+<tr> <td> <?php
 	function addCommas($value) {
 	//	$length = strlen($value) ;
 	//	$counter = 0 ;
@@ -46,11 +46,11 @@
 	if (isset($_REQUEST["sort_by_column"])) {
 		$sort_by_column = $_REQUEST["sort_by_column"] ;
 	}
-	$query = "SELECT  `record_id` , 
-					  `database_name` , 
-					  `database_name_displayed` , 
+	$query = "SELECT  `record_id` ,
+					  `database_name` ,
+					  `database_name_displayed` ,
 					  `taxa` ,
-					  (`accepted_species_names` + `accepted_infraspecies_names`) as accepted_names 
+					  (`accepted_species_names` + `accepted_infraspecies_names`) as accepted_names
 			  FROM    `databases` " ;
 	if ($sort_by_column == 1) {
 		$query .= " ORDER BY lower(`database_name_displayed`)" ;
@@ -61,14 +61,14 @@
 	}
 	$result = mysql_query($query) or die("Error: MySQL query failed");
 	$number_of_records = mysql_num_rows($result);
-?> <p style="margin-bottom:20px"> The data in the 2009 Annual Checklist have been provided by 66 databases. Of these, 14 are new to the 2009 edition and 27 have been updated over the past year.  Most datasets include one or 
-more global species database sectors (GSDs), i.e. datasets being developed 
-to cover all of the world's species in a particular group of organisms. A few datasets provide regional information for groups not yet covered globally. 
-The datasets result from collaboration and editing by many expert taxonomists, 
-whose names are found in the datasets themselves. A brief summary is listed 
-below giving: database short and full names; home page on the web; the author(s) 
-or editor(s); organisation; the group for which data are provided, preceded 
-by its higher classification; and the number of species and infraspecific 
+?> <p style="margin-bottom:20px"> The data in the 2009 Annual Checklist have been provided by 66 databases. Of these, 14 are new to the 2009 edition and 27 have been updated over the past year.  Most datasets include one or
+more global species database sectors (GSDs), i.e. datasets being developed
+to cover all of the world's species in a particular group of organisms. A few datasets provide regional information for groups not yet covered globally.
+The datasets result from collaboration and editing by many expert taxonomists,
+whose names are found in the datasets themselves. A brief summary is listed
+below giving: database short and full names; home page on the web; the author(s)
+or editor(s); organisation; the group for which data are provided, preceded
+by its higher classification; and the number of species and infraspecific
 taxa included in this Annual Checklist.<br>
 </p>
   <?php
@@ -114,7 +114,7 @@ taxa included in this Annual Checklist.<br>
 			echo "<td colspan=9><img src='images/blank.gif' width=1 height=2 border=0></td>" ;
 			echo "</tr>\n" ;
 			echo "<tr bgcolor='$row_color'>\n" ;
-			echo "<td valign=top><p>" . 
+			echo "<td valign=top><p>" .
 				"<span class='fieldheader'><a href='JavaScript:showDatabaseDetails(\"$db_shortname\")'>$db_name</a></span>" ;
 			echo "</p></td>\n" ;
 			echo "<td><img src='images/blank.gif' width=15 height=1 border=0></td>" ;
@@ -151,13 +151,14 @@ taxa included in this Annual Checklist.<br>
 			return "<a href='JavaScript:sortByColumn($current_column)'>$column_name</a>" ;
 		}
 	}
-?> <p><img src="images/blank.gif" width="505px" height="1" border="0"></p></td></tr> 
-</table><table width="100%" border="0" cellspacing="0" cellpadding="10"> 
-<tr> <td> <table width="100%" border="0" cellspacing="0" cellpadding="0" height="0"> 
-<tr> <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td></tr> 
+?> <p><img src="images/blank.gif" width="505px" height="1" border="0"></p></td></tr>
+</table><table width="100%" border="0" cellspacing="0" cellpadding="10">
+<tr> <td> <table width="100%" border="0" cellspacing="0" cellpadding="0" height="0">
+<tr> <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td></tr>
 </table><?php
 	include "info_arrow_buttons.php" ;
-?> </td></tr> </table></td></tr> </table></td></table></td></tr> </table><form name="sort_by_column" method="get" action="info_source_dbs.php"> 
+?> </td></tr> </table></td></tr> </table></td></table></td></tr> </table><form name="sort_by_column" method="get" action="info_source_dbs.php">
 <input type="hidden" name="sort_by_column"> </form></div>
+<?php include_once 'includes/gax.php'; ?>
 </body>
 </html>

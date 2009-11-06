@@ -20,13 +20,13 @@
 		if (closeThisWindow == false) {
 			if (currentURL == "" ) {
 				closeThisWindow = true ;
-			} else if (currentURL.indexOf("search.php") == -1 
+			} else if (currentURL.indexOf("search.php") == -1
 			  && currentURL.indexOf("search_scientific.php") == -1
 			  && currentURL.indexOf("search_by_common_name.php") == -1
-			  && currentURL.indexOf("search_by_distribution.php") == -1 
+			  && currentURL.indexOf("search_by_distribution.php") == -1
 			  && currentURL.indexOf("browse_by_classification.php") == -1 ) {
 				closeThisWindow = true ;
-			}	
+			}
 		}
 		
 		if (closeThisWindow == true) {
@@ -81,9 +81,9 @@ MM_reloadPage(true);
 </script>
 </head>
 <body bgcolor="#ffffff" style="background-color:#ffffff" text="#000000">
-<div id="Layer1" style="position:absolute; z-index:1; top: 10; left: 10";> <img name="sp2000_logo" src="images/wait.gif" width="110" height="120" hspace="220"> 
+<div id="Layer1" style="position:absolute; z-index:1; top: 10; left: 10";> <img name="sp2000_logo" src="images/wait.gif" width="110" height="120" hspace="220">
 </div>
-<div id="Layer2" style="position:absolute; z-index:2; top: 50px; width: 220px; left: 10; height: 73px"> 
+<div id="Layer2" style="position:absolute; z-index:2; top: 50px; width: 220px; left: 10; height: 73px">
   <?php
 	$message = "Please stand by..." ;
 	if ( isset($_REQUEST['msg'])) {
@@ -92,5 +92,6 @@ MM_reloadPage(true);
 	echo "<p>$message</p>" ;
 ?>
 </div>
+<?php include_once 'includes/gax.php'; ?>
 </body>
 </html>

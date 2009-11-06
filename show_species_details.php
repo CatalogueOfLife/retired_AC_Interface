@@ -1,5 +1,5 @@
 <?php
-	session_start(); 
+	session_start();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -16,7 +16,7 @@
 		return $new_color ;
 	}
 
-	function compileScientificName($this_genus,$this_species,$this_infraspecies_marker,$this_infraspecies,  
+	function compileScientificName($this_genus,$this_species,$this_infraspecies_marker,$this_infraspecies,
 	  $this_author,$this_kingdom) {
 		if ($this_kingdom == "Viruses" || $this_kingdom == "Subviral agents") {
 			$scientific_name = $this_species ;
@@ -62,19 +62,19 @@
 	
 	// check if it is a synonym
 	
-	$selected_synonym_header = "" ; 
-	$query = "SELECT `scientific_names`.`genus` , 
-					 `scientific_names`.`species` , 
-					 `scientific_names`.`infraspecies_marker` , 
+	$selected_synonym_header = "" ;
+	$query = "SELECT `scientific_names`.`genus` ,
+					 `scientific_names`.`species` ,
+					 `scientific_names`.`infraspecies_marker` ,
 					 `scientific_names`.`infraspecies` ,
 					 `scientific_names`.`author` ,
-					 `scientific_names`.`name_code` , 
-					 `scientific_names`.`accepted_name_code` , 
-					 `sp2000_statuses`.`sp2000_status`, 
+					 `scientific_names`.`name_code` ,
+					 `scientific_names`.`accepted_name_code` ,
+					 `sp2000_statuses`.`sp2000_status`,
 					 `families`.`kingdom`
 			  FROM `scientific_names` , `sp2000_statuses`  ,`families`
-			  WHERE `scientific_names`.`record_id` = '$record_id' 
-			    AND `scientific_names`.`sp2000_status_id` = `sp2000_statuses`.`record_id` 
+			  WHERE `scientific_names`.`record_id` = '$record_id'
+			    AND `scientific_names`.`sp2000_status_id` = `sp2000_statuses`.`record_id`
 			    AND `scientific_names`.`family_id` = `families`.`record_id` " ;
 				
 	$result = mysql_query($query) or die("Error: MySQL query failed");
@@ -95,17 +95,17 @@
 	$page_title = "" ;
 	if (strpos(strtolower($status),"accepted name") === FALSE) {
 		$is_synonym = "yes" ;
-		$selected_synonym_name = compileScientificName($this_genus,$this_species,$this_infraspecies_marker, 
+		$selected_synonym_name = compileScientificName($this_genus,$this_species,$this_infraspecies_marker,
 		$this_infraspecies,$this_author,$this_kingdom) ;
 		$selected_synonym_header = "You selected $selected_synonym_name" .
-			((substr($selected_synonym_name,-1) == ".") ? " " : ". ") . 
-			"This is a" . ((strpos("aehiou",substr($status,0,1)) === false) ? " " : "n ") . 
+			((substr($selected_synonym_name,-1) == ".") ? " " : ". ") .
+			"This is a" . ((strpos("aehiou",substr($status,0,1)) === false) ? " " : "n ") .
 			" $status for:" ;
-		$page_title .= strip_tags($selected_synonym_name) . 
+		$page_title .= strip_tags($selected_synonym_name) .
 		  " - a" . ((strpos("aehiou",substr($status,0,1)) === false) ? " " : "n ") . " $status for " ;
-		$query = "SELECT `record_id` 
-				  FROM `scientific_names` 
-				  WHERE `name_code` = '$accepted_name_code' 
+		$query = "SELECT `record_id`
+				  FROM `scientific_names`
+				  WHERE `name_code` = '$accepted_name_code'
 				    AND `name_code` LIKE BINARY '$accepted_name_code'" ;
 		$result = mysql_query($query) or die("Error: MySQL query failed");
 		$row = mysql_fetch_row($result);
@@ -120,22 +120,22 @@
 	if ($record_id == 0) {
 		die ("<p>Error: invalid or missing record ID<p>") ;
 	}
-	$query = "SELECT `scientific_names`.`genus` , 
-					 `scientific_names`.`species` , 
-					 `scientific_names`.`infraspecies_marker` , 
-					 `scientific_names`.`infraspecies` , 
-					 `scientific_names`.`accepted_name_code` , 
-					 `sp2000_statuses`.`sp2000_status`, 
-					 `scientific_names`.`author` , 
-					 `scientific_names`.`comment` , 
-					 `scientific_names`.`database_id` , 
-					 `scientific_names`.`specialist_id` , 
-					 `scientific_names`.`web_site` , 
+	$query = "SELECT `scientific_names`.`genus` ,
+					 `scientific_names`.`species` ,
+					 `scientific_names`.`infraspecies_marker` ,
+					 `scientific_names`.`infraspecies` ,
+					 `scientific_names`.`accepted_name_code` ,
+					 `sp2000_statuses`.`sp2000_status`,
+					 `scientific_names`.`author` ,
+					 `scientific_names`.`comment` ,
+					 `scientific_names`.`database_id` ,
+					 `scientific_names`.`specialist_id` ,
+					 `scientific_names`.`web_site` ,
 					 `scientific_names`.`name_code` ,
 					 `scientific_names`.`scrutiny_date` ,
 					 `scientific_names`.`family_id`
-			  FROM `scientific_names` , `sp2000_statuses` 
-			  WHERE `scientific_names`.`record_id` = '$record_id' 
+			  FROM `scientific_names` , `sp2000_statuses`
+			  WHERE `scientific_names`.`record_id` = '$record_id'
 				AND `scientific_names`.`sp2000_status_id` = `sp2000_statuses`.`record_id`" ;
 				
 	$result = mysql_query($query) or die("Error: MySQL query failed");
@@ -173,11 +173,11 @@
 		$accepted_infraspecies = $this_infraspecies ;
 	} else {
 		$query = "SELECT `genus` ,
-						 `species` , 
+						 `species` ,
 						 `infraspecies_marker`,
 						 `infraspecies`
-				  FROM `scientific_names` 
-				  WHERE `name_code` = '" . addslashes($accepted_name_code) . "' 
+				  FROM `scientific_names`
+				  WHERE `name_code` = '" . addslashes($accepted_name_code) . "'
 				    AND `name_code` LIKE BINARY '" . addslashes($accepted_name_code) . "'" ;
 		$result = mysql_query($query) or die("Error: MySQL query failed");
 		$row = mysql_fetch_row($result);
@@ -303,15 +303,15 @@ if($_SERVER['QUERY_STRING']>' ')
 	$number_of_synonyms = 0 ;
 	$query = "SELECT DISTINCT `scientific_names`.`record_id` ,
 							  `scientific_names`.`genus` ,
-							  `scientific_names`.`species` , 
-							  `scientific_names`.`infraspecies_marker` , 
-							  `scientific_names`.`infraspecies` , 
-							  `scientific_names`.`author` , 
-							  `sp2000_statuses`.`sp2000_status` 
-			 FROM  `scientific_names` , `sp2000_statuses` 
-			 WHERE `scientific_names`.`accepted_name_code` = '$name_code' 
-			   AND `scientific_names`.`sp2000_status_id` = `sp2000_statuses`.`record_id`  
-			   AND LOCATE('accepted name', `sp2000_statuses`.`sp2000_status`) = 0 
+							  `scientific_names`.`species` ,
+							  `scientific_names`.`infraspecies_marker` ,
+							  `scientific_names`.`infraspecies` ,
+							  `scientific_names`.`author` ,
+							  `sp2000_statuses`.`sp2000_status`
+			 FROM  `scientific_names` , `sp2000_statuses`
+			 WHERE `scientific_names`.`accepted_name_code` = '$name_code'
+			   AND `scientific_names`.`sp2000_status_id` = `sp2000_statuses`.`record_id`
+			   AND LOCATE('accepted name', `sp2000_statuses`.`sp2000_status`) = 0
 			 ORDER BY `scientific_names`.`genus`, `scientific_names`.`species`, `scientific_names`.`infraspecies`, `scientific_names`.`author`" ;
 	$result = mysql_query($query) or die("Error: MySQL query failed");
 	$number_of_synonyms = mysql_num_rows($result);
@@ -343,9 +343,9 @@ if($_SERVER['QUERY_STRING']>' ')
 		$synonyms_author[$i] = $synonym_author ;
 		$synonyms_status[$i] = $synonym_status ;
 		
-		$query2 = "SELECT `name_code` 
+		$query2 = "SELECT `name_code`
 				   FROM `scientific_names` , `sp2000_statuses`
-				   WHERE `scientific_names`.`genus` = '" . addslashes($synonym_genus) . "' 
+				   WHERE `scientific_names`.`genus` = '" . addslashes($synonym_genus) . "'
 				     AND `scientific_names`.`species` = '" . addslashes($synonym_species) . "' " ;
 		if ($synonym_infraspecies_marker == "") {
 			$query2 .= " AND (`scientific_names`.`infraspecies_marker` = '' OR `scientific_names`.`infraspecies_marker` IS NULL)" ;
@@ -361,9 +361,9 @@ if($_SERVER['QUERY_STRING']>' ')
 			$query2 .= " AND (`scientific_names`.`author` = '' OR `scientific_names`.`author` IS NULL)" ;
 		} else {
 			$query2 .= " AND `scientific_names`.`author`  = '" . addslashes($synonym_author) . "'" ;
-		} 
-		$query2 .= " AND `scientific_names`.`author` = '" . addslashes($synonym_author) . "' 
-					 AND `scientific_names`.`sp2000_status_id` = `sp2000_statuses`.`record_id` 
+		}
+		$query2 .= " AND `scientific_names`.`author` = '" . addslashes($synonym_author) . "'
+					 AND `scientific_names`.`sp2000_status_id` = `sp2000_statuses`.`record_id`
 					 AND `sp2000_statuses`.`sp2000_status` = '" . addslashes($synonym_status) . "' " ;
 		$result2 = mysql_query($query2) or die("Error: MySQL query failed");
 		$number_of_name_codes = mysql_num_rows($result2);
@@ -372,12 +372,12 @@ if($_SERVER['QUERY_STRING']>' ')
 			$row2 = mysql_fetch_row($result2) ;
 			$synonym_name_code = $row2[0] ;
 			$query3 = "SELECT DISTINCT `scientific_name_references` . `reference_id`
-					  FROM `scientific_name_references` 
-					  WHERE `scientific_name_references`.`name_code` = '" . addslashes($synonym_name_code) . "' 
-					     AND `scientific_name_references`.`name_code` LIKE BINARY '" . addslashes($synonym_name_code) . "' 
-						AND (`scientific_name_references`.`reference_type` = 'NomRef' 
-						  OR `scientific_name_references`.`reference_type` = 'TaxAccRef' 
-						  OR `scientific_name_references`.`reference_type` = '' 
+					  FROM `scientific_name_references`
+					  WHERE `scientific_name_references`.`name_code` = '" . addslashes($synonym_name_code) . "'
+					     AND `scientific_name_references`.`name_code` LIKE BINARY '" . addslashes($synonym_name_code) . "'
+						AND (`scientific_name_references`.`reference_type` = 'NomRef'
+						  OR `scientific_name_references`.`reference_type` = 'TaxAccRef'
+						  OR `scientific_name_references`.`reference_type` = ''
 						  OR `scientific_name_references`.`reference_type` IS NULL)" ;
 			$result3 = mysql_query($query3) or die("Error: MySQL query failed");
 			$synonyms_references[$i] += mysql_num_rows($result3);
@@ -391,18 +391,18 @@ if($_SERVER['QUERY_STRING']>' ')
 	
 	$infraspecies_for_species = "" ;
 	if ($this_infraspecies == "") {
-		$query = "SELECT `scientific_names`.`record_id` , 
-						 `scientific_names`.`infraspecies_marker` , 
-						 `scientific_names`.`infraspecies` , 
+		$query = "SELECT `scientific_names`.`record_id` ,
+						 `scientific_names`.`infraspecies_marker` ,
+						 `scientific_names`.`infraspecies` ,
 						 `scientific_names`.`author`,
 						 `scientific_names`.`name_code`,
 						 `scientific_names`.`accepted_name_code`
-				  FROM `scientific_names` , `sp2000_statuses` 
-				  WHERE `scientific_names`.`genus` = '" . addslashes(strip_tags($this_genus)) . "'  
-					AND `scientific_names`.`species` = '" . addslashes(strip_tags($this_species)) . "'    
+				  FROM `scientific_names` , `sp2000_statuses`
+				  WHERE `scientific_names`.`genus` = '" . addslashes(strip_tags($this_genus)) . "'
+					AND `scientific_names`.`species` = '" . addslashes(strip_tags($this_species)) . "'
 					AND `scientific_names`.`infraspecies` != '' AND `scientific_names`.`infraspecies` IS NOT NULL
-					AND `scientific_names`.`sp2000_status_id` =  `sp2000_statuses`.`record_id` 
-					AND LOCATE('accepted name', `sp2000_statuses`.`sp2000_status`) > 0" ; 
+					AND `scientific_names`.`sp2000_status_id` =  `sp2000_statuses`.`record_id`
+					AND LOCATE('accepted name', `sp2000_statuses`.`sp2000_status`) > 0" ;
 		$result = mysql_query($query) or die("Error: MySQL query failed");
 		$number_of_infraspecies_for_species = mysql_num_rows($result);
 		for ($i = 1; $i <= $number_of_infraspecies_for_species; $i++) {
@@ -418,16 +418,16 @@ if($_SERVER['QUERY_STRING']>' ')
 			}
 			if ($this_accepted_name_code == $this_name_code) {
 				$infraspecies_for_species .= "<p class=\"fieldvalue\"><a href=\"show_species_details.php?record_id=$this_id\">" ;
-				$infraspecies_for_species .= compileScientificName($this_genus,$this_species,$this_infraspecies_marker,$this_infraspecies,$this_author,$this_kingdom) ;	
+				$infraspecies_for_species .= compileScientificName($this_genus,$this_species,$this_infraspecies_marker,$this_infraspecies,$this_author,$this_kingdom) ;
 				$infraspecies_for_species .= "</a></p>\n" ;
 			}
 		}
 	}
 	
-	$query = "SELECT `database_name` , 
-					 `database_full_name` , 
-					 `version` 
-			  FROM   `databases` 
+	$query = "SELECT `database_name` ,
+					 `database_full_name` ,
+					 `version`
+			  FROM   `databases`
 			  WHERE  `record_id` = '$db_id' " ;
 	$result = mysql_query($query) or die("Error: MySQL query failed");
 	$row = mysql_fetch_row($result);
@@ -436,16 +436,16 @@ if($_SERVER['QUERY_STRING']>' ')
 	$db_fullname = $row[1] ;
 	$db_version = $row[2] ;
 	
-	$query = "SELECT `specialist_name` 
+	$query = "SELECT `specialist_name`
 			  FROM `specialists` WHERE `record_id` = '$specialist_id'" ;
 	$result = mysql_query($query) or die("Error: MySQL query failed");
 	$row = mysql_fetch_row($result);
 	mysql_free_result($result) ;
 	$specialist_name = $row[0] ;
 	
-	$query = "SELECT `distribution` 
-			  FROM `distribution` 
-			  WHERE `name_code` = '$name_code' 
+	$query = "SELECT `distribution`
+			  FROM `distribution`
+			  WHERE `name_code` = '$name_code'
 			    AND  `name_code` LIKE BINARY '$name_code' " ;
 	$result = mysql_query($query) or die("Error: MySQL query failed");
 	$this_distribution = "" ;
@@ -458,7 +458,7 @@ if($_SERVER['QUERY_STRING']>' ')
 	}
 	
 	$query = "SELECT DISTINCT (`common_name`)
-			  FROM `common_names` 
+			  FROM `common_names`
 			  WHERE `name_code` = '$name_code'
 			    AND `name_code` LIKE BINARY '$name_code' " ;
 	$result = mysql_query($query) or die("Error: MySQL query failed");
@@ -474,9 +474,9 @@ if($_SERVER['QUERY_STRING']>' ')
 		for ($i = 1; $i <= $number_of_common_names; $i++) {
 			$this_common_name = addslashes ($this_common_names_names[$i]) ;
 			$query = "SELECT DISTINCT `language`
-					  FROM `common_names` 
-					  WHERE `language` != '' AND `language` IS NOT NULL 
-					    AND `common_name` = '$this_common_name' 
+					  FROM `common_names`
+					  WHERE `language` != '' AND `language` IS NOT NULL
+					    AND `common_name` = '$this_common_name'
 					  ORDER by `language`" ;
 			$result = mysql_query($query) or die("Error: MySQL query failed");
 			$number_of_languages = mysql_num_rows($result);
@@ -494,7 +494,7 @@ if($_SERVER['QUERY_STRING']>' ')
 	}
 	
 	$query = "SELECT DISTINCT `reference_id`
-			  FROM `scientific_name_references` 
+			  FROM `scientific_name_references`
 			  WHERE `name_code` = '$name_code'
 			   AND `name_code` LIKE BINARY '$name_code'
 			    AND (`reference_type` = 'NomRef' OR `reference_type` = 'TaxAccRef' OR `reference_type` = '' OR `reference_type` IS NULL) " ;
@@ -507,7 +507,7 @@ if($_SERVER['QUERY_STRING']>' ')
 	
 	$image_path = "images/db_logos/" . str_replace(" ","_",$db_name). ".jpg" ;
 	if (file_exists($image_path)) {
-		$image_path = "<p style='margin-bottom:14px'><a href=\"show_database_details.php?database_name=" . urlencode($db_name) ."\">" . 
+		$image_path = "<p style='margin-bottom:14px'><a href=\"show_database_details.php?database_name=" . urlencode($db_name) ."\">" .
 			"<img src=\"$image_path\" border=0 title='Source database for this record: $db_name'></a></p>" ;
 	} else {
 		$image_path = "" ;
@@ -519,9 +519,9 @@ if($_SERVER['QUERY_STRING']>' ')
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <meta http-equiv="content-language" content="en-GB" />
 <meta name="keywords" content="<?php echo strip_tags($scientific_name) ?> biodiversity species 2000 itis taxonomy taxa" />
-<meta name="description" content="The Species 2000/ITIS Catalogue of Life : 2006 Annual Checklist 
-  is a comprehensive index of all known plants, animals, fungi and micro-organisms. 
-  It can be used to search multiple databases simultaneously for the scientific name of an 
+<meta name="description" content="The Species 2000/ITIS Catalogue of Life : 2006 Annual Checklist
+  is a comprehensive index of all known plants, animals, fungi and micro-organisms.
+  It can be used to search multiple databases simultaneously for the scientific name of an
   organism." />
 <meta name="language" content="en-GB" />
 <meta name="robots" content="all" />
@@ -537,24 +537,24 @@ if($_SERVER['QUERY_STRING']>' ')
 <div style="margin-top:27px; margin-bottom:18px"><img src="images/banner.gif" width="760" height="100"> </div>
 <div style="margin-left: 15px; margin-right:15px;">
 <table border="0" cellspacing="0" cellpadding="0">
-  <tr> 
-    <td valign=top> 
+  <tr>
+    <td valign=top>
       <?php
 	require_once "menu.php" ;
 ?>
     </td>
-    <td valign=top> <img src="images/blank.gif" width="8" height="1" border="0"> 
+    <td valign=top> <img src="images/blank.gif" width="8" height="1" border="0">
     </td>
-    <td valign=top> 
+    <td valign=top>
       <table border="0" cellspacing="0" cellpadding="1" bgcolor="#333366">
-        <tr> 
-          <td> 
+        <tr>
+          <td>
             <table border="0" cellspacing="0" cellpadding="5" width="100%" bgcolor="#FAFCFE">
-              <tr> 
-                <td> 
+              <tr>
+                <td>
                   <table width="100%" border="0" cellspacing="0" cellpadding="10">
-                    <tr> 
-                      <td> 
+                    <tr>
+                      <td>
                         <p class="formheader" align="center">
 <?php
 	if ($is_infraspecies === TRUE) {
@@ -565,7 +565,7 @@ if($_SERVER['QUERY_STRING']>' ')
 ?>
 						</p>
                         <table width="100%" border="0" cellspacing="0" cellpadding="0" height="0">
-                          <tr> 
+                          <tr>
                             <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td>
                           </tr>
                         </table>
@@ -573,12 +573,12 @@ if($_SERVER['QUERY_STRING']>' ')
                     </tr>
                   </table>
                   <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                    <tr> 
+                    <tr>
                       <td><img src="images/blank.gif" border="0" height="2" width="1"></td>
                     </tr>
                   </table>
                   <table border="0" cellspacing="0" cellpadding="10">
-                    <tr> 
+                    <tr>
                       <td>
 					  <?php echo $image_path ; ?>
 <?php
@@ -587,21 +587,21 @@ if($_SERVER['QUERY_STRING']>' ')
 	}
 ?>
                         <table width="100%" border="0" cellspacing="0" cellpadding="1" bgcolor="#EDEBEB">
-                          <tr> 
-                            <td> 
+                          <tr>
+                            <td>
                               <table border="0" cellspacing="0" cellpadding="3" width="100%">
-							     <tr bgcolor="<?php $table_row_color=getTableRowColor($table_row_color) ; ?>"> 
-                                  <td valign=top width="150px"> 
+							     <tr bgcolor="<?php $table_row_color=getTableRowColor($table_row_color) ; ?>">
+                                  <td valign=top width="150px">
                                     <p class="fieldheader">Accepted scientific name:</p>
                                   </td>
-                                  <td valign=top> 
+                                  <td valign=top>
 								  
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td>
 		<p class="fieldvalue"><?php echo "$scientific_name ($status)" ?>
 	</td>
-    <td align=right> 
+    <td align=right>
 <?php
 	if ($number_of_author_references > 0) {
 		if ($number_of_author_references == 1) {
@@ -628,8 +628,8 @@ if($_SERVER['QUERY_STRING']>' ')
                                   </td>
                                 </tr>
                               <tr bgcolor="<?php $table_row_color=getTableRowColor($table_row_color) ; ?>">
-                                  <td valign=top width="150px"> 
- <?php		  
+                                  <td valign=top width="150px">
+ <?php
 	if ($status == "accepted name" || $status == "provisionally accepted name") {
 		echo "<p class=\"fieldheader\">Synonym" ;
 		if ( $number_of_synonyms != 1 ) {
@@ -641,7 +641,7 @@ if($_SERVER['QUERY_STRING']>' ')
 	}
 ?>
                                   </td>
-                                  <td valign=top> 
+                                  <td valign=top>
  <?php
 	if ($status == "accepted name" || $status == "provisionally accepted name") {
 		if ($number_of_synonyms == 0) {
@@ -709,19 +709,19 @@ if($_SERVER['QUERY_STRING']>' ')
 ?>
                        
                                 <tr bgcolor="<?php $table_row_color=getTableRowColor($table_row_color) ; ?>">
-                                  <td valign=top width="150px"> 
+                                  <td valign=top width="150px">
                                     <p class="fieldheader">Common name<?php if ($number_of_common_names != 1) { echo "s" ; } ?>:</p>
                                   </td>
-                                  <td valign=top> 
+                                  <td valign=top>
 <?php
 	if ($number_of_common_names == 0) {
 		echo "<p class='fieldvalue'>&#150;</p>" ;
-	} else {			
+	} else {
 		for ($i = 1; $i <= $number_of_common_names; $i++) {
 			$this_common_name = $this_common_names_names[$i] ;
 			$language = $this_common_names_languages[$i] ;
 			echo "<p class='fieldvalue'>" ;
-			echo "<a href='show_common_name_details.php?name=" . urlencode($this_common_name) . "'>" ; 
+			echo "<a href='show_common_name_details.php?name=" . urlencode($this_common_name) . "'>" ;
 			echo $this_common_name . "</a>" . $language . "</p>" ;
 		}
 	}
@@ -729,7 +729,7 @@ if($_SERVER['QUERY_STRING']>' ')
                                   </td>
                                 </tr>
                                 <tr bgcolor="<?php $table_row_color=getTableRowColor($table_row_color) ; ?>">
-                                  <td valign=top width="150px"> 
+                                  <td valign=top width="150px">
                                     <p class="fieldheader">Classification:</p>
                                   </td>
                                    <td valign=top>
@@ -737,39 +737,39 @@ if($_SERVER['QUERY_STRING']>' ')
                                   </td>
                                 </tr>
                                 <tr bgcolor="<?php $table_row_color=getTableRowColor($table_row_color) ; ?>">
-                                  <td valign=top width="150px"> 
+                                  <td valign=top width="150px">
                                     <p class="fieldheader">Distribution:</p>
                                   </td>
-                                  <td valign=top> 
-                                    <p class="fieldvalue"> 
+                                  <td valign=top>
+                                    <p class="fieldvalue">
                                       <?php echo $this_distribution ?>
                                     </p>
                                   </td>
                                 </tr>
-                                <tr bgcolor=<?php $table_row_color=getTableRowColor($table_row_color) ; ?>> 
-                                  <td valign=top width="150px"> 
+                                <tr bgcolor=<?php $table_row_color=getTableRowColor($table_row_color) ; ?>>
+                                  <td valign=top width="150px">
                                     <p class="fieldheader">Additional data:</p>
                                   </td>
-                                  <td valign=top> 
-                                    <p class="fieldvalue"> 
+                                  <td valign=top>
+                                    <p class="fieldvalue">
                                       <?php echo $remarks ?>
                                     </p>
                                   </td>
                                 </tr>
-                                <tr bgcolor="<?php $table_row_color=getTableRowColor($table_row_color) ; ?>"> 
-                                  <td valign=top width="150px"> 
+                                <tr bgcolor="<?php $table_row_color=getTableRowColor($table_row_color) ; ?>">
+                                  <td valign=top width="150px">
                                     <p class="fieldheader">Source database:</p>
                                   </td>
-                                  <td valign=top> 
+                                  <td valign=top>
                                     <p class="fieldvalue"><?php echo "<a href=\"show_database_details.php?database_name=" . urlencode($db_name) ."\">$db_fullname</a>, $db_version" ; ?></p>
                                   </td>
                                 </tr>
-                                <tr bgcolor="<?php $table_row_color=getTableRowColor($table_row_color) ; ?>"> 
-                                  <td valign=top width="150px"> 
+                                <tr bgcolor="<?php $table_row_color=getTableRowColor($table_row_color) ; ?>">
+                                  <td valign=top width="150px">
                                     <p class="fieldheader">Latest taxonomic scrutiny:</p>
                                   </td>
-                                  <td valign=top> 
-                                    <p class="fieldvalue"> 
+                                  <td valign=top>
+                                    <p class="fieldvalue">
 <?php
 	if ($specialist_name != "" && $last_modified != "") {
 		echo "$specialist_name, $last_modified" ;
@@ -784,12 +784,12 @@ if($_SERVER['QUERY_STRING']>' ')
                                     </p>
                                   </td>
                                 </tr>
-                                <tr bgcolor="<?php $table_row_color=getTableRowColor($table_row_color) ; ?>"> 
-                                  <td valign=top width="150px"> 
+                                <tr bgcolor="<?php $table_row_color=getTableRowColor($table_row_color) ; ?>">
+                                  <td valign=top width="150px">
                                     <p class="fieldheader">Online resource:</p>
                                   </td>
-                                  <td valign=top> 
-                                    <p class="fieldvalue"> 
+                                  <td valign=top>
+                                    <p class="fieldvalue">
 <?php
 	$web_site = trim($web_site) ;
 	if ( substr($web_site,0,1) == "#" ) {
@@ -814,22 +814,22 @@ if($_SERVER['QUERY_STRING']>' ')
                                 </tr>
                               </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" height="0">
-                          <tr> 
+                          <tr>
                             <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td>
                           </tr>
                         </table>
 			<table width="100%" border="0" cellspacing="0" cellpadding="1" bgcolor="#EDEBEB">
-                          <tr bgcolor="<?php $table_row_color=getTableRowColor($table_row_color) ; ?>"> 
-                                  <td valign=top width="150px"> 
+                          <tr bgcolor="<?php $table_row_color=getTableRowColor($table_row_color) ; ?>">
+                                  <td valign=top width="150px">
                                     <p class="fieldheader">CoL taxon LSID:</p>
                                   </td>
-                                  <td valign=top> 
+                                  <td valign=top>
                                     <p class="fieldvalue">
  <?php
 					#LSID Changes
-					include "includes/db_connect.php" ;	
+					include "includes/db_connect.php" ;
 					$lsid_query = "SELECT `lsid`, `record_id`
-							  FROM `taxa` 
+							  FROM `taxa`
 							  WHERE `name_code` = '$name_code'";
 
 					$lsid_result = mysql_query($lsid_query) or die("Error: MySQL query failed");
@@ -882,15 +882,16 @@ if($_SERVER['QUERY_STRING']>' ')
 </div>
 <?php
 	if ($is_synonym == "no") {
-		echo "<div id=\"links for spidering\" style=\"height:1px; overflow:hidden; visibility: hidden;\">\n"; 
+		echo "<div id=\"links for spidering\" style=\"height:1px; overflow:hidden; visibility: hidden;\">\n";
 		for ($i = 1; $i <= $number_of_synonyms; $i++) {
 			$synonym = strip_tags($synonyms[$i]) ;
 			$synonym_id = $synonyms_id[$i] ;
 			echo "<a title=\"$synonym\" href=\"show_species_details.php?record_id=$synonym_id\">" .
 			  "$synonym</a>\n";
 		}
-		echo "</div>\n"; 
+		echo "</div>\n";
 	}
 ?>
+<?php include_once 'includes/gax.php'; ?>
 </body>
 </html>

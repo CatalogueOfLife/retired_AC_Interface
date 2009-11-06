@@ -1,5 +1,5 @@
 <?php
-	session_start(); 
+	session_start();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -54,13 +54,13 @@
 	// connect to database
 	include "includes/db_connect.php" ;
 	
-	$query = "SELECT `record_id` , 
-					 `database_full_name` , 
-					 `database_name` , 
-					 `contact_person` , 
-					 `taxonomic_coverage` , 
-					 `abstract` , 
-					 `version` ,  
+	$query = "SELECT `record_id` ,
+					 `database_full_name` ,
+					 `database_name` ,
+					 `contact_person` ,
+					 `taxonomic_coverage` ,
+					 `abstract` ,
+					 `version` ,
 					 DATE_FORMAT(  `release_date`  , '%M %D, %Y' ) ,
 					 `accepted_species_names` ,
 					 `accepted_infraspecies_names` ,
@@ -68,10 +68,10 @@
 					 `infraspecies_synonyms` ,
 					 `common_names` ,
 					 `total_names` ,
-					 `web_site`, 
+					 `web_site`,
 					 `authors_editors`,
 					 `organization`
-			  FROM `databases` 
+			  FROM `databases`
 			  WHERE `database_name` = '$database_name' " ;
 	$result = mysql_query($query) or die("Error: MySQL query failed");
 	$row = mysql_fetch_row($result);
@@ -120,7 +120,7 @@
 	if (strpos ($web_site,"#") !== FALSE) {
 		$web_site = substr($web_site,0,strpos ($web_site,"#")) ;
 	}
-	if ( (substr($web_site,0,7) == "http://" || substr($web_site,0,8) == "https://") 
+	if ( (substr($web_site,0,7) == "http://" || substr($web_site,0,8) == "https://")
 		&& strlen($web_site) >= 8 ) {
 		$web_site = "<a href='$web_site' TARGET='_blank'>$web_site</a>" ;
 	} elseif ($web_site == "") {
@@ -146,27 +146,27 @@
 <div style="margin-top:27px; margin-bottom:18px"><img src="images/banner.gif" width="760" height="100"> </div>
 <div style="margin-left: 15px; margin-right:15px;">
 <table border="0" cellspacing="0" cellpadding="0">
-  <tr> 
-    <td valign=top> 
+  <tr>
+    <td valign=top>
       <?php
 	require_once "menu.php" ;
 ?>
     </td>
-    <td valign=top> <img src="images/blank.gif" width="8" height="1" border="0"> 
+    <td valign=top> <img src="images/blank.gif" width="8" height="1" border="0">
     </td>
-    <td valign=top> 
+    <td valign=top>
       <table border="0" cellspacing="0" cellpadding="1" bgcolor="#333366">
-        <tr> 
-          <td> 
+        <tr>
+          <td>
             <table border="0" cellspacing="0" cellpadding="5" width="100%" bgcolor="#FAFCFE">
-              <tr> 
-                <td> 
+              <tr>
+                <td>
                   <table width="100%" border="0" cellspacing="0" cellpadding="10">
-                    <tr> 
-                      <td> 
+                    <tr>
+                      <td>
                         <p class="formheader" align="center">Database details</p>
                         <table width="100%" border="0" cellspacing="0" cellpadding="0" height="0">
-                          <tr> 
+                          <tr>
                             <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td>
                           </tr>
                         </table>
@@ -174,145 +174,145 @@
                     </tr>
                   </table>
                   <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                    <tr> 
+                    <tr>
                       <td><img src="images/blank.gif" border="0" height="2" width="1"></td>
                     </tr>
                   </table>
                   <table border="0" cellspacing="0" cellpadding="10">
-                    <tr> 
-                      <td> 
+                    <tr>
+                      <td>
 					  <?php echo $image_path ; ?>
                         <table width="100%" border="0" cellspacing="0" cellpadding="1" bgcolor="#EDEBEB">
-                          <tr> 
-                            <td> 
+                          <tr>
+                            <td>
                               <table border="0" cellspacing="0" cellpadding="3" width="100%">
-                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'> 
-                                  <td valign=top width="220px"> 
+                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'>
+                                  <td valign=top width="220px">
                                     <p class="fieldheader">Full name:</p>
                                   </td>
-                                  <td valign=top> 
-                                    <p class="fieldvalue"> 
+                                  <td valign=top>
+                                    <p class="fieldvalue">
                                       <?php echo $db_fullname ; ?>
                                     </p>
                                   </td>
                                 </tr>
-							    <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'> 
-                                  <td valign=top width="220px"> 
+							    <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'>
+                                  <td valign=top width="220px">
                                     <p class="fieldheader">Short name:</p>
                                   </td>
-                                  <td valign=top> 
-                                    <p class="fieldvalue"> 
+                                  <td valign=top>
+                                    <p class="fieldvalue">
                                       <?php echo $db_name ; ?>
                                     </p>
                                   </td>
                                 </tr>
-                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'> 
-                                  <td valign=top width="220px"> 
+                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'>
+                                  <td valign=top width="220px">
                                     <p class="fieldheader">Version:</p>
                                   </td>
-                                  <td valign=top> 
-                                    <p class="fieldvalue"> 
+                                  <td valign=top>
+                                    <p class="fieldvalue">
                                       <?php echo $version ?>
                                     </p>
                                   </td>
                                 </tr>
-                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'> 
-                                  <td valign=top width="220px"> 
+                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'>
+                                  <td valign=top width="220px">
                                     <p class="fieldheader">Release date:</p>
                                   </td>
-                                  <td valign=top> 
-                                    <p class="fieldvalue"> 
+                                  <td valign=top>
+                                    <p class="fieldvalue">
                                       <?php echo $release_date ?>
                                     </p>
                                   </td>
                                 </tr>
-                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'> 
-                                  <td valign=top width="220px"> 
+                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'>
+                                  <td valign=top width="220px">
                                     <p class="fieldheader">Authors/editors:</p>
                                   </td>
-                                  <td valign=top> 
-                                    <p class="fieldvalue"> 
+                                  <td valign=top>
+                                    <p class="fieldvalue">
                                       <?php echo $authors_editors ?>
                                     </p>
                                   </td>
                                 </tr>
-                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'> 
-                                  <td valign=top width="220px"> 
+                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'>
+                                  <td valign=top width="220px">
                                     <p class="fieldheader">Taxonomic coverage:</p>
                                   </td>
-                                  <td valign=top> 
-                                    <p class="fieldvalue"> 
+                                  <td valign=top>
+                                    <p class="fieldvalue">
                                       <?php echo $taxa ?>
                                     </p>
                                   </td>
                                 </tr>
-                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'> 
-                                  <td valign=top width="220px"> 
+                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'>
+                                  <td valign=top width="220px">
                                     <p class="fieldheader">Number of species names:</p>
                                   </td>
-                                  <td valign=top> 
-                                    <p class="fieldvalue"> 
+                                  <td valign=top>
+                                    <p class="fieldvalue">
                                       <?php echo "$species_count accepted names; $species_synonyms_count synonyms"; ?>
                                     </p>
                                   </td>
                                 </tr>
-                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'> 
-                                  <td valign=top width="220px"> 
-                                    <p class="fieldheader">Number of infraspecies 
+                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'>
+                                  <td valign=top width="220px">
+                                    <p class="fieldheader">Number of infraspecies
                                       names:</p>
                                   </td>
-                                  <td valign=top> 
-                                    <p class="fieldvalue"> 
+                                  <td valign=top>
+                                    <p class="fieldvalue">
                                       <?php echo "$infraspecies_count accepted names; $infraspecies_synonyms_count synonyms"; ?>
                                     </p>
                                   </td>
                                 </tr>
-                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'> 
-                                  <td valign=top width="220px"> 
+                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'>
+                                  <td valign=top width="220px">
                                     <p class="fieldheader">Number of common names:</p>
                                   </td>
-                                  <td valign=top> 
-                                    <p class="fieldvalue"> 
+                                  <td valign=top>
+                                    <p class="fieldvalue">
                                       <?php echo $this_common_names_count ?>
                                     </p>
                                   </td>
                                 </tr>
-                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'> 
-                                  <td valign=top width="220px"> 
+                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'>
+                                  <td valign=top width="220px">
                                     <p class="fieldheader">Total number of names:</p>
                                   </td>
-                                  <td valign=top> 
-                                    <p class="fieldvalue"> 
+                                  <td valign=top>
+                                    <p class="fieldvalue">
                                       <?php echo $names_count ?>
                                     </p>
                                   </td>
                                 </tr>
-                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'> 
-                                  <td valign=top width="220px"> 
+                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'>
+                                  <td valign=top width="220px">
                                       <p class="fieldheader">Abstract:</p>
                                   </td>
-                                  <td valign=top> 
-                                    <p class="fieldvalue"> 
+                                  <td valign=top>
+                                    <p class="fieldvalue">
                                       <?php echo $description ?>
                                     </p>
                                   </td>
                                 </tr>
-                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'> 
-                                  <td valign=top width="220px"> 
+                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'>
+                                  <td valign=top width="220px">
                                     <p class="fieldheader">Organization:</p>
                                   </td>
-                                  <td valign=top> 
-                                    <p class="fieldvalue"> 
+                                  <td valign=top>
+                                    <p class="fieldvalue">
                                       <?php echo $organization ?>
                                     </p>
                                   </td>
                                 </tr>
-                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'> 
-                                  <td valign=top width="220px"> 
+                                <tr bgcolor='<?php $table_row_color=getTableRowColor($table_row_color) ; ?>'>
+                                  <td valign=top width="220px">
                                     <p class="fieldheader">Web site:</p>
                                   </td>
-                                  <td valign=top> 
-                                    <p class="fieldvalue"> 
+                                  <td valign=top>
+                                    <p class="fieldvalue">
                                       <?php echo $web_site ?>
                                     </p>
                                   </td>
@@ -343,5 +343,6 @@
   </tr>
 </table>
 </div>
+<?php include_once 'includes/gax.php'; ?>
 </body>
 </html>

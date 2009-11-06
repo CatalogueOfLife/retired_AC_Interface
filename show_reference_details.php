@@ -1,5 +1,5 @@
 <?php
-	session_start(); 
+	session_start();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -15,7 +15,7 @@
 		return $new_color ;
 	}
 
-	function compileScientificName($this_genus,$this_species,$this_infraspecies_marker,$this_infraspecies,  
+	function compileScientificName($this_genus,$this_species,$this_infraspecies_marker,$this_infraspecies,
 	  $this_author,$this_kingdom) {
 		if ($this_kingdom == "Viruses" || $this_kingdom == "Subviral agents") {
 			$scientific_name = $this_species ;
@@ -47,10 +47,10 @@
 	}
 	
 	$variables_to_get = Array(
-	  "record_id", 
-	  "name", 
-	  "name_code", 
-	  "language", 
+	  "record_id",
+	  "name",
+	  "name_code",
+	  "language",
 	  "country" ) ;
 	foreach($variables_to_get as $variable){
 		if (isset($_REQUEST[$variable])) {
@@ -84,35 +84,35 @@
 	
 		// get reference(s) for common name
 	
-		$query = "SELECT DISTINCT `references`.`author` , 
-					 		  `references`.`year` , 
-					 		  `references`.`title` , 
-					 		  `references`.`source`  
-			  FROM `common_names`,`references` 
-			  WHERE `common_names`.`common_name` = '" . addslashes($name) . "' 
-				AND `common_names`.`language` = '" . addslashes($language) . "' 
-				AND `common_names`.`country` = '" . addslashes($country) . "' 
-				AND `common_names`.`name_code` = '" . addslashes($name_code) . "' 
-				AND `common_names`.`name_code` LIKE BINARY '" . addslashes($name_code) . "' 
-			    AND `common_names`.`reference_id` = `references`.`record_id` 
-			  ORDER BY  `references`.`author`, 
-			  			`references`.`year`, 
+		$query = "SELECT DISTINCT `references`.`author` ,
+					 		  `references`.`year` ,
+					 		  `references`.`title` ,
+					 		  `references`.`source`
+			  FROM `common_names`,`references`
+			  WHERE `common_names`.`common_name` = '" . addslashes($name) . "'
+				AND `common_names`.`language` = '" . addslashes($language) . "'
+				AND `common_names`.`country` = '" . addslashes($country) . "'
+				AND `common_names`.`name_code` = '" . addslashes($name_code) . "'
+				AND `common_names`.`name_code` LIKE BINARY '" . addslashes($name_code) . "'
+			    AND `common_names`.`reference_id` = `references`.`record_id`
+			  ORDER BY  `references`.`author`,
+			  			`references`.`year`,
 						`references`.`title`,
 						`references`.`source` " ;
 	} else {
 	
 		// get scientific name
 		
-		$query = "SELECT `scientific_names`.`genus` , 
-						 `scientific_names`.`species` , 
-						 `scientific_names`.`infraspecies_marker` , 
+		$query = "SELECT `scientific_names`.`genus` ,
+						 `scientific_names`.`species` ,
+						 `scientific_names`.`infraspecies_marker` ,
 						 `scientific_names`.`infraspecies` ,
-						 `scientific_names`.`author` , 
-						 `scientific_names`.`accepted_name_code` , 
-						 `sp2000_statuses`.`sp2000_status` , 
+						 `scientific_names`.`author` ,
+						 `scientific_names`.`accepted_name_code` ,
+						 `sp2000_statuses`.`sp2000_status` ,
 						 `families`.`kingdom`
-				  FROM `scientific_names` , `sp2000_statuses`, `families` 
-				  WHERE `scientific_names`.`record_id` = '$record_id' 
+				  FROM `scientific_names` , `sp2000_statuses`, `families`
+				  WHERE `scientific_names`.`record_id` = '$record_id'
 					AND `scientific_names`.`sp2000_status_id` = `sp2000_statuses`.`record_id`
 					AND `scientific_names`.`family_id` = `families`.`record_id` " ;
 		$result = mysql_query($query) or die("Error: MySQL query failed");
@@ -128,27 +128,27 @@
 		$accepted_name_code		  = $row[5] ;
 		$status					  = $row[6] ;
 		$this_kingdom			  = $row[7] ;
-		$name = compileScientificName($this_genus,$this_species,$this_infraspecies_marker, 
+		$name = compileScientificName($this_genus,$this_species,$this_infraspecies_marker,
 		  $this_infraspecies,$this_author,$this_kingdom) ;
 	
 		// get reference(s) for scientific name
 		
-		$query = "SELECT DISTINCT `references`.`author` , 
-					 		  `references`.`year` , 
-					 		  `references`.`title` , 
-					 		  `references`.`source`  
+		$query = "SELECT DISTINCT `references`.`author` ,
+					 		  `references`.`year` ,
+					 		  `references`.`title` ,
+					 		  `references`.`source`
 			  FROM `references` , `scientific_name_references` , `scientific_names`
-			  WHERE `scientific_name_references`.`reference_id` = `references`.`record_id` 
-				AND (`scientific_name_references`.`reference_type` = 'NomRef' 
+			  WHERE `scientific_name_references`.`reference_id` = `references`.`record_id`
+				AND (`scientific_name_references`.`reference_type` = 'NomRef'
 				  OR `scientific_name_references`.`reference_type` = 'TaxAccRef'
 				  OR `scientific_name_references`.`reference_type` = ''
-				  OR `scientific_name_references`.`reference_type` IS NULL) 
+				  OR `scientific_name_references`.`reference_type` IS NULL)
 				AND `scientific_name_references`.`name_code` = `scientific_names`.`name_code`
 				AND `scientific_name_references`.`name_code` LIKE BINARY `scientific_names`.`name_code`
-				AND `scientific_names`.`record_id` = '$record_id'  
-			  ORDER BY  `references`.`author`, 
-			  			`references`.`year`, 
-						`references`.`title`, 
+				AND `scientific_names`.`record_id` = '$record_id'
+			  ORDER BY  `references`.`author`,
+			  			`references`.`year`,
+						`references`.`title`,
 						`references`.`source`" ;
 	}
 	
@@ -196,40 +196,40 @@
 			$table_row_color = getTableRowColor($table_row_color) ;
 			$output .= "<tr bgcolor='$table_row_color'>\n" ;
 			$output .= "<td valign=top width='80px'>\n" ;
-			$output .= "<p class='fieldheader'>Author</p>\n" ; 
+			$output .= "<p class='fieldheader'>Author</p>\n" ;
 			$output .= "</td>\n" ;
 			$output .= "<td valign=top>\n" ;
-			$output .= "<p class='fieldvalue'>" . $authors[$i] . "</p>\n" ; 
+			$output .= "<p class='fieldvalue'>" . $authors[$i] . "</p>\n" ;
 			$output .= "</td>\n" ;
 			$output .= "</tr>\n" ;
 			
 			$table_row_color = getTableRowColor($table_row_color) ;
 			$output .= "<tr bgcolor='$table_row_color'>\n" ;
 			$output .= "<td valign=top width='80px'>\n" ;
-			$output .= "<p class='fieldheader'>Year</p>\n" ; 
+			$output .= "<p class='fieldheader'>Year</p>\n" ;
 			$output .= "</td>\n" ;
 			$output .= "<td valign=top>\n" ;
-			$output .= "<p class='fieldvalue'>" . $years[$i] . "</p>\n" ; 
+			$output .= "<p class='fieldvalue'>" . $years[$i] . "</p>\n" ;
 			$output .= "</td>\n" ;
 			$output .= "</tr>\n" ;
 			
 			$table_row_color = getTableRowColor($table_row_color) ;
 			$output .= "<tr bgcolor='$table_row_color'>\n" ;
 			$output .= "<td valign=top width='80px'>\n" ;
-			$output .= "<p class='fieldheader'>Title</p>\n" ; 
+			$output .= "<p class='fieldheader'>Title</p>\n" ;
 			$output .= "</td>\n" ;
 			$output .= "<td valign=top>\n" ;
-			$output .= "<p class='fieldvalue'>" . $titles[$i] . "</p>\n" ; 
+			$output .= "<p class='fieldvalue'>" . $titles[$i] . "</p>\n" ;
 			$output .= "</td>\n" ;
 			$output .= "</tr>\n" ;
 			
 			$table_row_color = getTableRowColor($table_row_color) ;
 			$output .= "<tr bgcolor='$table_row_color'>\n" ;
 			$output .= "<td valign=top width='80px'>\n" ;
-			$output .= "<p class='fieldheader'>Source</p>\n" ; 
+			$output .= "<p class='fieldheader'>Source</p>\n" ;
 			$output .= "</td>\n" ;
 			$output .= "<td valign=top>\n" ;
-			$output .= "<p class='fieldvalue'>" . $sources[$i] . "</p>\n" ; 
+			$output .= "<p class='fieldvalue'>" . $sources[$i] . "</p>\n" ;
 			$output .= "</td>\n" ;
 			$output .= "</tr>\n" ;
 			
@@ -267,31 +267,31 @@
 <div style="margin-top:27px; margin-bottom:18px"><img src="images/banner.gif" width="760" height="100"> </div>
 <div style="margin-left: 15px; margin-right:15px;">
 <table border="0" cellspacing="0" cellpadding="0">
-  <tr> 
-    <td valign=top> 
+  <tr>
+    <td valign=top>
       <?php
 	require_once "menu.php" ;
 ?>
     </td>
-    <td valign=top> <img src="images/blank.gif" width="8" height="1" border="0"> 
+    <td valign=top> <img src="images/blank.gif" width="8" height="1" border="0">
     </td>
-    <td valign=top> 
+    <td valign=top>
       <table border="0" cellspacing="0" cellpadding="1" bgcolor="#333366">
-        <tr> 
-          <td> 
+        <tr>
+          <td>
             <table border="0" cellspacing="0" cellpadding="5" width="100%" bgcolor="#FAFCFE">
-              <tr> 
-                <td> 
+              <tr>
+                <td>
                   <table width="100%" border="0" cellspacing="0" cellpadding="10">
-                    <tr> 
-                      <td> 
+                    <tr>
+                      <td>
                         <p class="formheader" align="center">
 <?php
 	echo $header ;
 ?>
 						</p>
                         <table width="100%" border="0" cellspacing="0" cellpadding="0" height="0">
-                          <tr> 
+                          <tr>
                             <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td>
                           </tr>
                         </table>
@@ -299,13 +299,13 @@
                     </tr>
                   </table>
                   <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                    <tr> 
+                    <tr>
                       <td><img src="images/blank.gif" border="0" height="2" width="1"></td>
                     </tr>
                   </table>
                   <table border="0" cellspacing="0" cellpadding="10">
-                    <tr> 
-                      <td> 
+                    <tr>
+                      <td>
 	
 					  
 <?php
@@ -337,5 +337,6 @@
 				</tr>
 			</table>
 </div>
+<?php include_once 'includes/gax.php'; ?>
 </body>
 </html>

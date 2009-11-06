@@ -1,5 +1,5 @@
 <?php
-	session_start(); 
+	session_start();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -27,26 +27,26 @@
 	// connect to database
 	include "includes/db_connect.php" ;
 	
-	$this_common_names_query = "SELECT DISTINCT `common_names`.`common_name` , 
-								  `common_names`.`language`, 
-								  `common_names`.`country`, 
-								  `common_names`.`name_code`, 
-								  `scientific_names`.`record_id` , 
-								  `scientific_names`.`genus` , 
-								  `scientific_names`.`species` , 
-								  `scientific_names`.`infraspecies_marker` , 
-								  `scientific_names`.`infraspecies` , 
-								  `databases`.`database_name` ,   
-								  `databases`.`database_full_name`   
-	  FROM `common_names` , 
-	  	   `scientific_names` , 
-		   `databases` 
-	  WHERE `common_names`.`common_name` = '" . addslashes($this_common_name) . "'  
-	    AND `common_names`.`name_code` = `scientific_names`.`name_code`  
-	    AND `common_names`.`name_code` LIKE BINARY `scientific_names`.`name_code` 
-		AND `common_names`.`database_id` = `databases`.`record_id` 
-		AND `scientific_names`.`name_code` = `scientific_names`.`accepted_name_code` 
-		AND `scientific_names`.`name_code` LIKE BINARY `scientific_names`.`accepted_name_code` 
+	$this_common_names_query = "SELECT DISTINCT `common_names`.`common_name` ,
+								  `common_names`.`language`,
+								  `common_names`.`country`,
+								  `common_names`.`name_code`,
+								  `scientific_names`.`record_id` ,
+								  `scientific_names`.`genus` ,
+								  `scientific_names`.`species` ,
+								  `scientific_names`.`infraspecies_marker` ,
+								  `scientific_names`.`infraspecies` ,
+								  `databases`.`database_name` ,
+								  `databases`.`database_full_name`
+	  FROM `common_names` ,
+	  	   `scientific_names` ,
+		   `databases`
+	  WHERE `common_names`.`common_name` = '" . addslashes($this_common_name) . "'
+	    AND `common_names`.`name_code` = `scientific_names`.`name_code`
+	    AND `common_names`.`name_code` LIKE BINARY `scientific_names`.`name_code`
+		AND `common_names`.`database_id` = `databases`.`record_id`
+		AND `scientific_names`.`name_code` = `scientific_names`.`accepted_name_code`
+		AND `scientific_names`.`name_code` LIKE BINARY `scientific_names`.`accepted_name_code`
 	  ORDER BY `scientific_names`.`genus`,`scientific_names`.`species` ,`scientific_names`.`infraspecies` ,`common_names`.`language`,`common_names`.`country`,`databases`.`database_full_name`" ;
 	$result = mysql_query($this_common_names_query) or die("Error: MySQL query failed");
 	$number_of_records = mysql_num_rows($result);
@@ -68,27 +68,27 @@
 <div style="margin-top:27px; margin-bottom:18px"><img src="images/banner.gif" width="760" height="100"> </div>
 <div style="margin-left: 15px; margin-right:15px;">
 <table border="0" cellspacing="0" cellpadding="0">
-  <tr> 
-    <td valign=top> 
+  <tr>
+    <td valign=top>
 <?php
 	require_once "menu.php" ;
 ?>
     </td>
-    <td valign=top> <img src="images/blank.gif" width="8" height="1" border="0"> 
+    <td valign=top> <img src="images/blank.gif" width="8" height="1" border="0">
     </td>
-    <td valign=top> 
+    <td valign=top>
       <table border="0" cellspacing="0" cellpadding="1" bgcolor="#333366">
-        <tr> 
-          <td> 
+        <tr>
+          <td>
             <table border="0" cellspacing="0" cellpadding="5" width="100%" bgcolor="#FAFCFE">
-              <tr> 
-                <td> 
+              <tr>
+                <td>
                   <table width="100%" border="0" cellspacing="0" cellpadding="10">
-                    <tr> 
-                      <td> 
+                    <tr>
+                      <td>
                         <p class="formheader" align="center">Common name details</p>
                         <table width="100%" border="0" cellspacing="0" cellpadding="0" height="0">
-                          <tr> 
+                          <tr>
                             <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td>
                           </tr>
                         </table>
@@ -96,13 +96,13 @@
                     </tr>
                   </table>
                   <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                    <tr> 
+                    <tr>
                       <td><img src="images/blank.gif" border="0" height="2" width="1"></td>
                     </tr>
                   </table>
                   <table border="0" cellspacing="0" cellpadding="10">
-                    <tr> 
-                      <td> 
+                    <tr>
+                      <td>
 <?php
 	if ($number_of_records > 1) {
 		echo "<p><br>$number_of_records records found for $this_common_name:</p>" ;
@@ -155,13 +155,13 @@
 		}
 		$database = "<a href='show_database_details.php?database_name=" . urlencode($db_name) . "'>$db_fullname</a>" ;
 
-		$references_query = "SELECT `common_names`.`reference_id`   
+		$references_query = "SELECT `common_names`.`reference_id`
 		  FROM `common_names`
-		  WHERE `common_name` = '" . addslashes($this_common_name) . "' 
-		    AND `language` = '" . addslashes($language) . "' 
-		    AND `country` = '" . addslashes($country) . "' 
+		  WHERE `common_name` = '" . addslashes($this_common_name) . "'
+		    AND `language` = '" . addslashes($language) . "'
+		    AND `country` = '" . addslashes($country) . "'
 		    AND `name_code` = '" . addslashes($name_code) . "'
-		    AND `name_code` LIKE BINARY '" . addslashes($name_code) . "'" ; 
+		    AND `name_code` LIKE BINARY '" . addslashes($name_code) . "'" ;
 		$references_result = mysql_query($references_query) or die("Error: MySQL query failed");
 		$number_of_references = mysql_num_rows($references_result);
 		$reference = "" ;
@@ -172,9 +172,9 @@
 				$label = "$number_of_references literature references" ;
 			}
 			$book_icon = "<img src='images/book.gif' border='0' width='15' height='14' hspace='2' align=right title='Click here to show the $label'>" ;
-			$reference_url = "show_reference_details.php?name=" . urlencode($name) . 
-			  "&amp;" . "language=" . urlencode($language) . 
-			  "&amp;" . "country=" . urlencode($country) . 
+			$reference_url = "show_reference_details.php?name=" . urlencode($name) .
+			  "&amp;" . "language=" . urlencode($language) .
+			  "&amp;" . "country=" . urlencode($country) .
 			  "&amp;" . "name_code=" . urlencode($name_code) ;
 			$reference = "<a href=\"$reference_url\" onmouseover=\"return showStatus('$label')\" " .
 			  "onmouseout=\"return showStatus('')\">$book_icon</a>" ;
@@ -215,5 +215,6 @@
   </tr>
 </table>
 </div>
+<?php include_once 'includes/gax.php'; ?>
 </body>
 </html>

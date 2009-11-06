@@ -16,27 +16,27 @@
 <div style="margin-top:27px; margin-bottom:18px"><img src="images/banner.gif" width="760" height="100"> </div>
 <div style="margin-left: 15px; margin-right:15px;">
 <table border="0" cellspacing="0" cellpadding="0">
-  <tr> 
-    <td valign=top> 
+  <tr>
+    <td valign=top>
       <?php
 	require_once "menu.php" ;
 ?>
     </td>
-    <td valign=top> <img src="images/blank.gif" width="8" height="1" border="0"> 
+    <td valign=top> <img src="images/blank.gif" width="8" height="1" border="0">
     </td>
-    <td valign=top> 
+    <td valign=top>
 	<table border="0" cellspacing="0" cellpadding="1" bgcolor="#333366" width="100%">
-        <tr> 
-          <td> 
+        <tr>
+          <td>
             <table border="0" cellspacing="0" cellpadding="5" width="100%" bgcolor="#FAFCFE">
-              <tr> 
-                <td> 
+              <tr>
+                <td>
                   <table width="100%" border="0" cellspacing="0" cellpadding="10">
-                    <tr> 
-                      <td> 
+                    <tr>
+                      <td>
                           <p class="formheader" align="center">Contact us</p>
 						<table width="100%" border="0" cellspacing="0" cellpadding="0" height="0">
-                            <tr> 
+                            <tr>
                               <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td>
                             </tr>
                           </table>
@@ -44,17 +44,17 @@
                     </tr>
                   </table>
                   <table border="0" cellspacing="10" cellpadding="0">
-                    <tr> 
-                        <td> 
-                          <p>This is the 
+                    <tr>
+                        <td>
+                          <p>This is the
 
 
 ninth
 
- edition of the Annual Checklist. 
-                            Users are encouraged to provide feedback to the Species 
-                            2000 Secretariat and to ITIS. Enquiries about this 
-                            Annual Checklist, the databases or Species 2000 should 
+ edition of the Annual Checklist.
+                            Users are encouraged to provide feedback to the Species
+                            2000 Secretariat and to ITIS. Enquiries about this
+                            Annual Checklist, the databases or Species 2000 should
                             also be directed to: </p>
                           <p>Species 2000 Secretariat <br>
                             
@@ -67,7 +67,7 @@ Harborne Building<br>
                           <p>Email:  <a href="mailto:sp2000@sp2000.org">sp2000@sp2000.org</a><br>
                             Tel: +44 118 378 6466 <br>
                           </p>
-                          <p>CD-ROM Help Desk: 
+                          <p>CD-ROM Help Desk:
 
 
                           <a href="mailto:support@sp2000.org"> support@sp2000.org</a></p>
@@ -79,10 +79,10 @@ Harborne Building<br>
                     </tr>
                   </table>
                   <table width="100%" border="0" cellspacing="0" cellpadding="10">
-                    <tr> 
-                      <td> 
+                    <tr>
+                      <td>
                         <table width="100%" border="0" cellspacing="0" cellpadding="0" height="0">
-                          <tr> 
+                          <tr>
                             <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td>
                           </tr>
                         </table>
@@ -101,5 +101,6 @@ Harborne Building<br>
   </tr>
 </table>
 </div>
+<?php include_once 'includes/gax.php'; ?>
 </body>
 </html>

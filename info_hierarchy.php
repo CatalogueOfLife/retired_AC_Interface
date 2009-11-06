@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Catalogue of Life : 2009 Annual Checklist : Towards a management hierarchy (classification) 
+<title>Catalogue of Life : 2009 Annual Checklist : Towards a management hierarchy (classification)
 for the Catalogue of Life
 </title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -25,14 +25,14 @@ for the Catalogue of Life
 	if ($online_or_offline_version == "offline") {
 		include "cd_rom_version_icon.php" ;
 	}
-?> <div style="margin-top:27px; margin-bottom:18px"><img src="images/banner.gif" width="760" height="100"> 
-</div><div style="margin-left: 15px; margin-right:15px;"> <table border="0" cellspacing="0" cellpadding="0"> 
+?> <div style="margin-top:27px; margin-bottom:18px"><img src="images/banner.gif" width="760" height="100">
+</div><div style="margin-left: 15px; margin-right:15px;"> <table border="0" cellspacing="0" cellpadding="0">
 <tr> <td valign=top> <?php
 	require_once "menu.php" ;
-?> </td><td valign=top> <img src="images/blank.gif" width="8" height="1" border="0"> 
-</td><td valign=top> <table border="0" cellspacing="0" cellpadding="1" bgcolor="#333366" width="%"> 
-<tr> <td> <table border="0" cellspacing="0" cellpadding="5" width="100%" bgcolor="#FAFCFE"> 
-<tr> <td> <table width="100%" border="0" cellspacing="0" cellpadding="10"> 
+?> </td><td valign=top> <img src="images/blank.gif" width="8" height="1" border="0">
+</td><td valign=top> <table border="0" cellspacing="0" cellpadding="1" bgcolor="#333366" width="%">
+<tr> <td> <table border="0" cellspacing="0" cellpadding="5" width="100%" bgcolor="#FAFCFE">
+<tr> <td> <table width="100%" border="0" cellspacing="0" cellpadding="10">
 <tr> <td> <p class="formheader1" align="center">Towards a management hierarchy (classification) for the Catalogue of Life</p>
     <p class="formheader" align="center">&nbsp;</p>
     <p class="formheader2" align="center"><em>Draft Discussion Document</em></p>
@@ -49,43 +49,43 @@ for the Catalogue of Life
     <p class="formheader2" align="center">&nbsp;</p>
     <p class="formheader2" align="center"><SPAN lang=EN-GB>Elected Life Member, </SPAN><SPAN lang=EN-GB>New Zealand</SPAN><SPAN lang=EN-GB> Marine Sciences Society</SPAN></p>
     <p class="formheader2" align="center"><SPAN lang=EN-GB>Past President, International Bryozoology Association</SPAN></p>
-    <p class="formheader2" align="center"><SPAN lang=EN-GB>Immediate Past-Chairman, Royal Society of </SPAN><SPAN 
+    <p class="formheader2" align="center"><SPAN lang=EN-GB>Immediate Past-Chairman, Royal Society of </SPAN><SPAN
 lang=EN-GB>New Zealand</SPAN><SPAN lang=EN-GB> Committee on Biodiversity</SPAN></p>
     <p class="formheader2" align="center"><SPAN lang=EN-GB>Immediate Past-Chairman, Species 2000 Asia-Oceania Working Group</SPAN></p>
     <p class="formheader2" align="center"><SPAN lang=EN-GB>Member, Ocean Biogeographic Information System (OBIS) Editorial Board</SPAN></p>
     <p class="formheader2" align="center"><SPAN lang=EN-GB>Member of Steering Committee, World Register of Marine Organisms</SPAN></p>
     <p class="formheader2" align="center">&nbsp;</p>
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" height="0"> 
-<tr> <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td></tr> 
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" height="0">
+<tr> <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td></tr>
 </table></td>
-</tr> </table><table border="0" cellspacing="10" cellpadding="0"> 
+</tr> </table><table border="0" cellspacing="10" cellpadding="0">
 <tr> <td> <p><span class="formheader3"><em>You may cite this as:</em></span>
     
-    <p class="formheader4" align="justify"><SPAN lang=EN-NZ>Gordon DP (2009). Towards a management hierarchy (classification) for the Catalogue of Life: Draft Discussion Document. In Species 2000 &amp; ITIS Catalogue of Life: 2009 Annual Checklist (Bisby FA, Roskov YR, Orrell TM, Nicolson D, Paglinawan LE, Bailly N, Kirk PM, Bourgoin T, Baillargeon G., eds). CD-ROM; Species 2000: </SPAN><SPAN lang=EN-NZ>Reading</SPAN><SPAN lang=EN-NZ>, </SPAN><SPAN 
+    <p class="formheader4" align="justify"><SPAN lang=EN-NZ>Gordon DP (2009). Towards a management hierarchy (classification) for the Catalogue of Life: Draft Discussion Document. In Species 2000 &amp; ITIS Catalogue of Life: 2009 Annual Checklist (Bisby FA, Roskov YR, Orrell TM, Nicolson D, Paglinawan LE, Bailly N, Kirk PM, Bourgoin T, Baillargeon G., eds). CD-ROM; Species 2000: </SPAN><SPAN lang=EN-NZ>Reading</SPAN><SPAN lang=EN-NZ>, </SPAN><SPAN
 lang=EN-NZ>UK.</SPAN></p>
     <p class="formheader4" align="justify">&nbsp;</p>
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" height="0"> 
-<tr> <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td></tr> 
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" height="0">
+<tr> <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td></tr>
 </table>
     <p class="formheader3">&nbsp;</p>
-    <p class="formheader3">Rationale:   
+    <p class="formheader3">Rationale:
        </p>
     <p class="formheader4" align="justify">The Catalogue of Life partnership, comprising Species 2000 and ITIS (Integrated Taxonomic Information System), has the goal of achieving a comprehensive catalogue of all known species on Earth. The actual number of described species (after correction for synonyms) is not presently known but estimates suggest about 1.8 million species.</p>
             <p class="formheader4" align="justify">&nbsp;</p>
             <p class="formheader4" align="justify">The collaborative teams behind the Catalogue of Life need an agreed standard classification for these 1.8 million species, i.e. a working hierarchy for management purposes. This discussion document is intended to highlight some of the issues that need clarifying in order to achieve this goal beyond what we presently have.</p>
             <p class="formheader4" align="justify">&nbsp;</p>
-            <p class="formheader3">Concerning Classification: 
+            <p class="formheader3">Concerning Classification:
        <p class="formheader4" align="justify">Life&rsquo;s diversity is classified into a hierarchy of categories. The best-known of these is the Kingdom. When Carl Linnaeus introduced his new &ldquo;system of nature&rdquo; in the 1750s (<I>Systema Naturae per Regna tria naturae, secundum Classes</I>, <I>Ordines, Genera, Species &hellip;</I>)&nbsp;  he recognised three kingdoms, viz Plantae, Animalia, and a third kingdom for minerals that has long since been abandoned. As is evident from the title of his work, he introduced lower-level taxonomic categories, each successively nested in the other, named Class, Order, Genus, and Species. The most useful and innovative aspect of his <I>system</I> (which gave rise to the scientific discipline of Systematics) was the use of the binominal, comprising genus and species, that uniquely identified each species of organism.</SPAN></P>
        <p class="formheader4" align="justify">&nbsp;</P>
        <p class="formheader4" align="justify">Linnaeus&rsquo;s system has proven to be robust for some 250 years. The starting point for botanical names is his <I>Species Plantarum</I>, published in 1753, and that for zoological names is the tenth edition of the <I>Systema Naturae </I>published in 1758. Since that time the expansion of knowledge and increase in the number of described species has required the expansion of the number of hierarchical levels within the system. The ranks of Family and Phylum were introduced in the early 1800s and many super- and sub-categories have been added since then. The kingdom itself is today nested in a category called Domain, although Superkingdom is a better name. </SPAN></P>
        <p class="formheader4" align="justify">&nbsp;</P>
-       <p class="formheader4" align="justify">There is currently no consensus among the world&rsquo;s taxonomists concerning which of the many classification schemes to use for the hierarchy of life, in part because of the confusion resulting from Hennig&rsquo;s (1966) redefinition of existing terminology of classification and the separate goals of cladification and classification (Mayr &amp; Bock (2002). One solution is to offer more than one classification scheme (as in the Encyclopedia of Life). Discussions at the June 2008 conference of the World Register of Marine Species (</SPAN><SPAN 
-lang=EN-NZ>WoRMS</SPAN><SPAN lang=EN-NZ>) at the Flanders Marine Institute (VLIZ), </SPAN><SPAN lang=EN-NZ>Ostend</SPAN><SPAN lang=EN-NZ>, indicated a preference among the officers of both the Catalogue of Life and </SPAN><SPAN 
+       <p class="formheader4" align="justify">There is currently no consensus among the world&rsquo;s taxonomists concerning which of the many classification schemes to use for the hierarchy of life, in part because of the confusion resulting from Hennig&rsquo;s (1966) redefinition of existing terminology of classification and the separate goals of cladification and classification (Mayr &amp; Bock (2002). One solution is to offer more than one classification scheme (as in the Encyclopedia of Life). Discussions at the June 2008 conference of the World Register of Marine Species (</SPAN><SPAN
+lang=EN-NZ>WoRMS</SPAN><SPAN lang=EN-NZ>) at the Flanders Marine Institute (VLIZ), </SPAN><SPAN lang=EN-NZ>Ostend</SPAN><SPAN lang=EN-NZ>, indicated a preference among the officers of both the Catalogue of Life and </SPAN><SPAN
 lang=EN-NZ>WoRMS</SPAN><SPAN lang=EN-NZ> for a single management classification. On a more practical basis, writers of botanical and zoological textbooks find it easier to organise contents according to a single schema.</SPAN></P>
        <p class="formheader4" align="justify">&nbsp;</P>
        <p align="justify" class="formheader3"><em>Purposes of a classification</SPAN></I>       </em>
        <p class="formheader4" align="justify">At this point, it is probably useful to consider what is most needed in a classification, which is a system of ordering information. In recent years much has been written about biological classification and some viewpoints have been heatedly expressed. Linnaeus&rsquo;s utilitarian system has itself come under attack (see for example Ereshefshy 2001; Moore 2002), with a number of critics demanding an end to the use of ranks. &ldquo;Ranks are irrelevant to phylogenetic insights and, being a source of confusion, are excluded&rdquo; (Patterson 1993), but this viewpoint has been justifiably criticised (e.g. Benton 2000; Dyke 2002). Given the plethora of clade and taxon names in use, ranks at least relativise unfamiliar taxa and convey information about where in a tree they occur.</SPAN>
-       <p class="formheader4" align="justify">              
+       <p class="formheader4" align="justify">
        <p class="formheader4" align="justify">It is not the purpose here to summarise the various viewpoints but a need to consider what we want from a classification is inescapable. Cavalier-Smith (1998) has given a useful discussion. One bone of contention in recent decades has been whether or not to allow the use of paraphyletic taxa in classification. A paraphyletic taxon is</SPAN><SPAN lang=EN-GB> a monophyletic group that does not contain all the descendents (derivatives) of that group. One of the best-known examples is that of Reptilia, nominally a class of Chordata. Since it is agreed that birds (nominally class Aves) have a reptilian ancestor, and Reptilia by convention does not include Aves, then Reptilia is a paraphyletic group. But paraphyletic groups potentially abound at all levels of the taxonomic hierarchy. Indeed, there are many thousands of taxa where it is not yet known if they are paraphyletic (including some of the descendants) or holophyletic (including all of the descendants). Cavalier-Smith&rsquo;s classical understanding of monophyly is pragmatic, including both paraphyletic and holophyletic groups. On this understanding, Reptilia + Aves [+ Mammalia] is holophyletic whereas Reptilia alone is merely paraphyletic; either way, both are monophyletic.</SPAN></P>
        <p class="formheader4" align="justify">&nbsp;</P>
        <p class="formheader4" align="justify">He writes: &ldquo;Theoretically, the Hennigian attempt to restrict taxa to clades, and forbid paraphyletic groups is incompatible with the basic purpose of phylogenetic classification, even though it misleadingly masquerades under that name. What a biological classification aims to do is to arrange organisms in a hierarchical series of nested taxa, in which each more-inclusive higher-level taxon is subdivided comprehensively into less-inclusive taxa at the next level below. &hellip; Cladists have long accepted that the inability to classify ancestral and many fossil taxa is the Achilles heel of Hennigian classificatory principles, and refer to it as a problem; it is not a problem at all for systematics, but merely a defect in the Hennigian ideas on classification. Obviously, if you assert that you must not make paraphyletic groups then you cannot properly classify ancestral species excluded from a particular clade. No comprehensive phylogenetic classification is even theoretically possible unless one accepts paraphyletic as well as holophyletic taxa. The dogma against paraphyletic taxa is logically incompatible with the &hellip; goal of taxonomy as the creation of a comprehensive classification of all organisms, both extant and extinct.&rdquo;</SPAN></P>
@@ -98,27 +98,27 @@ lang=EN-NZ>WoRMS</SPAN><SPAN lang=EN-NZ> for a single management classification.
        <p class="formheader4" align="justify">&nbsp;</P>
        <p class="formheader4" align="justify">The above material, including that in quotes, was presented at the VLIZ meeting. The feedback from participants was that paraphyly was to be avoided where possible unless current uncertainty precluded any firm decision as to relationship. Uncertainty definitely exists &#8213; at all taxonomic levels. For example, the notion of six eukaryote supergroups has recently gained some acceptance (as indicated by biology textbooks) but there are problems with most of them (cf. Baldauf <I>et al</I>. 2000; Wegener Parfrey <I>et al</I>. 2006; Lane &amp; Archibald 2008). These are, as defined:</SPAN><SPAN lang=EN-GB>&nbsp;</SPAN></P>
     <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify">&nbsp;</P>
-    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN 
+    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN
 lang=EN-GB>Amoebozoa &#8213; composed of lineages of unicellular organisms, generally well supported in molecular phylogenies; without clear-cut morphological apomorphies, although most lineages produce pseudopodia that are broad (lobose).</SPAN></P>
-    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN 
+    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN
 lang=EN-GB>&nbsp;</SPAN></P>
-    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN 
+    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN
 lang=EN-GB>Opisthokonta &#8213; includes animals, fungi, and their unicellular relatives (such as <I>Capsaspora</I> and collar flagellates), which share (or are derived from organisms with) a single posterior cilium and&nbsp; are strongly supported by sequence data.</SPAN></P>
-    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN 
+    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN
 lang=EN-GB>&nbsp;</SPAN></P>
-    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN 
+    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN
 lang=EN-GB>Rhizaria &#8213; a group united only by molecular phylogenies; members include ecologically important and abundant organisms such as foraminiferans and cercozoans, which are largely understudied.</SPAN></P>
-    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN 
+    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN
 lang=EN-GB>&nbsp;</SPAN></P>
-    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN 
+    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN
 lang=EN-GB>Excavata &#8213; unicellular eukaryotes that share an array of cytoskeletal features and a distinctive ventral &lsquo;excavation&rsquo; that is a feeding groove, plus forms lacking some of these features that have been identified as relatives by molecular means; the common ancestry of the group as a whole is, at best, weakly supported by published molecular data.</SPAN></P>
-    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN 
+    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN
 lang=EN-GB>&nbsp;</SPAN></P>
-    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN 
+    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN
 lang=EN-GB>Chromalveolata &#8213; predominantly unicellular assemblage of photosynthetic and non-photosynthetic organisms united by the &lsquo;chromalveolate hypothesis&rsquo;, which states that the plastids of chromists and alveolates are the product of a single secondary endosymbiosis in the common ancestry of the two groups; support for this group is largely based on plastid-related characters between subsets of its component lineages, with no single character or phylogeny that has been shown to unite all of its hypothesised members.</SPAN></P>
-    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN 
+    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN
 lang=EN-GB>&nbsp;</SPAN></P>
-    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN 
+    <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify"><SPAN
 lang=EN-GB>Archaeplastida &#8213; includes all primary plastid-containing lineages, and is well supported in both plastid and phylogenomic-scale nuclear gene phylogenies; molecular evidence for the single origin of red-algal, green-algal, and glaucophyte plastids is supported by the structure of plastid genomes and the light-harvesting complex.</SPAN></P>
     <P align="justify" class=MsoNormal style="MARGIN: 0in 58.35pt 0pt; TEXT-ALIGN: justify">&nbsp;</P>
     <p class="formheader4" align="justify">As pointed out by Wegener Parfey <I>et al</I>. (2006), while Opisthokonta is supported by most studies, support for the other supergroups is less consistent. This situation raises the question of what may be construed to constitute a kingdom. Cavalier-Smith (1998), who introduced the name Opisthokonta, remarked that at least one cladist urged him to establish a kingdom-level taxon with this name, but &ldquo;A kingdom Opisthokonta would be much less useful than the existing kingdoms Animalia, Fungi and Protozoa as a way of subdividing the living world into manageable groups of similar organisms, i.e. a classification as opposed to a phylogeny&rdquo; (Cavalier-Smith 1998). </SPAN></P>
@@ -144,17 +144,17 @@ lang=EN-GB>Archaeplastida &#8213; includes all primary plastid-containing lineag
     <p class="formheader3">1. VIRUSES
         <p class="formheader4" align="justify">Regardless of whether or not these important biological entities are life forms, their inclusion in the Catalogue of Life is pragmatic and utilitarian. As stripped-down parasites, viruses appear to polyphyletic and ancient in origin. RNA viruses may have originated in the nucleoprotein world by escape or reduction from RNA-cells, whereas DNA viruses (at least some of them) might have evolved directly from RNA viruses. The antiquity of viruses can explain why most viral proteins have no cellular homologues or only distantly related ones. Viruses may have played a critical role in major evolutionary transitions, such as the invention of DNA and DNA replication mechanisms, the formation of the major superkingdoms of life, and even the origin of the eukaryotic nucleus (Forterre 2006). In the event, what was then </SPAN>the largest-known virus &#8213; a mimivirus &#8213; was recently discovered in amoebae (La Scola <I>et al</I>. 2003), with a 600-nm particle size comparable to mycoplasma. It is a double-stranded DNA virus of which the &gt;1.1 million base pair genome sequence exhibits a similarity to proteins of known functions. The size and complexity of the mimivirus genome challenges the established frontier between viruses and parasitic cellular organisms. A second giant virus, called a mamavirus, has recently been discovered that is even larger and it is infected by a newly discovered virophage, suggesting that the mamavirus is in some sense &lsquo;alive&rsquo; (Pearson 2008).</p>
         <p class="formheader4" align="justify">&nbsp;</p>
-        <p class="formheader4" align="justify">Viral c<SPAN lang=EN-GB 
+        <p class="formheader4" align="justify">Viral c<SPAN lang=EN-GB
 style="COLOR: black">lassification is based on a consensus of the International Committee on Taxonomy of Viruses</SPAN><SPAN lang=EN-GB> (ICTV). </SPAN></P>
         <p class="formheader4" align="justify">&nbsp;</P>
         <p class="formheader5" align="justify"><em>Recommendation</SPAN></I>: </em><SPAN lang=EN-GB>Continue with the status quo.</SPAN></P>
         <p class="formheader5" align="justify">&nbsp;</P>
         <p class="formheader3">2. PROKARYOTA</SPAN></SPAN></SPAN></span>
-      <p class="formheader4" align="justify">The objections of Cavalier-Smith (1998, 2002a) and Mayr and Bock (2002) (see also Rivera and Lake 2004) to the concept of three domains, two of which are prokaryotic, have not been widely accepted by bacteriologists and the Catalogue of Life provisionally follows the consensus of the majority even if the question is still open. Currently the Catalogue uses the BIOS system developed by a team based at the National Institute for Environmental Studies (</SPAN><SPAN lang=EN style="COLOR: black">Japan</SPAN><SPAN lang=EN 
+      <p class="formheader4" align="justify">The objections of Cavalier-Smith (1998, 2002a) and Mayr and Bock (2002) (see also Rivera and Lake 2004) to the concept of three domains, two of which are prokaryotic, have not been widely accepted by bacteriologists and the Catalogue of Life provisionally follows the consensus of the majority even if the question is still open. Currently the Catalogue uses the BIOS system developed by a team based at the National Institute for Environmental Studies (</SPAN><SPAN lang=EN style="COLOR: black">Japan</SPAN><SPAN lang=EN
 style="COLOR: black">) and is part of a collaborative effort that includes contributions by J. Euz&eacute;by and B. Tindall. The taxonomy is based on Release 7.4 of the nomenclatural taxonomy of G.M. Garrity, T.G. Lilburn and J.R. Cole.</SPAN></p>
       <p class="formheader4" align="justify">&nbsp;</p>
-      <p class="formheader5" align="justify"><em>Recommendation</SPAN></I><SPAN lang=EN 
-style="COLOR: black">: </SPAN></em><SPAN lang=EN 
+      <p class="formheader5" align="justify"><em>Recommendation</SPAN></I><SPAN lang=EN
+style="COLOR: black">: </SPAN></em><SPAN lang=EN
 style="COLOR: black">Continue with the status quo in the interim.</SPAN></P>
       <p class="formheader5" align="justify">&nbsp;</P>
       <p class="formheader3">3. PROTOZOA</SPAN></SPAN></SPAN></SPAN></B></span>
@@ -171,40 +171,40 @@ style="COLOR: black">Continue with the status quo in the interim.</SPAN></P>
         <p class="formheader3">4. CHROMISTA</SPAN></SPAN></SPAN></SPAN></B></span>
         <p class="formheader4" align="justify">The most recent detailed classifications of this kingdom, by Cavalier-Smith (2000, 2004b), Cavalier-Smith and Chao (2006), and Cavalier-Smith and von der Heyden (2007), include six phyla in two subkingdoms. Subkingdom Cryptista includes the photosynthetic cryptophytes and the colourless kathablepharids. As an example of the differences in treatment of these constituent groups, whereas Cavalier-Smith (2004b) has three cryptistan classes (Cryptophyceae and Goniomonadea in subphylum Cryptomonada and Leucocryptea in subphylum Leucocrypta), the compendious <I>The Illustrated Guide to the Protozoa</I>, published by the Society of Protozoologists (Lee et al. 2000), has an entry for order Cryptomonadida (containing both <I>Cryptomonas</I> and <I>Goniomonas</I>, with neither assigned to family) (Kugrens et al. 2000) and, widely separated in the same volume under the heading &ldquo;Residual free-living and heterotrophic flagellates&rdquo;, a family Kathablepharidae that contains, inter alia, the genus <I>Leucocryptos</I> (Patterson et al. 2000). Okamoto and Inouye (2005) proposed a new phylum, Kathablepharida, for <I>Leucocryptos</I> and <I>Katablepharis</I>, but this is effectively the same in content as the earlier established subphylum Leucocryptea. In the 2008 annual Checklist, the cryptophyte/cryptomonad &ldquo;algal&rdquo; taxa seem to have been covered thanks to AlgaeBase, but not the non-photosynthetic forms; a scheme is needed that integrates algal and non-algal taxa.</SPAN></p>
         <p class="formheader4" align="justify">&nbsp;</p>
-        <p class="formheader5" align="justify"><em>Recommendation</SPAN></I><SPAN lang=EN 
-style="COLOR: black">:</SPAN></em><SPAN lang=EN 
+        <p class="formheader5" align="justify"><em>Recommendation</SPAN></I><SPAN lang=EN
+style="COLOR: black">:</SPAN></em><SPAN lang=EN
 style="COLOR: black"> Provisionally follow the classification of Cavalier-Smith and Chao (2006) for subkingdom Cryptista, with sole phylum Cryptista and constituent subphyla Cryptomonada and Leucocrypta.</SPAN></P>
         <p class="formheader5" align="justify">&nbsp;</P>
         <p class="formheader4" align="justify">Cavalier-Smith and Chao (2006) recognise only three heterokont (stramenopile) phyla &#8213; the predominantly photosynthetic Ochrophyta (containing a number of algal classes), the non-photosynthetic Pseudofungi, and the Bigyra (now comprising subphyla Opalozoa, Bicoecia, and Sagenista). In some schemes, all three phyla are lumped together as phylum Heterokontophyta (e.g. Cavalier-Smith 1995a; Hoek et al. 1995). Cavalier-Smith (1986) first introduced the taxon Heterokonta. It has been widely accepted and it seems logical that his current use of the taxon (an infrakingdom that includes subordinate phyla) should prevail. The 2008 Annual Checklist has an inconsistent treatment and needs correcting. For example, diatoms appear in three places and it appears that two classification systems are in simultaneous use (one from AlgaeBase and one from ITIS?); two diatom classes &#8213; Coscinodiscophyceae and Fragilariophyceae &#8213; are listed under phylum Ochrophyta in kingdom Chromista, whereas class Bacillariophyceae is listed as a phylum-rank entry under kingdom Plantae. Without detailed checking, it is not clear how much overlap there is; certainly order Rhizosoleniales occurs twice in the 2008 Checklist, in both the Chromista and the Plantae.</SPAN></P>
    <p class="formheader4" align="justify">&nbsp;</P>
    <p class="formheader4" align="justify">The number of classes in phylum Ochrophyta varies according to author preference &#8213; Synurophyceae is sometimes segregated from Chrysophyceae and Phaeothamniophyceae and Schizocladiophyceae from Phaeophyceae, for example. Two new classes of Ochrophyta &#8213; Synchromophyceae and Aurearenophyceae &#8213; have been recognised in the past two years (Horn <I>et al</I>. 2007; Kai <I>et al</I>. 2008).</SPAN></P>
    <p class="formheader4" align="justify">&nbsp;</P>
-   <p class="formheader5" align="justify"><em>Recommendation</SPAN></I><SPAN lang=EN 
-style="COLOR: black">:</SPAN></em><SPAN lang=EN 
+   <p class="formheader5" align="justify"><em>Recommendation</SPAN></I><SPAN lang=EN
+style="COLOR: black">:</SPAN></em><SPAN lang=EN
 style="COLOR: black"> Provisionally follow the classification of Cavalier-Smith (2004b) and Cavalier-Smith and Chao (2006) for infrakingdom Heterokonta, with the addition of new classes recognised since that time.</SPAN></P>
    <p class="formheader5" align="justify">&nbsp;</P>
    <p class="formheader4" align="justify">There are two classes of Haptophyta &#8213; Pavlovophyceae and Prymnesiophyceae &#8213; both of which have been accepted by Andersen (2004). The 2008 Annual Checklist, however, includes the Pavlovales in the Prymnesiophyceae.</SPAN></P>
    <p class="formheader4" align="justify">&nbsp;</P>
-   <p class="formheader5" align="justify"><em>Recommendation</SPAN></I><SPAN lang=EN 
-style="COLOR: black">: </SPAN></em><SPAN lang=EN 
+   <p class="formheader5" align="justify"><em>Recommendation</SPAN></I><SPAN lang=EN
+style="COLOR: black">: </SPAN></em><SPAN lang=EN
 style="COLOR: black">Provisionally follow the higher classification of Cavalier-Smith (2000) and Andersen (2004) for Haptophyta.</SPAN></P>
    <p class="formheader5" align="justify">&nbsp;</P>
    <p class="formheader4" align="justify">The traditional Heliozoa (sun protists) has long been recognised to be polyphyletic (Patterson 1993). Recent work (Cavalier-Smith &amp; Chao 2003, 2006) has shown that some, like the well-known genus <I>Actinophrys</I>, are related to opalozoans in the phylum Bigyra; others belong among the protozoan phylum Cercozoa (Nikolaev et al. 2004). The core remaining group that now defines phylum Heliozoa comprises only the order Centrohelida, within which two new suborders have been recognised (Cavalier-Smith &amp; von der Heyden, 2007). Owing to a weak grouping of centrohelids with haptophytes on 18S rRNA trees, the Heliozoa is provisionally considered to be chromistan not protozoan, but the question remains open (Sakaguchi <I>et al</I>. 2007).</SPAN></P>
    <p class="formheader4" align="justify">&nbsp;</P>
-   <p class="formheader5" align="justify"><em>Recommendation</SPAN></I><SPAN lang=EN 
-style="COLOR: black">: </SPAN></em><SPAN lang=EN 
+   <p class="formheader5" align="justify"><em>Recommendation</SPAN></I><SPAN lang=EN
+style="COLOR: black">: </SPAN></em><SPAN lang=EN
 style="COLOR: black">Provisionally follow the classification of Cavalier-Smith and von der Heyden (2007) for phylum Heliozoa.</SPAN></P>
     <p class="formheader5" align="justify">&nbsp;</P>
     <p class="formheader4" align="justify">A new chromistan phylum, Telonemia (Shalchian-Tabrizi et al. 2006, 2007) was recently established for two named species of <I>Telonema</I>, a marine heterotrophic flagellate, and some unidentified forms. A protozoan class Telonemea was first recognised by Cavalier-Smith (1993). Initially allied with the then protozoan phylum Opalozoa, Telonemea was subsequently transferred to the phylum Apusozoa (Cavalier-Smith 2003a). Its present placement among the chromalveolates seems secure but it is likely to require its own chromistan subkingdom (Shalchian-Tabrizi et al. 2006).</SPAN></P>
     <p class="formheader4" align="justify">&nbsp;</P>
-    <p class="formheader5" align="justify"><em>Recommendation</SPAN></I><SPAN lang=EN 
-style="COLOR: black">:</SPAN></em><SPAN lang=EN 
+    <p class="formheader5" align="justify"><em>Recommendation</SPAN></I><SPAN lang=EN
+style="COLOR: black">:</SPAN></em><SPAN lang=EN
 style="COLOR: black"> That the phylum Telonemia be included in future Annual Checklists.</SPAN></P>
     <p class="formheader5" align="justify">&nbsp;</P>
     <p class="formheader3">5. PLANTAE</SPAN></SPAN></SPAN></SPAN></SPAN></B></span>      <p class="formheader4" align="justify">As with the other kingdoms, Plantae is classified in a variety of ways. Fundamentally, there are algal phyla (red and green) and embryophytes (land plants). The ancestral embryophyte is thought to be among the Charales (stoneworts) or Coleochaetales. Bremer (1985), a cladist, erected a phylum Streptophyta to include the ancestral algal embryophyte and all descendent groups (bryophytes, pteridophytes, and seed plants). At the other extreme, each of the main bryophyte, pteridophyte, and spermatophyte subdivisions has been accorded phylum (or Division) status. This latter treatment is exemplified in the 2008 Annual Checklist, which lists three bryophyte phyla, four pteridophyte phyla, and five seed-plant phyla. This treatment is terribly anachronistic and must be abandoned. [On what grounds can one possibly justify a separate phylum for <I>Gingko</I>, or for gnetophytes (which appear to be nested among the Pinales according to the latest molecular studies)?] A sensible middle approach, found in Cavalier-Smith (1998) but not restricted to him, is to recognise just two embryophyte phyla &#8213; Bryophyta (comprising liverworts, hornworts, and mosses) and Tracheophyta, all species of which are characterised by a diploid phase that has xylem and phloem. The treatment of Plantae adopted for the Species 2000 </SPAN><SPAN lang=EN>New Zealand</SPAN><SPAN lang=EN> project and accepted by all authors additionally comprises four algal phyla &#8213; Glaucophyta, Cyanidiophyta, Rhodophyta, and Chlorophyta. [Cyanidiophyta is not in Cavalier-Smith (1998) but work since then has shown that c</SPAN>yanidiophytes have the smallest known genomes of any phototrophic eukaryotes (Muravenko <I>et al</I>. 2001); additional studies of cytomorphology, biochemistry, and molecular-sequence data (e.g. Pinto <I>et al.</I> 2003) support the segregation of the Cyanidiophyta from the Rhodophyta at the level of phylum. Indeed, Cyanidiophyta is in the 2008 Annual Checklist].</P>
     <p class="formheader4" align="justify">&nbsp;</P>
-    <p class="formheader5" align="justify"><em>Recommendation</SPAN></I><SPAN lang=EN 
-style="COLOR: black">: </SPAN></em><SPAN lang=EN 
+    <p class="formheader5" align="justify"><em>Recommendation</SPAN></I><SPAN lang=EN
+style="COLOR: black">: </SPAN></em><SPAN lang=EN
 style="COLOR: black">That the Catalogue of Life adopts a pragmatic phylum-level plant classification similar to or modified after that in Cavalier-Smith (1998).</SPAN></P>
     <p class="formheader5" align="justify">&nbsp;</P>
     <p class="formheader3">6. ANIMALIA</SPAN></SPAN></SPAN></SPAN></SPAN></B></span>
@@ -219,8 +219,8 @@ Each of these is commonly treated by biologists as a separate phylum (e.g. Ruppe
  <p class="formheader4" align="justify">&nbsp;</P>
  <p class="formheader4" align="justify"> Wolfgang Sterrer likewise prefers to treat Rotifera and Gnathostomulida as phyla but the preferred status of Micrognathozoa remains a critical issue. When erected, it was as a class of Gnathifera. I/we cannot unilaterally treat it as a phylum and in any case I think the jaw apparatus has been established as homologous with other gnathiferan groups. So this leaves things as unresolved in my opinion.</P>
  <p class="formheader4" align="justify">&nbsp;</P>
- <p class="formheader5" align="justify"><em>Recommendation</SPAN></I><SPAN lang=EN 
-style="COLOR: black">: </SPAN></em><SPAN lang=EN 
+ <p class="formheader5" align="justify"><em>Recommendation</SPAN></I><SPAN lang=EN
+style="COLOR: black">: </SPAN></em><SPAN lang=EN
 style="COLOR: black">That we canvass a range of specialists who have morphological and molecular familiarity with the gnathiferan groups including Reinhardt Kristensen and his Danish colleagues.</SPAN></P>
  <p class="formheader5" align="justify">&nbsp;</P>
  <p class="formheader4" align="justify">(ii)
@@ -390,13 +390,14 @@ The classification scheme used in the 2008 Annual Checklist would be considered 
           Whittaker, R.H. (1959). On the broad classification of organisms. Quarterly Review of Biology 34: 210&ndash;226.<br><br>
           Woese, C.R.; Kandler, O.; Wheelis, M.L. (1990). Towards a natural system of organisms: proposal for the domains Archaea, Bacteria, and Eucarya. Proceedings of the National Academy of Sciences U.S.A. 87: 4576&ndash;4579.</p>
     </blockquote>    <p align="justify"></p></td>
-</tr> 
+</tr>
 </table>
-<table width="100%" border="0" cellspacing="0" cellpadding="10"> 
-<tr> <td> <table width="100%" border="0" cellspacing="0" cellpadding="0" height="0"> 
-<tr> <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td></tr> 
+<table width="100%" border="0" cellspacing="0" cellpadding="10">
+<tr> <td> <table width="100%" border="0" cellspacing="0" cellpadding="0" height="0">
+<tr> <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td></tr>
 </table><?php
 	include "info_arrow_buttons.php" ;
 ?> </td></tr> </table></td></tr> </table></td></table></td></tr> </table></div>
+<?php include_once 'includes/gax.php'; ?>
 </body>
 </html>

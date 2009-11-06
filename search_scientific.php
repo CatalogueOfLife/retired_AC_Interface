@@ -69,7 +69,7 @@
 <div style="margin-left: 15px; margin-right:15px;">
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td valign=top> 
+    <td valign=top>
 <?php
 	require_once "menu.php" ;
 ?>
@@ -89,18 +89,18 @@
 <form name="search_form" method="get" action="search_results.php" onsubmit="JavaScript:showWaitScreen('Search in progress. ');">
 	<input type="hidden" name="search_type" value="search_scientific">
 <table border="0" cellspacing="0" cellpadding="1" bgcolor="#333366">
-          <tr> 
-            <td> 
+          <tr>
+            <td>
               <table border="0" cellspacing="0" cellpadding="5" width="100%" bgcolor="#FAFCFE">
-                <tr> 
-                  <td> 
+                <tr>
+                  <td>
                     <table width="100%" border="0" cellspacing="0" cellpadding="10">
-                      <tr> 
+                      <tr>
                         <td>
-                          <p class="formheader" align="center">Search for scientific 
+                          <p class="formheader" align="center">Search for scientific
                             names</p>
                           <table width="100%" border="0" cellspacing="0" cellpadding="0" height="0">
-                            <tr> 
+                            <tr>
                               <td bgcolor="#333366"><img src="images/blank.gif" width="1" height="1" border="0"></td>
                             </tr>
                           </table>
@@ -108,19 +108,19 @@
                       </tr>
                     </table>
                     <table border="0" cellspacing="5" cellpadding="0">
-                      <tr> 
-                        <td> 
+                      <tr>
+                        <td>
                           
                     <table border="0" cellspacing="0" cellpadding="4">
-                      <tr> 
-                        <td valign=top> 
+                      <tr>
+                        <td valign=top>
                                 <p class="formfieldheader">Genus</p>
                         </td>
-                        <td valign=top> 
+                        <td valign=top>
 					<table border="0" cellspacing="0" cellpadding="1">
-                      <tr> 
-                        <td valign=top> 
-                             <input type="text" name="genus" size="40" value="<?php echo str_replace("%","*",stripslashes(htmlentities($genus))) ?>" 
+                      <tr>
+                        <td valign=top>
+                             <input type="text" name="genus" size="40" value="<?php echo str_replace("%","*",stripslashes(htmlentities($genus))) ?>"
 							  onkeyup="autoComplete('genus',this.value,event.keyCode,event.ctrlKey,event.altKey)" onfocus="setSelectedTaxon(this.name);">
 <?php
 	$this_taxon = "genus" ;
@@ -129,7 +129,7 @@
 	}
 ?>
                        </td>
-                        <td valign=top> 
+                        <td valign=top>
 <?php
 	include "show_arrow_button.php" ;
 ?>
@@ -138,15 +138,15 @@
 					</table>
                         </td>
                       </tr>
-                      <tr> 
-                        <td valign=top> 
+                      <tr>
+                        <td valign=top>
                                 <p class="formfieldheader">Species</p>
                         </td>
-                        <td valign=top> 
+                        <td valign=top>
 					<table border="0" cellspacing="0" cellpadding="1">
-                      <tr> 
-                        <td valign=top> 
-                             <input type="text" name="species" size="40" value="<?php echo str_replace("%","*",stripslashes(htmlentities($species))) ?>" 
+                      <tr>
+                        <td valign=top>
+                             <input type="text" name="species" size="40" value="<?php echo str_replace("%","*",stripslashes(htmlentities($species))) ?>"
 							  onKeyUp="autoComplete('species',this.value,event.keyCode,event.ctrlKey,event.altKey)" onfocus="setSelectedTaxon(this.name);">
 <?php
 	$this_taxon = "species" ;
@@ -155,7 +155,7 @@
 	}
 ?>
                        </td>
-                        <td valign=top> 
+                        <td valign=top>
 <?php
 	include "show_arrow_button.php" ;
 ?>
@@ -164,15 +164,15 @@
 					</table>
                          </td>
                       </tr>
-                      <tr> 
-                        <td valign=top> 
+                      <tr>
+                        <td valign=top>
                                 <p class="formfieldheader">Infraspecies</p>
                         </td>
-                        <td valign=top> 
+                        <td valign=top>
 					<table border="0" cellspacing="0" cellpadding="1">
-                      <tr> 
-                        <td valign=top> 
-                             <input type="text" name="infraspecies" size="40" value="<?php echo str_replace("%","*",stripslashes(htmlentities($infraspecies))) ?>" 
+                      <tr>
+                        <td valign=top>
+                             <input type="text" name="infraspecies" size="40" value="<?php echo str_replace("%","*",stripslashes(htmlentities($infraspecies))) ?>"
 							  onKeyUp="autoComplete('infraspecies',this.value,event.keyCode,event.ctrlKey,event.altKey)" onfocus="setSelectedTaxon(this.name);">
                                       <?php
 	$this_taxon = "infraspecies" ;
@@ -181,7 +181,7 @@
 	}
 ?>
                                     </td>
-                        <td valign=top> 
+                        <td valign=top>
 <?php
 	include "show_arrow_button.php" ;
 ?>
@@ -190,25 +190,25 @@
 					</table>
                                   <table border="0" cellspacing="0" cellpadding="0">
                                     <td width="24px"> </td>
-                                    <tr> 
+                                    <tr>
                                       <td> <img src="images/blank.gif" border="0" height="5" width="1"></td>
                                     </tr>
-                                    <tr> 
-                                      <td width="24px"> 
+                                    <tr>
+                                      <td width="24px">
                                         <input type="checkbox" name="match_whole_words" <?php if ($match_whole_words == "on") { echo " checked" ; } ?>>
                                       </td>
-                                      <td valign=top> 
-                                        <p class="formfieldheader">Match whole 
+                                      <td valign=top>
+                                        <p class="formfieldheader">Match whole
                                           words only</p>
                                       </td>
                                     </tr>
                                   </table>
                                 </td>
                       </tr>
-                      <tr height="42px"> 
+                      <tr height="42px">
                         <td valign=top>&nbsp;</td>
-                        <td valign=bottom> 
-                          <div align="right"> 
+                        <td valign=bottom>
+                          <div align="right">
 						<table border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td>
@@ -270,5 +270,6 @@
 </form>
 <div id="showresult"></div>
 </div>
+<?php include_once 'includes/gax.php'; ?>
 </body>
 </html>
