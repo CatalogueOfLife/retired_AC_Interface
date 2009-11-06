@@ -2,7 +2,7 @@
 $sql_server = 'localhost';
 $sql_user_name = 'root';
 $sql_password = '';
-$sql_database = 'col2010acv1';
+$sql_database = 'col2009ac';
 
 $gaxTrackerId = '';
 
