@@ -105,7 +105,7 @@ class BrowseController extends AController
         if ($recordId) {
             $hierarchy = $this->_getHierarchy($recordId[0]['id']);
         }
-        if ($hierarchy && is_array($hierarchy)) {
+        if (isset($hierarchy) && is_array($hierarchy)) {
             foreach ($hierarchy as $rank) {
                 if ($rank != 0) {
                     $temp = $select->getRankAndNameFromRecordId($rank);
