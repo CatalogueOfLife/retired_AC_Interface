@@ -3,12 +3,13 @@
 	$path = "http://www.catalogueoflife.org/" ;
 	$version = "1.0" ;
 	
-	$format = "" ;
-	$name = "" ;
-	$id = "" ;
+	$format = '';
+	$name = '';
+	$id = '';
 	$number_of_results = 0 ;
 	$total_number_of_results = 0 ;
-	$error = "" ;
+	$error = '';
+	$response = '';
 	
 	if (isset($_GET["format"])) {
 		$format = $_GET["format"] ;
@@ -36,7 +37,7 @@
 		$error = "Unknown format: $format" ;
 		$format = "xml" ;
 	}
-	if ($response == "") {
+	if ($response == '') {
 		$response = "terse" ;
 	} else if ($response != "full" && $response != "terse") {
 		$error = "Unknown response format: $response" ;
@@ -63,11 +64,11 @@
 
 	if ($search_string . $id !== "" && $error == "") {
 		require_once "../includes/db_connect.php";
-		$query = "SELECT SQL_CALC_FOUND_ROWS 
-				  `record_id` as record_id, 
-				  `parent_id` as parent_id, 
-				  `name` as name, 
-				  `name_with_italics` as name_html, 
+		$query = "SELECT SQL_CALC_FOUND_ROWS
+				  `record_id` as record_id,
+				  `parent_id` as parent_id,
+				  `name` as name,
+				  `name_with_italics` as name_html,
 				  `name_code` as unique_identifier,
 				  'scientific name' as name_status,
 				  `taxon` as rank,
@@ -144,11 +145,11 @@
 		$rank = $row["rank"] ;
 		
 		if ($name_status === "common name") {
-			$query2 = "SELECT `common_names`.`language` as language, 
-						  `common_names`.`country` as country, 
+			$query2 = "SELECT `common_names`.`language` as language,
+						  `common_names`.`country` as country,
 						  `databases`.`database_name_displayed` as source_database,
 						  `databases`.`web_site` as source_database_url
-					 FROM `common_names`, `databases` 
+					 FROM `common_names`, `databases`
 					 WHERE `common_names`.`record_id`  = '$record_id'
 					   AND `common_names`.`database_id` = `databases`.`record_id` " ;
 			$result2 = mysql_query($query2) ;
@@ -158,7 +159,7 @@
 			if ($row2 = mysql_fetch_array($result2)) {
 				foreach ($row2 as $key => $value) {
 					$$key = $value;
-				} 
+				}
 			} else {
 				errorMessage("Database query failed") ;
 			}
@@ -180,22 +181,22 @@
 			}
 		} else {
 			if ($rank == "Species" || $rank === "Infraspecies") {
-				$query2 = "SELECT `scientific_names`.`genus` AS genus, 
-							  `scientific_names`.`species` AS species, 
-							  `scientific_names`.`infraspecies_marker` AS infraspecies_marker, 
-							  `scientific_names`.`infraspecies` AS infraspecies, 
-							  `scientific_names`.`author` AS author, 
-							  `scientific_names`.`name_code` as unique_identifier, 
-							  `scientific_names`.`accepted_name_code` as accepted_name_unique_identifier, 
-							  `scientific_names`.`comment` as additional_data, 
-							  `scientific_names`.`web_site` AS this_link, 
+				$query2 = "SELECT `scientific_names`.`genus` AS genus,
+							  `scientific_names`.`species` AS species,
+							  `scientific_names`.`infraspecies_marker` AS infraspecies_marker,
+							  `scientific_names`.`infraspecies` AS infraspecies,
+							  `scientific_names`.`author` AS author,
+							  `scientific_names`.`name_code` as unique_identifier,
+							  `scientific_names`.`accepted_name_code` as accepted_name_unique_identifier,
+							  `scientific_names`.`comment` as additional_data,
+							  `scientific_names`.`web_site` AS this_link,
 							  `databases`.`database_name_displayed` as source_database,
 							  `databases`.`web_site` as source_database_url,
 							  `sp2000_statuses`.`sp2000_status` as name_status
 						 FROM `scientific_names`, `databases`, `sp2000_statuses`
 						 WHERE `scientific_names`.`name_code` = '$unique_identifier'
 						   AND `scientific_names`.`name_code` LIKE BINARY '$unique_identifier'
-						   AND `scientific_names`.`database_id` = `databases`.`record_id` 
+						   AND `scientific_names`.`database_id` = `databases`.`record_id`
 						   AND `scientific_names`.`sp2000_status_id` = `sp2000_statuses`.`record_id` " ;
 				$result2 = mysql_query($query2) ;
 				if (mysql_error() != "") {
@@ -204,7 +205,7 @@
 				if ($row2 = mysql_fetch_array($result2)) {
 					foreach ($row2 as $key => $value) {
 						$$key = $value;
-					} 
+					}
 				} else {
 					errorMessage("Database query failed") ;
 				}
@@ -272,7 +273,7 @@
 		}
 		
 		if (strpos($results["names"][$i]["name_status"],"accepted name") !== false && $name_status !== "common name" ) {
-			// accepted name 
+			// accepted name
 			$is_accepted_name = true ;
 		} else {
 			// synonym; find accepted name
@@ -292,27 +293,27 @@
 				errorMessage("Database query failed: accepted name not found") ;
 			}
 			
-			$query2 = "SELECT    `taxa`.`record_id`, 
-							 `scientific_names`.`web_site` AS this_link, 
-							 `scientific_names`.`genus` AS genus, 
-							 `scientific_names`.`species` AS species, 
-							 `scientific_names`.`infraspecies_marker` AS infraspecies_marker, 
-							 `scientific_names`.`infraspecies` AS infraspecies, 
-							 `scientific_names`.`author` AS author, 
-							 `scientific_names`.`comment` as additional_data, 
-							 CASE WHEN `scientific_names`.`infraspecies` = '' OR `scientific_names`.`infraspecies` IS NULL THEN 'Species' ELSE 'Infraspecies' END AS rank, 
-							 `scientific_names`.`scrutiny_date` AS record_scrutiny_date,  
+			$query2 = "SELECT    `taxa`.`record_id`,
+							 `scientific_names`.`web_site` AS this_link,
+							 `scientific_names`.`genus` AS genus,
+							 `scientific_names`.`species` AS species,
+							 `scientific_names`.`infraspecies_marker` AS infraspecies_marker,
+							 `scientific_names`.`infraspecies` AS infraspecies,
+							 `scientific_names`.`author` AS author,
+							 `scientific_names`.`comment` as additional_data,
+							 CASE WHEN `scientific_names`.`infraspecies` = '' OR `scientific_names`.`infraspecies` IS NULL THEN 'Species' ELSE 'Infraspecies' END AS rank,
+							 `scientific_names`.`scrutiny_date` AS record_scrutiny_date,
 							 `sp2000_statuses`.`sp2000_status` AS name_status,
 							 `databases`.`database_name_displayed` AS source_database,
 							 `databases`.`web_site` AS source_database_url,
 							 `families`.`kingdom` AS kingdom
 						FROM `scientific_names`, `sp2000_statuses`, `databases` , `families`, `taxa`
-						WHERE `scientific_names`.`sp2000_status_id` = `sp2000_statuses`.`record_id` 
-						  AND `scientific_names`.`database_id` = `databases`.`record_id` 
-						  AND `scientific_names`.`family_id` = `families`.`record_id` 
-						  AND `scientific_names`.`name_code` = '$accepted_name_unique_identifier' 
+						WHERE `scientific_names`.`sp2000_status_id` = `sp2000_statuses`.`record_id`
+						  AND `scientific_names`.`database_id` = `databases`.`record_id`
+						  AND `scientific_names`.`family_id` = `families`.`record_id`
+						  AND `scientific_names`.`name_code` = '$accepted_name_unique_identifier'
 						  AND `scientific_names`.`name_code` LIKE BINARY '$accepted_name_unique_identifier'
-						  AND `taxa`.`name_code` = '$accepted_name_unique_identifier' 
+						  AND `taxa`.`name_code` = '$accepted_name_unique_identifier'
 						  AND `taxa`.`name_code` LIKE BINARY '$accepted_name_unique_identifier' " ;
 			$result2 = mysql_query($query2) ;
 			if (mysql_error() != "") {
@@ -321,7 +322,7 @@
 			if ($row2 = mysql_fetch_array($result2)) {
 				foreach ($row2 as $key => $value) {
 					$$key = $value;
-				} 
+				}
 				$name_html = compileScientificName($genus,$species,$infraspecies_marker,$infraspecies,$author,$kingdom, "yes") ;
 				$name = compileScientificName($genus,$species,$infraspecies_marker,$infraspecies,$author,$kingdom, "no") ;
 				$this_link = cleanUpLink($this_link) ;
@@ -366,7 +367,7 @@
 				$results["names"][$i]["accepted_name"]["references"] = $references ;
 			}
 			$unique_identifier = $accepted_name_unique_identifier ;
-		} 
+		}
 		
 		$accepted_name_array = array() ;
 		
@@ -375,8 +376,8 @@
 			// find classification
 			
 			$accepted_name_array["classification"] = array() ;
-			$query2 = "SELECT `parent_id` 
-					 FROM `taxa` 
+			$query2 = "SELECT `parent_id`
+					 FROM `taxa`
 					 WHERE `name_code` = '$unique_identifier'
 					   AND `name_code` LIKE BINARY '$unique_identifier'" ;
 			$result2 = mysql_query($query2) ;
@@ -428,21 +429,21 @@
 		global $link ;
 		$references = array() ;
 		
-		$query = "SELECT DISTINCT `references`.`author` , 
-					 		  `references`.`year` , 
-					 		  `references`.`title` , 
-					 		  `references`.`source`  
-			  FROM `references` , `scientific_name_references` 
-			  WHERE `scientific_name_references`.`reference_id` = `references`.`record_id` 
-				AND (`scientific_name_references`.`reference_type` = 'NomRef' 
+		$query = "SELECT DISTINCT `references`.`author` ,
+					 		  `references`.`year` ,
+					 		  `references`.`title` ,
+					 		  `references`.`source`
+			  FROM `references` , `scientific_name_references`
+			  WHERE `scientific_name_references`.`reference_id` = `references`.`record_id`
+				AND (`scientific_name_references`.`reference_type` = 'NomRef'
 				  OR `scientific_name_references`.`reference_type` = 'TaxAccRef'
 				  OR `scientific_name_references`.`reference_type` = ''
-				  OR `scientific_name_references`.`reference_type` IS NULL) 
+				  OR `scientific_name_references`.`reference_type` IS NULL)
 				AND `scientific_name_references`.`name_code` = '$unique_identifier'
 				AND `scientific_name_references`.`name_code` LIKE BINARY '$unique_identifier'
-			  ORDER BY  `references`.`author`, 
-			  			`references`.`year`, 
-						`references`.`title`, 
+			  ORDER BY  `references`.`author`,
+			  			`references`.`year`,
+						`references`.`title`,
 						`references`.`source`" ;
 		$result = mysql_query($query) ;
 		if (mysql_error() != "") {
@@ -455,7 +456,7 @@
 				$row = mysql_fetch_array($result) ;
 				foreach ($row as $key => $value) {
 					$$key = $value ;
-				} 
+				}
 				$references[$i] = array() ;
 				$references[$i]["author"] = $author ;
 				$references[$i]["year"] = $year ;
@@ -469,8 +470,8 @@
 	function getDistribution($name_code) {
 		global $link ;
 		$distribution = "" ;
-		$query = "SELECT `distribution` 
-				FROM `distribution` 
+		$query = "SELECT `distribution`
+				FROM `distribution`
 				WHERE `name_code` = '$name_code'
 				  AND `name_code` LIKE BINARY '$name_code' " ;
 		$result = mysql_query($query);
@@ -500,7 +501,7 @@
 			if ( mysql_num_rows($result) == 0) {
 				$found_parent = FALSE ;
 				continue ;
-			} 
+			}
 			$row = mysql_fetch_row($result);
 			mysql_free_result($result) ;
 			$record_id = $parent_id ;
@@ -510,18 +511,18 @@
 			$parent_name_html = $row[3] ;
 			$parent_unique_identifier = $row[4] ;
 			if ($parent_unique_identifier != "") {
-				$query2 = "SELECT    `scientific_names`.`record_id` AS species_id, 
-								 `scientific_names`.`genus` AS genus, 
-								 `scientific_names`.`species` AS species, 
-								 `scientific_names`.`infraspecies_marker` AS infraspecies_marker, 
-								 `scientific_names`.`infraspecies` AS infraspecies, 
-								 `scientific_names`.`author` AS author, 
+				$query2 = "SELECT    `scientific_names`.`record_id` AS species_id,
+								 `scientific_names`.`genus` AS genus,
+								 `scientific_names`.`species` AS species,
+								 `scientific_names`.`infraspecies_marker` AS infraspecies_marker,
+								 `scientific_names`.`infraspecies` AS infraspecies,
+								 `scientific_names`.`author` AS author,
 								 `families`.`kingdom` AS kingdom
 							FROM `scientific_names`, `sp2000_statuses`, `databases` , `families`
-							WHERE `scientific_names`.`sp2000_status_id` = `sp2000_statuses`.`record_id` 
-							  AND `scientific_names`.`database_id` = `databases`.`record_id` 
-							  AND `scientific_names`.`family_id` = `families`.`record_id` 
-							  AND `scientific_names`.`name_code` = '$parent_unique_identifier' 
+							WHERE `scientific_names`.`sp2000_status_id` = `sp2000_statuses`.`record_id`
+							  AND `scientific_names`.`database_id` = `databases`.`record_id`
+							  AND `scientific_names`.`family_id` = `families`.`record_id`
+							  AND `scientific_names`.`name_code` = '$parent_unique_identifier'
 							  AND `scientific_names`.`name_code` LIKE BINARY '$parent_unique_identifier' " ;
 				$result2 = mysql_query($query2) ;
 				if (mysql_error() != "") {
@@ -531,7 +532,7 @@
 				if ($row2 = mysql_fetch_array($result2)) {
 					foreach ($row2 as $key => $value) {
 						$$key = $value;
-					} 
+					}
 					$parent_name_html = compileScientificName($genus,$species,$infraspecies_marker,$infraspecies,$author,$kingdom, "yes") ; ;
 					$parent_url = $path . "species_details.php?record_id=" . $species_id ;
 				}
@@ -565,24 +566,24 @@
 			if (mysql_error() != "") {
 				errorMessage("Database query failed") ;
 				return false ;
-			}	
+			}
 			if ($row = mysql_fetch_row($result)) {
 				$parent_name = addslashes($row[0]) ;
 			} else {
 				errorMessage("Database query failed") ;
 				return false ;
 			}
-			$query = "SELECT `record_id` , 
+			$query = "SELECT `record_id` ,
 						   `name`,
 						   `name_with_italics`,
 						   `name_code`,
 						  `taxon`
 					 FROM `taxa`
 					 WHERE `name` LIKE '$parent_name %'
-					   AND `taxon` = 'Infraspecies' 
+					   AND `taxon` = 'Infraspecies'
 					   AND `is_accepted_name` = 1 " ;
 		} else {
-			$query = "SELECT `record_id` , 
+			$query = "SELECT `record_id` ,
 						   `name`,
 						   `name_with_italics`,
 						   `name_code`,
@@ -603,17 +604,17 @@
 			$this_name_code = addslashes($row[3]) ;
 			$this_rank = $row[4] ;
 			if ($this_rank == "Species" || $this_rank == "Infraspecies") {
-				$query2 = "SELECT `scientific_names`.`record_id` , 
-							   `scientific_names`.`genus` , 
-							   `scientific_names`.`species` , 
-							   `scientific_names`.`infraspecies_marker` , 
-							   `scientific_names`.`infraspecies` , 
+				$query2 = "SELECT `scientific_names`.`record_id` ,
+							   `scientific_names`.`genus` ,
+							   `scientific_names`.`species` ,
+							   `scientific_names`.`infraspecies_marker` ,
+							   `scientific_names`.`infraspecies` ,
 							   `scientific_names`.`author`,
 							   `families`.`kingdom` AS kingdom
 						  FROM `scientific_names` , `families`
 						  WHERE `scientific_names`.`name_code` = '$this_name_code'
 						    AND `scientific_names`.`name_code` LIKE BINARY '$this_name_code'
-						    AND `scientific_names`.`family_id` = `families`.`record_id`  " ; 
+						    AND `scientific_names`.`family_id` = `families`.`record_id`  " ;
 				$result2 = mysql_query($query2) ;
 				if ($row2 = mysql_fetch_row($result2)) {
 					$this_species_id = $row2[0] ;
@@ -653,28 +654,28 @@
 	
 	function getSynonyms($unique_identifier) {
 		global $link ;
-		$query2 = "SELECT `taxa`.`record_id` AS synonym_id, 
-						 `scientific_names`.`web_site` AS this_link, 
-						 `scientific_names`.`genus` AS genus, 
-						 `scientific_names`.`species` AS species, 
-						 `scientific_names`.`infraspecies_marker` AS infraspecies_marker, 
-						 `scientific_names`.`infraspecies` AS infraspecies, 
-						 `scientific_names`.`author` AS author, 
+		$query2 = "SELECT `taxa`.`record_id` AS synonym_id,
+						 `scientific_names`.`web_site` AS this_link,
+						 `scientific_names`.`genus` AS genus,
+						 `scientific_names`.`species` AS species,
+						 `scientific_names`.`infraspecies_marker` AS infraspecies_marker,
+						 `scientific_names`.`infraspecies` AS infraspecies,
+						 `scientific_names`.`author` AS author,
 						 `scientific_names`.`name_code` AS synonym_unique_identifier,
-						 CASE WHEN `scientific_names`.`infraspecies` = '' OR `scientific_names`.`infraspecies` IS NULL THEN 'Species' ELSE 'Infraspecies' END AS rank, 
-						 `scientific_names`.`scrutiny_date` AS record_scrutiny_date,  
-						 `scientific_names`.`comment` AS additional_data,  
+						 CASE WHEN `scientific_names`.`infraspecies` = '' OR `scientific_names`.`infraspecies` IS NULL THEN 'Species' ELSE 'Infraspecies' END AS rank,
+						 `scientific_names`.`scrutiny_date` AS record_scrutiny_date,
+						 `scientific_names`.`comment` AS additional_data,
 						 `sp2000_statuses`.`sp2000_status` AS name_status,
 						 `databases`.`database_name_displayed` AS source_database,
 						 `databases`.`web_site` AS source_database_url,
 						 `families`.`kingdom` AS kingdom
 					FROM `scientific_names`, `sp2000_statuses`, `databases` , `families`, `taxa`
-					WHERE `scientific_names`.`sp2000_status_id` = `sp2000_statuses`.`record_id` 
-					  AND `scientific_names`.`database_id` = `databases`.`record_id` 
-					  AND `scientific_names`.`family_id` = `families`.`record_id` 
-					  AND `scientific_names`.`accepted_name_code` = '$unique_identifier' 
-					  AND `scientific_names`.`accepted_name_code` LIKE BINARY '$unique_identifier' 
-					  AND `scientific_names`.`name_code` != '$unique_identifier' 
+					WHERE `scientific_names`.`sp2000_status_id` = `sp2000_statuses`.`record_id`
+					  AND `scientific_names`.`database_id` = `databases`.`record_id`
+					  AND `scientific_names`.`family_id` = `families`.`record_id`
+					  AND `scientific_names`.`accepted_name_code` = '$unique_identifier'
+					  AND `scientific_names`.`accepted_name_code` LIKE BINARY '$unique_identifier'
+					  AND `scientific_names`.`name_code` != '$unique_identifier'
 					  AND `taxa`.`name_code` = `scientific_names`.`name_code`
 					  AND `taxa`.`name_code` LIKE BINARY `scientific_names`.`name_code`
 					ORDER BY `scientific_names`.`genus`,  `scientific_names`.`species`, `scientific_names`.`infraspecies`, `scientific_names`.`author`" ;
@@ -691,7 +692,7 @@
 				$row2 = mysql_fetch_array($result2) ;
 				foreach ($row2 as $key => $value) {
 					$$key = $value;
-				} 
+				}
 				$name_html = compileScientificName($genus,$species,$infraspecies_marker,$infraspecies,$author,$kingdom, "yes") ;
 				$name = compileScientificName($genus,$species,$infraspecies_marker,$infraspecies,$author,$kingdom, "no") ;
 				$this_link = cleanUpLink($this_link) ;
@@ -730,10 +731,10 @@
 	function getCommonNames($unique_identifier) {
 		global $link ;
 		$common_names = array() ;
-		$query2 = "SELECT DISTINCT `common_name` , `language` , `country` 
-				  FROM `common_names` 
-				  WHERE `name_code` = '$unique_identifier' 
-				    AND `name_code` LIKE BINARY '$unique_identifier' 
+		$query2 = "SELECT DISTINCT `common_name` , `language` , `country`
+				  FROM `common_names`
+				  WHERE `name_code` = '$unique_identifier'
+				    AND `name_code` LIKE BINARY '$unique_identifier'
 				  ORDER BY `common_name`, `language`, `country`" ;
 		$result2 = mysql_query($query2) ;
 		if (mysql_error() != "") {
@@ -766,19 +767,19 @@
 	function getCommonNameReferences($name, $language, $country, $name_code) {
 		global $link ;
 		$references = array() ;
-		$query = "SELECT DISTINCT `references`.`author` , 
-					 		  `references`.`year` , 
-					 		  `references`.`title` , 
-					 		  `references`.`source`  
-			  FROM `common_names`,`references` 
-			  WHERE `common_names`.`common_name` = '" . addslashes($name) . "' 
-				AND `common_names`.`language` = '" . addslashes($language) . "' 
-				AND `common_names`.`country` = '" . addslashes($country) . "' 
-				AND `common_names`.`name_code` = '" . addslashes($name_code) . "' 
-				AND `common_names`.`name_code` LIKE BINARY '" . addslashes($name_code) . "' 
-			     AND `common_names`.`reference_id` = `references`.`record_id` 
-			  ORDER BY  `references`.`author`, 
-			  			`references`.`year`, 
+		$query = "SELECT DISTINCT `references`.`author` ,
+					 		  `references`.`year` ,
+					 		  `references`.`title` ,
+					 		  `references`.`source`
+			  FROM `common_names`,`references`
+			  WHERE `common_names`.`common_name` = '" . addslashes($name) . "'
+				AND `common_names`.`language` = '" . addslashes($language) . "'
+				AND `common_names`.`country` = '" . addslashes($country) . "'
+				AND `common_names`.`name_code` = '" . addslashes($name_code) . "'
+				AND `common_names`.`name_code` LIKE BINARY '" . addslashes($name_code) . "'
+			     AND `common_names`.`reference_id` = `references`.`record_id`
+			  ORDER BY  `references`.`author`,
+			  			`references`.`year`,
 						`references`.`title`,
 						`references`.`source` " ;
 		$result = mysql_query($query) ;
@@ -792,7 +793,7 @@
 				$row = mysql_fetch_array($result) ;
 				foreach ($row as $key => $value) {
 					$$key = $value ;
-				} 
+				}
 				$references[$i] = array() ;
 				$references[$i]["author"] = $author ;
 				$references[$i]["year"] = $year ;
@@ -803,12 +804,12 @@
 		return $references ;
 	}
 	
-	function compileScientificName($this_genus,$this_species,$this_infraspecies_marker,$this_infraspecies,  
+	function compileScientificName($this_genus,$this_species,$this_infraspecies_marker,$this_infraspecies,
 	  $this_author,$this_kingdom,$displayed) {
 		if ($this_kingdom == "Viruses" || $this_kingdom == "Subviral agents") {
 			$scientific_name = $this_species ;
 			if ($this_infraspecies != "") {
-				$scientific_name .= (($this_infraspecies_marker != "") ? " $this_infraspecies_marker" : "") . 
+				$scientific_name .= (($this_infraspecies_marker != "") ? " $this_infraspecies_marker" : "") .
 				  $this_infraspecies ;
 			}
 		} else {
@@ -855,17 +856,17 @@
 			$number_of_results_returned = $results["number_of_results_returned"] ;
 			$error_message = $results["error_message"] ;
 			$version = $results["version"] ;
-			$output .= "<" . "results id=\"$id\" " . 
-								"name=\"$name\" " . 
-								"total_number_of_results=\"$total_number_of_results\" " . 
-								"start=\"$start\" " . 
-								"number_of_results_returned=\"$number_of_results_returned\" " . 
-								"error_message=\"$error_message\" " . 
+			$output .= "<" . "results id=\"$id\" " .
+								"name=\"$name\" " .
+								"total_number_of_results=\"$total_number_of_results\" " .
+								"start=\"$start\" " .
+								"number_of_results_returned=\"$number_of_results_returned\" " .
+								"error_message=\"$error_message\" " .
 								"version=\"$version\">\n" ;
 			foreach ($results["names"] as $name_record) {
 				$output .= "<result>\n" ;
 				$properties = array("id","name","rank","name_status","name_html","genus","species","infraspecies_marker","infraspecies",
-				  "author","additional_data","distribution","language","country","url","source_database","source_database_url", 
+				  "author","additional_data","distribution","language","country","url","source_database","source_database_url",
 				  "record_scrutiny_date", "online_resource") ;
 				$output .= writeXMLPropertyValues($name_record,$properties,false) ;
 				
@@ -881,7 +882,7 @@
 				}
 				if (array_key_exists("accepted_name", $name_record)) {
 					$output .= "<accepted_name>\n" ;
-					$properties = array("id","name","rank","name_status","name_html","genus","species","infraspecies_marker", 
+					$properties = array("id","name","rank","name_status","name_html","genus","species","infraspecies_marker",
 					  "infraspecies",  "author","additional_data","distribution","url","source_database","source_database_url",
 					  "record_scrutiny_date","online_resource") ;
 					$output .= writeXMLPropertyValues($name_record["accepted_name"],$properties,false) ;
@@ -926,8 +927,8 @@
 					$output .= "<synonyms>\n" ;
 					foreach ($name_record["synonyms"] as $this_synonym) {
 						$output .= "<synonym>\n" ;
-						$properties = array("id","name","rank","name_status","name_html","genus","species","infraspecies_marker", 
-						  "infraspecies","author","additional_data","url","source_database","source_database_url", 
+						$properties = array("id","name","rank","name_status","name_html","genus","species","infraspecies_marker",
+						  "infraspecies","author","additional_data","url","source_database","source_database_url",
 						  "record_scrutiny_date","online_resource") ;
 						$output .= writeXMLPropertyValues($this_synonym,$properties,false) ;
 						if (array_key_exists("references", $this_synonym)) {
