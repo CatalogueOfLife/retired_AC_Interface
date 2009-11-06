@@ -12,17 +12,18 @@ function getGAXCodeSnippet($trackerId = null)
         return '';
     }
     
-    $gax = "<script type=\"text/javascript\">" .
+    $gax = "<script type=\"text/javascript\">" . PHP_EOL .
     "var gaJsHost = ((\"https:\" == document.location.protocol) ? " .
-    "\"https://ssl.\" : \"http://www.\");" .
+    "\"https://ssl.\" : \"http://www.\");" . PHP_EOL .
     "document.write(unescape(\"%3Cscript src='\" + gaJsHost + " .
-    "\"google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E\"));" .
-    "</script>";
+    "\"google-analytics.com/ga.js' " .
+    "type='text/javascript'%3E%3C/script%3E\"));" . PHP_EOL .
+    "</script>" . PHP_EOL;
     
-    $gax .=  "<script type=\"text/javascript\">" .
-    "try { " .
-    "var pageTracker = _gat._getTracker(\"$trackerId\");" .
-    "pageTracker._trackPageview();" .
+    $gax .=  "<script type=\"text/javascript\">" . PHP_EOL .
+    "try { " . PHP_EOL .
+    "var pageTracker = _gat._getTracker(\"$trackerId\");" . PHP_EOL .
+    "pageTracker._trackPageview();" . PHP_EOL .
     "} catch(err) {}</script>";
     
     return $gax;
