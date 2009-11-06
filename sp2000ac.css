@@ -1,0 +1,49 @@
+body {  background-color: #FFFFFF; background-image: url(images/border-left.gif); background-repeat: repeat-y; background-position: 0px 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 30px; margin-left: 0px }
+p {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #000000; }
+ul {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px}
+li {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; margin-bottom: 5px}
+A:link { color: #0B0BF2; text-decoration: none;}
+A:visited { color: #663399; text-decoration: none;}
+A:active {color: blue; text-decoration: none;}
+A:hover { color: #F20B0B; text-decoration: underline;}
+.formheader {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #333366; font-weight: bold; margin-right: 0px; margin-top: 0px; margin-bottom: 5px; margin-left: 0px}
+.formbutton { color: #000066; font-family: Verdana, "MS Sans Serif", "Espy Sans", Geneva, Arial ; font-size: 13px}
+.listlink A:link {text-decoration: none; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px}
+.listlink A:visited {text-decoration: none; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px}
+.listlink A:active {text-decoration: none; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px}
+.listlink A:hover {color: #F20B0B; text-decoration: underline; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px}
+.menulink {color: #000000; text-decoration: none ; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; margin-left: 3px; margin-right: 3px; cursor: default}
+.menulink A:link {color: #000000; text-decoration: none }
+.menulink A:visited {color: #000000; text-decoration: none }
+.menulink A:active {color: #000000; text-decoration: none }
+.menulink A:hover {color: #000000; text-decoration: none }
+.menuselected {  color: #333366; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; font-weight: bold; cursor: default; text-decoration: none; margin-left: 3px; margin-right: 3px}
+.menumain { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; cursor: default; margin-left: 3px; margin-right: 3px}
+.menumain A:link {color: #000000; text-decoration: none }
+.menumain A:visited {color: #000000; text-decoration: none }
+.menumain A:active {color: #000000; text-decoration: none }
+.menumain A:hover {color: #000000; text-decoration: none }
+.tableheader {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; font-weight: bold; color: #666666; margin-top: 3px; margin-right: 2px; margin-bottom: 3px; margin-left: 2px}
+.tableheader {color: #666666; text-decoration: none ; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; margin-left: 0px; margin-right: 3px; cursor: default}
+.tableheader A:link {color: #666666; text-decoration: none }
+.tableheader A:visited {color: #666666; text-decoration: none }
+.tableheader A:active {color: #666666; text-decoration: none }
+.tableheader A:hover {color: #666666; text-decoration: underline }
+.fieldheader { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #333366; font-weight: bold; margin-right: 0px; margin-top: 1px; margin-bottom: 3px; margin-left: 0px}
+.fieldheader A:link { color: #333366; text-decoration: none;}
+.fieldheader A:visited { color: #333366; text-decoration: none;}
+.fieldheader A:active {color: #333366; text-decoration: none;}
+.fieldheader A:hover { color: #F20B0B; text-decoration: underline;}
+.fieldheaderblack { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #000000; margin-right: 0px; margin-top: 1px; margin-bottom: 3px; margin-left: 0px}
+.fieldheaderblack A:link { color: #000000; text-decoration: none;}
+.fieldheaderblack A:visited { color: #000000; text-decoration: none;}
+.fieldheaderblack A:active {color: #000000; text-decoration: none;}
+.fieldheaderblack A:hover { color: #F20B0B; text-decoration: underline;}
+.fieldvalue { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #000000; margin-right: 6px; margin-top: 1px; margin-bottom: 3px; margin-left: 0px}
+.showdetails { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; margin-right: 2px; margin-left: 2px }
+.formfieldheader {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #000000; margin-top: 4px}
+.treenode {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; margin-left: 4px; }
+.howtociteheader { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #990000; font-weight: bold; margin-right: 0px; margin-top: 0px; margin-bottom: 5px; margin-left: 0px }
+.fieldvalue_literature { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #000000; margin-right: 6px; margin-top: 1px; margin-bottom: 6px; margin-left: 0px; list-style-image: url(images/menu_arrow.gif)}
+.selectedLetter { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #333366; font-weight: bold}
+.nextpreviousarrows {  font-size: 9px}
