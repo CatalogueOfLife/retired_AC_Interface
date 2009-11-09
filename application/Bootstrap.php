@@ -119,20 +119,27 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     
     public function _initCache()
     {
-        //TODO: catch exception if cache dir is not valid?
-        $frontendOptions =
-            array(
-                'lifetime' => null,
-                'automatic_serialization' => true
-            );
         $config = Zend_Registry::get('config');
-        $backendOptions =
-            array(
-                'cache_dir' => $config->cache->directory
-            );
-        $cache = Zend_Cache::factory(
-            'Core', 'File', $frontendOptions, $backendOptions
-        );
+        $cache = null;
+        
+        if($config->cache->enabled) {
+            $frontendOptions =
+                array(
+                    'lifetime' => null,
+                    'automatic_serialization' => true
+                );
+            $backendOptions =
+                array(
+                    'cache_dir' => $config->cache->directory,
+                    'hashed_directory_level' => 1
+                );
+            try {
+                $cache = Zend_Cache::factory(
+                    'Core', 'File', $frontendOptions, $backendOptions
+                );
+            }
+            catch (Zend_Cache_Exception $e) {}
+        }
         Zend_Registry::set('cache', $cache);
     }
 }
