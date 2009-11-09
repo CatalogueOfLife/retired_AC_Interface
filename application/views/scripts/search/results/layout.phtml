@@ -6,6 +6,9 @@ $paginator = $this->paginationControl(
     array('urlParams' => $this->urlParams)
 );
 ?>
+<?php 
+
+?>
 <div class="page_header">
 <?php echo $this->searchString; ?>
 </div>
@@ -13,6 +16,15 @@ $paginator = $this->paginationControl(
 <div class="results_counter" align="right">
 <?php echo $this->translate('Records_found'); ?>:
 <?php echo number_format($this->paginator->getTotalItemCount()); ?>
+<?php if ( $this->paginator instanceof Eti_Paginator) : ?>
+    <br />
+    <?php
+    echo $this->translate('Species_found') . ': ' .
+        $this->paginator->getColumnCount(0) . '<br/>';
+    echo $this->translate('Infraspecies_found') . ': ' .
+        $this->paginator->getColumnCount(1);
+    ?>
+<?php endif; ?>
 </div>
 <?php if ($this->paginator->getTotalItemCount() > 0): ?>
 <div class="results_form"><?php echo $this->form; ?></div>
