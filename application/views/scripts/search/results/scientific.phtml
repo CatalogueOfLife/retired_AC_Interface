@@ -42,7 +42,6 @@ if(isset($this->sort) && isset($this->urlParams['order']) &&
         <a href="<?php echo $this->url(array_merge($this->urlParams, array(
           'sort' => 'db'))); ?>"><?php echo $this->translate('Database'); ?>
         </a></th>
-        <th class="horizontal"> </th>
     </tr>
 <?php foreach ($this->data as $row): ?>
     <tr class="<?php echo $rowClass; ?>">

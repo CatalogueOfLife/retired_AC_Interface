@@ -53,7 +53,6 @@ if(isset($this->sort) && isset($this->urlParams['order']) &&
           'sort' => 'db', 'order' => $order['db']))); ?>"><?php echo $this->translate('Database'); ?>
           <?php echo ($this->sort == 'db' ? $order_arrow : "");?>
         </a></th>
-        <th class="horizontal"> </th>
     </tr>
 <?php foreach ($this->data as $row): ?>
     <tr class="<?php echo $rowClass; ?>">
