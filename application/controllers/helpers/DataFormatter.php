@@ -95,11 +95,6 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         return $res;
     }
     
-    public function getTab()
-    {
-        return self::TAB;
-    }
-    
     public function formatPlain(array $data)
     {
         $translator = Zend_Registry::get('Zend_Translate');
@@ -120,6 +115,13 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME,
                 $row['author']
             );
+            // Enclose values between double quotes
+            foreach($row as &$r) {
+                if(strpos($r, '"') !== false) {
+                    $r = str_replace('"', '\"', $r);
+                }
+                $r = '"' . $r . '"';
+            }
         }
         return $data;
     }

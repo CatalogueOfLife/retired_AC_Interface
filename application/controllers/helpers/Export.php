@@ -13,7 +13,7 @@
 class ACI_Helper_Export extends Zend_Controller_Action_Helper_Abstract
 {
     const MAX_ROWS = 65535;
-    const TAB = "\t";
+    const SEPARATOR = ",";
     
     public function csv($controller, $action, Zend_Db_Select $select, $fileName)
     {
@@ -21,7 +21,7 @@ class ACI_Helper_Export extends Zend_Controller_Action_Helper_Abstract
         $actionController = $this->getActionController();
         $actionController->view->data =
             $this->_loadData($controller, $action, $select);
-        $actionController->view->tab = self::TAB;
+        $actionController->view->separator = self::SEPARATOR;
         $actionController->renderScript(
             $controller . '/export/' . $action . '.phtml'
         );
