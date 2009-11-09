@@ -133,6 +133,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                     'cache_dir' => $config->cache->directory,
                     'hashed_directory_level' => 1
                 );
+            if($config->cache->prefix)  {
+                $backendOptions['file_name_prefix'] = $config->cache->prefix;
+            }
             try {
                 $cache = Zend_Cache::factory(
                     'Core', 'File', $frontendOptions, $backendOptions
