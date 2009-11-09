@@ -667,7 +667,8 @@ class ACI_Model_Search extends AModel
         } else { // Search for species in hard_coded_taxon_lists
             $select->distinct()
                ->from(array('hard_coded_taxon_lists'), array('name'))
-               ->where('rank = ? AND name LIKE "' . $qStr . '"', $rank)
+               ->where('rank = ? AND name LIKE "' . $qStr .
+                '"  AND accepted_names_only = 1', $rank)
                ->order(
                    array(
                        new Zend_Db_Expr('INSTR(name, "' . $str . '")'),
