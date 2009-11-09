@@ -24,7 +24,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $config = new Zend_Config_Ini(
             APPLICATION_PATH . '/configs/application.ini',
-            APPLICATION_ENV);        
+            APPLICATION_ENV);
         Zend_Registry::set('config', $config);
     }
     
@@ -115,5 +115,24 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     public function _initLayout()
     {
         Zend_Layout::startMvc();
+    }
+    
+    public function _initCache()
+    {
+        //TODO: catch exception if cache dir is not valid?
+        $frontendOptions =
+            array(
+                'lifetime' => null,
+                'automatic_serialization' => true
+            );
+        $config = Zend_Registry::get('config');
+        $backendOptions =
+            array(
+                'cache_dir' => $config->cache->directory
+            );
+        $cache = Zend_Cache::factory(
+            'Core', 'File', $frontendOptions, $backendOptions
+        );
+        Zend_Registry::set('cache', $cache);
     }
 }
