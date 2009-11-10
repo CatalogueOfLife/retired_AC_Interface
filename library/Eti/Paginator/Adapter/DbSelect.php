@@ -77,9 +77,16 @@ class Eti_Paginator_Adapter_DbSelect extends Zend_Paginator_Adapter_DbSelect
         return $this;
     }
     
+    /**
+     * It returns the result of the counting of the field in the given index
+     * If the field does not exist, it returns 0
+     *
+     * @param string $columnId
+     * @return int
+     */
     public function getCountColumn($columnId)
     {
         return isset($this->_countColumns[$columnId]) ?
-            $this->_countColumns[$columnId] : null;
+            $this->_countColumns[$columnId] : 0;
     }
 }
