@@ -86,8 +86,8 @@ table#taxonomic-classification div.lsid-selector-label {
     color: #00f;
 }
 table#taxonomic-classification div.lsid-selector-icon {
-    width: 15px;
-    height: 15px;
+    width: 14px;
+    height: 18px;
     float: left;
 }
 table#taxonomic-classification div.expanded div.lsid-selector-icon {
