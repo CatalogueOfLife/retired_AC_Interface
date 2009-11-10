@@ -67,10 +67,10 @@ table {
     margin: 0;
 }
 table#taxonomic-classification td.rank {
-    width: 15%;
+    width: 14%;
 }
 table#taxonomic-classification td.taxon {
-    width: 25%;
+    width: 20%;
 }
 table#taxonomic-classification div.lsid-selector-wrapper {
     cursor: pointer;
@@ -316,6 +316,9 @@ ul.errors li {
     font-weight: bold;
     color: #666;    
     margin: 3px 2px;
+}
+.details th {
+    width: 175px;
 }
 
 th {
