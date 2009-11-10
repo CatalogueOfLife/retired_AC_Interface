@@ -17,12 +17,11 @@ $paginator = $this->paginationControl(
 <?php echo $this->translate('Records_found'); ?>:
 <?php echo number_format($this->paginator->getTotalItemCount()); ?>
 <?php if ( $this->paginator instanceof Eti_Paginator) : ?>
-    <br />
     <?php
-    echo $this->translate('Species_found') . ': ' .
-        $this->paginator->getColumnCount(0) . '<br/>';
-    echo $this->translate('Infraspecies_found') . ': ' .
-        $this->paginator->getColumnCount(1);
+    echo ' (' . $this->paginator->getColumnCount(0) . ' ' .
+        $this->translate('species') . ', ' .
+        $this->paginator->getColumnCount(1) . ' ' .
+        $this->translate('infraspecies') . ')';
     ?>
 <?php endif; ?>
 </div>
