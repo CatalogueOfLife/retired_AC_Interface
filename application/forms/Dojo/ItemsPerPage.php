@@ -35,7 +35,7 @@ class ACI_Form_Dojo_ItemsPerPage extends Zend_Dojo_Form
                 'required' => true,
                 'invalidMessage' => $translator->translate('Invalid_value'),
                 'rangeMessage' => $translator->translate('Value_out_of_range'),
-                'style' => 'width: 80px',
+                'style' => 'width: 70px',
                 'maxLength' => 3
             ),
             array()
@@ -43,7 +43,7 @@ class ACI_Form_Dojo_ItemsPerPage extends Zend_Dojo_Form
         ->setLabel($translator->translate('Records_per_page') . ':');
         
         $submit = $this->createElement(
-            'submit',
+            'SubmitButton',
             'update',
             array(
                 'required'   => false,

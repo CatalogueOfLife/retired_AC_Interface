@@ -25,6 +25,7 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
                 array(
                     'required' => false,
                     'autoComplete' => false,
+                    'regExp' => '.*',
                     'labelType' => 'html',
                     'labelAttr' => 'label',
                     'storeId' => $comboId . 'Store',
@@ -44,6 +45,8 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
                     'style' => 'width: 300px'
                 )
             )->setLabel($comboLabel);
+            
+            $comboBox->removeValidator('NotEmpty');
             
             $this->addElement($comboBox);
             $this->addDisplayGroup(
@@ -67,13 +70,12 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
         
         $translator = Zend_Registry::get('Zend_Translate');
         
-        $clear = new Zend_Form_Element_Button('clear');
-        $clear
+        $clear = $this->createElement('Button', 'clear')
             ->setOptions(array('onclick' => 'clearForm()'))
             ->setLabel('Clear_form');
         
-        $submit = $this->createElement('submit', 'search')
-            ->setLabel($translator->translate('Search') . ' >>');
+        $submit = $this->createElement('SubmitButton', 'search')
+            ->setLabel($translator->translate('Search'));
         
         $this->addElement($match)
              ->addElement($clear)

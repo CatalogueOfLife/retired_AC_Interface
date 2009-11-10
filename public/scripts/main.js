@@ -29,7 +29,7 @@ getFormInputElements = function () {
 }
 showLoader = function() {
     if(isFormValid()) {
-        dojo.byId('loader').style.visibility = 'visible';
+        dojo.byId('search').className += ' dijitButtonDisabled dijitDisabled';
     }
 }
 removeKey = function () {

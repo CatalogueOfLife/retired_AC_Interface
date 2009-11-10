@@ -37,8 +37,8 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
         
         $this->addErrorMessage($translator->translate('Error_key_too_short'));
         
-        $submit = $this->createElement('submit', 'search')
-            ->setLabel($translator->translate('Search') . ' >>');
+        $submit = $this->createElement('SubmitButton', 'search')
+            ->setLabel($translator->translate('Search'));
             
         $this->addElement($key)->addElement($match)->addElement($submit);
         

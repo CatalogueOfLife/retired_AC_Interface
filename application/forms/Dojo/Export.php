@@ -2,7 +2,7 @@
 /**
  * Annual Checklist Interface
  *
- * Class ACI_Form_Export
+ * Class ACI_Form_Dojo_Export
  * Export form (simply a submit button)
  *
  * @category    ACI
@@ -10,7 +10,7 @@
  * @subpackage  forms
  *
  */
-class ACI_Form_Export extends Zend_Form
+class ACI_Form_Dojo_Export extends Zend_Dojo_Form
 {
     public function init ()
     {
@@ -22,7 +22,8 @@ class ACI_Form_Export extends Zend_Form
         );
         $this->setMethod(Zend_Form::METHOD_POST);
         $this->addElement(
-            $this->createElement('submit', 'export')->setLabel('Export_to_file')
+            $this->createElement('SubmitButton', 'export')
+                ->setLabel('Export_to_file')
         );
     }
 }

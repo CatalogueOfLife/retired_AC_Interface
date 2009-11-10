@@ -541,20 +541,10 @@ form div.items-form dd fieldset {
 form div.items-form dd#update-element {
     margin: -13px 0 0 10px;
 }
-form dd#search-element input,
-form dd#clear-element input,
-form dd#clear-element button,
-form dd#update-element input,
-form#exportForm input {
-    color: #006;
-    font-family: Verdana, "MS Sans Serif", "Espy Sans", Geneva, Arial;
-    font-size: 13px;        
-    line-height: 16px;
-}
 form dd#search-element,
 form dd#clear-element,
 form dd#update-element {
-    padding-top: 12px;
+    padding-top: 8px;
 }
 form dt#hidden-label,
 form dd#hidden-element,
@@ -562,20 +552,28 @@ form fieldset#fieldset-hidden {
     display: none;
 }
 ul.dijitMenu li {
-    font-size: 13px;	
+    font-size: 13px;
 }
-/** Loader **/
-span#loader {
-    background-image: url(../images/loader.gif);
-    background-repeat: no-repeat;
-    background-position: 0 4px;
-    position: absolute;
-    width: 150px;
-    height: 30px;
-    margin-top: 15px;
-    padding: 15px 0 0 40px;    
-    color: #333;    
-    visibility: hidden;
+.tundra span.dijitButtonNode button {
+    color: #006;
+    padding-top: 2px;
+    font-size: 14px;    
+}
+.tundra div.search-form span.dijitButtonNode button {
+    width: 110px;
+}
+.tundra div.search-form span.dijitToggleButtonIconChar {
+    width: 20px;
+    color: transparent;
+    background:transparent url(../images/loader.gif) no-repeat scroll center center;
+}
+.tundra div.search-form button.dijitButtonDisabled span.dijitToggleButtonIconChar {
+    display: block !important;
+}
+.tundra span.dijitButtonNode button#update {
+    font-size: 11px;
+    padding: 0;
+    width: auto;    
 }
 /* Tree */
 /********/
@@ -603,6 +601,15 @@ span#loader {
 }
 .dijitTreeNodeHover .lsid {
     display: inline;    
+}
+.loadingSymbol {
+    background:transparent url(../images/loader.gif) no-repeat scroll center center;
+    float:right;
+    height:auto;
+    padding:0 2px;
+    width:20px;    
+    display: block;
+    visibility: hidden;
 }
 /* Menu */
 /********/
