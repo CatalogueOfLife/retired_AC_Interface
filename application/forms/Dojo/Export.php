@@ -23,7 +23,7 @@ class ACI_Form_Dojo_Export extends Zend_Dojo_Form
         $this->setMethod(Zend_Form::METHOD_POST);
         $this->addElement(
             $this->createElement('SubmitButton', 'export')
-                ->setLabel('Export_to_file')
+                ->setLabel('Export_to_CSV')
         );
     }
 }
