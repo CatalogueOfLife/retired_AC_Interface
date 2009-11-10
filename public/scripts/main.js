@@ -1,25 +1,10 @@
-function changeLSID(id)
-{
-    //change class collapsable to collapsed
-    //change class lsidhide to lsidshow
-    div = document.getElementById('hierachyId_' + id);
-    for (i = 0; i < div.childNodes.length; i++) {
-        node = div.childNodes[i];
-        if (node.className == "collapsable") {
-            node.className = "collapsed";
-        }
-        else if (node.className == "collapsed") {
-            node.className = "collapsable";
-        }
-        if (node.className == "lsidhide") {
-            node.className = "lsidshow";
-        }
-        else if (node.className == "lsidshow") {
-            node.className = "lsidhide";
-        }
-    }
+function switchLSIDSelector(el)
+{ 
+    var classes = el.className.split(" ");
+    var newClass = classes[0] + " ";
+    el.className = classes[1] == "collapsed" ? 
+        newClass + "expanded" : newClass + "collapsed";
 }
-
 var formInputElements = null;
 getFormInputElements = function () {
     if(formInputElements == null) {
@@ -27,20 +12,23 @@ getFormInputElements = function () {
     }
     return formInputElements;
 }
-showLoader = function() {
-    if(isFormValid()) {
-        dojo.byId('search').className += ' dijitButtonDisabled dijitDisabled';
-    }
+showLoader = function(elId) {
+    var buttonDisabledClass = ' dijitButtonDisabled dijitDisabled';
+    dojo.byId(elId).className += buttonDisabledClass;
 }
 removeKey = function () {
     dojo._destroyElement(dojo.byId('key'));
 }
-submitMultiForm = function() {
-    showLoader();
+submitMultiSearchForm = function() {
+    if(isFormValid()) {
+        showLoader('search');
+    }
     removeKey();
 }
-submitSimpleForm = function() {
-    showLoader();
+submitSearchForm = function() {
+    if(isFormValid()) {
+        showLoader('search');
+    }
 }
 isFormValid = function() {
     var elements = getFormInputElements();    

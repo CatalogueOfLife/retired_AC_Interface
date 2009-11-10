@@ -90,9 +90,6 @@ removeValidationElements = function() {
     );
     dojo.query("div.dijitValidationIconText").forEach(dojo.destroy);
 }
-foo = function () {
-    alert('foo');
-}
 updateKey = function() {
     var elements = getFormInputElements();
     var key = new Object;    

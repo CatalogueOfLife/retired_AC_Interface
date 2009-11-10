@@ -10,7 +10,7 @@ if (is_array($this->references)):
 <table class="details-table">
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd"); ?>
     <tr class="<?php echo $rowClass; ?>">
-        <th width="150px" class="vertical"><?php echo $this->translate('Author'); ?>:</th>
+        <th class="vertical"><?php echo $this->translate('Author'); ?>:</th>
         <td><?php echo ($ref['author'] == '' ? '&#150;' : $ref['author']); ?></td>
     </tr>
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd"); ?>

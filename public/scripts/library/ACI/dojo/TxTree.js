@@ -7,9 +7,8 @@ dojo.declare('ACI.dojo.TxTree', dijit.Tree, {
         return new ACI.dojo.TxTreeNode(args);
     },
     _onClick : function(evt) {
-        console.debug(evt);
         this._clickTarget = evt.target;
-        if (this._clickTarget.nodeName == 'A') {
+        if (this._clickTarget.nodeName == 'A' || this._clickTarget.className == 'lsid') {
             var nodeWidget = dijit.getEnclosingWidget(this._clickTarget);
             this.onClick(nodeWidget.item, nodeWidget);
             return;

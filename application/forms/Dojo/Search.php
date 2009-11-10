@@ -56,7 +56,7 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
             )
         );
         
-        $this->setAttrib('onsubmit', 'submitSimpleForm');
+        $this->setAttrib('onsubmit', 'submitSearchForm');
     }
     
     public function getInputElements()

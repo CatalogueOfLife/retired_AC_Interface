@@ -14,10 +14,6 @@ body, table, p, div, ul {
     color: #000;
 }
 
-p {
-    margin-bottom : 15px;
-}
-
 table tr td, table tr th {    
     vertical-align: middle;
     padding: 6px;
@@ -66,31 +62,49 @@ table {
     text-align: right;
 }
 
-.lsidhide {
-    display: none;
-}
-
-.lsidshow {
-    display: block;
-}
-
-.collapsable {
-    background-image:url('http://localhost/aci/images/Menu_Arrow.gif');
-    background-repeat: no-repeat;
-    background-position: 27px;
-}
-
-.collapsed {
-    background-image:url('http://localhost/aci/images/Menu_Arrow_backwards.gif');
-    background-repeat: no-repeat;
-    background-position: 27px;
-}
-
 .details a {
     padding: 0;
     margin: 0;
 }
-
+table#taxonomic-classification td.rank {
+    width: 15%;
+}
+table#taxonomic-classification td.taxon {
+    width: 25%;
+}
+table#taxonomic-classification div.lsid-selector-wrapper {
+    cursor: pointer;
+}
+table#taxonomic-classification div.collapsed span.lsid-uri {
+    display: none;
+}
+table#taxonomic-classification div.expanded span.lsid-uri {
+    display: inline;
+}
+table#taxonomic-classification div.lsid-selector-label {
+    float: left;    
+    color: #00f;
+}
+table#taxonomic-classification div.lsid-selector-icon {
+    width: 15px;
+    height: 15px;
+    float: left;
+}
+table#taxonomic-classification div.expanded div.lsid-selector-icon {
+    background: transparent url('../images/Menu_Arrow_backwards.gif') no-repeat center center;
+}
+table#taxonomic-classification div.collapsed div.lsid-selector-icon {
+    background: transparent url('../images/Menu_Arrow.gif') no-repeat center center;
+}
+table#common-names th.common-name {
+    width: 150px;
+}
+table#common-names th.language, th.country {
+    width: 100px;
+}
+table#common-names th.trailing {
+    width: 50px;
+}
 tr.even td, tr.even th {
     background-color: #fafcfe;
 }
@@ -170,10 +184,6 @@ ul.errors li {
 
 .center {
     text-align: center;
-}
-
-.indent {
-    
 }
 
 .formheader {
@@ -298,17 +308,10 @@ ul.errors li {
     color: #336;
     font-weight: bold
 }
-
 .showdetails {
     margin-right: 2px;
     margin-left: 2px;
 }
-
-.details .lsid {
-    padding: 0;
-    font-size: 9px;
-}
-
 .tableheader, th {
     font-weight: bold;
     color: #666;    
@@ -360,7 +363,6 @@ th.vertical {
 .treenode {
     margin-left: 4px;
 }
-
 .divider {
     position: relative;
     left: 10px;
@@ -435,13 +437,12 @@ div.copyright_notice {
     padding: 15px;
     margin: 0;
     display: block;
-    min-width: 400px; 
+    min-width: 400px;
 }
 .search-box {
     width: 400px;
 }
-#content.search-box,
-#content.details {
+#content.search-box {
     display: table;
 }
 #left-col {
@@ -567,16 +568,29 @@ ul.dijitMenu li {
     color: transparent;
     background:transparent url(../images/loader.gif) no-repeat scroll center center;
 }
-.tundra div.search-form button.dijitButtonDisabled span.dijitToggleButtonIconChar {
+.tundra button.dijitButtonDisabled span.dijitToggleButtonIconChar {
     display: block !important;
 }
 .tundra span.dijitButtonNode button#update {
     font-size: 11px;
     padding: 0;
-    width: auto;    
+    width: auto;
+}
+.loadingSymbol {
+    background:transparent url(../images/loader.gif) no-repeat scroll center center;
+    float:right;
+    height:auto;
+    padding:0 2px;
+    width:20px;  
+    display: block;
+    visibility: hidden;
 }
 /* Tree */
 /********/
+.tundra .dijitTreeRow {
+    padding: 0;
+    margin: 0;
+}
 .tundra .dijitTreeRow a {
     margin-left: 5px;
     font-style: italic;
@@ -591,25 +605,37 @@ ul.dijitMenu li {
 .tundra .dijitTreeIcon {
     display: none;
 }
-.tundra .dijitTreeLabel span {
+.tundra .dijitTreeLabel {
+    margin: 0;
+    padding: 2px 2px 4px 2px;
+}
+.tundra .dijitTreeLeafLabel .dijitTreeContent {
+    display: none;
+}
+.tundra img.dijitTreeExpando {
+    height: 20px;
+}
+.dijitTreeExpando .dijitTreeContent {
+    display: none;
+}
+.tundra .dijitTreeNodeSelected a, .tundra .dijitTreeNodeSelected lsid {
+    background: transparent;
+}
+.dijitTreeLabel .rank {
     color: #666;
 }
 .dijitTreeRow .lsid {
     display: none;
-    margin-left: 10px;    
     color: #666;
+    margin-left: 10px;
 }
-.dijitTreeNodeHover .lsid {
-    display: inline;    
+.dijitTreeContent .dijitTreeLabelFocused .lsid, .dijitTreeNodeHover .lsid {
+    display: inline-block;
+    cursor: text;
 }
-.loadingSymbol {
-    background:transparent url(../images/loader.gif) no-repeat scroll center center;
-    float:right;
-    height:auto;
-    padding:0 2px;
-    width:20px;    
+.dijitTreeContainer {
+    width: 100%;
     display: block;
-    visibility: hidden;
 }
 /* Menu */
 /********/
@@ -629,7 +655,6 @@ ul.dijitMenu li {
     background: url(../images/Menu_Arrow.gif) no-repeat;
     background-position: right;
 }
-
 #menu ul li a {
     color: #000;
     text-decoration: none;
@@ -694,7 +719,7 @@ li ul {
 #menu ul li:hover,
 #menu li.over {
     background-color: #eaf2f7;
-}  /* Hover Styles */
+}
 li:hover ul, li.over ul {
     display: block;
-}  /* The magic */
+}

@@ -13,7 +13,7 @@ if (is_array($this->db)):
 
 <table class="details-table">
     <tr class="even">
-        <th width="150px" class="vertical"><?php echo $this->translate('Full_name'); ?>:</th>
+        <th class="vertical"><?php echo $this->translate('Full_name'); ?>:</th>
         <td><?php echo $this->db['database_full_name']; ?>
         <?php if ($this->db['is_new'] == true): ?>
              <span class="new_big"><?php echo $this->translate('NEW')?></span>

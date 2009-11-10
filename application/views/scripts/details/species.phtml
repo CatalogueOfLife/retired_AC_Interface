@@ -9,11 +9,13 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
     alt="<?php echo $this->species->dbName; ?>"
     title="<?php echo $this->species->dbName; ?>"
 /></a></div>
+<?php if ($this->species->preface): ?>
 <p><?php echo $this->species->preface; ?></p>
+<?php endif; ?>
 <table class="details-table">
 <?php $rowClass = "even"?>
     <tr class="<?php echo $rowClass; ?>">
-        <th width="150" class="vertical"><?php echo $this->translate('Accepted_scientific_name'); ?>:</th>
+        <th class="vertical"><?php echo $this->translate('Accepted_scientific_name'); ?>:</th>
         <td>
             <table>
                 <tr>
@@ -77,12 +79,12 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Common_names'); ?>:</th>
         <td><?php if (is_array($this->species->commonNames)): ?>
-            <table>
+            <table id="common-names">
                 <tr>
-                    <th width="150px"><?php echo $this->translate('Common_name'); ?></th>
-                    <th width="100px"><?php echo $this->translate('Language'); ?></th>
-                    <th width="100px"><?php echo $this->translate('Country'); ?></th>
-                    <th width="50px"></th>
+                    <th class="common-name"><?php echo $this->translate('Common_name'); ?></th>
+                    <th class="language"><?php echo $this->translate('Language'); ?></th>
+                    <th class="country"><?php echo $this->translate('Country'); ?></th>
+                    <th class="trailing"></th>
                 </tr>
             <?php $languageGroup = ($rowClass == "odd" ? "odd" : "even");
                 $previousLanguage = ''; ?>
@@ -115,13 +117,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Classification'); ?>:</th>
         <td><?php if (is_array($this->species->hierarchy)): ?>
-            <table >
-                <tr>
-                    <th width="150px"><?php echo $this->translate('Rank'); ?></th>
-                    <th width="150px"><?php echo $this->translate('Taxonomic_Name'); ?></th>
-                    <th><?php echo $this->translate('LSID'); ?></th>
-                </tr>
-        
+            <table id="taxonomic-classification">
                 <?php
                 $latest = count($this->species->hierarchy) - 1;
                 $i = 0;
@@ -129,17 +125,22 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                 if ($i != $latest):
                 ?>
                 <tr>
-                    <td><?php echo $hierarchy['taxon'] == 'Kingdom' ?
+                    <td class="rank"><?php echo $hierarchy['taxon'] == 'Kingdom' ?
                         "" : $hierarchy['taxon']; ?></td>
-                    <td><a href="<?php echo $this->baseUrl() . '/browse/tree/id/' .
+                    <td class="taxon"><a href="<?php echo $this->baseUrl() . '/browse/tree/id/' .
                       $hierarchy['record_id']; ?>">
-                        <?php echo $hierarchy['taxon'] == 'Species' ?
+                        <?php echo in_array($hierarchy['taxon'], array('Species', 'Genus')) ?
                          "<i>$hierarchy[name]</i>" : $hierarchy['name']; ?>
                         </a></td>
-                    <td class="lsid"><div id="hierachyId_<?php echo $hierarchy['record_id']; ?>">
-                        <div class="collapsable"><a href="javascript:changeLSID(<?php echo $hierarchy['record_id']; ?>);">LSID</a></div>
-                        <div class="lsidhide"><?php echo $hierarchy['LSID']?></div>
-                    </div></td>
+                    <td>
+                        <div class="lsid-selector collapsed">
+                            <div class="lsid-selector-wrapper" onclick="javascript:switchLSIDSelector(this.parentNode)">
+                                <div class="lsid-selector-label">LSID</div>
+                                <div class="lsid-selector-icon"></div>
+                            </div>
+                            <span class="lsid-uri"><?php echo $hierarchy['LSID']?></span>
+                        </div>
+                    </td>
                 </tr>
                 <?php
                 endif;
@@ -185,8 +186,8 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('CoL_taxon_LSID'); ?>:</th>
-        <td><p class="lsid"><?php echo $this->species->lsid;
-        ?></p></td>
+        <td><span class="lsid"><?php echo $this->species->lsid;
+        ?></span></td>
     </tr>
 </table>
         <?php

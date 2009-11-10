@@ -96,7 +96,7 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
             )
         );
         
-        $this->setAttrib('onsubmit', 'submitMultiForm');
+        $this->setAttrib('onsubmit', 'submitMultiSearchForm');
     }
     
     public function getInputElements()

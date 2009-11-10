@@ -9,16 +9,22 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
         lsid.appendChild(dojo.doc.createTextNode(
             this.tree.model.store.getValue(this.item, 'lsid')));
         if (this.tree.model.store
-                .getValue(this.item, 'url') == null) {                
-            var span = dojo.doc.createElement('span');
-            span.appendChild(dojo.doc
+                .getValue(this.item, 'url') == null) {            
+            var rank = dojo.doc.createElement('span');
+            rank.className = 'rank';
+            rank.appendChild(dojo.doc
                     .createTextNode(this.tree.model.store.getValue(
                             this.item, 'type')));
-            this.labelNode.appendChild(span);
-            this.labelNode.appendChild(dojo.doc
+            this.labelNode.appendChild(rank);
+            var taxon = dojo.doc.createElement('span');
+            
+            taxon.appendChild(dojo.doc
                     .createTextNode(' ' + label));
+            this.labelNode.appendChild(taxon);
             this.labelNode.appendChild(lsid);
         } else {
+            var leaf = dojo.doc.createElement('span');
+            leaf.className = "leaf";            
             var a = dojo.doc.createElement('a');
             a.href = this.tree.model.store.getValue(this.item, 'url');
             a.appendChild(dojo.doc.createTextNode(label));
@@ -30,11 +36,12 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
                 a.appendChild(span);
                 a.appendChild(dojo.doc.createTextNode(subsp));
             }
-            this.labelNode.innerHTML = '';                
-            dojo.place(lsid, this.expandoNode, 'after');
-            dojo.place(a, this.expandoNode, 'after');               
-            this.expandoNodeText.parentNode
-                    .removeChild(this.expandoNodeText);
+            leaf.appendChild(a);
+            leaf.appendChild(lsid);
+            this.labelNode.innerHTML = '';            
+            this.expandoNodeText.parentNode.removeChild(this.expandoNodeText);
+            this.expandoNode.parentNode.className += " dijitTreeLeafLabel";
+            this.expandoNode.parentNode.appendChild(leaf);
         }
-    }        
+    }
 });
