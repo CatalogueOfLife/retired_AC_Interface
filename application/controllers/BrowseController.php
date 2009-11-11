@@ -151,19 +151,16 @@ class BrowseController extends AController
         $res = $search->getTaxonChildren($parentId);
         $this->_logger->debug($res);
         foreach ($res as &$row) {
-            $row['type'] = $row['type'] == 'Kingdom' ? '' : $row['type'];
+            $row['type'] = $row['type'] == "Kingdom" ? '' : $row['type'];
             $row['url'] = $row['snId'] ?
                 $this->view->baseUrl() . '/details/species/id/' . $row['snId'] :
                 null;
-            $row['subsp'] = null;
-            if ($row['type'] == 'Infraspecies') {
-                $split = explode('subsp.', $row['name']);
-                if (count($split) > 1) {
-                    $row['name'] = $split[0];
-                    $row['subsp'] = $split[1];
-                }
+            if ($row['type'] == "Infraspecies") {
+                $row['name'] = $this->getHelper('DataFormatter')
+                    ->splitByMarkers($row['name']);
             }
         }
+        
         $data = new Zend_Dojo_Data('id', $res, $parentId);
         $data->setLabel('name');
         return $data;

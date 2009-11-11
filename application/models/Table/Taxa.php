@@ -29,6 +29,31 @@ class ACI_Model_Table_Taxa
     const RANK_SPECIES = 8;
     const RANK_INFRASPECIES = 9;
     
+    public static $markers =
+        array(
+            'subsp.',
+            'var.',
+            'forma',
+            'ab.',
+            'm.',
+            'nothosubsp.',
+            'nothovar.',
+            'subvar.',
+            'lusus',
+            'race',
+            'subforma',
+            'nothof.',
+            'col. var.',
+            'prol.',
+            'convar.',
+            'mut.',
+            'sublus.',
+            'monstr.',
+            'notst',
+            'convar',
+            'provar'
+        );
+    
     public $id;
     public $kingdom;
     public $genus;

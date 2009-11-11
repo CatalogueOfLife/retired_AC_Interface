@@ -8,39 +8,50 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
         lsid.className = 'lsid';
         lsid.appendChild(dojo.doc.createTextNode(
             this.tree.model.store.getValue(this.item, 'lsid')));
+        var type = this.tree.model.store.getValue(this.item, 'type');
         if (this.tree.model.store
-                .getValue(this.item, 'url') == null) {            
-            var rank = dojo.doc.createElement('span');
+                .getValue(this.item, 'url') == null) {  
+            var rank = dojo.doc.createElement('span');            
             rank.className = 'rank';
             rank.appendChild(dojo.doc
-                    .createTextNode(this.tree.model.store.getValue(
-                            this.item, 'type')));
+                    .createTextNode(type));
             this.labelNode.appendChild(rank);
             var taxon = dojo.doc.createElement('span');
-            
+            taxon.className = 'node-' + type;
             taxon.appendChild(dojo.doc
                     .createTextNode(' ' + label));
             this.labelNode.appendChild(taxon);
             this.labelNode.appendChild(lsid);
         } else {
             var leaf = dojo.doc.createElement('span');
-            leaf.className = "leaf";            
+            leaf.className = 'leaf';
             var a = dojo.doc.createElement('a');
-            a.href = this.tree.model.store.getValue(this.item, 'url');
-            a.appendChild(dojo.doc.createTextNode(label));
-            var subsp = this.tree.model.store.getValue(this.item, 'subsp');
-            if(subsp != null) {
-                var span = dojo.doc.createElement('span');
-                span.className = 'subsp';
-                span.appendChild(dojo.doc.createTextNode(' subsp. '));
-                a.appendChild(span);
-                a.appendChild(dojo.doc.createTextNode(subsp));
+            a.href = this.tree.model.store.getValue(this.item, 'url');            
+            if(type == 'Infraspecies') {
+                for(var i in label){
+                    if(i > 0) {
+                        a.appendChild(dojo.doc.createTextNode(' '));
+                    }
+                    // is a marker
+                    if(label[i][1] == true) {
+                        var span = dojo.doc.createElement('span');
+                        span.className = 'marker';
+                        span.appendChild(dojo.doc.createTextNode(label[i][0]));
+                        a.appendChild(span);
+                    }
+                    else {
+                        a.appendChild(dojo.doc.createTextNode(label[i][0]));
+                    }
+                }
             }
+            else {
+                a.appendChild(dojo.doc.createTextNode(label));
+            }            
             leaf.appendChild(a);
             leaf.appendChild(lsid);
             this.labelNode.innerHTML = '';            
             this.expandoNodeText.parentNode.removeChild(this.expandoNodeText);
-            this.expandoNode.parentNode.className += " dijitTreeLeafLabel";
+            this.expandoNode.parentNode.className += ' dijitTreeLeafLabel';
             this.expandoNode.parentNode.appendChild(leaf);
         }
     }

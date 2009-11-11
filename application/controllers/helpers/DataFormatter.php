@@ -346,6 +346,15 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         return $output;
     }
     
+    public function splitByMarkers($name)
+    {
+        $nameArray = split(' ', $name);
+        foreach($nameArray as &$n) {
+            $n = array($n, in_array($n, ACI_Model_Table_Taxa::$markers));
+        }
+        return $nameArray;
+    }
+    
     protected function _getTaxaSuffix($source, $status, $suffix)
     {
         if ($suffix) {
