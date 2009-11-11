@@ -29,12 +29,11 @@
         <td><?php echo $row['group']; ?></td>
         <td>
 <?php if($row['dbLabel'] != ""): ?>
-        <div class="wrapLogo">
-        <a href="<?php echo $this->baseUrl() . $row['dbUrl']; ?>">
+        <a class="wrapLogo tinyImgLink" href="<?php echo $this->baseUrl() . $row['dbUrl']; ?>">
         <img
           src="<?php echo $this->baseUrl() . $row['dbLogo']; ?>"
           alt="<?php echo $row['dbLabel']; ?>"
-          title="<?php echo $row['dbLabel']; ?>" /></a></div>
+          title="<?php echo $row['dbLabel']; ?>" /></a>
 <?php endif; ?>
         </td>
     </tr>

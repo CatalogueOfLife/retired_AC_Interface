@@ -6,7 +6,7 @@ $paginator = $this->paginationControl(
     array('urlParams' => $this->urlParams)
 );
 ?>
-<?php 
+<?php
 
 ?>
 <div class="page_header">
@@ -18,9 +18,9 @@ $paginator = $this->paginationControl(
 <?php echo number_format($this->paginator->getTotalItemCount()); ?>
 <?php if ( $this->paginator instanceof Eti_Paginator) : ?>
     <?php
-    echo ' (' . $this->paginator->getColumnCount(0) . ' ' .
+    echo ' (' . number_format($this->paginator->getColumnCount(0)) . ' ' .
         $this->translate('species') . ', ' .
-        $this->paginator->getColumnCount(1) . ' ' .
+        number_format($this->paginator->getColumnCount(1)) . ' ' .
         $this->translate('infraspecies') . ')';
     ?>
 <?php endif; ?>

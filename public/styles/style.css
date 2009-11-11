@@ -49,15 +49,17 @@ table {
     border: 1px solid #edebeb;
     clear: both;
 }
-
 .wrapLogo {
     border: 1px solid #edebeb;
     background-color: #fff;
-    padding: 4px;
+    padding: 10px;
     margin: 0;
-    right: 1px;
 }
-
+.tinyImgLink {
+    display: block;
+    text-align: center;
+    padding: 4px;
+}
 .number {
     text-align: right;
 }

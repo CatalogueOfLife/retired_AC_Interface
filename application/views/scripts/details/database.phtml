@@ -4,13 +4,13 @@
 <?php
 if (is_array($this->db)):
 ?>
-<a href="<?php echo $this->db['web_site']; ?>"><img
-  class="wrapLogo"
-  src="<?php echo $this->baseUrl() . $this->db['image']; ?>"
-  alt="<?php echo $this->db['name']; ?>"
-  title="<?php echo $this->db['name']; ?>"
-/></a>
-
+<div class="wrapLogo">
+    <a href="<?php echo $this->db['web_site']; ?>"><img
+      src="<?php echo $this->baseUrl() . $this->db['image']; ?>"
+      alt="<?php echo $this->db['name']; ?>"
+      title="<?php echo $this->db['name']; ?>"
+    /></a>
+</div>
 <table class="details-table">
     <tr class="even">
         <th class="vertical"><?php echo $this->translate('Full_name'); ?>:</th>
