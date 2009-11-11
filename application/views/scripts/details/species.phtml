@@ -180,8 +180,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Online_resource'); ?>:</th>
-        <td><a href="<?php echo $this->species->webSite; ?>"><?php
-          echo $this->species->webSite; ?></a></td>
+        <td><?php echo $this->species->webSite; ?></td>
     </tr>
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">

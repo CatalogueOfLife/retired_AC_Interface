@@ -12,6 +12,7 @@
  */
 class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
 {
+    const EMPTY_FIELD = '-';
     /**
      * Wraps the needle with styled spans in the haystack
      * The needle may contain the * wildcard
@@ -49,11 +50,26 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
         );
     }
     
+    public function getEmptyField()
+    {
+        return self::EMPTY_FIELD;
+    }
+    
     public function decorateComboLabel($label)
     {
         $translator = Zend_Registry::get('Zend_Translate');
         return "<span class=\"disabledLabel\">" .
             $translator->translate($label) . "</span>";
+    }
+    
+    public function createLink($linkText)
+    {
+        if(!$linkText) {
+            return self::EMPTY_FIELD;
+        }
+        $linkText = ltrim($linkText, "#");
+        $link = '<a href="' . $linkText . '">' . $linkText . '</a>';
+        return $link;
     }
 
     public function textDecoration($text)

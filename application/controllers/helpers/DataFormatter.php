@@ -178,6 +178,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 ACI_Model_Table_Taxa::getStatusString($speciesDetails->status)
             ) . ')';
             
+        $textDecorator = $this->getActionController()->getHelper('TextDecorator');
+            
         if (!empty($speciesDetails->synonyms)) {
             foreach ($speciesDetails->synonyms as &$synonym) {
                 $synonym['name'] = '<span class="taxonomicName">' .
@@ -187,7 +189,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 );
             }
         } else {
-            $speciesDetails->synonyms = '-';
+            $speciesDetails->synonyms = $textDecorator->getEmptyField();
         }
         // TODO: optimize the following code:
         if (!empty($speciesDetails->commonNames)) {
@@ -198,40 +200,64 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 );
             }
         } else {
-            $speciesDetails->commonNames = '-';
+            $speciesDetails->commonNames = $textDecorator->getEmptyField();
         }
-        if ($speciesDetails->hierarchy == '') {
-            $speciesDetails->hierarchy = '-';
+        if (!$speciesDetails->hierarchy) {
+            $speciesDetails->hierarchy = $textDecorator->getEmptyField();
         }
-        if ($speciesDetails->distribution == '') {
-            $speciesDetails->distribution = '-';
+        if (!$speciesDetails->distribution) {
+            $speciesDetails->distribution = $textDecorator->getEmptyField();
         } else {
             $speciesDetails->distribution = implode(
                 '; ', $speciesDetails->distribution
             );
         }
-        if ($speciesDetails->comment == '') {
-            $speciesDetails->comment = '-';
+        if (!$speciesDetails->comment) {
+            $speciesDetails->comment = $textDecorator->getEmptyField();
         }
-        if ($speciesDetails->dbId == '' && $speciesDetails->dbName = '' &&
-            $speciesDetails->dbVersion = '') {
-            $speciesDetails->dbName = '-';
+        if (!$speciesDetails->dbId && !$speciesDetails->dbName &&
+            !$speciesDetails->dbVersion) {
+            $speciesDetails->dbName = $textDecorator->getEmptyField();
         }
-        if ($speciesDetails->scrutinyDate == '' &&
-            $speciesDetails->specialistName = '') {
-            $speciesDetails->scrutinyDate = '-';
+        if (!$speciesDetails->scrutinyDate &&
+            !$speciesDetails->specialistName) {
+            $speciesDetails->scrutinyDate = $textDecorator->getEmptyField();
         }
-        if ($speciesDetails->webSite == '') {
-            $speciesDetails->webSite = '-';
+        if (!$speciesDetails->lsid) {
+            $speciesDetails->lsid = $textDecorator->getEmptyField();
         }
-        if ($speciesDetails->lsid == '') {
-            $speciesDetails->lsid = '-';
-        }
+        $speciesDetails->webSite =
+            $textDecorator->createLink($speciesDetails->webSite);
+            
         $speciesDetails->preface = $preface;
         
         return $speciesDetails;
     }
     
+    public function formatDatabaseDetails(array $dbDetails)
+    {
+        $dbDetails['name'] = $dbDetails['database_name_displayed'];
+        $dbDetails['label'] = $dbDetails['database_name'];
+        $dbDetails['accepted_species_names'] =
+            number_format($dbDetails['accepted_species_names']);
+        $dbDetails['accepted_infraspecies_names'] =
+            number_format($dbDetails['accepted_infraspecies_names']);
+        $dbDetails['common_names'] =
+            number_format($dbDetails['common_names']);
+        $dbDetails['total_names'] =
+            number_format($dbDetails['total_names']);
+        $dbDetails['taxonomic_coverage'] =
+            $this->getTaxonLinksInDatabaseDetailsPage(
+                $dbDetails['taxonomic_coverage']
+            );
+        // raw link text
+        $dbDetails['web_link'] = $dbDetails['web_site'];
+        // formatted link
+        $dbDetails['web_site'] = $this->getActionController()
+            ->getHelper('TextDecorator')->createLink($dbDetails['web_site']);
+        return $dbDetails;
+    }
+     
     /**
      * Returns the references label based on the number of references and
      * the name of the species

@@ -39,13 +39,19 @@ class InfoController extends AController
         $this->view->sort = $sortCol;
         
         $dbTable = new ACI_Model_Table_Databases();
-        $this->view->results =
+        $rowset =
             $dbTable->getAll(
                 array_merge(
                     array(ACI_Model_Info::getRightColumnName($sortCol)),
                     array(ACI_Model_Info::getRightColumnName($defaultSortCol))
                 )
             );
+        $results = array();
+        foreach ($rowset as $row) {
+            $results[] = $this->getHelper('DataFormatter')
+                ->formatDatabaseDetails($row);
+        }
+        $this->view->results = $results;
     }
     
     public function hierarchyAction ()

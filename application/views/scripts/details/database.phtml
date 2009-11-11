@@ -5,7 +5,7 @@
 if (is_array($this->db)):
 ?>
 <div class="wrapLogo">
-    <a href="<?php echo $this->db['web_site']; ?>"><img
+    <a href="<?php echo $this->db['web_link']; ?>"><img
       src="<?php echo $this->baseUrl() . $this->db['image']; ?>"
       alt="<?php echo $this->db['name']; ?>"
       title="<?php echo $this->db['name']; ?>"
@@ -66,7 +66,7 @@ if (is_array($this->db)):
     </tr>
     <tr class="even">
         <th class="vertical"><?php echo $this->translate('Web_site'); ?>:</th>
-        <td><a href="<?php echo $this->db['web_site']; ?>"><?php echo $this->db['web_site']; ?></a></td>
+        <td><?php echo $this->db['web_site']; ?></td>
     </tr>
     
 </table>

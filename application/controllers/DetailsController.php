@@ -69,13 +69,8 @@ class DetailsController extends AController
         $this->view->headTitle($this->view->title, 'APPEND');
         
         $dbTable = new ACI_Model_Table_Databases();
-        $dbDetails = $dbTable->get($this->_getParam('id'));
-
-        $dbDetails['taxonomic_coverage'] = 
-            $this->getHelper('DataFormatter')
-            ->getTaxonLinksInDatabaseDetailsPage(
-                $dbDetails['taxonomic_coverage']
-            );
+        $dbDetails = $this->getHelper('DataFormatter')
+            ->formatDatabaseDetails($dbTable->get($this->_getParam('id')));
         
         $this->_logger->debug($dbDetails);
         $this->view->db = $dbDetails;

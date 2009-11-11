@@ -133,7 +133,7 @@ class ACI_Model_Details extends AModel
         $dbDetails = $db->get($species->dbId);
         
         $species->dbImage   = $dbDetails['image'];
-        $species->dbName    = $dbDetails['label'];
+        $species->dbName    = $dbDetails['database_name'];
         $species->dbVersion = $dbDetails['version'];
         
         $species->hierarchy    = $this->speciesHierarchy($species->snTaxaId);
@@ -302,7 +302,7 @@ class ACI_Model_Details extends AModel
                 'cn.common_name',
                 'cn.language',
                 'cn.country',
-                'num_references' => 'IF(reference_id IS NULL OR ' . 
+                'num_references' => 'IF(reference_id IS NULL OR ' .
                     'reference_id = "", SUM(0), SUM(1))',
                 'references' => 'GROUP_CONCAT(reference_id)'
             )
