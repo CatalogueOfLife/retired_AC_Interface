@@ -17,7 +17,7 @@ body, table, p, div, ul {
 table tr td, table tr th {    
     vertical-align: middle;
     padding: 6px;
-    line-height: 16px;    
+    line-height: 16px;
 }
 a:link {
     color: #0B0BF2;
@@ -600,7 +600,7 @@ ul.dijitMenu li {
     margin-left: 5px;
     font-style: italic;
 }
-.tundra .dijitTreeRow .subsp {
+.tundra .dijitTreeRow .marker {
     font-style: normal;
     color: #666;
 }
@@ -628,6 +628,9 @@ ul.dijitMenu li {
 }
 .dijitTreeLabel .rank {
     color: #666;
+}
+.dijitTreeLabel .node-Genus {
+    font-style: italic;
 }
 .dijitTreeRow .lsid {
     display: none;
