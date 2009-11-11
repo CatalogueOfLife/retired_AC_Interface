@@ -221,7 +221,14 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         }
         if (!$speciesDetails->scrutinyDate &&
             !$speciesDetails->specialistName) {
-            $speciesDetails->scrutinyDate = $textDecorator->getEmptyField();
+            $speciesDetails->latestScrutiny = $textDecorator->getEmptyField();
+        }
+        else {
+            $speciesDetails->latestScrutiny = rtrim(
+                implode(', ', array(
+                    $speciesDetails->specialistName, $speciesDetails->scrutinyDate
+                )), ', '
+            );
         }
         if (!$speciesDetails->lsid) {
             $speciesDetails->lsid = $textDecorator->getEmptyField();

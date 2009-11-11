@@ -170,12 +170,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Latest_taxonomic_scrutiny'); ?>:</th>
-        <td><?php echo $this->species->specialistName;
-            if($this->species->specialistName != ''):
-                echo ', ';
-            endif;
-            echo $this->species->scrutinyDate;
-        ?></td>
+        <td><?php echo $this->species->latestScrutiny; ?></td>
     </tr>
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
