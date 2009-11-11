@@ -784,7 +784,7 @@ class ACI_Model_Search extends AModel
         )
         ->joinLeft(
             array('txc' => 'taxa'),
-            'tx.record_id = txc.parent_id',
+            'tx.record_id = txc.parent_id AND txc.is_accepted_name = 1',
             array()
         )
         ->joinLeft(
