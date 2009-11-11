@@ -67,11 +67,12 @@ class DetailsController extends AController
     {
         $this->view->title = $this->view->translate('Database_details');
         $this->view->headTitle($this->view->title, 'APPEND');
-        
         $dbTable = new ACI_Model_Table_Databases();
-        $dbDetails = $this->getHelper('DataFormatter')
-            ->formatDatabaseDetails($dbTable->get($this->_getParam('id')));
-        
+        $dbDetails = $dbTable->get($this->_getParam('id'));
+        if($dbDetails) {
+            $dbDetails = $this->getHelper('DataFormatter')
+                ->formatDatabaseDetails($dbDetails);
+        }
         $this->_logger->debug($dbDetails);
         $this->view->db = $dbDetails;
     }
