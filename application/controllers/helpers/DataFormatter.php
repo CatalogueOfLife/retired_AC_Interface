@@ -272,11 +272,17 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $this->getTaxonLinksInDatabaseDetailsPage(
                 $dbDetails['taxonomic_coverage']
             );
-        // raw link text
-        $dbDetails['web_link'] = $dbDetails['web_site'];
+        
+        // raw links text
+        $links = explode(';',$dbDetails['web_site']);
+        unset($dbDetails['web_site']);
+        $dbDetails['web_link'] = $links[0];
         // formatted link
-        $dbDetails['web_site'] = $this->getActionController()
-            ->getHelper('TextDecorator')->createLink($dbDetails['web_site']);
+        foreach($links as $link)
+        {
+        $dbDetails['web_sites'][] = $this->getActionController()
+            ->getHelper('TextDecorator')->createLink($link);
+        }
         return $dbDetails;
     }
      

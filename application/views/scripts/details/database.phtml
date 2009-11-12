@@ -66,7 +66,11 @@ if (is_array($this->db)):
     </tr>
     <tr class="even">
         <th class="vertical"><?php echo $this->translate('Web_site'); ?>:</th>
-        <td><?php echo $this->db['web_site']; ?></td>
+        <td>
+            <?php foreach($this->db['web_sites'] as $website): ?>
+            <?php echo $website . '<br />'; ?>
+            <?php endforeach; ?>
+        </td>
     </tr>
     
 </table>

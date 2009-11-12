@@ -67,8 +67,11 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
         if(!$linkText) {
             return self::EMPTY_FIELD;
         }
+        $pattern = '#(^[^ \(\)]*\b)(.*)#';
+        $replacement ='<a href="$1">$1</a>$2';
         $linkText = ltrim($linkText, "#");
-        $link = '<a href="' . $linkText . '">' . $linkText . '</a>';
+        $link = preg_replace($pattern,$replacement,$linkText);
+//        $link = '<a href="' . $linkText . '">' . $linkText . '</a>';
         return $link;
     }
 
