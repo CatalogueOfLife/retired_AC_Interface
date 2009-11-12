@@ -23,6 +23,15 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         unset($paginator);
         
         foreach ($it as $k => $row) {
+            // get accepted species data if yet not there
+            if(!$row['is_accepted_name'] && !$row['accepted_species_id']) {
+                $row = array_merge(
+                    $row,
+                    $this->getActionController()->getHelper('Query')
+                         ->getAcceptedSpecies($row['accepted_name_code'])
+                );
+            }
+            // create links
             if ($row['rank'] >= ACI_Model_Table_Taxa::RANK_SPECIES) {
                 $res[$i]['link'] = $translator->translate('Show_details');
                 if (ACI_Model_Table_Taxa::isSynonym($row['status'])) {

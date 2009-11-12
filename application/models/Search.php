@@ -375,12 +375,21 @@ class ACI_Model_Search extends AModel
                 'tx.is_accepted_name',
                 'sn.author',
                 'language' => new Zend_Db_Expr("''"),
-                'accepted_species_id' => 'sn.record_id',
+                'sn.accepted_name_code',
+                /*
+                'accepted_species_id' => 'snt.record_id',
                 'accepted_species_name' =>
                     "TRIM(CONCAT(IF(snt.genus IS NULL, '', snt.genus) " .
                     ", ' ', IF(snt.species IS NULL, '', snt.species), ' ', " .
                     "IF(snt.infraspecies IS NULL, '', snt.infraspecies)))",
                 'accepted_species_author' => 'snt.author',
+                */
+                // Joining again to scientific_names produces a killing query
+                // The accepted species data is retrieved afterwards
+                'accepted_species_id' => new Zend_Db_Expr(0),
+                'accepted_species_name' => new Zend_Db_Expr("''"),
+                'accepted_species_author' => new Zend_Db_Expr("''"),
+                //----------
                 'db_name' => 'db.database_name',
                 'db_id' => 'db.record_id',
                 'db_thumb' =>
@@ -410,16 +419,17 @@ class ACI_Model_Search extends AModel
         }
            
         $select
-        ->join(
+        ->joinLeft(
             array('sn' => 'scientific_names'),
             'tx.name_code = sn.name_code',
             array()
         )
+        /*
         ->joinLeft(
             array('snt' => 'scientific_names'),
             'sn.accepted_name_code = snt.name_code',
             array()
-        )
+        )*/
         ->joinLeft(
             array('fm' => 'families'),
             'sn.family_id = fm.record_id',
@@ -464,6 +474,7 @@ class ACI_Model_Search extends AModel
                 'is_accepted_name' => new Zend_Db_Expr(0),
                 'sn.author',
                 'cn.language',
+                'accepted_name_code' => 'sn.name_code',
                 'accepted_species_id' => 'sn.record_id',
                 'accepted_species_name' =>
                     "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
@@ -824,6 +835,24 @@ class ACI_Model_Search extends AModel
         )
         ->where('tx.name = ?', $name);
         return $select->query()->fetchAll();
+    }
+    
+    public function getAcceptedSpeciesByNameCode($nameCode)
+    {
+        $select = new Zend_Db_Select($this->_db);
+        $select->from(
+            array('sn' => 'scientific_names'),
+            array(
+                'accepted_species_id' => 'sn.record_id',
+                'accepted_species_name' =>
+                    "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
+                    ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
+                    "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
+                'accepted_species_author' => 'sn.author'
+            )
+        )
+        ->where('sn.name_code = ? AND is_accepted_name = 1', $nameCode);
+        return $select->query()->fetch();
     }
     
     public function getTaxaFromSpeciesId($speciesId)

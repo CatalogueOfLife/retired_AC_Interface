@@ -222,6 +222,13 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                     ->get('latest_query', false);
     }
     
+    public function getAcceptedSpecies($nameCode)
+    {
+        $search = new ACI_Model_Search(Zend_Registry::get('db'));
+        $species = $search->getAcceptedSpeciesByNameCode($nameCode);
+        return is_array($species) ? $species : array();
+    }
+    
     /**
      * Returns an array with all taxa names by rank on a dojo-suitable format
      * Used to populate the scientific search combo boxes
