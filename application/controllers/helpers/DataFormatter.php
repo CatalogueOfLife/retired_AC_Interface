@@ -78,7 +78,11 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 $res[$i]['status'] = sprintf(
                     $res[$i]['status'],
                     $this->_appendTaxaSuffix(
-                        $row['accepted_species_name'],
+                        $this->_wrapTaxaName(
+                            $row['accepted_species_name'],
+                            ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME,
+                            $row['rank']
+                        ),
                         ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME,
                         $row['accepted_species_author']
                     )
@@ -366,6 +370,19 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         return $nameArray;
     }
     
+    protected function _formatInfraspeciesName($name)
+    {
+        $nameArray = $this->splitByMarkers($name);
+        $name = '';
+        foreach($nameArray as $n)
+        {
+            $name .= $n[1] ?
+                ' <span class="marker">' . $n[0] . '</span> ' :
+                ' ' . $n[0] . ' ';
+        }
+        return trim($name);
+    }
+    
     protected function _addAcceptedName(&$row)
     {
         if(!$row['is_accepted_name'] && !$row['accepted_species_id']) {
@@ -394,9 +411,13 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
 
     protected function _wrapTaxaName($source, $status, $rank)
     {
-        if ($status != ACI_Model_Table_Taxa::STATUS_COMMON_NAME &&
-            $rank >= ACI_Model_Table_Taxa::RANK_SPECIES) {
-            $source = '<span class="taxonomicName">' . $source . '</span>';
+        if ($status != ACI_Model_Table_Taxa::STATUS_COMMON_NAME) {
+            if($rank >= ACI_Model_Table_Taxa::RANK_GENUS) {
+                if($rank == ACI_Model_Table_Taxa::RANK_INFRASPECIES) {
+                    $source = $this->_formatInfraspeciesName($source);
+                }
+                $source = '<i>' . $source . '</i>';
+            }
         }
         return $source;
     }

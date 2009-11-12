@@ -139,7 +139,9 @@ ul.errors li {
     padding: 8px 0;
     color: #b41a1a;
 }
-
+.marker {
+    font-style: normal;
+}
 .aboutcolheader {
     color: #900;
     font-weight: bold;
@@ -596,7 +598,6 @@ ul.dijitMenu li {
     font-style: italic;
 }
 .tundra .dijitTreeRow .marker {
-    font-style: normal;
     color: #666;
 }
 .tundra .dijitTreeNodeSelected a {
