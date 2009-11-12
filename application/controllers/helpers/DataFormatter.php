@@ -325,6 +325,25 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     
     public function getTaxonLinksInDatabaseDetailsPage($taxonCoverage)
     {
+        $ignoreItems = array (
+            '(pro parte)',
+            '(NEW!)',
+            'genera',
+            'superfamily',
+            'NA',
+            'superfamilies',
+            'infraorder',
+            'pro parte',
+            'Global sectors recently provided by ITIS:',
+            'suborder',
+            'subfamily',
+            'genus',
+            '(eucalypts)',
+            '(diverse taxa)',
+            '(except order Actiniaria)',
+            '( Aphidomorpha)',
+            'family'
+        );
         $firstKingdom = true;
         $output = '';
         $splitByKingdom = explode(';', $taxonCoverage);
@@ -343,16 +362,32 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     $output .= ' - ';
                 }
                 $firstSameRank = true;
-                $splitBySameRank = explode(',', $rank);
+                $splitBySameRank = preg_split('#[,&]#', $rank);
                 foreach ($splitBySameRank as $sameRank) {
                     ($firstSameRank == true ?
                         $firstSameRank = false : $output .= ', ');
-                    $trimmedRank = trim($sameRank);
+                    $trimmedRank = $sameRank;
+                    $prefix = '';
+                    $suffix = '';
+                    $foundItem = '';
+                    foreach($ignoreItems as $item)
+                    {
+                        if(strstr($trimmedRank,$item) == true)
+                        {
+                            $foundItem = strstr($trimmedRank,$item);
+                            (strpos($trimmedRank,$item) < 2  ?
+                                $prefix = $item . ' ' : $suffix = ' ' . $item);
+                        }
+                        $trimmedRank = str_replace($item,'',$trimmedRank);
+                    }
+                    $prefix = ($prefix == '(NEW!) ' ? '<span class="new">NEW!</span> ' : $prefix);
+                    $suffix = ($suffix == ' (NEW!)' ? ' <span class="new">NEW!</span>' : $suffix);
+                    $trimmedRank = trim($trimmedRank);
                     $output .= (!strstr($trimmedRank, ' ') ?
-                        '<a href="' .
+                        $prefix . '<a href="' .
                         $this->getFrontController()->getBaseUrl() .
                         '/browse/classification/name/' . $trimmedRank . '">' .
-                        $trimmedRank . '</a>' :
+                        $trimmedRank . '</a>' . $suffix :
                         $trimmedRank
                     );
                 }
