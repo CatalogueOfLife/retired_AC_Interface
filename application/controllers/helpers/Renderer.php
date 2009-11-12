@@ -42,10 +42,12 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
     public function renderResultsPage(array $elements = array())
     {
         $items = $this->_getItemsPerPage();
-        $sortParam = $this->getRequest()->getParam(
-            'sort',
-            ACI_Model_Search::getDefaultSortParam(
-                $this->getRequest()->getActionName()
+        $sortParam = $this->_ac->view->escape(
+            $this->getRequest()->getParam(
+                'sort',
+                ACI_Model_Search::getDefaultSortParam(
+                    $this->getRequest()->getActionName()
+                )
             )
         );
         $orderParam = $this->getRequest()->getParam(
@@ -59,12 +61,14 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
             $this->_ac->view->searchString = $this->_ac->view->title . ' - ' .
                 sprintf(
                 $this->_ac->view->translate('Search_results_for'), '"' .
-                stripslashes($this->getRequest()->getParam('key')) . '"'
+                stripslashes($this->_ac->view->escape(
+                    $this->getRequest()->getParam('key')
+                )) . '"'
             );
         }
         $this->_ac->view->urlParams = array(
-            'sort' => $sortParam,
-            'order' => $orderParam
+            'sort' => $this->_ac->view->escape($sortParam),
+            'order' => $this->_ac->view->escape($orderParam)
         );
         foreach ($elements as $e) {
              $this->_ac->view->urlParams[$e] =
