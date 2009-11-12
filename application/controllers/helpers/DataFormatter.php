@@ -24,7 +24,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         
         foreach ($it as $k => $row) {
             // get accepted species data if yet not there
-            $this->_getAcceptedName($row);
+            $this->_addAcceptedName($row);
             // create links
             if ($row['rank'] >= ACI_Model_Table_Taxa::RANK_SPECIES) {
                 $res[$i]['link'] = $translator->translate('Show_details');
@@ -106,7 +106,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     {
         $translator = Zend_Registry::get('Zend_Translate');
         foreach ($data as &$row) {
-            $this->_getAcceptedName($row);
+            $this->_addAcceptedName($row);
             $row['name'] = $this->_appendTaxaSuffix(
                 $row['name'], $row['status'],
                 $row['status'] == ACI_Model_Table_Taxa::STATUS_COMMON_NAME ?
@@ -366,7 +366,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         return $nameArray;
     }
     
-    protected function _getAcceptedName(&$row)
+    protected function _addAcceptedName(&$row)
     {
         if(!$row['is_accepted_name'] && !$row['accepted_species_id']) {
             $row = array_merge(
