@@ -145,11 +145,6 @@ ul.errors li {
     font-weight: bold;
     margin: 5px 0;
 }
-
-.taxonomicName {
-    font-style:italic;
-}
-
 .matchHighlight {
     color: #336;
     font-weight: bold;
@@ -668,7 +663,6 @@ ul.dijitMenu li {
     text-decoration: none;
     margin: 0;
     padding: 0;
-    cursor: default;
 }
 
 #menu ul li ul li {

@@ -13,7 +13,7 @@
 class ACI_Helper_Export extends Zend_Controller_Action_Helper_Abstract
 {
     const MAX_ROWS = 65535;
-    const SEPARATOR = ",";
+    const SEPARATOR = ',';
     
     public function csv($controller, $action, Zend_Db_Select $select, $fileName)
     {

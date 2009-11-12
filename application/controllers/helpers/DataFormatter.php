@@ -24,13 +24,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         
         foreach ($it as $k => $row) {
             // get accepted species data if yet not there
-            if(!$row['is_accepted_name'] && !$row['accepted_species_id']) {
-                $row = array_merge(
-                    $row,
-                    $this->getActionController()->getHelper('Query')
-                         ->getAcceptedSpecies($row['accepted_name_code'])
-                );
-            }
+            $this->_getAcceptedName($row);
             // create links
             if ($row['rank'] >= ACI_Model_Table_Taxa::RANK_SPECIES) {
                 $res[$i]['link'] = $translator->translate('Show_details');
@@ -49,7 +43,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 $res[$i]['url'] = '/browse/tree/id/' . $row['taxa_id'];
             }
             
-            $res[$i]['name'] = $this->_getTaxaSuffix(
+            $res[$i]['name'] = $this->_appendTaxaSuffix(
                 $this->_wrapTaxaName(
                     $textDecorator->highlightMatch(
                         $row['name'],
@@ -79,14 +73,18 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             
             $res[$i]['group'] = $row['kingdom'];
             
+            // Status + accepted name
             if (!$row['is_accepted_name']) {
                 $res[$i]['status'] = sprintf(
                     $res[$i]['status'],
-                    '<span class="taxonomicName">' .
-                    $row['accepted_species_name'] . '</span> ' .
-                    $row['accepted_species_author']
+                    $this->_appendTaxaSuffix(
+                        $row['accepted_species_name'],
+                        ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME,
+                        $row['accepted_species_author']
+                    )
                 );
             }
+            // Database
             $res[$i]['dbLogo'] = '/images/databases/' .
                 $row['db_thumb'];
             $res[$i]['dbLabel'] = $row['db_name'];
@@ -108,7 +106,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     {
         $translator = Zend_Registry::get('Zend_Translate');
         foreach ($data as &$row) {
-            $row['name'] = $this->_getTaxaSuffix(
+            $this->_getAcceptedName($row);
+            $row['name'] = $this->_appendTaxaSuffix(
                 $row['name'], $row['status'],
                 $row['status'] == ACI_Model_Table_Taxa::STATUS_COMMON_NAME ?
                 $row['language'] : $row['author']
@@ -119,10 +118,10 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $row['status'] = $translator->translate(
                 ACI_Model_Table_Taxa::getStatusString($row['status'], false)
             );
-            $row['accepted_species_name'] = $this->_getTaxaSuffix(
+            $row['accepted_species_name'] = $this->_appendTaxaSuffix(
                 $row['accepted_species_name'],
                 ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME,
-                $row['author']
+                $row['accepted_species_author']
             );
             // Enclose values between double quotes
             foreach($row as &$r) {
@@ -191,8 +190,11 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             
         if (!empty($speciesDetails->synonyms)) {
             foreach ($speciesDetails->synonyms as &$synonym) {
-                $synonym['name'] = '<span class="taxonomicName">' .
-                    $synonym['name'] . '</span> ' . $synonym['author'];
+                $synonym['name'] = $this->_appendTaxaSuffix(
+                    $synonym['name'],
+                    $synonym['status'],
+                    $synonym['author']
+                );
                 $synonym['referenceLabel'] = $this->getReferencesLabel(
                     $synonym['num_references'], strip_tags($synonym['name'])
                 );
@@ -364,7 +366,18 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         return $nameArray;
     }
     
-    protected function _getTaxaSuffix($source, $status, $suffix)
+    protected function _getAcceptedName(&$row)
+    {
+        if(!$row['is_accepted_name'] && !$row['accepted_species_id']) {
+            $row = array_merge(
+                $row,
+                $this->getActionController()->getHelper('Query')
+                     ->getAcceptedSpecies($row['accepted_name_code'])
+            );
+        }
+    }
+    
+    protected function _appendTaxaSuffix($source, $status, $suffix)
     {
         if ($suffix) {
             switch($status) {
