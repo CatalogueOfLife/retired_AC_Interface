@@ -377,10 +377,10 @@ class ACI_Model_Search extends AModel
                 'language' => new Zend_Db_Expr("''"),
                 'accepted_species_id' => 'sn.record_id',
                 'accepted_species_name' =>
-                    "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
-                    ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
-                    "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
-                'accepted_species_author' => 'sn.author',
+                    "TRIM(CONCAT(IF(snt.genus IS NULL, '', snt.genus) " .
+                    ", ' ', IF(snt.species IS NULL, '', snt.species), ' ', " .
+                    "IF(snt.infraspecies IS NULL, '', snt.infraspecies)))",
+                'accepted_species_author' => 'snt.author',
                 'db_name' => 'db.database_name',
                 'db_id' => 'db.record_id',
                 'db_thumb' =>
@@ -410,9 +410,14 @@ class ACI_Model_Search extends AModel
         }
            
         $select
-        ->joinLeft(
+        ->join(
             array('sn' => 'scientific_names'),
             'tx.name_code = sn.name_code',
+            array()
+        )
+        ->joinLeft(
+            array('snt' => 'scientific_names'),
+            'sn.accepted_name_code = snt.name_code',
             array()
         )
         ->joinLeft(

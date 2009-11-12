@@ -186,16 +186,15 @@ class ACI_Model_Table_Taxa
         if (!$status) {
             return '';
         }
-        $taxaFullName = '<i>' . $name . '</i>';
         switch ($status) {
             case self::STATUS_COMMON_NAME:
                 if ($language) {
-                    $taxaFullName .= ' (' . $language . ')';
+                    $taxaFullName = $name . ' (' . $language . ')';
                 }
                 break;
             default:
                 if ($author) {
-                    $taxaFullName .= ' ' . $author;
+                    $taxaFullName = '<i>' . $name . '</i>' . ' ' . $author;
                 }
                 break;
         }
