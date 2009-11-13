@@ -163,6 +163,11 @@ ul.errors li {
     color: #333;
     font-style: italic;
 }
+.field_header {
+    font-weight: bold;
+    color: #336;
+    margin:1px 0 3px 0;
+}
 .field_header_black {    
     color: #000;
     margin: 1px 0 3px 0;
