@@ -430,6 +430,9 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                      ->getAcceptedSpecies($row['accepted_name_code'])
             );
         }
+        if($row['is_accepted_name']) {
+            $row['id'] = $row['accepted_species_id'];
+        }
     }
     
     protected function _appendTaxaSuffix($source, $status, $suffix)
