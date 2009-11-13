@@ -18,7 +18,6 @@ class InfoController extends AController
          $this->_setNavigator();
     }
     
-    
     public function aboutAction ()
     {
         $this->view->title = $this->view->translate('Info_about');
@@ -89,7 +88,6 @@ class InfoController extends AController
     {
         $this->view->title = $this->view->translate('Contact_us');
         $this->view->headTitle($this->view->title, 'APPEND');
-        $this->_setNavigator();
     }
     
     public function acknowledgementsAction ()
@@ -100,8 +98,10 @@ class InfoController extends AController
     
     protected function _setNavigator()
     {
-        $this->view->navigator =
-            $this->getHelper('Renderer')->getInfoNavigator();
+        $this->view->navigator_top =
+            $this->getHelper('Renderer')->getInfoNavigator('top');
+        $this->view->navigator_bottom =
+            $this->getHelper('Renderer')->getInfoNavigator('bottom');
     }
     
     public function __call ($name, $arguments)

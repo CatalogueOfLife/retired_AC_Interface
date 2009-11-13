@@ -89,7 +89,8 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
             $items
         );
         $this->_ac->view->exportable = $paginator->getTotalItemCount() <=
-            $this->_ac->getHelper('Export')->getNumRowsLimit();
+            $this->_ac->getHelper('Export')->getNumRowsLimit() &&
+            $paginator->getTotalItemCount() > 0;
         
         $this->_logger->debug($paginator->getCurrentItems());
         $this->_ac->view->data = $this->_ac->getHelper('DataFormatter')
@@ -141,10 +142,12 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
         return $paginator;
     }
     
-    public function getInfoNavigator()
+    public function getInfoNavigator($pos = '')
     {
+        $selId = 'page_' . $pos;
+        $baseUrl = $this->_ac->view->baseUrl() . '/info/';
         $nav = new ACI_Form_Dojo_InfoNavigator();
-        $nav->getElement('page')
+        $nav->getElement('page')->setAttrib('id', $selId)
             ->addMultiOptions(
                 array(
                     'about' => $this->_ac->view->translate('Info_about'),
@@ -154,17 +157,17 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
                     ),
                     // TODO: complete options
                 )
-            );
-        $baseUrl = $this->_ac->view->baseUrl() . '/info/';
-        $nav->getElement('page')->onchange =
-            "navigateToSelected('" . $baseUrl . "', this, 'current')";
-        $nav->getElement('next')->onclick =
-            "navigateToSelected('" . $baseUrl .
-            "', document.getElementById('page'), 'next')";
-        $nav->getElement('previous')->onclick =
-            "navigateToSelected('" . $baseUrl .
-            "', document.getElementById('page'), 'previous')";
-        return $nav;
+            )->onchange =
+                'navigateToSelected("' . $baseUrl . '", this, "current")';
+        $nav->getElement('next')->setAttrib('id', 'next_' . $pos)
+            ->onclick =
+                'navigateToSelected("' . $baseUrl .
+                '", document.getElementById("' . $selId . '"), "next")';
+        $nav->getElement('previous')->setAttrib('id', 'previous_' . $pos)
+            ->onclick =
+                'navigateToSelected("' . $baseUrl .
+                '", document.getElementById("' . $selId . '"), "previous")';
+        return '<div class="navigator">' . $nav . '</div>';
     }
         
     protected function _getItemsPerPage()
