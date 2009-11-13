@@ -332,23 +332,15 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     public function getTaxonLinksInDatabaseDetailsPage($taxonCoverage)
     {
         $ignoreItems = array (
-            '(pro parte)',
-            '(NEW!)',
-            'genera',
+            '\(.*\)', //Ignore everything within perantasis ()
+            '^.*\:', //Ignore everything before the column :
             'superfamily',
-            'NA',
             'superfamilies',
-            'infraorder',
-            'pro parte',
-            'Global sectors recently provided by ITIS:',
-            'suborder',
-            'subfamily',
+            'family',
+            'genera',
             'genus',
-            '(eucalypts)',
-            '(diverse taxa)',
-            '(except order Actiniaria)',
-            '( Aphidomorpha)',
-            'family'
+            'NA', //Not Available, it shouldn't show a link
+            'pro parte'
         );
         $firstKingdom = true;
         $output = '';
@@ -375,17 +367,18 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     $trimmedRank = $sameRank;
                     $prefix = '';
                     $suffix = '';
-                    $foundItem = '';
+                    $foundItem[0] = '';
                     foreach($ignoreItems as $item)
                     {
-                        if(strstr($trimmedRank,$item) == true)
+                        if(preg_match('#' . $item . '#',$trimmedRank) == true)
                         {
-                            $foundItem = strstr($trimmedRank,$item);
-                            (strpos($trimmedRank,$item) < 2  ?
-                                $prefix = $item . ' ' : $suffix = ' ' . $item);
+                            preg_match('#' . $item . '#',$trimmedRank,$foundItem);
+                            (strpos($trimmedRank,$foundItem[0]) < 2  ?
+                                $prefix = $foundItem[0] . ' ' : $suffix = ' ' . $foundItem[0]);
                         }
-                        $trimmedRank = str_replace($item,'',$trimmedRank);
+                        $trimmedRank = preg_replace('#' . $item . '#','',$trimmedRank);
                     }
+                    //Work around for 'new' span, it should be [new] for consisticy
                     $prefix = ($prefix == '(NEW!) ' ? '<span class="new">NEW!</span> ' : $prefix);
                     $suffix = ($suffix == ' (NEW!)' ? ' <span class="new">NEW!</span>' : $suffix);
                     $trimmedRank = trim($trimmedRank);
