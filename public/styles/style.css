@@ -7,7 +7,6 @@ body {
     margin: 0px 0px 30px 0px;
     line-height: 14px;
 }
-
 body, table, p, div, ul {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 11px;
@@ -444,10 +443,15 @@ div.copyright_notice {
     padding: 15px;
     margin: 0;
     display: block;
-    min-width: 400px;
+    min-width: 410px;
 }
 .search-box {
-    width: 400px;
+    width: 410px;    
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .search-box {
+        width: 440px;    
+    }
 }
 #content.search-box {
     display: table;
@@ -500,29 +504,29 @@ input#key {
 /* Search */
 form div.search-form dd {
     clear: both;
-    float: none;	
+    float: none;
 }
 form div.search-form dd fieldset dl dt label {
     line-height: 18px;
     padding: 0 10px 0 0;
     display: block;
-    width: 80px;
+    width: 90px;
 }
 form div.search-form dd fieldset dl dt#match-label label {
     padding: 0 0 0 5px;
     width: auto;
 }
 form div.search-form dd fieldset#fieldset-submitGroup {
-    width: 300px;
+    width: auto;
     padding: 0;
-    margin:0; 
+    margin:0;
 }
 form div.search-form dd fieldset#fieldset-submitGroup dl {
     float:right;
     padding-right: 6px;
 }
 form div.search-form dd fieldset#fieldset-matchGroup {
-    margin-left: 90px;
+    margin-left: 100px;
 }
 form div.search-form dd#submitGroup-element {
     float: right;
