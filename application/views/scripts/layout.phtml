@@ -42,6 +42,11 @@
     ?>
 </head>
 <body class="tundra">
+    <?php if ('standalone' == APPLICATION_ENV): ?>
+    <div style="position: absolute; z-index: 100; top: 25px; left: 730px;">
+        <img width="32" height="32" alt="CD-ROM version" src="<?php echo $this->baseUrl(); ?>/images/cd_version.gif"/>
+    </div>
+    <?php endif; ?>
     <div id="header">
         <img src="<?php echo $this->baseUrl(); ?>/images/Annual_Checklist_Top_Banner.gif"
              alt="<?php echo strip_tags($this->headTitle()); ?>"/>
