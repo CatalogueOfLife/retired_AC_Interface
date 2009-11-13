@@ -45,7 +45,22 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     public function _initLogger()
     {
         $config = Zend_Registry::get('config');
-        $writer = new Zend_Log_Writer_Firebug();
+        if($config->log->enabled) {
+            if('development' == APPLICATION_ENV) {
+                // Log into Firebug
+                $writer = new Zend_Log_Writer_Firebug();
+            }
+            else {
+                // Log to file
+                $writer = new Zend_Log_Writer_Stream(
+                    APPLICATION_PATH . '/log/error.log'
+                );
+            }
+        }
+        else {
+            // Do not log
+            $writer = new Zend_Log_Writer_Null();
+        }
         $writer->addFilter((int)$config->log->filter->priority);
         $logger = new Zend_Log($writer);
         Zend_Registry::set('logger', $logger);

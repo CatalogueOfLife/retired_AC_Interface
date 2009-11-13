@@ -27,6 +27,8 @@ class ErrorController extends Zend_Controller_Action
                 );
                 break;
             default:
+                $logger = Zend_Registry::get('logger');
+                $logger->log($errors->exception, Zend_Log::CRIT);
                 // application error
                 'development' == APPLICATION_ENV ?
                     $this->view->layout()->disableLayout() : '';
