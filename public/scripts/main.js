@@ -1,9 +1,20 @@
-function switchLSIDSelector(el)
+switchLSIDSelector = function (el)
 { 
     var classes = el.className.split(" ");
     var newClass = classes[0] + " ";
     el.className = classes[1] == "collapsed" ? 
         newClass + "expanded" : newClass + "collapsed";
+}
+navigateToSelected = function (baseUrl, select, op) {    
+    switch(op) {        
+        case 'next':            
+            break;
+        case 'previous':
+            break;
+        default:
+            location.href = baseUrl + select.options[select.selectedIndex].value;
+            break;
+    }   
 }
 var formInputElements = null;
 getFormInputElements = function () {

@@ -2,22 +2,7 @@
 <?php echo $this->translate('Info_about') ?>
 </div>
 <br/>
-
-<div align=center>
-    <select name='select_page' onchange='document.location.href=this.options[this.selectedIndex].value'>
-        <option selected value='<?php echo $this->baseUrl(); ?>/info/about'>About the Catalogue of Life</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/ac'>About the 2009 Annual Checklist</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/databases'>Source databases</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/hierarchy'>Towards Management Hierarchy</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/copyright'>Copyrights, reproduction & sale</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/cite'>How to cite this work</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/websites'>Web sites</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/contact'>Contact us</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/acknowledgements'>Acknowledgements</option>
-    </select>
-    <img src='images/blank.gif' width='8' height='1' border='0'>
-    <input type='button' name='goNext' class='formbutton' value=' Next >> ' onClick="JavaScript: document.location.href='<?php echo $this->baseUrl(); ?>/info/ac'">
-</div>
+<?php echo $this->navigator; ?>
 <br />
 
 <p class="field_header"><?php echo $this->placeholder($this->translate('The_Species_2000_ITIS_Catalogue_of_Life')); ?>
@@ -66,18 +51,5 @@
 </p>
 
 <div class="horizontal_line"><br /></div><br />
-<div align=center>
-    <select name='select_page' onchange='document.location.href=this.options[this.selectedIndex].value'>
-        <option selected value='<?php echo $this->baseUrl(); ?>/info/about'>About the Catalogue of Life</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/ac'>About the 2009 Annual Checklist</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/databases'>Source databases</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/hierarchy'>Towards Management Hierarchy</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/copyright'>Copyrights, reproduction & sale</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/cite'>How to cite this work</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/websites'>Web sites</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/contact'>Contact us</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/acknowledgements'>Acknowledgements</option>
-    </select>
-    <img src='images/blank.gif' width='8' height='1' border='0'>
-    <input type='button' name='goNext' class='formbutton' value=' Next >> ' onClick="JavaScript: document.location.href='<?php echo $this->baseUrl(); ?>/info/ac'">
-</div>
+
+<?php echo $this->navigator; ?>

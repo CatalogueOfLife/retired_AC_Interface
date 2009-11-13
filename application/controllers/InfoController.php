@@ -13,6 +13,12 @@ require_once 'AController.php';
  */
 class InfoController extends AController
 {
+    public function init()
+    {
+         $this->_setNavigator();
+    }
+    
+    
     public function aboutAction ()
     {
         $this->view->title = $this->view->translate('Info_about');
@@ -58,7 +64,6 @@ class InfoController extends AController
     {
         $this->view->title = $this->view->translate('Management_hierarchy');
         $this->view->headTitle($this->view->title, 'APPEND');
-
     }
     
     public function copyrightAction ()
@@ -84,12 +89,19 @@ class InfoController extends AController
     {
         $this->view->title = $this->view->translate('Contact_us');
         $this->view->headTitle($this->view->title, 'APPEND');
+        $this->_setNavigator();
     }
     
     public function acknowledgementsAction ()
     {
         $this->view->title = $this->view->translate('Acknowledgements');
         $this->view->headTitle($this->view->title, 'APPEND');
+    }
+    
+    protected function _setNavigator()
+    {
+        $this->view->navigator =
+            $this->getHelper('Renderer')->getInfoNavigator();
     }
     
     public function __call ($name, $arguments)

@@ -2,22 +2,7 @@
 <?php echo $this->translate('Acknowledgements') ?>
 </div>
 <br/>
-
-<div align=center>
-    <input type='button' name='goPrev' class='formbutton' value='<< Previous' onClick="JavaScript: document.location.href='<?php echo $this->baseUrl(); ?>/info/contact'">
-    <img src='images/blank.gif' width='8' height='1' border='0'>
-    <select name='select_page' onchange='document.location.href=this.options[this.selectedIndex].value'>
-        <option value='<?php echo $this->baseUrl(); ?>/info/about'>About the Catalogue of Life</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/ac'>About the 2009 Annual Checklist</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/databases'>Source databases</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/hierarchy'>Towards Management Hierarchy</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/copyright'>Copyrights, reproduction & sale</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/cite'>How to cite this work</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/websites'>Web sites</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/contact'>Contact us</option>
-        <option selected value='<?php echo $this->baseUrl(); ?>/info/acknowledgements'>Acknowledgements</option>
-    </select>
-</div>
+<?php echo $this->navigator; ?>
 <br />
 
 <p>The Catalogue of Life partnership  thanks all who contributed to the content and production of this Annual Checklist. In particular, thanks this year to Encyclopedia of Life and SBNO for their contributions to the preparation, in addition to NBII, University of Reading (Centre for Plant Diversity and Systematics), European Commission (EC EDIT NoE and Key2Nature), WorldFish Center (SeaLifeBase project), NIES and ETI BioInformatics.
@@ -59,18 +44,4 @@
 </map>
 
 <div class="horizontal_line"><br /></div><br />
-<div align=center>
-    <input type='button' name='goPrev' class='formbutton' value='<< Previous' onClick="JavaScript: document.location.href='<?php echo $this->baseUrl(); ?>/info/contact'">
-    <img src='images/blank.gif' width='8' height='1' border='0'>
-    <select name='select_page' onchange='document.location.href=this.options[this.selectedIndex].value'>
-        <option value='<?php echo $this->baseUrl(); ?>/info/about'>About the Catalogue of Life</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/ac'>About the 2009 Annual Checklist</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/databases'>Source databases</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/hierarchy'>Towards Management Hierarchy</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/copyright'>Copyrights, reproduction & sale</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/cite'>How to cite this work</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/websites'>Web sites</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/contact'>Contact us</option>
-        <option selected value='<?php echo $this->baseUrl(); ?>/info/acknowledgements'>Acknowledgements</option>
-    </select>
-</div>
+<?php echo $this->navigator; ?>

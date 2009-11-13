@@ -141,6 +141,32 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
         return $paginator;
     }
     
+    public function getInfoNavigator()
+    {
+        $nav = new ACI_Form_Dojo_InfoNavigator();
+        $nav->getElement('page')
+            ->addMultiOptions(
+                array(
+                    'about' => $this->_ac->view->translate('Info_about'),
+                    'ac' => sprintf(
+                        $this->_ac->view->translate('Info_annual_checklist'),
+                        $this->_ac->view->app->version
+                    ),
+                    // TODO: complete options
+                )
+            );
+        $baseUrl = $this->_ac->view->baseUrl() . '/info/';
+        $nav->getElement('page')->onchange =
+            "navigateToSelected('" . $baseUrl . "', this, 'current')";
+        $nav->getElement('next')->onclick =
+            "navigateToSelected('" . $baseUrl .
+            "', document.getElementById('page'), 'next')";
+        $nav->getElement('previous')->onclick =
+            "navigateToSelected('" . $baseUrl .
+            "', document.getElementById('page'), 'previous')";
+        return $nav;
+    }
+        
     protected function _getItemsPerPage()
     {
         $items = (int)$this->getRequest()->getParam('items', null);

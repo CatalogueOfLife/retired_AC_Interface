@@ -2,24 +2,7 @@
 <?php echo $this->translate('Cite_work') ?>
 </div>
 <br/>
-
-<div align=center>
-    <input type='button' name='goPrev' class='formbutton' value='<< Previous' onClick="JavaScript: document.location.href='<?php echo $this->baseUrl(); ?>/info/copyright'">
-    <img src='images/blank.gif' width='8' height='1' border='0'>
-    <select name='select_page' onchange='document.location.href=this.options[this.selectedIndex].value'>
-        <option value='<?php echo $this->baseUrl(); ?>/info/about'>About the Catalogue of Life</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/ac'>About the 2009 Annual Checklist</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/databases'>Source databases</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/hierarchy'>Towards Management Hierarchy</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/copyright'>Copyrights, reproduction & sale</option>
-        <option selected value='<?php echo $this->baseUrl(); ?>/info/cite'>How to cite this work</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/websites'>Web sites</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/contact'>Contact us</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/acknowledgements'>Acknowledgements</option>
-    </select>
-    <img src='images/blank.gif' width='8' height='1' border='0'>
-    <input type='button' name='goNext' class='formbutton' value=' Next >> ' onClick="JavaScript: document.location.href='<?php echo $this->baseUrl(); ?>/info/websites'">
-</div>
+<?php echo $this->navigator; ?>
 <br />
 
 <p><span class="field_header">How to cite the Catalogue of Life
@@ -39,20 +22,4 @@ to cite the Catalogue of Life on the Web: </span><br>
   Bisby FA, Roskov YR, Orrell TM, Nicolson D, Paglinawan LE, Bailly N, Kirk PM, Bourgoin T, Baillargeon G., eds (2009). Species 2000 &amp; ITIS Catalogue of Life: 2009 Annual Checklist. Digital resource at www.catalogueoflife.org/annual-checklist/2009/. Species 2000: Reading, UK. </p>
   
 <div class="horizontal_line"><br /></div><br />
-<div align=center>
-    <input type='button' name='goPrev' class='formbutton' value='<< Previous' onClick="JavaScript: document.location.href='<?php echo $this->baseUrl(); ?>/info/copyright'">
-    <img src='images/blank.gif' width='8' height='1' border='0'>
-    <select name='select_page' onchange='document.location.href=this.options[this.selectedIndex].value'>
-        <option value='<?php echo $this->baseUrl(); ?>/info/about'>About the Catalogue of Life</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/ac'>About the 2009 Annual Checklist</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/databases'>Source databases</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/hierarchy'>Towards Management Hierarchy</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/copyright'>Copyrights, reproduction & sale</option>
-        <option selected value='<?php echo $this->baseUrl(); ?>/info/cite'>How to cite this work</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/websites'>Web sites</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/contact'>Contact us</option>
-        <option value='<?php echo $this->baseUrl(); ?>/info/acknowledgements'>Acknowledgements</option>
-    </select>
-    <img src='images/blank.gif' width='8' height='1' border='0'>
-    <input type='button' name='goNext' class='formbutton' value=' Next >> ' onClick="JavaScript: document.location.href='<?php echo $this->baseUrl(); ?>/info/websites'">
-</div>
+<?php echo $this->navigator; ?>
