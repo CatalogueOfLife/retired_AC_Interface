@@ -190,7 +190,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 ACI_Model_Table_Taxa::getStatusString($speciesDetails->status)
             ) . ')';
             
-        $textDecorator = $this->getActionController()->getHelper('TextDecorator');
+        $textDecorator = $this->getActionController()
+            ->getHelper('TextDecorator');
             
         if (!empty($speciesDetails->synonyms)) {
             foreach ($speciesDetails->synonyms as &$synonym) {
@@ -241,7 +242,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         else {
             $speciesDetails->latestScrutiny = trim(trim(
                 implode(', ', array(
-                    $speciesDetails->specialistName, $speciesDetails->scrutinyDate
+                    $speciesDetails->specialistName,
+                    $speciesDetails->scrutinyDate
                 )), ',')
             );
         }
@@ -374,17 +376,24 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     $foundItem[0] = '';
                     foreach($ignoreItems as $item)
                     {
-                        if(preg_match('#' . $item . '#',$trimmedRank) == true)
-                        {
-                            preg_match('#' . $item . '#',$trimmedRank,$foundItem);
+                        if(preg_match('#' . $item . '#',$trimmedRank) == true) {
+                            preg_match(
+                                '#' . $item . '#', $trimmedRank, $foundItem
+                            );
                             (strpos($trimmedRank,$foundItem[0]) < 2  ?
-                                $prefix = $foundItem[0] . ' ' : $suffix = ' ' . $foundItem[0]);
+                                $prefix = $foundItem[0] . ' ' :
+                                $suffix = ' ' . $foundItem[0]);
                         }
-                        $trimmedRank = preg_replace('#' . $item . '#','',$trimmedRank);
+                        $trimmedRank = preg_replace(
+                            '#' . $item . '#','',$trimmedRank
+                        );
                     }
-                    //Work around for 'new' span, it should be [new] for consisticy
-                    $prefix = ($prefix == '(NEW!) ' ? '<span class="new">NEW!</span> ' : $prefix);
-                    $suffix = ($suffix == ' (NEW!)' ? ' <span class="new">NEW!</span>' : $suffix);
+                    // Work around for 'new' span, it should be [new]
+                    // for consistency
+                    $prefix = ($prefix == '(NEW!) ' ?
+                        '<span class="new">NEW!</span> ' : $prefix);
+                    $suffix = ($suffix == ' (NEW!)' ?
+                        ' <span class="new">NEW!</span>' : $suffix);
                     $trimmedRank = trim($trimmedRank);
                     $output .= (!strstr($trimmedRank, ' ') ?
                         $prefix . '<a href="' .
