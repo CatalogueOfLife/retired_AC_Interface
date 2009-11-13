@@ -897,7 +897,7 @@ class ACI_Model_Search extends AModel
         if ($matchWholeWords == true) {
             return str_replace(
                 '%', '[^ \.\"\'\(\),;:-]*', '[[:<:]]' .
-                $searchString .
+                addslashes(preg_quote($searchString)) .
                 '[[:>:]]'
             );
         } else {
