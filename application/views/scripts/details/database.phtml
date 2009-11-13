@@ -49,22 +49,26 @@ if (is_array($this->db)):
         <td><?php echo $this->db['accepted_infraspecies_names']; ?></td>
     </tr>
     <tr class="even">
+        <th class="vertical"><?php echo $this->translate('Number_of_synonyms'); ?>:</th>
+        <td><?php echo ($this->db['total_synonyms']); ?></td>
+    </tr>
+    <tr class="odd">
         <th class="vertical"><?php echo $this->translate('Number_of_common_names'); ?>:</th>
         <td><?php echo $this->db['common_names']; ?></td>
     </tr>
-    <tr class="odd">
+    <tr class="even">
         <th class="vertical"><?php echo $this->translate('Total_number_of_names'); ?>:</th>
         <td><?php echo $this->db['total_names']; ?></td>
     </tr>
-    <tr class="even">
+    <tr class="odd">
         <th class="vertical"><?php echo $this->translate('Abstract'); ?>:</th>
         <td><?php echo $this->db['abstract']; ?></td>
     </tr>
-    <tr class="odd">
+    <tr class="even">
         <th class="vertical"><?php echo $this->translate('Organization'); ?>:</th>
         <td><?php echo $this->db['organization']; ?></td>
     </tr>
-    <tr class="even">
+    <tr class="odd">
         <th class="vertical"><?php echo $this->translate('Web_site'); ?>:</th>
         <td>
             <?php foreach($this->db['web_sites'] as $website): ?>
@@ -75,6 +79,7 @@ if (is_array($this->db)):
     
 </table>
 <?php
+var_dump($this->db);
 else:
 ?>
 <p><?php echo $this->translate('Database_not_found'); ?></p>
