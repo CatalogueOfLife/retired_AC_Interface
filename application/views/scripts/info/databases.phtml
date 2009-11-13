@@ -7,9 +7,7 @@ $urlParams = array(
 <?php printf($this->translate('Source_databases'), '"' . $this->key . '"') ?>
 </div>
 <?php echo $this->navigator_top; ?>
-<br/>
-<br/>
-
+<div class="info_content">
 <p><?php echo $this->translate('Introduction_Source_Databases'); ?></p>
 <br/><br/>
 <table>
@@ -58,8 +56,7 @@ $urlParams = array(
     </tr>
 <?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd');?>
 <?php endforeach; ?>
-    
 </table>
-
-<div class="horizontal_line"><br/></div><br/>
+</div>
+<div class="horizontal_line"><br/></div>
 <?php echo $this->navigator_bottom; ?>

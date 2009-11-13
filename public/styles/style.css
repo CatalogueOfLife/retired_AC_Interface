@@ -12,7 +12,6 @@ body, table, p, div, ul {
     font-size: 11px;
     color: #000;
 }
-
 table tr td, table tr th {    
     vertical-align: middle;
     padding: 6px;
@@ -568,10 +567,10 @@ form fieldset#fieldset-hidden {
     display: none;
 }
 /* Info navigator */
-.navigator {    
-    display: table;
+.navigator {
+    display: inline;
     text-align: center;
-    width: 100%;
+    width: 99%;
     margin: 0 auto;
     clear: both;
 }
@@ -584,6 +583,12 @@ form fieldset#fieldset-hidden {
 }
 .navigator dd {
     float: left;
+}
+.info_content {
+    margin: 15px 0 0 0;
+}
+.info_content p {
+    margin: 10px 0;
 }
 .tundra .navigator span.dijitButtonNode button {
     font-size: 12px;
