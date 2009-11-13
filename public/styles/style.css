@@ -493,6 +493,10 @@ form div.items-form dd#update-element {
 form div.items-form dt#items-label {
     padding: 3px 5px 0 0;
 }
+input#key {
+    padding: 1px 0;
+    width: 300px;
+}
 /* Search */
 form div.search-form dd {
     clear: both;
