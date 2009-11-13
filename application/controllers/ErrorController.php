@@ -28,7 +28,8 @@ class ErrorController extends Zend_Controller_Action
                 break;
             default:
                 // application error
-                (('development' == APPLICATION_ENV) ? $this->view->layout()->disableLayout() : '');
+                'development' == APPLICATION_ENV ?
+                    $this->view->layout()->disableLayout() : '';
                 $this->getResponse()->setHttpResponseCode(500);
                 $this->view->exception = $errors->exception;
                 $this->view->request   = $errors->request;
