@@ -3,9 +3,9 @@
 <div class="page_header">
 <?php printf($this->translate('The_2009_Annual_Checklist'), '"' . $this->key . '"') ?>
 </div>
+<?php echo $this->navigator_top; ?>
 <br/>
-<?php echo $this->navigator; ?>
-<br />
+<br/>
 
 <img src="<?php $this->baseUrl(); ?>/aci/images/2009_checklist_cd_front_cover.jpg"
     alt="<?php echo $this->placeholder($this->translate('2009_Annual_Checklist_CD-ROM_front_cover')); ?>"
@@ -190,4 +190,4 @@
 
 <div class="horizontal_line"><br /></div><br />
 
-<?php echo $this->navigator; ?>
+<?php echo $this->navigator_bottom; ?>

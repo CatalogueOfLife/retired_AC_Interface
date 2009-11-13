@@ -6,8 +6,8 @@ $urlParams = array(
 <div class="page_header">
 <?php printf($this->translate('Source_databases'), '"' . $this->key . '"') ?>
 </div>
+<?php echo $this->navigator_top; ?>
 <br/>
-<?php echo $this->navigator; ?>
 <br/>
 
 <p><?php echo $this->translate('Introduction_Source_Databases'); ?></p>
@@ -62,4 +62,4 @@ $urlParams = array(
 </table>
 
 <div class="horizontal_line"><br/></div><br/>
-<?php echo $this->navigator; ?>
+<?php echo $this->navigator_bottom; ?>
