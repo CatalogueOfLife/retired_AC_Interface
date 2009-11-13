@@ -27,7 +27,7 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
             'TextBox', 'key', array('style' => 'width: 300px')
         );
         $key->setLabel($translator->translate('Search_for') . ':')
-            ->addValidator('stringLength', false, array(2))
+            ->addValidator(new Eti_Validate_AlphaNumStringLength(2))
             ->setRequired(true)
             ->addErrorMessage('');
         
