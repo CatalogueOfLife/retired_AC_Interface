@@ -1,0 +1,25 @@
+SYSTEM REQUIREMENTS
+--------------------
+The Annual Checklist Interface is built on the the Zend Framework 
+(http://framework.zend.com), version ${zf_version}.
+
+PHP
+----
+Required version: 5.2.10+
+
+* Extensions:
+  ctype   (http://www.php.net/manual/en/ref.ctype.php)
+  json    (http://www.php.net/manual/en/ref.json.php)
+  mysqli  (http://www.php.net/manual/en/ref.mysqli.php)
+  pcre    (http://www.php.net/manual/en/ref.pcre.php)
+  session (http://www.php.net/manual/en/ref.session.php)
+
+Apache
+------
+Required version: 2.0+
+
+* Modules:
+  mod_rewrite (http://httpd.apache.org/docs/2.0/mod/mod_rewrite.html)
+
+INSTALLATION
+-------------
