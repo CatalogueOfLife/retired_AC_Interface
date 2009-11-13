@@ -11,6 +11,17 @@
  *
  */
 ?>
+<?php if ('development' != APPLICATION_ENV): ?>
+<div class="page_header">
+<?php echo $this->translate('An_error_occured') ?>
+</div>
+<br/>
+
+<p><?php echo $this->translate('Were_very_sorry') ?></p>
+<p><?php echo $this->translate('The_problems_are_being_logged') ?></p>
+
+<?php elseif ('development' == APPLICATION_ENV): ?>
+
 <?php echo $this->doctype();?>
 <html>
 <head>
@@ -21,8 +32,6 @@
   <h1><?php echo $this->translate('An_error_occured'); ?></h1>
   <h2><?php echo $this->translate('Application_error'); ?></h2>
       
-  <?php if ('development' == APPLICATION_ENV): ?>
-
   <h3>Exception information:</h3>
   <p>
       <b>Message:</b> <?php echo $this->exception->getMessage(); ?>
@@ -37,6 +46,6 @@
   </pre>
   <?php else: ?>
   <p><?php echo $this->exception->getMessage(); ?></p>
-  <?php endif; ?>
 </body>
 </html>
+<?php endif; ?>
