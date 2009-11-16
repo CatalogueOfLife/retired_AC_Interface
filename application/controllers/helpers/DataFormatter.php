@@ -432,7 +432,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     
     protected function _addAcceptedName(&$row)
     {
-        if(!$row['is_accepted_name'] && !$row['accepted_species_id']) {
+        if(!$row['accepted_species_id']) {
             $row = array_merge(
                 $row,
                 $this->getActionController()->getHelper('Query')
