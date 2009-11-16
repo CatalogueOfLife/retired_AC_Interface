@@ -8,8 +8,10 @@ switchLSIDSelector = function (el)
 navigateToSelected = function (baseUrl, select, op) {    
     switch(op) {        
         case 'next':            
+            location.href = baseUrl + select.options[(select.selectedIndex + 1)].value;
             break;
         case 'previous':
+            location.href = baseUrl + select.options[(select.selectedIndex - 1)].value;
             break;
         default:
             location.href = baseUrl + select.options[select.selectedIndex].value;

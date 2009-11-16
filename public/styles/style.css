@@ -773,3 +773,8 @@ li ul {
 li:hover ul, li.over ul {
     display: block;
 }
+
+.hidden {
+    visibility: hidden;
+}
+}

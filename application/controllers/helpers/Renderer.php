@@ -155,18 +155,30 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
                         $this->_ac->view->translate('Info_annual_checklist'),
                         $this->_ac->view->app->version
                     ),
-                    // TODO: complete options
+                    'databases' => $this->_ac->view->translate('Source_databases'),
+                    'hierarchy' => $this->_ac->view->translate('Management_hierarchy'),
+                    'copyright' => $this->_ac->view->translate('Copyright_reproduction_sale'),
+                    'cite' => $this->_ac->view->translate('Cite_work'),
+                    'websites' => $this->_ac->view->translate('Web_sites'),
+                    'contact' => $this->_ac->view->translate('Contact_us'),
+                    'acknowledgements' => $this->_ac->view->translate('Acknowledgements')
                 )
-            )->onchange =
+            )
+            ->setValue(array($this->getRequest()->getParam('action')))
+            ->onchange =
                 'navigateToSelected("' . $baseUrl . '", this, "current")';
         $nav->getElement('next')->setAttrib('id', 'next_' . $pos)
             ->onclick =
                 'navigateToSelected("' . $baseUrl .
                 '", document.getElementById("' . $selId . '"), "next")';
+        ($this->getRequest()->getParam('action') == 'acknowledgements' ?
+            $nav->getElement('next')->setAttrib('class','hidden') : '');
         $nav->getElement('previous')->setAttrib('id', 'previous_' . $pos)
             ->onclick =
                 'navigateToSelected("' . $baseUrl .
                 '", document.getElementById("' . $selId . '"), "previous")';
+        ($this->getRequest()->getParam('action') == 'about' ?
+            $nav->getElement('previous')->setAttrib('class','hidden') : '');
         return '<div class="navigator">' . $nav . '</div>';
     }
         
