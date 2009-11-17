@@ -224,6 +224,9 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
     
     public function getAcceptedSpecies($nameCode)
     {
+	if(is_null($nameCode)) {
+            return array();
+        }
         $search = new ACI_Model_Search(Zend_Registry::get('db'));
         $species = $search->getAcceptedSpeciesByNameCode($nameCode);
         return is_array($species) ? $species : array();
