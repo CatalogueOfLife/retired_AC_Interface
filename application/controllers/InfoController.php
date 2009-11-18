@@ -15,7 +15,8 @@ class InfoController extends AController
 {
     public function init()
     {
-         $this->_setNavigator();
+        parent::init();
+        $this->_setNavigator();
     }
     
     public function aboutAction ()
