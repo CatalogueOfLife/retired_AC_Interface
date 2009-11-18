@@ -1,190 +1,290 @@
-<!-- The <?php echo $this->app->version; ?> Annual Checklist -->
-
 <div class="page_header">
-<?php printf($this->translate('The_2009_Annual_Checklist'), '"' . $this->key . '"') ?>
+<?php
+printf($this->translate('Info_annual_checklist'), $this->app->version);
+?>
 </div>
-<?php echo $this->navigator_top; ?>
-<div class="info_content">
-<img src="<?php $this->baseUrl(); ?>/aci/images/2009_checklist_cd_front_cover.jpg"
-    alt="<?php echo $this->placeholder($this->translate('2009_Annual_Checklist_CD-ROM_front_cover')); ?>"
-    vspace="5" width="320" align="right" border="0" height="320" hspace="5">
-
-<p style="margin-bottom: 20px;"><?php echo $this->placeholder($this->translate('The_2009_Annual_Checklist_contains_contributions_from_count_databases_with_information')); ?></p>
-
-<p><b class="field_header"><?php echo $this->translate('Viruses'); ?></b>
- &#8226; <?php echo $this->placeholder($this->translate('Viruses_and_Subviral_agents_from_ICTV_MSL')); ?>
-</p><br />
-
-<p><?php echo $this->placeholder($this->translate('Bacteria_and_Archaea_from_BIOS')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Blue-green_algae_Cyanobacteria_from_AlgaeBase')); ?>
-</p><br />
-
-<p><b class="field_header"><?php echo $this->placeholder($this->translate('Chromista')); ?></b>
- &#8226; <?php echo $this->placeholder($this->translate('Chromistan_fungi_from_Species_Fungorum')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Chromistan_algae_from_AlgaeBase')); ?>
-</p><br />
-
-<p><b class="field_header"><?php echo $this->placeholder($this->translate('Protozoa')); ?></b>
- &#8226; <?php echo $this->placeholder($this->translate('Major_groups_from_ITIS_and_AlgaeBase')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Protozoan_fungi_from_Species_Fungorum_and_Trichomycetes_database')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Slime_moulds_from_Nomen.eumycetozoa.com')); ?>
-</p><br />
-
-<p><b class="field_header"><?php echo $this->placeholder($this->translate('Fungi')); ?></b>
- &#8226; <?php echo $this->placeholder($this->translate('Various_taxa_in_whole_or_in_part_from_CABI_Bioscience_databases')); ?>
-</p><br />
-
-<p><b class="field_header"><?php echo $this->placeholder($this->translate('Plantae_Plants')); ?></b>
- &#8226; <?php echo $this->placeholder($this->translate('Mosses_from_MOST')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Conifers_from_Conifer_Database')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Cycads_and_6_flowering_plant_families_from_IOPI-GPC_and_94_families_from_World_Checklist_of_Selected_Plant_Families')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Plus_individual_groups_Custard_Apple_family_AnnonBase_Brazil_Nut_family_LecyPages')); ?>
-</p><br />
-
-<p><b class="field_header"><?php echo $this->placeholder($this->translate('Animalia_Animals')); ?></b>
- &#8226; <?php echo $this->placeholder($this->translate('Sponges_from_WoRMS_Porifera')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Marine_invertebrates_12_phyla_10_classes_and_chordates_4_classes_from_URMO')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Sea_anemones_from_the_Hexacorallians_of_the_World')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Rotifers_from_Rotifera_database')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Entoprocts_cycliophorans_velvet_worms_water_bears_from_ITIS')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Shrimps_krill_cumaceans_from_ITIS_ETI_WBD_Euphausiacea_WoRMS')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Spiders_scorpions_ticks_mites_from_SpidCat_ITIS_TicksBase_Mites_GSDs')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Diplopods_centipedes_pauropods_and_symphylans_from_SysMyr_and_ChiloBase')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Dragonflies_and_damselflies_from_the_Odonata_database')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Stoneflies_from_PlecopteraSF')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Cockroaches_from_BSF')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Praying_mantids_from_MSF')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Stick_and_leaf_insects_from_PSF')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Grasshoppers_locusts_katydids_and_crickets_from_OSF')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Some_groups_of_true_bugs_from_ScaleNet_FLOW_COOL_Psyllist_ASF')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Lacewings_antlions_owlflies_fishflies_dobsonflies_snakeflies_from_LDL_Neuropterida')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Some_beetle_groups_from_the_Scarabs_Database_TITAN_WTaxa_ITIS')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Fleas_from_Parhost')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Flies_mosquitoes_bots_midges_and_gnats_from_BDWD_CCW_CIPA')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Butterflies_and_moths_from_LepIndex_GloBIS_GART_Tineidae_NHM_World_Gracillariidae')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Bees_and_wasps_from_ITIS_UCD_and_ZOBODAT')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Snails_and_slugs_from_AFD')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Horseshoe_worms_lamp-shells_brittle_and_basket_stars_from_WoRMS')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Fishes_from_FishBase')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Reptiles_from_TIGR_Reptiles')); ?>
- &#8226; <?php echo $this->placeholder($this->translate('Amphibians_birds_and_mammals_from_ITIS')); ?>
-</p><br />
-
-<p><?php echo $this->placeholder($this->translate('PLUS_additional_species_of_many_groups_from_ITIS')); ?>
-</p><br />
-
-<p><b><?php echo $this->placeholder($this->translate('Structure_of_the_Annual_Checklist')); ?></b>
-</p><br />
-
-<p><?php echo $this->placeholder($this->translate('The_goal_is_to_list_every_distinct_species_in_each_group_of_organisms')); ?>
-</p><br />
-
-<div class="copyright_notice">
-<p><?php echo $this->placeholder($this->translate('Definition_of_a_Global_Species_Database_GSD')); ?>
-</p><br />
-
-<p><?php echo $this->placeholder($this->translate('GSDs_aspire_to_the_following_properties')); ?></p>
-<p>&#8226; <?php echo $this->placeholder($this->translate('Cover_one_taxon_worldwide')); ?><br />
-&#8226; <?php echo $this->placeholder($this->translate('Contain_a_taxonomic_checklist_of_all_species_within_that_taxon')); ?><br />
-&#8226; <?php echo $this->placeholder($this->translate('Deal_with_species_as_taxa_and_contain_synonymy_and_taxonomic_opinion')); ?><br />
-&#8226; <?php echo $this->placeholder($this->translate('Have_an_explicit_mechanism_for_seeking_at_least_one_responsible_consensus_taxonomy_and_for_applying_it_consistently')); ?><br />
-&#8226; <?php echo $this->placeholder($this->translate('Cross-index_significant_alternative_taxonomies_in_their_synonymy')); ?>
+<?php
+echo $this->navigator_top;
+?>
+<div class="info_content"><img
+    src="<?php
+    echo $this->baseUrl();
+    ?>/images/2009_checklist_cd_front_cover.jpg"
+    title="2009 Annual Checklist CD-ROM front cover"
+    alt="2009 Annual Checklist CD-ROM front cover" width="320"
+    height="320" class="right-align" />
+<p style="margin-bottom: 20px;">The 2009 Annual Checklist contains
+contributions from 66 databases with information on [b]1,160,711</b>
+species and <b>75,772</b> infraspecific taxa, and also includes <b>763,776</b>
+synonyms and <b>469,891</b> common names covering the following groups:</p>
+<p><b class="field_header">Viruses</b>
+ &#8226; <?php
+echo $this->placeholder('Viruses and Subviral agents from [link:db:14]');
+?>
 </p>
-</div><br />
-
-<p><?php echo $this->placeholder($this->translate('Each_species_is_linked_via_the_genus_and_family_to_the_taxonomic_classification')); ?><br />
-<?php echo $this->placeholder($this->translate('Please_also_read_the_draft_discussion_document')); ?>
-</p><br />
-
-<div class="copyright_notice">
-<p><?php echo $this->placeholder($this->translate('The_Catalogue_of_Life_Standard_Dataset')); ?>
-</p><br />
-
-<p><?php echo $this->placeholder($this->translate('Accepted_scientific_name_and_reference')); ?><br />
-<?php echo $this->placeholder($this->translate('Synonyms_and_references')); ?><br />
-<?php echo $this->placeholder($this->translate('Common_names_and_references')); ?><br />
-<?php echo $this->placeholder($this->translate('Latest_taxonomic_scrutiny_name_of_person_and_date')); ?><br />
-<?php echo $this->placeholder($this->translate('Source_database')); ?><br />
-<?php echo $this->placeholder($this->translate('Additional_data_optional')); ?><br />
-<?php echo $this->placeholder($this->translate('Family_to_which_species_belongs')); ?><br />
-<?php echo $this->placeholder($this->translate('Classification_above_family_and_highest_taxon_in_database')); ?><br />
-<?php echo $this->placeholder($this->translate('Distribution')); ?><br />
-<?php echo $this->placeholder($this->translate('References_optional')); ?><br />
-<?php echo $this->placeholder($this->translate('LSID')); ?>
+<p><b class="field_header">Bacteria</b> and <b class="field_header">Archaea</b> from
+<?php
+echo $this->placeholder('[link:db:4]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Blue-green algae (Cyanobacteria) from [link:db:2]');
+?>
 </p>
-</div><br />
-
-<p><?php echo $this->placeholder($this->translate('More_detailed_information_about_the_Standard_Dataset_is_available')); ?>.
-</p><br />
-
-<p><?php echo $this->placeholder($this->translate('Each_species_is_linked_via_the_genus_and_family_to_the_taxonomic_classification')); ?>.
-</p><br />
-
-<p><?php echo $this->placeholder($this->translate('Where_available_from_the_suppliers_infraspecific_taxa_such_as_subspecies')); ?>.
-</p><br />
-
-<p><?php echo $this->placeholder($this->translate('Where_possible_a_web_link_back_to_the_suppliers_own_database')); ?>.
-</p><br />
-
-<p><strong><?php echo $this->placeholder($this->translate('CoL_Taxon_Identifiers_Taxon_LSIDs')); ?>.</strong>
-</p><br />
-
-<p><?php echo $this->placeholder($this->translate('The_Catalogue_of_Life_programme_started_to_issue_permanent')); ?>.
-</p><br />
-
-<p><?php echo $this->placeholder($this->translate('Where_a_taxon_record_remains_unchanged_in_this_2009_edition')); ?>.
-</p><br />
-
-<p><?php echo $this->placeholder($this->translate('Our_LSIDs_are_long_strings_of_symbols_intended_only_for_computer_usage')); ?>.
-</p><br />
-
-
-
-<p><b><?php echo $this->placeholder($this->translate('Functionality_of_the_Annual_Checklist')); ?>.</b>
-</p><br />
-
-<p>&#8226; <?php echo $this->placeholder($this->translate('Species_and_infraspecific_taxa_can_be_located_either')); ?>.<br />
-&#8226; <?php echo $this->placeholder($this->translate('Searching_by_name_can_be_done_using_accepted_scientific')); ?>.<br />
-&#8226; <?php echo $this->placeholder($this->translate('Tracking_down_the_tree_or_classification_uses_accepted_names_for_taxa')); ?>.<br />
-&#8226;  <?php echo $this->placeholder($this->translate('On_each_species_details_page_the_relevant_higher_taxa_are_listed')); ?>.<br />
-&#8226;  <?php echo $this->placeholder($this->translate('The_species_details_pages_link_to_the_source_database')); ?>.
-</p><br />
-
-<p><?php echo $this->placeholder($this->translate('This_CD_contains_the_Annual_Checklist_dataset_and_the_software')); ?>.
-</p><br />
-
-<p><b><?php echo $this->placeholder($this->translate('The_2009_Annual_Checklist_Editors')); ?>.</b>
-</p><br />
-
-<p><?php echo $this->placeholder($this->translate('The_Catalogue_of_Life_programme_combines_the_outputs')); ?>.
-</p><br />
-
-<p>&#8226; <?php echo $this->placeholder($this->translate('Frank_Bisby_Species_2000_Executive_Director')); ?>
-</p><br />
-
-<p>&#8226; <?php echo $this->placeholder($this->translate('Yuri_Roskov_Executive_Editor_at_the_Species_2000')); ?>
-</p><br />
-
-<p>&#8226;  <?php echo $this->placeholder($this->translate('Thomas_Orrell_Acting_Director_ITIS_at_the_ITIS_Secretariat')); ?>
-</p><br />
-
-<p>&#8226;  <?php echo $this->placeholder($this->translate('David_Nicolson_ITIS_Data_Development_Leader')); ?>
-</p><br />
-
-<p>&#8226;  <?php echo $this->placeholder($this->translate('Luvie_Paglinawan_Annual_Checklist_Dataset_Compiler')); ?>
-</p><br />
-
-<p>&#8226;  <?php echo $this->placeholder($this->translate('Nicolas_Bailly_Taxonomic_Editorial_Advisor_for_Marine_sectors')); ?>
-</p><br />
-
-<p>&#8226;  <?php echo $this->placeholder($this->translate('Paul_Kirk_Taxonomic_Editorial_Advisor_for_Fungi')); ?>
-</p><br />
-
-<p>&#8226;  <?php echo $this->placeholder($this->translate('Thierry_Bourgoin_Taxonomic_Editorial_Advisor_for_Insects')); ?>
-</p><br />
-
-<p>&#8226;  <?php echo $this->placeholder($this->translate('Guy_Baillargeon_Taxonomic_Editorial_Advisor_for_Plants')); ?>
+<p><b class="field_header">Chromista</b>
+ &#8226; <?php
+echo $this->placeholder('Chromistan fungi from [link:db:28]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Chromistan algae from [link:db:2]');
+?>
 </p>
+<p><b class="field_header">Protozoa</b>
+ &#8226; <?php
+echo $this->placeholder('Major groups from [link:db:17] and [link:db:2]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Protozoan fungi from [link:db:28] and [link:db:33] database');
+?>
+ &#8226; <?php
+echo $this->placeholder('Slime moulds from [link:db:53]');
+?>
+</p>
+<p><b class="field_header">Fungi</b>
+ &#8226; <?php
+echo $this->placeholder('Various taxa in whole or in part from CABI Bioscience databases ([link:db:28], [link:db:23], [link:db:25] and [link:db:38] databases) and from three other databases covering [link:db:36], [link:db:12] and [link:db:33]');
+?>
+</p>
+<p><b class="field_header">Plantae (Plants)</b>
+ &#8226; <?php
+echo $this->placeholder('Mosses from [link:db:19]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Conifers from [link:db:45]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Cycads and 6 flowering plant families from [link:db:16] and 94 families from [link:db:24]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Plus individual groups: Custard Apple family ([link:db:40]) , Brazil Nut family ([link:db:43]), Sundew family ([link:db:66] [new]), Waits Numi family ([link:db:56] [new]), Legumes ([link:db:15]), Cranesbills ([link:db:48]) and Nightshade genus ([link:db:64] [new])');
+?>
+</p>
+<p><b class="field_header">Animalia (Animals)</b>
+ &#8226; <?php
+echo $this->placeholder('Sponges from [link:db:44]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Marine invertebrates (12 phyla & 10 classes ) and chordates (4 classes) from [link:db:35]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Sea anemones from the [link:db:13]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Rotifers from [link:db:47]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Entoprocts, cycliophorans, velvet worms, water bears from [link:db:17]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Shrimps, krill, cumaceans [new] from [link:db:17], [link:db:9] (Euphausiacea), [link:db:58]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Spiders, scorpions, ticks & mites from [link:db:29], [link:db:17], [link:db:30], & [link:db:63]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Diplopods, centipedes, pauropods and symphylans from [link:db:41] and [link:db:42]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Dragonflies and damselflies from the [link:db:20] database');
+?>
+ &#8226; <?php
+echo $this->placeholder('Stoneflies from [link:db:65] [new]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Cockroaches from [link:db:51]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Praying mantids from [link:db:62] [new]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Stick and leaf insects from [link:db:50]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Grasshoppers, locusts, katydids and crickets from [link:db:21]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Some groups of true bugs from [link:db:26], [link:db:11], [link:db:52], [link:db:54] [new] & ASF [new]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Lacewings, antlions, owlflies, fishflies, dobsonflies & snakeflies from [link:db:55] [new]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Some beetle groups from the [link:db:27], [link:db:40], [link:db:39] & [link:db:17]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Fleas from [link:db:22]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Flies, mosquitoes, bots, midges and gnats from [link:db:3], [link:db:5] & [link:db:6]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Butterflies and moths from [link:db:18], [link:db:46], [link:db:31], [link:db:49]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Bees [new] and wasps from [link:db:67], [link:db:34] and [link:db:37]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Snails and slugs from [link:db:1]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Horseshoe worms, lamp-shells, brittle and basket stars from [link:db:57] [new]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Fishes from [link:db:10]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Reptiles from [link:db:8]');
+?>
+ &#8226; <?php
+echo $this->placeholder('Amphibians, birds and mammals from [link:db:17]');
+?>
+</p>
+<p><span class="field_header">PLUS</span> additional species of many groups from <?php
+echo $this->placeholder('[link:db:17]');
+?>
+</p>
+<p><b>Structure of the Annual Checklist</b></p>
+<p>The goal is to list every distinct species in each group of
+organisms. At present, some groups are globally complete, some are
+represented by global sectors that are nearing completion, and others
+are represented by partial sectors. The global sectors, whether complete
+or not, are provided by selected, peer reviewed global species databases
+(GSDs - see definition below) in the Species 2000 federation or by
+equivalent global sectors of ITIS. The partial sectors are supplied
+principally by ITIS (N America), but also Species Fungorum and the
+Australian Faunal Directory, with the result that N American species are
+sometimes the only species represented for these incomplete groups.</p>
+<div class="copyright_notice">Definition of a Global Species Database
+(GSD)
+<p>GSDs aspire to the following properties</p>
+<p>&#8226; Cover one taxon worldwide<br />
+&#8226; Contain a taxonomic checklist of all species within that taxon<br />
+&#8226; Deal with species as taxa, and contain synonymy and taxonomic
+opinion<br />
+&#8226; Have an explicit mechanism for seeking at least one
+responsible/consensus taxonomy, and for applying it consistently<br />
+&#8226; Cross-index significant alternative taxonomies in their synonymy</p>
 </div>
-<div class="horizontal_line"><br /></div>
-<?php echo $this->navigator_bottom; ?>
+<p>Each species is linked via the genus and family to the taxonomic
+classification. Above the node of attachment of each data sector this
+classification has been agreed by Species 2000 and ITIS as a practical
+management tool to provide access to the Catalogue, the Catalogue of
+Life Taxonomic Classification Edition 1. This top level classification
+has remained unchanged in 2005-2009. However, below the nodes of
+attachment for each taxonomic sector, the classification originates from
+the supplier databases and so may change from year to year. Because of
+these lower level changes there are therefore annual versions of Edition
+1 for 2005, 2006, 2007, 2008 and 2009. Please also read the draft
+discussion document <a
+    href="<?php
+    echo $this->baseUrl();
+    ?>/info/hierarchy">Towards a management hierarchy (classification)
+for the Catalogue of Life</a> by Dennis Gordon appended to this edition
+of the Annual Checklist.</p>
+<div class="copyright_notice">The Catalogue of Life Standard Dataset
+<p>(1) &nbsp;&nbsp;Accepted scientific name (and reference)<br />
+(2) &nbsp;&nbsp;Synonyms (and references)<br />
+(3) &nbsp;&nbsp;Common names (and references)<br />
+(4) &nbsp;&nbsp;Latest taxonomic scrutiny (name of person and date)<br />
+(5) &nbsp;&nbsp;Source database<br />
+(6) &nbsp;&nbsp;Additional data (optional)<br />
+(7) &nbsp;&nbsp;Family to which species belongs<br />
+(8) &nbsp;&nbsp;Classification above family, and highest taxon in
+database<br />
+(9) &nbsp;&nbsp;Distribution<br />
+(10) Reference(s) (optional)<br />
+(11) LSID</p>
+</div>
+<p>More detailed information about the Standard Dataset is available on
+the Species 2000 website (<a href="http://www.sp2000.org">www.sp2000.org</a>)</p>
+<p>Each species is linked via the genus and family to the taxonomic
+classification. Above the node of attachment of each data sector this
+classification has been agreed by Species 2000 and ITIS as a practical
+management tool to provide access to the Catalogue, the Catalogue of
+Life Taxonomic Classification Edition 1. This top level classification
+has remained unchanged in 2005-2009. However, below the node of
+attachment the classification originates from the supplier databases and
+so may change from year to year. Because of this lower level changes
+there are therefore annual versions of Edition 1 for 2005, 2006, 2007,
+2008 and 2009.</p>
+<p>Where available from the suppliers, infraspecific taxa such as
+subspecies and varieties have also been included but this coverage is
+variable between taxonomic sectors.</p>
+<p>Where possible, a web link back to the supplier's own database is
+provided at the bottom of each species detail page.</p>
+<p><b>CoL Taxon Identifiers (Taxon LSIDs)</b></p>
+<p>he Catalogue of Life programme started to issue permanent CoL Taxon
+Identifiers in the 2008 Annual Checklist. Every taxon recognised in the
+Catalogue, including species and higher taxa, is given a globally unique
+identifier (GUID) using the Life Science Identifier (LSID) system (<a
+    href="http://sourceforge.net/projects/lsids">sourceforge.net/projects/lsids</a>).
+</p>
+<p>Where a taxon record remains unchanged in this 2009 edition, it
+carries the same LSID as in 2008, except that the revision part changes
+from ac2008 to ac2009. New or changed taxa in the 2009 edition receive
+completely new LSIDs. This will enable the introduction in the next few
+years of change tracking between editions, so that relationships to taxa
+in previous editions are recorded, and web-services to alert users to
+changes in name, classification, circumscription or data. Technical
+users are already able to inspect changes in the metadata provided by
+the CoL LSID Resolution Service, and to build their own services using
+them. For more information, see www.catalogueoflife.org/lsid/. LSIDs in
+the 2009 Annual Checklist have been generated by Richard White, Cardiff
+University, UK.</p>
+<p>Our LSIDs are long strings of symbols intended only for computer
+usage. However, the user interface does show LSID buttons (click, and
+the LSID is displayed in full), and the LSID is shown at the base of
+each Species Details screen. This is done so that a user can copy and
+paste the LSIDs into other software or services: it is NOT intended for
+them to be read or typed.</p>
+<p><b>Functionality of the Annual Checklist</b></p>
+<p>&#8226; Species (and infraspecific taxa) can be located either by
+searching by name or by tracking down through the hierarchical
+classification.<br />
+&#8226; Searching by name can be done using accepted scientific name,
+synonym or common name. Automatic synonymic and common name indexing
+takes the user directly to the species under its accepted name. The
+search can use part names, or be restricted to complete words.<br />
+&#8226; Tracking down the tree or classification uses accepted names for
+taxa.<br />
+&#8226; On each species details page the relevant higher taxa are
+listed, and provide a link to the relevant node of the hierarchical
+classification.<br />
+&#8226; The species details pages link to the source database, usually
+showing further information.</p>
+<p>This CD contains the Annual Checklist dataset and the software
+identical to that used on the Web. The structure of the Annual Checklist
+database has been optimised for performance with the user interface but
+is not ideal for importing to other systems. The content may be copied
+subject to the copyright conditions given on the inside cover of this
+booklet.</p>
+<p><b>The 2009 Annual Checklist Editors</b></p>
+<p>The Catalogue of Life programme combines the outputs of the Species
+2000 programme (led by Frank Bisby from Reading, UK) and the ITIS
+programme (led by Thomas Orrell from Washington, USA). Assembly and
+publication of the Annual Checklist is managed by Yuri Roskov in Reading
+working with colleagues around the world.</p>
+<p>&#8226; <b>Frank Bisby</b>, Species 2000 Executive Director and Team member, at the Species 2000 Secretariat, Reading, UK</p>
+<p>&#8226; <b>Yuri Roskov</b>, Executive Editor at the Species 2000 Secretariat, Reading, UK</p>
+<p>&#8226; <b>Thomas Orrell</b>, Acting Director, ITIS at the ITIS Secretariat, Smithsonian Institution, Washington DC, USA</p>
+<p>&#8226; <b>David Nicolson</b>, ITIS Data Development Leader, USGS/Smithsonian Institution, Washington DC, USA</p>
+<p>&#8226; <b>Luvie Paglinawan</b>, Annual Checklist Dataset Compiler, at the Species 2000 Philippines Office, WorldFish Center, Los-Baños, Philippines</p>
+<p>&#8226; <b>Nicolas Bailly</b>, Taxonomic Editorial Advisor for Marine sectors and Species 2000 Philippines Office Manager at the WorldFish Center, Los-Baños, Philippines</p>
+<p>&#8226; <b>Paul Kirk</b>, Taxonomic Editorial Advisor for Fungi and Chromista sectors at CABI, Egham, UK</p>
+<p>&#8226; <b>Thierry Bourgoin</b>, Taxonomic Editorial Advisor for Insects at the Museum National d'Histoire Naturelle, Paris, France</p>
+<p>&#8226; <b>Guy Baillargeon</b>, Taxonomic Editorial Advisor for Plants at Agriculture and Agri-Food Canada</p>
+</div>
+<div class="horizontal_line"><br />
+</div>
+<?php
+echo $this->navigator_bottom;
+?>

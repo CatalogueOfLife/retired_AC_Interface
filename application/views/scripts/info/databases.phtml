@@ -1,62 +1,132 @@
 <?php
-$urlParams = array(
-    'sort' => $this->sort
-);
+$urlParams = array('sort' => $this->sort);
 ?>
 <div class="page_header">
-<?php printf($this->translate('Source_databases'), '"' . $this->key . '"') ?>
+<?php
+printf($this->translate('Source_databases'), '"' . $this->key . '"')?>
 </div>
-<?php echo $this->navigator_top; ?>
+<?php
+echo $this->navigator_top;
+?>
 <div class="info_content">
-<p><?php echo $this->translate('Introduction_Source_Databases'); ?></p>
-<br/><br/>
+<p>The data in the 2009 Annual Checklist have been provided by 66
+databases. Of these, 14 are new to the 2009 edition and 27 have been
+updated over the past year. Most datasets include one or more global
+species database sectors (GSDs), i.e. datasets being developed to cover
+all of the world's species in a particular group of organisms. A few
+datasets provide regional information for groups not yet covered
+globally. The datasets result from collaboration and editing by many
+expert taxonomists, whose names are found in the datasets themselves. A
+brief summary is listed below giving: database short and full names;
+home page on the web; the author(s) or editor(s); organisation; the
+group for which data are provided, preceded by its higher
+classification; and the number of species and infraspecific taxa
+included in this Annual Checklist.</p>
+<br />
 <table>
-<?php $rowClass = "odd"; ?>
+<?php
+$rowClass = "odd";
+?>
     <tr class="even">
-        <th class="horizontal<?php echo ($this->sort == 'source' ? ' current' : '');?>">
-        <a href="<?php echo $this->url(array_merge($urlParams,array(
-          'sort' => 'source'))); ?>"><?php echo $this->translate('Source_database'); ?></a>
+        <th
+            class="horizontal<?php
+            echo ($this->sort == 'source' ? ' current' : '');
+            ?>">
+        <a
+            href="<?php
+            echo $this->url(array_merge($urlParams, array('sort' => 'source')));
+            ?>"><?php
+        echo $this->translate('Source_database');
+        ?></a>
         </th>
-        <th class="horizontal"> </th>
-        <th class="horizontal<?php echo ($this->sort == 'group' ? ' current' : '');?>">
-        <a href="<?php echo $this->url(array_merge($urlParams,array(
-          'sort' => 'group'))); ?>"><?php echo $this->translate('English_name_of_the_group'); ?>
+        <th class="horizontal"></th>
+        <th
+            class="horizontal<?php
+            echo ($this->sort == 'group' ? ' current' : '');
+            ?>">
+        <a
+            href="<?php
+            echo $this->url(array_merge($urlParams, array('sort' => 'group')));
+            ?>"><?php
+        echo $this->translate('English_name_of_the_group');
+        ?>
         </a></th>
-        <th class="horizontal<?php echo ($this->sort == 'names' ? ' current' : '');?>">
-        <a href="<?php echo $this->url(array_merge($urlParams,array(
-          'sort' => 'names'))); ?>"><?php echo $this->translate('Species'); ?>
+        <th
+            class="horizontal<?php
+            echo ($this->sort == 'names' ? ' current' : '');
+            ?>">
+        <a
+            href="<?php
+            echo $this->url(array_merge($urlParams, array('sort' => 'names')));
+            ?>"><?php
+        echo $this->translate('Species');
+        ?>
         </a></th>
-        <th class="horizontal"> </th>
+        <th class="horizontal"></th>
     </tr>
 
-<?php foreach ($this->results as $items): ?>
-    <tr class="<?php echo $rowClass; ?>">
-        <th class="vertical">
-            <a href="<?php echo $this->baseUrl() . $items['url']; ?>">
-                <?php echo $items['name']; ?>
+<?php
+foreach ($this->results as $items) :
+    ?>
+    <tr class="<?php
+    echo $rowClass;
+    ?>">
+        <th class="vertical"><a
+            href="<?php
+    echo $this->baseUrl() . $items['url'];
+    ?>">
+                <?php
+    echo $items['name'];
+    ?>
             </a>
-            <?php if ($items['is_new'] == 1): ?>
-                <span class="new_big"><?php echo $this->translate('NEW')?></span>
-            <?php endif; ?>
+            <?php
+    if ($items['is_new'] == 1) :
+        ?>
+                <span class="new_big"><?php
+        echo $this->translate('NEW')?></span>
+            
+    <?php endif;
+    ?>
         </th>
         <td>
-<?php if($items['label']): ?>
+<?php
+    if ($items['label']) :
+        ?>
         <a class="wrapLogo tinyImgLink"
-            href="<?php echo $this->baseUrl() . $items['url']; ?>">
-        <img
-          src="<?php echo $this->baseUrl() . $items['thumb']; ?>"
-          alt="<?php echo $items['label']; ?>"
-          title="<?php echo $items['label']; ?>" /></a></div>
-<?php endif; ?>
+            href="<?php
+        echo $this->baseUrl() . $items['url'];
+        ?>"> <img
+            src="<?php
+        echo $this->baseUrl() . $items['thumb'];
+        ?>"
+            alt="<?php
+        echo $items['label'];
+        ?>"
+            title="<?php
+        echo $items['label'];
+        ?>" /></a>
+        </div>
+
+    <?php endif;
+    ?>
         </td>
-        <td><?php echo $items['taxa']; ?></td>
+        <td><?php
+    echo $items['taxa'];
+    ?></td>
         <td class="number">
-          <?php echo $items['accepted_species_names']; ?>
+          <?php
+    echo $items['accepted_species_names'];
+    ?>
         </td>
     </tr>
-<?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd');?>
-<?php endforeach; ?>
+<?php
+    $rowClass = ($rowClass == 'odd' ? 'even' : 'odd');
+    ?>
+<?php
+endforeach;
+?>
 </table>
 </div>
-<div class="horizontal_line"><br/></div>
+<div class="horizontal_line"><br />
+</div>
 <?php echo $this->navigator_bottom; ?>

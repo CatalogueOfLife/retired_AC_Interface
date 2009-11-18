@@ -193,61 +193,36 @@ ul.errors li {
     font-size: 11px;
     color: #333366;
     font-weight: bold;
-    margin-right: 0px;
-    margin-top: 0px;
-    margin-bottom: 5px;
-    margin-left: 0px
 }
-
 .formheader1 {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 13px;
     color: #333366;
     font-weight: bold;
-    margin-right: 0px;
-    margin-top: 0px;
-    margin-bottom: 5px;
-    margin-left: 0px;
 }
 .formheader2 {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 11px;
     color: #333366;
     font-weight: italics;
-    margin-right: 0px;
-    margin-top: 0px;
-    margin-bottom: 5px;
-    margin-left: 0px;
 }
 .formheader3 {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 11px;
     color:#333366;
     font-weight: bold;
-    margin-right: 50px;
-    margin-top: 0px;
-    margin-bottom: 15px;
-    margin-left: 50px;
 }
 .formheader4 {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 11px;
     color: #000000;
     font-weight: normal;
-    margin-right: 50px;
-    margin-top: 0px;
-    margin-bottom: 15px;
-    margin-left: 50px;
 }
 .formheader5 {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 11px;
     color: #000000;
     font-weight: normal;
-    margin-right: 50px;
-    margin-top: 0px;
-    margin-bottom: 15px;
-    margin-left: 100px;
 }
 
 .page_header {
@@ -263,6 +238,12 @@ ul.errors li {
     margin: 0 0 10px 0;
     padding: 0 0 5px 0;
     border-bottom: 1px solid #336;
+}
+.info_content blockquote {
+    padding: 5px 30px;
+}
+.justified {
+    text-align: justify;
 }
 
 .page_title {
@@ -589,6 +570,10 @@ form fieldset#fieldset-hidden {
 }
 .info_content p {
     margin: 10px 0;
+}
+.info_content img.right-align {
+    float: right;
+    margin: 10px 0 10px 20px;
 }
 .tundra .navigator span.dijitButtonNode button {
     font-size: 12px;

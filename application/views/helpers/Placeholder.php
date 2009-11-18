@@ -1,7 +1,7 @@
-<?php 
+<?php
 class ACI_View_Helper_Placeholder extends Zend_View_Helper_Abstract
 {
-    public function placeholder($text='')
+    public function placeholder($text = '')
     {
         $find = array(
             '#\[new\]#',
@@ -28,16 +28,15 @@ class ACI_View_Helper_Placeholder extends Zend_View_Helper_Abstract
             $text,
             $matches
         );
-        if(isset($matches[1]))
-        {
-            foreach($matches[1] as $match)
-            {
+        if(isset($matches[1])) {
+            foreach($matches[1] as $match) {
                 $find[] = '#\[link:db:(' . $match . ')\]#';
-                $replace[] = '<a href="http://localhost/aci/details/database/id/' .
-                $match . '">'. $this->getDatabaseFromId($match) .'</a>';
+                $replace[] = '<a href="' . $this->view->baseUrl() .
+                    '/details/database/id/' . $match . '">'.
+                    $this->getDatabaseFromId($match) .'</a>';
             }
         }
-        return preg_replace($find,$replace,$text);
+        return preg_replace($find, $replace, $text);
     }
     
     private function getDatabaseFromId($id)
@@ -47,5 +46,3 @@ class ACI_View_Helper_Placeholder extends Zend_View_Helper_Abstract
         return $dbData['database_name'];
     }
 }
-
-?>

@@ -1,52 +1,135 @@
 <div class="page_header">
-<?php echo $this->translate('Info_about') ?>
+<?php
+echo $this->translate('Info_about')?>
 </div>
-<?php echo $this->navigator_top; ?>
+<?php
+echo $this->navigator_top;
+?>
 <div class="info_content">
-<p class="field_header"><?php echo $this->placeholder($this->translate('The_Species_2000_ITIS_Catalogue_of_Life')); ?>
-</p><br />
+<p class="field_header">The Species 2000 &amp; ITIS Catalogue of Life</p>
+<p>The Species 2000 &amp; ITIS Catalogue of Life is planned to become a
+comprehensive catalogue of all known species of organisms on Earth.
+Rapid progress has been made recently and this, the ninth edition of the
+Annual Checklist, contains [b]1,160,711[/b] species. Please note that
+this is probably just more than half of the world's known species. This
+means that for many groups it continues to be deficient, and users will
+notice that many species are still missing from the Catalogue.</p>
+<p>The present Catalogue is compiled with sectors provided by 66
+taxonomic databases from around the world. Many of these contain
+taxonomic data and opinions from extensive networks of specialists, so
+that the complete work contains contributions from more than 3,000
+specialists from throughout the taxonomic profession. Species 2000 and
+ITIS teams peer review databases, select appropriate sectors and
+integrate the sectors into a single coherent catalogue with a single
+hierarchical classification. It is planned to introduce alternative
+taxonomic treatments and alternative classifications, but an important
+feature is that for those users who wish to use it, a single preferred
+catalogue, based on peer reviews, will continue to be provided.</p>
+<p>The Catalogue is published as two products:</p>
+<p>&#8226; <b>Species 2000 &amp; ITIS Catalogue of Life: 2009 Annual
+Checklist</b><br />
+The Annual Checklist is published each year as a fixed edition that can
+be cited and used as a common catalogue for comparative purposes by many
+organisations. A copy is on the CD-ROM, which is distributed free of
+charge, and an identical copy is on the website at <a
+    href="http://www.catalogueoflife.org/annual-checklist/2009">
+www.catalogueoflife.org/annual-checklist/2009/</a>. Archived earlier
+editions are also available on the website. This is the preferred
+edition for public usage during 2009-2010.</p>
+<p>&#8226; <b>Species 2000 &amp; ITIS Catalogue of Life: Dynamic
+Checklist</b><br />
+The Dynamic Checklist is a virtual catalogue operated on the Internet
+and available both for users and as an electronic web-service at <a
+    href="http://www.catalogueoflife.org/dynamic-checklist/search.php">
+www.catalogueoflife.org/dynamic-checklist/search.php</a> The Dynamic
+Checklist harvests taxonomic sectors and associated strands of
+hierarchical classification dynamically from the source databases across
+the internet. The Dynamic Checklist is presently less extensive than the
+Annual Checklist because fewer taxonomic sectors have been connected so
+far.</p>
+<p>It differs in concept from the Annual Checklist in that<br />
+(i) the taxonomic records may be updated and the catalogue changed more
+frequently than in the Annual Checklist and (ii) the Dynamic Checklist
+contains additional regional species checklists (such as the Regional
+Checklist - Europe, effectively a Pan-European Species Checklist) not
+included in the Annual Checklist. Regional Checklists for N America,
+China, Australia and New Zealand are in preparation for linkage during
+2009 and 2010 as part of the Catalogue of Life Regional Hub Network.</p>
+<p><b>The Catalogue of Life partnership</b> <br />
+In June 2001 the Species 2000 and ITIS organisations, that had
+previously worked separately, decided to work together to create the
+Catalogue of Life with its estimated 1.75 million species. The two
+organisations remain separate and different in structure. However, by
+working together in creating a common product, the partnership has
+enabled them to reduce duplication of effort, make better use of
+resources, and to accelerate production. The combined Annual Checklist
+has become well established as a cited reference used for data
+compilation and comparison. For instance, it is used as the principal
+taxonomic index in the GBIF and EoL data portals and recognised by the
+CBD.</p>
 
-<p><?php echo $this->placeholder($this->translate('The_Species_2000_ITIS_Catalogue_of_Life_is_planned_to_become_a')); ?>.
-</p><br />
+<p><b>About ITIS</b><br />
+<a href="http://www.itis.gov/" target="_blank" title="ITIS"><img
+    class="right-align"
+    src="<?php
+    echo $this->baseUrl();
+    ?>/images/ITIS.gif"
+    width="161" height="80"></a> The Integrated
+Taxonomic Information System (ITIS) is a partnership of federal agencies
+and other organisations from the United States , Canada , and Mexico ,
+with data stewards and experts from around the world (see <a
+    href="http://www.itis.gov">www.itis.gov</a>). The ITIS database is
+an automated reference of scientific and common names of biota of
+interest to North America . It contains more than 591,000 scientific and
+common names in all kingdoms, and is accessible via the World Wide Web
+in English, French, Spanish, and Portuguese (<a
+    href="http://itis.gbif.net">itis.gbif.net</a>). ITIS is part of the
+US National Biological Information Infrastructure (<a
+    href="http://www.nbii.gov">www.nbii.gov</a>) and an associate member
+of GBIF</p>
+<p>ITIS is managed by Thomas Orrell (Acting Director), Michael Ruggiero
+(Senior Scientific Advisor), David Nicolson (Data Development Leader),
+Mike Frame (Information Technology Leader), Roy McDiarmid (Taxonomy
+Leader), Guy Baillargeon (ITIS-Canada Director), and Patricia Koleff
+(SIIT-Mexico Director). They are advised and supported by the ITIS
+Steering Committee and ITIS Data Stewards.</p>
 
-<p><?php echo $this->placeholder($this->translate('The_present_Catalogue_is_compiled_with_sectors_provided_by')); ?>.
-</p><br />
-
-<p><?php echo $this->placeholder($this->translate('The_Catalogue_is_published_as_two_products')); ?>:
-</p><br />
-
-<p>&#8226; <b><?php echo $this->placeholder($this->translate('Species_2000_ITIS_Catalogue_of_Life_2009_Annual_Checklist')); ?></b><br />
-<?php echo $this->placeholder($this->translate('The_Annual_Checklist_is_published_each_year_as')); ?>.
-</p><br />
-
-<p>&#8226;
-<b><?php echo $this->placeholder($this->translate('Species_2000_ITIS_Catalogue_of_Life_Dynamic_Checklist')); ?></b><br />
-<?php echo $this->placeholder($this->translate('The_Dynamic_Checklist_is_a_virtual_catalogue_operated_on')); ?>.
-</p><br />
-
-<p><?php echo $this->placeholder($this->translate('It_differs_in_concept_from_the_Annual_Checklist_in_that')); ?>:<br />
-<?php echo $this->placeholder($this->translate('the_taxonomic_records_may_be_updated_and_the_catalogue')); ?>
-</p><br />
-
-<p><b><?php echo $this->placeholder($this->translate('The_Catalogue_of_Life_partnership')); ?></b><br/>
-<?php echo $this->placeholder($this->translate('In_June_2001_the_Species_2000_and_ITIS_organisations')); ?>.
-</p><br />
-
-<p><b><?php echo $this->placeholder($this->translate('About_ITIS')); ?></b><br />
-<a href="http://www.itis.gov/" target="_blank" title="ITIS"><img src="<?php echo $this->baseUrl(); ?>/images/ITIS.gif" lowsrc="10" vspace="20" width="161" align="right" border="0" height="80" hspace="20"></a>
-<?php echo $this->placeholder($this->translate('The_Integrated_Taxonomic_Information_System_ITIS_is_a_partnership')); ?>
-</p><br />
-
-<p><?php echo $this->placeholder($this->translate('ITIS_is_managed_by_Thomas_Orrell_Acting_Director_Michael_Ruggiero')); ?>
-</p><br />
-
-<p><b><?php echo $this->placeholder($this->translate('About_Species_2000')); ?></b><br />
-<a href="http://www.sp2000.org" target="_blank" title="Species 2000"><img src="<?php echo $this->baseUrl(); ?>/images/sp2000_small.gif" lowsrc="10" vspace="20" width="142" align="right" border="0" height="62" hspace="20"></a>
-<?php echo $this->placeholder($this->translate('Species_2000_is_an_autonomous_federation')); ?>.
-</p><br />
-
-<p><?php echo $this->placeholder($this->translate('The_Species_2000_scientific_programme_is_led_by_its_Team')); ?>
-</p>
+<p><b>About Species 2000</b><br />
+<a href="http://www.sp2000.org" target="_blank" title="Species 2000"><img
+    class="right-align"
+    src="<?php
+    echo $this->baseUrl();
+    ?>/images/sp2000_small.gif"
+    width="142" height="62"></a>
+Species 2000 (<a href="http://www.sp2000.org">www.sp2000.org</a>) is an
+autonomous federation of taxonomic database custodians, involving
+taxonomists throughout the world. Its goal is to collate a uniform and
+validated index to the world's known species. It is a not-for-profit
+company limited by guarantee (registered in England No. 3479405) with
+six directors and taxonomic database organisations from around the world
+as members. It is sponsored by CODATA, IUBS and IUMS; is an associate
+participant in GBIF; and is recognised by UNEP and the CBD. There are
+two regional programmes: Species 2000 europa (<a
+    href="http://www.sp2000europa.org">sp2000europa.org</a>), working
+with global and regional databases based in Europe and Species 2000
+Asia-Oceania (<a href="http://www.sp2000ao.nies.go.jp">www.sp2000ao.nies.go.jp</a>)
+working to promote taxonomy and taxonomic databasing in that region. The
+Phase II Programme is establishing a number of regional/national hubs of
+which the European Hub, the Species 2000 China Node (<a
+    href="http://www.sp2000.cn">www.sp2000.cn</a>), the Brazilian Hub
+(El Catalogo da Vida Brazil) and the N America Hub are the first to
+appear.</p>
+<p>The Species 2000 scientific programme is led by its Team: Guy
+Baillargeon (Canada), Frank Bisby (UK), Thierry Bourgoin (France), Jerry
+Cooper (New Zealand), Dennis Gordon (New Zealand), Keping Ma (China),
+Luciane Marinoni (Brazil), Michael A Ruggiero (USA), Nicolas Bailly
+(Philippines), Edward Vanden Berghe (Belgium), Richard J White (UK),
+Karen L Wilson (Australia), with further assistance from the Species
+2000 europa Steering Group, the Species 2000 Asia-Oceania Group and the
+Species 2000 China Node.</p>
 </div>
-<div class="horizontal_line"><br/></div>
-<?php echo $this->navigator_bottom; ?>
+<div class="horizontal_line"><br />
+</div>
+<?php
+echo $this->navigator_bottom;
+?>
