@@ -431,15 +431,15 @@ div.export-warning {
     display: block;
     min-width: 410px;
 }
-.search-box {
-    width: 410px;    
+.centered-box {
+    width: 410px;
 }
 @media screen and (-webkit-min-device-pixel-ratio:0) {
-    .search-box {
-        width: 440px;    
+    .centered-box {
+        width: 440px;
     }
 }
-#content.search-box {
+#content.centered-box {
     display: table;
 }
 #left-col {
@@ -768,4 +768,14 @@ li:hover ul, li.over ul {
 .hidden {
     visibility: hidden;
 }
+#footer {
+    width: 440px;
+    line-height: 20px;
+    text-align: left;
+    margin-top: 20px;
+    padding: 0;
+}
+#footer a {
+    color: #006;
+    text-decoration: none;
 }
