@@ -834,10 +834,16 @@ class ACI_Model_Search extends AModel
                     "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
                     ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
                     "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
-                'accepted_species_author' => 'sn.author'
+                'accepted_species_author' => 'sn.author',
+                'kingdom' => 'fm.kingdom'
             )
         )
-        ->where('sn.name_code = ? AND is_accepted_name = 1', $nameCode);
+        ->joinLeft(
+            array('fm' => 'families'),
+            'sn.family_id = fm.record_id',
+            array()
+        )
+        ->where('sn.name_code = ? AND sn.is_accepted_name = 1', $nameCode);
         return $select->query()->fetch();
     }
     
