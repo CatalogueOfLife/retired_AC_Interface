@@ -17,24 +17,28 @@ class ACI_Helper_Export extends Zend_Controller_Action_Helper_Abstract
     
     public function csv($controller, $action, Zend_Db_Select $select, $fileName)
     {
-        $this->setHeaders($fileName);
+        $timeLimit = ini_get('max_execution_time');
+        set_time_limit(300); // 5 minutes
+        //$this->setHeaders($fileName);
         $actionController = $this->getActionController();
-        $actionController->view->data =
-            $this->_loadData($controller, $action, $select);
         $actionController->view->separator = self::SEPARATOR;
+        $db = clone $actionController->getDbAdapter();
+        $stmt = $db->query($select);
+        $res = array();
         $actionController->renderScript(
-            $controller . '/export/' . $action . '.phtml'
+            $controller . '/export/' . $action . '/headers.phtml'
         );
-    }
-    
-    protected function _loadData($controller, $action, Zend_Db_Select $select)
-    {
-        $db = $this->getActionController()->getDbAdapter();
-        $res = $this->getActionController()
-            ->getHelper('DataFormatter')->formatPlain(
-                $select->query()->fetchAll()
+        while($row = $stmt->fetch()) {
+            $this->getActionController();
+            $actionController->view->data = $actionController
+                ->getHelper('DataFormatter')->formatPlainRow($row);
+            $actionController->renderScript(
+                $controller . '/export/' . $action . '/data.phtml'
             );
-        return $res;
+            flush();
+        }
+        // restore maximum execution time to the default value
+        set_time_limit($timeLimit);
     }
     
     public function setHeaders($fileName)

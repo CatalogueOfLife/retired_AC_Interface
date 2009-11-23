@@ -376,14 +376,6 @@ class ACI_Model_Search extends AModel
                 'sn.author',
                 'language' => new Zend_Db_Expr("''"),
                 'sn.accepted_name_code',
-                /*
-                'accepted_species_id' => 'snt.record_id',
-                'accepted_species_name' =>
-                    "TRIM(CONCAT(IF(snt.genus IS NULL, '', snt.genus) " .
-                    ", ' ', IF(snt.species IS NULL, '', snt.species), ' ', " .
-                    "IF(snt.infraspecies IS NULL, '', snt.infraspecies)))",
-                'accepted_species_author' => 'snt.author',
-                */
                 // Joining again to scientific_names produces a killing query
                 // The accepted species data is retrieved afterwards
                 'accepted_species_id' => new Zend_Db_Expr(0),
@@ -424,12 +416,6 @@ class ACI_Model_Search extends AModel
             'tx.name_code = sn.name_code',
             array()
         )
-        /*
-        ->joinLeft(
-            array('snt' => 'scientific_names'),
-            'sn.accepted_name_code = snt.name_code',
-            array()
-        )*/
         ->joinLeft(
             array('fm' => 'families'),
             'sn.family_id = fm.record_id',

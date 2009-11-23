@@ -106,36 +106,31 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         return $res;
     }
     
-    public function formatPlain(array $data)
+    public function formatPlainRow(array $row)
     {
         $translator = Zend_Registry::get('Zend_Translate');
-        foreach ($data as &$row) {
-            $this->_addAcceptedName($row);
-            $row['name'] = $this->_appendTaxaSuffix(
-                $row['name'], $row['status'],
-                $row['status'] == ACI_Model_Table_Taxa::STATUS_COMMON_NAME ?
-                $row['language'] : $row['author']
-            );
-            $row['rank'] = $translator->translate(
-                ACI_Model_Table_Taxa::getRankString($row['rank'])
-            );
-            $row['status'] = $translator->translate(
-                ACI_Model_Table_Taxa::getStatusString($row['status'], false)
-            );
-            $row['accepted_species_name'] = $this->_appendTaxaSuffix(
-                $row['accepted_species_name'],
-                ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME,
-                $row['accepted_species_author']
-            );
-            // Enclose values between double quotes
-            foreach($row as &$r) {
-                if(strpos($r, '"') !== false) {
-                    $r = str_replace('"', '\"', $r);
-                }
-                $r = '"' . $r . '"';
-            }
+        $this->_addAcceptedName($row);
+        $row['name'] = $this->_appendTaxaSuffix(
+            $row['name'], $row['status'],
+            $row['status'] == ACI_Model_Table_Taxa::STATUS_COMMON_NAME ?
+            $row['language'] : $row['author']
+        );
+        $row['rank'] = $translator->translate(
+            ACI_Model_Table_Taxa::getRankString($row['rank'])
+        );
+        $row['status'] = $translator->translate(
+            ACI_Model_Table_Taxa::getStatusString($row['status'], false)
+        );
+        $row['accepted_species_name'] = $this->_appendTaxaSuffix(
+            $row['accepted_species_name'],
+            ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME,
+            $row['accepted_species_author']
+        );
+        // Enclose values between double quotes
+        foreach($row as &$r) {
+            $r = '"' . str_replace('"', '\"', $r) . '"';
         }
-        return $data;
+        return $row;
     }
     
     /**
@@ -430,7 +425,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         return trim($name);
     }
     
-    protected function _addAcceptedName(&$row)
+    protected function _addAcceptedName(array &$row)
     {
         if(!$row['accepted_species_id']) {
             $row = array_merge(
