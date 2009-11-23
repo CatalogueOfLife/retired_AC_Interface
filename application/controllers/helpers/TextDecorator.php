@@ -69,9 +69,7 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
         }
         $pattern = '#(^[^ \(\)]*\b)(.*)#';
         $replacement ='<a href="$1">$1</a>$2';
-        $linkText = ltrim($linkText, "#");
-        $link = preg_replace($pattern,$replacement,$linkText);
-//        $link = '<a href="' . $linkText . '">' . $linkText . '</a>';
+        $link = preg_replace($pattern, $replacement, trim($linkText, "#"));
         return $link;
     }
 
@@ -83,6 +81,6 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
         $replace = array(
             '<span class="new">NEW!</span>'
         );
-        return str_replace($find,$replace,$text);
+        return str_replace($find, $replace, $text);
     }
 }

@@ -30,7 +30,7 @@ class InfoController extends AController
         $this->view->title =
             sprintf(
                 $this->view->translate('Info_annual_checklist'),
-                $this->view->app->version
+                $this->view->app->edition
             );
         $this->view->headTitle($this->view->title, 'APPEND');
     }

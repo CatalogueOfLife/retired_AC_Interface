@@ -104,7 +104,7 @@
               <li class="<?php echo $this->action == 'ac' ?
                 'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/ac">
                   <?php printf($this->translate('Info_annual_checklist'),
-                      $this->app->version); ?></a></li>
+                      $this->app->edition); ?></a></li>
               <li class="<?php echo $this->action == 'databases' ?
                 'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/databases">
                   <?php echo $this->translate('Source_databases'); ?></a></li>
@@ -134,6 +134,15 @@
         <div id="content" class="view <?php echo isset($this->contentClass) ? $this->contentClass : ''; ?>">
             <?php echo $this->layout()->content; ?>
             <?php echo $this->inlineScript(); ?>
+        </div>
+        <div id="footer">
+            <?php echo '<span class="app-name">' . $this->app->name . '</span> ' .
+                '<span class="app-version">v' . $this->app->version . '</span> ' .
+                sprintf(
+                    $this->translate('developed_by'),
+                    '<a href="http://www.eti.uva.nl">ETI Bioinformatics</a>'
+                );
+            ?>
         </div>
     </div>
     <?php echo $this->googleAnalytics($this->googleAnalyticsTrackerId); ?>

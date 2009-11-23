@@ -34,7 +34,7 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
             }
         }
         $this->_ac->view->formHeader = $header;
-        $this->_ac->view->contentClass = 'search-box';
+        $this->_ac->view->contentClass = 'centered-box';
         $this->_ac->view->form = $form;
         $this->_ac->renderScript('search/form.phtml');
     }
@@ -153,7 +153,7 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
                     'about' => $this->_ac->view->translate('Info_about'),
                     'ac' => sprintf(
                         $this->_ac->view->translate('Info_annual_checklist'),
-                        $this->_ac->view->app->version
+                        $this->_ac->view->app->edition
                     ),
                     'databases' => $this->_ac->view->translate('Source_databases'),
                     'hierarchy' => $this->_ac->view->translate('Management_hierarchy'),

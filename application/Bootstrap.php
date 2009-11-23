@@ -88,7 +88,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             ->appendHttpEquiv('Content-Type', 'text/html;charset=iso-8859-1');
         $view->headTitle(
             'Catalogue of Life - ' .
-            $config->custom->application->version . ' Annual Checklist'
+            $config->custom->application->edition . ' Annual Checklist'
         );
         $view->headTitle()->setSeparator(' :: ');
         // Add custom view helpers path
