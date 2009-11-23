@@ -79,7 +79,7 @@
 	<!-- Deploy -->
 	<target name="deploy">
 	    <svnupdate svnpath="svn" nocache="true" todir="${project.path}" />
-		<copy todir="${project.path}/application/configs">
+		<copy todir="${project.path}/application/configs" overwrite="true">
 		    <filterchain>
 		  	    <replacetokens>
 		  	        <token key="APP.EDITION" value="${project.edition}" />
