@@ -412,6 +412,12 @@ div.copyright_notice {
     border: 1px solid #000;
 	background-color: #fff;
 }
+div.export-warning {
+    background: #fff url(../images/warning.png) no-repeat top left;
+    line-height: 16px;
+    padding-left: 20px;
+    margin-top: 15px;
+}
 #header {
     margin: 27px 0 16px 0;
 }
