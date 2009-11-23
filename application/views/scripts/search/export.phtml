@@ -13,6 +13,12 @@
 <div class="export-form">
 <?php echo $this->form; ?>
 </div>
+<div class="export-warning">
+<?php echo sprintf(
+    $this->translate(sprintf('Export_warning')),
+    number_format($this->export_limit)
+); ?>
+</div>
 <br/>
 <br/>
 <div class="page_links align-left">

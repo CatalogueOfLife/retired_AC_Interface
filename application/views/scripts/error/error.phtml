@@ -19,8 +19,10 @@
 
 <p><?php echo $this->translate('Error_notice') ?></p>
 <br/>
+<?php if('standalone' != APPLICATION_ENV): ?>
 <p><?php echo $this->translate('Error_reported') ?></p>
 <br/>
+<?php endif; ?>
 
 <?php elseif ('development' == APPLICATION_ENV): ?>
 

@@ -117,6 +117,8 @@ class SearchController extends AController
             $this->_exportResults();
         }
         $this->view->form = $this->getHelper('FormLoader')->getExportForm();
+        $this->view->export_limit =
+            $this->getHelper('Export')->getNumRowsLimit();
     }
     
     public function __call($name, $arguments)

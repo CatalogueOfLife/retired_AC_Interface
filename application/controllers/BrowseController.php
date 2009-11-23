@@ -94,6 +94,8 @@ class BrowseController extends AController
             $this->_exportResults();
         } else {
             $this->view->form = $this->getHelper('FormLoader')->getExportForm();
+            $this->view->export_limit =
+                $this->getHelper('Export')->getNumRowsLimit();
             $this->renderScript('search/export.phtml');
         }
     }
