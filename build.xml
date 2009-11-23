@@ -13,7 +13,9 @@
 
 	<!-- Checkout latest version from SVN -->
 	<target name="checkout">
-		<svnupdate svnpath="svn" nocache="true" todir="${basedir}" />				
+		<svnupdate svnpath="svn" nocache="true" todir="${basedir}" />
+		<svnlastrevision svnpath="svn" workingcopy="${basedir}" 
+			propertyname="svn.lastrevision"/>
 	</target>
 
 	<!-- Clean and set up build/dist directories -->
@@ -74,10 +76,22 @@
 		</phplint>
 	</target>
 	
-	<target name="updateworkingcopy">
-	   <svnupdate svnpath="svn" nocache="true" todir="${project.path}" />
+	<!-- Deploy -->
+	<target name="deploy">
+	    <svnupdate svnpath="svn" nocache="true" todir="${project.path}" />
+		<copy todir="${project.path}/application/configs">
+		    <filterchain>
+		  	    <replacetokens>
+		  	        <token key="APP.EDITION" value="${project.edition}" />
+		  	        <token key="APP.VERSION" value="${project.version}.${svn.lastrevision}" />
+		  	    </replacetokens>
+		    </filterchain>
+			<fileset dir="${basedir}/application/configs">
+			        <include name="application.ini" />
+			</fileset>
+		</copy>		
 	</target>
 
-	<target name="build" depends="clean,checkout,phplint,phpunit,phpcs,phpdoc,pdepend,updateworkingcopy" />
+	<target name="build" depends="clean,checkout,phplint,phpunit,phpcs,phpdoc,pdepend,deploy" />
 
 </project>
