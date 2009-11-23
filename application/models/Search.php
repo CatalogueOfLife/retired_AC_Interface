@@ -151,14 +151,22 @@ class ACI_Model_Search extends AModel
             )
         )
         ->order(
-            $sort ?
-            
+            array(
+                new Zend_Db_Expr('CONCAT(if(rank='.
+                    ACI_Model_Table_Taxa::RANK_INFRASPECIES . ' OR rank=' .
+                    ACI_Model_Table_Taxa::RANK_SPECIES . ',
+                    \'B\', \'A\'), \'rank\')'),
+                new Zend_Db_Expr('CONCAT(if(status=\''.
+                    ACI_Model_Table_Taxa::STATUS_COMMON_NAME
+                .'\', \'B\', \'A\'), \'name\')')
+            )
+/*            $sort ?
                 array(
                     self::getRightColumnName($sort) .
                     self::getRightSortOrder($order)
-            ) : self::_getSortParams('all')
+            ) : self::_getSortParams('all')*/
         );
-    }
+   }
     
     /**
      * Maps the sorting parameters to the real field names in the database
