@@ -19,7 +19,7 @@ class ACI_Helper_Export extends Zend_Controller_Action_Helper_Abstract
     {
         $timeLimit = ini_get('max_execution_time');
         set_time_limit(300); // 5 minutes
-        //$this->setHeaders($fileName);
+        $this->setHeaders($fileName);
         $actionController = $this->getActionController();
         $actionController->view->separator = self::SEPARATOR;
         $db = clone $actionController->getDbAdapter();
