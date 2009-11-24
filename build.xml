@@ -87,7 +87,7 @@
 		  	    </replacetokens>
 		    </filterchain>
 			<fileset dir="${basedir}/application/configs">
-			        <include name="application.xml" />
+			    <include name="application.xml" />
 			</fileset>
 		</copy>
 	</target>
