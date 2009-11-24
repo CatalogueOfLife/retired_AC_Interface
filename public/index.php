@@ -7,7 +7,6 @@
  *
  * @category    ACI
  * @package     public
- *
  */
 // Define path to application directory
 defined('APPLICATION_PATH')
@@ -30,13 +29,26 @@ set_include_path(
     )
 );
 
-/** Zend_Application */
+// Incude classes required for the initialitzation of the app
 require_once 'Zend/Application.php';
+require_once 'Zend/Config/Xml.php';
+require_once 'Zend/Config/Ini.php';
 
-// Create application, bootstrap, and run
-$application = new Zend_Application(
+// Load configuration
+$config = new Zend_Config_Xml(
+    APPLICATION_PATH . '/configs/application.xml',
     APPLICATION_ENV,
-    APPLICATION_PATH . '/configs/application.ini'
+    true
 );
-
+$config->merge(
+    new Zend_Config_Ini(
+        APPLICATION_PATH . '/configs/config.ini',
+        APPLICATION_ENV
+    )
+);
+// Init application
+$application = new Zend_Application(APPLICATION_ENV, $config);
+// Store config
+Zend_Registry::set('config', $config);
+// Run bootstrap
 $application->bootstrap()->run();

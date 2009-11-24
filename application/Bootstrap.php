@@ -14,20 +14,6 @@
  */
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
-    
-    /**
-     * Configuration initialization
-     * It loads the application configuration and sets it in teh registry
-     * to be accessed globally
-     */
-    public function _initConfig()
-    {
-        $config = new Zend_Config_Ini(
-            APPLICATION_PATH . '/configs/application.ini',
-            APPLICATION_ENV);
-        Zend_Registry::set('config', $config);
-    }
-    
     public function _initAutoload()
     {
         $resourceLoader = new Zend_Loader_Autoloader_Resource(
@@ -88,7 +74,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             ->appendHttpEquiv('Content-Type', 'text/html;charset=iso-8859-1');
         $view->headTitle(
             'Catalogue of Life - ' .
-            $config->custom->application->edition . ' Annual Checklist'
+            $config->eti->application->edition . ' Annual Checklist'
         );
         $view->headTitle()->setSeparator(' :: ');
         // Add custom view helpers path
@@ -96,28 +82,26 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $view->addHelperPath(
             APPLICATION_PATH . '/views/helpers/', 'ACI_View_Helper'
         );
+        // View renderer
         $viewRenderer = new Zend_Controller_Action_Helper_ViewRenderer();
         $viewRenderer->setView($view);
-        // Initialize Dojo, disabled by default
-        Zend_Dojo::enableView($view);
-        $view->dojo()->disable();
         Zend_Controller_Action_HelperBroker::addHelper($viewRenderer);
         Zend_Controller_Action_HelperBroker::addPath(
             APPLICATION_PATH . '/controllers/helpers', 'ACI_Helper'
         );
         //Variables
-        $view->app = $config->custom->application;
+        $view->app = $config->eti->application;
         return $view;
     }
     
     /**
-     * Database initialization based on the application ini config file
-     *
+     * Database initialization based on the application config file
      */
     public function _initDatabase()
     {
         $config = Zend_Registry::get('config');
-        $db = Zend_Db::factory($config->resources->db);
+        $db = Zend_Db::factory($config->database);
+        Zend_Db_Table_Abstract::setDefaultAdapter($db);
         $db->setFetchMode(Zend_Db::FETCH_ASSOC);
         Zend_Registry::set('db', $db);
     }

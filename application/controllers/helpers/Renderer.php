@@ -172,7 +172,7 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
                 'navigateToSelected("' . $baseUrl .
                 '", document.getElementById("' . $selId . '"), "next")';
         ($this->getRequest()->getParam('action') == 'acknowledgements' ?
-            $nav->getElement('next')->setAttrib('class','hidden') : '');
+            $nav->getElement('next')->setAttrib('class', 'hidden') : '');
         $nav->getElement('previous')->setAttrib('id', 'previous_' . $pos)
             ->onclick =
                 'navigateToSelected("' . $baseUrl .

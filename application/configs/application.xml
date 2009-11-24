@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:zf="http://framework.zend.com/xml/zend-config-xml/1.0/">
+    <!-- Production Environment -->
+    <production>
+        <eti>
+            <application>
+                <name>Annual Checklist Interface</name>
+                <edition>@APP.EDITION@</edition>
+                <version>@APP.VERSION@</version>
+            </application>
+        </eti>
+        <phpSettings>
+            <display_startup_errors>0</display_startup_errors>
+            <display_errors>0</display_errors>
+        </phpSettings>
+        <includePaths>
+            <library><zf:const zf:name="APPLICATION_PATH"/>/../library</library>
+        </includePaths>
+        <bootstrap>
+            <path><zf:const zf:name="APPLICATION_PATH"/>/Bootstrap.php</path>
+            <class>Bootstrap</class>
+        </bootstrap>
+        <database>
+            <adapter>Mysqli</adapter>
+            <profiler enabled="0" />
+            <params>
+                <!-- overriden by config.ini -->
+                <host></host>
+                <username></username>
+                <password></password>
+                <dbname></dbname>
+                <!--  -->
+            </params>
+        </database>
+        <resources>
+            <frontController>
+                <controllerDirectory><zf:const zf:name="APPLICATION_PATH"/>/controllers</controllerDirectory>
+                <defaultControllerName>search</defaultControllerName>
+                <defaultAction>all</defaultAction>
+            </frontController>
+        </resources>
+        <view>
+            <!-- overriden by config.ini -->
+            <googleAnalytics>
+                <trackerId></trackerId>
+            </googleAnalytics>
+            <!--  -->
+        </view>
+        <log enabled="1">
+            <filter>
+                <priority>3</priority>
+            </filter>
+        </log>
+        <cache enabled="1">
+            <directory><zf:const zf:name="APPLICATION_PATH"/>/cache</directory>
+            <prefix>aci_cache</prefix>
+        </cache>
+    </production>
+    <!-- CD Environment -->
+    <standalone zf:extends="production">
+        <log enabled="0" />
+        <cache enabled="0" />
+    </standalone>
+    <!-- Staging Environment -->
+    <staging zf:extends="production">
+    </staging>
+    <!-- Testing Environment -->
+    <testing zf:extends="production">        
+        <phpSettings>
+            <display_startup_errors>1</display_startup_errors>
+            <display_errors>1</display_errors>
+        </phpSettings>
+        <log enabled="1">
+            <filter>
+                <priority>7</priority>
+            </filter>
+        </log>
+    </testing>
+    <!-- Development Environment -->
+    <development zf:extends="production">
+        <eti>
+            <application>
+                <edition>2009</edition>
+                <version>1.1.1</version>
+            </application>
+        </eti>
+        <phpSettings>
+            <display_startup_errors>1</display_startup_errors>
+            <display_errors>1</display_errors>
+        </phpSettings>
+        <database>
+            <profiler enabled="1">
+                <class>Zend_Db_Profiler_Firebug</class>
+            </profiler>            
+        </database>
+        <log enabled="1">
+            <filter>
+                <priority>7</priority>
+            </filter>
+        </log>
+    </development>
+</config>

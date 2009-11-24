@@ -17,25 +17,24 @@ class BrowseControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         parent::setUp();
         $this->frontController
              ->addControllerDirectory(APPLICATION_PATH . '/controllers');
-    }    
-    //TODO: review (fix?) and re-enable assertions, shouldn't be crashing
+    }
     /**
      * Browse controller redirects requests with no action to browse/tree
      */
     public function testDefaultBrowsePageIsASuccessfulRequestToBrowseTree()
-    {        
+    {
         $this->dispatch('/browse');
-        //$this->assertFalse($this->response->isException());
-        //$this->assertResponseCode(200);
+        $this->assertFalse($this->response->isException());
+        $this->assertResponseCode(200);
         $this->assertNotRedirect();
-        //$this->assertController('browse');
-        //$this->assertAction('tree');
+        $this->assertController('browse');
+        $this->assertAction('tree');
     }
     
     public function testDefaultBrowseAction()
     {
-        //$this->dispatch('/browse/dummy');
-        //$this->assertController('browse');
-        //$this->assertAction('tree');
+        $this->dispatch('/browse/dummy');
+        $this->assertController('browse');
+        $this->assertAction('tree');
     }
 }

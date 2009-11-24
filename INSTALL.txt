@@ -23,3 +23,6 @@ Required version: 2.0+
 
 INSTALLATION
 -------------
+1. Modify application.ini for db settings
+2. Modify .htaccess for Rewrite URL (environment)
+3. Change permissions log, cache

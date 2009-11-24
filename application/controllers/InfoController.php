@@ -13,16 +13,11 @@ require_once 'AController.php';
  */
 class InfoController extends AController
 {
-    public function init()
-    {
-        parent::init();
-        $this->_setNavigator();
-    }
-    
     public function aboutAction ()
     {
         $this->view->title = $this->view->translate('Info_about');
         $this->view->headTitle($this->view->title, 'APPEND');
+        $this->_setNavigator();
     }
     
     public function acAction ()
@@ -33,6 +28,7 @@ class InfoController extends AController
                 $this->view->app->edition
             );
         $this->view->headTitle($this->view->title, 'APPEND');
+        $this->_setNavigator();
     }
     
     public function databasesAction ()
@@ -58,12 +54,14 @@ class InfoController extends AController
                 ->formatDatabaseDetails($row);
         }
         $this->view->results = $results;
+        $this->_setNavigator();
     }
     
     public function hierarchyAction ()
     {
         $this->view->title = $this->view->translate('Management_hierarchy');
         $this->view->headTitle($this->view->title, 'APPEND');
+        $this->_setNavigator();
     }
     
     public function copyrightAction ()
@@ -71,30 +69,35 @@ class InfoController extends AController
         $this->view->title = $this->view
             ->translate('Copyright_reproduction_sale');
         $this->view->headTitle($this->view->title, 'APPEND');
+        $this->_setNavigator();
     }
     
     public function citeAction ()
     {
         $this->view->title = $this->view->translate('Cite_work');
         $this->view->headTitle($this->view->title, 'APPEND');
+        $this->_setNavigator();
     }
     
     public function websitesAction ()
     {
         $this->view->title = $this->view->translate('Web_sites');
         $this->view->headTitle($this->view->title, 'APPEND');
+        $this->_setNavigator();
     }
     
     public function contactAction ()
     {
         $this->view->title = $this->view->translate('Contact_us');
         $this->view->headTitle($this->view->title, 'APPEND');
+        $this->_setNavigator();
     }
     
     public function acknowledgementsAction ()
     {
         $this->view->title = $this->view->translate('Acknowledgements');
         $this->view->headTitle($this->view->title, 'APPEND');
+        $this->_setNavigator();
     }
     
     protected function _setNavigator()
