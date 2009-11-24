@@ -1,8 +1,8 @@
-SetEnv APPLICATION_ENV development
+SetEnv APPLICATION_ENV @ENVIRONMENT@
 php_value session.auto_start 0
 
 RewriteEngine On
-RewriteBase /aci/
+RewriteBase /
 RewriteCond %{REQUEST_FILENAME} -s [OR]
 RewriteCond %{REQUEST_FILENAME} -l [OR]
 RewriteCond %{REQUEST_FILENAME} -d
