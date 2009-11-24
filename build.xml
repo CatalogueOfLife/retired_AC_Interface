@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>	
 <project default="build" basedir=".">
 
-	<property name="env" value="production" />
+	<property name="environment" value="production" />
 	<property name="basedir" value="${project.basedir}" />
 	<property name="build" value="${basedir}/../build" />
 	<property file="build.properties" />
@@ -88,7 +88,7 @@
 			  overwrite="true">
             <filterchain>
                 <replacetokens>
-                    <token key="ENVIRONMENT" value="${env}" />
+                    <token key="ENVIRONMENT" value="${environment}" />
                 </replacetokens>
             </filterchain>
         </copy>
@@ -98,7 +98,7 @@
               overwrite="true">
             <filterchain>
                 <replacetokens>
-                    <token key="ENVIRONMENT" value="${env}" />
+                    <token key="ENVIRONMENT" value="${environment}" />
                 </replacetokens>
             </filterchain>
         </copy>
