@@ -87,9 +87,9 @@
 		  	    </replacetokens>
 		    </filterchain>
 			<fileset dir="${basedir}/application/configs">
-			        <include name="application.ini" />
+			        <include name="application.xml" />
 			</fileset>
-		</copy>		
+		</copy>
 	</target>
 
 	<target name="build" depends="clean,checkout,phplint,phpunit,phpcs,phpdoc,pdepend,deploy" />
