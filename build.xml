@@ -85,34 +85,25 @@
 		
 		<copy file="${basedir}/application/configs/config.ini.tpl"
 			  tofile="${dist}/source/application/configs/config.ini" 
-			  overwrite="true">
-            <filterchain>
-                <replacetokens>
-                    <token key="ENVIRONMENT" value="${environment}" />
-                </replacetokens>
-            </filterchain>
-        </copy>
+			  overwrite="true" />
 		
 		<copy file="${basedir}/public/.htaccess.tpl"
               tofile="${dist}/source/public/.htaccess" 
-              overwrite="true">
-            <filterchain>
-                <replacetokens>
-                    <token key="ENVIRONMENT" value="${environment}" />
-                </replacetokens>
-            </filterchain>
-        </copy>
+              overwrite="true" />
 		
 		<reflexive>
 		    <fileset dir="${dist}/source">
-		        <include name="application/configs/application.xml" />
+		        <include name="application/configs/config.ini" />
+		    	<include name="application/configs/application.xml" />
 		    	<include name="INSTALL.txt" />
+		    	<include name="public/.htaccess" />
 			</fileset>
 			<filterchain>
 				<replacetokens>
 				    <token key="APP.EDITION" value="${project.edition}" />
 				    <token key="APP.VERSION" value="${project.version}.r${revision}" />
 				    <token key="TIMESTAMP" value="${NOW}" />
+					<token key="ENVIRONMENT" value="${environment}" />
 				</replacetokens>
 			</filterchain>
         </reflexive>
