@@ -1,3 +1,9 @@
+******************************************
+ETI Bioinformatics
+Annual Checklist Interface v@APP.VERSION@
+@TIMESTAMP@
+******************************************
+
 SYSTEM REQUIREMENTS
 --------------------
 The Annual Checklist Interface is built on the the Zend Framework 
@@ -24,5 +30,5 @@ Required version: 2.0+
 INSTALLATION
 -------------
 1. Modify application.ini for db settings
-2. Modify .htaccess for Rewrite URL (environment)
+2. Modify .htaccess for Rewrite URL if needed
 3. Change permissions log, cache
