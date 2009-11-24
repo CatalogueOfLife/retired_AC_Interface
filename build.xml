@@ -88,8 +88,11 @@
 		    </filterchain>
 			<fileset dir="${basedir}/application/configs">
 			    <include name="application.xml" />
-			</fileset>
+			</fileset>			
 		</copy>
+		<!-- Setting permissions -->
+		<exec dir="${basedir}" 
+			 command="chmod 777 application/log application/cache" />
 	</target>
 
 	<target name="build" depends="clean,checkout,phplint,phpunit,phpcs,phpdoc,pdepend,deploy" />
