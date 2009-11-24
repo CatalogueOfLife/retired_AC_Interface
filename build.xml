@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>	
 <project default="build" basedir=".">
 
+	<property name="env" value="production" />
 	<property name="basedir" value="${project.basedir}" />
 	<property name="build" value="${basedir}/../build" />
 	<property file="build.properties" />
+	<property name="dist" value="${basedir}/../dist" />
+    <property name="dist.name" value="${project.name}-${project.version}" />
+	<!-- PHP Fileset -->
 	<patternset id="inc.php.files">
 		<include name="**/*.php" />
 		<exclude name="**/tests/**" />
 		<exclude name="**/library/**" />
 		<exclude name="**/public/scripts/**" />
 	</patternset>
+	<!-- Fileset excluded from dist -->
+	<patternset id="dist.exc">	        
+	    <!--build files-->
+	    <exclude name="build.*" />
+		<!--tests-->
+	    <exclude name="**/tests/**" />
+		<!--file templates -->
+		<exclude name="**/*.tpl" />
+	</patternset>
+	<tstamp>
+	    <format property="NOW" pattern="%c" locale="nl_NL"/>
+	</tstamp>
 
 	<!-- Checkout latest version from SVN -->
 	<target name="checkout">
@@ -21,10 +37,11 @@
 	<!-- Clean and set up build/dist directories -->
 	<target name="clean">
 		<delete dir="${build}" includeemptydirs="true" />
+		<delete dir="${dist}" includeemptydirs="true" />			
 		<mkdir dir="${build}/logs" />
 		<mkdir dir="${build}/api" />
 		<mkdir dir="${build}/coverage" />
-		<mkdir dir="${build}/graph" />
+		<mkdir dir="${dist}" />
 	</target>
 	
 	<!-- Generate documentation -->
@@ -33,15 +50,6 @@
             command="phpdoc -ct type -ue on -t ${build}/api
                      -tb /usr/share/php/data/phpUnderControl/data/phpdoc -o HTML:Phpuc:phpuc
                      -d ${basedir}/application,${basedir}/tests -f ${basedir}/public/index.php" />
-    </target>
-    
-    <!-- Execute Code Sniffer -->
-    <target name="phpcs">
-        <exec dir="${basedir}"
-            command="phpcs --report=checkstyle --standard=Zend 
-                   --ignore=library/Zend/**,public/scripts/** 
-                   ${basedir} > ${build}/logs/checkstyle.xml"
-            escape="false" />
     </target>
     
     <!-- PHPUnit -->
@@ -55,18 +63,7 @@
             --coverage-html ${build}/coverage                      
             tests" />
     </target>
-    
-    <!-- Execute pdepend and store reports -->
-    <target name="pdepend">
-        <exec dir="${basedir}"
-            command="pdepend --jdepend-xml=${build}/logs/jdepend.xml 
-                           --summary-xml=${build}/logs/jdepend-summary.xml 
-                           --overview-pyramid=${build}/graph/pyramid.svg 
-                           --jdepend-chart=${build}/graph/jdepend.svg
-                           --ignore=library/Zend/**,public/scripts/** 
-                           ${basedir}" />
-    </target>
-
+	
 	<!-- Check PHP syntax -->
 	<target name="phplint">
 		<phplint haltonfailure="true">
@@ -76,22 +73,61 @@
 		</phplint>
 	</target>
 	
-	<!-- Deploy -->
-	<target name="deploy">
-	    <svnupdate svnpath="svn" nocache="true" todir="${project.path}" />
-		<copy todir="${project.path}/application/configs" overwrite="true">
-		    <filterchain>
-		  	    <replacetokens>
-		  	        <token key="APP.EDITION" value="${project.edition}" />
-		  	        <token key="APP.VERSION" value="${project.version}.r${svn.lastrevision}" />
-		  	    </replacetokens>
-		    </filterchain>
-			<fileset dir="${basedir}/application/configs">
-			    <include name="application.xml" />
+	<!-- Create deliverable -->
+	<target name="dist">		
+		<mkdir dir="${dist}/source" />
+        <mkdir dir="${dist}/source/${dist.name}" />
+        <copy todir="${dist}/source/${dist.name}">
+            <fileset dir=".">
+                <patternset refid="dist.exc" />
+            </fileset>
+        </copy>
+		
+		<copy file="${basedir}/application/configs/config.ini.tpl"
+			  tofile="${dist}/source/application/configs/config.ini" 
+			  overwrite="true">
+            <filterchain>
+                <replacetokens>
+                    <token key="ENVIRONMENT" value="${env}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+		
+		<copy file="${basedir}/application/public/.htaccess.tpl"
+              tofile="${dist}/source/application/public/.htaccess" 
+              overwrite="true">
+            <filterchain>
+                <replacetokens>
+                    <token key="ENVIRONMENT" value="${env}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+		
+		<reflexive>
+		    <fileset dir="${dist}/source">
+		        <include name="application/configs/application.xml" />
+		    	<include name="INSTALL.txt" />
 			</fileset>
-		</copy>
+			<filterchain>
+				<replacetokens>
+				    <token key="APP.EDITION" value="${project.edition}" />
+				    <token key="APP.VERSION" value="${project.version}.r${svn.lastrevision}" />
+				    <token key="TIMESTAMP" value="${NOW}" />
+				</replacetokens>
+			</filterchain>
+        </reflexive>
+		
+		<!-- zip -->        
+        <exec dir="${dist}/source"
+              command="zip -r ${dist}/${dist.name}.r${revision}.zip ${dist.name}"
+              escape = "false"/>
+        <!-- tar.gz -->
+        <exec dir="${dist}/source"
+              command="tar czvf ${dist}/${dist.name}.r${revision}.tar.gz ${dist.name}"
+              escape = "false"/>
+        <delete dir="${dist}/source" includeemptydirs="true" />
 	</target>
-
-	<target name="build" depends="clean,checkout,phplint,phpunit,phpcs,phpdoc,pdepend,deploy" />
+	
+	<target name="build" depends="clean,checkout,phplint,phpunit,phpdoc,dist" />
 
 </project>
