@@ -1,3 +1,4 @@
+[@ENVIRONMENT@]
 # Database
 database.params.host     = localhost
 database.params.username = 
