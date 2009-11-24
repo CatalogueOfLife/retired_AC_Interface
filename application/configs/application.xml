@@ -72,7 +72,7 @@
         </phpSettings>
         <log enabled="1">
             <filter>
-                <priority>7</priority>
+                <priority>6</priority>
             </filter>
         </log>
     </testing>

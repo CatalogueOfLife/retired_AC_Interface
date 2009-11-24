@@ -27,6 +27,7 @@ abstract class AController extends Zend_Controller_Action
         $this->view->action = $this->getRequest()->action;
         $this->view->latestSearch = $this->getHelper('Query')->getLatestQuery();
         $config = Zend_Registry::get('config');
+        $this->view->app = $config->eti->application;
         $this->view->googleAnalyticsTrackerId =
             $config->view->googleAnalytics->trackerId;
     }

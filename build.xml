@@ -47,7 +47,7 @@
     <!-- PHPUnit -->
     <target name="phpunit">
         <exec dir="${basedir}"
-            checkreturn="false" 
+            checkreturn="true" 
             command="phpunit
             --configuration tests/phpunit.xml
             --log-junit ${build}/logs/phpunit.xml
