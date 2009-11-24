@@ -93,8 +93,8 @@
             </filterchain>
         </copy>
 		
-		<copy file="${basedir}/application/public/.htaccess.tpl"
-              tofile="${dist}/source/application/public/.htaccess" 
+		<copy file="${basedir}/public/.htaccess.tpl"
+              tofile="${dist}/source/public/.htaccess" 
               overwrite="true">
             <filterchain>
                 <replacetokens>
