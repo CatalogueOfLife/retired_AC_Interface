@@ -31,7 +31,7 @@
 	<target name="checkout">
 		<svnupdate svnpath="svn" nocache="true" todir="${basedir}" />
 		<svnlastrevision svnpath="svn" workingcopy="${basedir}" 
-			propertyname="svn.lastrevision"/>
+			propertyname="revision"/>
 	</target>
 
 	<!-- Clean and set up build/dist directories -->
@@ -111,7 +111,7 @@
 			<filterchain>
 				<replacetokens>
 				    <token key="APP.EDITION" value="${project.edition}" />
-				    <token key="APP.VERSION" value="${project.version}.r${svn.lastrevision}" />
+				    <token key="APP.VERSION" value="${project.version}.r${revision}" />
 				    <token key="TIMESTAMP" value="${NOW}" />
 				</replacetokens>
 			</filterchain>
