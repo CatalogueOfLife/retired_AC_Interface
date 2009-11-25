@@ -4,10 +4,11 @@ Annual Checklist Interface v@APP.VERSION@
 @TIMESTAMP@
 ******************************************
 
+The Annual Checklist Interface is built on the version 1.9.5 of the 
+Zend Framework (http://framework.zend.com).
+
 SYSTEM REQUIREMENTS
 --------------------
-The Annual Checklist Interface is built on the the Zend Framework 
-(http://framework.zend.com), version ${zf_version}.
 
 PHP
 ----
@@ -29,6 +30,7 @@ Required version: 2.0+
 
 INSTALLATION
 -------------
-1. Modify application.ini for db settings
+1. Modify config.ini for db settings and GAX
 2. Modify .htaccess for Rewrite URL if needed
 3. Change permissions log, cache
+4. Configure Apache
