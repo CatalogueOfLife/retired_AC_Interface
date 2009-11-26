@@ -140,7 +140,8 @@ class ACI_Model_Search extends AModel
      */
     public function all($searchKey, $matchWholeWords, $sort = null, $order = null)
     {
-        echo '^[^ ]*' . strtolower($searchKey) . '';
+        $regexpSearchKey = strtolower(str_replace('*','.*',$searchKey));
+        $mysqlSearchKey = strtolower(str_replace('*','%',$searchKey));
         return $this->_db->select()->union(
             array(
                 $this->_selectTaxa(
@@ -153,17 +154,24 @@ class ACI_Model_Search extends AModel
         )
         ->order(
             array(
-                new Zend_Db_Expr('CONCAT(if(rank='.
+                new Zend_Db_Expr('IF(rank='.
                     ACI_Model_Table_Taxa::RANK_INFRASPECIES . ' OR rank=' .
                     ACI_Model_Table_Taxa::RANK_SPECIES . ',
-                    \'B\', \'A\'), \'rank\')'),
+                    99, rank)'),
                 new Zend_Db_Expr('CONCAT(if(status=\''.
                     ACI_Model_Table_Taxa::STATUS_COMMON_NAME
-                .'\', \'B\', \'A\'), \'name\')'),
-                new Zend_Db_Expr('CONCAT(if(LOWER(name) REGEXP
-                    \'^[^ ]*' . strtolower($searchKey) . '\', \'A\', \'B\'),
-                    \'name\')'),
-                'name'
+                .'\', \'D\', \'C\'), \'\')'),
+                new Zend_Db_Expr('CONCAT(IF('.
+                    ($matchWholeWords = 0 ?
+                        'LOWER(name) REGEXP \'^[^ ]*' . $regexpSearchKey . '\'' :
+                        'INSTR(LOWER(name), \'' . $mysqlSearchKey . '\')=1' ) .
+                    ', \'E\', \'F\'),
+                    \'\')'),
+                ($matchWholeWords = 0 ?
+                    new Zend_Db_Expr('CONCAT(IF(LOWER(name) REGEXP
+                        \'[[:<:]]' . $regexpSearchKey . '[[:>:]]\', \'G\', \'H\'),
+                        name)')
+                    : 'name')
             )
 /*            $sort ?
                 array(
