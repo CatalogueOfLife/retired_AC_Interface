@@ -28,8 +28,8 @@
                 <username></username>
                 <password></password>
                 <dbname></dbname>
-                <profiler enabled="0" />
                 <!--  -->
+                <profiler enabled="0" />                
             </params>
         </database>
         <resources>
@@ -90,9 +90,9 @@
         </phpSettings>
         <database>
             <params>
-	            <profiler enabled="1">
-	                <class>Zend_Db_Profiler_Firebug</class>
-	            </profiler>
+                <profiler enabled="1">
+                    <class>Zend_Db_Profiler_Firebug</class>
+                </profiler>
             </params>
         </database>
         <log enabled="1">
