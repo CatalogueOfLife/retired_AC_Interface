@@ -1,8 +1,9 @@
-******************************************
+********************************************************************
 ETI Bioinformatics
-Annual Checklist Interface v@APP.VERSION@
+Annual Checklist Interface v@APP.VERSION@ 
+Installation Instructions
 @TIMESTAMP@
-******************************************
+********************************************************************
 
 The Annual Checklist Interface is built on version 1.9.5 of the Zend Framework 
 (http://framework.zend.com)
@@ -95,10 +96,12 @@ INSTALLATION
    </Directory>
    
    IMPORTANT: When running the application in a subdomain it is necessary to
-   edit the /path/to/application/public/.htaccess file and update the 
+   edit the /path/to/application/public/.htaccess file to update the 
    RewriteBase parameter accordingly:
    
    RewriteBase /path/to/subdomain/
    
-   Finally, restart Apache to apply the changes. If the application does not
-   load as expected, check the Apache logs to get additional information.
+   Finally, restart Apache to have the changes applied. 
+   
+   NOTE: If the application does not load as expected, checking the Apache logs 
+   may help to identify the problem.
