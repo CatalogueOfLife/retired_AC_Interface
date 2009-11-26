@@ -15,18 +15,11 @@ class ACI_Model_Search extends AModel
 {
     const ITEMS_PER_PAGE = 20;
     const API_ROWSET_LIMIT = 1000;
-    
-    // Sort fields that are always added as the first of the list
-    protected static $_prioritarySortParams = array(
-        'all' => array('rank')
-    );
+
     // Default sort params, also added after the custom sort fields
     protected static $_defaultSortParams = array(
         'common' => array('name'),
-        'scientific' => array('name', 'status'),
-        'all' => array('name'),
-        'distribution' => array('distribution'),
-        'classification' => array('name', 'status')
+        'distribution' => array('distribution')
     );
     
     protected static function _getSortParams($action)
@@ -35,11 +28,6 @@ class ACI_Model_Search extends AModel
             return false;
         }
         $params = self::$_defaultSortParams[$action];
-        if (isset(self::$_prioritarySortParams[$action])) {
-            $params = array_merge(
-                self::$_prioritarySortParams[$action], $params
-            );
-        }
         return $params;
     }
     
@@ -47,6 +35,46 @@ class ACI_Model_Search extends AModel
     {
         $params = self::_getSortParams($action);
         return $params ? current($params) : '';
+    }
+    
+    protected static function _getDefaultSortExpression($searchKey,
+        $matchWholeWords)
+    {
+        if(is_array($searchKey)) {
+            // Scientific search, multiple fields
+            $searchKey = trim(
+                (isset($searchKey['genus']) ? $searchKey['genus'] : '') .
+                    ' ' .
+                (isset($searchKey['species']) ? $searchKey['species'] : '') .
+                    ' ' .
+                (isset($searchKey['infraspecies']) ?
+                    $searchKey['infraspecies'] : '')
+                );
+        }
+        $regexpSearchKey = strtolower(str_replace('*', '.*', $searchKey));
+        $mysqlSearchKey = strtolower(str_replace('*', '%', $searchKey));
+        
+        return array(
+            new Zend_Db_Expr(
+                'IF(rank < '. ACI_Model_Table_Taxa::RANK_SPECIES . ', rank, 99)'
+            ),
+            new Zend_Db_Expr(
+                'CONCAT(IF(status = '.
+                ACI_Model_Table_Taxa::STATUS_COMMON_NAME . ', "D", "C"), "")'
+            ),
+            new Zend_Db_Expr(
+                'CONCAT(IF('.
+                ($matchWholeWords == 0 ?
+                    'LOWER(name) REGEXP "^[^ ]*' . $regexpSearchKey . '"' :
+                    'INSTR(LOWER(name), "' . $mysqlSearchKey . '") = 1' ) .
+                    ', "E", "F"), "")'
+            ),
+            ($matchWholeWords == 0 ?
+                new Zend_Db_Expr('CONCAT(IF(LOWER(name) REGEXP
+                    "[[:<:]]' . $regexpSearchKey . '[[:>:]]", "G", "H"), name)'
+                ) : 'name'
+             )
+        );
     }
     
     /**
@@ -99,9 +127,8 @@ class ACI_Model_Search extends AModel
                 array(
                     self::getRightColumnName($sort) .
                     self::getRightSortOrder($order)
-                ),
-                self::_getSortParams('scientific')
-            ) : self::_getSortParams('scientific')
+                )
+            ) : self::_getDefaultSortExpression($key, $matchWholeWords)
         );
     }
     
@@ -140,8 +167,6 @@ class ACI_Model_Search extends AModel
      */
     public function all($searchKey, $matchWholeWords, $sort = null, $order = null)
     {
-        $regexpSearchKey = strtolower(str_replace('*','.*',$searchKey));
-        $mysqlSearchKey = strtolower(str_replace('*','%',$searchKey));
         return $this->_db->select()->union(
             array(
                 $this->_selectTaxa(
@@ -153,31 +178,11 @@ class ACI_Model_Search extends AModel
             )
         )
         ->order(
-            array(
-                new Zend_Db_Expr('IF(rank='.
-                    ACI_Model_Table_Taxa::RANK_INFRASPECIES . ' OR rank=' .
-                    ACI_Model_Table_Taxa::RANK_SPECIES . ',
-                    99, rank)'),
-                new Zend_Db_Expr('CONCAT(if(status=\''.
-                    ACI_Model_Table_Taxa::STATUS_COMMON_NAME
-                .'\', \'D\', \'C\'), \'\')'),
-                new Zend_Db_Expr('CONCAT(IF('.
-                    ($matchWholeWords = 0 ?
-                        'LOWER(name) REGEXP \'^[^ ]*' . $regexpSearchKey . '\'' :
-                        'INSTR(LOWER(name), \'' . $mysqlSearchKey . '\')=1' ) .
-                    ', \'E\', \'F\'),
-                    \'\')'),
-                ($matchWholeWords = 0 ?
-                    new Zend_Db_Expr('CONCAT(IF(LOWER(name) REGEXP
-                        \'[[:<:]]' . $regexpSearchKey . '[[:>:]]\', \'G\', \'H\'),
-                        name)')
-                    : 'name')
-            )
-/*            $sort ?
+            $sort ?
                 array(
                     self::getRightColumnName($sort) .
                     self::getRightSortOrder($order)
-            ) : self::_getSortParams('all')*/
+            ) : self::_getDefaultSortExpression($searchKey, $matchWholeWords)
         );
    }
     
@@ -901,11 +906,11 @@ class ACI_Model_Search extends AModel
     
     protected function _wildcardHandling($searchString)
     {
-        return str_replace(array('%','*'), array('','%'), $searchString);
+        return str_replace(array('%', '*'), array('', '%'), $searchString);
     }
     
     protected function _wildcardHandlingInRegExpression($searchString,
-        $matchWholeWords=true)
+        $matchWholeWords = true)
     {
         if ($matchWholeWords == true) {
             return str_replace(
