@@ -21,6 +21,10 @@ Required version: 5.2.10+
   mysqli  (http://www.php.net/manual/en/ref.mysqli.php)
   pcre    (http://www.php.net/manual/en/ref.pcre.php)
   session (http://www.php.net/manual/en/ref.session.php)
+  
+MySQL
+------
+Required version: 5.0+
 
 Apache
 ------
