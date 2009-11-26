@@ -140,6 +140,7 @@ class ACI_Model_Search extends AModel
      */
     public function all($searchKey, $matchWholeWords, $sort = null, $order = null)
     {
+        echo '^[^ ]*' . strtolower($searchKey) . '';
         return $this->_db->select()->union(
             array(
                 $this->_selectTaxa(
@@ -158,7 +159,11 @@ class ACI_Model_Search extends AModel
                     \'B\', \'A\'), \'rank\')'),
                 new Zend_Db_Expr('CONCAT(if(status=\''.
                     ACI_Model_Table_Taxa::STATUS_COMMON_NAME
-                .'\', \'B\', \'A\'), \'name\')')
+                .'\', \'B\', \'A\'), \'name\')'),
+                new Zend_Db_Expr('CONCAT(if(LOWER(name) REGEXP
+                    \'^[^ ]*' . strtolower($searchKey) . '\', \'A\', \'B\'),
+                    \'name\')'),
+                'name'
             )
 /*            $sort ?
                 array(
