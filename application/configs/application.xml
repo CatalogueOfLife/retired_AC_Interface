@@ -21,14 +21,14 @@
             <class>Bootstrap</class>
         </bootstrap>
         <database>
-            <adapter>Mysqli</adapter>
-            <profiler enabled="0" />
+            <adapter>Mysqli</adapter>            
             <params>
                 <!-- overriden by config.ini -->
                 <host></host>
                 <username></username>
                 <password></password>
                 <dbname></dbname>
+                <profiler enabled="0" />
                 <!--  -->
             </params>
         </database>
@@ -89,9 +89,11 @@
             <display_errors>1</display_errors>
         </phpSettings>
         <database>
-            <profiler enabled="1">
-                <class>Zend_Db_Profiler_Firebug</class>
-            </profiler>            
+            <params>
+	            <profiler enabled="1">
+	                <class>Zend_Db_Profiler_Firebug</class>
+	            </profiler>
+            </params>
         </database>
         <log enabled="1">
             <filter>
