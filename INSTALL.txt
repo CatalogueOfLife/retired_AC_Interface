@@ -4,8 +4,8 @@ Annual Checklist Interface v@APP.VERSION@
 @TIMESTAMP@
 ******************************************
 
-The Annual Checklist Interface is built on the version 1.9.5 of the 
-Zend Framework (http://framework.zend.com).
+The Annual Checklist Interface is built on version 1.9.5 of the Zend Framework 
+(http://framework.zend.com)
 
 SYSTEM REQUIREMENTS
 --------------------
@@ -30,7 +30,69 @@ Required version: 2.0+
 
 INSTALLATION
 -------------
-1. Modify config.ini for db settings and GAX
-2. Modify .htaccess for Rewrite URL if needed
-3. Change permissions log, cache
+
+1. Deploy the application
+
+   Copy the application in the web server
+
+2. Set up permissions
+
+   The web server has to have read access to all the files and read-write 
+   access to the following folders:
+
+   application/cache --> Cached query results are stored in this folder
+   application/log   --> Any error that may occur will be logger here
+   
+   Example (assuming that the web server user:group is www-data:www-data): 
+   
+   $ chown -R path/to/application www-data:www-data
+   $ chmod -R path/to/application/logs path/to/application/cache 750
+
+3. Configure the application
+
+   Edit the file path/to/application/configs/config.ini to set the database 
+   connection settings and the Google Analytics tracker id (if any, otherwise 
+   it may be left empty):
+
+   [production]
+   # Database
+   database.params.host     = localhost
+   database.params.username = here-your-username
+   database.params.password = here-your-password
+   database.params.dbname   = here-the-name-of-the-db
+    
+   # Google Analytics Tracker Id
+   view.googleAnalytics.trackerId = UA-xxxxxx-1
+
 4. Configure Apache
+
+   Create an alias inside the Apache VirtualHost in port 80 that points to the 
+   *public* folder of the application.
+   
+   Example:
+   
+   Alias / "/path/to/application/public/"
+   <Directory "/path/to/application/public">
+       Options Indexes MultiViews FollowSymLinks
+       AllowOverride FileInfo Options
+       Order allow,deny
+       Allow from all
+   </Directory>
+   
+   This configuration will make the application run in the root of the server
+   domain. It is important to add this Alias directive after the other Alias
+   no to override them. 
+   
+   If the application has to run in a subdomain, then replace the alias 
+   accordingly:
+   
+   Alias /path/to/subdomain "/path/to/application/public/"
+   <Directory "/path/to/application/public">
+       Options Indexes MultiViews FollowSymLinks
+       AllowOverride FileInfo Options
+       Order allow,deny
+       Allow from all
+   </Directory>
+   
+   Finally, restart Apache to apply the changes. If the application does not
+   load as expected, check the Apache logs to get additional information.

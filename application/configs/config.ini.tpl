@@ -6,4 +6,4 @@ database.params.password =
 database.params.dbname   = 
 
 # Google Analytics Tracker Id
-view.googleAnalytics.trackerId = ""
+view.googleAnalytics.trackerId = 
