@@ -18,7 +18,6 @@ init = function() {
         childrenAttr: 'children'
     }, 'store');
     var tree = new ACI.dojo.TxTree({ model: model }, 'tree');
-    tree.persist = false;
 
     if(hierarchy.length > 1) {
         var handler = dojo.connect(tree, 'onOpen', null, function(item, node) {
