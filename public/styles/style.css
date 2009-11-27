@@ -413,7 +413,7 @@ div.copyright_notice {
 	background-color: #fff;
 }
 div.export-warning {
-    background: #fff url(../images/warning.png) no-repeat top left;
+    background: transparent url(../images/warning.png) no-repeat top left;
     line-height: 16px;
     padding-left: 20px;
     margin-top: 15px;
