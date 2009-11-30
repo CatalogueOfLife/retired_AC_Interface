@@ -184,8 +184,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         // Group by sn.infraspecies_marker to get count of species and
         // infraspecies together with the general count
         $groupExpr = new Zend_Db_Expr('sn.infraspecies_marker IS NOT NULL');
-        $rowCount->group($groupExpr)->order($groupExpr);
-        
+        $rowCount->group($groupExpr)->order($groupExpr);        
         return $rowCount;
     }
     

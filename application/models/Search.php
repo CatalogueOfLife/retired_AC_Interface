@@ -615,23 +615,29 @@ class ACI_Model_Search extends AModel
     public function fetchTaxaByRank($rank, $query, array $key)
     {
         $cleanStr = trim(str_replace('*', '', $query));
-        if (strlen($cleanStr) < $this->_getMinStrLen($rank, $key)) {
-            return array('error' => 1);
+        $cache = Zend_Registry::get('cache');
+        $cacheKey = $rank . '_' . $cleanStr . '_' . implode('_', $key);
+        // Try to load cached results
+        $res = $cache->load($cacheKey);
+        if(!$res) {
+            if (strlen($cleanStr) < $this->_getMinStrLen($rank, $key)) {
+                return array('error' => 1);
+            }
+            $substr = explode('*', $query);
+            $orderSubstr = $substr[0] ? $substr[0] : $substr[1];
+            $qSubstr = trim(str_replace('*', '%', $query));
+            $select = empty($key) ?
+                // No other fields have been filled in
+                $this->_getTaxaNameQuery($rank, $qSubstr, $orderSubstr) :
+                // At least another filed has been filled in - must use it as a
+                // filter
+                $this->_getTaxaNameFilteredQuery(
+                    $rank, $qSubstr, $orderSubstr, $key
+                );
+            $res = $select->query()->fetchAll();
+            $cache->save($res, $cacheKey);
         }
-        $substr = explode('*', $query);
-        $orderSubstr = $substr[0] ? $substr[0] : $substr[1];
-        $qSubstr = trim(str_replace('*', '%', $query));
-        $select = empty($key) ?
-            // No other fields have been filled in
-            $this->_getTaxaNameQuery($rank, $qSubstr, $orderSubstr) :
-            // At least another filed has been filled in - must use it as a
-            // filter
-            $this->_getTaxaNameFilteredQuery(
-                $rank, $qSubstr, $orderSubstr, $key
-            );
-        $res = $select->query()->fetchAll();
-        $total = count($res);
-        if ($total > self::API_ROWSET_LIMIT) {
+        if (count($res) > self::API_ROWSET_LIMIT) {
             return array('error' => 2);
         }
         return array_merge(array('error' => 0), $res);
