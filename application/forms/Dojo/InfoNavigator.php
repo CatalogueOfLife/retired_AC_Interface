@@ -14,7 +14,7 @@ class ACI_Form_Dojo_InfoNavigator extends Zend_Dojo_Form
 {
     public function init()
     {
-        $this->setMethod(Zend_Form::METHOD_GET);
+        $this->setMethod(Zend_Form::METHOD_POST);
         $translator = Zend_Registry::get('Zend_Translate');
         $pages = $this->createElement('Select', 'page');
         $next = $this->createElement('Button', 'next')

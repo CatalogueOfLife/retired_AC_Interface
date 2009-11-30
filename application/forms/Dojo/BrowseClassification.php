@@ -21,7 +21,7 @@ class ACI_Form_Dojo_BrowseClassification extends ACI_Form_Dojo_AMultiCombo
             )
         );
         
-        $this->setMethod(Zend_Form::METHOD_GET);
+        $this->setMethod(Zend_Form::METHOD_POST);
         $this->_combos = array(
             'kingdom' => 'Top_level_group',
             'phylum' => 'Phylum',
