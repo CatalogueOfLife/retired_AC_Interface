@@ -109,13 +109,16 @@ abstract class AController extends Zend_Controller_Action
     protected function _postToGet()
     {
         if($this->getRequest()->isPost()) {
-            $params = $this->getRequest()->getParams();
+            $params = array();
             // Remove unneeded parameters
-            unset($params['action']);
-            unset($params['controller']);
-            unset($params['module']);
-            unset($params['search']);
-            unset($params['update']);
+            $exclude = array(
+                'action', 'controller', 'module', 'search', 'update'
+            );
+            foreach($this->getRequest()->getParams() as $k => $v) {
+                if(!in_array($k, $exclude)) {
+                    $params[$k] = $v;
+                }
+            }
             $redirector =
                     Zend_Controller_Action_HelperBroker::getStaticHelper('redirector');
             $redirector->setGotoSimple(
