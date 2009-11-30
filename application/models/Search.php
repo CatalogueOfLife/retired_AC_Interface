@@ -63,7 +63,7 @@ class ACI_Model_Search extends AModel
                 ACI_Model_Table_Taxa::STATUS_COMMON_NAME . ', "D", "C"), "")'
             ),
             new Zend_Db_Expr(
-                'CONCAT(IF('.
+                'CONCAT(IF(' .
                 ($matchWholeWords == 0 ?
                     'LOWER(name) REGEXP "^[^ ]*' . $regexpSearchKey . '"' :
                     'INSTR(LOWER(name), "' . $mysqlSearchKey . '") = 1' ) .
@@ -522,8 +522,13 @@ class ACI_Model_Search extends AModel
             $replacedSearchKey = $this->_wildcardHandlingInRegExpression(
                 $searchKey, 1
             );
+            // When non alphabetic characters are used, this first filtering
+            // will allow to match single words equal to the search key
             $select->where(
-                'cn.common_name REGEXP "' . $replacedSearchKey . '" = 1'
+                'cn.common_name = "' . $searchKey . '"'
+            );
+            $select->orWhere(
+                'cn.common_name REGEXP "' . $replacedSearchKey . '"'
             );
         }
         else {
