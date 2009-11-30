@@ -763,20 +763,15 @@ class ACI_Model_Search extends AModel
     protected function _getMinStrLen($rank, array $key)
     {
         $ranks = ACI_Model_Table_Taxa::getRanks();
-        
-        // no limit for higher taxa
+
+        // No limit for higher taxa
         if ($this->stringRefersToHigherTaxa($rank)) {
             return 0;
         } else if (empty($key)) { // if no other keys exist, require 2 chars min
             return 2;
         }
-        // Genus
-        if ($this->normalizeRank($rank)
-            == $ranks[ACI_Model_Table_Taxa::RANK_GENUS]) {
-            return 0;
-        }
         // Species and infraspecies
-        return isset($key['kingdom']) ? (count($key) > 1 ? 0 : 1) : 0;
+        return isset($key['kingdom']) ? (count($key) > 2 ? 0 : 2) : 2;
     }
     
     /**
