@@ -29,7 +29,7 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
             if ($field) {
                 $v = $this->getRequest()->getParam($el, null);
                 if ($v !== null) {
-                    $field->setValue($this->getRequest()->getParam($el));
+                    $field->setValue(($this->getRequest()->getParam($el)));
                 }
             }
         }
@@ -61,9 +61,9 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
             $this->_ac->view->searchString = $this->_ac->view->title . ' - ' .
                 sprintf(
                 $this->_ac->view->translate('Search_results_for'), '"' .
-                stripslashes($this->_ac->view->escape(
-                    $this->getRequest()->getParam('key')
-                )) . '"'
+                stripslashes(
+                    $this->escape($this->getRequest()->getParam('key'))
+                ) . '"'
             );
         }
         $this->_ac->view->urlParams = array(
@@ -155,13 +155,19 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
                         $this->_ac->view->translate('Info_annual_checklist'),
                         $this->_ac->view->app->edition
                     ),
-                    'databases' => $this->_ac->view->translate('Source_databases'),
-                    'hierarchy' => $this->_ac->view->translate('Management_hierarchy'),
-                    'copyright' => $this->_ac->view->translate('Copyright_reproduction_sale'),
+                    'databases' =>
+                        $this->_ac->view->translate('Source_databases'),
+                    'hierarchy' =>
+                        $this->_ac->view->translate('Management_hierarchy'),
+                    'copyright' =>
+                        $this->_ac->view->translate(
+                            'Copyright_reproduction_sale'
+                        ),
                     'cite' => $this->_ac->view->translate('Cite_work'),
                     'websites' => $this->_ac->view->translate('Web_sites'),
                     'contact' => $this->_ac->view->translate('Contact_us'),
-                    'acknowledgements' => $this->_ac->view->translate('Acknowledgements')
+                    'acknowledgements' =>
+                        $this->_ac->view->translate('Acknowledgements')
                 )
             )
             ->setValue(array($this->getRequest()->getParam('action')))
@@ -196,5 +202,13 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
         $this->_ac->getHelper('SessionHandler')->set('items', $items, false);
         $this->getRequest()->setParam('items', $items);
         return $items;
+    }
+    
+    public function escape($str)
+    {
+        $config = Zend_Registry::get('config');
+        return htmlspecialchars(
+            $str, ENT_NOQUOTES, $config->resources->view->encoding, false
+        );
     }
 }

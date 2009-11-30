@@ -38,6 +38,9 @@
                 <defaultControllerName>search</defaultControllerName>
                 <defaultAction>all</defaultAction>
             </frontController>
+            <view>
+                <encoding>ISO-8859-1</encoding>
+            </view>
         </resources>
         <view>
             <!-- overriden by config.ini -->

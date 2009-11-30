@@ -69,9 +69,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $config = Zend_Registry::get('config');
         $view = new Zend_View();
         $view->doctype('XHTML1_TRANSITIONAL');
-        $view->setEncoding('ISO-8859-1');
-        $view->headMeta()
-            ->appendHttpEquiv('Content-Type', 'text/html;charset=iso-8859-1');
+        $view->setEncoding($config->resources->view->encoding);
+        $view->headMeta()->appendHttpEquiv(
+            'Content-Type',
+            'text/html;charset=' . $config->resources->view->encoding
+        );
         $view->headTitle(
             'Catalogue of Life - ' .
             $config->eti->application->edition . ' Annual Checklist'
