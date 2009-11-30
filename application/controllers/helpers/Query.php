@@ -186,8 +186,6 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         $groupExpr = new Zend_Db_Expr('sn.infraspecies_marker IS NOT NULL');
         $rowCount->group($groupExpr)->order($groupExpr);
         
-        echo $rowCount;
-        
         return $rowCount;
     }
     

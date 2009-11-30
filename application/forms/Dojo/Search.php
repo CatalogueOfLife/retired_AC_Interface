@@ -20,7 +20,7 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
                 'name' => 'searchForm'
             )
         );
-        $this->setMethod(Zend_Form::METHOD_GET);
+        $this->setMethod(Zend_Form::METHOD_POST);
         $translator = Zend_Registry::get('Zend_Translate');
         
         $key = $this->createElement('TextBox', 'key');

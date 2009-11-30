@@ -17,6 +17,8 @@ abstract class AController extends Zend_Controller_Action
     
     public function init()
     {
+        // Convert POST to GET request as friendly URL
+        $this->_postToGet();
         $this->_logger = Zend_Registry::get('logger');
         $this->_db = Zend_Registry::get('db');
         $this->_logger->debug($this->_getAllParams());
@@ -88,6 +90,7 @@ abstract class AController extends Zend_Controller_Action
             $this->getHelper('SessionHandler')->set($v, $this->_getParam($v));
         }
     }
+    
     protected function _setParamsFromSession(array $params)
     {
         foreach ($params as $p) {
@@ -96,6 +99,31 @@ abstract class AController extends Zend_Controller_Action
                 $this->_logger->debug("Setting $p to $v from session");
                 $this->_setParam($p, $v);
             }
+        }
+    }
+    
+    /**
+     * Redirects a request using the given action, controller, module and params
+     * in the request
+     */
+    protected function _postToGet()
+    {
+        if($this->getRequest()->isPost()) {
+            $params = $this->getRequest()->getParams();
+            // Remove unneeded parameters
+            unset($params['action']);
+            unset($params['controller']);
+            unset($params['module']);
+            unset($params['search']);
+            unset($params['update']);
+            $redirector =
+                    Zend_Controller_Action_HelperBroker::getStaticHelper('redirector');
+            $redirector->setGotoSimple(
+                $this->getRequest()->getParam('action'),
+                $this->getRequest()->getParam('controller'),
+                $this->getRequest()->getParam('module'),
+                $params
+            );
         }
     }
 }
