@@ -21,7 +21,9 @@ $paginator = $this->paginationControl(
     echo ' (' . number_format($this->paginator->getColumnCount(0)) . ' ' .
         $this->translate('species') . ', ' .
         number_format($this->paginator->getColumnCount(1)) . ' ' .
-        $this->translate('infraspecies') . ')';
+        ($this->paginator->getColumnCount = 1 ?
+            $this->translate('infraspecific_taxa') . ')' :
+            $this->translate('infraspecies') . ')');
     ?>
 <?php endif; ?>
 </div>
