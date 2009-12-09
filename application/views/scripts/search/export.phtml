@@ -2,7 +2,10 @@
 <?php echo $this->translate('Export_search_results'); ?>
 </div>
 <br/>
-<p><?php echo $this->translate('Click_the_button_below_to_export'); ?></p>
+<p><?php echo sprintf(
+    $this->translate('Click_the_button_below_to_export'),
+    $this->encoding
+); ?></p>
 <br/>
 <p><?php echo $this->translate('The_exported_data'); ?></p>
 <br/>

@@ -69,10 +69,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $config = Zend_Registry::get('config');
         $view = new Zend_View();
         $view->doctype('XHTML1_TRANSITIONAL');
-        $view->setEncoding($config->resources->view->encoding);
+        $view->encoding = $config->resources->view->encoding;
+        $view->setEncoding($view->encoding);
         $view->headMeta()->appendHttpEquiv(
-            'Content-Type',
-            'text/html;charset=' . $config->resources->view->encoding
+            'Content-Type', 'text/html;charset=' . $view->encoding
         );
         $view->headTitle(
             'Catalogue of Life - ' .
