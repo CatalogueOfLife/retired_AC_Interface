@@ -190,11 +190,6 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             
         if (!empty($speciesDetails->synonyms)) {
             foreach ($speciesDetails->synonyms as &$synonym) {
-                $synonym['name'] = $this->_appendTaxaSuffix(
-                    $synonym['name'],
-                    $synonym['status'],
-                    $synonym['author']
-                );
                 $synonym['referenceLabel'] = $this->getReferencesLabel(
                     $synonym['num_references'], strip_tags($synonym['name'])
                 );

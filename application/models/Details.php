@@ -254,10 +254,7 @@ class ACI_Model_Details extends AModel
                 'sn.author',
                 'num_references' => new Zend_Db_Expr(
                     'IF(snr.name_code IS NULL, 0, COUNT(*))'
-                ),
-                'name' =>
-                    "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
-                    ", ' ', IF(sn.species IS NULL, '', sn.species)))"
+                )
             )
         )->joinLeft(
             array('snr' => 'scientific_name_references'),
@@ -275,6 +272,14 @@ class ACI_Model_Details extends AModel
         $synonyms = $select->query()->fetchAll();
         
         foreach ($synonyms as &$synonym) {
+            $synonym['name'] =
+                ACI_Model_Table_Taxa::getAcceptedScientificName(
+                    $synonym['genus'],
+                    $synonym['species'],
+                    $synonym['infraspecies'],
+                    $synonym['infraspecies_marker'],
+                    $synonym['author']
+                );
             $synonym['status'] =
                 ACI_Model_Table_Taxa::getStatusString(
                     $synonym['status'], false
