@@ -4,10 +4,12 @@
 <?php
 if ($this->species instanceof ACI_Model_Table_Taxa):
 ?>
-<div class="wrapLogo"><a href="<?php echo $this->baseUrl() . '/details/database/id/' . $this->species->dbId; ?>"><img
-    src="<?php echo $this->baseUrl() . $this->species->dbImage; ?>"
-    alt="<?php echo $this->species->dbName; ?>"
-    title="<?php echo $this->species->dbName; ?>"
+<div class="wrapLogo"><a href="<?php echo $this->baseUrl() .
+    '/details/database/id/' . $this->species->dbId; ?>">
+    <img
+        src="<?php echo $this->baseUrl() . $this->species->dbImage; ?>"
+        alt="<?php echo $this->species->dbName; ?>"
+        title="<?php echo $this->species->dbName; ?>"
 /></a></div>
 <?php if ($this->species->preface): ?>
 <p><?php echo $this->species->preface; ?></p>
@@ -173,9 +175,12 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         <td><?php echo $this->species->latestScrutiny; ?></td>
     </tr>
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
-    <tr class="<?php echo $rowClass; ?>">
+    <tr class="<?php echo $rowClass; ?> divide">
         <th class="vertical"><?php echo $this->translate('Online_resource'); ?>:</th>
         <td><?php echo $this->species->webSite; ?></td>
+    </tr>
+    <tr class="<?php echo $rowClass; ?> divisor">
+        <th class="vertical" /><td />
     </tr>
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">

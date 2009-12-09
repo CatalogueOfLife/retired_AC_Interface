@@ -112,6 +112,10 @@ tr.even td, tr.even th {
 tr.odd td, tr.odd th {
     background-color: #eaf2f7;
 }
+tr.divisor {
+    height: 20px;
+    border-bottom: 1px solid #336;
+}
 
 table.results {
     width: 100%;
