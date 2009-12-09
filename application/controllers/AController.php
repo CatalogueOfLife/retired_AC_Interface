@@ -112,10 +112,10 @@ abstract class AController extends Zend_Controller_Action
             $params = array();
             // Remove unneeded parameters
             $exclude = array(
-                'action', 'controller', 'module', 'search', 'update'
+                'action', 'controller', 'module', 'search', 'update', 'clear'
             );
             foreach($this->getRequest()->getParams() as $k => $v) {
-                if(!in_array($k, $exclude)) {
+                if(!in_array($k, $exclude) && strlen(trim($v))) {
                     $params[$k] = $v;
                 }
             }
