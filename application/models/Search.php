@@ -627,7 +627,7 @@ class ACI_Model_Search extends AModel
         $cache = Zend_Registry::get('cache');
         $cacheKey = $rank . '_' . $cleanStr . '_' . implode('_', $key);
         // Try to load cached results
-        $res = $cache->load($cacheKey);
+        $res = $cache ? $cache->load($cacheKey) : false;
         if(!$res) {
             if (strlen($cleanStr) < $this->_getMinStrLen($rank, $key)) {
                 return array('error' => true);
@@ -644,7 +644,9 @@ class ACI_Model_Search extends AModel
                     $rank, $qSubstr, $orderSubstr, $key
                 );
             $res = $select->query()->fetchAll();
-            $cache->save($res, $cacheKey);
+            if($cache) {
+                $cache->save($res, $cacheKey);
+            }
         }
         return array_merge(array('error' => false), $res);
     }
