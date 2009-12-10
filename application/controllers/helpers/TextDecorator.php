@@ -32,7 +32,7 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
         if (trim($needle) == '') {
             return $haystack;
         }
-        if ($wrapWords == true) {
+        if ($wrapWords == true && !preg_match('#&\#[0-9]{1,5};#', $needle)) {
             $prefix = '\b';
             $suffix = '\b';
             $replace = '[^ \b]*';
