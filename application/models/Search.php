@@ -681,8 +681,17 @@ class ACI_Model_Search extends AModel
                 "f.$p = ?" : "sn.$p = ?", $v
             );
         }
+        
+        $rankId = $this->getRankIdFromString($rank);
+        if($rankId == ACI_Model_Table_Taxa::RANK_SPECIES) {
+            $select->where('sn.infraspecies_marker IS NULL');
+        }
+        else if($rankId == ACI_Model_Table_Taxa::RANK_INFRASPECIES) {
+            $select->where('sn.infraspecies_marker IS NOT NULL');
+        }
+                
         $select
-            ->where("$field IS NOT NULL")
+            ->where("LENGTH(TRIM($field)) > 0")
             ->where("sn.is_accepted_name = 1")
             ->order(
                 array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"), $rank)
@@ -760,10 +769,15 @@ class ACI_Model_Search extends AModel
     
     public function stringRefersToHigherTaxa($rank)
     {
+        return $this->getRankIdFromString($rank) <
+            ACI_Model_Table_Taxa::RANK_GENUS;
+    }
+    
+    public function getRankIdFromString($rank) {
         $rankId = array_search(
             $this->normalizeRank($rank), ACI_Model_Table_Taxa::getRanks()
         );
-        return $rankId < ACI_Model_Table_Taxa::RANK_GENUS;
+        return $rankId;
     }
     
     /**
