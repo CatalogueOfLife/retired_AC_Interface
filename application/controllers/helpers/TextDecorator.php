@@ -55,11 +55,13 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
         return self::EMPTY_FIELD;
     }
     
-    public function decorateComboLabel($label)
+    public function decorateComboLabel($label, $value = null)
     {
         $translator = Zend_Registry::get('Zend_Translate');
-        return "<span class=\"disabledLabel\">" .
-            $translator->translate($label) . "</span>";
+        $label = is_null($value) ?
+            $translator->translate($label) :
+            sprintf($translator->translate($label), $value);
+        return "<span class=\"disabledLabel\">" . $label . "</span>";
     }
     
     public function createLink($linkText)
@@ -75,11 +77,12 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
 
     public function textDecoration($text)
     {
+        $translator = Zend_Registry::get('Zend_Translate');
         $find = array(
             '[new]'
         );
         $replace = array(
-            '<span class="new">NEW!</span>'
+            '<span class="new">' . $translator->translate('NEW'). '</span>'
         );
         return str_replace($find, $replace, $text);
     }
