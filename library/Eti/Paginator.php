@@ -12,7 +12,7 @@
  */
 class Eti_Paginator extends Zend_Paginator
 {
-    public function getColumnCount($columnName)
+    public function getCountColumn($columnName)
     {
         return $this->getAdapter()->getCountColumn($columnName);
     }

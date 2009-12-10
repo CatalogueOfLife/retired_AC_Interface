@@ -178,13 +178,15 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         $rowCount->reset(Zend_Db_Select::ORDER);
         $rowCount->from('',
             array(
-                new Zend_Db_Expr('COUNT(1) AS zend_paginator_row_count')
+                'zend_paginator_row_count' => new Zend_Db_Expr('COUNT(1)'),
+                'species' => new Zend_Db_Expr(
+                    'SUM(IF(sn.infraspecies_marker IS NULL, 1, 0))'
+                ),
+                'infraspecies' => new Zend_Db_Expr(
+                    'SUM(IF(sn.infraspecies_marker IS NULL, 0, 1))'
+                )
             )
         );
-        // Group by sn.infraspecies_marker to get count of species and
-        // infraspecies together with the general count
-        $groupExpr = new Zend_Db_Expr('sn.infraspecies_marker IS NOT NULL');
-        $rowCount->group($groupExpr)->order($groupExpr);
         return $rowCount;
     }
     

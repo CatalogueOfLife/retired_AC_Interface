@@ -35,18 +35,25 @@ class Eti_Paginator_Adapter_DbSelect extends Zend_Paginator_Adapter_DbSelect
         if ($rowCount instanceof Zend_Db_Select) {
             $columns = $rowCount->getPart(Zend_Db_Select::COLUMNS);
 
-            $countColumnPart = $columns[0][1];
-
-            if ($countColumnPart instanceof Zend_Db_Expr) {
-                $countColumnPart = $countColumnPart->__toString();
-            }
-
             $rowCountColumn =
                 $this->_select->getAdapter()->foldCase(self::ROW_COUNT_COLUMN);
-
-            // The select query can contain only one column, which should be
-            // the row count column
-            if (false === strpos($countColumnPart, $rowCountColumn)) {
+                
+            $rowCountColumExists = false;
+            
+            foreach($columns as $col) {
+                $countColumnPart = $col[1];
+                if ($countColumnPart instanceof Zend_Db_Expr) {
+                    $countColumnPart = $countColumnPart->__toString();
+                }
+                $countColumnAlias = $col[2];
+                if(false !== strpos($countColumnPart, $rowCountColumn) ||
+                    $countColumnAlias == $rowCountColumn) {
+                    $rowCountColumExists = true;
+                    break;
+                }
+            }
+            
+            if ($rowCountColumExists == false) {
                 /**
                  * @see Zend_Paginator_Exception
                  */
@@ -55,13 +62,12 @@ class Eti_Paginator_Adapter_DbSelect extends Zend_Paginator_Adapter_DbSelect
                 throw new Zend_Paginator_Exception('Row count column not found');
             }
 
-            $result = $rowCount->query(Zend_Db::FETCH_ASSOC)->fetchAll();
-
-            $numRows = count($result);
-            for($i = 0, $this->_rowCount = 0; $i < $numRows; $i++) {
-                $this->_rowCount += $result[$i][$rowCountColumn];
-                $this->_countColumns[$i] = $result[$i][$rowCountColumn];
+            $result = $rowCount->query(Zend_Db::FETCH_ASSOC)->fetch();
+            
+            foreach($result as $colName => $colValue) {
+                $this->_countColumns[$colName] = $colValue;
             }
+            $this->_rowCount = $this->getCountColumn($rowCountColumn);
             
         } else if (is_integer($rowCount)) {
             $this->_rowCount = $rowCount;
@@ -78,15 +84,15 @@ class Eti_Paginator_Adapter_DbSelect extends Zend_Paginator_Adapter_DbSelect
     }
     
     /**
-     * It returns the result of the counting of the field in the given index
-     * If the field does not exist, it returns 0
+     * It returns the result of the counting of the given column name
+     * If the value does not exist, it returns 0
      *
      * @param string $columnId
      * @return int
      */
-    public function getCountColumn($columnId)
+    public function getCountColumn($columnName)
     {
-        return isset($this->_countColumns[$columnId]) ?
-            $this->_countColumns[$columnId] : 0;
+        return isset($this->_countColumns[$columnName]) ?
+            $this->_countColumns[$columnName] : 0;
     }
 }

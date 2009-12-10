@@ -18,12 +18,12 @@ $paginator = $this->paginationControl(
 <?php echo number_format($this->paginator->getTotalItemCount()); ?>
 <?php if ( $this->paginator instanceof Eti_Paginator) : ?>
     <?php
-    echo ' (' . number_format($this->paginator->getColumnCount(0)) . ' ' .
+    echo ' (' . number_format($this->paginator->getCountColumn('species')) . ' ' .
         $this->translate('species') . ', ' .
-        number_format($this->paginator->getColumnCount(1)) . ' ' .
-        ($this->paginator->getColumnCount = 1 ?
-            $this->translate('infraspecific_taxa') . ')' :
-            $this->translate('infraspecies') . ')');
+        number_format($this->paginator->getCountColumn('infraspecies')) . ' ' .
+        ($this->paginator->getCountColumn('infraspecies') == 1 ?
+            $this->translate('infraspecies') . ')' :
+            $this->translate('infraspecific_taxa') . ')');
     ?>
 <?php endif; ?>
 </div>
