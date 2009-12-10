@@ -590,9 +590,6 @@ form fieldset#fieldset-hidden {
     width: 100px;
     padding: 0;
 }
-.tundra li.dijitReset {
-    clear: both;
-}
 .navigator select {
     font-size: 12px;
     color: #336;
