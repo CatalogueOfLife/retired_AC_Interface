@@ -184,7 +184,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         // Group by sn.infraspecies_marker to get count of species and
         // infraspecies together with the general count
         $groupExpr = new Zend_Db_Expr('sn.infraspecies_marker IS NOT NULL');
-        $rowCount->group($groupExpr)->order($groupExpr);        
+        $rowCount->group($groupExpr)->order($groupExpr);
         return $rowCount;
     }
     
@@ -252,37 +252,55 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         return new Zend_Dojo_Data('name', $res, $rank);
     }
     
+    /**
+     * It takes the results of the search hint query, decorates the labels and
+     * adds custom messages depending on their output:
+     * - Please enter a longer search string
+     * - No matching results found
+     * - More than n matching results
+     *
+     * @param array $res
+     * @param string $query
+     * @return array
+     */
     protected function parseFetchedResults(array $res, $query)
     {
         $error = $res['error'];
         unset($res['error']);
-        if (!$res || $error) {
-            switch ($error) {
-                case 1:
-                    $errStr = 'Please_enter_a_longer_search_string';
-                    break;
-                case 2:
-                    $errStr = 'Too_many_results_to_display';
-                    break;
-                default:
-                    $errStr = 'No_matching_results_found';
-                    break;
-            }
+        
+        // No results
+        if (empty($res)) {
+            $errStr = $error ?
+                'Please_enter_a_longer_search_string' :
+                'No_matching_results_found';
             $res = array(
                 array(
                     'label' => $this->getActionController()
                         ->getHelper('TextDecorator')
                         ->decorateComboLabel($errStr),
-                    'name' => $query)
+                    'name' => $query
+                )
             );
         } else {
+            $i = 0;
             foreach ($res as &$row) {
                 $row['label'] = $this->getActionController()
                     ->getHelper('TextDecorator')->highlightMatch(
                         $row['name'], $query
                     );
+                if($i == ACI_Model_Search::API_ROWSET_LIMIT) {
+                    $errStr = 'More_matching_results';
+                    $row['label'] = $this->getActionController()
+                        ->getHelper('TextDecorator')
+                        ->decorateComboLabel(
+                            $errStr, ACI_Model_Search::API_ROWSET_LIMIT
+                        );
+                    $row['name'] = $query . '*';
+                }
+                $i++;
             }
         }
+        
         return $res;
     }
     

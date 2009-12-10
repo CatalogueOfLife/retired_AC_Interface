@@ -14,7 +14,7 @@ require_once 'AModel.php';
 class ACI_Model_Search extends AModel
 {
     const ITEMS_PER_PAGE = 20;
-    const API_ROWSET_LIMIT = 1000;
+    const API_ROWSET_LIMIT = 500;
 
     // Default sort params, also added after the custom sort fields
     protected static $_defaultSortParams = array(
@@ -630,7 +630,7 @@ class ACI_Model_Search extends AModel
         $res = $cache->load($cacheKey);
         if(!$res) {
             if (strlen($cleanStr) < $this->_getMinStrLen($rank, $key)) {
-                return array('error' => 1);
+                return array('error' => true);
             }
             $substr = explode('*', $query);
             $orderSubstr = $substr[0] ? $substr[0] : $substr[1];
@@ -646,10 +646,7 @@ class ACI_Model_Search extends AModel
             $res = $select->query()->fetchAll();
             $cache->save($res, $cacheKey);
         }
-        if (count($res) > self::API_ROWSET_LIMIT) {
-            return array('error' => 2);
-        }
-        return array_merge(array('error' => 0), $res);
+        return array_merge(array('error' => false), $res);
     }
     
     /**
@@ -682,10 +679,14 @@ class ACI_Model_Search extends AModel
                 "f.$p = ?" : "sn.$p = ?", $v
             );
         }
-        $select->where("$field IS NOT NULL AND sn.is_accepted_name = 1");
-        $select->order(
-            array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"), $rank)
-        );
+        $select
+            ->where("$field IS NOT NULL")
+            ->where("sn.is_accepted_name = 1")
+            ->order(
+                array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"), $rank)
+            )
+            ->limit(self::API_ROWSET_LIMIT + 1);
+            
         return $select;
     }
     
@@ -715,14 +716,16 @@ class ACI_Model_Search extends AModel
         } else { // Search for species in hard_coded_taxon_lists
             $select->distinct()
                ->from(array('hard_coded_taxon_lists'), array('name'))
-               ->where('rank = ? AND name LIKE "' . $qStr .
-                '"  AND accepted_names_only = 1', $rank)
+               ->where('rank = ?', $rank)
+               ->where('name LIKE "' . $qStr . '"')
+               ->where('accepted_names_only = 1')
                ->order(
                    array(
                        new Zend_Db_Expr('INSTR(name, "' . $str . '")'),
                        'name'
                    )
-               );
+               )
+               ->limit(self::API_ROWSET_LIMIT + 1);
         }
         return $select;
     }
@@ -779,8 +782,8 @@ class ACI_Model_Search extends AModel
         } else if (empty($key)) { // if no other keys exist, require 2 chars min
             return 2;
         }
-        // Species and infraspecies
-        return isset($key['kingdom']) ? (count($key) > 2 ? 0 : 2) : 2;
+        // Other fields filled in
+        return 0;
     }
     
     /**
