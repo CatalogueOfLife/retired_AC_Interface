@@ -163,7 +163,7 @@ class BrowseController extends AController
             }
         }
         
-        $data = new Eti_Dojo_Data('id', $res, $parentId);
+        $data = new Zend_Dojo_Data('id', $res, $parentId);
         $data->setLabel('name');
         return $data;
     }
