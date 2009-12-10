@@ -136,7 +136,7 @@ class BrowseController extends AController
                 ->highlightMatch($row['name'], $substr, false);
         }
         $this->_logger->debug($res);
-        exit(new Zend_Dojo_Data('name', $res, $rank));
+        exit(new Eti_Dojo_Data('name', $res, $rank));
     }
     
     /**
@@ -163,7 +163,7 @@ class BrowseController extends AController
             }
         }
         
-        $data = new Zend_Dojo_Data('id', $res, $parentId);
+        $data = new Eti_Dojo_Data('id', $res, $parentId);
         $data->setLabel('name');
         return $data;
     }

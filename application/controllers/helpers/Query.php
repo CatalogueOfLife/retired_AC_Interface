@@ -251,7 +251,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         $res = $this->parseFetchedResults(
             $search->fetchTaxaByRank($rank, $query, $params), $cleanQuery
         );
-        return new Zend_Dojo_Data('name', $res, $rank);
+        return new Eti_Dojo_Data('name', $res, $rank);
     }
     
     /**
@@ -292,12 +292,14 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                     );
                 if($i == ACI_Model_Search::API_ROWSET_LIMIT) {
                     $errStr = 'More_matching_results';
-                    $row['label'] = $this->getActionController()
-                        ->getHelper('TextDecorator')
-                        ->decorateComboLabel(
-                            $errStr, ACI_Model_Search::API_ROWSET_LIMIT
-                        );
-                    $row['name'] = $query . '*';
+                    $row = array(
+                        'name' => empty($query) ? '' : $query . '*',
+                        'label' => $this->getActionController()
+                             ->getHelper('TextDecorator')
+                             ->decorateComboLabel(
+                                 $errStr, ACI_Model_Search::API_ROWSET_LIMIT
+                             )
+                    );
                 }
                 $i++;
             }
