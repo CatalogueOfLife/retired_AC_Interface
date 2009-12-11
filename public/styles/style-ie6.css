@@ -2,3 +2,8 @@
 div.results_header div.results_form form {    
     width: 360px; 
 }
+
+.navigator {
+    display:block;
+    width: 415px; /*assigning the width allows the 'auto' value in margin left & right to work properly*/
+}
