@@ -791,3 +791,8 @@ li:hover ul, li.over ul {
 #footer a:hover {
     color: #006;
 }
+
+.navigator {
+    display:block;
+    width: 450px; /*assigning the width allows the 'auto' value in margin left & right to work properly*/
+}
