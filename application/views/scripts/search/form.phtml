@@ -3,9 +3,13 @@
 </div>
 <div id="form-box">
 <?php if($this->form->isErrors()): ?>
-    <ul class="errors">
-        <li><?php echo $this->form->getErrorMessage(); ?></li>
-    </ul>
+    <div class="errors">
+        <ul>
+            <li><?php echo $this->form->getErrorMessage(); ?></li>
+        </ul>
+    </div>
 <?php endif; ?>
+<div class="form-container">
 <?php echo $this->form; ?>
+</div>
 </div>
