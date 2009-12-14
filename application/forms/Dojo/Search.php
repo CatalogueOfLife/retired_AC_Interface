@@ -24,20 +24,19 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
         $translator = Zend_Registry::get('Zend_Translate');
         
         $key = $this->createElement('TextBox', 'key');
+                
         $key->setLabel($translator->translate('Search_for') . ':')
-            ->addValidator(new Eti_Validate_AlphaNumStringLength(2))
-            ->setRequired(true)
-            ->addErrorMessage('');
+            ->addErrorMessage(null);
+            
+        $this->addErrorMessage('Error_key_too_short');
         
         $match = $this->createElement('CheckBox', 'match')->setValue(1)
             ->setLabel('Match_whole_words_only');
         $match->getDecorator('label')->setOption('placement', 'append');
         
-        $this->addErrorMessage($translator->translate('Error_key_too_short'));
-        
         $submit = $this->createElement('SubmitButton', 'search')
             ->setLabel($translator->translate('Search'));
-            
+                
         $this->addElement($key)->addElement($match)->addElement($submit);
         
         $this->addDisplayGroup(array('key'), 'keyGroup');
@@ -60,6 +59,31 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
     public function getInputElements()
     {
         return array('key', 'match');
+    }
+    
+    /**
+     * Validates the form
+     * @see library/Zend/Zend_Form#isValid($data)
+     * @param array $value
+     * @return boolean
+     */
+    public function isValid($data)
+    {
+        // Form not submited
+        if (!isset($data['match'])) {
+            return true;
+        }
+        if(!isset($data['key'])) {
+            $this->markAsError();
+            return false;
+        }
+        $validator = new Eti_Validate_AlphaNumStringLength(2);
+        $valid = $validator->isValid($data['key']);
+        if (!$valid) {
+            $this->markAsError();
+            return false;
+        }
+        return true;
     }
     
     public function render(Zend_View_Interface $view = null)

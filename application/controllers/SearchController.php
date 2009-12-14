@@ -17,9 +17,12 @@ class SearchController extends AController
     {
         $this->view->title = $this->view->translate('Search_common_names');
         $this->view->headTitle($this->view->title, 'APPEND');
+        
         $form = $this->_getSearchForm();
+        $formIsValid = $form->isValid($this->_getAllParams());
+        
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
-            $form->isValid($this->_getAllParams())) {
+            $formIsValid) {
             $this->_setSessionFromParams($form->getInputElements());
             $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage($form->getInputElements());
@@ -58,7 +61,6 @@ class SearchController extends AController
         // Form page
         } else {
             if (!$formIsValid && $this->_hasParam('match')) {
-                $this->view->formError = true;
                 $this->_setSessionFromParams($form->getInputElements());
             }
             if ($this->_getParam('submit', 1)) {
@@ -72,12 +74,16 @@ class SearchController extends AController
     {
         $this->view->title = $this->view->translate('Search_distribution');
         $this->view->headTitle($this->view->title, 'APPEND');
+        
         $form = $this->_getSearchForm();
-        if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
-            $form->isValid($this->_getAllParams())) {
+        
+        if ($form->isValid($this->_getAllParams()) &&
+            $this->_hasParam('key') && $this->_getParam('submit', 1)) {
+                
             $this->_setSessionFromParams($form->getInputElements());
             $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage($form->getInputElements());
+            
         } else {
             if (!$this->_hasParam('key')) {
                 $this->_setParamsFromSession($form->getInputElements());
@@ -96,12 +102,16 @@ class SearchController extends AController
                 '<span class="red">' .
                 $this->view->translate('Annual_Checklist') . '</span>'
             );
+        
         $form = $this->_getSearchForm();
-        if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
-            $form->isValid($this->_getAllParams())) {
+        
+        if ($form->isValid($this->_getAllParams()) &&
+            $this->_hasParam('key') && $this->_getParam('submit', 1)) {
+                
             $this->_setSessionFromParams($form->getInputElements());
             $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage($form->getInputElements());
+            
         } else {
             if (!$this->_hasParam('key')) {
                 $this->_setParamsFromSession($form->getInputElements());
