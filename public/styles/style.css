@@ -593,6 +593,9 @@ form fieldset#fieldset-hidden {
 .tundra li.dijitReset {
     clear: both;
 }
+.navigator {
+    display:block;    
+}
 .navigator select {
     font-size: 12px;
     color: #336;
@@ -612,7 +615,6 @@ ul.dijitMenu li {
 }
 .tundra div.search-form span.dijitToggleButtonIconChar {
     width: 20px;
-    color: transparent;
     background:transparent url(../images/loader.gif) no-repeat scroll center center;
 }
 .tundra button.dijitButtonDisabled span.dijitToggleButtonIconChar {
@@ -790,9 +792,4 @@ li:hover ul, li.over ul {
 }
 #footer a:hover {
     color: #006;
-}
-
-.navigator {
-    display:block;
-    width: 450px; /*assigning the width allows the 'auto' value in margin left & right to work properly*/
 }
