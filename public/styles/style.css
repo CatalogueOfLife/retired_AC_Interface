@@ -134,12 +134,13 @@ table.details-table tr th {
 .details p {
     padding-top: 10px;
 }
-fieldset ul.errors li {
-    display: none;
+.errors ul li {
+    line-height: 16px;
+    color: #b41a1a;    
 }
-ul.errors li {
-    padding: 8px 0;
-    color: #b41a1a;
+.form-container {
+    clear: both;
+    width: 100%;
 }
 .marker {
     font-style: normal;
@@ -516,7 +517,7 @@ form div.search-form dd fieldset#fieldset-submitGroup dl {
     padding-right: 6px;
 }
 form div.search-form dd fieldset#fieldset-matchGroup {
-    margin-left: 100px;
+    margin-left: 101px;
 }
 form div.search-form dd#submitGroup-element {
     float: right;
