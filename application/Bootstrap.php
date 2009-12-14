@@ -68,7 +68,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $config = Zend_Registry::get('config');
         $view = new Zend_View();
-        $view->doctype('XHTML1_TRANSITIONAL');
+        $view->doctype('XHTML1_STRICT');
         $view->encoding = $config->resources->view->encoding;
         $view->setEncoding($view->encoding);
         $view->headMeta()->appendHttpEquiv(
