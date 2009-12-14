@@ -1,6 +1,26 @@
 #content.centered-box {
-    width: 440px;
+    width: 456px;
+    padding-right: 0;
 }
 .navigator {
     width: 420px; 
+}
+form div.search-form dd#keyGroup-element,
+form div.search-form dd#kingdomGroup-element,
+form div.search-form dd#phylumGroup-element,
+form div.search-form dd#classGroup-element,
+form div.search-form dd#orderGroup-element,
+form div.search-form dd#superfamilyGroup-element,
+form div.search-form dd#familyGroup-element,
+form div.search-form dd#genusGroup-element,
+form div.search-form dd#speciesGroup-element,
+form div.search-form dd#infraspeciesGroup-element {
+    float: left;
+    height: 34px;
+}
+form div.search-form dd fieldset#fieldset-matchGroup {
+    margin-left: 61px;
+}
+form div.search-form dd fieldset#fieldset-submitGroup dl {
+    padding-right: 50px;
 }
