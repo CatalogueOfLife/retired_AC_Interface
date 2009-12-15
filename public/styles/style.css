@@ -478,6 +478,9 @@ form div.items-form dt#itemsGroup-label
 form div.items-form {
     float: right;
 }
+form div.items-form dd#itemsGroup-element fieldset {        
+    width: 260px;
+}
 form div.items-form dd#items-element,
 form div.items-form dt#items-label,
 form div.items-form dd#items-element input,
@@ -547,13 +550,10 @@ form div.items-form dd fieldset dl dd
 form div.items-form dd fieldset {
     padding: 5px 0 0 0;
 }
-form div.items-form dd#update-element {
-    margin: -13px 0 0 10px;
-}
 form dd#search-element,
 form dd#clear-element,
 form dd#update-element {
-    padding-top: 8px;
+    padding-top: 10px;
 }
 form dt#hidden-label,
 form dd#hidden-element,
@@ -633,17 +633,35 @@ ul.dijitMenu li {
 .tundra button.dijitButtonDisabled span.dijitToggleButtonIconChar {
     display: block !important;
 }
+.tundra #update_label.dijitButtonText {
+    height: 18px;
+} 
 .tundra span.dijitButtonNode button#update {
     font-size: 11px;
+    height: 18px;
+    line-height: 18px;
     padding: 0;
-    width: auto;
+    width: 58px;
+}
+/* hack for Mac Safari */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .tundra #update_label.dijitButtonText { height: 14px; }    
+    .tundra span.dijitButtonNode button#update { height: 14px; line-height: 14px; }
+}
+/* hack for IE <=8 */
+.tundra #update_label.dijitButtonText { height: 14px\9 }
+.tundra span.dijitButtonNode button#update { height: 14px\9 }
+.tundra span.dijitButtonNode button#update {line-height: 14px\9 }
+
+form div.items-form dd#update-element {
+    margin: -13px 0 0 5px;
 }
 .loadingSymbol {
-    background:transparent url(../images/loader.gif) no-repeat scroll center center;
-    float:right;
-    height:auto;
-    padding:0 2px;
-    width:20px;  
+    background: transparent url(../images/loader.gif) no-repeat scroll center center;
+    float: right;
+    height: auto;
+    padding: 0 2px;
+    width: 20px;  
     display: block;
     visibility: hidden;
 }
