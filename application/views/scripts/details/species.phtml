@@ -175,12 +175,12 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         <td><?php echo $this->species->latestScrutiny; ?></td>
     </tr>
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
-    <tr class="<?php echo $rowClass; ?> divide">
+    <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Online_resource'); ?>:</th>
         <td><?php echo $this->species->webSite; ?></td>
     </tr>
     <tr class="<?php echo $rowClass; ?> divisor">
-        <th class="vertical" /><td />
+        <td colspan="2 "/>
     </tr>
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">

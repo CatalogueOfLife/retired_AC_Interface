@@ -112,7 +112,7 @@ tr.even td, tr.even th {
 tr.odd td, tr.odd th {
     background-color: #eaf2f7;
 }
-tr.divisor {
+tr.divisor td {
     height: 20px;
     border-bottom: 1px solid #336;
 }
