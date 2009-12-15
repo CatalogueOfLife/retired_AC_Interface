@@ -61,7 +61,6 @@ table {
 .number {
     text-align: right;
 }
-
 .details a {
     padding: 0;
     margin: 0;
@@ -722,7 +721,7 @@ form div.items-form dd#update-element {
     cursor: text;
 }
 .dijitTreeContainer {
-    width: 100%;
+    width: 99%;
     display: block;
 }
 /* Menu */
@@ -823,13 +822,9 @@ li:hover ul, li.over ul {
     color: #666;
 }
 #footer a {
-    /*color: #333;*/
     color: #666;
     text-decoration: none;
 }
 #footer a:hover {
-    color: #006;#
-}
-<!-- Hidden for Mac -->
-
+    color: #006;
 }
