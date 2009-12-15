@@ -519,6 +519,9 @@ form div.search-form dd fieldset#fieldset-submitGroup dl {
 form div.search-form dd fieldset#fieldset-matchGroup {
     margin-left: 101px;
 }
+form div.search-form dt#submitGroup-label {
+    display: none;
+}
 form div.search-form dd#submitGroup-element {
     float: right;
 }
@@ -557,6 +560,13 @@ form dt#hidden-label,
 form dd#hidden-element,
 form fieldset#fieldset-hidden {
     display: none;
+}
+.multi-search dt#key-label,
+.multi-search dd#key-element {
+    display: none;    
+}
+.multi-search dd#submitGroup-element {
+    margin-top: 15px;
 }
 /* Info navigator */
 .navigator {

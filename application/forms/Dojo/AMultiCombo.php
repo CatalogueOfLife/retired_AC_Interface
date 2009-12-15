@@ -17,6 +17,8 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
    
     public function init()
     {
+        $this->addAttribs(array('class' => 'multi-search'));
+        
         foreach ($this->_combos as $comboId => $comboLabel) {
              
             $comboBox = $this->createElement(
