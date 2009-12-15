@@ -604,6 +604,15 @@ form fieldset#fieldset-hidden {
 .tundra li.dijitReset {
     clear: both;
 }
+/* needed for correct display in Opera */
+.tundra .search-form .dijitComboBox .dijitArrowButton .dijitArrowButtonInner {
+    height: 17px;
+}
+/* needed for correct display in IE6 */
+.tundra .items-form .dijitSpinnerButtonContainer .dijitArrowButton {
+    height: 8px;
+    display: block;
+}
 .navigator select {
     font-size: 12px;
     color: #336;
@@ -644,7 +653,6 @@ ul.dijitMenu li {
     width: 58px;
 }
 /* hack for Mac Safari */
-
 @media screen and (-webkit-min-device-pixel-ratio:0) {
     .tundra #update_label.dijitButtonText { margin-top: -3px; }
 }
