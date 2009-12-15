@@ -374,10 +374,8 @@ th.vertical {
     background-color: #fafcfe;
 }
 div.results_header {
-    position: relative;
-    display: table;
-    width: 100%;
-    margin: 0;
+    width: 99%;
+    margin: 0 auto;
     padding: 0;
 }
 div.results_header div.results_counter {
@@ -439,13 +437,14 @@ div.export-warning {
 .centered-box {
     width: 410px;
 }
+#content.centered-box {
+    display: table;
+}
+/*hack for Mac Safari*/
 @media screen and (-webkit-min-device-pixel-ratio:0) {
     .centered-box {
         width: 440px;
     }
-}
-#content.centered-box {
-    display: table;
 }
 #left-col {
     width: 125px;
@@ -569,25 +568,26 @@ form fieldset#fieldset-hidden {
     margin-top: 15px;
 }
 /* Info navigator */
-.navigator {
-    display: inline;
+.navigator {    
     text-align: center;
-    width: 99%;
+    width: 80%;
+    padding: 0;
     margin: 0 auto;
-    clear: both;
 }
 .navigator form {
     display: table;
     margin: 0 auto;    
 }
 .navigator dt {
-    display: none;    
+    display: none;  
 }
 .navigator dd {
     float: left;
 }
 .info_content {
-    margin: 15px 0 0 0;
+    margin: 15px 0;
+    padding: 10px 0;
+    border-bottom: 1px solid #336;
 }
 .info_content p {
     margin: 10px 0;
@@ -604,21 +604,23 @@ form fieldset#fieldset-hidden {
 .tundra li.dijitReset {
     clear: both;
 }
-.navigator {
-    display:block;    
-}
 .navigator select {
     font-size: 12px;
     color: #336;
     padding: 2px;
-    margin: 0 4px;
+    margin: 2px 4px;
 }
+/*hack for Mac Safari*/
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .navigator select { margin: 4px; }
+}
+/*hack for IE <=8*/
+.navigator select { margin: 3px 4px\9 }
 ul.dijitMenu li {
     font-size: 13px;
 }
 .tundra span.dijitButtonNode button {
     color: #006;
-    padding-top: 2px;
     font-size: 14px;    
 }
 .tundra div.search-form span.dijitButtonNode button {
@@ -802,5 +804,8 @@ li:hover ul, li.over ul {
     text-decoration: none;
 }
 #footer a:hover {
-    color: #006;
+    color: #006;#
+}
+<!-- Hidden for Mac -->
+
 }
