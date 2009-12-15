@@ -634,24 +634,22 @@ ul.dijitMenu li {
     display: block !important;
 }
 .tundra #update_label.dijitButtonText {
-    height: 18px;
-} 
+    margin-top: -6px;
+}
 .tundra span.dijitButtonNode button#update {
     font-size: 11px;
-    height: 18px;
-    line-height: 18px;
+    height: 14px;
+    line-height: 14px;
     padding: 0;
     width: 58px;
 }
 /* hack for Mac Safari */
+
 @media screen and (-webkit-min-device-pixel-ratio:0) {
-    .tundra #update_label.dijitButtonText { height: 14px; }    
-    .tundra span.dijitButtonNode button#update { height: 14px; line-height: 14px; }
+    .tundra #update_label.dijitButtonText { margin-top: -3px; }
 }
 /* hack for IE <=8 */
-.tundra #update_label.dijitButtonText { height: 14px\9 }
-.tundra span.dijitButtonNode button#update { height: 14px\9 }
-.tundra span.dijitButtonNode button#update {line-height: 14px\9 }
+.tundra #update_label.dijitButtonText { margin-top: -2px\9 }
 
 form div.items-form dd#update-element {
     margin: -13px 0 0 5px;
