@@ -75,12 +75,30 @@ class SearchControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
     public function testFormValidationErrorKeyTooShort()
     {
         $this->dispatch('/search/all/key/x/match/1');
-        $this->assertQueryCountMin('ul.errors', 1);
+        $this->assertQueryCountMin('div.errors', 1);
+        $this->dispatch('/search/common/key/x/match/1');
+        $this->assertQueryCountMin('div.errors', 1);
+        $this->dispatch('/search/distribution/key/x/match/1');
+        $this->assertQueryCountMin('div.errors', 1);
     }
     
     public function testFormValidationErrorNoKey()
     {
         $this->dispatch('/search/all/key//match/1');
-        $this->assertQueryCountMin('ul.errors', 1);
+        $this->assertQueryCountMin('div.errors', 1);
+        $this->dispatch('/search/common/key//match/1');
+        $this->assertQueryCountMin('div.errors', 1);
+        $this->dispatch('/search/distribution/key//match/1');
+        $this->assertQueryCountMin('div.errors', 1);
+    }
+    
+    public function testFormValidationErrorOnlyWildcards()
+    {
+        $this->dispatch('/search/all/key/**/match/1');
+        $this->assertQueryCountMin('div.errors', 1);
+        $this->dispatch('/search/common/key/**/match/1');
+        $this->assertQueryCountMin('div.errors', 1);
+        $this->dispatch('/search/distribution/key/**/match/1');
+        $this->assertQueryCountMin('div.errors', 1);
     }
 }
