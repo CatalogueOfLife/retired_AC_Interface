@@ -695,6 +695,10 @@ form div.items-form dd#update-element {
     margin: 0;
     padding: 2px 2px 4px 2px;
 }
+.tundra .dijitTreeLabelFocused .nodeLabel {
+    font-weight: bold;
+    color: #336;
+}
 .tundra .dijitTreeLeafLabel .dijitTreeContent {
     display: none;
 }

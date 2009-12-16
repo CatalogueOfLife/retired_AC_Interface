@@ -18,6 +18,16 @@ navigateToSelected = function (baseUrl, select, op) {
             break;
     }   
 }
+scrollToEl = function (el) {
+    var x = 0;
+    var y = 0;                
+    while(el != null){
+      x += el.offsetLeft;
+      y += el.offsetTop;
+      el = el.offsetParent;
+    }                
+    window.scrollTo(x, y);
+}
 var formInputElements = null;
 getFormInputElements = function () {
     if(formInputElements == null) {
