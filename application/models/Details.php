@@ -202,31 +202,43 @@ class ACI_Model_Details extends AModel
      */
     public function speciesHierarchy($id)
     {
-        $select = new Zend_Db_Select($this->_db);
-        $select->from(
-            array('tx' => 'taxa'),
-            array(
-                'tx.record_id',
-                'tx.parent_id',
-                'tx.name',
-                'tx.taxon',
-                'tx.LSID'
-            )
-        )->where('tx.record_id = ?');
+        $cacheKey = $id . '_hierarchy';
+        $cache = Zend_Registry::get('cache');
+        // Try to load cached results
+        $res = $cache ? $cache->load($cacheKey) : false;
+        if(!$res) {
+            $select = new Zend_Db_Select($this->_db);
+            $select->from(
+                array('tx' => 'taxa'),
+                array(
+                    'tx.record_id',
+                    'tx.parent_id',
+                    'tx.name',
+                    'tx.taxon',
+                    'tx.LSID'
+                )
+            )->where('tx.record_id = ?');
+                
+            $hierarchy = array();
             
-        $hierarchy = array();
-        
-        do {
-            $select->bind(array($id));
-            $res = $select->query()->fetchAll();
-            if (!count($res)) {
-                break;
-            }
-            $hierarchy[] = $res[0];
-            $id = $res[0]['parent_id'];
-        } while ($id > 0);
+            do {
+                $select->bind(array($id));
+                $res = $select->query()->fetchAll();
+                if (!count($res)) {
+                    break;
+                }
+                if($res[0] > 0) {
+                    $hierarchy[] = $res[0];
+                }
+                $id = $res[0]['parent_id'];
+            } while ($id > 0);
 
-        return array_reverse($hierarchy);
+            $res = array_reverse($hierarchy);
+            if($cache) {
+                $cache->save($res, $cacheKey);
+            }
+        }
+        return $res;
     }
     
     /**
