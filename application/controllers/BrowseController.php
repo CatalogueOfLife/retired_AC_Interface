@@ -21,9 +21,16 @@ class BrowseController extends AController
             exit($this->_getTaxonChildren($this->_getParam('id', 0)));
         }
         $species = $this->_getParam('species', false);
-        $id = $species ?
-            $this->_getTaxaFromSpeciesId($species) :
-            $this->_getParam('id', false);
+        if($species) {
+            $id = $this->_getTaxaFromSpeciesId($species);
+        }
+        else {
+            if(!$id = $this->_getParam('id', false)) {
+                $id = $this->getHelper('SessionHandler')
+                    ->get('treeSpecies', false);
+                $this->getHelper('SessionHandler')->clear('treeSpecies');
+            }
+        }
         $hierarchy = array();
         if ($id !== false) {
             $hierarchy = $this->_getHierarchy($id);
@@ -77,6 +84,7 @@ class BrowseController extends AController
         // Form page
         } else {
             if (!$formIsValid && $this->_hasParam('match')) {
+                // TODO: remove next line, it's useless
                 $this->view->formError = true;
                 $this->_setSessionFromParams($form->getInputElements());
             }
@@ -155,8 +163,8 @@ class BrowseController extends AController
         foreach ($res as &$row) {
             $row['type'] = $row['type'] == "Kingdom" ? '' : $row['type'];
             $row['url'] = $row['snId'] ?
-                $this->view->baseUrl() . '/details/species/id/' . $row['snId'] :
-                null;
+                $this->view->baseUrl() . '/details/species/id/' . $row['snId'] .
+                    '/source/tree' : null;
             if ($row['type'] == "Infraspecies") {
                 $row['name'] = $this->getHelper('DataFormatter')
                     ->splitByMarkers($row['name']);

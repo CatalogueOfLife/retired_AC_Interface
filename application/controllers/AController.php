@@ -17,9 +17,10 @@ abstract class AController extends Zend_Controller_Action
     
     public function init()
     {
+        $this->_logger = Zend_Registry::get('logger');
         // Convert POST to GET request as friendly URL
         $this->_postToGet();
-        $this->_logger = Zend_Registry::get('logger');
+        $this->_persistTree();
         $this->_db = Zend_Registry::get('db');
         $this->_logger->debug($this->_getAllParams());
         // Initialize Dojo, disabled by default
@@ -42,6 +43,14 @@ abstract class AController extends Zend_Controller_Action
     protected function _getSearchForm()
     {
         return $this->getHelper('FormLoader')->getSearchForm();
+    }
+   
+    protected function _persistTree() {
+        if($this->getRequest()->getParam('source') == 'tree') {
+            $this->getHelper('SessionHandler')->set(
+                'treeSpecies', $this->getRequest()->getParam('id'), false
+            );
+        }
     }
     
     protected function _renderFormPage($header, $form)
