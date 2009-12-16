@@ -80,6 +80,7 @@ class DetailsController extends AController
     public function speciesAction()
     {
         $id = $this->_getParam('id');
+        $source = $this->_getParam('source', '');
         $commonNameId = $this->_getParam('common');
         $speciesDetails = false;
         
@@ -115,6 +116,7 @@ class DetailsController extends AController
         $this->view->headTitle($this->view->title, 'APPEND');
         $this->_logger->debug($speciesDetails);
         $this->view->species = $speciesDetails;
+        $this->view->source = $source;
     }
      
     public function __call($name, $arguments)
