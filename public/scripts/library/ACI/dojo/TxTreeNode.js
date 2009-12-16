@@ -17,7 +17,7 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
                     .createTextNode(type));
             this.labelNode.appendChild(rank);
             var taxon = dojo.doc.createElement('span');
-            taxon.className = 'node-' + type;
+            taxon.className = 'nodeLabel node-' + type;
             taxon.appendChild(dojo.doc
                     .createTextNode(' ' + label));
             this.labelNode.appendChild(taxon);
@@ -69,12 +69,12 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
                 tree._expandNode(node);
                 // latest element
                 if(pos == hierarchy.length - 1) {
-                    tree.focusNode(node);                    
-                }                
+                    tree.focusNode(node);
+                }
                 hierarchy.unshift();
-                scrollToElement(node.domNode);
+                scrollToEl(node.domNode);
                 return;
-            }            
+            }
         });
     }
 });
