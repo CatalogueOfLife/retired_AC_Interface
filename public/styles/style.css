@@ -402,7 +402,7 @@ div.paginationControl .page-current {
 div.page_links {
     width: 100%;
     text-align: center;
-    margin: 5px 0;
+    margin: 0 0 5px 0;
     clear: both;
     display: table;
 }
@@ -415,10 +415,9 @@ div.copyright_notice {
 	background-color: #fff;
 }
 div.export-warning {
-    background: transparent url(../images/warning.png) no-repeat top left;
+    background: transparent url(../images/warning.png) no-repeat center left;
     line-height: 16px;
-    padding-left: 20px;
-    margin-top: 15px;
+    padding: 15px 0 15px 20px;
 }
 #header {
     margin: 27px 0 16px 0;
@@ -672,6 +671,9 @@ form div.items-form dd#update-element {
 }
 /* Tree */
 /********/
+.tundra img.dijitTreeExpandoLoading {
+    background: transparent url(../images/loader.gif) no-repeat scroll center center;
+}
 .tundra .dijitTreeRow {
     padding: 0;
     margin: 0;
