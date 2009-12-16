@@ -18,25 +18,7 @@ init = function() {
         childrenAttr: 'children'
     }, 'store');
     var tree = new ACI.dojo.TxTree({ model: model }, 'tree');
-
-    if(hierarchy.length > 1) {
-        var handler = dojo.connect(tree, 'onOpen', null, function(item, node) {
-            dojo.forEach(node.getChildren(),function(cNode) {
-                var pos = dojo.indexOf(hierarchy, cNode.item.i.id);
-                if(pos >= 0) {
-                    tree.focusNode(cNode);
-                    if(pos == hierarchy.length - 1) {
-                        dijit.scrollIntoView(cNode.domNode);
-                        dojo.disconnect(handler);
-                    }
-                    else {
-                        tree._expandNode(cNode);
-                    }
-                    return;
-                }
-            });
-        });
-    }
+    tree.persist = false;
 }
 dojo.addOnLoad(init);
 </script>
