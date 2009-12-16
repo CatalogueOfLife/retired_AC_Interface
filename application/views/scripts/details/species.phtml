@@ -189,7 +189,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         ?></span></td>
     </tr>
 </table>
-        <?php
+<?php
 else:
 ?>
 <p><?php echo $this->translate('Species_not_found'); ?></p>
@@ -199,7 +199,9 @@ endif;
 ?>
 <br/>
 <div class="page_links">
-<a href="javascript:history.back()">
+<a href="<?php echo $this->source == 'tree' ?
+    $this->baseUrl() . '/browse/tree/species/' . $this->species->id :
+    'javascript:history.back()'; ?>">
     <?php echo $this->translate('Back_to_last_page'); ?>
 </a> |
 <a href="<?php echo $this->baseUrl() . '/' . $this->latestSearch; ?>">
