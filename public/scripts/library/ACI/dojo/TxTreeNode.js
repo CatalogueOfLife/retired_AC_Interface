@@ -54,5 +54,27 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
             this.expandoNode.parentNode.className += ' dijitTreeLeafLabel';
             this.expandoNode.parentNode.appendChild(leaf);
         }
+    },
+    expand : function() {
+        this.inherited(arguments);
+        if(!hierarchy.length) {
+            return;
+        }
+        var tree = this.tree;
+        var pos = null;
+        dojo.forEach(this.getChildren(), function(node, index, array) {
+            pos = dojo.indexOf(hierarchy, node.item.i.id);
+            // in array
+            if(pos >= 0) {
+                tree._expandNode(node);
+                // latest element
+                if(pos == hierarchy.length - 1) {
+                    tree.focusNode(node);                    
+                }                
+                hierarchy.unshift();
+                scrollToElement(node.domNode);
+                return;
+            }            
+        });
     }
 });
