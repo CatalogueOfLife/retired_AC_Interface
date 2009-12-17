@@ -635,14 +635,9 @@ class ACI_Model_Search extends AModel
             $substr = explode('*', $query);
             $orderSubstr = $substr[0] ? $substr[0] : $substr[1];
             $qSubstr = trim(str_replace('*', '%', $query));
-            $select = empty($key) ?
-                // No other fields have been filled in
-                $this->_getTaxaNameQuery($rank, $qSubstr, $orderSubstr) :
-                // At least another filed has been filled in - must use it as a
-                // filter
-                $this->_getTaxaNameFilteredQuery(
-                    $rank, $qSubstr, $orderSubstr, $key
-                );
+            $select = $this->_getTaxaNameQuery(
+                $rank, $qSubstr, $orderSubstr, $key
+            );
             $res = $select->query()->fetchAll();
             if($cache) {
                 $cache->save($res, $cacheKey);
@@ -652,13 +647,17 @@ class ACI_Model_Search extends AModel
     }
     
     /**
+     * Returns the query to get all the names matching the given string query
+     * for a specific rank and base on what may be entered for the other ranks
      *
      * @param string $rank
+     * @param string $qStr
      * @param string $str
      * @param array $key
+     *
      * @return Zend_Db_Select
      */
-    protected function _getTaxaNameFilteredQuery($rank, $qStr, $str, array $key)
+    protected function _getTaxaNameQuery($rank, $qStr, $str, array $key)
     {
         $select = new Zend_Db_Select($this->_db);
         $field = $this->stringRefersToHigherTaxa($rank) ?
@@ -700,47 +699,7 @@ class ACI_Model_Search extends AModel
             
         return $select;
     }
-    
-    /**
-     * Returns the query to get all the names matching the given string query
-     * for a specific rank
-     *
-     * @param string $rank
-     * @param string $str
-     * @return Zend_Db_Select
-     */
-    protected function _getTaxaNameQuery($rank, $qStr, $str)
-    {
-        $select = new Zend_Db_Select($this->_db);
-        // Search for higher taxa in families
-        if ($this->stringRefersToHigherTaxa($rank)) {
-            $select->distinct()
-               ->from(array('families'), array('name' => $rank))
-               ->where(
-                   "`$rank` NOT IN('', 'Not assigned') AND " .
-                   "is_accepted_name = 1 AND " .
-                   "`$rank` LIKE \"" . $qStr . "\""
-               )
-               ->order(
-                   array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"), $rank)
-               );
-        } else { // Search for species in hard_coded_taxon_lists
-            $select->distinct()
-               ->from(array('hard_coded_taxon_lists'), array('name'))
-               ->where('rank = ?', $rank)
-               ->where('name LIKE "' . $qStr . '"')
-               ->where('accepted_names_only = 1')
-               ->order(
-                   array(
-                       new Zend_Db_Expr('INSTR(name, "' . $str . '")'),
-                       'name'
-                   )
-               )
-               ->limit(self::API_ROWSET_LIMIT + 1);
-        }
-        return $select;
-    }
-    
+     
     /**
      * Check whether a taxa name exists for the given rank
      *
