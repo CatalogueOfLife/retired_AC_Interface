@@ -49,10 +49,12 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
             }            
             leaf.appendChild(a);
             leaf.appendChild(lsid);
-            this.labelNode.innerHTML = '';            
-            this.expandoNodeText.parentNode.removeChild(this.expandoNodeText);
-            this.expandoNode.parentNode.className += ' dijitTreeLeafLabel';
-            this.expandoNode.parentNode.appendChild(leaf);
+            this.labelNode.innerHTML = '';      
+            /*this.expandoNodeText.parentNode.removeChild(this.expandoNodeText);
+            this.expandoNode.parentNode.className += ' dijitTreeLeafLabel';            
+            this.expandoNode.parentNode.appendChild(leaf);*/
+            this.expandoNode.parentNode.className += ' dijitTreeLeafLabel'
+            this.labelNode.appendChild(leaf);
         }
     },
     expand : function() {

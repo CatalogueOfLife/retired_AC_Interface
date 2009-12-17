@@ -20,17 +20,24 @@ class BrowseController extends AController
             $this->view->layout()->disableLayout();
             exit($this->_getTaxonChildren($this->_getParam('id', 0)));
         }
+        $id = false;
         $species = $this->_getParam('species', false);
         if($species) {
             $id = $this->_getTaxaFromSpeciesId($species);
         }
         else {
-            if(!$id = $this->_getParam('id', false)) {
-                $id = $this->getHelper('SessionHandler')
-                    ->get('treeSpecies', false);
-                $this->getHelper('SessionHandler')->clear('treeSpecies');
-            }
+            $id = $this->_getParam('id', false);
         }
+        // If no id or species was passed
+        if(!$id) {
+            // get the id from persistance (session)
+            $id = $this->getHelper('SessionHandler')->get('tree_id', false);
+        }
+        else {
+            // persist current id in session
+            $this->getHelper('SessionHandler')->set('tree_id', $id, false);
+        }
+        
         $hierarchy = array();
         if ($id !== false) {
             $hierarchy = $this->_getHierarchy($id);

@@ -687,6 +687,7 @@ form div.items-form dd#update-element {
 }
 .tundra .dijitTreeNodeSelected a {
     background:#e2ebfe none repeat scroll 0 0;
+    font-weight: bold;
 }
 .tundra .dijitTreeIcon {
     display: none;
@@ -698,9 +699,6 @@ form div.items-form dd#update-element {
 .tundra .dijitTreeLabelFocused .nodeLabel {
     font-weight: bold;
     color: #336;
-}
-.tundra .dijitTreeLeafLabel .dijitTreeContent {
-    display: none;
 }
 .tundra img.dijitTreeExpando {
     height: 20px;
