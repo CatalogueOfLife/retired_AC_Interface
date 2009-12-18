@@ -10,7 +10,7 @@
     <!-- PHP Fileset -->
     <patternset id="inc.php.files">
         <include name="**/*.php" />
-        <exclude name="**/tests/**" />
+        <exclude name="**/tests/**" />    	
         <exclude name="**/library/**" />
         <exclude name="**/public/scripts/**" />
     </patternset>
@@ -22,6 +22,9 @@
         <exclude name="**/tests/**" />
         <!--file templates -->
         <exclude name="**/*.tpl" />
+    	<!-- cache and log files -->
+    	<exclude name="application/cache/*/**" />
+        <exclude name="application/log/*.*" />
     </patternset>
     <tstamp>
         <format property="now" pattern="%c" locale="nl_NL"/>
