@@ -27,8 +27,8 @@ scrollToEl = function (elId) {
           x += el.offsetLeft;
           y += el.offsetTop;
           el = el.offsetParent;
-        }                
-        window.scrollTo(x, y);
+        }        
+        window.scrollTo(x, y - window.screen.availHeight / 10);
     }
 }
 var formInputElements = null;
