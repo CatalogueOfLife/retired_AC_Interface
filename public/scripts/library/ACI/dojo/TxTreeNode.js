@@ -13,6 +13,7 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
                 .getValue(this.item, 'url') == null) {  
             var rank = dojo.doc.createElement('span');            
             rank.className = 'rank';
+            rank.id = 'sn-' + this.tree.model.store.getValue(this.item, 'id');
             rank.appendChild(dojo.doc
                     .createTextNode(type));
             this.labelNode.appendChild(rank);
@@ -25,10 +26,11 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
         } else {
             var leaf = dojo.doc.createElement('span');
             leaf.className = 'leaf';
+            leaf.id = 'sn-' + this.tree.model.store.getValue(this.item, 'id');
             var a = dojo.doc.createElement('a');
-            a.href = this.tree.model.store.getValue(this.item, 'url');            
+            a.href = this.tree.model.store.getValue(this.item, 'url');
             if(type == 'Infraspecies') {
-                for(var i in label){
+                for(var i in label) {
                     if(i > 0) {
                         a.appendChild(dojo.doc.createTextNode(' '));
                     }
@@ -49,14 +51,11 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
             }            
             leaf.appendChild(a);
             leaf.appendChild(lsid);
-            this.labelNode.innerHTML = '';      
-            /*this.expandoNodeText.parentNode.removeChild(this.expandoNodeText);
-            this.expandoNode.parentNode.className += ' dijitTreeLeafLabel';            
-            this.expandoNode.parentNode.appendChild(leaf);*/
+            this.labelNode.innerHTML = '';
             this.expandoNode.parentNode.className += ' dijitTreeLeafLabel'
             this.labelNode.appendChild(leaf);
         }
-    },
+    },    
     expand : function() {
         this.inherited(arguments);
         if(!hierarchy.length) {
@@ -72,9 +71,12 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
                 // latest element
                 if(pos == hierarchy.length - 1) {
                     tree.focusNode(node);
+                    setTimeout("scrollToEl(\"" + node.labelNode.children[0].id + "\")", 100);
                 }
-                hierarchy.unshift();
-                scrollToEl(node.domNode);
+                else {
+                    scrollToEl(node.labelNode.children[0].id);
+                }
+                hierarchy.unshift();                
                 return;
             }
         });
