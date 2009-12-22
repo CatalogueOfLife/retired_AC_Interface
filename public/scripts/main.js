@@ -18,15 +18,18 @@ navigateToSelected = function (baseUrl, select, op) {
             break;
     }   
 }
-scrollToEl = function (el) {
-    var x = 0;
-    var y = 0;                
-    while(el != null){
-      x += el.offsetLeft;
-      y += el.offsetTop;
-      el = el.offsetParent;
-    }                
-    window.scrollTo(x, y);
+scrollToEl = function (elId) {
+    var el = dojo.byId(elId);
+    if(el != null) {
+        var x = 0;
+        var y = 0;                
+        while(el != null){
+          x += el.offsetLeft;
+          y += el.offsetTop;
+          el = el.offsetParent;
+        }        
+        window.scrollTo(x, y - window.screen.availHeight / 10);
+    }
 }
 var formInputElements = null;
 getFormInputElements = function () {
