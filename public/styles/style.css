@@ -312,11 +312,6 @@ th {
     text-align: left;
     padding: 3px 3px 10px 3px;
 }
-
-th.current {
-    text-decoration: underline;
-}
-
 th.horizontal a:link,
 th.horizontal a:visited,
 th.horizontal a:active {
@@ -327,10 +322,14 @@ th.horizontal a:hover {
     color: #666;
     text-decoration: underline
 }
-th.horizontal {    
+th.horizontal {
     color: #336;
+    min-width: 60px;
 }
-th.vertical {    
+.sort-arrow {
+    margin: 1px;
+}
+th.vertical {
     vertical-align: top;
 }
 th.vertical a:link,
