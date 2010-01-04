@@ -37,14 +37,33 @@ class InfoController extends AController
         $this->view->headTitle($this->view->title, 'APPEND');
         
         $defaultSortCol = 'source';
+        
         $sortCol = $this->_getParam('sort', $defaultSortCol);
+        $direction = $this->_getParam('direction', 'asc');
+        
+        $this->view->urlParams =
+            array('sort' => $sortCol, 'direction' => $direction);
+        
+        $this->view->sortArrow =
+            '<img src="' . $this->view->baseUrl() . '/images/' .
+            ($direction == 'asc' ?
+                'Arrow_up.gif" alt="' .
+                    $this->view->translate('ascending') :
+                'Arrow_down.gif" alt="' .
+                    $this->view->translate('descending')
+             ) . '" />';
+        $this->view->sortDesc = $direction == 'asc' ? $sortCol : null;
+        
         $this->view->sort = $sortCol;
         
         $dbTable = new ACI_Model_Table_Databases();
         $rowset =
             $dbTable->getAll(
                 array_merge(
-                    array(ACI_Model_Info::getRightColumnName($sortCol)),
+                    array(
+                        ACI_Model_Info::getRightColumnName($sortCol) . ' ' .
+                        $direction
+                    ),
                     array(ACI_Model_Info::getRightColumnName($defaultSortCol))
                 )
             );

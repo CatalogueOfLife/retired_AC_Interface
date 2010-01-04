@@ -27,7 +27,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
     
     public function getAll ($order = null)
     {
-        $rowset = parent::fetchAll(null, $order);
+        $rowset = $this->fetchAll(null, $order);
         if (!$rowset) {
             return false;
         }
