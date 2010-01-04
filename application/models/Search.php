@@ -18,6 +18,8 @@ class ACI_Model_Search extends AModel
 
     // Default sort params, also added after the custom sort fields
     protected static $_defaultSortParams = array(
+        'scientific' => array('name'),
+        'classification' => array('name'),
         'common' => array('name'),
         'distribution' => array('distribution')
     );
@@ -81,18 +83,22 @@ class ACI_Model_Search extends AModel
      * Returns the final query (sorted) to search for common names
      *
      * @param string $searchKey
-     * @param string $sort
+     * @param string $sort sort field
+     * @param string $direction sort direction (asc, desc)
      * @return Zend_Db_Select
      */
-    public function commonNames($searchKey, $matchWholeWords, $sort = null, $order = null)
+    public function commonNames($searchKey, $matchWholeWords, $sort = null,
+        $direction = null)
     {
+        $this->_logger->debug(__METHOD__);
+        $this->_logger->debug(func_get_args());
         return $this->_selectCommonNames($searchKey, $matchWholeWords)
         ->order(
             $sort ?
             array_merge(
                 array(
                     self::getRightColumnName($sort) .
-                    self::getRightSortOrder($order)
+                    self::getRightSortDirection($direction)
                 ),
                 self::_getSortParams('common')
             ) : self::_getSortParams('common')
@@ -115,18 +121,22 @@ class ACI_Model_Search extends AModel
      * Returns the final query (sorted) to search for scientific names
      *
      * @param string $searchKey
-     * @param string $sort
+     * @param string $sort sort field
+     * @param string $direction sort direction (asc, desc)
      * @return Zend_Db_Select
      */
-    public function scientificNames(array $key, $matchWholeWords, $sort = null, $order = null)
+    public function scientificNames(array $key, $matchWholeWords, $sort = null,
+        $direction = null)
     {
+        $this->_logger->debug(__METHOD__);
+        $this->_logger->debug(func_get_args());
         return $this->_selectScientificNames($key, $matchWholeWords)
         ->order(
             $sort ?
             array_merge(
                 array(
                     self::getRightColumnName($sort) .
-                    self::getRightSortOrder($order)
+                    self::getRightSortDirection($direction)
                 )
             ) : self::_getDefaultSortExpression($key, $matchWholeWords)
         );
@@ -137,11 +147,15 @@ class ACI_Model_Search extends AModel
      *
      * @param string $searchKey
      * @param boolean $matchWholeWords
-     * @param string $sort
+     * @param string $sort sort field
+     * @param string $direction sort direction (asc, desc)
      * @return Zend_Db_Select
      */
-    public function distributions($searchKey, $matchWholeWords, $sort = null, $order = null)
+    public function distributions($searchKey, $matchWholeWords, $sort = null,
+        $direction = null)
     {
+        $this->_logger->debug(__METHOD__);
+        $this->_logger->debug(func_get_args());
         $searchKey = $this->_wildcardHandling($searchKey);
         return $this->_selectDistributions($searchKey, $matchWholeWords)
         ->order(
@@ -149,7 +163,7 @@ class ACI_Model_Search extends AModel
             array_merge(
                 array(
                     self::getRightColumnName($sort) .
-                    self::getRightSortOrder($order)
+                    self::getRightSortDirection($direction)
                 ),
                 self::_getSortParams('distribution')
             ) : self::_getSortParams('distribution')
@@ -162,11 +176,15 @@ class ACI_Model_Search extends AModel
      *
      * @param string $searchKey
      * @param boolean $matchWholeWords
-     * @param string $sort
+     * @param string $sort sort field
+     * @param string $direction sort direction (asc, desc)
      * @return Zend_Db_Select
      */
-    public function all($searchKey, $matchWholeWords, $sort = null, $order = null)
+    public function all($searchKey, $matchWholeWords, $sort = null,
+        $direction = null)
     {
+        $this->_logger->debug(__METHOD__);
+        $this->_logger->debug(func_get_args());
         return $this->_db->select()->union(
             array(
                 $this->_selectTaxa(
@@ -181,7 +199,7 @@ class ACI_Model_Search extends AModel
             $sort ?
                 array(
                     self::getRightColumnName($sort) .
-                    self::getRightSortOrder($order)
+                    self::getRightSortDirection($direction)
             ) : self::_getDefaultSortExpression($searchKey, $matchWholeWords)
         );
    }
@@ -207,14 +225,20 @@ class ACI_Model_Search extends AModel
             $columMap[$columName] : null;
     }
     
-    public static function getRightSortOrder($sortOrder)
+    /**
+     * Returns the SQL valid value for the sort direction string
+     *
+     * @param string $direction
+     * @return string, null
+     */
+    public static function getRightSortDirection($direction)
     {
         $sortOptions = array(
             'asc' => ' ASC',
             'desc' => ' DESC'
         );
-        return isset($sortOptions[$sortOrder]) ?
-            $sortOptions[$sortOrder] : null;
+        return isset($sortOptions[$direction]) ?
+            $sortOptions[$direction] : null;
     }
     
     /**

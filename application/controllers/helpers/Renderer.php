@@ -42,6 +42,7 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
     public function renderResultsPage(array $elements = array())
     {
         $items = $this->_getItemsPerPage();
+        
         $sortParam = $this->_ac->view->escape(
             $this->getRequest()->getParam(
                 'sort',
@@ -50,10 +51,9 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
                 )
             )
         );
-        $orderParam = $this->getRequest()->getParam(
-            'order',
-            'asc'
-        );
+        
+        $directionParam = $this->getRequest()->getParam('direction', 'asc');
+        
         if (isset($this->_ac->view->searchString)) {
             $this->_ac->view->searchString =
                 $this->_ac->view->translate($this->_ac->view->searchString);
@@ -66,14 +66,26 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
                 ) . '"'
             );
         }
+        $sortParam = $this->_ac->view->escape($sortParam);
+        $directionParam = $this->_ac->view->escape($directionParam);
         $this->_ac->view->urlParams = array(
-            'sort' => $this->_ac->view->escape($sortParam),
-            'order' => $this->_ac->view->escape($orderParam)
+            'sort' => $sortParam, 'direction' => $directionParam
         );
         foreach ($elements as $e) {
              $this->_ac->view->urlParams[$e] =
                 $this->getRequest()->getParam($e);
         }
+        $this->_ac->view->sortArrow =
+            '<img src="' . $this->_ac->view->baseUrl() . '/images/' .
+            ($directionParam == 'asc' ?
+                'Arrow_up.gif" alt="' .
+                    $this->_ac->view->translate('ascending') :
+                'Arrow_down.gif" alt="' .
+                    $this->_ac->view->translate('descending')
+             ) . '" />';
+        $this->_ac->view->sortDesc = ($sortParam && $directionParam == 'asc') ?
+            $sortParam : null;
+
         $query = $this->_ac->getHelper('Query')->getSearchQuery(
             $this->getRequest()->getParam('controller'),
             $this->getRequest()->getParam('action')
