@@ -19,7 +19,6 @@ class ACI_Model_Search extends AModel
     // Default sort params, also added after the custom sort fields
     protected static $_defaultSortParams = array(
         'scientific' => array('name'),
-        'classification' => array('name'),
         'common' => array('name'),
         'distribution' => array('distribution')
     );
@@ -137,7 +136,8 @@ class ACI_Model_Search extends AModel
                 array(
                     self::getRightColumnName($sort) .
                     self::getRightSortDirection($direction)
-                )
+                ),
+                self::_getSortParams('scientific')
             ) : self::_getDefaultSortExpression($key, $matchWholeWords)
         );
     }

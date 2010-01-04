@@ -17,30 +17,26 @@
         <th class="horizontal<?php echo ($this->sort == 'name' ? ' current' : '');?>">
             <a href="<?php echo $this->url(array_merge($this->urlParams, array(
               'sort' => 'name', 'direction' => $this->sortDesc == 'name' ? 'desc' : 'asc'))); ?>">
-              <?php echo $this->translate('Scientific_name'); ?>
-              <?php echo ($this->sort == 'name' ? $this->sortArrow : '');?>
-              </a>
+              <?php echo $this->translate('Scientific_name'); ?></a>
+            <span class="sort-arrow"><?php echo ($this->sort == 'name' ? $this->sortArrow : '');?></span>
         </th>
         <th class="horizontal<?php echo ($this->sort == 'status' ? ' current' : '');?>">
             <a href="<?php echo $this->url(array_merge($this->urlParams, array(
               'sort' => 'status', 'direction' => $this->sortDesc == 'status' ? 'desc' : 'asc'))); ?>">
-              <?php echo $this->translate('Name_status'); ?>
-              <?php echo ($this->sort == 'status' ? $this->sortArrow : '');?>
-            </a>
+              <?php echo $this->translate('Name_status'); ?></a>
+            <span class="sort-arrow"><?php echo ($this->sort == 'status' ? $this->sortArrow : '');?></span>
         </th>
         <th class="horizontal<?php echo ($this->sort == 'group' ? ' current' : '');?>">
             <a href="<?php echo $this->url(array_merge($this->urlParams, array(
               'sort' => 'group', 'direction' => $this->sortDesc == 'group' ? 'desc' : 'asc'))); ?>">
-              <?php echo $this->translate('Group'); ?>
-              <?php echo ($this->sort == 'group' ? $this->sortArrow : '');?>
-            </a>
+              <?php echo $this->translate('Group'); ?></a>
+            <span class="sort-arrow"><?php echo ($this->sort == 'group' ? $this->sortArrow : '');?></span>
         </th>
         <th class="horizontal<?php echo ($this->sort == 'db' ? ' current' : '');?>">
             <a href="<?php echo $this->url(array_merge($this->urlParams, array(
               'sort' => 'db', 'direction' => $this->sortDesc == 'db' ? 'desc' : 'asc'))); ?>">
-              <?php echo $this->translate('Source_database'); ?>
-              <?php echo ($this->sort == 'db' ? $this->sortArrow : '');?>
-            </a>
+              <?php echo $this->translate('Source_database'); ?></a>
+            <span class="sort-arrow"><?php echo ($this->sort == 'db' ? $this->sortArrow : '');?></span>
         </th>
     </tr>
 <?php foreach ($this->data as $row): ?>
