@@ -1,4 +1,15 @@
 <?php
+/**
+ * Annual Checklist Interface
+ *
+ * Class ACI_View_Helper_Placeholder
+ * Placeholder handler for views
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  views/helpers
+ *
+ */
 class ACI_View_Helper_Placeholder extends Zend_View_Helper_Abstract
 {
     public function placeholder($text = '')
