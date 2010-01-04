@@ -11,60 +11,40 @@
  *
  */
 ?>
-<?php
-$order_arrow = '<img src="' . $this->baseUrl() . '/images/' .
-(isset($this->urlParams['order']) && $this->urlParams['order'] == 'desc' ?
-    'Arrow_up.gif' : 'Arrow_down.gif') .
-'" alt="' .
-(isset($this->urlParams['order']) && $this->urlParams['order'] == 'desc' ?
-    $this->translate('ascending') :
-    $this->translate('descending')
-) .
-'" />';
-
-$order = array(
-    'name' => 'asc',
-    'rank' => 'asc',
-    'status' => 'asc',
-    'group' => 'asc',
-    'db' => 'asc'
-);
-if(isset($this->sort) && isset($this->urlParams['order']) &&
-    $this->urlParams['order'] == 'asc')
-{
-    $order[$this->sort] = 'desc';
-}
-?>
-
 <table class="results">
 <?php $rowClass = "odd"; ?>
     <tr class="even">
-        <th class="horizontal<?php echo ($this->sort == 'name' ? " current" : "");?>">
+        <th class="horizontal<?php echo ($this->sort == 'name' ? ' current' : '');?>">
         <a href="<?php echo $this->url(array_merge($this->urlParams, array(
-          'sort' => 'name', 'order' => $order['name']))); ?>"><?php echo $this->translate('Name'); ?>
-          <?php echo ($this->sort == 'name' ? $order_arrow : "");?>
+          'sort' => 'name', 'order' => $this->orderDesc == 'name' ? 'desc' : 'asc'))); ?>">
+          <?php echo $this->translate('Name'); ?>
+          <?php echo ($this->sort == 'name' ? $this->orderArrow : '');?>
           </a>
         </th>
-        <th class="horizontal<?php echo ($this->sort == 'rank' ? " current" : "");?>">
+        <th class="horizontal<?php echo ($this->sort == 'rank' ? ' current' : '');?>">
         <a href="<?php echo $this->url(array_merge($this->urlParams, array(
-          'sort' => 'rank', 'order' => $order['rank']))); ?>"><?php echo $this->translate('Rank'); ?>
-          <?php echo ($this->sort == 'rank' ? $order_arrow : "");?>
+          'sort' => 'rank', 'order' => $this->orderDesc == 'rank' ? 'desc' : 'asc'))); ?>">
+          <?php echo $this->translate('Rank'); ?>
+          <?php echo ($this->sort == 'rank' ? $this->orderArrow : '');?>
           </a>
         </th>
-        <th class="horizontal<?php echo ($this->sort == 'status' ? " current" : "");?>">
+        <th class="horizontal<?php echo ($this->sort == 'status' ? ' current' : '');?>">
         <a href="<?php echo $this->url(array_merge($this->urlParams, array(
-          'sort' => 'status', 'order' => $order['status']))); ?>"><?php echo $this->translate('Name_status'); ?>
-          <?php echo ($this->sort == 'status' ? $order_arrow : "");?>
+          'sort' => 'status', 'order' => $this->orderDesc == 'status' ? 'desc' : 'asc'))); ?>">
+          <?php echo $this->translate('Name_status'); ?>
+          <?php echo ($this->sort == 'status' ? $this->orderArrow : '');?>
         </a></th>
-        <th class="horizontal<?php echo ($this->sort == 'group' ? " current" : "");?>">
+        <th class="horizontal<?php echo ($this->sort == 'group' ? ' current' : '');?>">
         <a href="<?php echo $this->url(array_merge($this->urlParams, array(
-          'sort' => 'group', 'order' => $order['group']))); ?>"><?php echo $this->translate('Group'); ?>
-          <?php echo ($this->sort == 'group' ? $order_arrow : "");?>
+          'sort' => 'group', 'order' => $this->orderDesc == 'group' ? 'desc' : 'asc'))); ?>">
+          <?php echo $this->translate('Group'); ?>
+          <?php echo ($this->sort == 'group' ? $this->orderArrow : '');?>
         </a></th>
-        <th class="horizontal<?php echo ($this->sort == 'db' ? " current" : "");?>">
+        <th class="horizontal<?php echo ($this->sort == 'db' ? ' current' : '');?>">
         <a href="<?php echo $this->url(array_merge($this->urlParams, array(
-          'sort' => 'db', 'order' => $order['db']))); ?>"><?php echo $this->translate('Source_database'); ?>
-          <?php echo ($this->sort == 'db' ? $order_arrow : "");?>
+          'sort' => 'db', 'order' => $this->orderDesc == 'db' ? 'desc' : 'asc'))); ?>">
+          <?php echo $this->translate('Source_database'); ?>
+          <?php echo ($this->sort == 'db' ? $this->orderArrow : '');?>
         </a></th>
     </tr>
 <?php foreach ($this->data as $row): ?>
