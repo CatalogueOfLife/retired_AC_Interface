@@ -84,8 +84,11 @@ class ACI_Model_Search extends AModel
      * @param string $sort
      * @return Zend_Db_Select
      */
-    public function commonNames($searchKey, $matchWholeWords, $sort = null, $order = null)
+    public function commonNames($searchKey, $matchWholeWords, $sort = null,
+        $order = null)
     {
+        $this->_logger->debug(__METHOD__);
+        $this->_logger->debug(func_get_args());
         return $this->_selectCommonNames($searchKey, $matchWholeWords)
         ->order(
             $sort ?
@@ -118,8 +121,11 @@ class ACI_Model_Search extends AModel
      * @param string $sort
      * @return Zend_Db_Select
      */
-    public function scientificNames(array $key, $matchWholeWords, $sort = null, $order = null)
+    public function scientificNames(array $key, $matchWholeWords, $sort = null,
+        $order = null)
     {
+        $this->_logger->debug(__METHOD__);
+        $this->_logger->debug(func_get_args());
         return $this->_selectScientificNames($key, $matchWholeWords)
         ->order(
             $sort ?
@@ -140,8 +146,11 @@ class ACI_Model_Search extends AModel
      * @param string $sort
      * @return Zend_Db_Select
      */
-    public function distributions($searchKey, $matchWholeWords, $sort = null, $order = null)
+    public function distributions($searchKey, $matchWholeWords, $sort = null,
+        $order = null)
     {
+        $this->_logger->debug(__METHOD__);
+        $this->_logger->debug(func_get_args());
         $searchKey = $this->_wildcardHandling($searchKey);
         return $this->_selectDistributions($searchKey, $matchWholeWords)
         ->order(
@@ -165,8 +174,11 @@ class ACI_Model_Search extends AModel
      * @param string $sort
      * @return Zend_Db_Select
      */
-    public function all($searchKey, $matchWholeWords, $sort = null, $order = null)
+    public function all($searchKey, $matchWholeWords, $sort = null,
+        $order = null)
     {
+        $this->_logger->debug(__METHOD__);
+        $this->_logger->debug(func_get_args());
         return $this->_db->select()->union(
             array(
                 $this->_selectTaxa(
