@@ -626,8 +626,17 @@ class ACI_Model_Search extends AModel
         $cleanStr = trim(str_replace('*', '', $query));
         $cache = Zend_Registry::get('cache');
         $cacheKey = $rank . '_' . $cleanStr . '_' . implode('_', $key);
-        // Try to load cached results
-        $res = $cache ? $cache->load($cacheKey) : false;
+        $res = false;
+        if($cache) {
+            // Try to load cached results
+            try {
+                $res = $cache->load($cacheKey);
+            } catch(Zend_Cache_Exception $zce) {
+                // An exception may be thrown if the cache key is not valid
+                // In that case, the cache is not used
+                $cache = false;
+            }
+        }
         if(!$res) {
             if (strlen($cleanStr) < $this->_getMinStrLen($rank, $key)) {
                 return array('error' => true);
