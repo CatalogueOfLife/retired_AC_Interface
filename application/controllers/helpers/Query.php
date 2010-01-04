@@ -102,7 +102,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                     $this->getRequest()->getParam('key'),
                     $this->getRequest()->getParam('match'),
                     $this->getRequest()->getParam('sort'),
-                    $this->getRequest()->getParam('order')
+                    $this->getRequest()->getParam('direction')
                 );
                 break;
             case 'search/scientific':
@@ -115,7 +115,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                     ),
                     $this->getRequest()->getParam('match'),
                     $this->getRequest()->getParam('sort'),
-                    $this->getRequest()->getParam('order')
+                    $this->getRequest()->getParam('direction')
                 );
                 break;
             case 'browse/classification':
@@ -135,7 +135,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                     ),
                     $this->getRequest()->getParam('match'),
                     $this->getRequest()->getParam('sort'),
-                    $this->getRequest()->getParam('order')
+                    $this->getRequest()->getParam('direction')
                 );
                 break;
             case 'search/distribution':
@@ -143,7 +143,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                     $this->getRequest()->getParam('key'),
                     $this->getRequest()->getParam('match'),
                     $this->getRequest()->getParam('sort'),
-                    $this->getRequest()->getParam('order')
+                    $this->getRequest()->getParam('direction')
                 );
                 break;
             case 'search/all':
@@ -152,7 +152,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                     $this->getRequest()->getParam('key'),
                     $this->getRequest()->getParam('match'),
                     $this->getRequest()->getParam('sort'),
-                    $this->getRequest()->getParam('order')
+                    $this->getRequest()->getParam('direction')
                 );
                 break;
         }

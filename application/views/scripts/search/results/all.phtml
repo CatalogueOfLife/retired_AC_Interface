@@ -15,37 +15,40 @@
 <?php $rowClass = "odd"; ?>
     <tr class="even">
         <th class="horizontal<?php echo ($this->sort == 'name' ? ' current' : '');?>">
-        <a href="<?php echo $this->url(array_merge($this->urlParams, array(
-          'sort' => 'name', 'order' => $this->orderDesc == 'name' ? 'desc' : 'asc'))); ?>">
-          <?php echo $this->translate('Name'); ?>
-          <?php echo ($this->sort == 'name' ? $this->orderArrow : '');?>
-          </a>
+            <a href="<?php echo $this->url(array_merge($this->urlParams, array(
+              'sort' => 'name', 'direction' => $this->sortDesc == 'name' ? 'desc' : 'asc'))); ?>">
+              <?php echo $this->translate('Name'); ?>
+              <?php echo ($this->sort == 'name' ? $this->sortArrow : '');?>
+              </a>
         </th>
         <th class="horizontal<?php echo ($this->sort == 'rank' ? ' current' : '');?>">
-        <a href="<?php echo $this->url(array_merge($this->urlParams, array(
-          'sort' => 'rank', 'order' => $this->orderDesc == 'rank' ? 'desc' : 'asc'))); ?>">
-          <?php echo $this->translate('Rank'); ?>
-          <?php echo ($this->sort == 'rank' ? $this->orderArrow : '');?>
-          </a>
+            <a href="<?php echo $this->url(array_merge($this->urlParams, array(
+              'sort' => 'rank', 'direction' => $this->sortDesc == 'rank' ? 'desc' : 'asc'))); ?>">
+              <?php echo $this->translate('Rank'); ?>
+              <?php echo ($this->sort == 'rank' ? $this->sortArrow : '');?>
+              </a>
         </th>
         <th class="horizontal<?php echo ($this->sort == 'status' ? ' current' : '');?>">
-        <a href="<?php echo $this->url(array_merge($this->urlParams, array(
-          'sort' => 'status', 'order' => $this->orderDesc == 'status' ? 'desc' : 'asc'))); ?>">
-          <?php echo $this->translate('Name_status'); ?>
-          <?php echo ($this->sort == 'status' ? $this->orderArrow : '');?>
-        </a></th>
+            <a href="<?php echo $this->url(array_merge($this->urlParams, array(
+              'sort' => 'status', 'direction' => $this->sortDesc == 'status' ? 'desc' : 'asc'))); ?>">
+              <?php echo $this->translate('Name_status'); ?>
+              <?php echo ($this->sort == 'status' ? $this->sortArrow : '');?>
+            </a>
+        </th>
         <th class="horizontal<?php echo ($this->sort == 'group' ? ' current' : '');?>">
-        <a href="<?php echo $this->url(array_merge($this->urlParams, array(
-          'sort' => 'group', 'order' => $this->orderDesc == 'group' ? 'desc' : 'asc'))); ?>">
-          <?php echo $this->translate('Group'); ?>
-          <?php echo ($this->sort == 'group' ? $this->orderArrow : '');?>
-        </a></th>
+            <a href="<?php echo $this->url(array_merge($this->urlParams, array(
+              'sort' => 'group', 'direction' => $this->sortDesc == 'group' ? 'desc' : 'asc'))); ?>">
+              <?php echo $this->translate('Group'); ?>
+              <?php echo ($this->sort == 'group' ? $this->sortArrow : '');?>
+            </a>
+        </th>
         <th class="horizontal<?php echo ($this->sort == 'db' ? ' current' : '');?>">
-        <a href="<?php echo $this->url(array_merge($this->urlParams, array(
-          'sort' => 'db', 'order' => $this->orderDesc == 'db' ? 'desc' : 'asc'))); ?>">
-          <?php echo $this->translate('Source_database'); ?>
-          <?php echo ($this->sort == 'db' ? $this->orderArrow : '');?>
-        </a></th>
+            <a href="<?php echo $this->url(array_merge($this->urlParams, array(
+              'sort' => 'db', 'direction' => $this->sortDesc == 'db' ? 'desc' : 'asc'))); ?>">
+              <?php echo $this->translate('Source_database'); ?>
+              <?php echo ($this->sort == 'db' ? $this->sortArrow : '');?>
+            </a>
+        </th>
     </tr>
 <?php foreach ($this->data as $row): ?>
     <tr class="<?php echo $rowClass; ?>">
