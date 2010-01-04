@@ -14,6 +14,8 @@ dojo.extend(dijit.form.ComboBox, {
 	},
 	_startSearch:function(key){
 	    this._setLoadingSymbolVisibility(true);
+	    // compile complementary field values
+	    updateKey();
 	    if(!this._popupWidget){
 	        var _25=this.id+"_popup";
 	        this._popupWidget=new dijit.form._ComboBoxMenu({onChange:dojo.hitch(this,this._selectOption),id:_25});
@@ -92,7 +94,7 @@ removeValidationElements = function() {
 }
 updateKey = function() {
     var elements = getFormInputElements();
-    var key = new Object;    
+    var key = new Object;
     for(var i = 0; i < elements.length; i++) {
         key[elements[i].id] = elements[i].value;
     }
