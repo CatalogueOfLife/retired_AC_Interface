@@ -1,44 +1,33 @@
-********************************************************************
-ETI Bioinformatics
-Annual Checklist Interface v@APP.VERSION@ 
-Installation Instructions
-@TIMESTAMP@
-********************************************************************
-
-The Annual Checklist Interface is built on version 1.9.5 of the Zend Framework 
-(http://framework.zend.com)
+The Annual Checklist Interface is built on version 1.9.5 of the Zend Framework.
+Please visit http://framework.zend.com for more information.
 
 SYSTEM REQUIREMENTS
---------------------
+====================
+PHP  
+  Required version: 5.2.10+
 
-PHP
-----
-Required version: 5.2.10+
-
-* Extensions:
-  ctype   (http://www.php.net/manual/en/ref.ctype.php)
-  json    (http://www.php.net/manual/en/ref.json.php)
-  mysqli  (http://www.php.net/manual/en/ref.mysqli.php)
-  pcre    (http://www.php.net/manual/en/ref.pcre.php)
-  session (http://www.php.net/manual/en/ref.session.php)
+  * Extensions:
+    ctype   (http://www.php.net/manual/en/ref.ctype.php)
+    json    (http://www.php.net/manual/en/ref.json.php)
+    mysqli  (http://www.php.net/manual/en/ref.mysqli.php)
+    pcre    (http://www.php.net/manual/en/ref.pcre.php)
+    session (http://www.php.net/manual/en/ref.session.php)
   
 MySQL
-------
-Required version: 5.0+
+  Required version: 5.0+
 
 Apache
-------
-Required version: 2.0+
+  Required version: 2.0+
 
-* Modules:
-  mod_rewrite (http://httpd.apache.org/docs/2.0/mod/mod_rewrite.html)
+  * Modules:
+    mod_rewrite (http://httpd.apache.org/docs/2.0/mod/mod_rewrite.html)
+    
 
 INSTALLATION
--------------
-
+=============
 1. Deploy the application
 
-   Copy the application in the web server.
+   Extract the application into the desired folder of the web server.
 
 2. Set up permissions
 
@@ -56,8 +45,8 @@ INSTALLATION
 3. Configure the application
 
    Edit the file path/to/application/application/configs/config.ini to set the 
-   database connection settings and the Google Analytics tracker id (if any, 
-   otherwise it may be left empty):
+   database connection paramters and the Google Analytics tracker id (if any, 
+   otherwise leave it empty):
 
    [production]
    # Database
@@ -86,7 +75,7 @@ INSTALLATION
    
    This configuration will make the application run in the root of the server
    domain. It is important to add this Alias directive after the other Alias
-   no to override them. 
+   not to override them.
    
    If the application has to run in a subdomain, then replace the alias 
    accordingly:
