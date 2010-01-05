@@ -98,7 +98,7 @@
             <fileset dir="${dist}/source/${dist.name}">
                 <include name="application/configs/config.ini" />
                 <include name="application/configs/application.xml" />
-                <include name="INSTALL.txt" />
+                <include name="README.txt" />
                 <include name="public/.htaccess" />
             </fileset>
             <filterchain>
