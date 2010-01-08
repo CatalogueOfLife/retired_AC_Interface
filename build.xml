@@ -3,6 +3,7 @@
 
 	<property name="basedir" value="${project.basedir}" />
 	<property name="build" value="${basedir}/../build" />
+	<property name="cc" value="${basedir}/../../" />
 	<property file="build.properties" />
 	<patternset id="inc.php.files">
 		<include name="**/*.php" />
@@ -43,7 +44,7 @@
                    --ignore=library/Zend/**,public/scripts/** 
                    ${basedir} > ${build}/logs/checkstyle.xml"
             escape="false" />
-    </target>	
+    </target>
     
     <!-- PHPUnit -->
     <target name="phpunit">
@@ -53,7 +54,8 @@
             --configuration tests/phpunit.xml
             --log-junit ${build}/logs/phpunit.xml
             --coverage-clover ${build}/logs/phpunit.coverage.xml
-            --coverage-html ${build}/coverage                      
+            --coverage-html ${build}/coverage
+        	--log-pmd ${build}/logs/phpunit.pmd.xml
             tests" />
     </target>
     
@@ -77,13 +79,22 @@
 		</phplint>
 	</target>
 	
+	<!-- start PUBLISHING -->
     <!-- Code Browser -->
 	<target name="phpcb">
     	<exec dir="${basedir}" command="phpcb 
     	        --log ${build}/logs
-    	        --source ${basedir}/application 
+    	        --source ${basedir} 
     	        --output ${build}/php-code-browser" />
 	</target>
+	
+	<!-- Graphs -->
+	<target name="graph">
+		<exec dir="${basedir}" 
+			  command="phpuc graph ${cc}/logs/${project.name} 
+			            ${cc}/artifacts/${project.name}" />
+	</target>
+	<!-- end PUBLISHING -->
 	
 	<!-- Deploy -->
 	<target name="deploy">
@@ -97,13 +108,14 @@
 		    </filterchain>
 			<fileset dir="${basedir}/application/configs">
 			    <include name="application.xml" />
-			</fileset>			
+			</fileset>
 		</copy>
 		<!-- Setting permissions -->
 		<exec dir="${basedir}" 
 			 command="chmod 777 application/log application/cache" />
 	</target>
 
-	<target name="build" depends="clean,checkout,phplint,phpunit,phpcs,phpdoc,pdepend,phpcb,deploy" />
+	<target name="build" depends="clean,checkout,phplint,phpunit,phpcs,phpdoc,pdepend,deploy" />
+	<target name="publish" depends="phpcb,graph" />
 
 </project>
