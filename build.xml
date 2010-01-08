@@ -32,6 +32,7 @@
 	<!-- Generate documentation -->
     <target name="phpdoc">
         <exec dir="${basedir}"
+        	checkreturn="true" 
             command="phpdoc -ct type -ue on -t ${build}/api
                      -tb /usr/share/php/data/phpUnderControl/data/phpdoc -o HTML:Phpuc:phpuc
                      -d ${basedir}/application,${basedir}/tests -f ${basedir}/public/index.php" />
@@ -40,6 +41,7 @@
     <!-- Execute Code Sniffer -->
     <target name="phpcs">
         <exec dir="${basedir}"
+        	checkreturn="true" 
             command="phpcs --report=checkstyle --standard=Zend 
                    --ignore=library/Zend/**,public/scripts/** 
                    ${basedir} > ${build}/logs/checkstyle.xml"
@@ -58,6 +60,16 @@
         	--log-pmd ${build}/logs/phpunit.pmd.xml
             tests" />
     </target>
+	
+	<!-- PHP Code Browser -->
+	<target name="phpcb">
+		   <exec dir="${basedir}" 
+		         checkreturn="true" 
+		   	     command="phpcb 
+	                    --log ${build}/logs 
+	                    --source ${basedir}/source
+	                    --output ${build}/php-code-browser"/>
+	</target>
     
     <!-- Execute pdepend and store reports -->
     <target name="pdepend">
@@ -89,6 +101,6 @@
 			 command="chmod 777 application/log application/cache" />
 	</target>
 
-	<target name="build" depends="clean,checkout,phpunit,phpcs,phpdoc,pdepend,deploy" />
+	<target name="build" depends="clean,checkout,phpunit,phpcs,phpdoc,pdepend,phpcb,deploy" />
 
 </project>
