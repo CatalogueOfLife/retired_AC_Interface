@@ -40,8 +40,7 @@
     
     <!-- Execute Code Sniffer -->
     <target name="phpcs">
-        <exec dir="${basedir}"
-        	checkreturn="true" 
+        <exec dir="${basedir}" 
             command="phpcs --report=checkstyle --standard=Zend 
                    --ignore=library/Zend/**,public/scripts/** 
                    ${basedir} > ${build}/logs/checkstyle.xml"
