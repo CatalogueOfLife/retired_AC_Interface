@@ -68,16 +68,7 @@
                            --jdepend-chart=${build}/graph/jdepend.svg
                            --ignore=library/Zend/**,public/scripts/** 
                            ${basedir}" />
-    </target>
-
-	<!-- Check PHP syntax -->
-	<target name="phplint">
-		<phplint haltonfailure="true">
-			<fileset dir="${basedir}">
-                <patternset refid="inc.php.files" />
-            </fileset>
-		</phplint>
-	</target>
+    </target>	
 	
 	<!-- start PUBLISHING -->
     <!-- Code Browser -->
@@ -115,7 +106,7 @@
 			 command="chmod 777 application/log application/cache" />
 	</target>
 
-	<target name="build" depends="clean,checkout,phplint,phpunit,phpcs,phpdoc,pdepend,deploy" />
+	<target name="build" depends="clean,checkout,phpunit,phpcs,phpdoc,pdepend,deploy" />
 	<target name="publish" depends="phpcb,graph" />
 
 </project>
