@@ -16,6 +16,7 @@
 	        <exclude>
 	            <directory suffix=".php">library/Zend</directory>
 	            <directory suffix=".php">public/scripts/library</directory>
+	            <directory suffix=".php">tests</directory>
 	        </exclude>
 	  </whitelist>
 	</filter>
