@@ -168,6 +168,9 @@ class BrowseController extends AController
         $res = $search->getTaxonChildren($parentId);
         $this->_logger->debug($res);
         foreach ($res as &$row) {
+            // If not properly encoded, the names with diacritics are truncated
+            // in the tree
+            $row['name'] = utf8_encode($row['name']);
             $row['type'] = $row['type'] == "Kingdom" ? '' : $row['type'];
             $row['url'] = $row['snId'] ?
                 $this->view->baseUrl() . '/details/species/id/' . $row['snId'] .
