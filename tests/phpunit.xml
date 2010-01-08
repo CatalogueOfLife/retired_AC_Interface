@@ -11,12 +11,12 @@
         <directory>tests</directory>
     </testsuite>
     <filter>
-	    <blacklist>
+	    <whitelist>
 	        <directory suffix=".php">.</directory>	        
 	        <exclude>
 	            <directory suffix=".php">library/Zend</directory>
-	            <directory suffix=".php">public/scripts</directory>
+	            <directory suffix=".php">public/scripts/library</directory>
 	        </exclude>
-	  </blacklist>
+	  </whitelist>
 	</filter>
 </phpunit>
