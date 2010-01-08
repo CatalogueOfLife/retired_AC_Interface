@@ -68,24 +68,7 @@
                            --jdepend-chart=${build}/graph/jdepend.svg
                            --ignore=library/Zend/**,public/scripts/** 
                            ${basedir}" />
-    </target>	
-	
-	<!-- start PUBLISHING -->
-    <!-- Code Browser -->
-	<target name="phpcb">
-    	<exec dir="${basedir}" command="phpcb 
-    	        --log ${build}/logs
-    	        --source ${basedir} 
-    	        --output ${build}/php-code-browser" />
-	</target>
-	
-	<!-- Graphs -->
-	<target name="graph">
-		<exec dir="${basedir}" 
-			  command="phpuc graph ${cc}/logs/${project.name} 
-			            ${cc}/artifacts/${project.name}" />
-	</target>
-	<!-- end PUBLISHING -->
+    </target>
 	
 	<!-- Deploy -->
 	<target name="deploy">
@@ -107,6 +90,5 @@
 	</target>
 
 	<target name="build" depends="clean,checkout,phpunit,phpcs,phpdoc,pdepend,deploy" />
-	<target name="publish" depends="phpcb,graph" />
 
 </project>
