@@ -3,7 +3,7 @@
 
 	<property name="basedir" value="${project.basedir}" />
 	<property name="build" value="${basedir}/../build" />
-	<property name="cc" value="${basedir}/../../" />
+	<property name="cc" value="${basedir}/../../../" />
 	<property file="build.properties" />
 	<patternset id="inc.php.files">
 		<include name="**/*.php" />
@@ -72,7 +72,7 @@
 	<!-- Generate Metrics Graphs -->
 	<target name="graphs">
 		<exec dir="${basedir}"
-			  command="phpuc graph ${cc}/logs/${project.name} ${cc}/artifacts/${project.name}" />
+			  command="phpuc graph ${cc}logs/${project.name} ${cc}artifacts/${project.name}" />
 	</target>
 	
     <!-- Execute pdepend and store reports -->
