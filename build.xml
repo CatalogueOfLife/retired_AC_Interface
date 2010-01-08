@@ -79,10 +79,10 @@
 	
     <!-- Code Browser -->
 	<target name="phpcb">
-    	<execute dir="${basedir}" command="phpcb 
+    	<exec dir="${basedir}" command="phpcb 
     	        --log ${build}/logs
     	        --source ${basedir}/application 
-    	        --output ${build}/php-code-browser"/>
+    	        --output ${build}/php-code-browser" />
 	</target>
 	
 	<!-- Deploy -->
