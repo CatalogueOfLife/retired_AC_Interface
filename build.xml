@@ -25,6 +25,7 @@
 		<mkdir dir="${build}/api" />
 		<mkdir dir="${build}/coverage" />
 		<mkdir dir="${build}/graph" />
+		<mkdir dir="${build}/php-code-browser" />
 	</target>
 	
 	<!-- Generate documentation -->
@@ -42,7 +43,7 @@
                    --ignore=library/Zend/**,public/scripts/** 
                    ${basedir} > ${build}/logs/checkstyle.xml"
             escape="false" />
-    </target>
+    </target>	
     
     <!-- PHPUnit -->
     <target name="phpunit">
@@ -76,6 +77,14 @@
 		</phplint>
 	</target>
 	
+    <!-- Code Browser -->
+	<target name="phpcb">
+    	<execute dir="${basedir}" command="phpcb 
+    	        --log ${build}/logs
+    	        --source ${basedir}/application 
+    	        --output ${build}/php-code-browser"/>
+	</target>
+	
 	<!-- Deploy -->
 	<target name="deploy">
 	    <svnupdate svnpath="svn" nocache="true" todir="${project.path}" />
@@ -95,6 +104,6 @@
 			 command="chmod 777 application/log application/cache" />
 	</target>
 
-	<target name="build" depends="clean,checkout,phplint,phpunit,phpcs,phpdoc,pdepend,deploy" />
+	<target name="build" depends="clean,checkout,phplint,phpunit,phpcs,phpdoc,pdepend,phpcb,deploy" />
 
 </project>
