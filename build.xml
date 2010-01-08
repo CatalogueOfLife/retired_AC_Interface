@@ -63,10 +63,9 @@
 	<!-- PHP Code Browser -->
 	<target name="phpcb">
 		   <exec dir="${basedir}" 
-		         checkreturn="true" 
 		   	     command="phpcb 
 	                    --log ${build}/logs 
-	                    --source ${basedir}/source
+	                    --source ${basedir}
 	                    --output ${build}/php-code-browser"/>
 	</target>
     
