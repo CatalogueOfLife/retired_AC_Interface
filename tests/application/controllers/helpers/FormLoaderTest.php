@@ -55,6 +55,12 @@ class ACI_Helper_FormLoaderTest extends PHPUnit_Framework_TestCase
         );
     }
     
+    public function testGetNullForm()
+    {
+        $formLoader = new ACI_Helper_FormLoaderMock();
+        $this->assertNull($formLoader->getSearchForm());
+    }
+    
     public function testGetExportForm()
     {
         $formLoader = new ACI_Helper_FormLoaderMock();
