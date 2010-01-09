@@ -5,18 +5,17 @@
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         syntaxCheck="true"         
+         syntaxCheck="true"           
          stopOnFailure="false">
     <testsuite name="AC_Interface Test Suite">
         <directory>tests</directory>
     </testsuite>
     <filter>
 	    <whitelist>
-	        <directory suffix=".php">.</directory>	        
+	        <directory suffix=".php">.</directory>      
 	        <exclude>
 	            <directory suffix=".php">library/Zend</directory>
-	            <directory suffix=".php">public/scripts/library</directory>
-	            <directory suffix=".php">tests</directory>
+	            <directory suffix=".php">public/scripts</directory>
 	        </exclude>
 	  </whitelist>
 	</filter>

@@ -827,8 +827,6 @@ class ACI_Model_Search extends AModel
      */
     protected function _getMinStrLen($rank, array $key)
     {
-        $ranks = ACI_Model_Table_Taxa::getRanks();
-
         // No limit for higher taxa
         if ($this->stringRefersToHigherTaxa($rank)) {
             return 0;
