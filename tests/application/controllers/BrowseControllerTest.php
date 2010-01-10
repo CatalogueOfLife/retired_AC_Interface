@@ -53,6 +53,23 @@ class BrowseControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->assertAction('classification');
     }
     
+    public function testBrowseClassificationContainsTheNeededFormElements()
+    {
+        $this->dispatch('/browse/classification');
+        $this->assertQueryCount('form#browseClassificationForm', 1);
+        $this->assertQueryCount('input#kingdom', 1);
+        $this->assertQueryCount('input#phylum', 1);
+        $this->assertQueryCount('input#order', 1);
+        $this->assertQueryCount('input#class', 1);
+        $this->assertQueryCount('input#superfamily', 1);
+        $this->assertQueryCount('input#family', 1);
+        $this->assertQueryCount('input#genus', 1);
+        $this->assertQueryCount('input#species', 1);
+        $this->assertQueryCount('input#infraspecies', 1);
+        $this->assertQueryCount('input#match', 1);
+        $this->assertQueryCount('input#search', 1);
+    }
+    
     public function testTreePersistanceEnabled()
     {
         // Set session

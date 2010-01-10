@@ -48,9 +48,24 @@ class SearchControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->assertQueryCount('input#search', 1);
     }
     
+    public function testSearchScientificContainsTheNeededFormElements()
+    {
+        $this->dispatch('/search/scientific');
+        $this->assertController('search');
+        $this->assertAction('scientific');
+        $this->assertQueryCount('form#searchScientificForm', 1);        
+        $this->assertQueryCount('input#genus', 1);
+        $this->assertQueryCount('input#species', 1);
+        $this->assertQueryCount('input#infraspecies', 1);
+        $this->assertQueryCount('input#match', 1);
+        $this->assertQueryCount('input#search', 1);
+    }
+    
     public function testSearchCommonContainsTheNeededFormElements()
     {
         $this->dispatch('/search/common');
+        $this->assertController('search');
+        $this->assertAction('common');
         $this->assertQueryCount('form#searchForm', 1);
         $this->assertQueryCount('input#key', 1);
         $this->assertQueryCount('input#match', 1);
@@ -60,10 +75,21 @@ class SearchControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
     public function testSearchDistributionContainsTheNeededFormElements()
     {
         $this->dispatch('/search/distribution');
+        $this->assertController('search');
+        $this->assertAction('distribution');
         $this->assertQueryCount('form#searchForm', 1);
         $this->assertQueryCount('input#key', 1);
         $this->assertQueryCount('input#match', 1);
         $this->assertQueryCount('input#search', 1);
+    }
+    
+    public function testSearchExportContainsTheNeededFormElements()
+    {
+        $this->dispatch('/search/export');
+        $this->assertController('search');
+        $this->assertAction('export');
+        $this->assertQueryCount('form#exportForm', 1);
+        $this->assertQueryCount('input#export', 1);
     }
     
     public function testSearchFormIsNotSubmitted()
