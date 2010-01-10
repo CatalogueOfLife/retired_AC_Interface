@@ -29,7 +29,7 @@ class ACI_Model_SearchMock extends ACI_Model_Search
     
     public static function getSortParams($action)
     {
-        return self::_getSortParams($action);
+        return parent::_getSortParams($action);
     }
     
     public function wildcardHandling($searchString)
@@ -37,10 +37,10 @@ class ACI_Model_SearchMock extends ACI_Model_Search
         return $this->_wildcardHandling($searchString);
     }
     
-    public function wildcardHandlingInRegExpression($searchString,
+    public function wildcardHandlingInRegExp($searchString,
         $matchWholeWords = true)
     {
-        return $this->_wildcardHandlingInRegExpression(
+        return $this->_wildcardHandlingInRegExp(
             $searchString, $matchWholeWords
         );  
     }

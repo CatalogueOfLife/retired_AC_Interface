@@ -282,7 +282,7 @@ class ACI_Model_Search extends AModel
         )
         ->where('ds.distribution LIKE ?', '%' . $searchKey . '%');
         
-        $replacedSearchKey = $this->_wildcardHandlingInRegExpression(
+        $replacedSearchKey = $this->_wildcardHandlingInRegExp(
             $searchKey, $matchWholeWords
         );
         $select->where(
@@ -543,7 +543,7 @@ class ACI_Model_Search extends AModel
             array()
         );
         if($matchWholeWords) {
-            $replacedSearchKey = $this->_wildcardHandlingInRegExpression(
+            $replacedSearchKey = $this->_wildcardHandlingInRegExp(
                 $searchKey, 1
             );
             // When non alphabetic characters are used, this first filtering
@@ -977,7 +977,7 @@ class ACI_Model_Search extends AModel
         return str_replace(array('%', '*'), array('', '%'), $searchString);
     }
     
-    protected function _wildcardHandlingInRegExpression($searchString,
+    protected function _wildcardHandlingInRegExp($searchString,
         $matchWholeWords = true)
     {
         if ($matchWholeWords == true) {

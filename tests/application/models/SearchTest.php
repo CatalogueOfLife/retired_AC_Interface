@@ -97,4 +97,69 @@ class ACI_Model_SearchTest extends PHPUnit_Framework_TestCase
             $sm->getMinStrLen($rank, array('genus' => 'bla')), 0
         );
     }
+    
+    public function testGetSortParamsOfUnexistantSearch()
+    {
+        $this->assertFalse(
+            ACI_Model_SearchMock::getSortParams('foo'), 
+            'An unexistant search must have no sort params'
+        );
+    }
+    
+    public function testGetSortParams()
+    {   
+        $this->assertTrue(
+            is_array(ACI_Model_SearchMock::getSortParams('scientific'))
+        );
+        $this->assertTrue(
+            is_array(ACI_Model_SearchMock::getSortParams('common'))
+        );
+        $this->assertTrue(
+            is_array(ACI_Model_SearchMock::getSortParams('distribution'))
+        );
+    }
+    
+    public function testGetDefaultSortParamOfUnexistantSearch()
+    {
+        $ms = new ACI_Model_SearchMock();
+        $this->assertEquals(
+            $ms->getDefaultSortParam('foo'), '', 
+            'An unexistant search must have no default sort param'
+        );
+    }
+    
+    public function testGetDefaultSortParam()
+    {
+        $ms = new ACI_Model_SearchMock();
+        $this->assertGreaterThan(
+            0, strlen($ms->getDefaultSortParam('scientific'))
+        );
+        $this->assertGreaterThan(
+            0, strlen($ms->getDefaultSortParam('common'))
+        );
+        $this->assertGreaterThan(
+            0, strlen($ms->getDefaultSortParam('distribution'))
+        );
+    }
+    
+    public function testWildcardHandling()
+    {
+        $ms = new ACI_Model_SearchMock();
+        $this->assertEquals($ms->wildcardHandling('%'), '');
+        $this->assertEquals($ms->wildcardHandling('*'), '%');
+    }
+    
+    public function testWildcardHandlingInRegExpMatchWholeWords()
+    {
+        $ms = new ACI_Model_SearchMock();
+        $this->assertEquals(
+            $ms->wildcardHandlingInRegExp('str', true), '[[:<:]]str[[:>:]]'
+        );
+    }
+    
+    public function testWildcardHandlingInRegExpNoMatchWholeWords()
+    {
+        $ms = new ACI_Model_SearchMock();
+        $this->assertEquals($ms->wildcardHandlingInRegExp('%', false), '.*');
+    }
 }
