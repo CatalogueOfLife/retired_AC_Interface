@@ -80,7 +80,7 @@ dojo.extend(dijit.form.ComboBox, {
 	    this._setLoadingSymbolVisibility(false);
 	}	
 });
-dojo.addOnLoad(function() {
+dojo.addOnLoad(function() {	
     updateKey(null);
     removeValidationElements();
 });
@@ -91,6 +91,17 @@ removeValidationElements = function() {
         }
     );
     dojo.query("div.dijitValidationIconText").forEach(dojo.destroy);
+}
+keyPress = function(evt) {	
+	if(evt.keyCode == 13) {
+		var el = dojo.query(
+			"fieldset#fieldset-" + evt.explicitOriginalTarget.id + "Group div.loadingSymbol"
+		);
+	    if(el.length >= 1) {
+	    	el[0].style.visibility = 'hidden';
+	    }
+		dojo.byId("search").click();    
+	}
 }
 updateKey = function() {
     var elements = getFormInputElements();
