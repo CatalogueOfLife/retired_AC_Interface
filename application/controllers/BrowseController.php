@@ -28,15 +28,16 @@ class BrowseController extends AController
         else {
             $id = $this->_getParam('id', false);
         }
+        // Tree persistance (disabled)
         // If no id or species was passed
-        if(!$id) {
+        /*if(!$id) {
             // get the id from persistance (session)
             $id = $this->getHelper('SessionHandler')->get('tree_id', false);
         }
         else {
             // persist current id in session
             $this->getHelper('SessionHandler')->set('tree_id', $id, false);
-        }
+        }*/
         
         $hierarchy = array();
         if ($id !== false) {
