@@ -4,10 +4,6 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
         if (this.item.root) {
             return this.inherited(arguments);
         }
-        var lsid = dojo.doc.createElement('span');
-        lsid.className = 'lsid';
-        lsid.appendChild(dojo.doc.createTextNode(
-            this.tree.model.store.getValue(this.item, 'lsid')));
         var type = this.tree.model.store.getValue(this.item, 'type');
         if (this.tree.model.store
                 .getValue(this.item, 'url') == null) {  
@@ -22,7 +18,6 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
             taxon.appendChild(dojo.doc
                     .createTextNode(' ' + label));
             this.labelNode.appendChild(taxon);
-            this.labelNode.appendChild(lsid);
         } else {
             var leaf = dojo.doc.createElement('span');
             leaf.className = 'leaf';
@@ -50,7 +45,6 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
                 a.appendChild(dojo.doc.createTextNode(label));
             }            
             leaf.appendChild(a);
-            leaf.appendChild(lsid);
             this.labelNode.innerHTML = '';
             this.expandoNode.parentNode.className += ' dijitTreeLeafLabel'
             this.labelNode.appendChild(leaf);

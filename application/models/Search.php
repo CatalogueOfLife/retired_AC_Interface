@@ -875,7 +875,6 @@ class ACI_Model_Search extends AModel
                 'name' => 'tx.name',
                 'type' => 'tx.taxon',
                 'parentId' => 'tx.parent_id',
-                'lsid' => 'tx.lsid',
                 'numChildren' => new Zend_Db_Expr('COUNT(txc.record_id)')
             )
         )

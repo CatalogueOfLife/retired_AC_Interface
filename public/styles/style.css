@@ -693,7 +693,7 @@ form div.items-form dd#update-element {
 }
 .tundra .dijitTreeLabel {
     margin: 0;
-    padding: 2px 2px 4px 2px;
+    padding: 2px 6px 4px 2px;
 }
 .tundra .dijitTreeLabelFocused .nodeLabel {
     font-weight: bold;
@@ -709,7 +709,7 @@ form div.items-form dd#update-element {
     background: transparent;
 }
 .dijitTreeLabel .rank {
-    color: #666;
+    color: #666;    
 }
 .dijitTreeLabel .node-Genus {
     font-style: italic;
