@@ -13,6 +13,9 @@ require_once 'AController.php';
  */
 class BrowseController extends AController
 {
+    // Tree persistance
+    protected $_persistTree = false;
+    
     public function treeAction()
     {
         $fetch = $this->_getParam('fetch', false);
@@ -28,16 +31,7 @@ class BrowseController extends AController
         else {
             $id = $this->_getParam('id', false);
         }
-        // Tree persistance (disabled)
-        // If no id or species was passed
-        /*if(!$id) {
-            // get the id from persistance (session)
-            $id = $this->getHelper('SessionHandler')->get('tree_id', false);
-        }
-        else {
-            // persist current id in session
-            $this->getHelper('SessionHandler')->set('tree_id', $id, false);
-        }*/
+        $this->_persistTree($id);
         
         $hierarchy = array();
         if ($id !== false) {
@@ -56,6 +50,30 @@ class BrowseController extends AController
              ->requireModule('ACI.dojo.TxStoreModel')
              ->requireModule('ACI.dojo.TxTree')
              ->requireModule('ACI.dojo.TxTreeNode');
+    }
+    
+    /**
+     * Stores/retrieves the latest status of the tree if tree presistance is
+     * enabled
+     *
+     * @param int $id
+     * @return boolean
+     */
+    protected function _persistTree(&$id)
+    {
+        if(!$this->_persistTree) {
+            return false;
+        }
+        // If no id or species was passed
+        if(!$id) {
+            // get the id from persistance (session)
+            $id = $this->getHelper('SessionHandler')->get('tree_id', false);
+        }
+        else {
+            // persist current id in session
+            $this->getHelper('SessionHandler')->set('tree_id', $id, false);
+        }
+        return true;
     }
     
     public function classificationAction()
