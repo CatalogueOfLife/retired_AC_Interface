@@ -1,4 +1,5 @@
 <?php
+require_once 'mocks/SearchMock.php';
 /**
  * Annual Checklist Interface
  *
@@ -56,6 +57,44 @@ class ACI_Model_SearchTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(
             $this->_model->stringRefersToHigherTaxa('infraspecies'),
             'String "infraspecies" identified as a reference to higher taxa'
+        );
+    }
+    
+    public function testNormalizeNormalizedRank()
+    {
+        $rank = 'RANK_GENUS';
+        $sm = new ACI_Model_SearchMock();
+        $this->assertEquals($rank, $sm->normalizeRank($rank));
+    }
+    
+    public function testNormalizeUnnormalizedRank()
+    {
+        $rank = 'genus';
+        $sm = new ACI_Model_SearchMock();
+        $this->assertEquals(
+            'RANK_' . strtoupper($rank), $sm->normalizeRank($rank)
+        );
+    }
+    
+    public function testMinStrLenForHigherTaxaIsZero()
+    {
+        $rank = 'order'; //higher taxa
+        $sm = new ACI_Model_SearchMock();
+        $this->assertEquals($sm->getMinStrLen($rank, array()), 0);
+        $this->assertEquals(
+            $sm->getMinStrLen($rank, array('genus' => 'bla')), 0
+        );
+    }
+    
+    public function testMinStrLenForLowerTaxa()
+    {   
+        $rank = 'species'; //lower taxa
+        $sm = new ACI_Model_SearchMock();
+        // if empty key must return 2
+        $this->assertEquals($sm->getMinStrLen($rank, array()), 2);
+        // if key has any value must return 0
+        $this->assertEquals(
+            $sm->getMinStrLen($rank, array('genus' => 'bla')), 0
         );
     }
 }
