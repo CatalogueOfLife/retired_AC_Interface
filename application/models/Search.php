@@ -812,7 +812,7 @@ class ACI_Model_Search extends AModel
     
     public function getRankIdFromString($rank) {
         $rankId = array_search(
-            $this->normalizeRank($rank), ACI_Model_Table_Taxa::getRanks()
+            $this->_normalizeRank($rank), ACI_Model_Table_Taxa::getRanks()
         );
         return $rankId;
     }
@@ -847,7 +847,7 @@ class ACI_Model_Search extends AModel
      * @param string $rank
      * @return string
      */
-    protected function normalizeRank($rank)
+    protected function _normalizeRank($rank)
     {
         $prefix = 'RANK_';
         $rank = strtoupper($rank);
