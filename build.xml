@@ -69,12 +69,6 @@
                     --output ${build}/php-code-browser"/>
 	</target>
 	
-	<!-- Generate Metrics Graphs -->
-	<target name="graphs">
-		<exec dir="${basedir}"
-			  command="phpuc graph ${cc}logs/${project.name} ${cc}artifacts/${project.name}" />
-	</target>
-	
     <!-- Execute pdepend and store reports -->
     <target name="pdepend">
         <exec dir="${basedir}"
@@ -105,6 +99,6 @@
 			 command="chmod 777 application/log application/cache" />
 	</target>
 
-	<target name="build" depends="clean,checkout,phpunit,phpdoc,deploy,phpcs,pdepend,phpcb,graphs" />
+	<target name="build" depends="clean,checkout,phpunit,phpdoc,deploy,phpcs,pdepend,phpcb" />
 
 </project>
