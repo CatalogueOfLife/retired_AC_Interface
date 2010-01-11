@@ -23,6 +23,7 @@ class ACI_Helper_FormLoader extends Zend_Controller_Action_Helper_Abstract
     
     public function getSearchForm()
     {
+        //$form = null;
         switch ($this->_controller) {
             case 'browse':
                 $form = new ACI_Form_Dojo_BrowseClassification();
