@@ -66,16 +66,7 @@
             --coverage-html ${build}/coverage                      
             tests" />
     </target>
-    
-    <!-- Check PHP syntax -->
-    <target name="phplint">
-        <phplint haltonfailure="true">
-            <fileset dir="${basedir}">
-                <patternset refid="inc.php.files" />
-            </fileset>
-        </phplint>
-    </target>
-    
+	
     <!-- Create deliverable -->
     <target name="dist">        
         <mkdir dir="${dist}/source" />
@@ -122,6 +113,6 @@
         <delete dir="${dist}/source" includeemptydirs="true" />
     </target>
     
-    <target name="build" depends="clean,checkout,phplint,phpunit,phpdoc,dist" />
+    <target name="build" depends="clean,checkout,phpunit,phpdoc,dist" />
 
 </project>
