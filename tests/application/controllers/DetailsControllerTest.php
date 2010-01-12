@@ -99,4 +99,27 @@ class DetailsControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
             'table.details-table tr td', 'http://www.fishbase.org'
         );
     }
+    
+    /**
+     * The reference details page correctly retrieves and displays the 
+     * references of the given species id
+     */
+    public function testReferenceDetailsDisplay()
+    {
+        $speciesId = 5202058;
+        $details = new ACI_Model_Details(Zend_Registry::get('db'));
+        $taxa = $details->species($speciesId);
+        $this->dispatch('/details/reference/species/' . $speciesId);        
+        $this->assertController('details');
+        $this->assertAction('reference');
+        //match number of references
+        $numRefs = count($taxa->references);
+        $this->assertQueryCount('table.details-table', $numRefs);
+        //Species name in preface
+        $this->assertQueryContentContains(
+            'p.preface', $taxa->name
+        );
+        //4 rows per reference
+        $this->assertQueryCount('table.details-table tr', $numRefs * 4);
+    }
 }

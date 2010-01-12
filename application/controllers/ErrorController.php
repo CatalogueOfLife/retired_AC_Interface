@@ -14,7 +14,13 @@ class ErrorController extends Zend_Controller_Action
 {
     public function errorAction()
     {
-        $errors = $this->_getParam('error_handler');
+        $errors = $this->_getParam('error_handler', false);
+        
+        // If there's no error (for example, if accessing directly the page),
+        // redirect to the application root url
+        if(!$errors) {
+            $this->_redirect($this->view->baseUrl);
+        }
         
         switch ($errors->type) {
             case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER:
@@ -37,5 +43,10 @@ class ErrorController extends Zend_Controller_Action
                 $this->view->request   = $errors->request;
                 break;
         }
+    }
+    
+    public function __call($name, $arguments)
+    {
+        $this->_forward('all', 'search');
     }
 }

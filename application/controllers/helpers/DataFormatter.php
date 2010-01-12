@@ -22,7 +22,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         $it = $paginator->getIterator();
         unset($paginator);
         
-        foreach ($it as $k => $row) {
+        foreach ($it as $row) {
             // get accepted species data if yet not there
             $this->_addAcceptedName($row);
             // create links

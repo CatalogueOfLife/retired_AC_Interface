@@ -23,12 +23,18 @@ class Eti_Dojo_Data extends Zend_Dojo_Data
     public function addItem($item, $id = null)
     {
         $item = $this->_utf8Encode($this->_normalizeItem($item, $id));
-        if (!$this->hasItem($item['id']) && !is_null($item['id'])) {
+        if (!$this->hasItem($item['id']) && $item['id']) {
             $this->_items[$item['id']] = $item['data'];
         }
         return $this;
     }
     
+    /**
+     * Encodes to UTF-8 the id and the elements inside the data array
+     *
+     * @param array $item
+     * @return array
+     */
     protected function _utf8Encode(array $item) {
         $encItem['id'] = utf8_encode($item['id']);
         foreach($item['data'] as $k => $v) {

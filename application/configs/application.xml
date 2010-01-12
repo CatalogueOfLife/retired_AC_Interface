@@ -12,6 +12,7 @@
         <phpSettings>
             <display_startup_errors>0</display_startup_errors>
             <display_errors>0</display_errors>
+            <error_reporting>E_ALL</error_reporting>
         </phpSettings>
         <includePaths>
             <library><zf:const zf:name="APPLICATION_PATH"/>/../library</library>
@@ -72,6 +73,7 @@
         <phpSettings>
             <display_startup_errors>1</display_startup_errors>
             <display_errors>1</display_errors>
+            <error_reporting>-1</error_reporting>
         </phpSettings>
         <log enabled="1">
             <filter>
@@ -90,6 +92,7 @@
         <phpSettings>
             <display_startup_errors>1</display_startup_errors>
             <display_errors>1</display_errors>
+            <error_reporting>-1</error_reporting>
         </phpSettings>
         <database>
             <params>

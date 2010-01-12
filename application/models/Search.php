@@ -282,7 +282,7 @@ class ACI_Model_Search extends AModel
         )
         ->where('ds.distribution LIKE ?', '%' . $searchKey . '%');
         
-        $replacedSearchKey = $this->_wildcardHandlingInRegExpression(
+        $replacedSearchKey = $this->_wildcardHandlingInRegExp(
             $searchKey, $matchWholeWords
         );
         $select->where(
@@ -543,7 +543,7 @@ class ACI_Model_Search extends AModel
             array()
         );
         if($matchWholeWords) {
-            $replacedSearchKey = $this->_wildcardHandlingInRegExpression(
+            $replacedSearchKey = $this->_wildcardHandlingInRegExp(
                 $searchKey, 1
             );
             // When non alphabetic characters are used, this first filtering
@@ -812,7 +812,7 @@ class ACI_Model_Search extends AModel
     
     public function getRankIdFromString($rank) {
         $rankId = array_search(
-            $this->normalizeRank($rank), ACI_Model_Table_Taxa::getRanks()
+            $this->_normalizeRank($rank), ACI_Model_Table_Taxa::getRanks()
         );
         return $rankId;
     }
@@ -827,8 +827,6 @@ class ACI_Model_Search extends AModel
      */
     protected function _getMinStrLen($rank, array $key)
     {
-        $ranks = ACI_Model_Table_Taxa::getRanks();
-
         // No limit for higher taxa
         if ($this->stringRefersToHigherTaxa($rank)) {
             return 0;
@@ -849,7 +847,7 @@ class ACI_Model_Search extends AModel
      * @param string $rank
      * @return string
      */
-    protected function normalizeRank($rank)
+    protected function _normalizeRank($rank)
     {
         $prefix = 'RANK_';
         $rank = strtoupper($rank);
@@ -877,7 +875,6 @@ class ACI_Model_Search extends AModel
                 'name' => 'tx.name',
                 'type' => 'tx.taxon',
                 'parentId' => 'tx.parent_id',
-                'lsid' => 'tx.lsid',
                 'numChildren' => new Zend_Db_Expr('COUNT(txc.record_id)')
             )
         )
@@ -980,7 +977,7 @@ class ACI_Model_Search extends AModel
         return str_replace(array('%', '*'), array('', '%'), $searchString);
     }
     
-    protected function _wildcardHandlingInRegExpression($searchString,
+    protected function _wildcardHandlingInRegExp($searchString,
         $matchWholeWords = true)
     {
         if ($matchWholeWords == true) {

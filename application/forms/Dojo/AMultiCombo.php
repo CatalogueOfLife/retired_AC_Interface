@@ -41,7 +41,8 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
                         'highlightMatch' => 'none',
                         'queryExpr' => '*${0}*',
                         'searchAttr' => 'name',
-                        'searchDelay' => 500
+                        'searchDelay' => 500,
+                        'onKeyPress' => 'keyPress'
                     ),
                     'style' => 'width: 300px'
                 )
