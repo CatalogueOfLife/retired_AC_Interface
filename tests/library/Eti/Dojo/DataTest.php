@@ -1,4 +1,5 @@
 <?php
+require_once 'PHPUnit/Framework/TestCase.php';
 /**
  * Annual Checklist Interface
  *
@@ -27,14 +28,14 @@ class Eti_Dojo_DataTest extends PHPUnit_Framework_TestCase
     public function testAddItem()
     {
         $item = array(
-            $this->_etiDojoData->getIdentifier() => 'unique_id', 
+            $this->_etiDojoData->getIdentifier() => 'unique_id',
             'data' => 'item data'
         );
         $this->_etiDojoData->addItem($item);
         $this->assertEquals(count($this->_etiDojoData), 1);
         $this->assertEquals(
             $this->_etiDojoData->getItem(
-                $item[$this->_etiDojoData->getIdentifier()]        
+                $item[$this->_etiDojoData->getIdentifier()]
             ), $item
         );
     }
@@ -46,12 +47,12 @@ class Eti_Dojo_DataTest extends PHPUnit_Framework_TestCase
     public function testAddNonUtf8EncodedItem()
     {
         $item = array(
-            $this->_etiDojoData->getIdentifier() => 'unique_id', 
+            $this->_etiDojoData->getIdentifier() => 'unique_id',
             'data' => 'non-utf8 data: ï'
         );
         $this->_etiDojoData->addItem($item);
         $insertedItem = $this->_etiDojoData->getItem(
-            $item[$this->_etiDojoData->getIdentifier()]        
+            $item[$this->_etiDojoData->getIdentifier()]
         );
         $this->assertEquals(
             utf8_encode($item['data']), $insertedItem['data']
@@ -71,7 +72,7 @@ class Eti_Dojo_DataTest extends PHPUnit_Framework_TestCase
         $this->_etiDojoData->addItem($item);
         $this->assertEquals(
             count($this->_etiDojoData),
-            0, 
+            0,
             "Items with null identifier must not be added!"
         );
     }

@@ -1,5 +1,6 @@
 <?php
 require_once 'mocks/FormLoaderMock.php';
+require_once 'PHPUnit/Framework/TestCase.php';
 /**
  * Annual Checklist Interface
  *
@@ -12,7 +13,7 @@ require_once 'mocks/FormLoaderMock.php';
  *
  */
 class ACI_Helper_FormLoaderTest extends PHPUnit_Framework_TestCase
-{   
+{
     public function testGetSearchFormForSearchAll()
     {
         $formLoader = new ACI_Helper_FormLoaderMock('search', 'all');
@@ -25,7 +26,7 @@ class ACI_Helper_FormLoaderTest extends PHPUnit_Framework_TestCase
     {
         $formLoader = new ACI_Helper_FormLoaderMock('search', 'scientific');
         $this->assertTrue(
-            $formLoader->getSearchForm() instanceof 
+            $formLoader->getSearchForm() instanceof
             ACI_Form_Dojo_SearchScientific
         );
     }
@@ -50,7 +51,7 @@ class ACI_Helper_FormLoaderTest extends PHPUnit_Framework_TestCase
     {
         $formLoader = new ACI_Helper_FormLoaderMock('browse', 'classification');
         $this->assertTrue(
-            $formLoader->getSearchForm() instanceof 
+            $formLoader->getSearchForm() instanceof
             ACI_Form_Dojo_BrowseClassification
         );
     }
@@ -65,7 +66,7 @@ class ACI_Helper_FormLoaderTest extends PHPUnit_Framework_TestCase
     {
         $formLoader = new ACI_Helper_FormLoaderMock();
         $this->assertTrue(
-            $formLoader->getExportForm() instanceof 
+            $formLoader->getExportForm() instanceof
             ACI_Form_Dojo_Export
         );
     }
@@ -75,7 +76,7 @@ class ACI_Helper_FormLoaderTest extends PHPUnit_Framework_TestCase
         $formLoader = new ACI_Helper_FormLoaderMock();
         $this->assertTrue(
             // match and key are elements existing in the form
-            $formLoader->getItemsForm(array('match', 'key'), '10') instanceof 
+            $formLoader->getItemsForm(array('match', 'key'), '10') instanceof
             ACI_Form_Dojo_ItemsPerPage
         );
     }

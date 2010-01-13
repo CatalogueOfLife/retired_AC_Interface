@@ -1,5 +1,6 @@
 <?php
 require_once 'mocks/SearchMock.php';
+require_once 'PHPUnit/Framework/TestCase.php';
 /**
  * Annual Checklist Interface
  *
@@ -87,7 +88,7 @@ class ACI_Model_SearchTest extends PHPUnit_Framework_TestCase
     }
     
     public function testMinStrLenForLowerTaxa()
-    {   
+    {
         $rank = 'species'; //lower taxa
         $sm = new ACI_Model_SearchMock();
         // if empty key must return 2
@@ -101,13 +102,13 @@ class ACI_Model_SearchTest extends PHPUnit_Framework_TestCase
     public function testGetSortParamsOfUnexistantSearch()
     {
         $this->assertFalse(
-            ACI_Model_SearchMock::getSortParams('foo'), 
+            ACI_Model_SearchMock::getSortParams('foo'),
             'An unexistant search must have no sort params'
         );
     }
     
     public function testGetSortParams()
-    {   
+    {
         $this->assertTrue(
             is_array(ACI_Model_SearchMock::getSortParams('scientific'))
         );
@@ -123,7 +124,7 @@ class ACI_Model_SearchTest extends PHPUnit_Framework_TestCase
     {
         $ms = new ACI_Model_SearchMock();
         $this->assertEquals(
-            $ms->getDefaultSortParam('foo'), '', 
+            $ms->getDefaultSortParam('foo'), '',
             'An unexistant search must have no default sort param'
         );
     }
