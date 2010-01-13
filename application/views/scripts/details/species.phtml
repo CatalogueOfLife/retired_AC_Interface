@@ -42,6 +42,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                         src="<?php echo $this->baseUrl() . '/images/book.gif'; ?>"
                         alt="<?php echo $this->species->referencesLabel; ?>"
                         title="<?php echo $this->species->referencesLabel; ?>"/>
+                    </a>
                     <?php endif; ?>
                     </td>
                 </tr>
@@ -68,6 +69,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                             src="<?php echo $this->baseUrl() . '/images/book.gif'; ?>"
                             alt="<?php echo $synonym['referenceLabel']; ?>"
                             title="<?php echo $synonym['referenceLabel'] ?>"/>
+                        </a>
                         <?php endif; ?>
                         </td>
                     </tr>
@@ -180,7 +182,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         <th class="vertical"><?php echo $this->translate('Source_database'); ?>:</th>
         <td><a href="<?php echo $this->baseUrl() . '/details/database/id/' . $this->species->dbId; ?>"><?php
           echo $this->species->dbName . '</a>, ' . $this->species->dbVersion;
-        ?></td>
+        ?></a></td>
     </tr>
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
