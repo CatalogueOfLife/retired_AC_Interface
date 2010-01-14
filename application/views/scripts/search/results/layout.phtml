@@ -26,7 +26,7 @@ $paginator = $this->paginationControl(
 <div class="results_counter" align="right">
 <?php echo $this->translate('Records_found'); ?>:
 <?php echo number_format($this->paginator->getTotalItemCount()); ?>
-<?php if ( $this->paginator instanceof Eti_Paginator) : ?>
+<?php if ($this->paginator instanceof Eti_Paginator) : ?>
     <?php
     echo ' (' . number_format($this->paginator->getCountColumn('species')) . ' ' .
         $this->translate('species') . ', ' .
@@ -53,7 +53,7 @@ $paginator = $this->paginationControl(
 <?php echo $paginator; ?>
 <?php echo $this->results; ?>
 <?php echo $paginator; ?>
-<?php endif; ?>
+<?php else: echo '</div>'; endif; ?>
 <div class="page_links">
 <?php if($this->exportable): ?>
 <a href="<?php echo $this->baseUrl() . '/' . $this->controller . '/export';?>">
