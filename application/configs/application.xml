@@ -26,6 +26,7 @@
             <params>
                 <!-- overriden by config.ini -->
                 <host></host>
+                <port></port>
                 <username></username>
                 <password></password>
                 <dbname></dbname>
@@ -44,7 +45,7 @@
             </view>
         </resources>
         <view>
-            <!-- overriden by config.ini -->
+            <!-- overridden by config.ini -->
             <googleAnalytics>
                 <trackerId></trackerId>
             </googleAnalytics>
