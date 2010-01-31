@@ -330,14 +330,14 @@ th.horizontal {
     margin: 1px;
 }
 th.vertical {
-    vertical-align: top;
+    vertical-align: middle;
 }
 th.vertical a:link,
 th.vertical a:visited,
 th.vertical a:active
 {
     color: #336;
-    text-decoration: none
+    text-decoration: none;
 }
 
 th.vertical a:hover {

@@ -38,14 +38,14 @@ Kirk PM, Bourgoin T, Baillargeon G., eds (2009). Species 2000 &amp; ITIS
 Catalogue of Life: 2009 Annual Checklist Taxonomic Classification.
 CD-ROM; Species 2000: Reading, UK.</p>
 <p><span class="field_header">On-line version of the Annual Checklist:</span><br />
-<a href="http://www.catalogueoflife.org/annual-checklist/2009/">www.catalogueoflife.org/annual-checklist/2009/</a></p>
+<a href="<?php echo $this->app->location; ?>"><?php echo $this->app->location; ?></a></p>
 <p><span class="field_header">How to cite the Catalogue of Life on the
 Web: </span><br />
 Bisby FA, Roskov YR, Orrell TM, Nicolson D, Paglinawan LE, Bailly N,
 Kirk PM, Bourgoin T, Baillargeon G., eds (2009). Species 2000 &amp; ITIS
-Catalogue of Life: 2009 Annual Checklist. Digital resource at
-www.catalogueoflife.org/annual-checklist/2009/. Species 2000: Reading,
-UK.</p>
+Catalogue of Life: <?php echo $this->app->edition; ?> Annual Checklist. Digital resource at
+<a href="<?php echo $this->app->location; ?>"><?php echo $this->app->location; ?></a>. 
+Species 2000: Reading, UK.</p>
 </div>
 <?php
 echo $this->navigator_bottom;

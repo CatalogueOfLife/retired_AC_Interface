@@ -6,7 +6,8 @@
             <application>
                 <name>Annual Checklist Interface</name>
                 <edition>@APP.EDITION@</edition>
-                <version>@APP.VERSION@</version>
+                <version>@APP.VERSION@</version>                
+                <location>http://www.catalogueoflife.org/annual-checklist/@APP.EDITION@</location>
             </application>
         </eti>
         <phpSettings>
@@ -24,9 +25,9 @@
         <database>
             <adapter>Mysqli</adapter>            
             <params>
+                <port>3306</port>
                 <!-- overriden by config.ini -->
-                <host></host>
-                <port></port>
+                <host></host>                
                 <username></username>
                 <password></password>
                 <dbname></dbname>
@@ -86,8 +87,9 @@
     <development zf:extends="production">
         <eti>
             <application>
-                <edition>2009</edition>
+                <edition>2010</edition>                
                 <version>1.1.r1</version>
+                <location>http://www.catalogueoflife.org/annual-checklist/2010</location>              
             </application>
         </eti>
         <phpSettings>

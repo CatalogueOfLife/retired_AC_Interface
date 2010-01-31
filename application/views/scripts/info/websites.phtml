@@ -20,12 +20,11 @@ echo $this->navigator_top;
 ?>
 <div class="info_content">
 <p><b>Online version of the Annual Checklist:</b></p>
-<p><a href="http://www.catalogueoflife.org/annual-checklist/2009/"
-    target="_blank">www.catalogueoflife.org/annual-checklist/2009/</a></p>
+<p><a href="<?php echo $this->app->location; ?>" target="_blank"><?php echo $this->app->location; ?></a></p>
 <p><b>Web service</b></p>
 <p>Species 2000 provides web services to facilitate automated access to
 the Annual Checklist by computer programs. Please visit
-<a href="http://www.sp2000.org/webservices">www.sp2000.org/webservices</a> for
+<a href="http://www.sp2000.org/webservices">http://www.sp2000.org/webservices</a> for
 more information.</p>
 </div>
 <?php
