@@ -26,8 +26,8 @@ echo $this->navigator_top;
     title="2009 Annual Checklist CD-ROM front cover"
     alt="2009 Annual Checklist CD-ROM front cover" width="320"
     height="320" class="right-align" />
-<p style="margin-bottom: 20px;">The 2009 Annual Checklist contains
-contributions from 66 databases with information on <b>1,160,711</b>
+<p style="margin-bottom: 20px;">The <?php echo $this->app->edition; ?> Annual Checklist 
+contains contributions from 66 databases with information on <b>1,160,711</b>
 species and <b>75,772</b> infraspecific taxa, and also includes <b>763,776</b>
 synonyms and <b>469,891</b> common names covering the following groups:</p>
 <p><b class="field_header">Viruses</b>
@@ -176,8 +176,8 @@ equivalent global sectors of ITIS. The partial sectors are supplied
 principally by ITIS (N America), but also Species Fungorum and the
 Australian Faunal Directory, with the result that N American species are
 sometimes the only species represented for these incomplete groups.</p>
-<div class="copyright_notice">Definition of a Global Species Database
-(GSD)
+<div class="copyright_notice"><b>Definition of a Global Species Database
+(GSD)</b>
 <p>GSDs aspire to the following properties</p>
 <p>&#8226; Cover one taxon worldwide<br />
 &#8226; Contain a taxonomic checklist of all species within that taxon<br />
@@ -192,18 +192,18 @@ classification. Above the node of attachment of each data sector this
 classification has been agreed by Species 2000 and ITIS as a practical
 management tool to provide access to the Catalogue, the Catalogue of
 Life Taxonomic Classification Edition 1. This top level classification
-has remained unchanged in 2005-2009. However, below the nodes of
+has remained unchanged in 2005-2010. However, below the nodes of
 attachment for each taxonomic sector, the classification originates from
 the supplier databases and so may change from year to year. Because of
 these lower level changes there are therefore annual versions of Edition
-1 for 2005, 2006, 2007, 2008 and 2009. Please also read the draft
+1 for 2005, 2006, 2007, 2008, 2009 and 2010. Please also read the draft
 discussion document <a
     href="<?php
     echo $this->baseUrl();
     ?>/info/hierarchy">Towards a management hierarchy (classification)
 for the Catalogue of Life</a> by Dennis Gordon appended to this edition
 of the Annual Checklist.</p>
-<div class="copyright_notice">The Catalogue of Life Standard Dataset
+<div class="copyright_notice"><b>The Catalogue of Life Standard Dataset</b>
 <p>(1) &nbsp;&nbsp;Accepted scientific name (and reference)<br />
 (2) &nbsp;&nbsp;Synonyms (and references)<br />
 (3) &nbsp;&nbsp;Common names (and references)<br />
@@ -218,17 +218,17 @@ database<br />
 (11) LSID</p>
 </div>
 <p>More detailed information about the Standard Dataset is available on
-the Species 2000 website (<a href="http://www.sp2000.org">www.sp2000.org</a>)</p>
+the Species 2000 website (<a href="http://www.sp2000.org">http://www.sp2000.org</a>)</p>
 <p>Each species is linked via the genus and family to the taxonomic
 classification. Above the node of attachment of each data sector this
 classification has been agreed by Species 2000 and ITIS as a practical
 management tool to provide access to the Catalogue, the Catalogue of
 Life Taxonomic Classification Edition 1. This top level classification
-has remained unchanged in 2005-2009. However, below the node of
+has remained unchanged in 2005-2010. However, below the node of
 attachment the classification originates from the supplier databases and
 so may change from year to year. Because of this lower level changes
 there are therefore annual versions of Edition 1 for 2005, 2006, 2007,
-2008 and 2009.</p>
+2008, 2009 and 2010.</p>
 <p>Where available from the suppliers, infraspecific taxa such as
 subspecies and varieties have also been included but this coverage is
 variable between taxonomic sectors.</p>
@@ -241,15 +241,15 @@ Catalogue, including species and higher taxa, is given a globally unique
 identifier (GUID) using the Life Science Identifier (LSID) system (<a
     href="http://sourceforge.net/projects/lsids">sourceforge.net/projects/lsids</a>).
 </p>
-<p>Where a taxon record remains unchanged in this 2009 edition, it
-carries the same LSID as in 2008, except that the revision part changes
-from ac2008 to ac2009. New or changed taxa in the 2009 edition receive
-completely new LSIDs. This will enable the introduction in the next few
-years of change tracking between editions, so that relationships to taxa
-in previous editions are recorded, and web-services to alert users to
-changes in name, classification, circumscription or data. Technical
-users are already able to inspect changes in the metadata provided by
-the CoL LSID Resolution Service, and to build their own services using
+<p>Where a taxon record remains unchanged in this <?php echo $this->app->edition; ?> edition, it
+carries the same LSID as in 2009, except that the revision part changes
+from AC2009 to AC2010. New or changed taxa in the <?php echo $this->app->edition; ?> 
+edition receive completely new LSIDs. This will enable the introduction in the 
+next few years of change tracking between editions, so that relationships to 
+taxa in previous editions are recorded, and web-services to alert users to 
+changes in name, classification, circumscription or data. Technical 
+users are already able to inspect changes in the metadata provided by 
+the CoL LSID Resolution Service, and to build their own services using 
 them. For more information, see <a href="http://www.catalogueoflife.org/lsid">
 http://www.catalogueoflife.org/lsid</a>. LSIDs in the 2009 Annual Checklist have 
 been generated by Richard White, Cardiff University, UK.</p>
