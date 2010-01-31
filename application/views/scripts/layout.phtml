@@ -47,9 +47,8 @@
         <img width="32" height="32" alt="CD-ROM version" src="<?php echo $this->baseUrl(); ?>/images/cd_version.gif"/>
     </div>
     <?php endif; ?>
-    <div id="header">
-        <img src="<?php echo $this->baseUrl(); ?>/images/Annual_Checklist_Top_Banner.gif"
-             alt="<?php echo strip_tags($this->headTitle()); ?>"/>
+    <div id="header">        
+        <span class="title"><?php printf($this->translate('title'), $this->app->edition); ?></span>
     </div>
     <div id="menu" class="view">
         <span id="log"></span>

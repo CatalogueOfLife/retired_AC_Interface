@@ -40,12 +40,22 @@ $config = new Zend_Config_Xml(
     APPLICATION_ENV,
     true
 );
-$config->merge(
-    new Zend_Config_Ini(
-        APPLICATION_PATH . '/configs/config.ini',
-        APPLICATION_ENV
-    )
-);
+try {
+    $config->merge(
+        new Zend_Config_Ini(
+            APPLICATION_PATH . '/configs/config.ini',
+            APPLICATION_ENV
+        )
+    );
+}
+// There is no config file or the section APPLICATION_ENV doe not exist
+catch(Zend_Config_Exception $e) {
+    exit(
+        '<b>The configuration of the application is not valid</b><br/>' .
+        'Please make sure that the proper environment [' . APPLICATION_ENV . 
+        '] has been defined in the configuration file'
+    );
+}
 // Init application
 $application = new Zend_Application(APPLICATION_ENV, $config);
 // Store config

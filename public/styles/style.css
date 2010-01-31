@@ -147,7 +147,7 @@ table.details-table tr th {
 .aboutcolheader {
     color: #900;
     font-weight: bold;
-    margin: 5px 0;
+    margin: 5px 0;    
 }
 .matchHighlight {
     color: #336;
@@ -420,6 +420,16 @@ div.export-warning {
 }
 #header {
     margin: 27px 0 16px 0;
+    background: transparent url(../images/Annual_Checklist_Top_Banner.gif) no-repeat top left;
+    width: 760px;
+    height: 100px;
+}
+#header .title {
+    font-size: 27px;
+    font-family: "Arial", sans-serif;
+    line-height: 100%;
+    color: #336;
+    margin-left: 200px;
 }
 #right-col {
     z-index: 0;
