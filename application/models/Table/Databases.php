@@ -42,7 +42,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
     protected function _getImageFromName ($imageName)
     {
         return '/images/databases/' .
-            $this->_getImagenameFromName($imageName) . '.jpg';
+            $this->_getImagenameFromName($imageName) . '.png';
     }
 
     protected function _getThumbFromName ($imageName)

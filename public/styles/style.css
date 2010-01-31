@@ -21,37 +21,26 @@ a:link {
     color: #0B0BF2;
     text-decoration: none;
 }
-
 a:visited {
     color: #639;
     text-decoration: none;
 }
-
 a:active {
     color: blue;
     text-decoration: none;
 }
-
 a:hover {
     color: #F20B0B;
     text-decoration: underline;
 }
-
 img {
     border: none;
 }
-
 table {
     width:100%;
     border-spacing:0;
     border: 1px solid #edebeb;
     clear: both;
-}
-.wrapLogo {
-    border: 1px solid #edebeb;
-    background-color: #fff;
-    padding: 10px;
-    margin: 0;
 }
 .tinyImgLink {
     display: block;
