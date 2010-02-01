@@ -319,6 +319,9 @@ th.horizontal {
     margin: 1px;
 }
 th.vertical {
+    vertical-align: top;
+}
+.info_content th.vertical {
     vertical-align: middle;
 }
 th.vertical a:link,
@@ -414,7 +417,7 @@ div.export-warning {
     height: 100px;
 }
 #header .title {
-    font-size: 27px;
+    font-size: 26px;
     font-family: "Arial", sans-serif;
     line-height: 100%;
     color: #336;
