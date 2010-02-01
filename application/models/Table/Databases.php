@@ -15,9 +15,9 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
     protected $_name = 'databases';
     protected $_primary = 'record_id';
     
-    public function get ($id)
+    public function get($id)
     {
-        $dbDetails = $this->find((int)$id);
+        $dbDetails = $this->find((int)$id);        
         $res = $dbDetails->current();
         if (!$res) {
             return false;
@@ -25,7 +25,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
         return $this->_decorate($res->toArray());
     }
     
-    public function getAll ($order = null)
+    public function getAll($order = null)
     {
         $rowset = $this->fetchAll(null, $order);
         if (!$rowset) {
@@ -39,13 +39,21 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
         return $results;
     }
     
-    protected function _getImageFromName ($imageName)
+    public function count()
+    {
+        $select = $this->select();
+        $select->from($this, array('COUNT(*) AS total'));
+        $rows = $this->fetchAll($select);
+        return($rows[0]->total);
+    }
+    
+    protected function _getImageFromName($imageName)
     {
         return '/images/databases/' .
             $this->_getImagenameFromName($imageName) . '.png';
     }
 
-    protected function _getThumbFromName ($imageName)
+    protected function _getThumbFromName($imageName)
     {
         return '/images/databases/' .
             $this->_getImagenameFromName($imageName) . '.gif';
@@ -56,7 +64,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
         return '/details/database/id/' . $id;
     }
 
-    protected function _getImagenameFromName ($imageName)
+    protected function _getImagenameFromName($imageName)
     {
         return str_replace(' ', '_', $imageName);
     }

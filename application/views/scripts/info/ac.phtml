@@ -26,10 +26,13 @@ echo $this->navigator_top;
     title="2009 Annual Checklist CD-ROM front cover"
     alt="2009 Annual Checklist CD-ROM front cover" width="320"
     height="320" class="right-align" />
-<p style="margin-bottom: 20px;">The <?php echo $this->app->edition; ?> Annual Checklist 
-contains contributions from 66 databases with information on <b>1,160,711</b>
-species and <b>75,772</b> infraspecific taxa, and also includes <b>763,776</b>
-synonyms and <b>469,891</b> common names covering the following groups:</p>
+<p style="margin-bottom: 20px;">The <?php echo $this->app->edition; ?> Annual 
+Checklist contains contributions from <?php echo $this->stats['databases']; ?> 
+databases with information on <b><?php echo $this->stats['species']; ?></b>
+species and <b><?php echo $this->stats['infraspecific_taxa']; ?></b> infraspecific 
+taxa, and also includes <b><?php echo $this->stats['synonyms']; ?></b> synonyms 
+and <b><?php echo $this->stats['common_names']; ?></b> common names covering the 
+following groups:</p>
 <p><b class="field_header">Viruses</b>
  &#8226; <?php
 echo $this->placeholder('Viruses and Subviral agents from [link:db:14]');

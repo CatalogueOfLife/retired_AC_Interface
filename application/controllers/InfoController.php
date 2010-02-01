@@ -27,6 +27,8 @@ class InfoController extends AController
                 $this->view->translate('Info_annual_checklist'),
                 $this->view->app->edition
             );
+        $info = new ACI_Model_Info($this->_db);
+        $this->view->stats = $info->getStatistics();
         $this->view->headTitle($this->view->title, 'APPEND');
         $this->_setNavigator();
     }
