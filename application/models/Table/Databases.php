@@ -14,10 +14,12 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
 {
     protected $_name = 'databases';
     protected $_primary = 'record_id';
+    protected static $_numDatabases;
+    protected static $_numDatabasesWithAcceptedNames;
     
     public function get($id)
     {
-        $dbDetails = $this->find((int)$id);        
+        $dbDetails = $this->find((int)$id);
         $res = $dbDetails->current();
         if (!$res) {
             return false;
@@ -41,10 +43,26 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
     
     public function count()
     {
-        $select = $this->select();
-        $select->from($this, array('COUNT(*) AS total'));
-        $rows = $this->fetchAll($select);
-        return($rows[0]->total);
+        if(is_null(self::$_numDatabases)) {
+            $select = $this->select();
+            $select->from($this, array('COUNT(1) AS total'));
+            $rows = $this->fetchAll($select);
+            self::$_numDatabases = $rows[0]->total;
+        }
+        return self::$_numDatabases;
+    }
+    
+    public function countWithAcceptedNames()
+    {
+        if(is_null(self::$_numDatabasesWithAcceptedNames)) {
+            $select = $this->select();
+            $select->from(
+                $this, array('COUNT(1) AS total')
+            )->where('accepted_species_names > 0');
+            $rows = $this->fetchAll($select);
+            self::$_numDatabasesWithAcceptedNames = $rows[0]->total;
+        }
+        return self::$_numDatabasesWithAcceptedNames;
     }
     
     protected function _getImageFromName($imageName)

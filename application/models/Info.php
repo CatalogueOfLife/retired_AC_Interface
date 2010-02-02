@@ -42,10 +42,10 @@ class ACI_Model_Info extends AModel
         $cacheKey = 'statistics';
         $res = false;
         if($cache) {
-            $res = $cache->load($cacheKey);            
-        }        
+            $res = $cache->load($cacheKey);
+        }
         if(!$res) {
-            $res = $this->_calculateStatistics();        
+            $res = $this->_calculateStatistics();
             if($cache) {
                 $cache->save($res, $cacheKey);
             }
@@ -60,7 +60,7 @@ class ACI_Model_Info extends AModel
      * synonyms => Total count of synonyms
      * infraspecific_taxa => Total count of infraspecific taxa
      * species => Total count of species
-     * 
+     *
      * @return array
      */
     protected function _calculateStatistics()
@@ -68,7 +68,8 @@ class ACI_Model_Info extends AModel
         $stats = array();
         // Number of databases
         $databases = new ACI_Model_Table_Databases();
-        $stats['databases'] = number_format($databases->count());
+        $stats['databases'] =
+            number_format($databases->countWithAcceptedNames());
         // Number of common names
         $commonNames = new ACI_Model_Table_CommonNames();
         $stats['common_names'] = number_format($commonNames->count());
@@ -76,14 +77,10 @@ class ACI_Model_Info extends AModel
         $scientificNames = new ACI_Model_Table_ScientificNames();
         $stats['synonyms'] = number_format($scientificNames->countSynonyms());
         // Number of infraspecific taxa
-        $stats['infraspecific_taxa'] = 
+        $stats['infraspecific_taxa'] =
             number_format($scientificNames->countInfraspecificTaxa());
         // Number of accepted names
-        $stats['species'] = number_format(
-            $scientificNames->countAcceptedNames() - 
-            $stats['infraspecific_taxa']
-        );
-              
+        $stats['species'] = number_format($scientificNames->countSpecies());
         return $stats;
     }
 }

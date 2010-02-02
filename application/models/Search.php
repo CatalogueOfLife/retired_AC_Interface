@@ -476,6 +476,9 @@ class ACI_Model_Search extends AModel
             'tx.database_id = db.record_id',
             array()
         )
+        // Prevent multiple selection of the same taxon (cased by duplicated
+        // name codes)
+        ->group(array('tx.record_id'))
         ->order(array('name', 'status'));
          
         return $select;
