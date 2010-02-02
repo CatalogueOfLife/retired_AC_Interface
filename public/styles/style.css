@@ -47,6 +47,12 @@ table {
     text-align: center;
     padding: 4px;
 }
+.wrapLogo {
+    border: 1px solid #edebeb;
+    background-color: #fff;
+    padding: 10px;
+    margin: 0;
+}
 .number {
     text-align: right;
 }
