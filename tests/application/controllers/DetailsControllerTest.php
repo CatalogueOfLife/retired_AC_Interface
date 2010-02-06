@@ -49,8 +49,10 @@ class DetailsControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
      * from the given id
      */
     public function testSpeciesDetailsDisplay()
-    {
-        $id = 4935432;
+    {   
+        $sn = new ACI_Model_Table_ScientificNames();
+        $res = $sn->getIdByName('Aa', 'rosei', null);
+        $id = $res[0]->id;
         $details = new ACI_Model_Details(Zend_Registry::get('db'));
         $details->species($id);
         $this->dispatch('/details/species/id/' . $id);
@@ -106,7 +108,9 @@ class DetailsControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
      */
     public function testReferenceDetailsDisplay()
     {
-        $speciesId = 5202058;
+        $sn = new ACI_Model_Table_ScientificNames();
+        $res = $sn->getIdByName('Tarsius', 'dianae', null);
+        $speciesId = $res[0]->id;
         $details = new ACI_Model_Details(Zend_Registry::get('db'));
         $taxa = $details->species($speciesId);
         $this->dispatch('/details/reference/species/' . $speciesId);        

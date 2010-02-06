@@ -20,6 +20,23 @@ class ACI_Model_Table_ScientificNames extends Zend_Db_Table_Abstract
     protected static $_numInfraspecificTaxa;
     protected static $_numSynonyms;
     
+    public function getIdByName($genus, $species, $infraspecies)
+    {
+        $select = $this->select();
+        $select->from($this, array('record_id AS id'));
+        if(!is_null($genus)) {
+            $select->where('genus = ?', (string)$genus);
+        }
+        if(!is_null($species)) {
+            $select->where('species = ?', (string)$species);
+        }
+        if(!is_null($infraspecies)) {
+            $select->where('infraspecies = ?', (string)$infraspecies);
+        }
+        $rows = $this->fetchAll($select);
+        return $rows;
+    }
+    
     public function count()
     {
         if(is_null(self::$_numScientificNames)) {
