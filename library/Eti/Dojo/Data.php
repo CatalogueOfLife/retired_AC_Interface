@@ -10,8 +10,8 @@
  * @package     Eti_Dojo
  *
  */
-class Eti_Dojo_Data extends Zend_Dojo_Data
-    implements ArrayAccess, Iterator, Countable
+class Eti_Dojo_Data extends Zend_Dojo_Data implements ArrayAccess, Iterator, 
+    Countable
 {
     /**
      * Add an individual item, optionally by identifier
@@ -23,7 +23,7 @@ class Eti_Dojo_Data extends Zend_Dojo_Data
     public function addItem($item, $id = null)
     {
         $item = $this->_utf8Encode($this->_normalizeItem($item, $id));
-        if (!$this->hasItem($item['id']) && $item['id']) {
+        if (!$this->hasItem($item['id']) && $item['data']['label']) {
             $this->_items[$item['id']] = $item['data'];
         }
         return $this;
