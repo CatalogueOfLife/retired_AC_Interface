@@ -7,7 +7,7 @@
                 <name>Annual Checklist Interface</name>
                 <edition>@APP.EDITION@</edition>
                 <version>@APP.VERSION@</version>                
-                <location>http://www.catalogueoflife.org/annual-checklist/@APP.EDITION@</location>
+                <location>http://www.catalogueoflife.org/annual-checklist/@APP.EDITION@</location>                
             </application>
         </eti>
         <phpSettings>
@@ -23,7 +23,7 @@
             <class>Bootstrap</class>
         </bootstrap>
         <database>
-            <adapter>Mysqli</adapter>            
+            <adapter>Mysqli</adapter>
             <params>
                 <port>3306</port>
                 <!-- overriden by config.ini -->
@@ -43,7 +43,8 @@
             </frontController>
             <view>
                 <encoding>ISO-8859-1</encoding>
-            </view>
+                <scripts>/scripts/src</scripts>            
+            </view>            
         </resources>
         <view>
             <!-- overridden by config.ini -->
