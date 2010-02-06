@@ -41,6 +41,7 @@ $config->merge(
         APPLICATION_ENV
     )
 );
+define('SCRIPTS_PATH', $config->resources->view->scripts);
 // Init application
 $application = new Zend_Application(APPLICATION_ENV, $config);
 $front = Zend_Controller_Front::getInstance();

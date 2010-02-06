@@ -43,7 +43,7 @@
             </frontController>
             <view>
                 <encoding>ISO-8859-1</encoding>
-                <scripts>/scripts/src</scripts>            
+                <scripts>/scripts</scripts>      
             </view>            
         </resources>
         <view>
