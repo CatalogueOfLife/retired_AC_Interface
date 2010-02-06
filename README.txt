@@ -3,7 +3,7 @@ by ETI Bioinformatics
 
 RELEASE INFORMATION
 ====================
-Annual Checklist Interface v@APP.VERSION@
+Annual Checklist Interface v@APP.VERSION@ r@APP.REVISION@
 Released on @TIMESTAMP@
 
 ABOUT THIS SOFTWARE

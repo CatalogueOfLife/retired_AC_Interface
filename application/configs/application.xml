@@ -6,7 +6,8 @@
             <application>
                 <name>Annual Checklist Interface</name>
                 <edition>@APP.EDITION@</edition>
-                <version>@APP.VERSION@</version>                
+                <version>@APP.VERSION@</version>
+                <version>@APP.REVISION@</version>           
                 <location>http://www.catalogueoflife.org/annual-checklist/@APP.EDITION@</location>                
             </application>
         </eti>
@@ -89,7 +90,8 @@
         <eti>
             <application>
                 <edition>2010</edition>                
-                <version>1.1.r1</version>
+                <version>1.5</version>
+                <revision>000</revision>
                 <location>http://www.catalogueoflife.org/annual-checklist/2010</location>              
             </application>
         </eti>

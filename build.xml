@@ -87,7 +87,8 @@
 		    <filterchain>
 		  	    <replacetokens>
 		  	        <token key="APP.EDITION" value="${project.edition}" />
-		  	        <token key="APP.VERSION" value="${project.version}.r${svn.lastrevision}" />
+		  	        <token key="APP.VERSION" value="${project.version}" />
+		  	        <token key="APP.REVISION" value="${svn.lastrevision}" />
 		  	    </replacetokens>
 		    </filterchain>
 			<fileset dir="${basedir}/application/configs">
