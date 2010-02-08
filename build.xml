@@ -160,7 +160,7 @@
                 	<token key="APP.VERSION" value="${project.version}" />
                     <token key="APP.REVISION" value="${revision}" />
                     <token key="TIMESTAMP" value="${now}" />
-                    <token key="ENVIRONMENT" value="${environment}" />
+                    <token key="ENVIRONMENT" value="development" />
                 </replacetokens>
             </filterchain>
         </reflexive>

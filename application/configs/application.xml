@@ -66,8 +66,6 @@
     </production>
     <!-- CD Environment -->
     <standalone zf:extends="production">
-        <log enabled="0" />
-        <cache enabled="0" />
     </standalone>
     <!-- Staging Environment -->
     <staging zf:extends="production">
