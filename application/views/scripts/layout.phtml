@@ -32,9 +32,6 @@
         $this->dojo()->setLocalPath(
             $this->baseUrl() . SCRIPTS_PATH . '/library/dojo/dojo/dojo.js'
         )
-        ->setDjConfigOption(
-            'isDebug', 'development' == APPLICATION_ENV ? true : false
-        )
         // forcing the locale
         ->setDjConfigOption('locale', 'en')
         ->addStyleSheetModule('dijit.themes.tundra');
