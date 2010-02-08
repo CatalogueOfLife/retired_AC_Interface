@@ -8,7 +8,6 @@ Released on @TIMESTAMP@
 
 ABOUT THIS SOFTWARE
 ====================
-
 This web application provides an interface to the Annual Checklist database. 
 It is written in PHP 5 and based on the Zend Framework.
 
@@ -33,7 +32,6 @@ LIMITATIONS
 
 INSTALLATION
 =============
-
 Please see the INSTALL.txt file for installation instructions.
 
 TROUBLESHOOTING
