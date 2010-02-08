@@ -1,28 +1,28 @@
-<?xml version="1.0" encoding="UTF-8"?>	
+<?xml version="1.0" encoding="UTF-8"?>    
 <project default="build" basedir=".">
 
-	<property name="basedir" value="${project.basedir}" />
-	<property name="build" value="${basedir}/../build" />
-	<property name="cc" value="${basedir}/../../../" />	
-	<property file="build.properties" />
-	<property name="dist" value="${basedir}/dist" />
-	
-	<patternset id="inc.php.files">
-		<include name="**/*.php" />
-		<exclude name="**/tests/**" />
-		<exclude name="**/library/**" />
-		<exclude name="**/public/scripts/**" />
-	</patternset>
-	
+    <property name="basedir" value="${project.basedir}" />
+    <property name="build" value="${basedir}/../build" />
+    <property name="cc" value="${basedir}/../../../" />
+    <property file="build.properties" />
+    <property name="dist" value="${basedir}/dist" />
+    
+    <patternset id="inc.php.files">
+        <include name="**/*.php" />
+        <exclude name="**/tests/**" />
+        <exclude name="**/library/**" />
+        <exclude name="**/public/scripts/**" />
+    </patternset>
+    
     <patternset id="dist.exc">
-    	<!-- hidden files -->
-    	<exclude name=".**" />
+        <!-- hidden files -->
+        <exclude name=".**" />
         <!--build files-->
         <exclude name="build.*" />
-    	<!-- dist folder -->
-    	<exclude name="dist**" />
+        <!-- dist folder -->
+        <exclude name="dist**" />
         <!--tests-->
-    	<exclude name="test**" />        
+        <exclude name="test**" />        
         <!--file templates -->
         <exclude name="**/*.tpl" />
         <!-- cache and log files -->
@@ -33,27 +33,27 @@
         <format property="now" pattern="%c" locale="nl_NL"/>
     </tstamp>
 
-	<!-- Checkout latest version from SVN -->
-	<target name="checkout">
-		<svnupdate svnpath="svn" nocache="true" todir="${basedir}" />
-		<svnlastrevision svnpath="svn" workingcopy="${basedir}" 
-			propertyname="revision"/>
-	</target>
+    <!-- Checkout latest version from SVN -->
+    <target name="checkout">
+        <svnupdate svnpath="svn" nocache="true" todir="${basedir}" />
+        <svnlastrevision svnpath="svn" workingcopy="${basedir}" 
+            propertyname="revision"/>
+    </target>
 
-	<!-- Clean and set up build/dist directories -->
-	<target name="clean">
-		<delete dir="${build}" includeemptydirs="true" />
-		<mkdir dir="${build}/logs" />
-		<mkdir dir="${build}/api" />
-		<mkdir dir="${build}/coverage" />
-		<mkdir dir="${build}/graph" />
-		<mkdir dir="${build}/php-code-browser" />
-	</target>
-	
-	<!-- Generate documentation -->
+    <!-- Clean and set up build/dist directories -->
+    <target name="clean">
+        <delete dir="${build}" includeemptydirs="true" />
+        <mkdir dir="${build}/logs" />
+        <mkdir dir="${build}/api" />
+        <mkdir dir="${build}/coverage" />
+        <mkdir dir="${build}/graph" />
+        <mkdir dir="${build}/php-code-browser" />
+    </target>
+    
+    <!-- Generate documentation -->
     <target name="phpdoc">
         <exec dir="${basedir}"
-        	checkreturn="true" 
+            checkreturn="true" 
             command="phpdoc -ct type -ue on -t ${build}/api
                      -tb /usr/share/php/data/phpUnderControl/data/phpdoc -o HTML:Phpuc:phpuc
                      -d ${basedir}/application,${basedir}/tests -f ${basedir}/public/index.php" />
@@ -77,19 +77,19 @@
             --log-junit ${build}/logs/phpunit.xml
             --coverage-clover ${build}/logs/phpunit.coverage.xml
             --coverage-html ${build}/coverage
-        	--log-pmd ${build}/logs/phpunit.pmd.xml
+            --log-pmd ${build}/logs/phpunit.pmd.xml
             tests" />
     </target>
-	
-	<!-- PHP Code Browser -->
-	<target name="phpcb">
-	   <exec dir="${basedir}" 
-	   	     command="phpcb 
+    
+    <!-- PHP Code Browser -->
+    <target name="phpcb">
+       <exec dir="${basedir}" 
+                command="phpcb 
                     --log ${build}/logs 
                     --source ${basedir}
                     --output ${build}/php-code-browser"/>
-	</target>
-	
+    </target>
+    
     <!-- Execute pdepend and store reports -->
     <target name="pdepend">
         <exec dir="${basedir}"
@@ -100,39 +100,39 @@
                            --ignore=library/Zend/**,public/scripts/** 
                            ${basedir}" />
     </target>
-	
-	<!-- Deploy -->
-	<target name="deploy">
-	    <svnupdate svnpath="svn" nocache="true" todir="${project.path}" />
-		<copy todir="${project.path}/application/configs" overwrite="true">
-		    <filterchain>
-		  	    <replacetokens>
-		  	        <token key="APP.EDITION" value="${project.edition}" />
-		  	        <token key="APP.VERSION" value="${project.version}" />
-		  	        <token key="APP.REVISION" value="${revision}" />
-		  	    </replacetokens>
-		    </filterchain>
-			<fileset dir="${basedir}/application/configs">
-			    <include name="application.xml" />
-			</fileset>
-		</copy>
-		<!-- Setting permissions -->
-		<exec dir="${basedir}" 
-			 command="chmod 777 application/log application/cache" />
-	</target>
-	
+    
+    <!-- Deploy -->
+    <target name="deploy">
+        <svnupdate svnpath="svn" nocache="true" todir="${project.path}" />
+        <copy todir="${project.path}/application/configs" overwrite="true">
+            <filterchain>
+                  <replacetokens>
+                      <token key="APP.EDITION" value="${project.edition}" />
+                      <token key="APP.VERSION" value="${project.version}" />
+                      <token key="APP.REVISION" value="${revision}" />
+                  </replacetokens>
+            </filterchain>
+            <fileset dir="${basedir}/application/configs">
+                <include name="application.xml" />
+            </fileset>
+        </copy>
+        <!-- Setting permissions -->
+        <exec dir="${basedir}" 
+             command="chmod 777 application/log application/cache" />
+    </target>
+    
     <!-- Create deliverable -->
-	<!-- not included in the build target, to be executed independently in local -->
-	<!-- Ex: phing dist (from the application root directory) -->
+    <!-- not included in the build target, to be executed independently in local -->
+    <!-- Ex: phing dist (from the application root directory) -->
     <target name="dist" depends="checkout">
-    	<property name="dist.name" value="${project.name}-${project.version}.r${revision}" />
-    	
-    	<!-- cleanup -->    	
-    	<delete dir="${dist}" includeemptydirs="true" />    	
-    	<mkdir dir="${dist}" />
+        <property name="dist.name" value="${project.name}-${project.version}.r${revision}" />
+        
+        <!-- cleanup -->        
+        <delete dir="${dist}" includeemptydirs="true" />        
+        <mkdir dir="${dist}" />
         <mkdir dir="${dist}/source" />
         <mkdir dir="${dist}/source/${dist.name}" />
-    	
+        
         <copy todir="${dist}/source/${dist.name}">
             <fileset dir=".">
                 <patternset refid="dist.exc" />
@@ -156,8 +156,8 @@
             </fileset>
             <filterchain>
                 <replacetokens>
-                	<token key="APP.EDITION" value="${project.edition}" />             	
-                	<token key="APP.VERSION" value="${project.version}" />
+                    <token key="APP.EDITION" value="${project.edition}" />
+                    <token key="APP.VERSION" value="${project.version}" />
                     <token key="APP.REVISION" value="${revision}" />
                     <token key="TIMESTAMP" value="${now}" />
                     <token key="ENVIRONMENT" value="development" />
@@ -176,6 +176,6 @@
         <delete dir="${dist}/source" includeemptydirs="true" />
     </target>
 
-	<target name="build" depends="clean,checkout,phpunit,phpdoc,deploy,phpcs,pdepend,phpcb" />
+    <target name="build" depends="clean,checkout,phpunit,phpdoc,deploy,phpcs,pdepend,phpcb" />
 
 </project>
