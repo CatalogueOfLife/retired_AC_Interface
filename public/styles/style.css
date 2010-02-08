@@ -423,11 +423,17 @@ div.export-warning {
     height: 100px;
 }
 #header .title {
-    font-size: 26px;
-    font-family: "Arial", sans-serif;
-    line-height: 100%;
-    color: #336;
     margin-left: 200px;
+    font: normal bold 2.3em "Arial", sans-serif;
+    line-height: 100%;
+    color: #039;
+    word-spacing: 0ex;
+    letter-spacing: 0.02ex;
+    line-height: 100%;
+    text-align: left;
+    text-indent: 0ex;
+    text-decoration: none;
+    text-transform: none;
 }
 .standalone-icon {
     position: absolute; 

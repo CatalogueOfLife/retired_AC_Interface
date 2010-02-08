@@ -7,8 +7,8 @@
                 <name>Annual Checklist Interface</name>
                 <edition>@APP.EDITION@</edition>
                 <version>@APP.VERSION@</version>
-                <revision>@APP.REVISION@</revision>         
-                <location>http://www.catalogueoflife.org/annual-checklist/@APP.EDITION@</location>                
+                <revision>@APP.REVISION@</revision>
+                <location>http://www.catalogueoflife.org/annual-checklist/@APP.EDITION@</location>
             </application>
         </eti>
         <phpSettings>
@@ -28,12 +28,12 @@
             <params>
                 <port>3306</port>
                 <!-- overriden by config.ini -->
-                <host></host>                
+                <host></host>
                 <username></username>
                 <password></password>
                 <dbname></dbname>
                 <!--  -->
-                <profiler enabled="0" />                
+                <profiler enabled="0" />
             </params>
         </database>
         <resources>
@@ -73,7 +73,7 @@
     <staging zf:extends="production">
     </staging>
     <!-- Testing Environment -->
-    <testing zf:extends="production">        
+    <testing zf:extends="production">
         <phpSettings>
             <display_startup_errors>1</display_startup_errors>
             <display_errors>1</display_errors>
@@ -89,10 +89,10 @@
     <development zf:extends="production">
         <eti>
             <application>
-                <edition>2010</edition>                
+                <edition>2010</edition>
                 <version>1.5</version>
                 <revision>000</revision>
-                <location>http://www.catalogueoflife.org/annual-checklist/2010</location>              
+                <location>http://www.catalogueoflife.org/annual-checklist/2010</location>
             </application>
         </eti>
         <phpSettings>
