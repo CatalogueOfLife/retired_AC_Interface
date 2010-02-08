@@ -3,20 +3,40 @@
 
 	<property name="basedir" value="${project.basedir}" />
 	<property name="build" value="${basedir}/../build" />
-	<property name="cc" value="${basedir}/../../../" />
+	<property name="cc" value="${basedir}/../../../" />	
 	<property file="build.properties" />
+	<property name="dist" value="${basedir}/dist" />
+	
 	<patternset id="inc.php.files">
 		<include name="**/*.php" />
 		<exclude name="**/tests/**" />
 		<exclude name="**/library/**" />
 		<exclude name="**/public/scripts/**" />
 	</patternset>
+	
+    <patternset id="dist.exc">
+    	<!-- hidden files -->
+    	<exclude name=".**" />
+        <!--build files-->
+        <exclude name="build.*" />
+        <!--tests-->
+    	<exclude name="test**" />
+        <!--<exclude name="**/tests/**" />-->
+        <!--file templates -->
+        <exclude name="**/*.tpl" />
+        <!-- cache and log files -->
+        <exclude name="application/cache/*/**" />
+        <exclude name="application/log/*.*" />
+    </patternset>
+    <tstamp>
+        <format property="now" pattern="%c" locale="nl_NL"/>
+    </tstamp>
 
 	<!-- Checkout latest version from SVN -->
 	<target name="checkout">
 		<svnupdate svnpath="svn" nocache="true" todir="${basedir}" />
 		<svnlastrevision svnpath="svn" workingcopy="${basedir}" 
-			propertyname="svn.lastrevision"/>
+			propertyname="revision"/>
 	</target>
 
 	<!-- Clean and set up build/dist directories -->
@@ -88,7 +108,7 @@
 		  	    <replacetokens>
 		  	        <token key="APP.EDITION" value="${project.edition}" />
 		  	        <token key="APP.VERSION" value="${project.version}" />
-		  	        <token key="APP.REVISION" value="${svn.lastrevision}" />
+		  	        <token key="APP.REVISION" value="${revision}" />
 		  	    </replacetokens>
 		    </filterchain>
 			<fileset dir="${basedir}/application/configs">
@@ -99,6 +119,61 @@
 		<exec dir="${basedir}" 
 			 command="chmod 777 application/log application/cache" />
 	</target>
+	
+    <!-- Create deliverable -->
+	<!-- not included in the build target, to be executed independently in local -->
+	<!-- Ex: phing dist (from the application root directory) -->
+    <target name="dist" depends="checkout">
+    	<property name="dist.name" value="${project.name}-${project.version}.r${revision}" />
+    	
+    	<!-- cleanup -->    	
+    	<delete dir="${dist}" includeemptydirs="true" />    	
+    	<mkdir dir="${dist}" />
+        <mkdir dir="${dist}/source" />
+        <mkdir dir="${dist}/source/${dist.name}" />
+    	
+        <copy todir="${dist}/source/${dist.name}">
+            <fileset dir=".">
+                <patternset refid="dist.exc" />
+            </fileset>
+        </copy>
+        
+        <copy file="${basedir}/application/configs/config.ini.tpl"
+              tofile="${dist}/source/${dist.name}/application/configs/config.ini" 
+              overwrite="true" />
+        
+        <copy file="${basedir}/public/.htaccess.tpl"
+              tofile="${dist}/source/${dist.name}/public/.htaccess" 
+              overwrite="true" />
+        
+        <reflexive>
+            <fileset dir="${dist}/source/${dist.name}">
+                <include name="application/configs/config.ini" />
+                <include name="application/configs/application.xml" />
+                <include name="README.txt" />
+                <include name="public/.htaccess" />
+            </fileset>
+            <filterchain>
+                <replacetokens>
+                	<token key="APP.EDITION" value="${project.edition}" />             	
+                	<token key="APP.VERSION" value="${project.version}" />
+                    <token key="APP.REVISION" value="${revision}" />
+                    <token key="TIMESTAMP" value="${now}" />
+                    <token key="ENVIRONMENT" value="${environment}" />
+                </replacetokens>
+            </filterchain>
+        </reflexive>
+        
+        <!-- zip -->
+        <exec dir="${dist}/source"
+              command="zip -r ${dist}/${dist.name}.zip ${dist.name}"
+              escape = "false"/>
+        <!-- tar.gz -->
+        <exec dir="${dist}/source"
+              command="tar czvf ${dist}/${dist.name}.tar.gz ${dist.name}"
+              escape = "false"/>
+        <delete dir="${dist}/source" includeemptydirs="true" />
+    </target>
 
 	<target name="build" depends="clean,checkout,phpunit,phpdoc,deploy,phpcs,pdepend,phpcb" />
 

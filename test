@@ -1,0 +1,2 @@
+#!/bin/sh
+phpunit --verbose --configuration tests/phpunit.xml
