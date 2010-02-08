@@ -49,7 +49,7 @@ class DetailsControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
      * from the given id
      */
     public function testSpeciesDetailsDisplay()
-    {   
+    {
         $sn = new ACI_Model_Table_ScientificNames();
         $res = $sn->getIdByName('Aa', 'rosei', null);
         $id = $res[0]->id;
@@ -73,8 +73,7 @@ class DetailsControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         //LSID
         $this->assertQueryContentContains(
             'table.details-table tr td span.lsid',
-            'urn:lsid:catalogueoflife.org:taxon:f0c67b16-29c1-102b-9a4a-' .
-            '00304854f820:ac2009'
+            'urn:lsid:catalogueoflife.org:taxon:' // some valid CoL lsid
         );
     }
     
@@ -103,7 +102,7 @@ class DetailsControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
     }
     
     /**
-     * The reference details page correctly retrieves and displays the 
+     * The reference details page correctly retrieves and displays the
      * references of the given species id
      */
     public function testReferenceDetailsDisplay()
@@ -113,7 +112,7 @@ class DetailsControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $speciesId = $res[0]->id;
         $details = new ACI_Model_Details(Zend_Registry::get('db'));
         $taxa = $details->species($speciesId);
-        $this->dispatch('/details/reference/species/' . $speciesId);        
+        $this->dispatch('/details/reference/species/' . $speciesId);
         $this->assertController('details');
         $this->assertAction('reference');
         //match number of references
