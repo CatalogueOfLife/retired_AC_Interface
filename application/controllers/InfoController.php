@@ -75,6 +75,8 @@ class InfoController extends AController
                 ->formatDatabaseDetails($row);
         }
         $this->view->results = $results;
+        $info = new ACI_Model_Info($this->_db);
+        $this->view->stats = $info->getStatistics();
         $this->_setNavigator();
     }
     

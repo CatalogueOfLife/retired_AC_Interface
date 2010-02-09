@@ -15,6 +15,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
     protected $_name = 'databases';
     protected $_primary = 'record_id';
     protected static $_numDatabases;
+    protected static $_numDatabasesNew;
     protected static $_numDatabasesWithAcceptedNames;
     
     public function get($id)
@@ -50,6 +51,19 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
             self::$_numDatabases = $rows[0]->total;
         }
         return self::$_numDatabases;
+    }
+    
+    public function countNew()
+    {
+        if(is_null(self::$_numDatabasesNew)) {
+            $select = $this->select();
+            $select->from(
+                $this, array('COUNT(1) AS total')
+            )->where('is_new');
+            $rows = $this->fetchAll($select);
+            self::$_numDatabasesNew = $rows[0]->total;
+        }
+        return self::$_numDatabasesNew;
     }
     
     public function countWithAcceptedNames()

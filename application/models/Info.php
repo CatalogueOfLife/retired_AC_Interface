@@ -70,6 +70,9 @@ class ACI_Model_Info extends AModel
         $databases = new ACI_Model_Table_Databases();
         $stats['databases'] =
             number_format($databases->countWithAcceptedNames());
+        // Number of new databases
+        $stats['new_databases'] =
+            number_format($databases->countNew());
         // Number of common names
         $commonNames = new ACI_Model_Table_CommonNames();
         $stats['common_names'] = number_format($commonNames->count());
