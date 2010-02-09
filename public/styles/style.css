@@ -244,7 +244,10 @@ table.details-table tr th {
 .justified {
     text-align: justify;
 }
-
+.logobar {
+    text-align: center;
+    margin: 30px 0 20px 0;
+}
 .page_title {
     color: #336;
     font-weight: bold;
