@@ -74,16 +74,4 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
         $link = preg_replace($pattern, $replacement, trim($linkText, "#"));
         return $link;
     }
-
-    public function textDecoration($text)
-    {
-        $translator = Zend_Registry::get('Zend_Translate');
-        $find = array(
-            '[new]'
-        );
-        $replace = array(
-            '<span class="new">' . $translator->translate('NEW'). '</span>'
-        );
-        return str_replace($find, $replace, $text);
-    }
 }

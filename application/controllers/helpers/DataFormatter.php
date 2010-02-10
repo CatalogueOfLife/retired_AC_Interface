@@ -127,7 +127,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $row['accepted_species_author']
         );
         // Enclose values between double quotes
-        foreach($row as &$r) {
+        foreach ($row as &$r) {
             $r = '"' . str_replace('"', '\"', $r) . '"';
         }
         return $row;
@@ -228,13 +228,15 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         if (!$speciesDetails->scrutinyDate &&
             !$speciesDetails->specialistName) {
             $speciesDetails->latestScrutiny = $textDecorator->getEmptyField();
-        }
-        else {
+        } else {
             $speciesDetails->latestScrutiny = trim(trim(
-                implode(', ', array(
-                    $speciesDetails->specialistName,
-                    $speciesDetails->scrutinyDate
-                )), ',')
+                implode(
+                    ', ',
+                    array(
+                        $speciesDetails->specialistName,
+                        $speciesDetails->scrutinyDate
+                    )
+                ), ',')
             );
         }
         if (!$speciesDetails->lsid) {
@@ -270,14 +272,13 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             );
         
         // raw links text
-        $links = explode(';',$dbDetails['web_site']);
+        $links = explode(';', $dbDetails['web_site']);
         unset($dbDetails['web_site']);
         $dbDetails['web_link'] = $links[0];
         // formatted link
-        foreach($links as $link)
-        {
-        $dbDetails['web_sites'][] = $this->getActionController()
-            ->getHelper('TextDecorator')->createLink($link);
+        foreach ($links as $link) {
+            $dbDetails['web_sites'][] = $this->getActionController()
+                ->getHelper('TextDecorator')->createLink($link);
         }
         return $dbDetails;
     }
@@ -293,7 +294,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     public function getReferencesLabel($numReferences, $name = null)
     {
         $translator = Zend_Registry::get('Zend_Translate');
-        switch($numReferences) {
+        switch ($numReferences) {
             case 0:
                 $label = is_null($name) ?
                     $translator->translate('No_references_found') :
@@ -364,8 +365,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     $prefix = '';
                     $suffix = '';
                     $foundItem[0] = '';
-                    foreach($ignoreItems as $item)
-                    {
+                    foreach($ignoreItems as $item) {
                         if(preg_match('#' . $item . '#',$trimmedRank) == true) {
                             preg_match(
                                 '#' . $item . '#', $trimmedRank, $foundItem
@@ -378,12 +378,12 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                             '#' . $item . '#','',$trimmedRank
                         );
                     }
-                    // Work around for 'new' span, it should be [new]
-                    // for consistency
-                    $prefix = ($prefix == '(NEW!) ' ?
-                        '<span class="new">NEW!</span> ' : $prefix);
-                    $suffix = ($suffix == ' (NEW!)' ?
-                        ' <span class="new">NEW!</span>' : $suffix);
+                    $t = Zend_Registry::get('Zend_Translate');
+                    $new = '<span class="new">' . $t->translate('NEW') .
+                        '</span>';
+                    
+                    $prefix = $prefix == '(NEW!) ' ? $new : $prefix;
+                    $suffix = $suffix == ' (NEW!)' ? $new : $suffix;
                     $trimmedRank = trim($trimmedRank);
                     $output .= (!strstr($trimmedRank, ' ') ?
                         $prefix . '<a href="' .
@@ -411,8 +411,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     {
         $nameArray = $this->splitByMarkers($name);
         $name = '';
-        foreach($nameArray as $n)
-        {
+        foreach ($nameArray as $n) {
             $name .= $n[1] ?
                 ' <span class="marker">' . $n[0] . '</span> ' :
                 ' ' . $n[0] . ' ';
@@ -422,14 +421,14 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     
     protected function _addAcceptedName(array &$row)
     {
-        if(!$row['accepted_species_id']) {
+        if (!$row['accepted_species_id']) {
             $row = array_merge(
                 $row,
                 $this->getActionController()->getHelper('Query')
                      ->getAcceptedSpecies($row['accepted_name_code'])
             );
         }
-        if($row['is_accepted_name']) {
+        if ($row['is_accepted_name']) {
             $row['id'] = $row['accepted_species_id'];
         }
     }
