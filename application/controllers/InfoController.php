@@ -13,6 +13,12 @@ require_once 'AController.php';
  */
 class InfoController extends AController
 {
+    public function init() {
+        parent::init();
+        $info = new ACI_Model_Info($this->_db);
+        $this->view->stats = $info->getStatistics();
+    }
+    
     public function aboutAction ()
     {
         $this->view->title = $this->view->translate('Info_about');
@@ -27,8 +33,6 @@ class InfoController extends AController
                 $this->view->translate('Info_annual_checklist'),
                 $this->view->app->edition
             );
-        $info = new ACI_Model_Info($this->_db);
-        $this->view->stats = $info->getStatistics();
         $this->view->headTitle($this->view->title, 'APPEND');
         $this->_setNavigator();
     }
@@ -75,8 +79,6 @@ class InfoController extends AController
                 ->formatDatabaseDetails($row);
         }
         $this->view->results = $results;
-        $info = new ACI_Model_Info($this->_db);
-        $this->view->stats = $info->getStatistics();
         $this->_setNavigator();
     }
     

@@ -22,33 +22,35 @@ echo $this->navigator_top;
 <p class="field_header">The Species 2000 &amp; ITIS Catalogue of Life</p>
 <p>The Species 2000 &amp; ITIS Catalogue of Life is planned to become a
 comprehensive catalogue of all known species of organisms on Earth.
-Rapid progress has been made recently and this, the ninth edition of the
-Annual Checklist, contains [b]1,160,711[/b] species. Please note that
-this is probably just more than half of the world's known species. This
-means that for many groups it continues to be deficient, and users will
-notice that many species are still missing from the Catalogue.</p>
-<p>The present Catalogue is compiled with sectors provided by 66
-taxonomic databases from around the world. Many of these contain
-taxonomic data and opinions from extensive networks of specialists, so
-that the complete work contains contributions from more than 3,000
-specialists from throughout the taxonomic profession. Species 2000 and
+Rapid progress has been made recently and this, the tenth edition of the
+Annual Checklist, contains <b><?php echo $this->stats['species']; ?></b>
+species. Please note that this is probably just about 2/3 of the world's
+known species. This means that for many groups it continues to be deficient,
+and users will notice that many species are still missing from the Catalogue.</p>
+<p>The present Catalogue is compiled with sectors provided by
+<?php echo $this->stats['databases']; ?> taxonomic databases from around the
+world. Many of these contain taxonomic data and opinions from extensive networks
+of specialists, so that the complete work contains contributions from more than
+3,000 specialists from throughout the taxonomic profession. Species 2000 and
 ITIS teams peer review databases, select appropriate sectors and
 integrate the sectors into a single coherent catalogue with a single
 hierarchical classification. It is planned to introduce alternative
 taxonomic treatments and alternative classifications, but an important
 feature is that for those users who wish to use it, a single preferred
 catalogue, based on peer reviews, will continue to be provided.</p>
+
 <p>The Catalogue is published as two products:</p>
-<p>&#8226; <b>Species 2000 &amp; ITIS Catalogue of Life: <?php echo $this->app->edition; ?> Annual
-Checklist</b><br />
+<p>&#8226; <b>Species 2000 &amp; ITIS Catalogue of Life:
+<?php echo $this->app->edition; ?> Annual Checklist</b><br />
 The Annual Checklist is published each year as a fixed edition that can
 be cited and used as a common catalogue for comparative purposes by many
-organisations. A copy is on the CD-ROM, which is distributed free of
+organisations. A copy is on the DVD, which is distributed free of
 charge, and an identical copy is on the website at <a
     href="<?php echo $this->app->location; ?>">
 <?php echo $this->app->location; ?></a>. Archived earlier
 editions are also available on the website. This is the preferred
 edition for public usage during 2010-2011.</p>
+
 <p>&#8226; <b>Species 2000 &amp; ITIS Catalogue of Life: Dynamic
 Checklist</b><br />
 The Dynamic Checklist is a virtual catalogue operated on the Internet
@@ -66,13 +68,14 @@ frequently than in the Annual Checklist and (ii) the Dynamic Checklist
 contains additional regional species checklists (such as the Regional
 Checklist - Europe, effectively a Pan-European Species Checklist) not
 included in the Annual Checklist. Regional Checklists for N America,
-China, Australia and New Zealand are in preparation for linkage during
-2009 and 2010 as part of the Catalogue of Life Regional Hub Network.</p>
+China, Australia and New Zealand are in preparation for linkage in the future
+as part of the Catalogue of Life Regional Hub Network.</p>
+
 <p><b>The Catalogue of Life partnership</b> <br />
 In June 2001 the Species 2000 and ITIS organisations, that had
 previously worked separately, decided to work together to create the
-Catalogue of Life with its estimated 1.75 million species. The two
-organisations remain separate and different in structure. However, by
+Catalogue of Life with its estimated 1.9 million species (Chapman, 2009).
+The two organisations remain separate and different in structure. However, by
 working together in creating a common product, the partnership has
 enabled them to reduce duplication of effort, make better use of
 resources, and to accelerate production. The combined Annual Checklist
@@ -84,24 +87,23 @@ CBD.</p>
 <p><b>About ITIS</b><br />
 <a href="http://www.itis.gov/" target="_blank" title="ITIS"><img
     class="right-align"
-    src="<?php
-    echo $this->baseUrl();
-    ?>/images/ITIS.gif"
+    src="<?php echo $this->baseUrl(); ?>/images/ITIS.gif"
     width="161" height="80"></a> The Integrated
 Taxonomic Information System (ITIS) is a partnership of federal agencies
-and other organisations from the United States , Canada , and Mexico ,
+and other organisations from the United States, Canada, and Mexico,
 with data stewards and experts from around the world (see <a
-    href="http://www.itis.gov">www.itis.gov</a>). The ITIS database is
+    href="http://www.itis.gov">http://www.itis.gov</a>). The ITIS database is
 an automated reference of scientific and common names of biota of
-interest to North America . It contains more than 591,000 scientific and
+interest to North America . It contains more than 596,000 scientific and
 common names in all kingdoms, and is accessible via the World Wide Web
 in English, French, Spanish, and Portuguese (<a
-    href="http://itis.gbif.net">itis.gbif.net</a>). ITIS is part of the
+    href="http://itis.gbif.net">http://itis.gbif.net</a>). ITIS is part of the
 US National Biological Information Infrastructure (<a
-    href="http://www.nbii.gov">www.nbii.gov</a>) and an associate member
+    href="http://www.nbii.gov">http://www.nbii.gov</a>) and an associate member
 of GBIF</p>
-<p>ITIS is managed by Thomas Orrell (Acting Director), Michael Ruggiero
-(Senior Scientific Advisor), David Nicolson (Data Development Leader),
+<p>ITIS is managed by Gerald Guala (Director), Thomas Orrell (Deputy Director),
+Michael Ruggiero (Senior Scientific Advisor),
+David Nicolson (Data Development Leader),
 Mike Frame (Information Technology Leader), Roy McDiarmid (Taxonomy
 Leader), Guy Baillargeon (ITIS-Canada Director), and Patricia Koleff
 (SIIT-Mexico Director). They are advised and supported by the ITIS
@@ -114,7 +116,7 @@ Steering Committee and ITIS Data Stewards.</p>
     echo $this->baseUrl();
     ?>/images/sp2000_small.gif"
     width="142" height="62"></a>
-Species 2000 (<a href="http://www.sp2000.org">www.sp2000.org</a>) is an
+Species 2000 (<a href="http://www.sp2000.org">http://www.sp2000.org</a>) is an
 autonomous federation of taxonomic database custodians, involving
 taxonomists throughout the world. Its goal is to collate a uniform and
 validated index to the world's known species. It is a not-for-profit
@@ -123,13 +125,13 @@ six directors and taxonomic database organisations from around the world
 as members. It is sponsored by CODATA, IUBS and IUMS; is an associate
 participant in GBIF; and is recognised by UNEP and the CBD. There are
 two regional programmes: Species 2000 europa (<a
-    href="http://www.sp2000europa.org">sp2000europa.org</a>), working
+    href="http://www.sp2000europa.org">http://sp2000europa.org</a>), working
 with global and regional databases based in Europe and Species 2000
-Asia-Oceania (<a href="http://www.sp2000ao.nies.go.jp">www.sp2000ao.nies.go.jp</a>)
+Asia-Oceania (<a href="http://www.sp2000ao.nies.go.jp">http://www.sp2000ao.nies.go.jp</a>)
 working to promote taxonomy and taxonomic databasing in that region. The
 Phase II Programme is establishing a number of regional/national hubs of
 which the European Hub, the Species 2000 China Node (<a
-    href="http://www.sp2000.cn">www.sp2000.cn</a>), the Brazilian Hub
+    href="http://www.sp2000.cn">http://www.sp2000.cn</a>), the Brazilian Hub
 (El Catalogo da Vida Brazil) and the N America Hub are the first to
 appear.</p>
 <p>The Species 2000 scientific programme is led by its Team: Guy
@@ -137,9 +139,7 @@ Baillargeon (Canada), Frank Bisby (UK), Thierry Bourgoin (France), Jerry
 Cooper (New Zealand), Dennis Gordon (New Zealand), Keping Ma (China),
 Luciane Marinoni (Brazil), Michael A Ruggiero (USA), Nicolas Bailly
 (Philippines), Edward Vanden Berghe (Belgium), Richard J White (UK),
-Karen L Wilson (Australia), with further assistance from the Species
-2000 europa Steering Group, the Species 2000 Asia-Oceania Group and the
-Species 2000 China Node.</p>
+Karen L Wilson (Australia), with further assistance from the Regional Hubs.</p>
 </div>
 <?php
 echo $this->navigator_bottom;
