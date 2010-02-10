@@ -379,11 +379,12 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                         );
                     }
                     $t = Zend_Registry::get('Zend_Translate');
-                    $new = '<span class="new">' . $t->translate('NEW') .
+                    $new = ' <span class="new">' . $t->translate('NEW') .
                         '</span>';
-                    
-                    $prefix = $prefix == '(NEW!) ' ? $new : $prefix;
-                    $suffix = $suffix == ' (NEW!)' ? $new : $suffix;
+                    $prefix = strcasecmp('(NEW!) ', $prefix) === 0 ?
+                        $new : $prefix;
+                    $suffix = strcasecmp(' (NEW!)', $suffix) === 0 ?
+                        $new : $suffix;
                     $trimmedRank = trim($trimmedRank);
                     $output .= (!strstr($trimmedRank, ' ') ?
                         $prefix . '<a href="' .
