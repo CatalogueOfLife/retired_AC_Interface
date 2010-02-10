@@ -26,6 +26,17 @@ class InfoController extends AController
         $this->_setNavigator();
     }
     
+    public function specialAction ()
+    {
+        $this->view->title =
+            sprintf(
+                $this->view->translate('Info_special_edition'),
+                $this->view->app->edition
+            );
+        $this->view->headTitle($this->view->title, 'APPEND');
+        $this->_setNavigator();
+    }
+    
     public function acAction ()
     {
         $this->view->title =

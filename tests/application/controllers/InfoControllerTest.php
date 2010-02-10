@@ -43,56 +43,63 @@ class InfoControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
     {
         $this->dispatch('/info/about');
         $this->assertController('info');
-        $this->assertAction('about'); 
+        $this->assertAction('about');
+    }
+    
+    public function testSpecialAction()
+    {
+        $this->dispatch('/info/special');
+        $this->assertController('info');
+        $this->assertAction('special');
     }
     
     public function testACAction()
     {
         $this->dispatch('/info/ac');
         $this->assertController('info');
-        $this->assertAction('ac'); 
+        $this->assertAction('ac');
     }
     
     public function testDatabasesAction()
     {
         $this->dispatch('/info/databases');
         $this->assertController('info');
-        $this->assertAction('databases'); 
+        $this->assertAction('databases');
     }
     
     public function testHierarchyAction()
     {
         $this->dispatch('/info/hierarchy');
         $this->assertController('info');
-        $this->assertAction('hierarchy'); 
+        $this->assertAction('hierarchy');
     }
     
     public function testCopyrightAction()
     {
         $this->dispatch('/info/copyright');
         $this->assertController('info');
-        $this->assertAction('copyright'); 
+        $this->assertAction('copyright');
     }
     
     public function testCiteAction()
     {
         $this->dispatch('/info/cite');
         $this->assertController('info');
-        $this->assertAction('cite'); 
+        $this->assertAction('cite');
     }
     
     public function testWebsitesAction()
     {
         $this->dispatch('/info/websites');
         $this->assertController('info');
-        $this->assertAction('websites'); 
+        $this->assertAction('websites');
     }
     
     public function testContactAction()
     {
         $this->dispatch('/info/contact');
         $this->assertController('info');
-        $this->assertAction('contact'); 
+        $this->assertAction('contact');
     }
     
     public function testAcknowledgementsAction()

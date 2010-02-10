@@ -101,6 +101,10 @@
               <li class="<?php echo $this->action == 'about' ?
                 'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/about">
                   <?php echo $this->translate('Info_about'); ?></a></li>
+              <li class="<?php echo $this->action == 'special' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/special">
+                  <?php printf($this->translate('Info_special_edition'),
+                      $this->app->edition); ?></a></li>
               <li class="<?php echo $this->action == 'ac' ?
                 'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/ac">
                   <?php printf($this->translate('Info_annual_checklist'),

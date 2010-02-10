@@ -163,6 +163,10 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
             ->addMultiOptions(
                 array(
                     'about' => $this->_ac->view->translate('Info_about'),
+                    'special' => sprintf(
+                        $this->_ac->view->translate('Info_special_edition'),
+                        $this->_ac->view->app->edition
+                    ),
                     'ac' => sprintf(
                         $this->_ac->view->translate('Info_annual_checklist'),
                         $this->_ac->view->app->edition

@@ -609,9 +609,10 @@ form fieldset#fieldset-hidden {
     float: left;
 }
 .info_content {
-    margin: 15px 0;
+    margin: 10px 0;
     padding: 10px 0;
     border-bottom: 1px solid #336;
+    text-align: justify;
 }
 .info_content p {
     margin: 10px 0;
