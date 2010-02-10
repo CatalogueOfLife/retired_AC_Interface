@@ -327,72 +327,105 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     }
     
     public function getTaxonLinksInDatabaseDetailsPage($taxonCoverage)
-    {
+    {   
         $ignoreItems = array (
-            '\(.*\)', //Ignore everything within perantasis ()
-            '^.*\:', //Ignore everything before the column :
-            'superfamily',
+            '\(.*\)', // Ignore everything within parenthesis ()
+            '^.*\:', // Ignore everything before the colon :
+            'superfamily',            
             'superfamilies',
-            'family',
+            '^family',
             'genera',
-            'genus',
-            'NA', //Not Available, it shouldn't show a link
+            '^genus',
+            'NA', // Not Available, it shouldn't show a link
             'pro parte'
         );
+        
         $firstKingdom = true;
-        $output = '';
-        $splitByKingdom = explode(';', $taxonCoverage);
+        $output = '';        
+        $splitByKingdom = explode(';', $taxonCoverage);        
+        // iterate each taxonomic hierarchy
         foreach ($splitByKingdom as $kingdom) {
             $firstRank = true;
             if ($firstKingdom == true) {
                 $firstKingdom = false;
             } else {
-                $output .= ';<br />';
+                // break line after each hierarchy
+                $output .= '<br />';
             }
-            $splitByRank = explode('-', $kingdom);
+            
+            $topLevelGroup = '';
+            $splitByRank = explode('-', $kingdom);            
+            // iterate each definition in the hierarchy
             foreach ($splitByRank as $rank) {
                 if ($firstRank == true) {
                     $firstRank = false;
+                    $topLevelGroup = trim($rank);                 
                 } else {
+                    // dash separator for each definition
                     $output .= ' - ';
                 }
-                $firstSameRank = true;
+                
+                $firstSameRank = true;                
                 $splitBySameRank = preg_split('#[,&]#', $rank);
-                foreach ($splitBySameRank as $sameRank) {
-                    ($firstSameRank == true ?
-                        $firstSameRank = false : $output .= ', ');
+                // iterate each string splitted by comma and ampersand
+                foreach ($splitBySameRank as $sameRank) {                   
+                    if ($firstSameRank == true) {
+                        $firstSameRank = false;
+                    } else {
+                        // comma separator for each part
+                        $output .= ', ';
+                    }
                     $trimmedRank = $sameRank;
                     $prefix = '';
                     $suffix = '';
                     $foundItem[0] = '';
-                    foreach($ignoreItems as $item) {
-                        if(preg_match('#' . $item . '#',$trimmedRank) == true) {
+                    
+                    // iterate ignored items
+                    foreach ($ignoreItems as $item) {
+                        if (preg_match('#' . $item . '#', $trimmedRank) == true) {
                             preg_match(
                                 '#' . $item . '#', $trimmedRank, $foundItem
                             );
-                            (strpos($trimmedRank,$foundItem[0]) < 2  ?
+                            strpos($trimmedRank, $foundItem[0]) < 2  ?
                                 $prefix = $foundItem[0] . ' ' :
-                                $suffix = ' ' . $foundItem[0]);
-                        }
+                                $suffix = ' ' . $foundItem[0];
+                        }                        
                         $trimmedRank = preg_replace(
-                            '#' . $item . '#','',$trimmedRank
+                            '#' . $item . '#', '', $trimmedRank
                         );
                     }
+                    
                     $t = Zend_Registry::get('Zend_Translate');
                     $new = ' <span class="new">' . $t->translate('NEW') .
-                        '</span>';
-                    $prefix = strcasecmp('(NEW!) ', $prefix) === 0 ?
-                        $new : $prefix;
-                    $suffix = strcasecmp(' (NEW!)', $suffix) === 0 ?
-                        $new : $suffix;
-                    $trimmedRank = trim($trimmedRank);
-                    $output .= (!strstr($trimmedRank, ' ') ?
-                        $prefix . '<a href="' .
-                        $this->getFrontController()->getBaseUrl() .
-                        '/browse/classification/name/' . $trimmedRank . '">' .
-                        $trimmedRank . '</a>' . $suffix :
-                        $trimmedRank
+                        '</span> ';
+                    $updated = ' <span class="new">' . 
+                        $t->translate('UPDATED') . '</span> ';
+                        
+                    $prefix = strcasecmp('(NEW!) ', $prefix) === 0 ? $new : (
+                        strcasecmp('(UPDATED!) ', $prefix) === 0 ? 
+                        $updated : $prefix
                     );
+                    $suffix = strcasecmp(' (NEW!)', $suffix) === 0 ? $new : (
+                        strcasecmp(' (UPDATED!)', $suffix) === 0 ?
+                        $updated : $suffix
+                    );
+                    
+                    $trimmedRank = trim($trimmedRank);
+                    
+                    if(strstr($trimmedRank, ' ')) {
+                        $output .= $trimmedRank;
+                    }
+                    else {
+                        // link to taxonomic browser
+                        $link = $this->getFrontController()->getBaseUrl() .
+                            '/browse/classification/name/' . $trimmedRank;
+                            if($topLevelGroup != $trimmedRank) {
+                                $link .= '/kingdom/' . $topLevelGroup;
+                            }
+                        $output .= $prefix . '<a href="' . $link . '">' .
+                            $trimmedRank . '</a>' . $suffix; 
+                            
+                    }
                 }
             }
         }

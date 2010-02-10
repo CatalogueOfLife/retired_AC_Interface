@@ -91,7 +91,9 @@ class BrowseController extends AController
         // Prefill form fields from request
         $name = $this->_getParam('name', false);
         if ($name) {
-           $this->_setParamForTaxa($this->_getParam('name'));
+           $this->_setParamForTaxa(
+               $this->_getParam('name'), $this->_getParam('kingdom')
+           );
         }
         $this->view->title = $this->view
             ->translate('Browse_taxonomic_classification');
@@ -134,23 +136,27 @@ class BrowseController extends AController
         }
     }
     
-    private function _setParamForTaxa($name)
+    protected function _setParamForTaxa($name, $kingdom)
     {
         $select = new ACI_Model_Search($this->_db);
-        $recordId = $select->getRecordIdFromName($name);
-        if ($recordId) {
-            $hierarchy = $this->_getHierarchy($recordId[0]['id']);
-        }
-        if (isset($hierarchy) && is_array($hierarchy)) {
-            foreach ($hierarchy as $rank) {
-                if ($rank != 0) {
-                    $temp = $select->getRankAndNameFromRecordId($rank);
-                    $this->_setParam(
-                        strtolower($temp[0]['rank']), $temp[0]['name']
-                    );
+        $kingdomId = $select->getRecordIdFromName($kingdom);
+        $matches = $select->getRecordIdFromName($name);
+                
+        foreach ($matches as $match) {
+            $hierarchy = $this->_getHierarchy($match['id']);
+            if(is_array($hierarchy) && $kingdomId[0]['id'] == $hierarchy[1]) {
+                foreach ($hierarchy as $rank) {
+                    if ($rank != 0) {
+                        $temp = $select->getRankAndNameFromRecordId($rank);
+                        $this->_setParam(
+                            strtolower($temp[0]['rank']), $temp[0]['name']
+                        );
+                    }
                 }
+                return true;
             }
         }
+        return false;
     }
     
     /**
