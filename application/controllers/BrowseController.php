@@ -139,12 +139,16 @@ class BrowseController extends AController
     protected function _setParamForTaxa($name, $kingdom)
     {
         $select = new ACI_Model_Search($this->_db);
-        $kingdomId = $select->getRecordIdFromName($kingdom);
-        $matches = $select->getRecordIdFromName($name);
-                
-        foreach ($matches as $match) {
-            $hierarchy = $this->_getHierarchy($match['id']);
-            if(is_array($hierarchy) && $kingdomId[0]['id'] == $hierarchy[1]) {
+        $taxaRecords = $select->getRecordIdFromName($name);
+        $kingdomId = 0;
+        if($kingdom) {
+            $kingdomRecords = $select->getRecordIdFromName($kingdom);
+            $kingdomId = $kingdomRecords[0]['id'];
+        }
+        foreach ($taxaRecords as $taxaRecord) {
+            $hierarchy = $this->_getHierarchy($taxaRecord['id']);            
+            if(is_array($hierarchy) && (!$kingdomId || $kingdomId == $hierarchy[1])) {
+                // prefill the form with the hierarchy values
                 foreach ($hierarchy as $rank) {
                     if ($rank != 0) {
                         $temp = $select->getRankAndNameFromRecordId($rank);
