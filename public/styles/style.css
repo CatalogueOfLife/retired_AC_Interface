@@ -12,7 +12,7 @@ body, table, p, div, ul {
     font-size: 11px;
     color: #000;
 }
-table tr td, table tr th {    
+table tr td, table tr th {
     vertical-align: middle;
     padding: 6px;
     line-height: 16px;
@@ -240,6 +240,14 @@ table.details-table tr th {
 }
 .info_content blockquote {
     padding: 5px 30px;
+}
+.info_content p.iyb-slogan {    
+    color: #336;
+    font-size: 1.2em;
+    font-style: italics;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0 15px 0;
 }
 .justified {
     text-align: justify;
