@@ -243,7 +243,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $speciesDetails->lsid = $textDecorator->getEmptyField();
         }
         $speciesDetails->webSite =
-            $textDecorator->createLink($speciesDetails->webSite);
+            $textDecorator->createLink($speciesDetails->webSite, '_blank');
             
         $speciesDetails->preface = $preface;
         
@@ -278,7 +278,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         // formatted link
         foreach ($links as $link) {
             $dbDetails['web_sites'][] = $this->getActionController()
-                ->getHelper('TextDecorator')->createLink($link);
+                ->getHelper('TextDecorator')->createLink($link, '_blank');
         }
         return $dbDetails;
     }
@@ -327,11 +327,11 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     }
     
     public function getTaxonLinksInDatabaseDetailsPage($taxonCoverage)
-    {   
+    {
         $ignoreItems = array (
             '\(.*\)', // Ignore everything within parenthesis ()
             '^.*\:', // Ignore everything before the colon :
-            'superfamily',            
+            'superfamily',
             'superfamilies',
             '^family',
             'genera',
@@ -341,8 +341,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         );
         
         $firstKingdom = true;
-        $output = '';        
-        $splitByKingdom = explode(';', $taxonCoverage);        
+        $output = '';
+        $splitByKingdom = explode(';', $taxonCoverage);
         // iterate each taxonomic hierarchy
         foreach ($splitByKingdom as $kingdom) {
             $firstRank = true;
@@ -353,22 +353,20 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 $output .= '<br />';
             }
             
-            $topLevelGroup = '';
-            $splitByRank = explode('-', $kingdom);            
+            $splitByRank = explode('-', $kingdom);
             // iterate each definition in the hierarchy
             foreach ($splitByRank as $rank) {
                 if ($firstRank == true) {
                     $firstRank = false;
-                    $topLevelGroup = trim($rank);                 
                 } else {
                     // dash separator for each definition
                     $output .= ' - ';
                 }
                 
-                $firstSameRank = true;                
+                $firstSameRank = true;
                 $splitBySameRank = preg_split('#[,&]#', $rank);
                 // iterate each string splitted by comma and ampersand
-                foreach ($splitBySameRank as $sameRank) {                   
+                foreach ($splitBySameRank as $sameRank) {
                     if ($firstSameRank == true) {
                         $firstSameRank = false;
                     } else {
@@ -389,7 +387,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                             strpos($trimmedRank, $foundItem[0]) < 2  ?
                                 $prefix = $foundItem[0] . ' ' :
                                 $suffix = ' ' . $foundItem[0];
-                        }                        
+                        }
                         $trimmedRank = preg_replace(
                             '#' . $item . '#', '', $trimmedRank
                         );
@@ -398,11 +396,11 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     $t = Zend_Registry::get('Zend_Translate');
                     $new = ' <span class="new">' . $t->translate('NEW') .
                         '</span> ';
-                    $updated = ' <span class="new">' . 
+                    $updated = ' <span class="new">' .
                         $t->translate('UPDATED') . '</span> ';
                         
                     $prefix = strcasecmp('(NEW!) ', $prefix) === 0 ? $new : (
-                        strcasecmp('(UPDATED!) ', $prefix) === 0 ? 
+                        strcasecmp('(UPDATED!) ', $prefix) === 0 ?
                         $updated : $prefix
                     );
                     $suffix = strcasecmp(' (NEW!)', $suffix) === 0 ? $new : (
@@ -419,12 +417,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                         // link to taxonomic browser
                         $link = $this->getFrontController()->getBaseUrl() .
                             '/browse/classification/name/' . $trimmedRank;
-                            if($topLevelGroup != $trimmedRank) {
-                                $link .= '/kingdom/' . $topLevelGroup;
-                            }
                         $output .= $prefix . '<a href="' . $link . '">' .
-                            $trimmedRank . '</a>' . $suffix; 
-                            
+                            $trimmedRank . '</a>' . $suffix;
                     }
                 }
             }

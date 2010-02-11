@@ -906,6 +906,13 @@ class ACI_Model_Search extends AModel
         return $res;
     }
     
+    /**
+     * Gets the taxa rank and id of the given name
+     * Only accepted names are fetched
+     *
+     * @param string $name
+     * @return Zend_Db_Select
+     */
     public function getRecordIdFromName($name)
     {
         $select = new Zend_Db_Select($this->_db);
@@ -916,7 +923,8 @@ class ACI_Model_Search extends AModel
                 'rank' => 'tx.taxon'
             )
         )
-        ->where('tx.name = ?', $name);
+        ->where('tx.name = ?', $name)
+        ->where('tx.is_accepted_name = 1');
         return $select->query()->fetchAll();
     }
     

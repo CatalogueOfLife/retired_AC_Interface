@@ -91,9 +91,7 @@ class BrowseController extends AController
         // Prefill form fields from request
         $name = $this->_getParam('name', false);
         if ($name) {
-           $this->_setParamForTaxa(
-               $this->_getParam('name'), $this->_getParam('kingdom')
-           );
+           $this->_setParamForTaxa($name);
         }
         $this->view->title = $this->view
             ->translate('Browse_taxonomic_classification');
@@ -136,18 +134,20 @@ class BrowseController extends AController
         }
     }
     
-    protected function _setParamForTaxa($name, $kingdom)
+    /**
+     * Prefills the taxonomic browser form with the hierarchy of the given
+     * rank name
+     *
+     * @param string $name
+     */
+    protected function _setParamForTaxa($name)
     {
         $select = new ACI_Model_Search($this->_db);
         $taxaRecords = $select->getRecordIdFromName($name);
-        $kingdomId = 0;
-        if($kingdom) {
-            $kingdomRecords = $select->getRecordIdFromName($kingdom);
-            $kingdomId = $kingdomRecords[0]['id'];
-        }
-        foreach ($taxaRecords as $taxaRecord) {
-            $hierarchy = $this->_getHierarchy($taxaRecord['id']);            
-            if(is_array($hierarchy) && (!$kingdomId || $kingdomId == $hierarchy[1])) {
+        
+        if(!empty($taxaRecords)) {
+            $hierarchy = $this->_getHierarchy($taxaRecords[0]['id']);
+            if(is_array($hierarchy)) {
                 // prefill the form with the hierarchy values
                 foreach ($hierarchy as $rank) {
                     if ($rank != 0) {
@@ -157,10 +157,8 @@ class BrowseController extends AController
                         );
                     }
                 }
-                return true;
             }
         }
-        return false;
     }
     
     /**
