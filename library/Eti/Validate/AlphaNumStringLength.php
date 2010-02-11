@@ -1,4 +1,15 @@
 <?php
+/**
+ * Annual Checklist Interface
+ *
+ * Class Eti_Validate_AlphaNumStringLength
+ * Validates a string with a delimited length containing alphanumeric
+ * characters only
+ *
+ * @category    Eti
+ * @package     Eti_Validate
+ *
+ */
 class Eti_Validate_AlphaNumStringLength extends Zend_Validate_StringLength
 {
     public function isValid ($value)

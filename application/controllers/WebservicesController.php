@@ -12,50 +12,34 @@ require_once 'AController.php';
  *
  */
 class WebservicesController extends AController
-{
-    protected $_dom;
-    
-    public function init() {
-        $this->_setContext();
-        $this->_dom = new DOMDocument('1.0', $this->view->encoding);
+{  
+    public function init()
+    {
+        parent::init();
+        $contextSwitch = $this->_helper->getHelper('contextSwitch');
+        $contextSwitch->addActionContext('query', 'xml');
     }
     
     public function queryAction ()
     {
-        $results = $this->_dom->createElement('results');
-        $results->setAttribute('id', null);
-        $results->setAttribute('name', null);
-        $results->setAttribute('total_number_of_results', 0);
-        $results->setAttribute('start', 0);
-        $results->setAttribute('number_of_results_returned', 0);
-        $results->setAttribute('error_message', 'No name or ID given');
-        $results->setAttribute('version', '1.0');
-        $this->_dom->appendChild($results);
-        $this->_sendResponse();
-    }
-    
-    protected function _sendResponse()
-    {
-        $this->view->response = $this->_dom->saveXML();
-    }
-    
-    protected function _setContext()
-    {
-        $contextSwitch = $this->_helper->getHelper('contextSwitch');
-        $contextSwitch->addActionContext('query', 'xml')
-            ->addActionContext('query', 'json');
-        switch($this->getRequest()->getParam('format')) {
-            case 'xml':
-            case 'json':
-                break;
+        switch($this->_getParam('format')) {
             case 'php':
-                $this->getRequest()->setParam('format', 'json');
+                $this->view->layout()->disableLayout();
+                $filter = new Eti_Filter_Serialize();
                 break;
             default:
-                // default context
+                // default context and output filter (XML)
                 $this->getRequest()->setParam('format', 'xml');
+                $contextSwitch = $this->_helper->getHelper('contextSwitch');
+                $contextSwitch->initContext();
+                $filter = new Eti_Filter_ArrayToXml();
+                $filter->setEncoding($this->view->encoding)->setRoot('results');
         }
-        $contextSwitch->initContext();
+        
+        $wsModel = new ACI_Model_Webservice($this->_db);
+        $wsModel->setFilter($filter);
+        $res = $wsModel->query($this->getRequest());
+        $this->view->response = $res;
     }
     
     public function __call ($name, $arguments)
