@@ -64,13 +64,13 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
         return "<span class=\"disabledLabel\">" . $label . "</span>";
     }
     
-    public function createLink($linkText)
+    public function createLink($linkText, $target = '_self')
     {
         if(!$linkText) {
             return self::EMPTY_FIELD;
         }
         $pattern = '#(^[^ \(\)]*\b)(.*)#';
-        $replacement ='<a href="$1">$1</a>$2';
+        $replacement ='<a href="$1" target="' . $target . '">$1</a>$2';
         $link = preg_replace($pattern, $replacement, trim($linkText, "#"));
         return $link;
     }
