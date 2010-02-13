@@ -67,4 +67,53 @@ class WebservicesControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
             ), array()
         );
     }
+    
+    public function testNameAndIdGivenIsError()
+    {  
+        $this->dispatch('/webservices/?id=1&name=Animalia');
+        $this->assertXpath("//results[@id = '1']");
+        $this->assertXpath("//results[@name = 'Animalia']");
+        $this->assertXpath(
+            "//results[@error_message = " . 
+            "'Both name and ID are given. Give either a name or an ID']"
+        );
+    }
+    
+    public function testNameTooShortIsError()
+    {  
+        $this->dispatch('/webservices/?name=xx*');      
+        $this->assertXpath(
+            "//results[@error_message = " . 
+            "'Invalid name given. The name given must consist of at least 3 " . 
+            "characters, not counting wildcards (*)']"
+        );
+    }
+    
+    public function testStringIdIsError()
+    {  
+        $this->dispatch('/webservices/?id=foo');      
+        $this->assertXpath(
+            "//results[@error_message = " . 
+            "'Invalid ID given. The ID must be a positive integer']"
+        );
+    }
+    
+    public function testNegativeIdIsError()
+    {  
+        $this->dispatch('/webservices/?id=-1');      
+        $this->assertXpath(
+            "//results[@error_message = " . 
+            "'Invalid ID given. The ID must be a positive integer']"
+        );
+    }
+    
+    public function testInvalidResponseFormat()
+    {  
+        $invalidResponseFormat = 'xxx';
+        $this->dispatch('/webservices/?id=1&response=' . $invalidResponseFormat);      
+        $this->assertXpath(
+            "//results[@error_message = " . 
+            "'Unknown response format: " . $invalidResponseFormat . "']"
+        );
+    }
 }
