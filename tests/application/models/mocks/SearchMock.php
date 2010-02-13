@@ -32,15 +32,15 @@ class ACI_Model_SearchMock extends ACI_Model_Search
         return parent::_getSortParams($action);
     }
     
-    public function wildcardHandling($searchString)
+    public static function wildcardHandling($searchString)
     {
-        return $this->_wildcardHandling($searchString);
+        return parent::wildcardHandling($searchString);
     }
     
-    public function wildcardHandlingInRegExp($searchString,
+    public static function wildcardHandlingInRegExp($searchString,
         $matchWholeWords = true)
     {
-        return $this->_wildcardHandlingInRegExp(
+        return parent::wildcardHandlingInRegExp(
             $searchString, $matchWholeWords
         );  
     }

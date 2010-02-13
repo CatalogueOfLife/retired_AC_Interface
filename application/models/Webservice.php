@@ -53,7 +53,9 @@ class ACI_Model_Webservice extends AModel
     {
         $this->_response['id'] = $request->getParam('id', '');
         $this->_response['name'] = 
-            str_replace('*', '%' , (string)$request->getParam('name', ''));
+            str_replace('%', '*' , (string)$request->getParam('name', ''));
+        $this->_response['start'] = (int)$request->getParam('start');
+        
         $responseFormat = $request->getParam(
             'response', current(array_keys($this->_responseFormats))
         );
@@ -61,7 +63,7 @@ class ACI_Model_Webservice extends AModel
         $this->_logger->debug($this->_response);   
          
         // providing with *either* id or name params is required
-        if(empty($this->_response['id']) && empty($this->_response['name'])) {
+        if($this->_response['id'] == '' && $this->_response['name'] == '') {
             throw new ACI_Model_Webservice_Exception('No name or ID given');
         }
         if($this->_response['id'] && $this->_response['name']) {
@@ -71,7 +73,7 @@ class ACI_Model_Webservice extends AModel
         }
         // if the parameter name is given, it must be at least 3 characters
         // long, excluding wildcards (*, %)
-        $tooShortName = strlen(str_replace('%', '', $this->_response['name'])) 
+        $tooShortName = strlen(str_replace('*', '', $this->_response['name'])) 
             < self::REQUEST_NAME_MIN_STRLEN;
         if($this->_response['name'] && $tooShortName) {
             throw new ACI_Model_Webservice_Exception(
@@ -81,8 +83,8 @@ class ACI_Model_Webservice extends AModel
             );
         }
         // id must be a valid positive integer
-        $positiveIntId = Zend_Validate::is($this->_response['id'], 'Int') &&
-            $this->_response['id'] >= 0;        
+        $positiveIntId = Zend_Validate::is($this->_response['id'], 'Digits') && 
+            $this->_response['id'] >= 0;
         if($this->_response['id'] != '' && !$positiveIntId) {
             throw new ACI_Model_Webservice_Exception(
                 'Invalid ID given. The ID must be a positive integer'
@@ -100,13 +102,26 @@ class ACI_Model_Webservice extends AModel
         $request->setParam('id', $this->_response['id']);
         $request->setParam('name', $this->_response['name']);
         $request->setParam('response', $responseFormat);
+        $request->setParam('start', $this->_response['start']);
         
         return $request;
     }
     
     protected function _process(Zend_Controller_Request_Abstract $request)
     {
-        
+        $wsSearch = new ACI_Model_WebserviceSearch($this->_db);
+        $res = $wsSearch->taxa(
+            $request->getParam('id'), 
+            $request->getParam('name'),
+            $request->getParam('start'),
+            $this->_responseFormats[$request->getParam('response')]
+        );
+        $numRows = count($res);        
+        if($numRows == 0) {
+            throw new ACI_Model_Webservice_Exception('No names found');
+        }
+        $this->_response['number_of_results_returned'] = $numRows;
+        $this->_response['total_number_of_results'] = $wsSearch->getFoundRows();
     }
     
     public function setFilter(Zend_Filter_Interface $filter)

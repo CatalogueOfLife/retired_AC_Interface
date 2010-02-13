@@ -5,6 +5,7 @@
  * Class Eti_Db_Select
  * Extends the Zend_Db_Select to fix a bug in the _join function when
  * modifying an instance
+ * It also adds support for MySQL's SQL_CALC_FOUND_ROWS and FOUND_ROWS() 
  *
  * @category    Eti
  * @package     Eti_Db
@@ -12,6 +13,34 @@
  */
 class Eti_Db_Select extends Zend_Db_Select
 {
+    const SQL_CALC_FOUND_ROWS = 'sqlCalcFoundRows';
+
+    public function __construct(Zend_Db_Adapter_Abstract $adapter)
+    {
+        self::$_partsInit = array_merge(
+            array(
+            self::SQL_CALC_FOUND_ROWS => false
+            ),
+            self::$_partsInit
+        );
+        parent::__construct($adapter);
+    }
+
+    public function sqlCalcFoundRows($flag = true)
+    {
+        $this->_parts[self::SQL_CALC_FOUND_ROWS] = (bool)$flag;
+        return $this;
+    }
+    
+    protected function _renderSqlCalcFoundRows($sql)
+    {
+        if ($this->_parts[self::SQL_CALC_FOUND_ROWS]) {
+            $sql .= ' SQL_CALC_FOUND_ROWS';
+        }
+
+        return $sql;
+    }
+    
     /**
      * Populate the {@link $_parts} 'join' key
      *

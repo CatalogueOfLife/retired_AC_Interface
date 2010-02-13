@@ -23,6 +23,7 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
      */
     protected $_encoding = 'UTF-8';
     protected $_root = 'response';
+    protected $_dom;
 
     /**
      * Set the input encoding for the given string
@@ -54,12 +55,25 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
         if(!is_array($value)) {
             throw new Zend_Filter_Exception('Given value is not an array');
         }
-        $dom = new DOMDocument('1.0', $this->_encoding);
-        $xml = $dom->createElement($this->_root);
-        foreach($value as $k => $v) {
-            $xml->setAttribute($k, $v);
+        $this->_dom = new DOMDocument('1.0', $this->_encoding);        
+        $xml = $this->_dom->createElement($this->_root);
+        $xml = $this->_arrayKeysToAttributes($xml, $value);       
+        $this->_dom->appendChild($xml);
+        return $this->_dom->saveXML();
+    }
+    
+    protected function _arrayKeysToAttributes(DOMElement $xml, array $array)
+    {
+        foreach($array as $k => $v) {
+            if(is_array($v)) {
+                $el = $this->_dom->createElement($k);
+                $el = $this->_arrayKeysToAttributes($el, $v);
+                $xml->appendChild($el);
+            }
+            else {
+                $xml->setAttribute($k, $v);
+            }
         }
-        $dom->appendChild($xml);
-        return $dom->saveXML();
+        return $xml;       
     }
 }

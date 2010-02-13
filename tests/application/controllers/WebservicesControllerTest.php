@@ -116,4 +116,13 @@ class WebservicesControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
             "'Unknown response format: " . $invalidResponseFormat . "']"
         );
     }
+    
+    public function testNoNamesFound()
+    {
+        $this->dispatch('/webservices/?name=nonexistantname');  
+        $this->assertXpath(
+            "//results[@error_message = " . 
+            "'No names found']"
+        );
+    }
 }

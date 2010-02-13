@@ -156,7 +156,7 @@ class ACI_Model_Search extends AModel
     {
         $this->_logger->debug(__METHOD__);
         $this->_logger->debug(func_get_args());
-        $searchKey = $this->_wildcardHandling($searchKey);
+        $searchKey = self::wildcardHandling($searchKey);
         return $this->_selectDistributions($searchKey, $matchWholeWords)
         ->order(
             $sort ?
@@ -282,7 +282,7 @@ class ACI_Model_Search extends AModel
         )
         ->where('ds.distribution LIKE ?', '%' . $searchKey . '%');
         
-        $replacedSearchKey = $this->_wildcardHandlingInRegExp(
+        $replacedSearchKey = self::wildcardHandlingInRegExp(
             $searchKey, $matchWholeWords
         );
         $select->where(
@@ -411,7 +411,7 @@ class ACI_Model_Search extends AModel
      */
     protected function _selectTaxa($searchKey, $matchWholeWords)
     {
-        $searchKey = $this->_wildcardHandling($searchKey);
+        $searchKey = self::wildcardHandling($searchKey);
         $select = new Zend_Db_Select($this->_db);
         
         $select->from(
@@ -495,7 +495,7 @@ class ACI_Model_Search extends AModel
      */
     protected function _selectCommonNames($searchKey, $matchWholeWords)
     {
-        $searchKey = $this->_wildcardHandling($searchKey);
+        $searchKey = self::wildcardHandling($searchKey);
         $select = new Zend_Db_Select($this->_db);
         
         $select->from(
@@ -546,7 +546,7 @@ class ACI_Model_Search extends AModel
             array()
         );
         if($matchWholeWords) {
-            $replacedSearchKey = $this->_wildcardHandlingInRegExp(
+            $replacedSearchKey = self::wildcardHandlingInRegExp(
                 $searchKey, 1
             );
             // When non alphabetic characters are used, this first filtering
@@ -596,7 +596,7 @@ class ACI_Model_Search extends AModel
                 $field = "sn.$rank";
             }
             if (trim($name) != '') {
-                $searchKey = $this->_wildcardHandling($name);
+                $searchKey = self::wildcardHandling($name);
                 if ($matchWholeWords) {
                     $select->where(
                         $field . ' ' .
@@ -983,12 +983,12 @@ class ACI_Model_Search extends AModel
         return $select->query()->fetchAll();
     }
     
-    protected function _wildcardHandling($searchString)
+    public static function wildcardHandling($searchString)
     {
         return str_replace(array('%', '*'), array('', '%'), $searchString);
     }
     
-    protected function _wildcardHandlingInRegExp($searchString,
+    public static function wildcardHandlingInRegExp($searchString,
         $matchWholeWords = true)
     {
         if ($matchWholeWords == true) {
