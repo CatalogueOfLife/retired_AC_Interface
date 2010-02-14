@@ -22,7 +22,8 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
      * @var string
      */
     protected $_encoding = 'UTF-8';
-    protected $_root = 'response';
+    protected $_root = 'root';
+    protected $_node = 'node';
     protected $_dom;
 
     /**
@@ -41,6 +42,12 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
         $this->_root = (string)$name;
         return $this;
     }
+    
+    public function setNode($name)
+    {
+        $this->_node = (string)$name;
+        return $this;
+    }
 
     /**
      * Defined by Zend_Filter_Interface
@@ -57,23 +64,32 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
         }
         $this->_dom = new DOMDocument('1.0', $this->_encoding);        
         $xml = $this->_dom->createElement($this->_root);
-        $xml = $this->_arrayKeysToAttributes($xml, $value);       
-        $this->_dom->appendChild($xml);
-        return $this->_dom->saveXML();
-    }
-    
-    protected function _arrayKeysToAttributes(DOMElement $xml, array $array)
-    {
-        foreach($array as $k => $v) {
+        foreach($value as $k => $v) {            
             if(is_array($v)) {
-                $el = $this->_dom->createElement($k);
-                $el = $this->_arrayKeysToAttributes($el, $v);
-                $xml->appendChild($el);
+                $xml = $this->_arrayKeysToNodes($xml, $v);
             }
             else {
                 $xml->setAttribute($k, $v);
             }
         }
+        $this->_dom->appendChild($xml);
+        return $this->_dom->saveXML();
+    }
+    
+    protected function _arrayKeysToNodes(DOMElement $xml, array $array)
+    {   
+        $node = $this->_dom->createElement($this->_node);
+        foreach($array as $k => $v) {
+            if(is_array($v)) {
+                $xml = $this->_arrayKeysToNodes($xml, $v);
+            }
+            else {                
+                $el = $this->_dom->createElement($k);
+                $el->appendChild($this->_dom->createTextNode($v));
+                $node->appendChild($el);                
+            }
+        }
+        $xml->appendChild($node);
         return $xml;       
     }
 }

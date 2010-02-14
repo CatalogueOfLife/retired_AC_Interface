@@ -20,4 +20,11 @@ abstract class AModel
         $this->_db = $dbAdapter;
         $this->_logger = Zend_Registry::get('logger');
     }
+    
+    public function getFoundRows()
+    {        
+        $select = new Eti_Db_Select($this->_db);
+        $select->from(null, new Zend_Db_Expr('FOUND_ROWS()'));
+        return $select->query()->fetchColumn(0);
+    }
 }

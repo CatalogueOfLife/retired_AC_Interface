@@ -33,7 +33,8 @@ class WebservicesController extends AController
                 $contextSwitch = $this->_helper->getHelper('contextSwitch');
                 $contextSwitch->initContext();
                 $filter = new Eti_Filter_ArrayToXml();
-                $filter->setEncoding($this->view->encoding)->setRoot('results');
+                $filter->setEncoding($this->view->encoding)
+                    ->setRoot('results')->setNode('result');
         }
         
         $wsModel = new ACI_Model_Webservice($this->_db);

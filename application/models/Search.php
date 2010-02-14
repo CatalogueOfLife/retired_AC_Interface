@@ -376,7 +376,7 @@ class ACI_Model_Search extends AModel
      *
      * @return Zend_Db_Expr
      */
-    protected function _getRankDefinition()
+    public static function getRankDefinition()
     {
         return new Zend_Db_Expr(
             'CASE tx.taxon ' .
@@ -419,7 +419,7 @@ class ACI_Model_Search extends AModel
             array(
                 'id' => 'sn.record_id',
                 'taxa_id' => 'tx.record_id',
-                'rank' => $this->_getRankDefinition(),
+                'rank' => self::getRankDefinition(),
                 'tx.name',
                 'tx.name_code',
                 'tx.is_accepted_name',

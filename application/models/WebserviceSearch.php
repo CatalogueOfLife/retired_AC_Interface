@@ -20,16 +20,20 @@ class ACI_Model_WebserviceSearch extends AModel
         $select->sqlCalcFoundRows()->from(
             array('tx' => 'taxa'),
             array(
+                'sn_id' => new Zend_Db_Expr(0),
                 'record_id' => 'tx.record_id',
                 'parent_id' => 'tx.parent_id',
                 'name' => 'tx.name',
                 'name_html' => 'name_with_italics',
                 'unique_identifier' => 'tx.name_code',
-                'name_status' => new Zend_Db_Expr('"scientific name"'),
+                'status' => 'IF(tx.sp2000_status_id = 0, ' . 
+                    ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME . 
+                    ', tx.sp2000_status_id)',
+                'rank_id' => ACI_Model_Search::getRankDefinition(),
                 'rank' => 'tx.taxon',
                 'sort_order' => 'is_accepted_name'
             )
-        );
+        );        
         // by id
         if(Zend_Validate::is($id, 'Digits')) {
             if($id == 0) {
@@ -61,29 +65,32 @@ class ACI_Model_WebserviceSearch extends AModel
         return $select->query()->fetchAll();
     }
     
-    public function getFoundRows()
-    {        
-        $select = new Eti_Db_Select($this->_db);
-        $select->from(null, new Zend_Db_Expr('FOUND_ROWS()'));
-        return $select->query()->fetchColumn(0);
-    }
-    
     protected function _selectCommonNames($searchKey)
     {
         $select = new Zend_Db_Select($this->_db);
         $select->from(
             array('cn' => 'common_names'),
-            array(                
+            array(
+                'sn_id' => 'sn.record_id', 
                 'record_id' => 'cn.record_id',
                 'parent_id' => new Zend_Db_Expr(''),
                 'common_name' => 'cn.name',
                 'name_html' => new Zend_Db_Expr(''),
                 'unique_identifier' => 'cn.name_code',
-                'name_status' => new Zend_Db_Expr('"common name"'),
-                'rank' => new Zend_Db_Expr(''),
+                'status' => new Zend_Db_Expr(
+                    ACI_Model_Table_Taxa::STATUS_COMMON_NAME
+                ),
+                'rank_id' => new Zend_Db_Expr(0),
+                'rank' => new Zend_Db_Expr(''),                
                 'sort_order' => new Zend_Db_Expr(1)
             )
+        )
+        ->join(
+            array('sn' => 'scientific_names'),
+            'tx.name_code = sn.name_code AND sn.is_accepted_name = 1',
+            array()
         );
+        
         if (strpos($searchKey, '%') === false) {
             $select->where('tx.name = ?', $searchKey);
         } else {

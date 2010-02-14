@@ -36,6 +36,9 @@ class ACI_Model_Webservice extends AModel
         try {            
             $this->_process($this->_validate($request));
         }
+        catch(Zend_Db_Exception $e) {
+            $this->_setError('Database query failed');
+        }
         catch (ACI_Model_Webservice_Exception $e) {
             $this->_setError($e->getMessage());
         }
@@ -109,19 +112,60 @@ class ACI_Model_Webservice extends AModel
     
     protected function _process(Zend_Controller_Request_Abstract $request)
     {
-        $wsSearch = new ACI_Model_WebserviceSearch($this->_db);
+        $wsSearch = new ACI_Model_WebserviceSearch($this->_db);        
         $res = $wsSearch->taxa(
             $request->getParam('id'), 
             $request->getParam('name'),
             $request->getParam('start'),
             $this->_responseFormats[$request->getParam('response')]
-        );
-        $numRows = count($res);        
+        );        
+        $numRows = count($res);
         if($numRows == 0) {
             throw new ACI_Model_Webservice_Exception('No names found');
         }
         $this->_response['number_of_results_returned'] = $numRows;
-        $this->_response['total_number_of_results'] = $wsSearch->getFoundRows();
+        $this->_response['total_number_of_results'] = $wsSearch->getFoundRows();        
+        $this->_response['names'] = $this->_processResults($res);
+    }
+    
+    protected function _processResults(array $res)
+    {  
+        $results = array();
+        foreach($res as $row) {
+            $item = array(
+                'id' => $row['record_id'],                
+                'name' => $row['name'],
+                'name_html' => $row['name_html'],
+                'name_status' => 
+                    ACI_Model_Table_Taxa::getStatusString($row['status']),
+                'rank' => $row['rank'],
+                'url' => $this->_getTaxaUrl(
+                    $row['record_id'], $row['sn_id'], 
+                    $row['rank_id'], $row['status']
+                )
+            );
+            $results[] = $item;
+        }
+        return $results;
+    }
+    
+    protected function _getTaxaUrl($taxaId, $snId, $rankId, $statusId)
+    {
+        $config = Zend_Registry::get('config');
+        $url = $config->eti->application->location . '/'; 
+        if($statusId == ACI_Model_Table_Taxa::STATUS_COMMON_NAME) {
+            $url .= 'details/species/id/' . $snId . '/common/' . $taxaId;
+        } else {
+            // species or infraspecies
+            if($rankId >= ACI_Model_Table_Taxa::RANK_SPECIES) {
+                $url .= 'details/species/id/' . $taxaId;
+            }
+            // higher taxa
+            else {
+                $url .= 'browse/tree/id/' . $taxaId;
+            }
+        }
+        return $url;
     }
     
     public function setFilter(Zend_Filter_Interface $filter)
