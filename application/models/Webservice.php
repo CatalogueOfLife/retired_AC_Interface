@@ -126,30 +126,61 @@ class ACI_Model_Webservice extends AModel
         }
         $this->_response['number_of_results_returned'] = $numRows;
         $this->_response['total_number_of_results'] = $wsSearch->getFoundRows();
-        $this->_response['names'] = $this->_processResults($res);
+        $names = $this->_processResults($res);
+        $this->_response['names'] = $names;
     }
     
     protected function _processResults(array $res)
     {
         $results = array();
         foreach($res as $row) {
-            $item = array(
-                'id' => $row['record_id'],
-                'name' => $row['name'],
-                'rank' => $row['rank'],
-                'name_status' => $this->_getNameStatusById($row['status']),
-                'name_html' => $row['name_html'],
-                'url' => $this->_getTaxaUrl(
-                    $row['record_id'], $row['sn_id'],
-                    $row['rank_id'], $row['status']
-                )
-            );
+            switch($row['status']) {
+                case ACI_Model_Table_Taxa::STATUS_COMMON_NAME:
+                    $item = $this->_processCommonName($row);
+                break;
+                case ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME:
+                default:
+                    $item = $this->_processScientificName($row);
+                break;
+            }
             $results[] = $item;
         }
         return $results;
     }
     
-    protected function _getTaxaUrl($taxaId, $snId, $rankId, $statusId)
+    protected function _processCommonName(array $row)
+    {
+        $item = array(
+            'name' => $row['name'],
+            'name_status' => $this->_getNameStatusById($row['status']),
+            'language' => $row['language'],
+            'country' => $row['country'],
+            'url' => $this->_getTaxaUrl(
+                $row['record_id'],
+                $row['rank_id'],
+                $row['status'],
+                $row['sn_id']
+            )
+        );
+        return $item;
+    }
+    
+    protected function _processScientificName(array $row)
+    {
+        $item = array(
+            'id' => $row['record_id'],
+            'name' => $row['name'],
+            'rank' => $row['rank'],
+            'name_status' => $this->_getNameStatusById($row['status']),
+            'name_html' => $row['name_html'],//TODO: fully qualified name
+            'url' => $this->_getTaxaUrl(
+                $row['record_id'], $row['rank_id'], $row['status']
+            )
+        );
+        return $item;
+    }
+    
+    protected function _getTaxaUrl($taxaId, $rankId, $statusId, $snId = null)
     {
         $config = Zend_Registry::get('config');
         $url = $config->eti->application->location . '/';

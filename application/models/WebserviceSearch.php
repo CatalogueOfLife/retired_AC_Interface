@@ -31,6 +31,8 @@ class ACI_Model_WebserviceSearch extends AModel
                     ', tx.sp2000_status_id)',
                 'rank_id' => ACI_Model_Search::getRankDefinition(),
                 'rank' => 'tx.taxon',
+                'language' => new Zend_Db_Expr('""'),
+                'country' => new Zend_Db_Expr('""'),
                 'sort_order' => 'is_accepted_name'
             )
         );
@@ -53,7 +55,12 @@ class ACI_Model_WebserviceSearch extends AModel
             } else {
                 $select->where('tx.name LIKE "' . $searchKey . '"');
             }
-            $select->union($this->_selectCommonNames($searchKey));
+            $select = $this->_db->select()->union(
+                array(
+                    $select,
+                    $this->_selectCommonNames($searchKey)
+                )
+            );
         }
         $select->order(
             array(
@@ -73,29 +80,32 @@ class ACI_Model_WebserviceSearch extends AModel
             array(
                 'sn_id' => 'sn.record_id',
                 'record_id' => 'cn.record_id',
-                'parent_id' => new Zend_Db_Expr(''),
-                'common_name' => 'cn.name',
-                'name_html' => new Zend_Db_Expr(''),
+                'parent_id' => new Zend_Db_Expr('""'),
+                'common_name' => 'cn.common_name',
+                'name_html' => new Zend_Db_Expr('""'),
                 'unique_identifier' => 'cn.name_code',
                 'status' => new Zend_Db_Expr(
                     ACI_Model_Table_Taxa::STATUS_COMMON_NAME
                 ),
                 'rank_id' => new Zend_Db_Expr(0),
-                'rank' => new Zend_Db_Expr(''),
+                'rank' => new Zend_Db_Expr('""'),
+                'language' => 'cn.language',
+                'country' => 'cn.country',
                 'sort_order' => new Zend_Db_Expr(1)
             )
         )
         ->join(
             array('sn' => 'scientific_names'),
-            'tx.name_code = sn.name_code AND sn.is_accepted_name = 1',
+            'cn.name_code = sn.name_code AND sn.is_accepted_name = 1',
             array()
         );
         
         if (strpos($searchKey, '%') === false) {
-            $select->where('tx.name = ?', $searchKey);
+            $select->where('cn.common_name = ?', $searchKey);
         } else {
-            $select->where('tx.name LIKE "' . $searchKey . '"');
+            $select->where('cn.common_name LIKE "' . $searchKey . '"');
         }
+        
         return $select;
     }
 }

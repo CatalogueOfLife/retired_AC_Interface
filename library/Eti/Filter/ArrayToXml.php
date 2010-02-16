@@ -67,8 +67,10 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
         
         foreach($value as $k => $v) {
             if(is_array($v)) {
-                foreach($v as $result) {
-                    $xml = $this->_arrayKeysToNodes($xml, $result);
+                foreach($v as $i => $result) {
+                    $xml = $this->_arrayKeysToNodes(
+                        $xml, $result, is_int($i) ? $this->_node : $i
+                    );
                 }
             }
             else {
@@ -76,15 +78,18 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
             }
         }
         $this->_dom->appendChild($xml);
-        return $this->_dom->saveXML();
+        return htmlspecialchars_decode($this->_dom->saveXML(), ENT_NOQUOTES);
     }
     
-    protected function _arrayKeysToNodes(DOMElement $xml, array $array)
+    protected function _arrayKeysToNodes(DOMElement $xml, array $array,
+        $nodeName)
     {
-        $node = $this->_dom->createElement($this->_node);
+        $node = $this->_dom->createElement($nodeName);
         foreach($array as $k => $v) {
             if(is_array($v)) {
-                $xml = $this->_arrayKeysToNodes($xml, $v);
+                $this->_arrayKeysToNodes(
+                    $xml, $v, is_int($k) ? $this->_node : $k
+                );
             }
             else {
                 $el = $this->_dom->createElement($k);
