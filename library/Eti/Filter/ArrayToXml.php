@@ -88,7 +88,7 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
         foreach($array as $k => $v) {
             if(is_array($v)) {
                 $this->_arrayKeysToNodes(
-                    $xml, $v, is_int($k) ? $this->_node : $k
+                    $node, $v, is_int($k) ? $this->_node : $k
                 );
             }
             else {

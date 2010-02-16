@@ -160,8 +160,11 @@ class ACI_Model_Webservice extends AModel
                 $row['rank_id'],
                 $row['status'],
                 $row['sn_id']
-            )
+            ),
+            'source_database' => $row['db_name'],
+            'source_database_url' => $row['db_url']
         );
+        $item['accepted_name'] = array(); // TODO: get accepted name information
         return $item;
     }
     
@@ -172,10 +175,11 @@ class ACI_Model_Webservice extends AModel
             'name' => $row['name'],
             'rank' => $row['rank'],
             'name_status' => $this->_getNameStatusById($row['status']),
-            'name_html' => $row['name_html'],//TODO: fully qualified name
+            'name_html' => $row['name_html'], //TODO: fully qualified name
             'url' => $this->_getTaxaUrl(
                 $row['record_id'], $row['rank_id'], $row['status']
             )
+            // TODO: complete information for species / infraspecies
         );
         return $item;
     }

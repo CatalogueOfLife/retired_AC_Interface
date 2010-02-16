@@ -33,8 +33,14 @@ class ACI_Model_WebserviceSearch extends AModel
                 'rank' => 'tx.taxon',
                 'language' => new Zend_Db_Expr('""'),
                 'country' => new Zend_Db_Expr('""'),
+                'db_name' => 'db.database_name_displayed',
+                'db_url' => 'db.web_site',
                 'sort_order' => 'is_accepted_name'
             )
+        )->joinLeft(
+            array('db' => 'databases'),
+            'tx.database_id = db.record_id',
+            array()
         );
         // by id
         if(Zend_Validate::is($id, 'Digits')) {
@@ -91,12 +97,18 @@ class ACI_Model_WebserviceSearch extends AModel
                 'rank' => new Zend_Db_Expr('""'),
                 'language' => 'cn.language',
                 'country' => 'cn.country',
+                'db_name' => 'db.database_name_displayed',
+                'db_url' => 'db.web_site',
                 'sort_order' => new Zend_Db_Expr(1)
             )
         )
         ->join(
             array('sn' => 'scientific_names'),
             'cn.name_code = sn.name_code AND sn.is_accepted_name = 1',
+            array()
+        )->joinLeft(
+            array('db' => 'databases'),
+            'cn.database_id = db.record_id',
             array()
         );
         
