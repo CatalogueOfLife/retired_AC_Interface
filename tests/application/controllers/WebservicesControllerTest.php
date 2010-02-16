@@ -134,11 +134,11 @@ class WebservicesControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $results = $xml->xpath("//results");
         $this->assertEquals(count($results), 1);
         $this->assertTrue($results[0] instanceof SimpleXMLElement);
+        $numRes = $results[0]['total_number_of_results'] - $start;
         $this->assertXpath("//results[@start = '" . $start . "']");
+        $this->assertQueryCount("result", $numRes);
         $this->assertXpath(
-            "//results[@number_of_results_returned = '" .
-            ($results[0]['total_number_of_results'] - $start) .
-            "']"
+            "//results[@number_of_results_returned = '" . $numRes . "']"
         );
     }
 }
