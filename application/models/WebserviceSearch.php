@@ -26,14 +26,14 @@ class ACI_Model_WebserviceSearch extends AModel
                 'name' => 'tx.name',
                 'name_html' => 'name_with_italics',
                 'unique_identifier' => 'tx.name_code',
-                'status' => 'IF(tx.sp2000_status_id = 0, ' . 
-                    ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME . 
+                'status' => 'IF(tx.sp2000_status_id = 0, ' .
+                    ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME .
                     ', tx.sp2000_status_id)',
                 'rank_id' => ACI_Model_Search::getRankDefinition(),
                 'rank' => 'tx.taxon',
                 'sort_order' => 'is_accepted_name'
             )
-        );        
+        );
         // by id
         if(Zend_Validate::is($id, 'Digits')) {
             if($id == 0) {
@@ -71,7 +71,7 @@ class ACI_Model_WebserviceSearch extends AModel
         $select->from(
             array('cn' => 'common_names'),
             array(
-                'sn_id' => 'sn.record_id', 
+                'sn_id' => 'sn.record_id',
                 'record_id' => 'cn.record_id',
                 'parent_id' => new Zend_Db_Expr(''),
                 'common_name' => 'cn.name',
@@ -81,7 +81,7 @@ class ACI_Model_WebserviceSearch extends AModel
                     ACI_Model_Table_Taxa::STATUS_COMMON_NAME
                 ),
                 'rank_id' => new Zend_Db_Expr(0),
-                'rank' => new Zend_Db_Expr(''),                
+                'rank' => new Zend_Db_Expr(''),
                 'sort_order' => new Zend_Db_Expr(1)
             )
         )

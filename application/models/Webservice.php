@@ -14,6 +14,7 @@ require_once 'AModel.php';
 class ACI_Model_Webservice extends AModel
 {
     const REQUEST_NAME_MIN_STRLEN = 3;
+    
     protected $_responseFormats = array('terse' => 500, 'full' => 50);
     protected $_filter;
     protected $_response = array(
@@ -33,7 +34,7 @@ class ACI_Model_Webservice extends AModel
                 'No filter defined for the webservice output'
             );
         }
-        try {            
+        try {
             $this->_process($this->_validate($request));
         }
         catch(Zend_Db_Exception $e) {
@@ -55,7 +56,7 @@ class ACI_Model_Webservice extends AModel
     protected function _validate(Zend_Controller_Request_Abstract $request)
     {
         $this->_response['id'] = $request->getParam('id', '');
-        $this->_response['name'] = 
+        $this->_response['name'] =
             str_replace('%', '*' , (string)$request->getParam('name', ''));
         $this->_response['start'] = (int)$request->getParam('start');
         
@@ -63,7 +64,7 @@ class ACI_Model_Webservice extends AModel
             'response', current(array_keys($this->_responseFormats))
         );
             
-        $this->_logger->debug($this->_response);   
+        $this->_logger->debug($this->_response);
          
         // providing with *either* id or name params is required
         if($this->_response['id'] == '' && $this->_response['name'] == '') {
@@ -76,24 +77,24 @@ class ACI_Model_Webservice extends AModel
         }
         // if the parameter name is given, it must be at least 3 characters
         // long, excluding wildcards (*, %)
-        $tooShortName = strlen(str_replace('*', '', $this->_response['name'])) 
+        $tooShortName = strlen(str_replace('*', '', $this->_response['name']))
             < self::REQUEST_NAME_MIN_STRLEN;
         if($this->_response['name'] && $tooShortName) {
             throw new ACI_Model_Webservice_Exception(
-                'Invalid name given. The name given must consist of at least ' . 
+                'Invalid name given. The name given must consist of at least ' .
                 self::REQUEST_NAME_MIN_STRLEN . ' characters, not counting ' .
                 'wildcards (*)'
             );
         }
         // id must be a valid positive integer
-        $positiveIntId = Zend_Validate::is($this->_response['id'], 'Digits') && 
+        $positiveIntId = Zend_Validate::is($this->_response['id'], 'Digits') &&
             $this->_response['id'] >= 0;
         if($this->_response['id'] != '' && !$positiveIntId) {
             throw new ACI_Model_Webservice_Exception(
                 'Invalid ID given. The ID must be a positive integer'
             );
         }
-        // response param (if set) must be one of the keys of the defined 
+        // response param (if set) must be one of the keys of the defined
         // $this->_responseFormats
         if(!array_key_exists($responseFormat, $this->_responseFormats)) {
             throw new ACI_Model_Webservice_Exception(
@@ -112,35 +113,34 @@ class ACI_Model_Webservice extends AModel
     
     protected function _process(Zend_Controller_Request_Abstract $request)
     {
-        $wsSearch = new ACI_Model_WebserviceSearch($this->_db);        
+        $wsSearch = new ACI_Model_WebserviceSearch($this->_db);
         $res = $wsSearch->taxa(
-            $request->getParam('id'), 
+            $request->getParam('id'),
             $request->getParam('name'),
-            $request->getParam('start'),
-            $this->_responseFormats[$request->getParam('response')]
-        );        
+            $this->_responseFormats[$request->getParam('response')], // LIMIT
+            $request->getParam('start') // OFFSET
+        );
         $numRows = count($res);
         if($numRows == 0) {
             throw new ACI_Model_Webservice_Exception('No names found');
         }
         $this->_response['number_of_results_returned'] = $numRows;
-        $this->_response['total_number_of_results'] = $wsSearch->getFoundRows();        
+        $this->_response['total_number_of_results'] = $wsSearch->getFoundRows();
         $this->_response['names'] = $this->_processResults($res);
     }
     
     protected function _processResults(array $res)
-    {  
+    {
         $results = array();
         foreach($res as $row) {
             $item = array(
-                'id' => $row['record_id'],                
+                'id' => $row['record_id'],
                 'name' => $row['name'],
-                'name_html' => $row['name_html'],
-                'name_status' => 
-                    ACI_Model_Table_Taxa::getStatusString($row['status']),
                 'rank' => $row['rank'],
+                'name_status' => $this->_getNameStatusById($row['status']),
+                'name_html' => $row['name_html'],
                 'url' => $this->_getTaxaUrl(
-                    $row['record_id'], $row['sn_id'], 
+                    $row['record_id'], $row['sn_id'],
                     $row['rank_id'], $row['status']
                 )
             );
@@ -152,7 +152,7 @@ class ACI_Model_Webservice extends AModel
     protected function _getTaxaUrl($taxaId, $snId, $rankId, $statusId)
     {
         $config = Zend_Registry::get('config');
-        $url = $config->eti->application->location . '/'; 
+        $url = $config->eti->application->location . '/';
         if($statusId == ACI_Model_Table_Taxa::STATUS_COMMON_NAME) {
             $url .= 'details/species/id/' . $snId . '/common/' . $taxaId;
         } else {
@@ -166,6 +166,19 @@ class ACI_Model_Webservice extends AModel
             }
         }
         return $url;
+    }
+    
+    protected function _getNameStatusById($id)
+    {
+        switch ($id) {
+            case ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME:
+                return 'accepted name';
+            case ACI_Model_Table_Taxa::STATUS_COMMON_NAME:
+                return 'common name';
+            case ACI_Model_Table_Taxa::STATUS_SYNONYM:
+                return 'synonym';
+        }
+        return 'unknown';
     }
     
     public function setFilter(Zend_Filter_Interface $filter)
