@@ -167,7 +167,7 @@ class ACI_Model_Webservice extends AModel
             'source_database_url' => $row['db_url']
         );
         $an = $this->_getAcceptedName($row['name_code']);
-        $item['accepted_name'] = array(
+        $acceptedName = array(
             'id' => $an['accepted_species_id'],
             'name' => $an['accepted_species_name'],
             'rank' => $an['rank'],
@@ -183,7 +183,12 @@ class ACI_Model_Webservice extends AModel
             'source_database_url' => $an['accepted_species_db_url'],
             'online_resource' => $an['accepted_species_url']
         );
-        // TODO: implement full response (+ references)
+        if(!$fullResponse) {
+            $item['accepted_name'] = $acceptedName;
+            return $item;
+        }
+        $item['references'] = $this->_getReferences(array($row['reference_id']));
+        $item['accepted_name'] = $acceptedName;
         return $item;
     }
     
@@ -211,7 +216,10 @@ class ACI_Model_Webservice extends AModel
         $item['name_html'] = $an['name_html'];
         $item['online_resource'] = $an['accepted_species_url'];
         
-        // TODO: implement full response
+        if(!$fullResponse) {
+            return $item;
+        }
+        $item['more_details'] = '';
         return $item;
     }
     
@@ -239,6 +247,24 @@ class ACI_Model_Webservice extends AModel
         );
         
         return $an;
+    }
+    
+    protected function _getReferences(array $refIds)
+    {
+        $detailsModel = new ACI_Model_Details($this->_db);
+        $refs = array('references' => array());
+        foreach($refIds as $refId) {
+            $ref = $detailsModel->getReferenceById($refId);
+            if($ref) {
+                $refs['references'][] = array(
+                    'author' => $ref['author'],
+                    'year' => $ref['year'],
+                    'title' => $ref['title'],
+                    'source' => $ref['source']
+                );
+            }
+        }
+        return $refs;
     }
     
     protected function _getTaxaUrl($taxaId, $rankId, $statusId, $snId = null)

@@ -35,6 +35,7 @@ class ACI_Model_WebserviceSearch extends AModel
                 'country' => new Zend_Db_Expr('""'),
                 'db_name' => 'db.database_name_displayed',
                 'db_url' => 'db.web_site',
+                'reference_id' => new Zend_Db_Expr(0),
                 'sort_order' => 'is_accepted_name'
             )
         )->joinLeft(
@@ -99,6 +100,7 @@ class ACI_Model_WebserviceSearch extends AModel
                 'country' => 'cn.country',
                 'db_name' => 'db.database_name_displayed',
                 'db_url' => 'db.web_site',
+                'reference_id' => 'cn.reference_id',
                 'sort_order' => new Zend_Db_Expr(1)
             )
         )
