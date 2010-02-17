@@ -93,11 +93,18 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
             }
             else {
                 $el = $this->_dom->createElement($k);
-                $el->appendChild($this->_dom->createTextNode($v));
+                $el->appendChild(
+                    $this->_dom->createTextNode($this->_cleanString($v))
+                );
                 $node->appendChild($el);
             }
         }
         $xml->appendChild($node);
         return $xml;
+    }
+    
+    protected function _cleanString($str)
+    {
+        return str_replace('&', '&amp;', utf8_encode($str));
     }
 }

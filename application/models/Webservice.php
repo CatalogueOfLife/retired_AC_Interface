@@ -224,7 +224,7 @@ class ACI_Model_Webservice extends AModel
         $an['rank_id'] = $an['infraspecies'] ?
             ACI_Model_Table_Taxa::RANK_INFRASPECIES :
             ACI_Model_Table_Taxa::RANK_SPECIES;
-        $an['rank'] = ACI_Model_Table_Taxa::getRankString($an['rank_id']);
+        $an['rank'] = $this->_getRankNameById($an['rank_id']);
         $an['name_status'] = $this->_getNameStatusById($an['status']);
         
         return $an;
@@ -264,6 +264,31 @@ class ACI_Model_Webservice extends AModel
                 return 'misapplied name';
             case ACI_Model_Table_Taxa::STATUS_PROVISIONALLY_ACCEPTED_NAME:
                 return 'provisionally accepted name';
+        }
+        return 'unknown';
+    }
+    
+    protected function _getRankNameById($id)
+    {
+        switch ($id) {
+            case ACI_Model_Table_Taxa::RANK_SPECIES:
+                return 'Species';
+            case ACI_Model_Table_Taxa::RANK_INFRASPECIES:
+                return 'Infraspecies';
+            case ACI_Model_Table_Taxa::RANK_KINGDOM:
+                return 'Kingdom';
+            case ACI_Model_Table_Taxa::RANK_PHYLUM:
+                return 'Phylum';
+            case ACI_Model_Table_Taxa::RANK_CLASS:
+                return 'Class';
+            case ACI_Model_Table_Taxa::RANK_ORDER:
+                return 'Order';
+            case ACI_Model_Table_Taxa::RANK_SUPERFAMILY:
+                return 'Superfamily';
+            case ACI_Model_Table_Taxa::RANK_FAMILY:
+                return 'Family';
+            case ACI_Model_Table_Taxa::RANK_GENUS:
+                return 'Genus';
         }
         return 'unknown';
     }
