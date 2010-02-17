@@ -940,6 +940,15 @@ class ACI_Model_Search extends AModel
                     ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
                     "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
                 'accepted_species_author' => 'sn.author',
+                'status' => 'sn.sp2000_status_id',
+                'genus' => 'sn.genus',
+                'species' => 'sn.species',
+                'infraspecies' => 'sn.infraspecies',
+                'inframarker' => 'sn.infraspecies_marker',
+                'author' => 'sn.author',
+                'online_resource' => 'sn.web_site',
+                'db_name' => 'db.database_name_displayed',
+                'db_url' => 'db.web_site',
                 'kingdom' => 'fm.kingdom'
             )
         )
@@ -948,7 +957,14 @@ class ACI_Model_Search extends AModel
             'sn.family_id = fm.record_id',
             array()
         )
-        ->where('sn.name_code = ? AND sn.is_accepted_name = 1', $nameCode);
+        ->joinLeft(
+            array('db' => 'databases'),
+            'sn.database_id = db.record_id',
+            array()
+        )
+        ->where('sn.name_code = ?', $nameCode)
+        ->where('sn.is_accepted_name = 1');
+        
         return $select->query()->fetch();
     }
     

@@ -25,7 +25,7 @@ class ACI_Model_WebserviceSearch extends AModel
                 'parent_id' => 'tx.parent_id',
                 'name' => 'tx.name',
                 'name_html' => 'name_with_italics',
-                'unique_identifier' => 'tx.name_code',
+                'name_code' => 'tx.name_code',
                 'status' => 'IF(tx.sp2000_status_id = 0, ' .
                     ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME .
                     ', tx.sp2000_status_id)',
@@ -89,7 +89,7 @@ class ACI_Model_WebserviceSearch extends AModel
                 'parent_id' => new Zend_Db_Expr('""'),
                 'common_name' => 'cn.common_name',
                 'name_html' => new Zend_Db_Expr('""'),
-                'unique_identifier' => 'cn.name_code',
+                'name_code' => 'cn.name_code',
                 'status' => new Zend_Db_Expr(
                     ACI_Model_Table_Taxa::STATUS_COMMON_NAME
                 ),

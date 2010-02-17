@@ -216,9 +216,16 @@ class ACI_Model_Table_Taxa
     public static function getAcceptedScientificName($genus, $species,
         $infraspecies, $infraspeciesMarker, $author)
     {
-        $name  = "<i>$genus $species</i>";
-        $name .= $infraspecies ?
-            " $infraspeciesMarker <i>$infraspecies</i>" : '';
+        $name  = "<i>$genus $species";
+        if($infraspecies) {
+            if($infraspeciesMarker) {
+                $name .= "</i> $infraspeciesMarker <i>$infraspecies";
+            }
+            else {
+                $name .= " $infraspecies";
+            }
+        }
+        $name .= '</i>';
         $name .= $author ? " $author" : '';
         return $name;
     }

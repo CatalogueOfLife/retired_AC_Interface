@@ -164,7 +164,21 @@ class ACI_Model_Webservice extends AModel
             'source_database' => $row['db_name'],
             'source_database_url' => $row['db_url']
         );
-        $item['accepted_name'] = array(); // TODO: get accepted name information
+        $an = $this->_getAcceptedName($row['name_code']);
+        $item['accepted_name'] = array(
+            'id' => $an['accepted_species_id'],
+            'name' => $an['accepted_species_name'],
+            'rank' => $an['rank'],
+            'name_status' => $an['name_status'],
+            'name_html' => $an['name_html'],
+            'url' => $this->_getTaxaUrl(
+                $an['accepted_species_id'], $an['rank_id'], $an['status'],
+                $an['accepted_species_id']
+            ),
+            'source_database' => $an['db_name'],
+            'source_database_url' => $an['db_url'],
+            'online_resource' => $an['online_resource']
+        );
         return $item;
     }
     
@@ -175,13 +189,45 @@ class ACI_Model_Webservice extends AModel
             'name' => $row['name'],
             'rank' => $row['rank'],
             'name_status' => $this->_getNameStatusById($row['status']),
-            'name_html' => $row['name_html'], //TODO: fully qualified name
+            'name_html' => $row['name_html'],
             'url' => $this->_getTaxaUrl(
                 $row['record_id'], $row['rank_id'], $row['status']
             )
-            // TODO: complete information for species / infraspecies
         );
+        if($row['rank_id'] < ACI_Model_Table_Taxa::RANK_SPECIES) {
+            return $item;
+        }
+        // Species and infraspecies
+        $item['source_database'] = $row['db_name'];
+        $item['source_database_url'] = $row['db_url'];
+        
+        $an = $this->_getAcceptedName($row['name_code']);
+        
+        $item['name_html'] = $an['name_html'];
+        $item['online_resource'] = $an['online_resource'];
+        
         return $item;
+    }
+    
+    protected function _getAcceptedName($nameCode)
+    {
+        $modelSearch = new ACI_Model_Search($this->_db);
+        $an = $modelSearch->getAcceptedSpeciesByNameCode($nameCode);
+        if(!$an) {
+            return array();
+        }
+        $an['name_html'] =
+            ACI_Model_Table_Taxa::getAcceptedScientificName(
+                $an['genus'], $an['species'], $an['infraspecies'],
+                $an['inframarker'], $an['author']
+            );
+        $an['rank_id'] = $an['infraspecies'] ?
+            ACI_Model_Table_Taxa::RANK_INFRASPECIES :
+            ACI_Model_Table_Taxa::RANK_SPECIES;
+        $an['rank'] = ACI_Model_Table_Taxa::getRankString($an['rank_id']);
+        $an['name_status'] = $this->_getNameStatusById($an['status']);
+        
+        return $an;
     }
     
     protected function _getTaxaUrl($taxaId, $rankId, $statusId, $snId = null)
@@ -212,6 +258,12 @@ class ACI_Model_Webservice extends AModel
                 return 'common name';
             case ACI_Model_Table_Taxa::STATUS_SYNONYM:
                 return 'synonym';
+            case ACI_Model_Table_Taxa::STATUS_AMBIGUOUS_SYNONYM:
+                return 'ambiguous synonym';
+            case ACI_Model_Table_Taxa::STATUS_MISAPPLIED_NAME:
+                return 'misapplied name';
+            case ACI_Model_Table_Taxa::STATUS_PROVISIONALLY_ACCEPTED_NAME:
+                return 'provisionally accepted name';
         }
         return 'unknown';
     }
