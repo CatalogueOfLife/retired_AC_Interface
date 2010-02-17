@@ -15,7 +15,7 @@ class ACI_Model_Webservice extends AModel
 {
     const REQUEST_NAME_MIN_STRLEN = 3;
     
-    protected $_responseFormats = array('terse' => 500, 'full' => 50);
+    protected $_responseLimits = array('terse' => 500, 'full' => 50);
     protected $_filter;
     protected $_response = array(
         'name' => '',
@@ -61,7 +61,7 @@ class ACI_Model_Webservice extends AModel
         $this->_response['start'] = (int)$request->getParam('start');
         
         $responseFormat = $request->getParam(
-            'response', current(array_keys($this->_responseFormats))
+            'response', current(array_keys($this->_responseLimits))
         );
             
         $this->_logger->debug($this->_response);
@@ -95,8 +95,8 @@ class ACI_Model_Webservice extends AModel
             );
         }
         // response param (if set) must be one of the keys of the defined
-        // $this->_responseFormats
-        if(!array_key_exists($responseFormat, $this->_responseFormats)) {
+        // $this->_responseLimits
+        if(!array_key_exists($responseFormat, $this->_responseLimits)) {
             throw new ACI_Model_Webservice_Exception(
                 'Unknown response format: ' . $responseFormat
             );
@@ -117,7 +117,7 @@ class ACI_Model_Webservice extends AModel
         $res = $wsSearch->taxa(
             $request->getParam('id'),
             $request->getParam('name'),
-            $this->_responseFormats[$request->getParam('response')], // LIMIT
+            $this->_responseLimits[$request->getParam('response')], // LIMIT
             $request->getParam('start') // OFFSET
         );
         $numRows = count($res);
@@ -126,21 +126,23 @@ class ACI_Model_Webservice extends AModel
         }
         $this->_response['number_of_results_returned'] = $numRows;
         $this->_response['total_number_of_results'] = $wsSearch->getFoundRows();
-        $names = $this->_processResults($res);
+        $names = $this->_processResults(
+            $res, $request->getParam('response') == 'full' ? true : false
+        );
         $this->_response['names'] = $names;
     }
     
-    protected function _processResults(array $res)
+    protected function _processResults(array $res, /*bool*/$fullResponse)
     {
         $results = array();
         foreach($res as $row) {
             switch($row['status']) {
                 case ACI_Model_Table_Taxa::STATUS_COMMON_NAME:
-                    $item = $this->_processCommonName($row);
+                    $item = $this->_processCommonName($row, $fullResponse);
                 break;
                 case ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME:
                 default:
-                    $item = $this->_processScientificName($row);
+                    $item = $this->_processScientificName($row, $fullResponse);
                 break;
             }
             $results[] = $item;
@@ -148,7 +150,7 @@ class ACI_Model_Webservice extends AModel
         return $results;
     }
     
-    protected function _processCommonName(array $row)
+    protected function _processCommonName(array $row, /*bool*/$fullResponse)
     {
         $item = array(
             'name' => $row['name'],
@@ -179,10 +181,11 @@ class ACI_Model_Webservice extends AModel
             'source_database_url' => $an['db_url'],
             'online_resource' => $an['online_resource']
         );
+        // TODO: implement full response
         return $item;
     }
     
-    protected function _processScientificName(array $row)
+    protected function _processScientificName(array $row, /*bool*/$fullResponse)
     {
         $item = array(
             'id' => $row['record_id'],
@@ -206,6 +209,7 @@ class ACI_Model_Webservice extends AModel
         $item['name_html'] = $an['name_html'];
         $item['online_resource'] = $an['online_resource'];
         
+        // TODO: implement full response
         return $item;
     }
     
