@@ -940,15 +940,15 @@ class ACI_Model_Search extends AModel
                     ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
                     "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
                 'accepted_species_author' => 'sn.author',
-                'status' => 'sn.sp2000_status_id',
-                'genus' => 'sn.genus',
-                'species' => 'sn.species',
-                'infraspecies' => 'sn.infraspecies',
-                'inframarker' => 'sn.infraspecies_marker',
-                'author' => 'sn.author',
-                'online_resource' => 'sn.web_site',
-                'db_name' => 'db.database_name_displayed',
-                'db_url' => 'db.web_site',
+                'accepted_species_status' => 'sn.sp2000_status_id',
+                'accepted_species_genus' => 'sn.genus',
+                'accepted_species_species' => 'sn.species',
+                'accepted_species_infraspecies' => 'sn.infraspecies',
+                'accepted_species_inframarker' => 'sn.infraspecies_marker',
+                'accepted_species_author' => 'sn.author',
+                'accepted_species_url' => 'sn.web_site',
+                'accepted_species_db_name' => 'db.database_name_displayed',
+                'accepted_species_db_url' => 'db.web_site',
                 'kingdom' => 'fm.kingdom'
             )
         )

@@ -174,14 +174,16 @@ class ACI_Model_Webservice extends AModel
             'name_status' => $an['name_status'],
             'name_html' => $an['name_html'],
             'url' => $this->_getTaxaUrl(
-                $an['accepted_species_id'], $an['rank_id'], $an['status'],
+                $an['accepted_species_id'],
+                $an['rank_id'],
+                $an['accepted_species_status'],
                 $an['accepted_species_id']
             ),
-            'source_database' => $an['db_name'],
-            'source_database_url' => $an['db_url'],
-            'online_resource' => $an['online_resource']
+            'source_database' => $an['accepted_species_db_name'],
+            'source_database_url' => $an['accepted_species_db_url'],
+            'online_resource' => $an['accepted_species_url']
         );
-        // TODO: implement full response
+        // TODO: implement full response (+ references)
         return $item;
     }
     
@@ -207,7 +209,7 @@ class ACI_Model_Webservice extends AModel
         $an = $this->_getAcceptedName($row['name_code']);
         
         $item['name_html'] = $an['name_html'];
-        $item['online_resource'] = $an['online_resource'];
+        $item['online_resource'] = $an['accepted_species_url'];
         
         // TODO: implement full response
         return $item;
@@ -222,14 +224,19 @@ class ACI_Model_Webservice extends AModel
         }
         $an['name_html'] =
             ACI_Model_Table_Taxa::getAcceptedScientificName(
-                $an['genus'], $an['species'], $an['infraspecies'],
-                $an['inframarker'], $an['author']
+                $an['accepted_species_genus'],
+                $an['accepted_species_species'],
+                $an['accepted_species_infraspecies'],
+                $an['accepted_species_inframarker'],
+                $an['accepted_species_author']
             );
-        $an['rank_id'] = $an['infraspecies'] ?
+        $an['rank_id'] = $an['accepted_species_infraspecies'] ?
             ACI_Model_Table_Taxa::RANK_INFRASPECIES :
             ACI_Model_Table_Taxa::RANK_SPECIES;
         $an['rank'] = $this->_getRankNameById($an['rank_id']);
-        $an['name_status'] = $this->_getNameStatusById($an['status']);
+        $an['name_status'] = $this->_getNameStatusById(
+            $an['accepted_species_status']
+        );
         
         return $an;
     }
