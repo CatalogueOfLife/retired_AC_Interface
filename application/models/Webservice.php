@@ -166,29 +166,43 @@ class ACI_Model_Webservice extends AModel
             'source_database' => $row['db_name'],
             'source_database_url' => $row['db_url']
         );
+        
         $an = $this->_getAcceptedName($row['name_code']);
+        
         $acceptedName = array(
-            'id' => $an['accepted_species_id'],
-            'name' => $an['accepted_species_name'],
+            'id' => $an['id'],
+            'name' => $an['name'],
             'rank' => $an['rank'],
             'name_status' => $an['name_status'],
-            'name_html' => $an['name_html'],
-            'url' => $this->_getTaxaUrl(
-                $an['accepted_species_id'],
-                $an['rank_id'],
-                $an['accepted_species_status'],
-                $an['accepted_species_id']
+            'name_html' => $an['name_html']
+       );
+       if($fullResponse) {
+           $fullAn = array(
+               'genus' => $an['genus'],
+               'species' => $an['species'],
+               'infraspecies_marker' => $an['infraspecies_marker'],
+               'infraspecies' => $an['infraspecies'],
+               'author' => $an['author']
+           );
+           $acceptedName = array_merge($acceptedName, $fullAn);
+       }
+       
+       $acceptedName = array_merge($acceptedName, array(
+          'url' => $this->_getTaxaUrl(
+                $an['id'], $an['rank_id'], $an['status'], $an['id']
             ),
-            'source_database' => $an['accepted_species_db_name'],
-            'source_database_url' => $an['accepted_species_db_url'],
-            'online_resource' => $an['accepted_species_url']
-        );
+            'source_database' => $an['db_name'],
+            'source_database_url' => $an['db_url'],
+            'online_resource' => $an['online_resource']
+        ));
         if(!$fullResponse) {
             $item['accepted_name'] = $acceptedName;
             return $item;
         }
+        
         $item['references'] = $this->_getReferences(array($row['reference_id']));
         $item['accepted_name'] = $acceptedName;
+        
         return $item;
     }
     
@@ -214,37 +228,32 @@ class ACI_Model_Webservice extends AModel
         $an = $this->_getAcceptedName($row['name_code']);
         
         $item['name_html'] = $an['name_html'];
-        $item['online_resource'] = $an['accepted_species_url'];
+        $item['online_resource'] = $an['online_resource'];
         
         if(!$fullResponse) {
             return $item;
         }
-        $item['more_details'] = '';
+        $item['genus'] = $an['genus'];
+        $item['species'] = $an['species'];
+        $item['infraspecies_marker'] = $an['infraspecies_marker'];
+        $item['infraspecies'] = $an['infraspecies'];
         return $item;
     }
     
     protected function _getAcceptedName($nameCode)
     {
-        $modelSearch = new ACI_Model_Search($this->_db);
-        $an = $modelSearch->getAcceptedSpeciesByNameCode($nameCode);
+        $wsSearch = new ACI_Model_WebserviceSearch($this->_db);
+        $an = $wsSearch->acceptedScientificName($nameCode);
         if(!$an) {
             return array();
         }
         $an['name_html'] =
             ACI_Model_Table_Taxa::getAcceptedScientificName(
-                $an['accepted_species_genus'],
-                $an['accepted_species_species'],
-                $an['accepted_species_infraspecies'],
-                $an['accepted_species_inframarker'],
-                $an['accepted_species_author']
+                $an['genus'], $an['species'], $an['infraspecies'],
+                $an['infraspecies_marker'], $an['author']
             );
-        $an['rank_id'] = $an['accepted_species_infraspecies'] ?
-            ACI_Model_Table_Taxa::RANK_INFRASPECIES :
-            ACI_Model_Table_Taxa::RANK_SPECIES;
         $an['rank'] = $this->_getRankNameById($an['rank_id']);
-        $an['name_status'] = $this->_getNameStatusById(
-            $an['accepted_species_status']
-        );
+        $an['name_status'] = $this->_getNameStatusById($an['status']);
         
         return $an;
     }
@@ -252,11 +261,11 @@ class ACI_Model_Webservice extends AModel
     protected function _getReferences(array $refIds)
     {
         $detailsModel = new ACI_Model_Details($this->_db);
-        $refs = array('references' => array());
+        $refs = array();
         foreach($refIds as $refId) {
             $ref = $detailsModel->getReferenceById($refId);
             if($ref) {
-                $refs['references'][] = array(
+                $refs[] = array(
                     'author' => $ref['author'],
                     'year' => $ref['year'],
                     'title' => $ref['title'],

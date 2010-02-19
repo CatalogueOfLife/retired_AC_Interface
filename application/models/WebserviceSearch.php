@@ -122,4 +122,43 @@ class ACI_Model_WebserviceSearch extends AModel
         
         return $select;
     }
+    
+    public function acceptedScientificName($nameCode) {
+        
+        $select = new Zend_Db_Select($this->_db);
+        $select->from(
+            array('sn' => 'scientific_names'),
+            array(
+                'id' => 'sn.record_id',
+                'genus' => 'sn.genus',
+                'species' => 'sn.species',
+                'infraspecies' => 'sn.infraspecies',
+                'infraspecies_marker' => 'sn.infraspecies_marker',
+                'name' =>
+                    "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
+                    ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
+                    "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
+                'rank_id' => 'IF(sn.infraspecies IS NULL OR ' .
+                    'LENGTH(sn.infraspecies) = 0, ' .
+                    ACI_Model_Table_Taxa::RANK_SPECIES . ', ' .
+                    ACI_Model_Table_Taxa::RANK_INFRASPECIES . ')',
+                'status' => 'sn.sp2000_status_id',
+                'author' => 'sn.author',
+                'online_resource' => 'sn.web_site',
+                'db_name' => 'db.database_name_displayed',
+                'db_url' => 'db.web_site'
+            )
+        )->joinLeft(
+            array('db' => 'databases'),
+            'sn.database_id = db.record_id',
+            array()
+        )
+        ->where('sn.name_code = ?', $nameCode)
+        ->where('sn.is_accepted_name = 1');
+        
+        $res = $select->query()->fetchAll();
+        
+        return $res ? $res[0] : false;
+        
+    }
 }

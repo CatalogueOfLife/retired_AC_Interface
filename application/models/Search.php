@@ -302,9 +302,10 @@ class ACI_Model_Search extends AModel
         $fields =
             array(
                 'id' => 'sn.record_id',
-                'rank' => 'IF(sn.infraspecies_marker, ' .
-                    ACI_Model_Table_Taxa::RANK_INFRASPECIES . ', ' .
-                    ACI_Model_Table_Taxa::RANK_SPECIES . ')',
+                'rank' => 'IF(sn.infraspecies IS NULL OR ' .
+                    'LENGTH(sn.infraspecies) = 0, ' .
+                    ACI_Model_Table_Taxa::RANK_SPECIES . ', ' .
+                    ACI_Model_Table_Taxa::RANK_INFRASPECIES . ')',
                 'name' =>
                     "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
                     ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
@@ -340,9 +341,10 @@ class ACI_Model_Search extends AModel
             array(
                 'id' => 'sn.record_id',
                 'taxa_id' => new Zend_Db_Expr(0),
-                'rank' => 'IF(sn.infraspecies_marker, ' .
-                    ACI_Model_Table_Taxa::RANK_INFRASPECIES . ', ' .
-                    ACI_Model_Table_Taxa::RANK_SPECIES . ')',
+                'rank' => 'IF(sn.infraspecies IS NULL OR ' .
+                    'LENGTH(sn.infraspecies) = 0, ' .
+                    ACI_Model_Table_Taxa::RANK_SPECIES . ', ' .
+                    ACI_Model_Table_Taxa::RANK_INFRASPECIES . ')',
                 'name' =>
                     "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
                     ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
@@ -724,10 +726,14 @@ class ACI_Model_Search extends AModel
         
         $rankId = $this->getRankIdFromString($rank);
         if($rankId == ACI_Model_Table_Taxa::RANK_SPECIES) {
-            $select->where('sn.infraspecies_marker IS NULL');
+            $select->where(
+                'sn.infraspecies IS NULL OR LENGTH(infraspecies) = 0'
+            );
         }
         else if($rankId == ACI_Model_Table_Taxa::RANK_INFRASPECIES) {
-            $select->where('sn.infraspecies_marker IS NOT NULL');
+            $select->where(
+                'sn.infraspecies IS NOT NULL OR LENGTH(TRIM(infraspecies)) > 0'
+            );
         }
                 
         $select
@@ -940,26 +946,12 @@ class ACI_Model_Search extends AModel
                     ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
                     "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
                 'accepted_species_author' => 'sn.author',
-                'accepted_species_status' => 'sn.sp2000_status_id',
-                'accepted_species_genus' => 'sn.genus',
-                'accepted_species_species' => 'sn.species',
-                'accepted_species_infraspecies' => 'sn.infraspecies',
-                'accepted_species_inframarker' => 'sn.infraspecies_marker',
-                'accepted_species_author' => 'sn.author',
-                'accepted_species_url' => 'sn.web_site',
-                'accepted_species_db_name' => 'db.database_name_displayed',
-                'accepted_species_db_url' => 'db.web_site',
                 'kingdom' => 'fm.kingdom'
             )
         )
         ->joinLeft(
             array('fm' => 'families'),
             'sn.family_id = fm.record_id',
-            array()
-        )
-        ->joinLeft(
-            array('db' => 'databases'),
-            'sn.database_id = db.record_id',
             array()
         )
         ->where('sn.name_code = ?', $nameCode)
