@@ -152,7 +152,7 @@ class ACI_Model_Webservice extends AModel
             'name_status' => $this->_getNameStatusById($row['status']),
             'language' => $row['language'],
             'country' => $row['country'],
-            'url' => $this->_getTaxaUrl(
+            'url' => self::getTaxaUrl(
                 $row['record_id'], $row['rank_id'], $row['status'],
                 $row['sn_id']
             ),
@@ -181,7 +181,7 @@ class ACI_Model_Webservice extends AModel
                 'rank' => $row['rank'],
                 'name_status' => $this->_getNameStatusById($row['status']),
                 'name_html' => $row['name_html'],
-                'url' => $this->_getTaxaUrl(
+                'url' => self::getTaxaUrl(
                     $row['record_id'], $row['rank_id'], $row['status']
                 )
             );
@@ -204,7 +204,7 @@ class ACI_Model_Webservice extends AModel
             );
         $an['rank'] = $this->_getRankNameById($an['rank_id']);
         $an['name_status'] = $this->_getNameStatusById($an['status']);
-        $an['url'] = $this->_getTaxaUrl(
+        $an['url'] = self::getTaxaUrl(
             $an['id'], $an['rank_id'], $an['status'], $an['id']
         );
         
@@ -221,8 +221,10 @@ class ACI_Model_Webservice extends AModel
         // full response
         $an['distribution'] = $this->_getDistribution($an['name_code']);
         $an['references'] = $this->_getReferences($an['name_code']);
-        $an['references'] = $this->_getClassification($an['id']);    
-        // TODO: classification, child_taxa, synonyms, common_names
+        $an['classification'] = $this->_getClassification($an['id']);
+        $an['child_taxa'] = $this->_getChildren($an['id']);
+        $an['synonyms'] = $this->_getSynonyms($an['id']);
+        $an['common_names'] = $this->_getCommonNames($an['id']);
         
         return $an;
     }
@@ -256,6 +258,30 @@ class ACI_Model_Webservice extends AModel
         return implode('; ', $distributions);    
     }
     
+    protected function _getClassification($snId)
+    {
+        $wsSearch = new ACI_Model_WebserviceSearch($this->_db);
+        return $wsSearch->classification($snId);
+    }
+    
+    protected function _getChildren()
+    {
+        // TODO: implement
+        return array();
+    }
+    
+    protected function _getSynonyms()
+    {
+        // TODO: implement
+        return array();
+    }
+    
+    protected function _getCommonNames()
+    {
+        // TODO: implement
+        return array();
+    }
+    
     protected function _arrayFilterKeys(array &$array, array $whitelist)
     { 
         foreach ($array as $k => &$v) {
@@ -267,7 +293,7 @@ class ACI_Model_Webservice extends AModel
         }
     }
     
-    protected function _getTaxaUrl($taxaId, $rankId, $statusId, $snId = null)
+    public static function getTaxaUrl($taxaId, $rankId, $statusId, $snId = null)
     {
         $config = Zend_Registry::get('config');
         $url = $config->eti->application->location . '/';

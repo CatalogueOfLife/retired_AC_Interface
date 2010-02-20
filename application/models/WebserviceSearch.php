@@ -169,4 +169,65 @@ class ACI_Model_WebserviceSearch extends AModel
         return $res ? $res[0] : false;
         
     }
+    
+    public function classification($snId)
+    {  
+        $searchModel = new ACI_Model_Search($this->_db);
+        $id = $searchModel->getTaxaFromSpeciesId($snId);
+                
+        $select = new Zend_Db_Select($this->_db);
+        $select->from(
+            array('tx' => 'taxa'),
+            array(
+                'id' => 'tx.record_id',
+                'tx.parent_id',
+                'tx.name',
+                'rank_id' => ACI_Model_Search::getRankDefinition(),
+                'rank' => 'tx.taxon',
+                'status' => 'tx.sp2000_status_id',
+                'genus' => 'sn.genus',
+                'species' => 'sn.species',
+                'infraspecies_marker' => 'sn.infraspecies_marker',
+                'infraspecies' => 'sn.infraspecies',
+                'author' => 'sn.author'
+            )
+        )->joinLeft(
+            array('sn' => 'scientific_names'),
+            'tx.name_code = sn.name_code',
+            array()
+        )
+        ->where('tx.record_id = ?');
+            
+        $classification = array();
+        
+        do {
+            $select->bind(array($id));
+            $res = $select->query()->fetchAll();
+            if (!count($res)) {
+                break;
+            }
+            if($res[0] > 0) {           
+                $classification[] = array(
+                    'id' => $res[0]['id'],
+                    'name' => $res[0]['name'],
+                    'rank' => $res[0]['rank'],
+                    'name_html' => 
+                        $res[0]['rank_id'] < ACI_Model_Table_Taxa::RANK_GENUS ?
+                        $res[0]['name'] :
+                        ACI_Model_Table_Taxa::getAcceptedScientificName(
+                            $res[0]['genus'], $res[0]['species'], 
+                            $res[0]['infraspecies'], 
+                            $res[0]['infraspecies_marker'], $res[0]['author']
+                        ),
+                    'url' => ACI_Model_Webservice::getTaxaUrl(
+                        $res[0]['id'], $res[0]['rank_id'], $res[0]['status']
+                    )
+                );
+            }
+            $id = $res[0]['parent_id'];
+            unset($res);
+        } while ($id > 0);
+        
+        return array_reverse($classification);
+    }
 }
