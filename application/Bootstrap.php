@@ -65,7 +65,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      * @return Zend_View $view
      */
     public function _initView ()
-    {
+    {   
         $config = Zend_Registry::get('config');
         $view = new Zend_View();
         $view->doctype('XHTML1_STRICT');
@@ -78,12 +78,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             'Catalogue of Life - ' .
             $config->eti->application->edition . ' Annual Checklist'
         );
-        $view->headTitle()->setSeparator(' :: ');
-        // Add custom view helpers path
-        $view->addHelperPath('Eti/View/Helper/', 'Eti_View_Helper');
-        $view->addHelperPath(
-            APPLICATION_PATH . '/views/helpers/', 'ACI_View_Helper'
-        );
+        $view->headTitle()->setSeparator(' :: ');        
+        // Add custom view helpers path        
+        $view->addHelperPath('Eti/View/Helper/', 'Eti_View_Helper_');        
         // View renderer
         $viewRenderer = new Zend_Controller_Action_Helper_ViewRenderer();
         $viewRenderer->setView($view);

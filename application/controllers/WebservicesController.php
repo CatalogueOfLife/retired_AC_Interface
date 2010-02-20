@@ -22,7 +22,7 @@ class WebservicesController extends AController
     
     public function queryAction ()
     {
-        switch($this->_getParam('format')) {
+        switch ($this->_getParam('format')) {
             case 'php':
                 $this->view->layout()->disableLayout();
                 $filter = new Eti_Filter_Serialize();

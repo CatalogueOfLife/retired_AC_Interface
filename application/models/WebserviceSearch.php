@@ -33,8 +33,8 @@ class ACI_Model_WebserviceSearch extends AModel
                 'rank' => 'tx.taxon',
                 'language' => new Zend_Db_Expr('""'),
                 'country' => new Zend_Db_Expr('""'),
-                'db_name' => 'db.database_name_displayed',
-                'db_url' => 'db.web_site',
+                'source_database' => 'db.database_name_displayed',
+                'source_database_url' => 'db.web_site',
                 'reference_id' => new Zend_Db_Expr(0),
                 'sort_order' => 'is_accepted_name'
             )
@@ -44,8 +44,8 @@ class ACI_Model_WebserviceSearch extends AModel
             array()
         );
         // by id
-        if(Zend_Validate::is($id, 'Digits')) {
-            if($id == 0) {
+        if (Zend_Validate::is($id, 'Digits')) {
+            if ($id == 0) {
                 $select->where('tx.parent_id = 0');
             }
             else {
@@ -98,8 +98,8 @@ class ACI_Model_WebserviceSearch extends AModel
                 'rank' => new Zend_Db_Expr('""'),
                 'language' => 'cn.language',
                 'country' => 'cn.country',
-                'db_name' => 'db.database_name_displayed',
-                'db_url' => 'db.web_site',
+                'source_database' => 'db.database_name_displayed',
+                'source_database_url' => 'db.web_site',
                 'reference_id' => 'cn.reference_id',
                 'sort_order' => new Zend_Db_Expr(1)
             )
@@ -129,24 +129,32 @@ class ACI_Model_WebserviceSearch extends AModel
         $select->from(
             array('sn' => 'scientific_names'),
             array(
-                'id' => 'sn.record_id',
-                'genus' => 'sn.genus',
-                'species' => 'sn.species',
-                'infraspecies' => 'sn.infraspecies',
-                'infraspecies_marker' => 'sn.infraspecies_marker',
+                'id' => 'sn.record_id',                
                 'name' =>
                     "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
                     ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
                     "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
+                'name_code' => 'sn.name_code',
+                'rank' => new Zend_Db_Expr('""'),
                 'rank_id' => 'IF(sn.infraspecies IS NULL OR ' .
                     'LENGTH(sn.infraspecies) = 0, ' .
                     ACI_Model_Table_Taxa::RANK_SPECIES . ', ' .
                     ACI_Model_Table_Taxa::RANK_INFRASPECIES . ')',
+                'name_status' => new Zend_Db_Expr('""'),
                 'status' => 'sn.sp2000_status_id',
+                'name_html' => new Zend_Db_Expr('""'),
+                'genus' => 'sn.genus',
+                'species' => 'sn.species',
+                'infraspecies_marker' => 'sn.infraspecies_marker',
+                'infraspecies' => 'sn.infraspecies',
                 'author' => 'sn.author',
-                'online_resource' => 'sn.web_site',
-                'db_name' => 'db.database_name_displayed',
-                'db_url' => 'db.web_site'
+                'additional_data' => 'sn.comment',
+                'distribution' => new Zend_Db_Expr('""'),
+                'url' => new Zend_Db_Expr('""'),              
+                'source_database' => 'db.database_name_displayed',
+                'source_database_url' => 'db.web_site',
+                'record_scrutiny_date' => 'sn.scrutiny_date',
+                'online_resource' => 'sn.web_site'
             )
         )->joinLeft(
             array('db' => 'databases'),

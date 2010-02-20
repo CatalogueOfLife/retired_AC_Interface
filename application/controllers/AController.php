@@ -22,6 +22,10 @@ abstract class AController extends Zend_Controller_Action
         $this->_postToGet();
         $this->_db = Zend_Registry::get('db');
         $this->_logger->debug($this->_getAllParams());
+        // Add custom view helpers path
+        $this->view->addHelperPath(
+            APPLICATION_PATH . '/views/helpers/', 'ACI_View_Helper_'
+        );
         // Initialize Dojo, disabled by default
         Zend_Dojo::enableView($this->view);
         $this->view->dojo()->disable();
@@ -49,13 +53,13 @@ abstract class AController extends Zend_Controller_Action
         if ($form instanceof ACI_Form_Dojo_AMultiCombo) {
             $this->view->dojo()
                  ->registerModulePath(
-                     'ACI', $this->view->baseUrl() . SCRIPTS_PATH . 
+                     'ACI', $this->view->baseUrl() . JS_PATH . 
                      '/library/ACI'
                  )
                  ->requireModule('ACI.dojo.TxReadStore');
             // ComboBox (v1.3.2) custom extension
             $this->view->headScript()->appendFile(
-                $this->view->baseUrl() . SCRIPTS_PATH . '/ComboBox.ext.js'
+                $this->view->baseUrl() . JS_PATH . '/ComboBox.ext.js'
             );
         }
         $this->getHelper('Renderer')->renderFormPage($header, $form);

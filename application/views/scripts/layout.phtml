@@ -30,7 +30,7 @@
     echo $this->headLink();
     if ($this->dojo()->isEnabled()) {
         $this->dojo()->setLocalPath(
-            $this->baseUrl() . SCRIPTS_PATH . '/library/dojo/dojo/dojo.js'
+            $this->baseUrl() . JS_PATH . '/library/dojo/dojo/dojo.js'
         )
         // forcing the locale
         ->setDjConfigOption('locale', 'en')
@@ -38,7 +38,7 @@
    	    echo $this->dojo();
     }
     echo $this->headScript()->appendFile(
-        $this->baseUrl() . SCRIPTS_PATH . '/main.js'
+        $this->baseUrl() . JS_PATH . '/main.js'
     );
     ?>
 </head>

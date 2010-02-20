@@ -43,7 +43,7 @@ class BrowseController extends AController
         $this->view->headTitle($this->view->title, 'APPEND');
         $this->view->dojo()->enable()
              ->registerModulePath(
-                 'ACI', $this->view->baseUrl() . SCRIPTS_PATH . '/library/ACI'
+                 'ACI', $this->view->baseUrl() . JS_PATH . '/library/ACI'
              )
              ->requireModule('dojo.parser')
              ->requireModule('dojox.data.QueryReadStore')
