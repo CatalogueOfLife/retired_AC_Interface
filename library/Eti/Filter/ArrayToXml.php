@@ -23,7 +23,7 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
      */
     protected $_encoding = 'UTF-8';
     protected $_root = 'root';
-    protected $_node = 'node';
+    protected $_node = 'node'; //TODO: allow parent-child node name mapping
     protected $_dom;
 
     /**
