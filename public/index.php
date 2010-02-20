@@ -56,7 +56,7 @@ catch(Zend_Config_Exception $e) {
         '] has been defined in the configuration file'
     );
 }
-define('SCRIPTS_PATH', $config->resources->view->scripts);
+define('JS_PATH', $config->resources->view->scripts);
 // Init application
 $application = new Zend_Application(APPLICATION_ENV, $config);
 // Store config
