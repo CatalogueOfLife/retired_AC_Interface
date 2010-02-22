@@ -135,7 +135,7 @@ class ACI_Model_Webservice extends AModel
             switch($row['status']) {
                 case ACI_Model_Table_Taxa::STATUS_COMMON_NAME:
                     $item = $this->_processCommonName($row, $full);
-                break;                
+                break;
                 default:
                     $item = $this->_processScientificName($row, $full);
                 break;
@@ -146,7 +146,7 @@ class ACI_Model_Webservice extends AModel
     }
     
     protected function _processCommonName(array $row, /*bool*/$full)
-    {   
+    {
         $item = array(
             'name' => $row['name'],
             'name_status' => $this->_getNameStatusById($row['status']),
@@ -161,19 +161,19 @@ class ACI_Model_Webservice extends AModel
             'accepted_name' => $this->_getAcceptedName($row['name_code'], $full)
         );
         
-        if (!$full) {       
+        if (!$full) {
             return $item;
         }
         
         // full response =+ references
-        $item['references'] = 
+        $item['references'] =
             $this->_getReferences(array($row['reference_id']));
         
         return $item;
     }
     
     protected function _processScientificName(array $row, /*bool*/$full)
-    {   
+    {
         if ($row['rank_id'] < ACI_Model_Table_Taxa::RANK_SPECIES) {
             return array(
                 'id' => $row['record_id'],
@@ -185,9 +185,10 @@ class ACI_Model_Webservice extends AModel
                     $row['record_id'], $row['rank_id'], $row['status']
                 )
             );
+            // TODO: implement full response for higher taxa
         }
         // Species and infraspecies
-        return $this->_getAcceptedName($row['name_code'], $full);        
+        return $this->_getAcceptedName($row['name_code'], $full);
     }
     
     protected function _getAcceptedName($nameCode, /*bool*/$full)
@@ -212,8 +213,8 @@ class ACI_Model_Webservice extends AModel
         
         if (!$full) {
             $this->_arrayFilterKeys(
-                $an, array('id', 'name', 'rank', 'name_status', 'name_html', 
-                'url', 'source_database', 'source_database_url', 
+                $an, array('id', 'name', 'rank', 'name_status', 'name_html',
+                'url', 'source_database', 'source_database_url',
                 'online_resource')
             );
             return $an;
@@ -255,7 +256,7 @@ class ACI_Model_Webservice extends AModel
     {
         $dm = new ACI_Model_Details($this->_db);
         $distributions = $dm->distributions($nameCode);
-        return implode('; ', $distributions);    
+        return implode('; ', $distributions);
     }
     
     protected function _getClassification($snId)
@@ -283,7 +284,7 @@ class ACI_Model_Webservice extends AModel
     }
     
     protected function _arrayFilterKeys(array &$array, array $whitelist)
-    { 
+    {
         foreach ($array as $k => &$v) {
             if(is_array($v)) {
                 $this->_arrayFilterKeys($v, $whitelist);
