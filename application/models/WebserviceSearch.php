@@ -129,7 +129,7 @@ class ACI_Model_WebserviceSearch extends AModel
         $select->from(
             array('sn' => 'scientific_names'),
             array(
-                'id' => 'sn.record_id',                
+                'id' => 'sn.record_id',
                 'name' =>
                     "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
                     ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
@@ -150,7 +150,7 @@ class ACI_Model_WebserviceSearch extends AModel
                 'author' => 'sn.author',
                 'additional_data' => 'sn.comment',
                 'distribution' => new Zend_Db_Expr('""'),
-                'url' => new Zend_Db_Expr('""'),              
+                'url' => new Zend_Db_Expr('""'),
                 'source_database' => 'db.database_name_displayed',
                 'source_database_url' => 'db.web_site',
                 'record_scrutiny_date' => 'sn.scrutiny_date',
@@ -170,11 +170,8 @@ class ACI_Model_WebserviceSearch extends AModel
         
     }
     
-    public function classification($snId)
-    {  
-        $searchModel = new ACI_Model_Search($this->_db);
-        $id = $searchModel->getTaxaFromSpeciesId($snId);
-                
+    protected function _selectClassification()
+    {
         $select = new Zend_Db_Select($this->_db);
         $select->from(
             array('tx' => 'taxa'),
@@ -198,6 +195,16 @@ class ACI_Model_WebserviceSearch extends AModel
         )
         ->where('tx.record_id = ?');
             
+        return $select;
+    }
+    
+    public function classification($snId)
+    {
+        $searchModel = new ACI_Model_Search($this->_db);
+        $id = $searchModel->getTaxaFromSpeciesId($snId);
+        
+        $select = $this->_selectClassification();
+        
         $classification = array();
         
         do {
@@ -206,18 +213,25 @@ class ACI_Model_WebserviceSearch extends AModel
             if (!count($res)) {
                 break;
             }
-            if($res[0] > 0) {           
+            if($res[0] > 0) {
                 $classification[] = array(
                     'id' => $res[0]['id'],
                     'name' => $res[0]['name'],
                     'rank' => $res[0]['rank'],
-                    'name_html' => 
-                        $res[0]['rank_id'] < ACI_Model_Table_Taxa::RANK_GENUS ?
-                        $res[0]['name'] :
-                        ACI_Model_Table_Taxa::getAcceptedScientificName(
-                            $res[0]['genus'], $res[0]['species'], 
-                            $res[0]['infraspecies'], 
-                            $res[0]['infraspecies_marker'], $res[0]['author']
+                    'name_html' =>
+                        $res[0]['rank_id'] == ACI_Model_Table_Taxa::RANK_GENUS
+                            ?
+                            '<i>' . $res[0]['name'] . '</i>' :
+                        ($res[0]['rank_id'] < ACI_Model_Table_Taxa::RANK_SPECIES
+                            ?
+                            $res[0]['name'] :
+                            ACI_Model_Table_Taxa::getAcceptedScientificName(
+                                $res[0]['genus'],
+                                $res[0]['species'],
+                                $res[0]['infraspecies'],
+                                $res[0]['infraspecies_marker'],
+                                $res[0]['author']
+                            )
                         ),
                     'url' => ACI_Model_Webservice::getTaxaUrl(
                         $res[0]['id'], $res[0]['rank_id'], $res[0]['status']
