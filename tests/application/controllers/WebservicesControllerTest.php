@@ -21,12 +21,19 @@ class WebservicesControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
     
     public function testDefaultAction()
     {
-        $this->dispatch('/webservices');
-        $this->assertController('webservices');
+        $this->dispatch('/webservice');
+        $this->assertController('webservice');
+        $this->assertAction('index');
+    }
+    
+    public function testQueryAction()
+    {
+        $this->dispatch('/webservice?id=1');
+        $this->assertController('webservice');
         $this->assertAction('query');
     }
     
-    public function testDefaultResponse()
+    public function testEmptyXmlResponse()
     {
         /*<results
          *     id=""
@@ -37,7 +44,7 @@ class WebservicesControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
          *     error_message="No name or ID given"
          *     version="1.0">
          *</results>*/
-        $this->dispatch('/webservices');
+        $this->dispatch('/webservice?format=xml');
         $this->assertXpathCount('//results', 1);
         $this->assertXpath("//results[@id = '']");
         $this->assertXpath("//results[@name = '']");
@@ -59,7 +66,7 @@ class WebservicesControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
             'error_message' => 'No name or ID given',
             'version' => '1.0'
         );
-        $this->dispatch('/webservices/?format=php');
+        $this->dispatch('/webservice/?format=php');
         $this->assertEquals(
             array_diff_assoc(
                 unserialize($this->getResponse()->getBody()),
@@ -70,7 +77,7 @@ class WebservicesControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
     
     public function testNameAndIdGivenIsError()
     {
-        $this->dispatch('/webservices/?id=1&name=Animalia');
+        $this->dispatch('/webservice/?id=1&name=Animalia');
         $this->assertXpath("//results[@id = '1']");
         $this->assertXpath("//results[@name = 'Animalia']");
         $this->assertXpath(
@@ -81,7 +88,7 @@ class WebservicesControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
     
     public function testNameTooShortIsError()
     {
-        $this->dispatch('/webservices/?name=xx*');
+        $this->dispatch('/webservice/?name=xx*');
         $this->assertXpath(
             "//results[@error_message = " .
             "'Invalid name given. The name given must consist of at least 3 " .
@@ -91,7 +98,7 @@ class WebservicesControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
     
     public function testStringIdIsError()
     {
-        $this->dispatch('/webservices/?id=foo');
+        $this->dispatch('/webservice/?id=foo');
         $this->assertXpath(
             "//results[@error_message = " .
             "'Invalid ID given. The ID must be a positive integer']"
@@ -100,7 +107,7 @@ class WebservicesControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
     
     public function testNegativeIdIsError()
     {
-        $this->dispatch('/webservices/?id=-1');
+        $this->dispatch('/webservice/?id=-1');
         $this->assertXpath(
             "//results[@error_message = " .
             "'Invalid ID given. The ID must be a positive integer']"
@@ -110,7 +117,7 @@ class WebservicesControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
     public function testInvalidResponseFormat()
     {
         $invalidResponseFormat = 'xxx';
-        $this->dispatch('/webservices/?id=1&response=' . $invalidResponseFormat);
+        $this->dispatch('/webservice/?id=1&response=' . $invalidResponseFormat);
         $this->assertXpath(
             "//results[@error_message = " .
             "'Unknown response format: " . $invalidResponseFormat . "']"
@@ -119,7 +126,7 @@ class WebservicesControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
     
     public function testNoNamesFound()
     {
-        $this->dispatch('/webservices/?name=nonexistantname');
+        $this->dispatch('/webservice/?name=nonexistantname');
         $this->assertXpath(
             "//results[@error_message = " .
             "'No names found']"
@@ -129,7 +136,7 @@ class WebservicesControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
     public function testStartParam()
     {
         $start = 1;
-        $this->dispatch('/webservices/?id=0&start=' . $start);
+        $this->dispatch('/webservice/?id=0&start=' . $start);
         $xml = simplexml_load_string($this->getResponse()->getBody());
         $results = $xml->xpath("//results");
         $this->assertEquals(count($results), 1);

@@ -28,8 +28,7 @@ class ACI_Helper_Export extends Zend_Controller_Action_Helper_Abstract
         $actionController->renderScript(
             $controller . '/export/' . $action . '/headers.phtml'
         );
-        while($row = $stmt->fetch()) {
-            $this->getActionController();
+        while($row = $stmt->fetch()) {            
             $actionController->view->data = $actionController
                 ->getHelper('DataFormatter')->formatPlainRow($row);
             $actionController->renderScript(

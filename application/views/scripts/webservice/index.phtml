@@ -1,0 +1,1893 @@
+<?php
+/**
+ * Annual Checklist Interface
+ *
+ * webservices/index.phtml
+ * Webservices documentation
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  views/scripts
+ *
+ */
+?>
+<html>
+<title>Catalogue of Life Annual Checklist Web Service Help</title>
+<body>
+<style>
+<!--
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+    {mso-style-parent:"";
+    margin:0cm;
+    margin-bottom:.0001pt;
+    mso-pagination:widow-orphan;
+    font-size:12.0pt;
+    font-family:"Times New Roman";
+    mso-fareast-font-family:"Times New Roman";
+    mso-ansi-language:EN-US;
+    mso-fareast-language:EN-US;}
+@page Section1
+    {size:612.0pt 792.0pt;
+    margin:72.0pt 90.0pt 72.0pt 90.0pt;
+    mso-header-margin:36.0pt;
+    mso-footer-margin:36.0pt;
+    mso-paper-source:0;
+    mso-gutter-direction:rtl;}
+div.Section1
+    {page:Section1;}
+-->
+</style><!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+    {mso-style-name:"Table Normal";
+    mso-tstyle-rowband-size:0;
+    mso-tstyle-colband-size:0;
+    mso-style-noshow:yes;
+    mso-style-parent:"";
+    mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+    mso-para-margin:0cm;
+    mso-para-margin-bottom:.0001pt;
+    mso-pagination:widow-orphan;
+    font-size:10.0pt;
+    font-family:"Times New Roman";
+    mso-fareast-font-family:"Times New Roman";
+    mso-ansi-language:#0400;
+    mso-fareast-language:#0400;
+    mso-bidi-language:#0400;}
+</style>
+<![endif]-->
+<!--StartFragment-->
+<div
+ style="border-style: solid none none; border-color: windowtext -moz-use-text-color -moz-use-text-color; border-width: 1pt medium medium; padding: 10pt 0cm 0cm;">
+<p class="MsoNormal" style="border: medium none ; padding: 0cm;"><b><span
+ style="font-family: Arial; color: maroon;" lang="EN-US">Table of
+Contents - 2010 Annual Checklist Web Service v1.1</span></b><span
+ style="font-size: 10pt; font-family: Arial; color: maroon;"
+ lang="EN-US"><o:p></o:p></span></p>
+</div>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">1. URL<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>1.1
+Parameters<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>1.2
+Example URLs<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">2. XML format<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>2.1
+Basic format<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>2.1.1 Terse
+format<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>2.1.2 Full
+format<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>2.2
+Accepted
+species and infraspecific names<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>2.2.1 Terse
+format<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>2.2.2 Full
+format<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>2.3
+Species or infraspecific synonyms<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>2.3.1 Terse
+format<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>2.3.2 Full
+format<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>2.4
+Common names for
+species or infraspecific taxa<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>2.4.1 Terse
+format<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>2.4.2 Full
+format<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>2.5
+Higher taxa<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>2.5.1 Terse
+format<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>2.5.2 Full
+format<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+<div
+ style="border-style: solid none none; border-color: windowtext -moz-use-text-color -moz-use-text-color; border-width: 1pt medium medium; padding: 10pt 0cm 0cm;">
+<p class="MsoNormal" style="border: medium none ; padding: 0cm;"><b><span
+ style="font-family: Arial; color: maroon;" lang="EN-US">URL</span></b><span
+ style="font-size: 10pt; font-family: Arial; color: maroon;"
+ lang="EN-US"><o:p></o:p></span></p>
+</div>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">The
+Web service (version 1.1) is currently available at:<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">http://webservice.catalogueoflife.org/annual-checklist/2010<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><b><span
+ style="font-size: 11pt; font-family: Arial;" lang="EN-US">Parameters</span></b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">There
+is one required parameter, which is either <b>name</b> or <b>id</b>.
+Give <i>either
+
+</i>a name or an ID. If an ID is given, the name parameter may not be
+used, and
+vice versa.<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">The
+parameters <b>format</b>, <b>response</b> and <b>start</b> are all
+optional.<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal"
+ style="margin: 2pt 0cm 2pt 63.8pt; text-indent: -63.8pt;"><b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">name</span></b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>The string
+to search for. Only exact matches found the name given will be
+returned, unless
+one or wildcards are included in the search string. An * (asterisk)
+character
+denotes a wildcard; a % (percentage) character may also be used. The
+name must
+be at least 3 characters long, not counting wildcard characters.<o:p></o:p></span></p>
+
+<p class="MsoNormal"
+ style="margin: 2pt 0cm 2pt 63.8pt; text-indent: -63.8pt;"><b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">id</span></b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"> <span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>The
+record ID of the specific record to return (only for scientific names
+of species or infraspecific taxa)<o:p></o:p></span></p>
+<p class="MsoNormal"
+ style="margin: 2pt 0cm 2pt 63.8pt; text-indent: -63.8pt;"><b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">format</span></b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>format
+of
+the results returned. Valid values are format=xml and format=php; if
+the format
+parameter is omitted, the results are returned in the default XML
+format. If
+format=php then results are returned as a PHP array in serialized
+string
+format, which can be converted back to an array in PHP using the
+unserialize
+command<o:p></o:p></span></p>
+<p class="MsoNormal"
+ style="margin: 2pt 0cm 2pt 63.8pt; text-indent: -63.8pt;"><b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">response</span></b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Type of response
+returned. Valid values are response=terse and response=full. if the
+response
+parameter is omitted, the results are returned in the default terse
+format. If
+format=terse then a minimum set of results are returned (this is faster
+and
+smaller, enough for name lookup), if format=full then all available
+information
+is returned<o:p></o:p></span></p>
+<p class="MsoNormal"
+ style="margin: 2pt 0cm 2pt 63.8pt; text-indent: -63.8pt;"><b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">start</span></b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>The
+first record to return. If omitted, the results are returned from the
+first
+record (start=0). This is useful if the total number of results is
+larger than
+the maximum number of results returned by a single Web service query
+(currently
+the maximum number of results returned by a single query is 500 for
+terse
+queries and 50 for full queries).<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><b><span
+ style="font-size: 11pt; font-family: Arial;" lang="EN-US">Example URLs</span></b><b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p></o:p></span></b></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><a href="http://webservice.catalogueoflife.org/annual-checklist/2010/?name=Tara+spinosa">http://webservice.catalogueoflife.org/annual-checklist/2010/?name=Tara+spinosa</a><o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><a href="http://webservice.catalogueoflife.org/annual-checklist/2010/?name=Apus">http://webservice.catalogueoflife.org/annual-checklist/2010/?name=Apus</a><o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><a href="http://webservice.catalogueoflife.org/annual-checklist/2010/?id=402138">http://webservice.catalogueoflife.org/annual-checklist/2010/?id=402138</a><o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><a href="http://webservice.catalogueoflife.org/annual-checklist/2010/?name=Platalea+leucorodia">http://webservice.catalogueoflife.org/annual-checklist/2010/?name=Platalea+leucorodia</a><o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><a href="http://webservice.catalogueoflife.org/annual-checklist/2010/?id=402138&format=php&response=full">http://webservice.catalogueoflife.org/annual-checklist/2010/?id=402138&amp;format=php&amp;response=full</a><o:p></o:p></span></p>
+<p class="MsoNormal" style=""><b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></b></p>
+
+<p class="MsoNormal" style=""><b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></b></p>
+<div
+ style="border-style: solid none none; border-color: windowtext -moz-use-text-color -moz-use-text-color; border-width: 1pt medium medium; padding: 10pt 0cm 0cm;">
+<p class="MsoNormal" style="border: medium none ; padding: 0cm;"><b><span
+ style="font-family: Arial; color: maroon;" lang="EN-US">XML format</span></b><b><span
+ style="font-size: 10pt; font-family: Arial; color: maroon;"
+ lang="EN-US"><o:p></o:p></span></b></p>
+</div>
+<p class="MsoNormal" style=""><b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></b></p>
+<p class="MsoNormal" style=""><b><span
+ style="font-size: 11pt; font-family: Arial;" lang="EN-US">Basic format</span></b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">The
+search parameters and error message returned by the Web service are
+included as
+parameters of the &lt;results&gt; tag.<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;results
+id="" name="" total_number_of_results=""
+start="" number_of_results=""
+error_message="" version="1.0"&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;result&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[one &lt;result&gt;&lt;/result&gt;
+for each record returned]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/result&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;/results&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">Each
+result can be an accepted (infra)species name, an (infra)species
+synonym, a
+common name for an (infra)species, or a higher taxon.<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><b><span
+ style="font-size: 11pt; font-family: Arial;" lang="EN-US">Accepted
+(infra)species name</span></b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">Terse
+response</span></b><span style="font-size: 10pt; font-family: Arial;"
+ lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;id&gt;&lt;/id&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;rank&gt;&lt;/rank&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name_status&gt;&lt;/name_status&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;online_resource&gt;&lt;/online_resource&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR">&lt;source_database&gt;&lt;/source_database&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR">&lt;source_database_url&gt;&lt;/source_database_url&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">Full response</span></b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;id&gt;&lt;/id&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;rank&gt;&lt;/rank&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name_status&gt;&lt;/name_status&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;genus&gt;&lt;/genus&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;species&gt;&lt;/species&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;infraspecies_marker&gt;&lt;/infraspecies_marker&gt;<span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[only for infraspecies]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;infraspecies&gt;&lt;/infraspecies&gt;<span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp; </span> [only for infraspecies]<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;author&gt;&lt;/author&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;additional_comments&gt;&lt;/additional_comments&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR">&lt;distribution&gt;&lt;/distribution&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR">&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR">&lt;source_database&gt;&lt;/source_database&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;source_database_url&gt;&lt;/source_database_url&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;record_scrutiny_date&gt;&lt;/record_scrutiny_date&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;online_resource&gt;&lt;/online_resource&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;references&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;reference&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[one
+&lt;reference&gt;&lt;/reference&gt; for each reference]<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;author&gt;&lt;/author&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;year&gt;&lt;/year&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;title&gt;&lt;/title&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span style="font-size: 10pt; font-family: Arial;"
+ lang="FR">&lt;source&gt;&lt;/source&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;/reference&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR">&lt;/references&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR">&lt;classification&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span style="font-size: 10pt; font-family: Arial;"
+ lang="EN-US">&lt;taxon&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[one
+&lt;taxon&gt;&lt;/taxon&gt; for each higher taxon]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;rank&gt;&lt;/rank&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/taxon&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;/classification&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;infraspecies_for_this_species&gt;<span
+ style="">&nbsp; </span>[only for species]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;infraspecies&gt;<span style="">&nbsp;&nbsp; </span><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[one
+&lt;infraspecies&gt;&lt;/infraspecies&gt; for each infraspecies]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;id&gt;&lt;/id&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;genus&gt;&lt;/genus&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;species&gt;&lt;/species&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;infraspecies_marker&gt;&lt;/infraspecies_marker&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;infraspecies&gt;&lt;/infraspecies&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;author&gt;&lt;/author&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;/infraspecies&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;/infraspecies_for_this_species&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;synonyms&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;synonym&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[one
+&lt;synonym&gt;&lt;/synonym&gt; for each infraspecies]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;id&gt;&lt;/id&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;rank&gt;&lt;/rank&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;name_status&gt;&lt;/name_status&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;genus&gt;&lt;/genus&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;species&gt;&lt;/species&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;infraspecies_marker&gt;&lt;/infraspecies_marker&gt;<span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[only
+for infraspecies]<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;infraspecies&gt;&lt;/infraspecies&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[only
+for infraspecies]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;additional_data&gt;&lt;/additional_data&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;online_resource&gt;&lt;/online_resource&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span style="font-size: 10pt; font-family: Arial;"
+ lang="FR">&lt;source_database&gt;&lt;/source_database&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;source_database_url&gt;&lt;/source_database_url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span style="font-size: 10pt; font-family: Arial;"
+ lang="EN-US">&lt;record_scrutiny_date&gt;&lt;/record_scrutiny_date&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;references&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;reference&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>[one &lt;reference&gt;&lt;/reference&gt;
+for each reference]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;author&gt;&lt;/author&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;year&gt;&lt;/year&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;title&gt;&lt;/title&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span style="font-size: 10pt; font-family: Arial;"
+ lang="FR">&lt;source&gt;&lt;/source&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/reference&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/references&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/synonym&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;/synonyms&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;common_names&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;common_name&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[one &lt;common_name&gt;&gt;&lt;/common_name&gt;
+for each name]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;country&gt;&lt;/country&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;language&gt;&lt;/language&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;references&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;reference&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[one &lt;reference&gt;&lt;/reference&gt;
+for each reference]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;author&gt;&lt;/author&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;year&gt;&lt;/year&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;title&gt;&lt;/title&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;source&gt;&lt;/source&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/reference&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/references&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/common_name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;/common_names&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><b><span
+ style="font-size: 11pt; font-family: Arial;" lang="EN-US">(Infra)species
+synonym</span></b><span style="font-size: 10pt; font-family: Arial;"
+ lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">Terse
+response</span></b><span style="font-size: 10pt; font-family: Arial;"
+ lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;id&gt;&lt;/id&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;rank&gt;&lt;/rank&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name_status&gt;&lt;/name_status&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;online_resource&gt;&lt;/online_resource&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR">&lt;source_database&gt;&lt;/source_database&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR">&lt;source_database_url&gt;&lt;/source_database_url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;accepted
+name&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[this duplicates the terse response for an accepted name]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;id&gt;&lt;/id&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;rank&gt;&lt;/rank&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name_status&gt;&lt;/name_status&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;online_resource&gt;&lt;/online_resource&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span style="font-size: 10pt; font-family: Arial;"
+ lang="FR">&lt;source_database&gt;&lt;/source_database&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;source_database_url&gt;&lt;/source_database_url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;/accepted
+name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">Full response</span></b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;id&gt;&lt;/id&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;rank&gt;&lt;/rank&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name_status&gt;&lt;/name_status&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;genus&gt;&lt;/genus&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;species&gt;&lt;/species&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;infraspecies_marker&gt;&lt;/infraspecies_marker&gt;<span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[only for infraspecies]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;infraspecies&gt;&lt;/infraspecies&gt;<span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[only for infraspecies]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;author&gt;&lt;/author&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;additional_comments&gt;&lt;/additional_comments&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR">&lt;distribution&gt;&lt;/distribution&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR">&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR">&lt;source_database&gt;&lt;/source_database&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;source_database_url&gt;&lt;/source_database_url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;record_scrutiny_date&gt;&lt;/record_scrutiny_date&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;online_resource&gt;&lt;/online_resource&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;references&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;reference&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[one &lt;reference&gt;&lt;/reference&gt;
+for each reference]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;author&gt;&lt;/author&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;year&gt;&lt;/year&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;title&gt;&lt;/title&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;source&gt;&lt;/source&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/reference&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;/references&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;accepted_name&gt;<span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[this
+duplicates the full response for an accepted name]<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;id&gt;&lt;/id&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;rank&gt;&lt;/rank&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name_status&gt;&lt;/name_status&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;genus&gt;&lt;/genus&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;species&gt;&lt;/species&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;infraspecies_marker&gt;&lt;/infraspecies_marker&gt;<span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span> [only for infraspecies]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;infraspecies&gt;&lt;/infraspecies&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span> [only for infraspecies]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;author&gt;&lt;/author&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;additional_comments&gt;&lt;/additional_comments&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;distribution&gt;&lt;/distribution&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;online_resource&gt;&lt;/online_resource&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;source_database&gt;&lt;/source_database&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;source_database_url&gt;&lt;/source_database_url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;references&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;reference&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[one
+&lt;reference&gt;&lt;/reference&gt; for each reference]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;author&gt;&lt;/author&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;year&gt;&lt;/year&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;title&gt;&lt;/title&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span style="font-size: 10pt; font-family: Arial;"
+ lang="FR">&lt;source&gt;&lt;/source&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/reference&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/references&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;classification&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span style="font-size: 10pt; font-family: Arial;"
+ lang="EN-US">&lt;taxon&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[one
+&lt;taxon&gt;&lt;/taxon&gt; for each higher taxon]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;rank&gt;&lt;/rank&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/taxon&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/classification&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;infraspecies_for_this_species&gt;<span style="">&nbsp; </span>[only
+for species]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;infraspecies&gt;<span style="">&nbsp;&nbsp; </span>[one
+&lt;infraspecies&gt;&lt;/infraspecies&gt; for each infraspecies]<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;id&gt;&lt;/id&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;genus&gt;&lt;/genus&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;species&gt;&lt;/species&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;infraspecies_marker&gt;&lt;/infraspecies_marker&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;infraspecies&gt;&lt;/infraspecies&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;author&gt;&lt;/author&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/infraspecies&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/infraspecies_for_this_species&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;synonyms&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;synonym&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[one
+&lt;synonym&gt;&lt;/synonym&gt; for each infraspecies]<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;id&gt;&lt;/id&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;rank&gt;&lt;/rank&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;name_status&gt;&lt;/name_status&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;genus&gt;&lt;/genus&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;species&gt;&lt;/species&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;infraspecies_marker&gt;&lt;/infraspecies_marker&gt;<span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>[only for infraspecies]<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;infraspecies&gt;&lt;/infraspecies&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[only for infraspecies]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;additional_data&gt;&lt;/additional_data&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;online_resource&gt;&lt;/online_resource&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span style="font-size: 10pt; font-family: Arial;"
+ lang="FR">&lt;source_database&gt;&lt;/source_database&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;source_database_url&gt;&lt;/source_database_url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span style="font-size: 10pt; font-family: Arial;"
+ lang="EN-US">&lt;record_scrutiny_date&gt;&lt;/record_scrutiny_date&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;references&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;reference&gt;<span style="">&nbsp;&nbsp;&nbsp; </span>[one
+
+&lt;reference&gt;&lt;/reference&gt;
+for each reference]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;author&gt;&lt;/author&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;year&gt;&lt;/year&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;title&gt;&lt;/title&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span style="font-size: 10pt; font-family: Arial;"
+ lang="FR">&lt;source&gt;&lt;/source&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/reference&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/references&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/synonym&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="FR"><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span style="font-size: 10pt; font-family: Arial;"
+ lang="EN-US">&lt;/synonyms&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;common_names&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;common_name&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>[one
+&lt;common_name&gt;&gt;&lt;/common_name&gt;
+for each name]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;country&gt;&lt;/country&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;language&gt;&lt;/language&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;references&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;reference&gt;<span style="">&nbsp;&nbsp;&nbsp; </span>[one
+&lt;reference&gt;&lt;/reference&gt;
+for each reference]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;author&gt;&lt;/author&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;year&gt;&lt;/year&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;title&gt;&lt;/title&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;source&gt;&lt;/source&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/reference&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/references&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/common_name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/common_names&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;/accepted
+name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><b><span
+ style="font-size: 11pt; font-family: Arial;" lang="EN-US">Common name
+for (infra)species</span></b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">Terse
+response</span></b><span style="font-size: 10pt; font-family: Arial;"
+ lang="EN-US"><o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name_status&gt;&lt;/name_status&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;language&gt;&lt;/language&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;country&gt;&lt;/country&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;source_database&gt;&lt;/source_database&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;source_database_url&gt;&lt;/source_database_url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;accepted
+name&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[this duplicates the terse response for an accepted name]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;id&gt;&lt;/id&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;rank&gt;&lt;/rank&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name_status&gt;&lt;/name_status&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;online_resource&gt;&lt;/online_resource&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;source_database&gt;&lt;/source_database&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;source_database_url&gt;&lt;/source_database_url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;/accepted
+name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">Full response</span></b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name_status&gt;&lt;/name_status&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;language&gt;&lt;/language&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;country&gt;&lt;/country&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;source_database&gt;&lt;/source_database&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;source_database_url&gt;&lt;/source_database_url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;references&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;reference&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[one
+&lt;reference&gt;&lt;/reference&gt; for each reference]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;author&gt;&lt;/author&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;year&gt;&lt;/year&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;title&gt;&lt;/title&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;source&gt;&lt;/source&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/reference&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;/references&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;accepted_name&gt;<span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[this
+duplicates the full response for an accepted name]<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;id&gt;&lt;/id&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;rank&gt;&lt;/rank&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name_status&gt;&lt;/name_status&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;genus&gt;&lt;/genus&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;species&gt;&lt;/species&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;infraspecies_marker&gt;&lt;/infraspecies_marker&gt;<span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp; </span> <span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>[only
+for infraspecies]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;infraspecies&gt;&lt;/infraspecies&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[only for infraspecies]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;author&gt;&lt;/author&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;additional_comments&gt;&lt;/additional_comments&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;distribution&gt;&lt;/distribution&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;online_resource&gt;&lt;/online_resource&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;source_database&gt;&lt;/source_database&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;source_database_url&gt;&lt;/source_database_url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;references&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;reference&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[one
+&lt;reference&gt;&lt;/reference&gt; for each reference]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;author&gt;&lt;/author&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;year&gt;&lt;/year&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;title&gt;&lt;/title&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;source&gt;&lt;/source&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/reference&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/references&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;classification&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;taxon&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[one
+&lt;taxon&gt;&lt;/taxon&gt; for each higher taxon]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;rank&gt;&lt;/rank&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/taxon&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/classification&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;infraspecies_for_this_species&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[only for species]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;infraspecies&gt;<span style="">&nbsp;&nbsp; </span>[one
+&lt;infraspecies&gt;&lt;/infraspecies&gt; for each infraspecies]<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;id&gt;&lt;/id&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;genus&gt;&lt;/genus&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;species&gt;&lt;/species&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;infraspecies_marker&gt;&lt;/infraspecies_marker&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;infraspecies&gt;&lt;/infraspecies&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;author&gt;&lt;/author&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/infraspecies&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/infraspecies_for_this_species&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;synonyms&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;synonym&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[one
+&lt;synonym&gt;&lt;/synonym&gt; for each infraspecies]<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;id&gt;&lt;/id&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;rank&gt;&lt;/rank&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;name_status&gt;&lt;/name_status&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;genus&gt;&lt;/genus&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;species&gt;&lt;/species&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;infraspecies_marker&gt;&lt;/infraspecies_marker&gt;<span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>[only for infraspecies]<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;infraspecies&gt;&lt;/infraspecies&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[only for infraspecies]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;additional_data&gt;&lt;/additional_data&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;online_resource&gt;&lt;/online_resource&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;source_database&gt;&lt;/source_database&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;source_database_url&gt;&lt;/source_database_url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;record_scrutiny_date&gt;&lt;/record_scrutiny_date&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;references&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;reference&gt;<span style="">&nbsp;&nbsp; </span>[one
+
+&lt;reference&gt;&lt;/reference&gt; for
+each reference]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;author&gt;&lt;/author&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;year&gt;&lt;/year&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;title&gt;&lt;/title&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;source&gt;&lt;/source&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/reference&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/references&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/synonym&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/synonyms&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;common_names&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;common_name&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp; </span>[one
+&lt;common_name&gt;&gt;&lt;/common_name&gt; for each name]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;country&gt;&lt;/country&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;language&gt;&lt;/language&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;references&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;reference&gt;<span style="">&nbsp;&nbsp;&nbsp; </span>[one
+&lt;reference&gt;&lt;/reference&gt;
+for each reference]<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;author&gt;&lt;/author&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;year&gt;&lt;/year&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;title&gt;&lt;/title&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;source&gt;&lt;/source&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;/reference&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/references&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/common_name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/common_names&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;/accepted
+name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><b><span
+ style="font-size: 11pt; font-family: Arial;" lang="EN-US">Higher taxa</span></b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">Terse
+response</span></b><span style="font-size: 10pt; font-family: Arial;"
+ lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;rank&gt;&lt;/rank&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name_status&gt;&lt;/name_status&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class="MsoNormal" style=""><b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">Full response</span></b><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;rank&gt;&lt;/rank&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name_status&gt;&lt;/name_status&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;classification&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;taxon&gt;<span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>[one
+&lt;taxon&gt;&lt;/taxon&gt; for each higher taxon]<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name&gt;&lt;/name&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</span>&lt;rank&gt;&lt;/rank&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;/taxon&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US">&lt;/classification&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;" lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+<!--EndFragment-->
+</body>
+</html>

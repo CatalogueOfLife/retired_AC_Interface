@@ -15,6 +15,10 @@ class ACI_Model_Webservice extends AModel
 {
     const REQUEST_NAME_MIN_STRLEN = 3;
     
+    // allowed parameters
+    protected static $_params = array(
+        'id', 'name', 'start', 'response', 'format'
+    );
     protected $_responseLimits = array('terse' => 500, 'full' => 50);
     protected $_filter;
     protected $_response = array(
@@ -105,6 +109,14 @@ class ACI_Model_Webservice extends AModel
         $request->setParam('start', $this->_response['start']);
         
         return $request;
+    }
+    
+    public static function paramsExist(array $requestParams)
+    {          
+        $intersect = array_intersect(
+            self::$_params, array_keys($requestParams)
+        );
+        return !empty($intersect);
     }
     
     protected function _process(Zend_Controller_Request_Abstract $request)
