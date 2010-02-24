@@ -30,6 +30,7 @@ class ACI_Model_Webservice extends AModel
         'error_message' => '',
         'version' => '1.0'
     );
+    protected $_model;
     
     public function query(Zend_Controller_Request_Abstract $request)
     {
@@ -37,7 +38,8 @@ class ACI_Model_Webservice extends AModel
             throw new ACI_Model_Exception(
                 'No filter defined for the webservice output'
             );
-        }
+        }        
+        $this->_model = new ACI_Model_WebserviceSearch($this->_db);        
         try {
             $this->_process($this->_validate($request));
         } catch(Zend_Db_Exception $e) {
@@ -120,9 +122,8 @@ class ACI_Model_Webservice extends AModel
     }
     
     protected function _process(Zend_Controller_Request_Abstract $request)
-    {
-        $wsSearch = new ACI_Model_WebserviceSearch($this->_db);
-        $res = $wsSearch->taxa(
+    {   
+        $res = $this->_model->taxa(
             $request->getParam('id'),
             $request->getParam('name'),
             $this->_responseLimits[$request->getParam('response')], // LIMIT
@@ -133,7 +134,8 @@ class ACI_Model_Webservice extends AModel
             throw new ACI_Model_Webservice_Exception('No names found');
         }
         $this->_response['number_of_results_returned'] = $numRows;
-        $this->_response['total_number_of_results'] = $wsSearch->getFoundRows();
+        $this->_response['total_number_of_results'] = 
+            $this->_model->getFoundRows();
         $names = $this->_processResults(
             $res, $request->getParam('response') == 'full' ? true : false
         );
@@ -170,7 +172,9 @@ class ACI_Model_Webservice extends AModel
             ),
             'source_database' => $row['source_database'],
             'source_database_url' => $row['source_database_url'],
-            'accepted_name' => $this->_getAcceptedName($row['name_code'], $full)
+            'accepted_name' => $this->_getScientificName(
+                $row['name_code'], $full, true
+            )
         );
         
         if (!$full) {
@@ -200,13 +204,19 @@ class ACI_Model_Webservice extends AModel
             // TODO: implement full response for higher taxa
         }
         // Species and infraspecies
-        return $this->_getAcceptedName($row['name_code'], $full);
+        $sn = $this->_getScientificName($row['name_code'], $full, false);
+        if(ACI_Model_Table_Taxa::isSynonym($row['status'])) {
+            $sn['accepted_name'] = $this->_getScientificName(
+                $this->_model->getAcceptedNameCodeFromId($sn['id']), false, true
+            );
+        }
+        return $sn;
     }
     
-    protected function _getAcceptedName($nameCode, /*bool*/$full)
-    {
-        $wsSearch = new ACI_Model_WebserviceSearch($this->_db);
-        $an = $wsSearch->acceptedScientificName($nameCode);
+    protected function _getScientificName($nameCode, /*bool*/$full, 
+        /*bool*/$acceptedName)
+    {   
+        $an = $this->_model->scientificName($nameCode, $acceptedName);
         if (!$an) {
             return array();
         }
@@ -236,7 +246,7 @@ class ACI_Model_Webservice extends AModel
         $an['references'] = $this->_getReferences($an['name_code']);
         $an['classification'] = $this->_getClassification($an['id']);
         $an['child_taxa'] = $this->_getChildren($an['id']);
-        $an['synonyms'] = $this->_getSynonyms($an['id']);
+        $an['synonyms'] = $this->_getSynonyms($an['name_code']);
         $an['common_names'] = $this->_getCommonNames($an['id']);
         
         return $an;
@@ -272,9 +282,8 @@ class ACI_Model_Webservice extends AModel
     }
     
     protected function _getClassification($snId)
-    {
-        $wsSearch = new ACI_Model_WebserviceSearch($this->_db);
-        return $wsSearch->classification($snId);
+    {   
+        return $this->_model->classification($snId);
     }
     
     protected function _getChildren()
@@ -283,10 +292,25 @@ class ACI_Model_Webservice extends AModel
         return array();
     }
     
-    protected function _getSynonyms()
-    {
-        // TODO: implement
-        return array();
+    protected function _getSynonyms($nameCode)
+    {  
+        $synonyms = $this->_model->synonyms($nameCode);
+        foreach($synonyms as &$syn) {
+            $syn['name_html'] =
+            ACI_Model_Table_Taxa::getAcceptedScientificName(
+                $syn['genus'], $syn['species'], $syn['infraspecies'],
+                $syn['infraspecies_marker'], $syn['author']
+            );
+            $syn['rank'] = $this->_getRankNameById($syn['rank_id']);
+            $syn['name_status'] = $this->_getNameStatusById($syn['status']);
+            $syn['url'] = self::getTaxaUrl(
+                $syn['id'], $syn['rank_id'], $syn['status'], $syn['id']
+            );
+            $syn['references'] = $this->_getReferences($syn['name_code']);
+            unset($syn['rank_id'], $syn['status'], $syn['name_code'], 
+                $syn['distribution']);
+        }
+        return $synonyms;
     }
     
     protected function _getCommonNames()

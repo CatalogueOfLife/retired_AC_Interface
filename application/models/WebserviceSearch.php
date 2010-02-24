@@ -123,8 +123,8 @@ class ACI_Model_WebserviceSearch extends AModel
         return $select;
     }
     
-    public function acceptedScientificName($nameCode) {
-        
+    public function _selectScientificName()
+    {
         $select = new Zend_Db_Select($this->_db);
         $select->from(
             array('sn' => 'scientific_names'),
@@ -160,14 +160,36 @@ class ACI_Model_WebserviceSearch extends AModel
             array('db' => 'databases'),
             'sn.database_id = db.record_id',
             array()
-        )
-        ->where('sn.name_code = ?', $nameCode)
-        ->where('sn.is_accepted_name = 1');
+        );
+        return $select;
         
+    }
+    
+    public function scientificName($nameCode, /*bool*/$acceptedName) {
+        
+        $select = $this->_selectScientificName();
+        $select->where('sn.name_code = ?', $nameCode);
+        if($acceptedName) {
+            $select->where('sn.is_accepted_name = 1');
+        }
         $res = $select->query()->fetchAll();
         
         return $res ? $res[0] : false;
         
+    }
+    
+    public function synonyms($nameCode)
+    {
+        $select = $this->_selectScientificName();
+        $select->where(
+            'sn.accepted_name_code = ? AND sn.is_accepted_name = 0', $nameCode
+        )
+        ->group('sn.name_code')
+        ->order(array('genus', 'species', 'infraspecies', 'author'));
+        
+        $res = $select->query()->fetchAll();
+        
+        return $res;
     }
     
     protected function _selectClassification()
@@ -243,5 +265,15 @@ class ACI_Model_WebserviceSearch extends AModel
         } while ($id > 0);
         
         return array_reverse($classification);
+    }
+    
+    public function getAcceptedNameCodeFromId($id)
+    {
+        $select = new Zend_Db_Select($this->_db);
+        $select->from(
+            array('sn' => 'scientific_names'),
+            array('name_code' => 'sn.accepted_name_code')
+        )->where('sn.record_id = ?', $id);
+        return $select->query()->fetchColumn(0);        
     }
 }
