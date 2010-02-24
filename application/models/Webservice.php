@@ -145,7 +145,7 @@ class ACI_Model_Webservice extends AModel
     protected function _processResults(array $res, /*bool*/$full)
     {
         $results = array();
-        foreach($res as $row) {
+        foreach ($res as $row) {
             switch($row['status']) {
                 case ACI_Model_Table_Taxa::STATUS_COMMON_NAME:
                     $item = $this->_processCommonName($row, $full);
@@ -205,7 +205,7 @@ class ACI_Model_Webservice extends AModel
         }
         // Species and infraspecies
         $sn = $this->_getScientificName($row['name_code'], $full, false);
-        if(ACI_Model_Table_Taxa::isSynonym($row['status'])) {
+        if (ACI_Model_Table_Taxa::isSynonym($row['status'])) {
             $sn['accepted_name'] = $this->_getScientificName(
                 $this->_model->getAcceptedNameCodeFromId($sn['id']), false, true
             );
@@ -256,7 +256,7 @@ class ACI_Model_Webservice extends AModel
     {
         $dm = new ACI_Model_Details($this->_db);
         
-        if(is_array($rCode)) {
+        if (is_array($rCode)) {
             $refs = array();
             foreach ($rCode as $refId) {
                 $ref = $dm->getReferenceById($refId);
@@ -295,7 +295,7 @@ class ACI_Model_Webservice extends AModel
     protected function _getSynonyms($nameCode)
     {  
         $synonyms = $this->_model->synonyms($nameCode);
-        foreach($synonyms as &$syn) {
+        foreach ($synonyms as &$syn) {
             $syn['name_html'] =
             ACI_Model_Table_Taxa::getAcceptedScientificName(
                 $syn['genus'], $syn['species'], $syn['infraspecies'],
@@ -322,7 +322,7 @@ class ACI_Model_Webservice extends AModel
     protected function _arrayFilterKeys(array &$array, array $whitelist)
     {
         foreach ($array as $k => &$v) {
-            if(is_array($v)) {
+            if (is_array($v)) {
                 $this->_arrayFilterKeys($v, $whitelist);
             } else if (!in_array($k, $whitelist)) {
                 unset($array[$k]);
@@ -340,9 +340,7 @@ class ACI_Model_Webservice extends AModel
             // species or infraspecies
             if ($rankId >= ACI_Model_Table_Taxa::RANK_SPECIES) {
                 $url .= 'details/species/id/' . $taxaId;
-            }
-            // higher taxa
-            else {
+            } else  { // higher taxa
                 $url .= 'browse/tree/id/' . $taxaId;
             }
         }

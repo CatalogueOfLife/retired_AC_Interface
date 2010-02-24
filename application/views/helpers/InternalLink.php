@@ -19,11 +19,11 @@ class ACI_View_Helper_InternalLink extends Zend_View_Helper_Abstract
         // links to databases
         preg_match_all('#\[link:db:([0-9]+)\]#', $str, $matches);
         
-        if(isset($matches[1])) {
+        if (isset($matches[1])) {
             $t = Zend_Registry::get('Zend_Translate');
             $new = ' <span class="new">' . $t->translate('NEW') . '</span>';
             $dbModel = new ACI_Model_Table_Databases();
-            foreach($matches[1] as $match) {
+            foreach ($matches[1] as $match) {
                 $db = $dbModel->get($match);
                 $find[] = '#\[link:db:(' . $match . ')\]#';
                 $replace[] = '<a href="' . $this->view->baseUrl() .

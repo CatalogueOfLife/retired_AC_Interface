@@ -40,13 +40,13 @@ class Eti_Paginator_Adapter_DbSelect extends Zend_Paginator_Adapter_DbSelect
                 
             $rowCountColumExists = false;
             
-            foreach($columns as $col) {
+            foreach ($columns as $col) {
                 $countColumnPart = $col[1];
                 if ($countColumnPart instanceof Zend_Db_Expr) {
                     $countColumnPart = $countColumnPart->__toString();
                 }
                 $countColumnAlias = $col[2];
-                if(false !== strpos($countColumnPart, $rowCountColumn) ||
+                if (false !== strpos($countColumnPart, $rowCountColumn) ||
                     $countColumnAlias == $rowCountColumn) {
                     $rowCountColumExists = true;
                     break;
@@ -64,7 +64,7 @@ class Eti_Paginator_Adapter_DbSelect extends Zend_Paginator_Adapter_DbSelect
 
             $result = $rowCount->query(Zend_Db::FETCH_ASSOC)->fetch();
             
-            foreach($result as $colName => $colValue) {
+            foreach ($result as $colName => $colValue) {
                 $this->_countColumns[$colName] = $colValue;
             }
             $this->_rowCount = $this->getCountColumn($rowCountColumn);

@@ -36,7 +36,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                 <tr>
                     <td><?php echo $this->species->name; ?></td>
                     <td align="right">
-                    <?php if($this->species->references): ?>
+                    <?php if ($this->species->references): ?>
                     <a href="<?php echo $this->baseUrl() .
                         '/details/reference/species/' . $this->species->id; ?>"><img
                         src="<?php echo $this->baseUrl() . '/images/book.gif'; ?>"
@@ -63,7 +63,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                         ?>
                         </td>
                         <td align="right">
-                        <?php if($synonym['num_references']): ?>
+                        <?php if ($synonym['num_references']): ?>
                         <a href="<?php echo $this->baseUrl() .
                               '/details/reference/species/' . $synonym['id']; ?>"><img
                             src="<?php echo $this->baseUrl() . '/images/book.gif'; ?>"
@@ -80,7 +80,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                 ?>
         </td>
     </tr>
-<?php if($this->species->rank != ACI_Model_Table_Taxa::RANK_INFRASPECIES &&
+<?php if ($this->species->rank != ACI_Model_Table_Taxa::RANK_INFRASPECIES &&
     $this->species->infraspecies): ?>
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd"); ?>
     <tr class="<?php echo $rowClass; ?>">
@@ -106,15 +106,15 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
             <?php $languageGroup = ($rowClass == "odd" ? "odd" : "even");
                 $previousLanguage = ''; ?>
             <?php foreach ($this->species->commonNames as $common): ?>
-                <?php if($previousLanguage != $common['language'])
+                <?php if ($previousLanguage != $common['language'])
                 {
-                    if($languageGroup == "odd") $languageGroup = "even"; else $languageGroup = "odd"; } ?>
+                    if ($languageGroup == "odd") $languageGroup = "even"; else $languageGroup = "odd"; } ?>
                 <tr class="<?php echo $languageGroup; ?>">
                     <td><?php echo $common['common_name']; ?></td>
                     <td><?php echo $common['language'] ? $common['language'] : '-'; ?></td>
                     <td><?php echo $common['country'] ? $common['country'] : '-'; ?></td>
                     <td align="right">
-                        <?php if($common['references']): ?>
+                        <?php if ($common['references']): ?>
                         <a href="<?php echo $this->baseUrl() .
                           '/details/reference/id/' . $common['references']; ?>">
                         <img

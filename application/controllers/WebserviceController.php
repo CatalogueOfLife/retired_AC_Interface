@@ -23,10 +23,9 @@ class WebserviceController extends AController
     public function indexAction ()
     {
         // if no webservice-specific parameters are set, show the documentation
-        if(ACI_Model_Webservice::paramsExist($this->_getAllParams())) {
+        if (ACI_Model_Webservice::paramsExist($this->_getAllParams())) {
             $this->_forward('query');
-        }
-        else {
+        } else {
             $this->view->layout()->disableLayout();
         }
     }

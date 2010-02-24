@@ -18,7 +18,7 @@ class ACI_Model_Table_CommonNames extends Zend_Db_Table_Abstract
     
     public function count()
     {
-        if(is_null(self::$_numCommonNames)) {
+        if (is_null(self::$_numCommonNames)) {
             $select = $this->select();
             $select->from($this, array('COUNT(1) AS total'));
             $rows = $this->fetchAll($select);

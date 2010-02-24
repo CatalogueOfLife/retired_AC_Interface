@@ -25,7 +25,7 @@ class Eti_Filter_Serialize implements Zend_Filter_Interface
      */
     public function filter($value)
     {
-        if(!is_array($value)) {
+        if (!is_array($value)) {
             throw new Zend_Filter_Exception('Given value is not an array');
         }
         return serialize($value);

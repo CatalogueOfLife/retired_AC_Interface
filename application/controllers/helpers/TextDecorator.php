@@ -66,7 +66,7 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
     
     public function createLink($linkText, $target = '_self')
     {
-        if(!$linkText) {
+        if (!$linkText) {
             return self::EMPTY_FIELD;
         }
         $pattern = '#(^[^ \(\)]*\b)(.*)#';

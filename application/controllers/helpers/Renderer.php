@@ -134,18 +134,17 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
     protected function _getPaginator(Zend_Db_Select $query, $countQuery, $page,
         $items)
     {
-        if($countQuery instanceof Zend_Db_Select) {
+        if ($countQuery instanceof Zend_Db_Select) {
             $paginatorAdapter = new Eti_Paginator_Adapter_DbSelect($query);
             $paginatorAdapter->setRowCount($countQuery);
             $paginator = new Eti_Paginator($paginatorAdapter);
-        }
-        else {
+        } else {
             $paginator = new Zend_Paginator(
                 new Zend_Paginator_Adapter_DbSelect($query)
             );
         }
         $cache = Zend_Registry::get('cache');
-        if($cache instanceof Zend_Cache_Core) {
+        if ($cache instanceof Zend_Cache_Core) {
             $paginator->setCache($cache);
         }
         $paginator->setItemCountPerPage((int)$items);

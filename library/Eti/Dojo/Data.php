@@ -38,7 +38,7 @@ class Eti_Dojo_Data extends Zend_Dojo_Data implements ArrayAccess, Iterator,
      */
     protected function _utf8Encode(array $item) {
         $encItem['id'] = utf8_encode($item['id']);
-        foreach($item['data'] as $k => $v) {
+        foreach ($item['data'] as $k => $v) {
             $encItem['data'][$k] = utf8_encode($v);
         }
         return $encItem;

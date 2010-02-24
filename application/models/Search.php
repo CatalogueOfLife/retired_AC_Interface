@@ -41,7 +41,7 @@ class ACI_Model_Search extends AModel
     protected static function _getDefaultSortExpression($searchKey,
         $matchWholeWords)
     {
-        if(is_array($searchKey)) {
+        if (is_array($searchKey)) {
             // Scientific search, multiple fields
             $searchKey = trim(
                 (isset($searchKey['genus']) ? $searchKey['genus'] : '') .
@@ -443,7 +443,7 @@ class ACI_Model_Search extends AModel
             )
         );
         
-        if($matchWholeWords) {
+        if ($matchWholeWords) {
             $select->join(
                 array('ss' => 'simple_search'),
                 'ss.taxa_id = tx.record_id',
@@ -454,8 +454,7 @@ class ACI_Model_Search extends AModel
                 'AND tx.is_species_or_nonsynonymic_higher_taxon = 1',
                 $searchKey
             );
-        }
-        else {
+        } else {
             $select->where(
                 'tx.name LIKE "%' . $searchKey . '%" AND ' .
                 'tx.is_species_or_nonsynonymic_higher_taxon = 1'
@@ -547,7 +546,7 @@ class ACI_Model_Search extends AModel
             'cn.database_id = db.record_id',
             array()
         );
-        if($matchWholeWords) {
+        if ($matchWholeWords) {
             $replacedSearchKey = self::wildcardHandlingInRegExp(
                 $searchKey, 1
             );
@@ -656,7 +655,7 @@ class ACI_Model_Search extends AModel
         $cache = Zend_Registry::get('cache');
         $cacheKey = $rank . '_' . $cleanStr . '_' . implode('_', $key);
         $res = false;
-        if($cache) {
+        if ($cache) {
             // Try to load cached results
             try {
                 $res = $cache->load($cacheKey);
@@ -666,7 +665,7 @@ class ACI_Model_Search extends AModel
                 $cache = false;
             }
         }
-        if(!$res) {
+        if (!$res) {
             if (strlen($cleanStr) < $this->_getMinStrLen($rank, $key)) {
                 return array('error' => true);
             }
@@ -682,7 +681,7 @@ class ACI_Model_Search extends AModel
                     $rank, $qSubstr, $orderSubstr, $key
                 );
             $res = $select->query()->fetchAll();
-            if($cache) {
+            if ($cache) {
                 $cache->save($res, $cacheKey);
             }
         }
@@ -725,12 +724,12 @@ class ACI_Model_Search extends AModel
         }
         
         $rankId = $this->getRankIdFromString($rank);
-        if($rankId == ACI_Model_Table_Taxa::RANK_SPECIES) {
+        if ($rankId == ACI_Model_Table_Taxa::RANK_SPECIES) {
             $select->where(
                 'sn.infraspecies IS NULL OR LENGTH(infraspecies) = 0'
             );
         }
-        else if($rankId == ACI_Model_Table_Taxa::RANK_INFRASPECIES) {
+        else if ($rankId == ACI_Model_Table_Taxa::RANK_INFRASPECIES) {
             $select->where(
                 'sn.infraspecies IS NOT NULL OR LENGTH(TRIM(infraspecies)) > 0'
             );

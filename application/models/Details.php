@@ -206,7 +206,7 @@ class ACI_Model_Details extends AModel
         $cache = Zend_Registry::get('cache');
         // Try to load cached results
         $res = $cache ? $cache->load($cacheKey) : false;
-        if(!$res) {
+        if (!$res) {
             $select = new Zend_Db_Select($this->_db);
             $select->from(
                 array('tx' => 'taxa'),
@@ -227,14 +227,14 @@ class ACI_Model_Details extends AModel
                 if (!count($res)) {
                     break;
                 }
-                if($res[0] > 0) {
+                if ($res[0] > 0) {
                     $hierarchy[] = $res[0];
                 }
                 $id = $res[0]['parent_id'];
             } while ($id > 0);
 
             $res = array_reverse($hierarchy);
-            if($cache) {
+            if ($cache) {
                 $cache->save($res, $cacheKey);
             }
         }

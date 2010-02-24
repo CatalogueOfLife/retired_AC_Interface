@@ -59,21 +59,20 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
      */
     public function filter($value)
     {
-        if(!is_array($value)) {
+        if (!is_array($value)) {
             throw new Zend_Filter_Exception('Given value is not an array');
         }
         $this->_dom = new DOMDocument('1.0', $this->_encoding);
         $xml = $this->_dom->createElement($this->_root);
         
-        foreach($value as $k => $v) {
-            if(is_array($v)) {
-                foreach($v as $i => $result) {
+        foreach ($value as $k => $v) {
+            if (is_array($v)) {
+                foreach ($v as $i => $result) {
                     $xml = $this->_arrayKeysToNodes(
                         $xml, $result, is_int($i) ? $this->_node : $i
                     );
                 }
-            }
-            else {
+            } else {
                 $xml->setAttribute($k, $v);
             }
         }
@@ -85,13 +84,12 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
         $nodeName)
     {
         $node = $this->_dom->createElement($nodeName);
-        foreach($array as $k => $v) {
-            if(is_array($v)) {
+        foreach ($array as $k => $v) {
+            if (is_array($v)) {
                 $this->_arrayKeysToNodes(
                     $node, $v, is_int($k) ? $this->_node : $k
                 );
-            }
-            else {
+            } else {
                 $el = $this->_dom->createElement($k);
                 $el->appendChild(
                     $this->_dom->createTextNode($this->_cleanString($v))

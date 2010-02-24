@@ -410,10 +410,9 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     
                     $trimmedRank = trim($trimmedRank);
                     
-                    if(strstr($trimmedRank, ' ')) {
+                    if (strstr($trimmedRank, ' ')) {
                         $output .= $trimmedRank;
-                    }
-                    else {
+                    } else {
                         // link to taxonomic browser
                         $link = $this->getFrontController()->getBaseUrl() .
                             '/browse/classification/name/' . $trimmedRank;
@@ -429,7 +428,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     public function splitByMarkers($name)
     {
         $nameArray = split(' ', $name);
-        foreach($nameArray as &$n) {
+        foreach ($nameArray as &$n) {
             $n = array($n, in_array($n, ACI_Model_Table_Taxa::$markers));
         }
         return $nameArray;
@@ -479,8 +478,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     protected function _wrapTaxaName($source, $status, $rank)
     {
         if ($status != ACI_Model_Table_Taxa::STATUS_COMMON_NAME) {
-            if($rank >= ACI_Model_Table_Taxa::RANK_GENUS) {
-                if($rank == ACI_Model_Table_Taxa::RANK_INFRASPECIES) {
+            if ($rank >= ACI_Model_Table_Taxa::RANK_GENUS) {
+                if ($rank == ACI_Model_Table_Taxa::RANK_INFRASPECIES) {
                     $source = $this->_formatInfraspeciesName($source);
                 }
                 $source = '<i>' . $source . '</i>';

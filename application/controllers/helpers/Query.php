@@ -226,7 +226,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
     
     public function getAcceptedSpecies($nameCode)
     {
-        if(is_null($nameCode)) {
+        if (is_null($nameCode)) {
             return array();
         }
         $search = new ACI_Model_Search(Zend_Registry::get('db'));
@@ -290,7 +290,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                     ->getHelper('TextDecorator')->highlightMatch(
                         $row['name'], $query
                     );
-                if($i == ACI_Model_Search::API_ROWSET_LIMIT) {
+                if ($i == ACI_Model_Search::API_ROWSET_LIMIT) {
                     $errStr = 'More_matching_results';
                     $row = array(
                         'name' => empty($query) ? '' : $query . '*',

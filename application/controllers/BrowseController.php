@@ -25,10 +25,9 @@ class BrowseController extends AController
         }
         $id = false;
         $species = $this->_getParam('species', false);
-        if($species) {
+        if ($species) {
             $id = $this->_getTaxaFromSpeciesId($species);
-        }
-        else {
+        } else {
             $id = $this->_getParam('id', false);
         }
         $this->_persistTree($id);
@@ -61,11 +60,11 @@ class BrowseController extends AController
      */
     protected function _persistTree(&$id)
     {
-        if(!$this->_persistTree) {
+        if (!$this->_persistTree) {
             return false;
         }
         // If no id or species was passed
-        if(!$id) {
+        if (!$id) {
             // get the id from persistance (session)
             $id = $this->getHelper('SessionHandler')->get('tree_id', false);
         }
@@ -145,9 +144,9 @@ class BrowseController extends AController
         $select = new ACI_Model_Search($this->_db);
         $taxaRecords = $select->getRecordIdFromName($name);
         
-        if(!empty($taxaRecords)) {
+        if (!empty($taxaRecords)) {
             $hierarchy = $this->_getHierarchy($taxaRecords[0]['id']);
-            if(is_array($hierarchy)) {
+            if (is_array($hierarchy)) {
                 // prefill the form with the hierarchy values
                 foreach ($hierarchy as $rank) {
                     if ($rank != 0) {

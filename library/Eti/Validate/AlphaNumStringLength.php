@@ -14,7 +14,7 @@ class Eti_Validate_AlphaNumStringLength extends Zend_Validate_StringLength
 {
     public function isValid ($value)
     {
-        if(!is_string($value)) {
+        if (!is_string($value)) {
             $this->_error(self::INVALID);
             return false;
         }

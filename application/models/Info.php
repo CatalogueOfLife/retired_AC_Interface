@@ -41,12 +41,12 @@ class ACI_Model_Info extends AModel
         $cache = Zend_Registry::get('cache');
         $cacheKey = 'statistics';
         $res = false;
-        if($cache) {
+        if ($cache) {
             $res = $cache->load($cacheKey);
         }
-        if(!$res) {
+        if (!$res) {
             $res = $this->_calculateStatistics();
-            if($cache) {
+            if ($cache) {
                 $cache->save($res, $cacheKey);
             }
         }

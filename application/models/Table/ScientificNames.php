@@ -24,13 +24,13 @@ class ACI_Model_Table_ScientificNames extends Zend_Db_Table_Abstract
     {
         $select = $this->select();
         $select->from($this, array('record_id AS id'));
-        if(!is_null($genus)) {
+        if (!is_null($genus)) {
             $select->where('genus = ?', (string)$genus);
         }
-        if(!is_null($species)) {
+        if (!is_null($species)) {
             $select->where('species = ?', (string)$species);
         }
-        if(!is_null($infraspecies)) {
+        if (!is_null($infraspecies)) {
             $select->where('infraspecies = ?', (string)$infraspecies);
         }
         $rows = $this->fetchAll($select);
@@ -39,7 +39,7 @@ class ACI_Model_Table_ScientificNames extends Zend_Db_Table_Abstract
     
     public function count()
     {
-        if(is_null(self::$_numScientificNames)) {
+        if (is_null(self::$_numScientificNames)) {
             $select = $this->select();
             $select->from($this, array('COUNT(1) AS total'));
             $rows = $this->fetchAll($select);
@@ -50,7 +50,7 @@ class ACI_Model_Table_ScientificNames extends Zend_Db_Table_Abstract
     
     public function countSynonyms()
     {
-        if(is_null(self::$_numSynonyms)) {
+        if (is_null(self::$_numSynonyms)) {
             $select = $this->select();
             $select->from($this, array('COUNT(1) AS total'))->where(
                 'sp2000_status_id IN (?)',
@@ -68,7 +68,7 @@ class ACI_Model_Table_ScientificNames extends Zend_Db_Table_Abstract
     
     public function countAcceptedNames()
     {
-        if(is_null(self::$_numAcceptedNames)) {
+        if (is_null(self::$_numAcceptedNames)) {
             $rows = $this->fetchAll($this->_getAcceptedNamesCount());
             self::$_numAcceptedNames = $rows[0]->total;
         }
@@ -77,7 +77,7 @@ class ACI_Model_Table_ScientificNames extends Zend_Db_Table_Abstract
     
     public function countInfraspecificTaxa()
     {
-        if(is_null(self::$_numInfraspecificTaxa)) {
+        if (is_null(self::$_numInfraspecificTaxa)) {
             $select = $this->_getAcceptedNamesCount();
             $select->where('LENGTH(infraspecies) > 0');
             $rows = $this->fetchAll($select);
@@ -88,7 +88,7 @@ class ACI_Model_Table_ScientificNames extends Zend_Db_Table_Abstract
     
     public function countSpecies()
     {
-        if(is_null(self::$_numSpecies)) {
+        if (is_null(self::$_numSpecies)) {
             self::$_numSpecies = $this->countAcceptedNames() -
                 $this->countInfraspecificTaxa();
         }

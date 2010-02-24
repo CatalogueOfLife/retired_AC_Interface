@@ -217,11 +217,10 @@ class ACI_Model_Table_Taxa
         $infraspecies, $infraspeciesMarker, $author)
     {
         $name  = "<i>$genus $species";
-        if($infraspecies) {
-            if($infraspeciesMarker) {
+        if ($infraspecies) {
+            if ($infraspeciesMarker) {
                 $name .= "</i> $infraspeciesMarker <i>$infraspecies";
-            }
-            else {
+            } else {
                 $name .= " $infraspecies";
             }
         }

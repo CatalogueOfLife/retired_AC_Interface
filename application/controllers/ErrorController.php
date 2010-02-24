@@ -18,7 +18,7 @@ class ErrorController extends Zend_Controller_Action
         
         // If there's no error (for example, if accessing directly the page),
         // redirect to the application root url
-        if(!$errors) {
+        if (!$errors) {
             $this->_redirect($this->view->baseUrl);
         }
         

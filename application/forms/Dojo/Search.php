@@ -73,7 +73,7 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
         if (!isset($data['match'])) {
             return true;
         }
-        if(!isset($data['key'])) {
+        if (!isset($data['key'])) {
             $this->markAsError();
             return false;
         }

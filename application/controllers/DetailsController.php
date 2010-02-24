@@ -69,7 +69,7 @@ class DetailsController extends AController
         $this->view->headTitle($this->view->title, 'APPEND');
         $dbTable = new ACI_Model_Table_Databases();
         $dbDetails = $dbTable->get($this->_getParam('id'));
-        if($dbDetails) {
+        if ($dbDetails) {
             $dbDetails = $this->getHelper('DataFormatter')
                 ->formatDatabaseDetails($dbDetails);
         }

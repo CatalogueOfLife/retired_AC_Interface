@@ -53,7 +53,7 @@
         </td>
         <td><?php echo $row['group']; ?></td>
         <td>
-<?php if($row['dbLabel'] != ""): ?>
+<?php if ($row['dbLabel']): ?>
         <a class="wrapLogo tinyImgLink" href="<?php echo $this->baseUrl() . $row['dbUrl']; ?>">
         <img
           src="<?php echo $this->baseUrl() . $row['dbLogo']; ?>"

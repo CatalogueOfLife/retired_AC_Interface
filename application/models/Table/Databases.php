@@ -35,7 +35,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
             return false;
         }
         $results = array();
-        foreach($rowset as $row) {
+        foreach ($rowset as $row) {
             $results[] = $this->_decorate($row->toArray());
         }
         unset($rowset);
@@ -44,7 +44,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
     
     public function count()
     {
-        if(is_null(self::$_numDatabases)) {
+        if (is_null(self::$_numDatabases)) {
             $select = $this->select();
             $select->from($this, array('COUNT(1) AS total'));
             $rows = $this->fetchAll($select);
@@ -55,7 +55,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
     
     public function countNew()
     {
-        if(is_null(self::$_numDatabasesNew)) {
+        if (is_null(self::$_numDatabasesNew)) {
             $select = $this->select();
             $select->from(
                 $this, array('COUNT(1) AS total')
@@ -68,7 +68,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
     
     public function countWithAcceptedNames()
     {
-        if(is_null(self::$_numDatabasesWithAcceptedNames)) {
+        if (is_null(self::$_numDatabasesWithAcceptedNames)) {
             $select = $this->select();
             $select->from(
                 $this, array('COUNT(1) AS total')

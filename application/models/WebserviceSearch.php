@@ -169,7 +169,7 @@ class ACI_Model_WebserviceSearch extends AModel
         
         $select = $this->_selectScientificName();
         $select->where('sn.name_code = ?', $nameCode);
-        if($acceptedName) {
+        if ($acceptedName) {
             $select->where('sn.is_accepted_name = 1');
         }
         $res = $select->query()->fetchAll();
@@ -235,7 +235,7 @@ class ACI_Model_WebserviceSearch extends AModel
             if (!count($res)) {
                 break;
             }
-            if($res[0] > 0) {
+            if ($res[0] > 0) {
                 $classification[] = array(
                     'id' => $res[0]['id'],
                     'name' => $res[0]['name'],
