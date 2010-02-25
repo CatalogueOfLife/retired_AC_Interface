@@ -18,14 +18,15 @@ printf($this->translate('Info_annual_checklist'), $this->app->edition);
 </div>
 <?php
 echo $this->navigator_top;
+$fcImgAlt = $this->app->edition . ' Annual Checklist DVD front cover';
 ?>
 <div class="info_content"><img
     src="<?php
     echo $this->baseUrl();
-    ?>/images/2009_checklist_cd_front_cover.jpg"
-    title="2009 Annual Checklist CD-ROM front cover"
-    alt="2009 Annual Checklist CD-ROM front cover" width="320"
-    height="320" class="right-align" />
+    ?>/images/dvd_front_cover.jpg"
+    title="<?php echo $fcImgAlt; ?>"
+    alt="<?php echo $fcImgAlt; ?>" width="317"
+    height="317" class="right-align bordered-img" />
 <p style="margin-bottom: 20px;">The <?php echo $this->app->edition; ?> Annual
 Checklist contains contributions from <?php echo $this->stats['databases']; ?>
 databases with information on <b><?php echo $this->stats['species']; ?></b>
@@ -89,7 +90,7 @@ echo $this->internalLink('Viruses and Subviral agents from [link:db:14]');
  &#8226; <?php echo $this->internalLink('Reptiles from [link:db:8]'); ?>
  &#8226; <?php echo $this->internalLink('Amphibians, birds and mammals from [link:db:17]'); ?>
 </p>
-<p><span class="field_header">PLUS</span> additional species of many groups from 
+<p><span class="field_header">PLUS</span> additional species of many groups from
 <?php echo $this->internalLink('[link:db:17] & [link:db:75]'); ?>
 </p>
 <p class="field_header">Structure of the Annual Checklist</p>

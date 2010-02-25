@@ -36,6 +36,9 @@ a:hover {
 img {
     border: none;
 }
+.bordered-img {
+    border: 1px solid #666;
+}
 table {
     width:100%;
     border-spacing:0;
