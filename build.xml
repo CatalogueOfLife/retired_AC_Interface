@@ -22,7 +22,8 @@
         <!--build files-->
         <exclude name="build.*" />
         <!--tests-->
-        <exclude name="test**" /> 
+    	<exclude name="test" /> 
+        <exclude name="**/tests/**" /> 
         <!--file templates -->
         <exclude name="**/*.tpl" />
         <!-- cache and log files -->
@@ -33,7 +34,7 @@
 	<!-- Fileset excluded from dist (DVD) -->
 	<patternset id="dist.exc.dvd">
 		<!-- Exclude webservices -->
-	    <exclude name="**/Webservice" />
+	    <exclude name="**/Webservice/**" />
 		<exclude name="**/Webservice*" />
 	</patternset>
 	
