@@ -30,7 +30,6 @@
 	
 	<!-- Fileset excluded from dist (DVD) -->
 	<patternset id="dist.exc.dvd">
-	    <patternset refid="dist.exc" />
 		<!-- Exclude webservices -->
 		<exclude name="**/Webservice*" />
 	</patternset>
@@ -136,6 +135,7 @@
         <mkdir dir="${dist}-dvd/source/${dist.name}" />
         <copy todir="${dist}-dvd/source/${dist.name}">
             <fileset dir=".">
+    	        <patternset refid="dist.exc" />
                 <patternset refid="dist.exc.dvd" />
             </fileset>
         </copy>
