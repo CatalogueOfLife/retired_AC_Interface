@@ -29,11 +29,11 @@
     </patternset>
 	
 	<!-- Fileset excluded from dist (DVD) -->
-	<fileset id="dist.exc.dvd">
+	<patternset id="dist.exc.dvd">
 	    <patternset refid="dist.exc" />
 		<!-- Exclude webservices -->
 		<exclude name="**/Webservice*" />
-	</fileset>
+	</patternset>
 	
     <tstamp>
         <format property="now" pattern="%c" locale="nl_NL"/>
