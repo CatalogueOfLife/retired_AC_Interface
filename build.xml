@@ -121,11 +121,11 @@
         <!-- zip -->
         <exec dir="${dist}/source"
              command="zip -r ${dist}/${dist.name}.r${revision}.zip ${dist.name}"
-             escape = "false"/>
+             escape="false"/>
         <!-- tar.gz -->
         <exec dir="${dist}/source"
              command="tar czvf ${dist}/${dist.name}.r${revision}.tar.gz ${dist.name}"
-             escape = "false"/>
+             escape="false"/>
         <delete dir="${dist}/source" includeemptydirs="true" />
     </target>
 	
@@ -166,14 +166,14 @@
         </reflexive>
        
         <!-- zip -->
-        <exec dir="${dist}/source"
-             command="zip -r ${dist}/${dist.name}-DVD.r${revision}.zip ${dist.name}"
-             escape = "false"/>
+        <exec dir="${dist}-dvd/source"
+             command="zip -r ${dist}-dvd/${dist.name}-DVD.r${revision}.zip ${dist.name}"
+             escape="false"/>
         <!-- tar.gz -->
-        <exec dir="${dist}/source"
-             command="tar czvf ${dist}/${dist.name}-DVD.r${revision}.tar.gz ${dist.name}"
-             escape = "false"/>
-        <delete dir="${dist}/source" includeemptydirs="true" />
+        <exec dir="${dist}-dvd/source"
+             command="tar czvf ${dist}-dvd/${dist.name}-DVD.r${revision}.tar.gz ${dist.name}"
+             escape="false"/>
+        <delete dir="${dist}-dvd/source" includeemptydirs="true" />
     </target>
    
     <target name="build" depends="clean,checkout,phpunit,phpdoc,dist" />
