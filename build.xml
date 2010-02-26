@@ -17,10 +17,12 @@
     
 	<!-- Fileset excluded from dist -->
     <patternset id="dist.exc">
+    	<!-- hidden files -->
+        <exclude name=".**" />
         <!--build files-->
         <exclude name="build.*" />
         <!--tests-->
-        <exclude name="**/tests/**" />
+        <exclude name="test**" /> 
         <!--file templates -->
         <exclude name="**/*.tpl" />
         <!-- cache and log files -->
