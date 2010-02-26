@@ -33,6 +33,7 @@
 	<!-- Fileset excluded from dist (DVD) -->
 	<patternset id="dist.exc.dvd">
 		<!-- Exclude webservices -->
+	    <exclude name="**/Webservice" />
 		<exclude name="**/Webservice*" />
 	</patternset>
 	
