@@ -1,5 +1,5 @@
-Annual Checklist Interface
-by ETI Bioinformatics
+2010 Annual Checklist Interface
+by ETI BioInformatics
 
 RELEASE INFORMATION
 ====================
@@ -8,36 +8,35 @@ Released on @TIMESTAMP@
 
 ABOUT THIS SOFTWARE
 ====================
-This web application provides an interface to the Annual Checklist database. 
-It is written in PHP 5 and based on the Zend Framework.
+This web application provides an interface to the 2010 Annual Checklist 
+database. It is written in PHP 5, based on the following third-party open source 
+software: Zend Framework and Dojo Toolkit.
 
 FEATURES
 =========
-Functional:
-  * Browsable taxonomic tree  
-  * Search for common names and scientific names  
+Functional:    
+  * Search for common names and scientific names
   * Search for distributions
-  * Search hints in scientific search forms
-  * Species and references details
+  * Export search results
+  * Browse by classification
+  * Browse taxonomic tree
+  * Species and common names details
+  * References details
   * Source databases details
-  * Asc/Desc sorting by column in the results page
 
 Non-functional:
-  * Cache system for searches and hints
+  * Cache system
   * Error logging system
 
 LIMITATIONS
 ============
-* UTF-8 encoding not supported yet
+* UTF-8 encoding not yet supported
 
 INSTALLATION
 =============
 Please see the INSTALL.txt file for installation instructions.
 
-TROUBLESHOOTING
-================
-
 LICENSING
 ==========
-The files in this archive are released under the ***** license.
+The files in this archive are released under the EUPL.
 You can find a copy of this license in LICENSE.txt.
