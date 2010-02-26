@@ -183,7 +183,7 @@
        
         <!-- zip -->
         <exec dir="${dist}-dvd/source"
-             command="zip -r ${dist}dvd/${dist.name}-DVD.r${revision}.zip ${dist.name}"
+             command="zip -r ${dist}-dvd/${dist.name}-DVD.r${revision}.zip ${dist.name}"
              escape="false"/>
         <!-- tar.gz -->
         <exec dir="${dist}-dvd/source"
