@@ -22,7 +22,8 @@
         <!-- dist folder -->
         <exclude name="dist**" />
         <!--tests-->
-        <exclude name="test**" />        
+        <exclude name="test" /> 
+    	<exclude name="**/tests/**" />
         <!--file templates -->
         <exclude name="**/*.tpl" />
         <!-- cache and log files -->
@@ -161,6 +162,11 @@
                     <token key="APP.REVISION" value="${revision}" />
                     <token key="TIMESTAMP" value="${now}" />
                     <token key="ENVIRONMENT" value="development" />
+                	<token key="DB.PORT" value="3306" />
+                    <token key="DB.HOST" value="localhost" />
+                    <token key="DB.USERNAME" value="" />
+                    <token key="DB.PASSWORD" value="" />
+                    <token key="DB.NAME" value="" />
                 </replacetokens>
             </filterchain>
         </reflexive>
