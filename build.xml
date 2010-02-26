@@ -119,6 +119,11 @@
                       <token key="APP.REVISION" value="${revision}" />
                   	  <token key="TIMESTAMP" value="${now}" />
                   	  <token key="ENVIRONMENT" value="production" />
+                  	  <token key="DB.PORT" value="3306" />
+                  	  <token key="DB.HOST" value="localhost" />
+                  	  <token key="DB.USERNAME" value="" />
+                  	  <token key="DB.PASSWORD" value="" />
+                  	  <token key="DB.NAME" value="" />
                   </replacetokens>
             </filterchain>
         </reflexive>
@@ -167,6 +172,11 @@
                       <token key="APP.REVISION" value="${revision}" />
                       <token key="TIMESTAMP" value="${now}" />
                       <token key="ENVIRONMENT" value="standalone" />
+                  	  <token key="DB.PORT" value="7188" />
+                      <token key="DB.HOST" value="localhost" />
+                      <token key="DB.USERNAME" value="root" />
+                      <token key="DB.PASSWORD" value="" />
+                      <token key="DB.NAME" value="col2010ac" />
                   </replacetokens>
             </filterchain>
         </reflexive>
