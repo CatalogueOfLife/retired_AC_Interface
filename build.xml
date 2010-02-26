@@ -107,14 +107,15 @@
                 <include name="application/configs/application.xml" />
                 <include name="README.txt" />
                 <include name="public/.htaccess" />
-            </fileset>
-            <filterchain>
-                <replacetokens>
-                    <token key="APP.EDITION" value="${project.edition}" />
-                    <token key="APP.VERSION" value="${project.version}.r${revision}" />
-                    <token key="TIMESTAMP" value="${now}" />
-                    <token key="ENVIRONMENT" value="production" />
-                </replacetokens>
+            </fileset>            
+        	<filterchain>
+                  <replacetokens>
+                      <token key="APP.EDITION" value="${project.edition}" />
+                      <token key="APP.VERSION" value="${project.version}" />
+                      <token key="APP.REVISION" value="${revision}" />
+                  	  <token key="TIMESTAMP" value="${now}" />
+                  	  <token key="ENVIRONMENT" value="production" />
+                  </replacetokens>
             </filterchain>
         </reflexive>
        
@@ -155,21 +156,24 @@
                 <include name="README.txt" />
                 <include name="public/.htaccess" />
             </fileset>
-            <filterchain>
-                <replacetokens>
-                    <token key="APP.EDITION" value="${project.edition}" />
-                    <token key="APP.VERSION" value="${project.version}.r${revision}" />
-                    <token key="TIMESTAMP" value="${now}" />
-                    <token key="ENVIRONMENT" value="standalone" />
-                </replacetokens>
+        	<filterchain>
+                  <replacetokens>
+                      <token key="APP.EDITION" value="${project.edition}" />
+                      <token key="APP.VERSION" value="${project.version}" />
+                      <token key="APP.REVISION" value="${revision}" />
+                      <token key="TIMESTAMP" value="${now}" />
+                      <token key="ENVIRONMENT" value="standalone" />
+                  </replacetokens>
             </filterchain>
         </reflexive>
        
         <!-- zip -->
-        <exec dir="${dist}-dvd/source"
-             command="zip -r ${dist}-dvd/${dist.name}-DVD.r${revision}.zip ${dist.name}"
+    	<echo>zip -r ${dist}dvd/${dist.name}-DVD.r${revision}.zip ${dist.name}</echo>
+        <exec dir="${dist}dvd/source"
+             command="zip -r ${dist}dvd/${dist.name}-DVD.r${revision}.zip ${dist.name}"
              escape="false"/>
-        <!-- tar.gz -->
+        <!-- tar.gz -->    	
+    	<echo>tar czvf ${dist}-dvd/${dist.name}-DVD.r${revision}.tar.gz ${dist.name}</echo>
         <exec dir="${dist}-dvd/source"
              command="tar czvf ${dist}-dvd/${dist.name}-DVD.r${revision}.tar.gz ${dist.name}"
              escape="false"/>
