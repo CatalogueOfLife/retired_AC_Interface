@@ -168,12 +168,10 @@
         </reflexive>
        
         <!-- zip -->
-    	<echo>zip -r ${dist}dvd/${dist.name}-DVD.r${revision}.zip ${dist.name}</echo>
         <exec dir="${dist}dvd/source"
              command="zip -r ${dist}dvd/${dist.name}-DVD.r${revision}.zip ${dist.name}"
              escape="false"/>
-        <!-- tar.gz -->    	
-    	<echo>tar czvf ${dist}-dvd/${dist.name}-DVD.r${revision}.tar.gz ${dist.name}</echo>
+        <!-- tar.gz -->
         <exec dir="${dist}-dvd/source"
              command="tar czvf ${dist}-dvd/${dist.name}-DVD.r${revision}.tar.gz ${dist.name}"
              escape="false"/>
