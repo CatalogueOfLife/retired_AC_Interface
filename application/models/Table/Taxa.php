@@ -213,6 +213,16 @@ class ACI_Model_Table_Taxa
         return in_array($status, $synonymStatuses);
     }
     
+    public static function isAcceptedName($status = null)
+    {
+        $anStatuses = array(
+           self::STATUS_ACCEPTED_NAME,
+           self::STATUS_PROVISIONALLY_ACCEPTED_NAME
+        );
+        $status = is_null($status) ? $this->status : (int)$status;
+        return in_array($status, $anStatuses);
+    }
+    
     public static function getAcceptedScientificName($genus, $species,
         $infraspecies, $infraspeciesMarker, $author)
     {

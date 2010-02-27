@@ -219,11 +219,8 @@ class ACI_Model_WebserviceSearch extends AModel
         return $select;
     }
     
-    public function classification($snId)
-    {
-        $searchModel = new ACI_Model_Search($this->_db);
-        $id = $searchModel->getTaxaFromSpeciesId($snId);
-        
+    public function classification($id)
+    {   
         $select = $this->_selectClassification();
         $select->where('tx.record_id = ?');
         
@@ -270,11 +267,8 @@ class ACI_Model_WebserviceSearch extends AModel
         return array_reverse($classification);
     }
     
-    public function childTaxa($snId)
-    {
-        $searchModel = new ACI_Model_Search($this->_db);
-        $id = $searchModel->getTaxaFromSpeciesId($snId);
-        
+    public function childTaxa($id)
+    {   
         $select = $this->_selectClassification();
         $select->where('tx.parent_id = ?', $id);
         

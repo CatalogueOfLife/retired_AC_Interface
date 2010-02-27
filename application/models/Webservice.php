@@ -198,9 +198,9 @@ class ACI_Model_Webservice extends AModel
     }
     
     protected function _processScientificName(array $row, /*bool*/$full)
-    {
+    {   
         if ($row['rank_id'] < ACI_Model_Table_Taxa::RANK_SPECIES) {
-            return array(
+            $sn = array(
                 'id' => $row['record_id'],
                 'name' => $row['name'],
                 'rank' => $row['rank'],
@@ -210,13 +210,19 @@ class ACI_Model_Webservice extends AModel
                     $row['record_id'], $row['rank_id'], $row['status']
                 )
             );
-            // TODO: implement full response for higher taxa
+            if($full) {
+                $sn['classification'] = 
+                    $this->_getClassification($row['record_id'], false);
+                $sn['child_taxa'] = 
+                    $this->_getChildren($row['record_id'], false);
+            }
+            return $sn;
         }
         // Species and infraspecies
         $sn = $this->_getScientificName($row['name_code'], $full, false);
-        if (ACI_Model_Table_Taxa::isSynonym($row['status'])) {
+        if (!ACI_Model_Table_Taxa::isAcceptedName($row['status'])) {
             $sn['accepted_name'] = $this->_getScientificName(
-                $this->_model->getAcceptedNameCodeFromId($sn['id']), false, true
+                $this->_model->getAcceptedNameCodeFromId($sn['id']), $full, true
             );
         }
         return $sn;
@@ -241,6 +247,7 @@ class ACI_Model_Webservice extends AModel
         );
         
         $nameCode = $an['name_code'];
+        $status = $an['status'];
         unset($an['rank_id'], $an['status'], $an['name_code']);
         
         if (!$full) {
@@ -252,12 +259,15 @@ class ACI_Model_Webservice extends AModel
             return $an;
         }
         // full response
-        //$an['distribution'] = $this->_getDistribution($nameCode);
-        //$an['references'] = $this->_getReferences($nameCode);
-        $an['classification'] = $this->_getClassification($an['id']);
-        $an['child_taxa'] = $this->_getChildren($an['id']);
-        //$an['synonyms'] = $this->_getSynonyms($nameCode);
-        //$an['common_names'] = $this->_getCommonNames($nameCode);
+        $an['distribution'] = $this->_getDistribution($nameCode);
+        $an['references'] = $this->_getReferences($nameCode);
+        
+        if(ACI_Model_Table_Taxa::isAcceptedName($status)) {
+            $an['classification'] = $this->_getClassification($an['id'], true);
+            $an['child_taxa'] = $this->_getChildren($an['id'], true);
+            $an['synonyms'] = $this->_getSynonyms($nameCode);
+            $an['common_names'] = $this->_getCommonNames($nameCode);
+        }
         
         return $an;
     }
@@ -291,14 +301,24 @@ class ACI_Model_Webservice extends AModel
         return implode('; ', $distributions);
     }
     
-    protected function _getClassification($snId)
-    {   
-        return $this->_model->classification($snId);
+    protected function _getClassification($id, /*bool*/$isSnId)
+    {
+        return $this->_model->classification(
+            $isSnId ? $this->_getTaxaFromSpeciesId($id) : $id
+        );
     }
     
-    protected function _getChildren($snId)
-    {        
-        return $this->_model->childTaxa($snId);
+    protected function _getChildren($id, /*bool*/$isSnId)
+    {   
+        return $this->_model->childTaxa(
+            $isSnId ? $this->_getTaxaFromSpeciesId($id) : $id
+        );
+    }
+    
+    protected function _getTaxaFromSpeciesId($snId)
+    {
+        $searchModel = new ACI_Model_Search($this->_db);
+        return $searchModel->getTaxaFromSpeciesId($snId);
     }
     
     protected function _getSynonyms($nameCode)
