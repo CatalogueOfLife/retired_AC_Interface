@@ -231,7 +231,8 @@ class ACI_Model_Webservice extends AModel
             $an['id'], $an['rank_id'], $an['status'], $an['id']
         );
         
-        unset($an['rank_id'], $an['status']);
+        $nameCode = $an['name_code'];
+        unset($an['rank_id'], $an['status'], $an['name_code']);
         
         if (!$full) {
             $this->_arrayFilterKeys(
@@ -242,12 +243,12 @@ class ACI_Model_Webservice extends AModel
             return $an;
         }
         // full response
-        $an['distribution'] = $this->_getDistribution($an['name_code']);
-        $an['references'] = $this->_getReferences($an['name_code']);
+        $an['distribution'] = $this->_getDistribution($nameCode);
+        $an['references'] = $this->_getReferences($nameCode);
         $an['classification'] = $this->_getClassification($an['id']);
         $an['child_taxa'] = $this->_getChildren($an['id']);
-        $an['synonyms'] = $this->_getSynonyms($an['name_code']);
-        $an['common_names'] = $this->_getCommonNames($an['id']);
+        $an['synonyms'] = $this->_getSynonyms($nameCode);
+        $an['common_names'] = $this->_getCommonNames($nameCode);
         
         return $an;
     }
@@ -307,16 +308,33 @@ class ACI_Model_Webservice extends AModel
                 $syn['id'], $syn['rank_id'], $syn['status'], $syn['id']
             );
             $syn['references'] = $this->_getReferences($syn['name_code']);
-            unset($syn['rank_id'], $syn['status'], $syn['name_code'], 
+            unset($syn['rank_id'], $syn['status'], $syn['name_code'],
                 $syn['distribution']);
         }
         return $synonyms;
     }
     
-    protected function _getCommonNames()
+    protected function _getCommonNames($nameCode)
     {
-        // TODO: implement
-        return array();
+        $dm = new ACI_Model_Details($this->_db);
+        $commonNames = $dm->commonNames($nameCode);
+        foreach($commonNames as &$cn) {
+            $refIds = explode(',', $cn['references']);
+            $refs = array();
+            foreach($refIds as $refId) {
+                $refs[] = $dm->getReferenceById($refId);    
+            }
+            $this->_arrayFilterKeys(
+                $refs, array('author', 'title', 'year', 'source')
+            );
+            $cn = array(
+                'name' => $cn['common_name'],
+                'language' => $cn['language'],
+                'country' => $cn['country'],
+                'references' => $refs
+            );
+        }
+        return $commonNames;
     }
     
     protected function _arrayFilterKeys(array &$array, array $whitelist)

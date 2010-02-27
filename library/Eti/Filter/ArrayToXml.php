@@ -63,6 +63,8 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
             throw new Zend_Filter_Exception('Given value is not an array');
         }
         $this->_dom = new DOMDocument('1.0', $this->_encoding);
+        $this->_dom->preserveWhiteSpace = false;
+        $this->_dom->formatOutput = true;
         $xml = $this->_dom->createElement($this->_root);
         
         foreach ($value as $k => $v) {
@@ -90,9 +92,13 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
                     $node, $v, is_int($k) ? $this->_node : $k
                 );
             } else {
-                $el = $this->_dom->createElement($k);
+                $el = $this->_dom->createElement($k);                
                 $el->appendChild(
-                    $this->_dom->createTextNode($this->_cleanString($v))
+                    // preserve html hex characters within CDATA sections
+                    preg_match("/&#/", $v) ?
+                    $this->_dom->createCDATASection(
+                        $this->_cleanStr($v, true)
+                    ) : $this->_dom->createTextNode($this->_cleanStr($v))
                 );
                 $node->appendChild($el);
             }
@@ -101,8 +107,13 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
         return $xml;
     }
     
-    protected function _cleanString($str)
+    protected function _cleanStr($str, $isCdata = false)
     {
-        return str_replace('&', '&amp;', utf8_encode($str));
+        $uStr = utf8_encode($str);        
+        if(!$isCdata) {
+            // replace & with &amp;
+            return preg_replace("/&([^\w;]+)/","&amp;\\1", $uStr);
+        }
+        return $uStr;
     }
 }
