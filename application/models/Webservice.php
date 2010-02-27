@@ -21,11 +21,11 @@ class ACI_Model_Webservice extends AModel
     );
     protected $_responseLimits = array('terse' => 500, 'full' => 50);
     protected $_filter;
-    protected $_response = array(
-        'name' => '',
+    protected $_response = array(        
         'id' => '',
-        'number_of_results_returned' => 0,
+        'name' => '',
         'total_number_of_results' => 0,
+        'number_of_results_returned' => 0,        
         'start' => 0,
         'error_message' => '',
         'version' => '1.0'
