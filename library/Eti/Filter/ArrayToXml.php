@@ -21,19 +21,40 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
      *
      * @var string
      */
+    protected $_version = '1.0';
     protected $_encoding = 'UTF-8';
+    protected $_preserveWhiteSpace = false;
+    protected $_formatOutput = true;
     protected $_root = 'root';
     protected $_node = 'node'; //TODO: allow parent-child node name mapping
     protected $_dom;
+    
+    public function setVersion($version)
+    {
+        $this->_version = (string)$version;
+        return $this;
+    }
 
     /**
      * Set the input encoding for the given string
      *
      * @param  string $encoding
      */
-    public function setEncoding($encoding = null)
+    public function setEncoding($encoding)
     {
         $this->_encoding = (string)$encoding;
+        return $this;
+    }
+    
+    public function preserveWhiteSpace(/*bool*/$op)
+    {
+        $this->_preserveWhiteSpace = (bool)$op;
+        return $this; 
+    }
+    
+    public function formatOutput(/*bool*/$op)
+    {
+        $this->_formatOutput = (bool)$op;
         return $this;
     }
     
@@ -62,9 +83,11 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
         if (!is_array($value)) {
             throw new Zend_Filter_Exception('Given value is not an array');
         }
-        $this->_dom = new DOMDocument('1.0', $this->_encoding);
-        $this->_dom->preserveWhiteSpace = false;
-        $this->_dom->formatOutput = true;
+        
+        $this->_dom = new DOMDocument($this->_version, $this->_encoding);
+        $this->_dom->preserveWhiteSpace = $this->_preserveWhiteSpace;
+        $this->_dom->formatOutput = $this->_formatOutput;
+        
         $xml = $this->_dom->createElement($this->_root);
         
         foreach ($value as $k => $v) {

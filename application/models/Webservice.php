@@ -25,12 +25,13 @@ class ACI_Model_Webservice extends AModel
         'id' => '',
         'name' => '',
         'total_number_of_results' => 0,
-        'number_of_results_returned' => 0,        
+        'number_of_results_returned' => 0,  
         'start' => 0,
         'error_message' => '',
         'version' => '1.0'
     );
     protected $_model;
+    protected $_detailsModel;
     
     public function query(Zend_Controller_Request_Abstract $request)
     {
@@ -48,6 +49,14 @@ class ACI_Model_Webservice extends AModel
             $this->_setError($e->getMessage());
         }
         return $this->_filter->filter($this->_response);
+    }
+    
+    protected function _getDetailsModel()
+    {
+        if(is_null($this->_detailsModel)) {
+            $this->_detailsModel = new ACI_Model_Details($this->_db);
+        }
+        return $this->_detailsModel;
     }
     
     /**
@@ -255,7 +264,7 @@ class ACI_Model_Webservice extends AModel
     
     protected function _getReferences(/*mixed*/$rCode)
     {
-        $dm = new ACI_Model_Details($this->_db);
+        $dm = $this->_getDetailsModel();
         
         if (is_array($rCode)) {
             $refs = array();
@@ -277,7 +286,7 @@ class ACI_Model_Webservice extends AModel
     
     protected function _getDistribution($nameCode)
     {
-        $dm = new ACI_Model_Details($this->_db);
+        $dm = $this->_getDetailsModel();
         $distributions = $dm->distributions($nameCode);
         return implode('; ', $distributions);
     }
@@ -316,7 +325,7 @@ class ACI_Model_Webservice extends AModel
     
     protected function _getCommonNames($nameCode)
     {
-        $dm = new ACI_Model_Details($this->_db);
+        $dm = $this->_getDetailsModel();
         $commonNames = $dm->commonNames($nameCode);
         foreach($commonNames as &$cn) {
             $refIds = explode(',', $cn['references']);
