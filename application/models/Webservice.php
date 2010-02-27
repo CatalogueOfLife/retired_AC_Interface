@@ -252,12 +252,12 @@ class ACI_Model_Webservice extends AModel
             return $an;
         }
         // full response
-        $an['distribution'] = $this->_getDistribution($nameCode);
-        $an['references'] = $this->_getReferences($nameCode);
+        //$an['distribution'] = $this->_getDistribution($nameCode);
+        //$an['references'] = $this->_getReferences($nameCode);
         $an['classification'] = $this->_getClassification($an['id']);
         $an['child_taxa'] = $this->_getChildren($an['id']);
-        $an['synonyms'] = $this->_getSynonyms($nameCode);
-        $an['common_names'] = $this->_getCommonNames($nameCode);
+        //$an['synonyms'] = $this->_getSynonyms($nameCode);
+        //$an['common_names'] = $this->_getCommonNames($nameCode);
         
         return $an;
     }
@@ -296,10 +296,9 @@ class ACI_Model_Webservice extends AModel
         return $this->_model->classification($snId);
     }
     
-    protected function _getChildren()
-    {
-        // TODO: implement
-        return array();
+    protected function _getChildren($snId)
+    {        
+        return $this->_model->childTaxa($snId);
     }
     
     protected function _getSynonyms($nameCode)

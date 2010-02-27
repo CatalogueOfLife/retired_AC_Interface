@@ -214,8 +214,7 @@ class ACI_Model_WebserviceSearch extends AModel
             array('sn' => 'scientific_names'),
             'tx.name_code = sn.name_code',
             array()
-        )
-        ->where('tx.record_id = ?');
+        );        
             
         return $select;
     }
@@ -226,6 +225,7 @@ class ACI_Model_WebserviceSearch extends AModel
         $id = $searchModel->getTaxaFromSpeciesId($snId);
         
         $select = $this->_selectClassification();
+        $select->where('tx.record_id = ?');
         
         $classification = array();
         
@@ -268,6 +268,47 @@ class ACI_Model_WebserviceSearch extends AModel
         unset($classification[0]);
         // return top to bottom hierarchy
         return array_reverse($classification);
+    }
+    
+    public function childTaxa($snId)
+    {
+        $searchModel = new ACI_Model_Search($this->_db);
+        $id = $searchModel->getTaxaFromSpeciesId($snId);
+        
+        $select = $this->_selectClassification();
+        $select->where('tx.parent_id = ?', $id);
+        
+        $res = $select->query()->fetchAll();
+        $childTaxa = array();
+        
+        foreach($res as $taxon) {
+            $childTaxa[] = array(
+                'id' => $taxon['id'],
+                'name' => $taxon['name'],
+                'rank' => $taxon['rank'],
+                'name_html' =>
+                    $taxon['rank_id'] == ACI_Model_Table_Taxa::RANK_GENUS
+                        ?
+                        '<i>' . $taxon['name'] . '</i>' :
+                    ($taxon['rank_id'] < ACI_Model_Table_Taxa::RANK_SPECIES
+                        ?
+                        $taxon['name'] :
+                        ACI_Model_Table_Taxa::getAcceptedScientificName(
+                            $taxon['genus'],
+                            $taxon['species'],
+                            $taxon['infraspecies'],
+                            $taxon['infraspecies_marker'],
+                            $taxon['author']
+                        )
+                    ),
+                'url' => ACI_Model_Webservice::getTaxaUrl(
+                    $taxon['id'], $taxon['rank_id'], $taxon['status']
+                )
+            );   
+        }
+        
+        unset($res);
+        return $childTaxa;
     }
     
     public function getAcceptedNameCodeFromId($id)
