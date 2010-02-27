@@ -14,21 +14,22 @@ require_once 'Zend/Filter/Interface.php';
  *
  */
 class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
-{
-    /**
-     * Encoding for the output xml
-     * Defaults to UTF-8
-     *
-     * @var string
-     */
+{   
     protected $_version = '1.0';
     protected $_encoding = 'UTF-8';
     protected $_preserveWhiteSpace = false;
     protected $_formatOutput = true;
-    protected $_root = 'root';
-    protected $_node = 'node'; //TODO: allow parent-child node name mapping
+    protected $_defaultNodeName = 'xxx';
+    protected $_nodeNameMapping = array();
     protected $_dom;
     
+    /**
+     * Set the XML version attribute
+     * Defaults to 1.0
+     *
+     * @param string $version
+     * @return Eti_Filter_ArrayToXml $this
+     */
     public function setVersion($version)
     {
         $this->_version = (string)$version;
@@ -37,8 +38,10 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
 
     /**
      * Set the input encoding for the given string
+     * Defaults to UTF-8
      *
      * @param  string $encoding
+     * @return Eti_Filter_ArrayToXml $this
      */
     public function setEncoding($encoding)
     {
@@ -46,27 +49,41 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
         return $this;
     }
     
+    /**
+     * Enable/Disable the preserveWhiteSpace option
+     * Defaults to false
+     *
+     * @param bool $op
+     * @return Eti_Filter_ArrayToXml $this
+     */
     public function preserveWhiteSpace(/*bool*/$op)
     {
         $this->_preserveWhiteSpace = (bool)$op;
         return $this; 
     }
     
+    /**
+     * Enable/Disable the formatOutput option
+     * Defaults to true
+     *
+     * @param bool $op
+     * @return Eti_Filter_ArrayToXml $this
+     */
     public function formatOutput(/*bool*/$op)
     {
         $this->_formatOutput = (bool)$op;
         return $this;
     }
     
-    public function setRoot($name)
+    /**
+     * Set the mapping to name the nodes based on the parent node name
+     *
+     * @param array $nodeNameMapping
+     * @return Eti_Filter_ArrayToXml $this
+     */
+    public function setNodeNameMapping(array $nodeNameMapping)
     {
-        $this->_root = (string)$name;
-        return $this;
-    }
-    
-    public function setNode($name)
-    {
-        $this->_node = (string)$name;
+        $this->_nodeNameMapping = $nodeNameMapping;
         return $this;
     }
 
@@ -88,13 +105,13 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
         $this->_dom->preserveWhiteSpace = $this->_preserveWhiteSpace;
         $this->_dom->formatOutput = $this->_formatOutput;
         
-        $xml = $this->_dom->createElement($this->_root);
+        $xml = $this->_dom->createElement($this->_getNodeName());
         
         foreach ($value as $k => $v) {
             if (is_array($v)) {
                 foreach ($v as $i => $result) {
                     $xml = $this->_arrayKeysToNodes(
-                        $xml, $result, is_int($i) ? $this->_node : $i
+                        $xml, $result, is_int($i) ? $this->_getNodeName($k) : $i
                     );
                 }
             } else {
@@ -105,6 +122,14 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
         return htmlspecialchars_decode($this->_dom->saveXML(), ENT_NOQUOTES);
     }
     
+    /**
+     * Converts an array to an XML tree element by recursive invoking
+     *
+     * @param DOMElement $xml
+     * @param array $array
+     * @param string $nodeName
+     * @return DOMElement
+     */
     protected function _arrayKeysToNodes(DOMElement $xml, array $array,
         $nodeName)
     {
@@ -112,7 +137,7 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
         foreach ($array as $k => $v) {
             if (is_array($v)) {
                 $this->_arrayKeysToNodes(
-                    $node, $v, is_int($k) ? $this->_node : $k
+                    $node, $v, is_int($k) ? $this->_getNodeName($nodeName) : $k
                 );
             } else {
                 $el = $this->_dom->createElement($k);                
@@ -130,6 +155,29 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
         return $xml;
     }
     
+    /**
+     * Gets the node name from the parent => child mapping
+     *
+     * @param string $parentNodeName
+     * @return string
+     */
+    protected function _getNodeName($parentNodeName = null)
+    {   
+        if(is_null($parentNodeName)) {
+            $parentNodeName = 'root';
+        }
+        return isset($this->_nodeNameMapping[$parentNodeName]) ? 
+            $this->_nodeNameMapping[$parentNodeName] : $this->_defaultNodeName;
+    }
+    
+    /**
+     * Encodes to UTF-8
+     * If the value is not CDATA, replaces & with &amp;
+     *
+     * @param string $str
+     * @param bool $isCdata
+     * @return string
+     */
     protected function _cleanStr($str, $isCdata = false)
     {
         $uStr = utf8_encode($str);        

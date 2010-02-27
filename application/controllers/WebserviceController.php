@@ -43,7 +43,18 @@ class WebserviceController extends AController
                 $contextSwitch = $this->_helper->getHelper('contextSwitch');
                 $contextSwitch->initContext();
                 $filter = new Eti_Filter_ArrayToXml();
-                $filter->setRoot('results')->setNode('result');
+                // node name mapping based on parent node name
+                $filter->setNodeNameMapping(
+                    array(
+                        'root' => 'results',
+                        'results' => 'result',
+                        'references' => 'reference',
+                        'classification' => 'taxon',
+                        'child_taxa' => 'taxon',
+                        'synonyms' => 'synonym',
+                        'common_names' => 'common_name'
+                    )
+                );
         }
         
         $wsModel = new ACI_Model_Webservice($this->_db);

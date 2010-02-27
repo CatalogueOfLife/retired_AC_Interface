@@ -148,7 +148,7 @@ class ACI_Model_Webservice extends AModel
         $names = $this->_processResults(
             $res, $request->getParam('response') == 'full' ? true : false
         );
-        $this->_response['names'] = $names;
+        $this->_response['results'] = $names;
     }
     
     protected function _processResults(array $res, /*bool*/$full)
