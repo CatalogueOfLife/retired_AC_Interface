@@ -264,6 +264,9 @@ class ACI_Model_WebserviceSearch extends AModel
             unset($res);
         } while ($id > 0);
         
+        // remove the taxon itself
+        unset($classification[0]);
+        // return top to bottom hierarchy
         return array_reverse($classification);
     }
     

@@ -21,16 +21,17 @@ class ACI_Model_Webservice extends AModel
     );
     protected $_responseLimits = array('terse' => 500, 'full' => 50);
     protected $_filter;
-    protected $_response = array(
-        'name' => '',
+    protected $_response = array(        
         'id' => '',
-        'number_of_results_returned' => 0,
+        'name' => '',
         'total_number_of_results' => 0,
+        'number_of_results_returned' => 0,  
         'start' => 0,
         'error_message' => '',
         'version' => '1.0'
     );
     protected $_model;
+    protected $_detailsModel;
     
     public function query(Zend_Controller_Request_Abstract $request)
     {
@@ -48,6 +49,14 @@ class ACI_Model_Webservice extends AModel
             $this->_setError($e->getMessage());
         }
         return $this->_filter->filter($this->_response);
+    }
+    
+    protected function _getDetailsModel()
+    {
+        if(is_null($this->_detailsModel)) {
+            $this->_detailsModel = new ACI_Model_Details($this->_db);
+        }
+        return $this->_detailsModel;
     }
     
     /**
@@ -231,7 +240,8 @@ class ACI_Model_Webservice extends AModel
             $an['id'], $an['rank_id'], $an['status'], $an['id']
         );
         
-        unset($an['rank_id'], $an['status']);
+        $nameCode = $an['name_code'];
+        unset($an['rank_id'], $an['status'], $an['name_code']);
         
         if (!$full) {
             $this->_arrayFilterKeys(
@@ -242,19 +252,19 @@ class ACI_Model_Webservice extends AModel
             return $an;
         }
         // full response
-        $an['distribution'] = $this->_getDistribution($an['name_code']);
-        $an['references'] = $this->_getReferences($an['name_code']);
+        $an['distribution'] = $this->_getDistribution($nameCode);
+        $an['references'] = $this->_getReferences($nameCode);
         $an['classification'] = $this->_getClassification($an['id']);
         $an['child_taxa'] = $this->_getChildren($an['id']);
-        $an['synonyms'] = $this->_getSynonyms($an['name_code']);
-        $an['common_names'] = $this->_getCommonNames($an['id']);
+        $an['synonyms'] = $this->_getSynonyms($nameCode);
+        $an['common_names'] = $this->_getCommonNames($nameCode);
         
         return $an;
     }
     
     protected function _getReferences(/*mixed*/$rCode)
     {
-        $dm = new ACI_Model_Details($this->_db);
+        $dm = $this->_getDetailsModel();
         
         if (is_array($rCode)) {
             $refs = array();
@@ -276,7 +286,7 @@ class ACI_Model_Webservice extends AModel
     
     protected function _getDistribution($nameCode)
     {
-        $dm = new ACI_Model_Details($this->_db);
+        $dm = $this->_getDetailsModel();
         $distributions = $dm->distributions($nameCode);
         return implode('; ', $distributions);
     }
@@ -307,16 +317,33 @@ class ACI_Model_Webservice extends AModel
                 $syn['id'], $syn['rank_id'], $syn['status'], $syn['id']
             );
             $syn['references'] = $this->_getReferences($syn['name_code']);
-            unset($syn['rank_id'], $syn['status'], $syn['name_code'], 
+            unset($syn['rank_id'], $syn['status'], $syn['name_code'],
                 $syn['distribution']);
         }
         return $synonyms;
     }
     
-    protected function _getCommonNames()
+    protected function _getCommonNames($nameCode)
     {
-        // TODO: implement
-        return array();
+        $dm = $this->_getDetailsModel();
+        $commonNames = $dm->commonNames($nameCode);
+        foreach($commonNames as &$cn) {
+            $refIds = explode(',', $cn['references']);
+            $refs = array();
+            foreach($refIds as $refId) {
+                $refs[] = $dm->getReferenceById($refId);    
+            }
+            $this->_arrayFilterKeys(
+                $refs, array('author', 'title', 'year', 'source')
+            );
+            $cn = array(
+                'name' => $cn['common_name'],
+                'language' => $cn['language'],
+                'country' => $cn['country'],
+                'references' => $refs
+            );
+        }
+        return $commonNames;
     }
     
     protected function _arrayFilterKeys(array &$array, array $whitelist)

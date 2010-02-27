@@ -21,19 +21,40 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
      *
      * @var string
      */
+    protected $_version = '1.0';
     protected $_encoding = 'UTF-8';
+    protected $_preserveWhiteSpace = false;
+    protected $_formatOutput = true;
     protected $_root = 'root';
     protected $_node = 'node'; //TODO: allow parent-child node name mapping
     protected $_dom;
+    
+    public function setVersion($version)
+    {
+        $this->_version = (string)$version;
+        return $this;
+    }
 
     /**
      * Set the input encoding for the given string
      *
      * @param  string $encoding
      */
-    public function setEncoding($encoding = null)
+    public function setEncoding($encoding)
     {
         $this->_encoding = (string)$encoding;
+        return $this;
+    }
+    
+    public function preserveWhiteSpace(/*bool*/$op)
+    {
+        $this->_preserveWhiteSpace = (bool)$op;
+        return $this; 
+    }
+    
+    public function formatOutput(/*bool*/$op)
+    {
+        $this->_formatOutput = (bool)$op;
         return $this;
     }
     
@@ -62,7 +83,11 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
         if (!is_array($value)) {
             throw new Zend_Filter_Exception('Given value is not an array');
         }
-        $this->_dom = new DOMDocument('1.0', $this->_encoding);
+        
+        $this->_dom = new DOMDocument($this->_version, $this->_encoding);
+        $this->_dom->preserveWhiteSpace = $this->_preserveWhiteSpace;
+        $this->_dom->formatOutput = $this->_formatOutput;
+        
         $xml = $this->_dom->createElement($this->_root);
         
         foreach ($value as $k => $v) {
@@ -90,9 +115,13 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
                     $node, $v, is_int($k) ? $this->_node : $k
                 );
             } else {
-                $el = $this->_dom->createElement($k);
+                $el = $this->_dom->createElement($k);                
                 $el->appendChild(
-                    $this->_dom->createTextNode($this->_cleanString($v))
+                    // preserve html hex characters within CDATA sections
+                    preg_match("/&#/", $v) ?
+                    $this->_dom->createCDATASection(
+                        $this->_cleanStr($v, true)
+                    ) : $this->_dom->createTextNode($this->_cleanStr($v))
                 );
                 $node->appendChild($el);
             }
@@ -101,8 +130,13 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
         return $xml;
     }
     
-    protected function _cleanString($str)
+    protected function _cleanStr($str, $isCdata = false)
     {
-        return str_replace('&', '&amp;', utf8_encode($str));
+        $uStr = utf8_encode($str);        
+        if(!$isCdata) {
+            // replace & with &amp;
+            return preg_replace("/&([^\w;]+)/","&amp;\\1", $uStr);
+        }
+        return $uStr;
     }
 }
