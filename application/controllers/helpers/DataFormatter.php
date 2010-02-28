@@ -427,7 +427,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     
     public function splitByMarkers($name)
     {
-        $nameArray = split(' ', $name);
+        $nameArray = explode(' ', $name);
         foreach ($nameArray as &$n) {
             $n = array($n, in_array($n, ACI_Model_Table_Taxa::$markers));
         }
