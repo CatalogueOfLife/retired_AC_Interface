@@ -38,5 +38,7 @@ Please see the INSTALL.txt file for installation instructions.
 
 LICENSING
 ==========
-The files in this archive are released under the EUPL.
-You can find a copy of this license in LICENSE.txt.
+This software makes use of third-party open source libraries. You can find a 
+copy of their license in:
+  * application/library/Zend/LICENSE.txt, Zend Framework
+  * public/scripts/library/dojo/LICENSE.txt, Dojo Toolkit
