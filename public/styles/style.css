@@ -4,7 +4,7 @@ body {
     background-image: url(../images/Border_Left.gif);
     background-repeat: repeat-y;
     background-position: 0px 0px;
-    margin: 0px 0px 30px 0px;
+    margin: 27px 0px 30px 0px;
     line-height: 14px;
 }
 body, table, p, div, ul {
@@ -431,7 +431,7 @@ div.export-warning {
     padding: 15px 0 15px 20px;
 }
 #header {
-    margin: 27px 0 16px 0;
+    margin: 0 0 16px 0;
     background: transparent url(../images/Annual_Checklist_Top_Banner.gif) no-repeat top left;
     width: 760px;
     height: 100px;
