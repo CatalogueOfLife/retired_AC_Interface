@@ -14,7 +14,7 @@ require_once 'Zend/Filter/Interface.php';
  *
  */
 class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
-{   
+{
     protected $_version = '1.0';
     protected $_encoding = 'UTF-8';
     protected $_preserveWhiteSpace = false;
@@ -59,7 +59,7 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
     public function preserveWhiteSpace(/*bool*/$op)
     {
         $this->_preserveWhiteSpace = (bool)$op;
-        return $this; 
+        return $this;
     }
     
     /**
@@ -140,13 +140,13 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
                     $node, $v, is_int($k) ? $this->_getNodeName($nodeName) : $k
                 );
             } else {
-                $el = $this->_dom->createElement($k);                
+                $el = $this->_dom->createElement($k);
                 $el->appendChild(
                     // preserve html hex characters within CDATA sections
                     preg_match("/&#/", $v) ?
                     $this->_dom->createCDATASection(
                         $this->_cleanStr($v, true)
-                    ) : $this->_dom->createTextNode($this->_cleanStr($v))
+                    ) : $this->_dom->createTextNode($this->_cleanStr($v, false))
                 );
                 $node->appendChild($el);
             }
@@ -162,11 +162,11 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
      * @return string
      */
     protected function _getNodeName($parentNodeName = null)
-    {   
+    {
         if(is_null($parentNodeName)) {
             $parentNodeName = 'root';
         }
-        return isset($this->_nodeNameMapping[$parentNodeName]) ? 
+        return isset($this->_nodeNameMapping[$parentNodeName]) ?
             $this->_nodeNameMapping[$parentNodeName] : $this->_defaultNodeName;
     }
     
@@ -178,12 +178,12 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
      * @param bool $isCdata
      * @return string
      */
-    protected function _cleanStr($str, $isCdata = false)
+    protected function _cleanStr($str, $isCdata)
     {
-        $uStr = utf8_encode($str);        
+        $uStr = utf8_encode($str);
         if(!$isCdata) {
             // replace & with &amp;
-            return preg_replace("/&([^\w;]+)/","&amp;\\1", $uStr);
+            return str_replace('&', '&amp;', $uStr);
         }
         return $uStr;
     }
