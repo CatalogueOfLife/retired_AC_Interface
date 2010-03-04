@@ -12,9 +12,9 @@ require_once 'AController.php';
  *
  */
 class WebserviceController extends AController
-{  
+{
     public function init()
-    {  
+    {
         parent::init();
         $contextSwitch = $this->_helper->getHelper('contextSwitch');
         $contextSwitch->addActionContext('query', 'xml');
@@ -26,12 +26,16 @@ class WebserviceController extends AController
         if (ACI_Model_Webservice::paramsExist($this->_getAllParams())) {
             $this->_forward('query');
         } else {
+            $config = Zend_Registry::get('config');
+            $this->view->location = $config->eti->application->location .
+                '/webservice';
+            $this->view->version = ACI_Model_Webservice::VERSION;
             $this->view->layout()->disableLayout();
         }
     }
     
     public function queryAction ()
-    {   
+    {
         switch ($this->_getParam('format')) {
             case 'php':
                 $this->view->layout()->disableLayout();
@@ -65,6 +69,6 @@ class WebserviceController extends AController
     
     public function __call ($name, $arguments)
     {
-        $this->_forward('index');        
+        $this->_forward('index');
     }
 }

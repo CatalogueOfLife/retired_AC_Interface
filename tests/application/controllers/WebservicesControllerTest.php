@@ -42,7 +42,7 @@ class WebservicesControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
          *     start="0"
          *     number_of_results_returned="0"
          *     error_message="No name or ID given"
-         *     version="1.0">
+         *     version="1.2">
          *</results>*/
         $this->dispatch('/webservice?format=xml');
         $this->assertXpathCount('//results', 1);
@@ -52,7 +52,7 @@ class WebservicesControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
         $this->assertXpath("//results[@start = '0']");
         $this->assertXpath("//results[@number_of_results_returned = '0']");
         $this->assertXpath("//results[@error_message = 'No name or ID given']");
-        $this->assertXpath("//results[@version = '1.0']");
+        $this->assertXpath("//results[@version = '1.2']");
     }
     
     public function testEmptySerializedResponse()
@@ -64,7 +64,7 @@ class WebservicesControllerTest extends Zend_Test_PHPUnit_ControllerTestCase
             'start' => 0,
             'number_of_results_returned' => 0,
             'error_message' => 'No name or ID given',
-            'version' => '1.0'
+            'version' => '1.2'
         );
         $this->dispatch('/webservice/?format=php');
         $this->assertEquals(
