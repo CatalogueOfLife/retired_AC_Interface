@@ -182,6 +182,15 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
     {
         $uStr = utf8_encode($str);
         if(!$isCdata) {
+            // if the string contains at least one opening html tag symbol
+            if(strstr($uStr, '<') !== false) {
+                // convert all html tags to lowercase
+                $uStr = preg_replace(
+                    "/(<\/?)(\w+)([^>]*>)/e",
+                    "'\\1'.strtolower('\\2').'\\3'",
+                    $uStr
+                );
+            }
             // replace & with &amp;
             return str_replace('&', '&amp;', $uStr);
         }
