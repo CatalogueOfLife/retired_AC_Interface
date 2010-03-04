@@ -19,7 +19,7 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
     protected $_encoding = 'UTF-8';
     protected $_preserveWhiteSpace = false;
     protected $_formatOutput = true;
-    protected $_defaultNodeName = 'xxx';
+    protected $_defaultNodeName = 'result';
     protected $_nodeNameMapping = array();
     protected $_dom;
     
