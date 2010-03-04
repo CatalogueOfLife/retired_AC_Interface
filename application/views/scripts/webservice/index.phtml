@@ -63,7 +63,7 @@ div.Section1
  style="border-style: solid none none; border-color: windowtext -moz-use-text-color -moz-use-text-color; border-width: 1pt medium medium; padding: 10pt 0cm 0cm;">
 <p class="MsoNormal" style="border: medium none ; padding: 0cm;"><b><span
  style="font-family: Arial; color: maroon;">Table of
-Contents - 2010 Annual Checklist Web Service v1.1</span></b><span
+Contents - 2010 Annual Checklist Web Service v<?php echo $this->version; ?></span></b><span
  style="font-size: 10pt; font-family: Arial; color: maroon;"
 ><o:p></o:p></span></p>
 </div>
@@ -172,9 +172,10 @@ format<o:p></o:p></span></p>
  style="font-size: 10pt; font-family: Arial;"><o:p>&nbsp;</o:p></span></p>
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;">The
-Web service (version 1.1) is currently available at:<o:p></o:p></span></p>
+Web service (version <?php echo $this->version; ?>) is currently available at:<o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
- style="font-size: 10pt; font-family: Arial;">http://webservice.catalogueoflife.org/annual-checklist/2010<o:p></o:p></span></p>
+ style="font-size: 10pt; font-family: Arial;">
+ <a href="<?php echo $this->location; ?>"><?php echo $this->location; ?></a></span></p>
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;"><o:p>&nbsp;</o:p></span></p>
 <p class="MsoNormal" style=""><b><span
@@ -273,15 +274,30 @@ queries and 50 for full queries).<o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;"><o:p>&nbsp;</o:p></span></p>
 <p class="MsoNormal" style=""><span
- style="font-size: 10pt; font-family: Arial;"><a href="http://webservice.catalogueoflife.org/annual-checklist/2010/?name=Tara+spinosa">http://webservice.catalogueoflife.org/annual-checklist/2010/?name=Tara+spinosa</a><o:p></o:p></span></p>
+ style="font-size: 10pt; font-family: Arial;">
+ <a href="<?php echo $this->location; ?>?name=Tara+spinosa">
+ <?php echo $this->location; ?>?name=Tara+spinosa
+ </a><o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
- style="font-size: 10pt; font-family: Arial;"><a href="http://webservice.catalogueoflife.org/annual-checklist/2010/?name=Apus">http://webservice.catalogueoflife.org/annual-checklist/2010/?name=Apus</a><o:p></o:p></span></p>
+ style="font-size: 10pt; font-family: Arial;">
+ <a href="<?php echo $this->location; ?>?name=Apus">
+ <?php echo $this->location; ?>?name=Apus
+ </a><o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
- style="font-size: 10pt; font-family: Arial;"><a href="http://webservice.catalogueoflife.org/annual-checklist/2010/?id=402138">http://webservice.catalogueoflife.org/annual-checklist/2010/?id=402138</a><o:p></o:p></span></p>
+ style="font-size: 10pt; font-family: Arial;">
+ <a href="<?php echo $this->location; ?>?id=7264597">
+ <?php echo $this->location; ?>?id=7264597</a>
+ <o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
- style="font-size: 10pt; font-family: Arial;"><a href="http://webservice.catalogueoflife.org/annual-checklist/2010/?name=Platalea+leucorodia">http://webservice.catalogueoflife.org/annual-checklist/2010/?name=Platalea+leucorodia</a><o:p></o:p></span></p>
+ style="font-size: 10pt; font-family: Arial;">
+ <a href="<?php echo $this->location; ?>?name=Platalea+leucorodia">
+ <?php echo $this->location; ?>?name=Platalea+leucorodia
+ </a><o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
- style="font-size: 10pt; font-family: Arial;"><a href="http://webservice.catalogueoflife.org/annual-checklist/2010/?id=402138&format=php&response=full">http://webservice.catalogueoflife.org/annual-checklist/2010/?id=402138&amp;format=php&amp;response=full</a><o:p></o:p></span></p>
+ style="font-size: 10pt; font-family: Arial;">
+ <a href="<?php echo $this->location; ?>?id=7264597&format=php&response=full">
+ <?php echo $this->location; ?>?id=7264597&amp;format=php&amp;response=full
+ </a><o:p></o:p></span></p>
 <p class="MsoNormal" style=""><b><span
  style="font-size: 10pt; font-family: Arial;"><o:p>&nbsp;</o:p></span></b></p>
 
@@ -312,7 +328,7 @@ parameters of the &lt;results&gt; tag.<o:p></o:p></span></p>
  style="font-size: 10pt; font-family: Arial;">&lt;results
 id="" name="" total_number_of_results=""
 number_of_results="" start=""
-error_message="" version="1.0"&gt;<o:p></o:p></span></p>
+error_message="" version="<?php echo $this->version; ?>"&gt;<o:p></o:p></span></p>
 
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;"><span
@@ -1108,11 +1124,11 @@ name&gt;<o:p></o:p></span></p>
 </span></span><span style="font-size: 10pt; font-family: Arial;"
 >&lt;source_database&gt;&lt;/source_database&gt;<o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
- style="font-size: 10pt; font-family: Arial;"><span 
+ style="font-size: 10pt; font-family: Arial;"><span
  style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>&lt;source_database_url&gt;&lt;/source_database_url&gt;<o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
- style="font-size: 10pt; font-family: Arial;"><span 
+ style="font-size: 10pt; font-family: Arial;"><span
  style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span><span style="font-size: 10pt; font-family: Arial;"
 >&lt;record_scrutiny_date&gt;&lt;/record_scrutiny_date&gt;<o:p></o:p></span></p>
@@ -1144,19 +1160,19 @@ name&gt;<o:p></o:p></span></p>
 </span></span><span style="font-size: 10pt; font-family: Arial;"
 >&lt;source&gt;&lt;/source&gt;<o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
- style="font-size: 10pt; font-family: Arial;"><span 
+ style="font-size: 10pt; font-family: Arial;"><span
  style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>&lt;/reference&gt;<o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
- style="font-size: 10pt; font-family: Arial;"><span 
+ style="font-size: 10pt; font-family: Arial;"><span
  style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>&lt;/references&gt;<o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
- style="font-size: 10pt; font-family: Arial;"><span 
+ style="font-size: 10pt; font-family: Arial;"><span
  style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>&lt;/synonym&gt;<o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
- style="font-size: 10pt; font-family: Arial;"><span 
+ style="font-size: 10pt; font-family: Arial;"><span
  style="">&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span><span style="font-size: 10pt; font-family: Arial;"
 >&lt;/synonyms&gt;<o:p></o:p></span></p>
@@ -1486,7 +1502,7 @@ name&gt;<o:p></o:p></span></p>
 </span>&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;"><span
- style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;"><span
@@ -1696,7 +1712,7 @@ name&gt;<o:p></o:p></span></p>
  style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>&lt;references&gt;<o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
- style="font-size: 10pt; font-family: Arial;"><span 
+ style="font-size: 10pt; font-family: Arial;"><span
  style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>&lt;reference&gt;<span style="color: #666">&nbsp;&nbsp;&nbsp;&nbsp;
 &lt;!-- one &lt;reference /&gt; for each reference --&gt;</span></p>

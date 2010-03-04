@@ -14,6 +14,7 @@ require_once 'AModel.php';
 class ACI_Model_Webservice extends AModel
 {
     const REQUEST_NAME_MIN_STRLEN = 3;
+    const VERSION = '1.2';
     
     // allowed parameters
     protected static $_params = array(
@@ -21,14 +22,14 @@ class ACI_Model_Webservice extends AModel
     );
     protected $_responseLimits = array('terse' => 500, 'full' => 50);
     protected $_filter;
-    protected $_response = array(        
+    protected $_response = array(
         'id' => '',
         'name' => '',
         'total_number_of_results' => 0,
-        'number_of_results_returned' => 0,  
+        'number_of_results_returned' => 0,
         'start' => 0,
-        'error_message' => '',
-        'version' => '1.0'
+        'error_message' => self::VERSION,
+        'version' => ''
     );
     protected $_model;
     protected $_detailsModel;
@@ -39,8 +40,8 @@ class ACI_Model_Webservice extends AModel
             throw new ACI_Model_Exception(
                 'No filter defined for the webservice output'
             );
-        }        
-        $this->_model = new ACI_Model_WebserviceSearch($this->_db);        
+        }
+        $this->_model = new ACI_Model_WebserviceSearch($this->_db);
         try {
             $this->_process($this->_validate($request));
         } catch(Zend_Db_Exception $e) {
@@ -123,7 +124,7 @@ class ACI_Model_Webservice extends AModel
     }
     
     public static function paramsExist(array $requestParams)
-    {          
+    {
         $intersect = array_intersect(
             self::$_params, array_keys($requestParams)
         );
@@ -131,7 +132,7 @@ class ACI_Model_Webservice extends AModel
     }
     
     protected function _process(Zend_Controller_Request_Abstract $request)
-    {   
+    {
         $res = $this->_model->taxa(
             $request->getParam('id'),
             $request->getParam('name'),
@@ -143,7 +144,7 @@ class ACI_Model_Webservice extends AModel
             throw new ACI_Model_Webservice_Exception('No names found');
         }
         $this->_response['number_of_results_returned'] = $numRows;
-        $this->_response['total_number_of_results'] = 
+        $this->_response['total_number_of_results'] =
             $this->_model->getFoundRows();
         $names = $this->_processResults(
             $res, $request->getParam('response') == 'full' ? true : false
@@ -198,7 +199,7 @@ class ACI_Model_Webservice extends AModel
     }
     
     protected function _processScientificName(array $row, /*bool*/$full)
-    {   
+    {
         if ($row['rank_id'] < ACI_Model_Table_Taxa::RANK_SPECIES) {
             $sn = array(
                 'id' => $row['record_id'],
@@ -211,9 +212,9 @@ class ACI_Model_Webservice extends AModel
                 )
             );
             if($full) {
-                $sn['classification'] = 
+                $sn['classification'] =
                     $this->_getClassification($row['record_id'], false);
-                $sn['child_taxa'] = 
+                $sn['child_taxa'] =
                     $this->_getChildren($row['record_id'], false);
             }
             return $sn;
@@ -228,9 +229,9 @@ class ACI_Model_Webservice extends AModel
         return $sn;
     }
     
-    protected function _getScientificName($nameCode, /*bool*/$full, 
+    protected function _getScientificName($nameCode, /*bool*/$full,
         /*bool*/$acceptedName)
-    {   
+    {
         $an = $this->_model->scientificName($nameCode, $acceptedName);
         if (!$an) {
             return array();
@@ -309,7 +310,7 @@ class ACI_Model_Webservice extends AModel
     }
     
     protected function _getChildren($id, /*bool*/$isSnId)
-    {   
+    {
         return $this->_model->childTaxa(
             $isSnId ? $this->_getTaxaFromSpeciesId($id) : $id
         );
@@ -322,7 +323,7 @@ class ACI_Model_Webservice extends AModel
     }
     
     protected function _getSynonyms($nameCode)
-    {  
+    {
         $synonyms = $this->_model->synonyms($nameCode);
         foreach ($synonyms as &$syn) {
             $syn['name_html'] =
@@ -350,7 +351,7 @@ class ACI_Model_Webservice extends AModel
             $refIds = explode(',', $cn['references']);
             $refs = array();
             foreach($refIds as $refId) {
-                $refs[] = $dm->getReferenceById($refId);    
+                $refs[] = $dm->getReferenceById($refId);
             }
             $this->_arrayFilterKeys(
                 $refs, array('author', 'title', 'year', 'source')
