@@ -28,8 +28,8 @@ class ACI_Model_Webservice extends AModel
         'total_number_of_results' => 0,
         'number_of_results_returned' => 0,
         'start' => 0,
-        'error_message' => self::VERSION,
-        'version' => ''
+        'error_message' => '',
+        'version' => self::VERSION
     );
     protected $_model;
     protected $_detailsModel;
