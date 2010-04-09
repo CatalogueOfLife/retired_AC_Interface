@@ -202,7 +202,7 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
                 );
             }
             // replace & with &amp;
-            return str_replace('&', '&amp;', $uStr);
+            return trim(str_replace('&', '&amp;', $uStr));
         }
         return $uStr;
     }
