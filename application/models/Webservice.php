@@ -351,7 +351,11 @@ class ACI_Model_Webservice extends AModel
             $refIds = explode(',', $cn['references']);
             $refs = array();
             foreach($refIds as $refId) {
-                $refs[] = $dm->getReferenceById($refId);
+                // some references do not exist (incosistent data)
+                // check first if we can really obtain that reference
+                if($ref = $dm->getReferenceById($refId)) {
+                    $refs[] = $ref;
+                }
             }
             $this->_arrayFilterKeys(
                 $refs, array('author', 'title', 'year', 'source')
