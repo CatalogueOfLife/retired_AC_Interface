@@ -142,15 +142,14 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
             } else {
                 try {
                     $el = $this->_dom->createElement($k);
+                    // clean value
+                    $v = $this->_cleanStr($v);
                     $el->appendChild(
-                        // preserve html hex characters within CDATA sections
-                        preg_match("/&#/", $v) ?
-                            $this->_dom->createCDATASection(
-                                $this->_cleanStr($v, true)
-                            ) :
-                            $this->_dom->createTextNode(
-                                $this->_cleanStr($v, false)
-                            )
+                        // if the value is not valid XML, create a CDATA section
+                        // instead of a text node
+                        $this->_isValidXml($v) ?
+                            $this->_dom->createTextNode($v) :
+                            $this->_dom->createCDATASection($v)
                     );
                     $node->appendChild($el);
                 }
@@ -188,22 +187,14 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
      * @param bool $isCdata
      * @return string
      */
-    protected function _cleanStr($str, $isCdata)
+    protected function _cleanStr($str)
     {
-        $uStr = utf8_encode($str);
-        if(!$isCdata) {
-            // if the string contains at least one opening html tag symbol
-            if(strstr($uStr, '<') !== false) {
-                // convert all html tags to lowercase
-                $uStr = preg_replace(
-                    "/(<\/?)(\w+)([^>]*>)/e",
-                    "'\\1'.strtolower('\\2').'\\3'",
-                    $uStr
-                );
-            }
-            // replace & with &amp;
-            return trim(str_replace('&', '&amp;', $uStr));
-        }
-        return $uStr;
+        return trim(utf8_encode($str));
+    }
+    
+    protected function _isValidXml($str)
+    {
+        return @simplexml_load_string('<x>' . $str . '</x>')
+            instanceof SimpleXMLElement;
     }
 }
