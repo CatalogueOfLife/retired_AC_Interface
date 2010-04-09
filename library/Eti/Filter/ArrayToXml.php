@@ -140,15 +140,25 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
                     $node, $v, is_int($k) ? $this->_getNodeName($nodeName) : $k
                 );
             } else {
-                $el = $this->_dom->createElement($k);
-                $el->appendChild(
-                    // preserve html hex characters within CDATA sections
-                    preg_match("/&#/", $v) ?
-                    $this->_dom->createCDATASection(
-                        $this->_cleanStr($v, true)
-                    ) : $this->_dom->createTextNode($this->_cleanStr($v, false))
-                );
-                $node->appendChild($el);
+                try {
+                    $el = $this->_dom->createElement($k);
+                    $el->appendChild(
+                        // preserve html hex characters within CDATA sections
+                        preg_match("/&#/", $v) ?
+                            $this->_dom->createCDATASection(
+                                $this->_cleanStr($v, true)
+                            ) :
+                            $this->_dom->createTextNode(
+                                $this->_cleanStr($v, false)
+                            )
+                    );
+                    $node->appendChild($el);
+                }
+                catch(DOMException $e) {
+                    // this exception may occur if the data is corrupted
+                    // e.g. trying to create an element of name 0
+                    // (skip node)
+                }
             }
         }
         $xml->appendChild($node);
