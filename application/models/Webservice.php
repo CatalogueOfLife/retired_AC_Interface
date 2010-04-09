@@ -49,7 +49,6 @@ class ACI_Model_Webservice extends AModel
         } catch (ACI_Model_Webservice_Exception $e) {
             $this->_setError($e->getMessage());
         }
-        //var_dump($this->_response);
         return $this->_filter->filter($this->_response);
     }
     
