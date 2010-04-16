@@ -181,17 +181,24 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
     
     /**
      * Encodes to UTF-8
-     * If the value is not CDATA, replaces & with &amp;
+     * Removes trailing and leading whitespaces
+     * Replaces chr(11) vertical tabs with chr(32) spaces
      *
      * @param string $str
-     * @param bool $isCdata
      * @return string
      */
     protected function _cleanStr($str)
     {
-        return trim(utf8_encode($str));
+        return trim(utf8_encode(str_replace(chr(11), chr(32), $str)));
     }
     
+    /**
+     * Checks whether a string contains allowed XML characters by attempting
+     * to create an instance of SimpleXMLElement
+     *
+     * @param string $str
+     * @return boolean
+     */
     protected function _isValidXml($str)
     {
         return @simplexml_load_string('<x>' . $str . '</x>')
