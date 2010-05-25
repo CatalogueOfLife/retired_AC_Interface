@@ -79,7 +79,7 @@ class ACI_Model_Table_ScientificNames extends Zend_Db_Table_Abstract
     {
         if (is_null(self::$_numInfraspecificTaxa)) {
             $select = $this->_getAcceptedNamesCount();
-            $select->where('LENGTH(infraspecies) > 0');
+            $select->where('LENGTH(TRIM(infraspecies)) > 0');
             $rows = $this->fetchAll($select);
             self::$_numInfraspecificTaxa = $rows[0]->total;
         }

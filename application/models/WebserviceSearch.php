@@ -137,7 +137,7 @@ class ACI_Model_WebserviceSearch extends AModel
                 'name_code' => 'sn.name_code',
                 'rank' => new Zend_Db_Expr('""'),
                 'rank_id' => 'IF(sn.infraspecies IS NULL OR ' .
-                    'LENGTH(sn.infraspecies) = 0, ' .
+                    'LENGTH(TRIM(sn.infraspecies)) = 0, ' .
                     ACI_Model_Table_Taxa::RANK_SPECIES . ', ' .
                     ACI_Model_Table_Taxa::RANK_INFRASPECIES . ')',
                 'name_status' => new Zend_Db_Expr('""'),
@@ -214,13 +214,13 @@ class ACI_Model_WebserviceSearch extends AModel
             array('sn' => 'scientific_names'),
             'tx.name_code = sn.name_code',
             array()
-        );        
+        );
             
         return $select;
     }
     
     public function classification($id)
-    {   
+    {
         $select = $this->_selectClassification();
         $select->where('tx.record_id = ?');
         
@@ -268,7 +268,7 @@ class ACI_Model_WebserviceSearch extends AModel
     }
     
     public function childTaxa($id)
-    {   
+    {
         $select = $this->_selectClassification();
         $select->where('tx.parent_id = ?', $id);
         
@@ -298,7 +298,7 @@ class ACI_Model_WebserviceSearch extends AModel
                 'url' => ACI_Model_Webservice::getTaxaUrl(
                     $taxon['id'], $taxon['rank_id'], $taxon['status']
                 )
-            );   
+            );
         }
         
         unset($res);
@@ -312,6 +312,6 @@ class ACI_Model_WebserviceSearch extends AModel
             array('sn' => 'scientific_names'),
             array('name_code' => 'sn.accepted_name_code')
         )->where('sn.record_id = ?', $id);
-        return $select->query()->fetchColumn(0);        
+        return $select->query()->fetchColumn(0);
     }
 }

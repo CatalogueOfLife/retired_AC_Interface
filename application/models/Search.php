@@ -303,7 +303,7 @@ class ACI_Model_Search extends AModel
             array(
                 'id' => 'sn.record_id',
                 'rank' => 'IF(sn.infraspecies IS NULL OR ' .
-                    'LENGTH(sn.infraspecies) = 0, ' .
+                    'LENGTH(TRIM(sn.infraspecies)) = 0, ' .
                     ACI_Model_Table_Taxa::RANK_SPECIES . ', ' .
                     ACI_Model_Table_Taxa::RANK_INFRASPECIES . ')',
                 'name' =>
@@ -342,7 +342,7 @@ class ACI_Model_Search extends AModel
                 'id' => 'sn.record_id',
                 'taxa_id' => new Zend_Db_Expr(0),
                 'rank' => 'IF(sn.infraspecies IS NULL OR ' .
-                    'LENGTH(sn.infraspecies) = 0, ' .
+                    'LENGTH(TRIM(sn.infraspecies)) = 0, ' .
                     ACI_Model_Table_Taxa::RANK_SPECIES . ', ' .
                     ACI_Model_Table_Taxa::RANK_INFRASPECIES . ')',
                 'name' =>
@@ -726,18 +726,18 @@ class ACI_Model_Search extends AModel
         $rankId = $this->getRankIdFromString($rank);
         if ($rankId == ACI_Model_Table_Taxa::RANK_SPECIES) {
             $select->where(
-                'sn.infraspecies IS NULL OR LENGTH(infraspecies) = 0'
+                'LENGTH(TRIM(sn.infraspecies)) = 0'
             );
         }
         else if ($rankId == ACI_Model_Table_Taxa::RANK_INFRASPECIES) {
             $select->where(
-                'sn.infraspecies IS NOT NULL OR LENGTH(TRIM(infraspecies)) > 0'
+                'LENGTH(TRIM(sn.infraspecies)) > 0'
             );
         }
                 
         $select
             ->where("LENGTH(TRIM($field)) > 0")
-            ->where("sn.is_accepted_name = 1")
+            ->where('sn.is_accepted_name = 1')
             ->order(
                 array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"), $rank)
             )
