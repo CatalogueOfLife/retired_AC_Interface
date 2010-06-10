@@ -506,9 +506,10 @@ class ACI_Model_Search extends AModel
             array(
                 'id' => new Zend_Db_Expr(0),
                 'taxa_id' => 'cn.record_id',
-                'rank' => new Zend_Db_Expr('IF(cn.is_infraspecies, ' .
-                    ACI_Model_Table_Taxa::RANK_INFRASPECIES . ', ' .
-                    ACI_Model_Table_Taxa::RANK_SPECIES . ')'),
+                'rank' => 'IF(sn.infraspecies IS NULL OR ' .
+                    'LENGTH(TRIM(sn.infraspecies)) = 0, ' .
+                    ACI_Model_Table_Taxa::RANK_SPECIES . ', ' .
+                    ACI_Model_Table_Taxa::RANK_INFRASPECIES . ')',
                 'name' => 'cn.common_name',
                 'cn.name_code',
                 'is_accepted_name' => new Zend_Db_Expr(0),
