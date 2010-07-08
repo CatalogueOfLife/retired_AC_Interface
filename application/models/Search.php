@@ -897,7 +897,7 @@ class ACI_Model_Search extends AModel
             'tx.name_code = sn.name_code',
             array()
         )
-        ->where('tx.parent_id = ? AND tx.is_accepted_name = 1', $parentId)
+        ->where('tx.parent_id = ? AND tx.is_accepted_name = 1 '.($parentId == 0 ? 'AND tx.taxon = "Kingdom"' : ''), $parentId)
         ->group(array('tx.parent_id', 'tx.name'))
         ->order(
             array(
