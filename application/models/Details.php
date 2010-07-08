@@ -355,7 +355,8 @@ class ACI_Model_Details extends AModel
         )
         ->where(
             'sn.genus = ? AND sn.species = ? AND ' .
-            'sn.infraspecies IS NOT NULL AND sn.is_accepted_name = ?'
+            '(sn.infraspecies IS NOT NULL AND sn.infraspecies != "") AND ' . 
+            'sn.is_accepted_name = ?'
         )
         ->order(array('infraspecies', 'infraspecies_marker'));
         
