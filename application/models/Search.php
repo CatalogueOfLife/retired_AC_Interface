@@ -451,13 +451,18 @@ class ACI_Model_Search extends AModel
             )
             ->where(
                 'ss.words ' . (strstr($searchKey, '%') ? 'LIKE' : '=') . ' ? ' .
-                'AND tx.is_species_or_nonsynonymic_higher_taxon = 1',
+                'AND tx.is_species_or_nonsynonymic_higher_taxon = 1 AND (CASE ' .
+                'WHEN `tx`.`taxon` = "Species" OR `tx`.`taxon` = "Infraspecies" ' .
+                'THEN `sn`.`record_id` - `tx`.`record_id` = 0 END) ',
                 $searchKey
             );
         } else {
             $select->where(
                 'tx.name LIKE "%' . $searchKey . '%" AND ' .
-                'tx.is_species_or_nonsynonymic_higher_taxon = 1'
+                'tx.is_species_or_nonsynonymic_higher_taxon = 1 AND ' .
+                'WHEN `tx`.`taxon` = "Species" OR `tx`.`taxon` = (CASE ' .
+                'WHEN `tx`.`taxon` = "Species" OR `tx`.`taxon` = "Infraspecies" ' .
+                'THEN `sn`.`record_id` - `tx`.`record_id` = 0 END) '
             );
         }
            
