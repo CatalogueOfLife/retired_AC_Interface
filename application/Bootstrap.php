@@ -76,7 +76,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         );
         $view->headTitle(
             'Catalogue of Life - ' .
-            $config->eti->application->edition . ' Annual Checklist'
+            $config->eti->application->edition . ' Dynamic Checklist'
         );
         $view->headTitle()->setSeparator(' :: ');        
         // Add custom view helpers path        
