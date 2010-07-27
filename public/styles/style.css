@@ -870,3 +870,7 @@ li:hover ul, li.over ul {
 #footer a:hover {
     color: #006;
 }
+
+.node-Species, .node-Infraspecies {
+	font-style: italic;
+}
