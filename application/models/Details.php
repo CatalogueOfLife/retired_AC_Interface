@@ -157,9 +157,9 @@ class ACI_Model_Details extends AModel
     {
         $select = new Zend_Db_Select($this->_db);
         $select->from(
-            array('sn' => 'scientific_names'),
-            array('status' => 'sp2000_status_id')
-        )->where('sn.record_id = ?', (int)$id);
+            array('td' => 'taxon_detail'),
+            array('status' => 'scientific_name_status_id')
+        )->where('td.taxon_id = ?', (int)$id);
         return (int)$select->query()->fetchColumn(0);
     }
     
