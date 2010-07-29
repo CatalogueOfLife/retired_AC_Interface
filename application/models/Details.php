@@ -299,15 +299,15 @@ class ACI_Model_Details extends AModel
         if (!$res) {
             $select = new Zend_Db_Select($this->_db);
             $select->from(
-                array('tx' => 'taxa'),
+                array('tree' => 'temp_taxon_tree'),
                 array(
-                    'tx.record_id',
-                    'tx.parent_id',
-                    'tx.name',
-                    'tx.taxon',
-                    'tx.LSID'
+                    'record_id' => 'tree.taxon_id',
+                    'parent_id' => 'tree.parent_id',
+                    'name' => 'tree.name',
+                    'taxon' => 'tree.rank',
+                    'LSID' => 'tree.lsid'
                 )
-            )->where('tx.record_id = ?');
+            )->where('tree.taxon_id = ?');
                 
             $hierarchy = array();
             
