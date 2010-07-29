@@ -29,29 +29,28 @@ class ACI_Model_Details extends AModel
         
         $fields =
             array(
-                'id' => 'sn.record_id',
-                'sn.family_id',
-                'f.kingdom',
-                'sn.genus',
-                'sn.species',
-                'infra_marker' => 'sn.infraspecies_marker',
-                'infra' => 'sn.infraspecies',
-                'sn.name_code',
-                'sn.accepted_name_code',
-                'sn.author',
-                'sn.comment',
-                'sn.web_site',
-                'sn.scrutiny_date',
-                'status' => 'sn.sp2000_status_id',
-                'sn.scrutiny_date',
-                'sp.specialist_name',
-                'db_id' => 'sn.database_id',
-                'sn_taxa_id' => 't.record_id',
-                'lsid' => 't.lsid',
-                'rank' => new Zend_Db_Expr(
+                'id' => 'td.taxon_id',
+                'family_id' => 'tax_f.taxon_id',
+                'kingdom' => 'taxn_k.name_element',
+                'genus' => 'taxn_g.name_element',
+                'species' => 'taxn_s.name_element',
+                'infra_marker' => 'td.taxon_id',
+                'infra' => 'taxn_i.name_element',
+                'name_code' => 'td.taxon_id',
+                'accepted_name_code' => 'td.taxon_id',
+                'author' => 'as.string',
+                'comment' => 'td.additional_data',
+                'web_site' => 'td.taxon_id',//'uri.resource_identifier',
+                'scrutiny_date' => 'sc.scrutiny_date',
+                'status' => 'td.scientific_name_status_id',
+                'specialist_name' => 'sp.name',
+                'db_id' => 't.source_database_id',
+                'sn_taxa_id' => 't.id',
+                'lsid' => 'td.taxon_id',//'lsid.resource_identifier',
+                'rank' => 't.taxonomic_rank_id'/*new Zend_Db_Expr(
                             'IF(t.taxon = "Infraspecies", ' .
                                 ACI_Model_Table_Taxa::RANK_INFRASPECIES . ', ' .
-                                ACI_Model_Table_Taxa::RANK_SPECIES . ')')
+                                ACI_Model_Table_Taxa::RANK_SPECIES . ')')*/
             );
             
         switch ($fromType) {
@@ -99,32 +98,123 @@ class ACI_Model_Details extends AModel
         }
         
         $select->from(
-            array('sn' => 'scientific_names'),
+            array('td' => 'taxon_detail'),
             array_merge($fields, $extraFields)
         )
-        ->joinLeft(
-            array('f' => 'families'),
-            'sn.family_id = f.record_id',
+        ->joinRight(
+            array('t' => 'taxon'),
+            'td.taxon_id = t.id',
             array()
         )
         ->joinLeft(
-            array('t' => 'taxa'),
-            'sn.name_code = t.name_code',
+            array('tax_i' => 'taxon_name_element'),
+            '(t.taxonomic_rank_id != ' . ACI_Model_Table_Taxa::RANK_SPECIES . ' ' .
+            'AND t.id = tax_i.taxon_id)',
             array()
         )
         ->joinLeft(
-            array('sp' => 'specialists'),
-            'sn.specialist_id = sp.record_id',
+            array('taxn_i' => 'scientific_name_element'),
+            'tax_i.scientific_name_element_id = taxn_i.id',
             array()
         )
-        ->where('sn.record_id = ?', (int)$id);
+        ->joinLeft(
+            array('tax_s' => 'taxon_name_element'),
+            '(t.taxonomic_rank_id = ' . ACI_Model_Table_Taxa::RANK_SPECIES . ' ' .
+            'AND t.id = tax_s.taxon_id) OR tax_i.parent_id = tax_s.taxon_id',
+            array()
+        )
+        ->joinRight(
+            array('taxn_s' => 'scientific_name_element'),
+            'tax_s.scientific_name_element_id = taxn_s.id',
+            array()
+        )
+        ->joinLeft(
+            array('tax_sg' => 'taxon_name_element'),
+            'tax_s.parent_id = tax_sg.taxon_id',
+            array()
+        )
+        ->joinLeft(
+            array('tax_sg_t' => 'taxon'),
+            'tax_sg.taxon_id = tax_sg_t.id AND tax_sg_t.taxonomic_rank_id = ' .
+            ACI_Model_Table_Taxa::RANK_SUBGENUS,
+            array()
+        )
+        ->joinLeft(
+            array('tax_g' => 'taxon_name_element'),
+            '(tax_s.parent_id = tax_g.taxon_id AND tax_sg_t.id IS NULL) OR ' .
+            '(tax_sg.parent_id = tax_g.taxon_id AND tax_sg_t.id IS NOT NULL)',
+            array()
+        )
+        ->joinRight(
+            array('taxn_g' => 'scientific_name_element'),
+            'tax_g.scientific_name_element_id = taxn_g.id',
+            array()
+        )
+        ->joinLeft(
+            array('tax_f' => 'taxon_name_element'),
+            'tax_g.parent_id = tax_f.taxon_id',
+            array()
+        )
+        ->joinLeft(
+            array('tax_sf' => 'taxon_name_element'),
+            'tax_f.parent_id = tax_sf.taxon_id',
+            array()
+        )
+        ->joinLeft(
+            array('tax_sf_t' => 'taxon'),
+            'tax_sf.taxon_id = tax_sf_t.id AND tax_sf_t.taxonomic_rank_id = ' .
+            ACI_Model_Table_Taxa::RANK_SUPERFAMILY,
+            array()
+        )
+        ->joinLeft(
+            array('tax_o' => 'taxon_name_element'),
+            '(tax_f.parent_id = tax_o.taxon_id AND tax_sf_t.id IS NULL) OR ' .
+            '(tax_sf.parent_id = tax_o.taxon_id AND tax_sf_t.id IS NOT NULL)',
+            array()
+        )
+        ->joinLeft(
+            array('tax_c' => 'taxon_name_element'),
+            'tax_o.parent_id = tax_c.taxon_id',
+            array()
+        )
+        ->joinLeft(
+            array('tax_p' => 'taxon_name_element'),
+            'tax_c.parent_id = tax_p.taxon_id',
+            array()
+        )
+        ->joinLeft(
+            array('tax_k' => 'taxon_name_element'),
+            'tax_p.parent_id = tax_k.taxon_id',
+            array()
+        )
+        ->joinRight(
+            array('taxn_k' => 'scientific_name_element'),
+            'tax_k.scientific_name_element_id = taxn_k.id',
+            array()
+        )
+        ->joinRight(
+            array('as' => 'author_string'),
+            'td.author_string_id = as.id',
+            array()
+        )
+        ->joinRight(
+            array('sc' => 'scrutiny'),
+            'td.scrutiny_id = sc.id',
+            array()
+        )
+        ->joinLeft(
+            array('sp' => 'specialist'),
+            'sc.specialist_id = sp.id',
+            array()
+        )
+        ->where('td.taxon_id = ?', (int)$id);
         
         foreach ($joinLeft as $jl) {
             $select->joinLeft($jl['name'], $jl['cond'], $jl['columns']);
         }
         
         $species = $select->query()->fetchObject('ACI_Model_Table_Taxa');
-        
+        var_dump($species);
         if (!$species instanceof ACI_Model_Table_Taxa) {
             return false;
         }

@@ -19,15 +19,16 @@ class ACI_Model_Table_Taxa
     const STATUS_SYNONYM = 5;
     const STATUS_COMMON_NAME = 6;
     
-    const RANK_KINGDOM = 1;
-    const RANK_PHYLUM = 2;
-    const RANK_CLASS = 3;
-    const RANK_ORDER = 4;
-    const RANK_SUPERFAMILY = 5;
-    const RANK_FAMILY = 6;
-    const RANK_GENUS = 7;
-    const RANK_SPECIES = 8;
-    const RANK_INFRASPECIES = 9;
+    const RANK_KINGDOM = 54;
+    const RANK_PHYLUM = 76;
+    const RANK_CLASS = 6;
+    const RANK_ORDER = 72;
+    const RANK_SUPERFAMILY = 112;
+    const RANK_FAMILY = 17;
+    const RANK_GENUS = 20;
+    const RANK_SUBGENUS = 96;
+    const RANK_SPECIES = 83;
+    const RANK_INFRASPECIES = 49;
     
     public static $markers =
         array(
