@@ -12,8 +12,8 @@
  */
 class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'databases';
-    protected $_primary = 'record_id';
+    protected $_name = 'source_database';
+    protected $_primary = 'id';
     protected static $_numDatabases;
     protected static $_numDatabasesNew;
     protected static $_numDatabasesWithAcceptedNames;
