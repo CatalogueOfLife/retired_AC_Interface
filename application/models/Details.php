@@ -38,12 +38,12 @@ class ACI_Model_Details extends AModel
                 'infra' => 'taxn_i.name_element',
                 'author' => 'as.string',
                 'comment' => 'td.additional_data',
-                'web_site' => 'td.taxon_id',//'uri.resource_identifier',
+                'web_site' => 'uri.resource_identifier',//'uri.resource_identifier',
                 'scrutiny_date' => 'sc.scrutiny_date',
                 'status' => 'td.scientific_name_status_id',
                 'specialist_name' => 'sp.name',
                 'db_id' => 't.source_database_id',
-                'lsid' => 'td.taxon_id',//'lsid.resource_identifier',
+                'lsid' => 'lsid.resource_identifier',//'lsid.resource_identifier',
                 'rank' => 't.taxonomic_rank_id'/*new Zend_Db_Expr(
                             'IF(t.taxon = "Infraspecies", ' .
                                 ACI_Model_Table_Taxa::RANK_INFRASPECIES . ', ' .
@@ -202,6 +202,21 @@ class ACI_Model_Details extends AModel
         ->joinLeft(
             array('sp' => 'specialist'),
             'sc.specialist_id = sp.id',
+            array()
+        )
+        ->joinLeft(
+            array('utt' => 'uri_to_taxon'),
+            't.id = utt.taxon_id',
+            array()
+        )
+        ->joinLeft(
+            array('lsid' => 'uri'),
+            'utt.uri_id = lsid.id AND lsid.uri_scheme_id = 9',
+            array()
+        )
+        ->joinLeft(
+            array('uri' => 'uri'),
+            'utt.uri_id = uri.id AND uri.uri_scheme_id != 9',
             array()
         )
         ->where('td.taxon_id = ?', (int)$id);
