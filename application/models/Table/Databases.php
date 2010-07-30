@@ -21,6 +21,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
     public function get($id)
     {
         $dbDetails = $this->find((int)$id);
+        
         $res = $dbDetails->current();
         if (!$res) {
             return false;
@@ -103,9 +104,9 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
     
     protected function _decorate(array $row)
     {
-        $row['image'] = $this->_getImageFromName($row['database_name']);
-        $row['thumb'] = $this->_getThumbFromName($row['database_name']);
-        $row['url'] = $this->_getUrlFromId($row['record_id']);
+        $row['image'] = $this->_getImageFromName($row['abbreviated_name']);
+        $row['thumb'] = $this->_getThumbFromName($row['abbreviated_name']);
+        $row['url'] = $this->_getUrlFromId($row['id']);
         return $row;
     }
 }

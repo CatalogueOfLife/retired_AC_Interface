@@ -217,10 +217,10 @@ class ACI_Model_Details extends AModel
         }
         
         $db = new ACI_Model_Table_Databases();
-        $dbDetails = $db->get($species->db_id);
+        $dbDetails = $db->get($species->dbId);
         
         $species->dbImage   = $dbDetails['image'];
-        $species->dbName    = $dbDetails['database_name'];
+        $species->dbName    = $dbDetails['name'];
         $species->dbVersion = $dbDetails['version'];
         
         $species->hierarchy    = $this->speciesHierarchy($species->id);
