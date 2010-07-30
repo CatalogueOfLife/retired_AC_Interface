@@ -214,7 +214,7 @@ class ACI_Model_Details extends AModel
         }
         
         $species = $select->query()->fetchObject('ACI_Model_Table_Taxa');
-        var_dump($species);
+        
         if (!$species instanceof ACI_Model_Table_Taxa) {
             return false;
         }
@@ -337,39 +337,74 @@ class ACI_Model_Details extends AModel
      * @param string $nameCode
      * @return array
      */
-    public function synonyms($nameCode)
+    public function synonyms($taxon_id)
     {
         $select = new Zend_Db_Select($this->_db);
         
         //TODO: Retrieve also the reference information
         $select->distinct()
         ->from(
-            array('sn' => 'scientific_names'),
+            array('sn' => 'synonym'),
             array(
-                'id' => 'sn.record_id',
-                'sn.name_code',
-                'status' => 'sn.sp2000_status_id',
-                'sn.genus',
-                'sn.species',
-                'sn.infraspecies_marker',
-                'sn.infraspecies',
-                'sn.author',
-                'num_references' => new Zend_Db_Expr(
-                    'IF(snr.name_code IS NULL, 0, COUNT(*))'
-                )
+                'id' => 'sn.id',
+                'name_code' => 'sn.id',
+                'status' => 'sn.scientific_name_status_id',
+                'genus' => 'snen_g.name_element',
+                'species' => 'snen_s.name_element',
+                'infraspecies_marker' => 'sn.id',
+                'infraspecies' => 'snen_i.name_element',
+                'author' => 'as.string',
+                'num_references' => '(SELECT COUNT(*) FROM
+                    reference_to_synonym WHERE reference_id = sn.id)'
             )
         )->joinLeft(
-            array('snr' => 'scientific_name_references'),
-            'sn.name_code = snr.name_code',
+            array('sne_g' => 'synonym_name_element'),
+            'sn.id = sne_g.synonym_id AND sne_g.taxonomic_rank_id = ' .
+            ACI_Model_Table_Taxa::RANK_GENUS,
+            array()
+        )->joinLeft(
+            array('snen_g' => 'scientific_name_element'),
+            'sne_g.scientific_name_element_id = snen_g.id',
+            array()
+        )->joinLeft(
+            array('sne_sg' => 'synonym_name_element'),
+            'sn.id = sne_sg.synonym_id AND sne_sg.taxonomic_rank_id = ' .
+            ACI_Model_Table_Taxa::RANK_SUBGENUS,
+            array()
+        )->joinLeft(
+            array('snen_sg' => 'scientific_name_element'),
+            'sne_sg.scientific_name_element_id = snen_sg.id',
+            array()
+        )->joinLeft(
+            array('sne_s' => 'synonym_name_element'),
+            'sn.id = sne_s.synonym_id AND sne_s.taxonomic_rank_id = ' .
+            ACI_Model_Table_Taxa::RANK_SPECIES,
+            array()
+        )->joinLeft(
+            array('snen_s' => 'scientific_name_element'),
+            'sne_s.scientific_name_element_id = snen_s.id',
+            array()
+        )->joinLeft(
+            array('sne_i' => 'synonym_name_element'),
+            'sn.id = sne_i.synonym_id AND sne_i.taxonomic_rank_id != ' .
+            ACI_Model_Table_Taxa::RANK_GENUS . ' AND sne_i.taxonomic_rank_id != ' .
+            ACI_Model_Table_Taxa::RANK_SUBGENUS . ' AND sne_i.taxonomic_rank_id != ' .
+            ACI_Model_Table_Taxa::RANK_SPECIES,
+            array()
+        )->joinLeft(
+            array('snen_i' => 'scientific_name_element'),
+            'sne_i.scientific_name_element_id = snen_i.id',
+            array()
+        )->joinLeft(
+            array('as' => 'author_string'),
+            'sn.author_string_id = as.id',
             array()
         )
         ->where(
-            'sn.accepted_name_code = ? AND sn.is_accepted_name = ?'
+            'sn.taxon_id = ?',$taxon_id
         )
-        ->group('sn.name_code')
+        ->group('sn.id')
         ->order(array('genus', 'species', 'infraspecies', 'author'));
-        
-        $select->bind(array($nameCode, 0));
         
         $synonyms = $select->query()->fetchAll();
         
