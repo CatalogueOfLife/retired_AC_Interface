@@ -252,8 +252,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     
     public function formatDatabaseDetails(array $dbDetails)
     {
-        $dbDetails['name'] = $dbDetails['database_name_displayed'];
-        $dbDetails['label'] = $dbDetails['database_name'];
+        $dbDetails['name'];
+//        $dbDetails['label'] = $dbDetails['database_name'];
         $dbDetails['accepted_species_names'] =
             number_format($dbDetails['accepted_species_names']);
         $dbDetails['accepted_infraspecies_names'] =
@@ -342,86 +342,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         
         $firstKingdom = true;
         $output = '';
-        $splitByKingdom = explode(';', $taxonCoverage);
-        // iterate each taxonomic hierarchy
-        foreach ($splitByKingdom as $kingdom) {
-            $firstRank = true;
-            if ($firstKingdom == true) {
-                $firstKingdom = false;
-            } else {
-                // break line after each hierarchy
-                $output .= '<br />';
-            }
-            
-            $splitByRank = explode('-', $kingdom);
-            // iterate each definition in the hierarchy
-            foreach ($splitByRank as $rank) {
-                if ($firstRank == true) {
-                    $firstRank = false;
-                } else {
-                    // dash separator for each definition
-                    $output .= ' - ';
-                }
-                
-                $firstSameRank = true;
-                $splitBySameRank = preg_split('#[,&]#', $rank);
-                // iterate each string splitted by comma and ampersand
-                foreach ($splitBySameRank as $sameRank) {
-                    if ($firstSameRank == true) {
-                        $firstSameRank = false;
-                    } else {
-                        // comma separator for each part
-                        $output .= ', ';
-                    }
-                    $trimmedRank = $sameRank;
-                    $prefix = '';
-                    $suffix = '';
-                    $foundItem[0] = '';
-                    
-                    // iterate ignored items
-                    foreach ($ignoreItems as $item) {
-                        if (preg_match('#' . $item . '#', $trimmedRank) == true) {
-                            preg_match(
-                                '#' . $item . '#', $trimmedRank, $foundItem
-                            );
-                            strpos($trimmedRank, $foundItem[0]) < 2  ?
-                                $prefix = $foundItem[0] . ' ' :
-                                $suffix = ' ' . $foundItem[0];
-                        }
-                        $trimmedRank = preg_replace(
-                            '#' . $item . '#', '', $trimmedRank
-                        );
-                    }
-                    
-                    $t = Zend_Registry::get('Zend_Translate');
-                    $new = ' <span class="new">' . $t->translate('NEW') .
-                        '</span> ';
-                    $updated = ' <span class="new">' .
-                        $t->translate('UPDATED') . '</span> ';
-                        
-                    $prefix = strcasecmp('(NEW!) ', $prefix) === 0 ? $new : (
-                        strcasecmp('(UPDATED!) ', $prefix) === 0 ?
-                        $updated : $prefix
-                    );
-                    $suffix = strcasecmp(' (NEW!)', $suffix) === 0 ? $new : (
-                        strcasecmp(' (UPDATED!)', $suffix) === 0 ?
-                        $updated : $suffix
-                    );
-                    
-                    $trimmedRank = trim($trimmedRank);
-                    
-                    if (strstr($trimmedRank, ' ')) {
-                        $output .= $trimmedRank;
-                    } else {
-                        // link to taxonomic browser
-                        $link = $this->getFrontController()->getBaseUrl() .
-                            '/browse/classification/name/' . $trimmedRank;
-                        $output .= $prefix . '<a href="' . $link . '">' .
-                            $trimmedRank . '</a>' . $suffix;
-                    }
-                }
-            }
-        }
+        $output = $this->_formatTaxonCoverage($taxonCoverage);
         return $output;
     }
     
@@ -432,6 +353,47 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $n = array($n, in_array($n, ACI_Model_Table_Taxa::$markers));
         }
         return $nameArray;
+    }
+    
+    protected function _formatTaxonCoverage($taxonCoverage)
+    {
+        $kingdom = $phylum = $class = $order= $output = '';
+        foreach($taxonCoverage as $taxa)
+        {
+            if($class != '' && $class != $taxa['class'])
+            {
+                $output .= '<br />';
+            }
+            if($kingdom != $taxa['kingdom'])
+            {
+                $output .= $this->_getLinkToTree($taxa['kingdom_id'],$taxa['kingdom']);
+                $kingdom = $taxa['kingdom'];
+            }
+            if($phylum != $taxa['phylum'])
+            {
+                $output .= ' - ' . $this->_getLinkToTree($taxa['phylum_id'],$taxa['phylum']);
+                $phylum = $taxa['phylum'];
+            }
+            if($class != $taxa['class'])
+            {
+                $output .= ' - ' . $this->_getLinkToTree($taxa['class_id'],$taxa['class']);
+                $class = $taxa['class'];
+                $order = '';
+            }
+            if($order != $taxa['order'])
+            {
+                $output .= ($order != '' ? ', ' : ' - '). $this->_getLinkToTree($taxa['order_id'],$taxa['order']);
+                $order = $taxa['order'];
+            }
+        }
+        return $output;
+    }
+    
+    protected function _getLinkToTree($id,$name)
+    {
+        $link = $this->getFrontController()->getBaseUrl() .
+            '/browse/classification/id/' . $id;
+        return '<a href="'.$link.'">'.$name.'</a>';
     }
     
     protected function _formatInfraspeciesName($name)
