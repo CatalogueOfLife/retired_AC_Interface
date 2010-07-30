@@ -227,12 +227,11 @@ class ACI_Model_Details extends AModel
         $species->dbVersion = $dbDetails['version'];
         
         $species->hierarchy    = $this->speciesHierarchy($species->snTaxaId);
-        $species->synonyms     = $this->synonyms($species->nameCode);
-        $species->commonNames = $this->commonNames($species->nameCode);
-        $species->infraspecies =
-            $this->infraspecies($species->genus, $species->species);
-        $species->references   = $this->references($species->nameCode);
-        $species->distribution = $this->distributions($species->nameCode);
+        $species->synonyms     = $this->synonyms($species->id);
+        $species->commonNames = $this->commonNames($species->id);
+        $species->infraspecies = $this->infraspecies($species->id);
+        $species->references   = $this->references($species->id);
+        $species->distribution = $this->distributions($species->id);
         
         return $species;
     }
@@ -475,31 +474,60 @@ class ACI_Model_Details extends AModel
         return $select->query()->fetchAll();
     }
     
-    public function infraspecies($genus, $species)
+    public function infraspecies($taxon_id)
     {
         $select = new Zend_Db_Select($this->_db);
         
         $select
         ->from(
-            array('sn' => 'scientific_names'),
+            array('t' => 'taxon'),
             array(
-                'id' => 'sn.record_id',
-                'sn.infraspecies',
-                'sn.infraspecies_marker',
-                'sn.author',
+                'id' => 't.id',
+                'infraspecies' => 'sne_i.name_element',
+                'infraspecies_marker' => 't.id',
+                'author' => 'as.string',
                 'name' =>
-                    "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
-                    ", ' ', IF(sn.species IS NULL, '', sn.species)))"
+                    "TRIM(CONCAT(IF(sne_g.name_element IS NULL, '', sne_g.name_element) " .
+                    ", ' ', IF(sne_s.name_element IS NULL, '', sne_s.name_element)))"
             )
         )
-        ->where(
-            'sn.genus = ? AND sn.species = ? AND ' .
-            '(sn.infraspecies IS NOT NULL AND sn.infraspecies != "") AND ' . 
-            'sn.is_accepted_name = ?'
+        ->joinRight(
+            array('tne_s' => 'taxon_name_element'),
+            't.id = tne_s.taxon_id',
+            array()
+        )->joinRight(
+            array('sne_s' => 'scientific_name_element'),
+            'tne_s.scientific_name_element_id = sne_s.id',
+            array()
+        )->joinRight(
+            array('tne_i' => 'taxon_name_element'),
+            'tne_s.taxon_id = tne_i.parent_id',
+            array()
+        )->joinRight(
+            array('sne_i' => 'scientific_name_element'),
+            'tne_i.scientific_name_element_id = sne_i.id',
+            array()
+        )->joinRight(
+            array('tne_g' => 'taxon_name_element'),
+            'tne_g.taxon_id = tne_s.parent_id',
+            array()
+        )->joinRight(
+            array('sne_g' => 'scientific_name_element'),
+            'tne_g.scientific_name_element_id = sne_g.id',
+            array()
+        )->joinRight(
+            array('td_i' => 'taxon_detail'),
+            'tne_i.taxon_id = td_i.taxon_id',
+            array()
+        )->joinRight(
+            array('as' => 'author_string'),
+            'td_i.author_string_id = as.id',
+            array()
         )
+        ->where('t.id = ?')
         ->order(array('infraspecies', 'infraspecies_marker'));
         
-        $select->bind(array($genus, $species, 1));
+        $select->bind(array($taxon_id));
         
         $rowSet = $select->query()->fetchAll();
         
