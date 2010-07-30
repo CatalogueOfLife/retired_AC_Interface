@@ -189,7 +189,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
         return $rows[0]->total;
     }
     
-    protected function _taxonomicCoverage($id)
+    protected function _getTaxonomicCoverage($id)
     {
         $select = $this->select()->setIntegrityCheck(false);
         $select->from(
@@ -282,6 +282,33 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
         return $temp;
     }
     
+    protected function _getWebsites($id)
+    {
+        $select = $this->select()->setIntegrityCheck(false);
+        $select->from(
+            $this,
+            array('uri.resource_identifier')
+        )->joinLeft(
+            array('utsd' => 'uri_to_source_database'),
+            'source_database.id = utsd.source_database_id',
+            array()
+        )->joinLeft(
+            array('uri'),
+            'utsd.uri_id = uri.id',
+            array()
+        )->where('source_database.id = ?'
+        )
+        ->bind(array($id));
+        $rows = $this->fetchAll($select);
+        $rows = $this->fetchAll($select);
+        $temp = array();
+        foreach($rows as $row)
+        {
+            $temp[] = $row['resource_identifier'];
+        }
+        return implode(';',$temp);
+    }
+    
     protected function _getImageFromName($imageName)
     {
         return '/images/databases/' .
@@ -317,13 +344,14 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
         $row['total_names'] = $row['accepted_species_names'] +
             $row['accepted_infraspecies_names'] + $row['common_names'] +
             $row['species_synonyms'] + $row['infraspecies_synonyms'];
-        $row['taxonomic_coverage'] = $this->_taxonomicCoverage($row['id']);
+        $row['taxonomic_coverage'] = $this->_getTaxonomicCoverage($row['id']);
         $row['database_full_name'] = $row['name'];
         $row['database_name'] = $row['abbreviated_name'];
         $row['is_new'] = false; //TODO: Link it to is_new field
         $row['authors_editors'] = $row['authors_and_editors'];
         $row['taxa'] = $row['group_name_in_english'];
         $row['organization'] = $row['organisation'];
+        $row['web_site'] = $this->_getWebsites($row['id']);
         return $row;
     }
 }
