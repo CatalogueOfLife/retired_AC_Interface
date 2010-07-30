@@ -358,32 +358,33 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     protected function _formatTaxonCoverage($taxonCoverage)
     {
         $kingdom = $phylum = $class = $order= $output = '';
+        $sameRank = false;
+        $seperatorDifferentRank = ' - ';
+        $seperatorSameRank = ', ';
         foreach($taxonCoverage as $taxa)
         {
-            if($class != '' && $class != $taxa['class'])
+            if($class != '' && $class != $taxa['class_id'])
             {
                 $output .= '<br />';
+                $sameRank = false;
             }
-            if($kingdom != $taxa['kingdom'])
+            if($class != $taxa['class_id'])
             {
-                $output .= $this->_getLinkToTree($taxa['kingdom_id'],$taxa['kingdom']);
-                $kingdom = $taxa['kingdom'];
+                $output .= 
+                    $this->_getLinkToTree($taxa['kingdom_id'],$taxa['kingdom']) .
+                    $seperatorDifferentRank .
+                    $this->_getLinkToTree($taxa['phylum_id'],$taxa['phylum']) .
+                    $seperatorDifferentRank .
+                    $this->_getLinkToTree($taxa['class_id'],$taxa['class']);
+                $class = $taxa['class_id'];
             }
-            if($phylum != $taxa['phylum'])
+            if($order != $taxa['order_id'])
             {
-                $output .= ' - ' . $this->_getLinkToTree($taxa['phylum_id'],$taxa['phylum']);
-                $phylum = $taxa['phylum'];
-            }
-            if($class != $taxa['class'])
-            {
-                $output .= ' - ' . $this->_getLinkToTree($taxa['class_id'],$taxa['class']);
-                $class = $taxa['class'];
-                $order = '';
-            }
-            if($order != $taxa['order'])
-            {
-                $output .= ($order != '' ? ', ' : ' - '). $this->_getLinkToTree($taxa['order_id'],$taxa['order']);
-                $order = $taxa['order'];
+                $output .= ($sameRank == true ? $seperatorSameRank :
+                    $seperatorDifferentRank) .
+                    $this->_getLinkToTree($taxa['order_id'],$taxa['order']);
+                $order = $taxa['order_id'];
+                $sameRank = true;
             }
         }
         return $output;

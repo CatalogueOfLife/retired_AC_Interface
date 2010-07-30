@@ -318,6 +318,12 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
             $row['accepted_infraspecies_names'] + $row['common_names'] +
             $row['species_synonyms'] + $row['infraspecies_synonyms'];
         $row['taxonomic_coverage'] = $this->_taxonomicCoverage($row['id']);
+        $row['database_full_name'] = $row['name'];
+        $row['database_name'] = $row['abbreviated_name'];
+        $row['is_new'] = false; //TODO: Link it to is_new field
+        $row['authors_editors'] = $row['authors_and_editors'];
+        $row['taxa'] = $row['group_name_in_english'];
+        $row['organization'] = $row['organisation'];
         return $row;
     }
 }
