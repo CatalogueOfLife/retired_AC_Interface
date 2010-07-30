@@ -12,8 +12,8 @@
  */
 class ACI_Model_Table_References extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'references';
-    protected $_primary = 'record_id';
+    protected $_name = 'reference';
+    protected $_primary = 'id';
     
     public function getByNameCode($nameCode)
     {
