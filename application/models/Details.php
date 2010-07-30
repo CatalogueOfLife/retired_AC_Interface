@@ -552,19 +552,37 @@ class ACI_Model_Details extends AModel
      * @param string $nameCode
      * @return array
      */
-    public function distributions ($nameCode)
+    public function distributions ($taxon_id)
     {
+        $distribtion = new Zend_Db_Select($this->_db);
+        $distribution_free_text = new Zend_Db_Select($this->_db);
         $select = new Zend_Db_Select($this->_db);
         
-        $select
+        $distribtion
         ->from(
             array('d' => 'distribution'),
             array(
-                'd.distribution'
+                'distribution' => 'r.name'
             )
         )
-        ->where('d.name_code = ?', $nameCode)
-        ->order('d.distribution');
+        ->joinRight(
+            array('r' => 'region'),
+            'd.region_id = r.id',
+            array()
+        )
+        ->where('d.taxon_detail_id = ?', $taxon_id);
+        
+        $distribution_free_text
+        ->from(
+            array('d' => 'distribution_free_text'),
+            array(
+                'distribution' => 'd.free_text'
+            )
+        )
+        ->where('d.taxon_detail_id = ?', $taxon_id);
+        
+        $select->union(array($distribtion,$distribution_free_text))
+        ->order('distribution');
         
         $rowSet = $select->query()->fetchAll();
         
