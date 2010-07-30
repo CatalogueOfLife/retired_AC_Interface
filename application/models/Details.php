@@ -355,7 +355,7 @@ class ACI_Model_Details extends AModel
                 'infraspecies' => 'snen_i.name_element',
                 'author' => 'as.string',
                 'num_references' => '(SELECT COUNT(*) FROM
-                    reference_to_synonym WHERE reference_id = sn.id)'
+                    reference_to_synonym WHERE synonym_id = sn.id)'
             )
         )->joinLeft(
             array('sne_g' => 'synonym_name_element'),
@@ -432,31 +432,43 @@ class ACI_Model_Details extends AModel
      * @param string $nameCode
      * @return array
      */
-    public function commonNames ($nameCode)
+    public function commonNames ($taxon_id)
     {
         $select = new Zend_Db_Select($this->_db);
         
         $select->distinct()
         ->from(
-            array('cn' => 'common_names'),
+            array('cn' => 'common_name'),
             array(
-                'id' => 'cn.record_id',
-                'cn.common_name',
-                'cn.language',
-                'cn.country',
-                'num_references' => 'IF(reference_id IS NULL OR ' .
-                    'reference_id = "", SUM(0), SUM(1))',
-                'references' => 'GROUP_CONCAT(reference_id)'
+                'id' => 'cn.id',
+                'common_name' => 'cne.name',
+                'language' => 'l.name',
+                'country' => 'c.name',
+                'num_references' => '(SELECT COUNT(*) FROM
+                    reference_to_common_name WHERE common_name_id = cn.id)',
+                'references' => 'GROUP_CONCAT(r.reference_id)'
             )
         )
-        ->joinLeft(
-            array('r' => 'references'),
-            'cn.reference_id = r.record_id',
+        ->joinRight(
+            array('cne' => 'common_name_element'),
+            'cn.common_name_element_id = cne.id',
+            array()
+        )->joinLeft(
+            array('r' => 'reference_to_common_name'),
+            'cn.id = r.common_name_id',
+            array()
+        )->joinLeft(
+            array('l' => 'language'),
+            'cn.language_iso = l.iso',
+            array()
+        )->joinLeft(
+            array('c' => 'country'),
+            'cn.country_iso = c.iso',
             array()
         )
-        ->where('cn.name_code = ?', $nameCode)
-        ->group(array('cn.common_name', 'cn.language', 'cn.country'))
-        ->order(array('cn.language', 'cn.common_name', 'cn.country'));
+        ->where('cn.taxon_id = ?', $taxon_id)
+        ->group(array('common_name', 'language', 'country'))
+        ->order(array('language', 'common_name', 'country'));
         
         return $select->query()->fetchAll();
     }
