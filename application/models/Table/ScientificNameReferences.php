@@ -12,14 +12,19 @@
  */
 class ACI_Model_Table_ScientificNameReferences extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'scientific_name_references';
-    protected $_primary = 'record_id';
+    protected $_name = 'reference_to_taxon';
+    protected $_primary = 'taxon_id';
     
-    public function get ($nameCode)
+    public function get ($taxon_id)
     {
         $select = $this->select(true)
+            ->joinRight(
+                array('r' => 'reference'),
+                'reference_id = r.id',
+                array()
+            )
             ->where(
-                'name_code = ? AND reference_type <> "ComNameRef"', $nameCode
+                'taxon_id = ?', $taxon_id
             );
         $stmt = $this->_db->query($select);
         $data = $stmt->fetchAll();
