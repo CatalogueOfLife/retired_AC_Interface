@@ -401,7 +401,7 @@ class ACI_Model_Details extends AModel
             array()
         )
         ->where(
-            'sn.taxon_id = ?',$taxon_id
+            'sn.taxon_id = ?'
         )
         ->group('sn.id')
         ->order(array('genus', 'species', 'infraspecies', 'author'));
