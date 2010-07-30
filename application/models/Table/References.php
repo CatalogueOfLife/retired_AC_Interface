@@ -23,7 +23,7 @@ class ACI_Model_Table_References extends Zend_Db_Table_Abstract
             return array();
         }
         $select = $this->select(true)->where(
-            'record_id IN (' . implode(',', $refIds) . ')'
+            'id IN (' . implode(',', $refIds) . ')'
         );
         
         $stmt = $this->_db->query($select);
