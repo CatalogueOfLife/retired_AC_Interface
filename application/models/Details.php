@@ -406,6 +406,8 @@ class ACI_Model_Details extends AModel
         ->group('sn.id')
         ->order(array('genus', 'species', 'infraspecies', 'author'));
         
+        $select->bind(array($taxon_id));
+        
         $synonyms = $select->query()->fetchAll();
         
         foreach ($synonyms as &$synonym) {
