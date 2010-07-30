@@ -36,8 +36,6 @@ class ACI_Model_Details extends AModel
                 'species' => 'taxn_s.name_element',
                 'infra_marker' => 'td.taxon_id',
                 'infra' => 'taxn_i.name_element',
-                'name_code' => 'td.taxon_id',
-                'accepted_name_code' => 'td.taxon_id',
                 'author' => 'as.string',
                 'comment' => 'td.additional_data',
                 'web_site' => 'td.taxon_id',//'uri.resource_identifier',
@@ -45,7 +43,6 @@ class ACI_Model_Details extends AModel
                 'status' => 'td.scientific_name_status_id',
                 'specialist_name' => 'sp.name',
                 'db_id' => 't.source_database_id',
-                'sn_taxa_id' => 't.id',
                 'lsid' => 'td.taxon_id',//'lsid.resource_identifier',
                 'rank' => 't.taxonomic_rank_id'/*new Zend_Db_Expr(
                             'IF(t.taxon = "Infraspecies", ' .
@@ -220,13 +217,13 @@ class ACI_Model_Details extends AModel
         }
         
         $db = new ACI_Model_Table_Databases();
-        $dbDetails = $db->get($species->dbId);
+        $dbDetails = $db->get($species->db_id);
         
         $species->dbImage   = $dbDetails['image'];
         $species->dbName    = $dbDetails['database_name'];
         $species->dbVersion = $dbDetails['version'];
         
-        $species->hierarchy    = $this->speciesHierarchy($species->snTaxaId);
+        $species->hierarchy    = $this->speciesHierarchy($species->id);
         $species->synonyms     = $this->synonyms($species->id);
         $species->commonNames = $this->commonNames($species->id);
         $species->infraspecies = $this->infraspecies($species->id);
