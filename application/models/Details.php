@@ -38,12 +38,10 @@ class ACI_Model_Details extends AModel
                 'infra' => 'taxn_i.name_element',
                 'author' => 'as.string',
                 'comment' => 'td.additional_data',
-                'web_site' => 'uri.resource_identifier',//'uri.resource_identifier',
                 'scrutiny_date' => 'sc.scrutiny_date',
                 'status' => 'td.scientific_name_status_id',
                 'specialist_name' => 'sp.name',
                 'db_id' => 't.source_database_id',
-                'lsid' => 'lsid.resource_identifier',//'lsid.resource_identifier',
                 'rank' => 't.taxonomic_rank_id'/*new Zend_Db_Expr(
                             'IF(t.taxon = "Infraspecies", ' .
                                 ACI_Model_Table_Taxa::RANK_INFRASPECIES . ', ' .
@@ -204,21 +202,6 @@ class ACI_Model_Details extends AModel
             'sc.specialist_id = sp.id',
             array()
         )
-        ->joinLeft(
-            array('utt' => 'uri_to_taxon'),
-            't.id = utt.taxon_id',
-            array()
-        )
-        ->joinLeft(
-            array('lsid' => 'uri'),
-            'utt.uri_id = lsid.id AND lsid.uri_scheme_id = 9',
-            array()
-        )
-        ->joinLeft(
-            array('uri' => 'uri'),
-            'utt.uri_id = uri.id AND uri.uri_scheme_id != 9',
-            array()
-        )
         ->where('td.taxon_id = ?', (int)$id);
         
         foreach ($joinLeft as $jl) {
@@ -230,12 +213,14 @@ class ACI_Model_Details extends AModel
         if (!$species instanceof ACI_Model_Table_Taxa) {
             return false;
         }
+        $species->lsid      = $this->getLsid($species->id);
+        $species->urls      = $this->getUrls($species->id);
         
         $db = new ACI_Model_Table_Databases();
         $dbDetails = $db->get($species->dbId);
         
         $species->dbImage   = $dbDetails['image'];
-        $species->dbName    = $dbDetails['name'];
+        $species->dbName    = $dbDetails['abbreviated_name'];
         $species->dbVersion = $dbDetails['version'];
         
         $species->hierarchy    = $this->speciesHierarchy($species->id);
@@ -362,11 +347,14 @@ class ACI_Model_Details extends AModel
                 'status' => 'sn.scientific_name_status_id',
                 'genus' => 'snen_g.name_element',
                 'species' => 'snen_s.name_element',
-                'infraspecies_marker' => 'sn.id',
                 'infraspecies' => 'snen_i.name_element',
                 'author' => 'as.string',
                 'num_references' => '(SELECT COUNT(*) FROM
-                    reference_to_synonym WHERE synonym_id = sn.id)'
+                    reference_to_synonym WHERE synonym_id = sn.id)',
+                'rank' => 'IF(sne_i.taxonomic_rank_id IS NOT NULL,'.
+                    'sne_i.taxonomic_rank_id,'.
+                    'IF(sne_s.taxonomic_rank_id IS NOT NULL,'.
+                    'sne_s.taxonomic_rank_id,sne_g.taxonomic_rank_id))'
             )
         )->joinLeft(
             array('sne_g' => 'synonym_name_element'),
@@ -427,7 +415,7 @@ class ACI_Model_Details extends AModel
                     $synonym['genus'],
                     $synonym['species'],
                     $synonym['infraspecies'],
-                    $synonym['infraspecies_marker'],
+                    $synonym['rank'],
                     $synonym['author']
                 );
             $synonym['status'] =
@@ -500,7 +488,9 @@ class ACI_Model_Details extends AModel
                 'author' => 'as.string',
                 'name' =>
                     "TRIM(CONCAT(IF(sne_g.name_element IS NULL, '', sne_g.name_element) " .
-                    ", ' ', IF(sne_s.name_element IS NULL, '', sne_s.name_element)))"
+                    ", ' ', IF(sne_s.name_element IS NULL, '', sne_s.name_element)))",
+                'rank' => 't.taxonomic_rank_id'
+            
             )
         )
         ->joinRight(
@@ -550,7 +540,7 @@ class ACI_Model_Details extends AModel
             $infraspecies[$i]['name'] =
                 ACI_Model_Table_Taxa::getAcceptedScientificName(
                     $genus, $species, $row['infraspecies'],
-                    $row['infraspecies_marker'], $row['author']
+                    $row['rank'], $row['author']
                 );
             $infraspecies[$i]['url'] = '/details/species/id/' . $row['id'];
             $i++;
@@ -612,7 +602,7 @@ class ACI_Model_Details extends AModel
      */
     public function references($nameCode)
     {
-        return $this->getReferencesByNameCode($nameCode);
+        //return $this->getReferencesByNameCode($nameCode);
     }
     
     public function getReferenceById($id)
@@ -621,28 +611,168 @@ class ACI_Model_Details extends AModel
         return $modelRef->get($id);
     }
     
-    public function getReferencesByNameCode($nameCode)
+    public function getReferencesByTaxonId($taxon_id)
     {
         $modelRef = new ACI_Model_Table_References();
-        return $modelRef->getByNameCode($nameCode);
+        return $modelRef->getByTaxonId($taxon_id);
+    }
+        
+    public function getReferencesBySynonymId($synonym_id)
+    {
+        $modelRef = new ACI_Model_Table_References();
+        return $modelRef->getBySynonymId($synonym_id);
     }
     
     public function getScientificName($id)
     {
         $select = new Zend_Db_Select($this->_db);
         $select->from(
-            array('sn' => 'scientific_names'),
+            array('t' => 'taxon'),
             array(
-                'sn.genus',
-                'sn.species',
-                'sn.infraspecies',
-                'sn.infraspecies_marker',
-                'sn.author',
-                'sn.name_code'
+                'genus' => 'IF(t.taxonomic_rank_id = 83, sne_2.name_element, sne_3.name_element)',
+                'species' => 'IF(t.taxonomic_rank_id = 83, sne_1.name_element, sne_2.name_element)',
+                'infraspecies' => 'IF(t.taxonomic_rank_id = 83, "", sne_1.name_element)',
+                'infraspecies_marker' => '',
+                'author' => 'as.string',
+                'id' => 't.id'
             )
         )
-        ->where('sn.record_id = ?', $id);
+        ->joinRight(
+            array('tne_1' => 'taxon_name_element'),
+            't.id = tne_1.taxon_id',
+            array()
+        )
+        ->joinRight(
+            array('tne_2' => 'taxon_name_element'),
+            'tne_2.taxon_id = tne_1.parent_id',
+            array()
+        )
+        ->joinRight(
+            array('tne_3' => 'taxon_name_element'),
+            'tne_3.taxon_id = tne_2.parent_id',
+            array()
+        )
+        ->joinRight(
+            array('sne_1' => 'scientific_name_element'),
+            'tne_1.scientific_name_element_id = sne_1.id',
+            array()
+        )
+        ->joinRight(
+            array('sne_2' => 'scientific_name_element'),
+            'tne_2.scientific_name_element_id = sne_2.id',
+            array()
+        )
+        ->joinRight(
+            array('sne_3' => 'scientific_name_element'),
+            'tne_3.scientific_name_element_id = sne_3.id',
+            array()
+        )
+        ->joinRight(
+            array('td' => 'taxon_detail'),
+            't.id = td.taxon_id',
+            array()
+        )
+        ->joinLeft(
+            array('as' => 'author_string'),
+            'td.author_string_id = as.id',
+            array()
+        )
+        ->where('t.id = ?', $id);
         $species = $select->query()->fetchObject('ACI_Model_Table_Taxa');
+        return $species;
+    }
+
+    public function getSynonymName($id)
+    {
+        $select = new Zend_Db_Select($this->_db);
+        $select->from(
+            array('s' => 'synonym'),
+            array(
+                'genus' => 'sne_g.name_element',
+                'species' => 'sne_s.name_element',
+                'infraspecies' => 'sne_ss.name_element',
+                'infraspecies_marker' => '',
+                'author' => 'as.string',
+                'id' => 's.id'
+            )
+        )
+        ->joinRight(
+            array('syne_g' => 'synonym_name_element'),
+            's.id = syne_g.synonym_id AND syne_g.taxonomic_rank_id = 20',
+            array()
+        )
+        ->joinRight(
+            array('syne_s' => 'synonym_name_element'),
+            's.id = syne_s.synonym_id AND syne_s.taxonomic_rank_id = 83',
+            array()
+        )
+        ->joinLeft(
+            array('syne_ss' => 'synonym_name_element'),
+            's.id = syne_ss.synonym_id AND syne_ss.taxonomic_rank_id NOT IN (20,83)',
+            array()
+        )
+        ->joinRight(
+            array('sne_g' => 'scientific_name_element'),
+            'syne_g.scientific_name_element_id = sne_g.id',
+            array()
+        )
+        ->joinRight(
+            array('sne_s' => 'scientific_name_element'),
+            'syne_s.scientific_name_element_id = sne_s.id',
+            array()
+        )
+        ->joinLeft(
+            array('sne_ss' => 'scientific_name_element'),
+            'syne_ss.scientific_name_element_id = sne_ss.id',
+            array()
+        )
+        ->joinLeft(
+            array('as' => 'author_string'),
+            's.author_string_id = as.id',
+            array()
+        )
+        ->where('s.id = ?', $id);
+        $species = $select->query()->fetchObject('ACI_Model_Table_Taxa');
+        return $species;
+    }
+
+    public function getLsid($taxon_id)
+    {
+        $select = new Zend_Db_Select($this->_db);
+        $select->from(
+            array('utt' => 'uri_to_taxon'),
+            array(
+                'uri.resource_identifier',
+                'uri.uri_scheme_id'
+            )
+        )
+        ->joinRight(
+            array('uri' => 'uri'),
+            'utt.uri_id = uri.id',
+            array()
+        )
+        ->where('utt.taxon_id = ? AND uri.uri_scheme_id = 9', $taxon_id);
+        $lsid = $select->query()->fetchAll();
+        return $lsid[0]['resource_identifier'];
+    }
+
+    public function getUrls($taxon_id)
+    {
+        $select = new Zend_Db_Select($this->_db);
+        $select->from(
+            array('utt' => 'uri_to_taxon'),
+            array(
+                'url' => 'uri.resource_identifier',
+                'uri.uri_scheme_id'
+            )
+        )
+        ->joinRight(
+            array('uri' => 'uri'),
+            'utt.uri_id = uri.id',
+            array()
+        )
+        ->where('utt.taxon_id = ? AND uri.uri_scheme_id IN (5,6,7,10,18)', $taxon_id);
+        $species = $select->query()->fetchAll();
         return $species;
     }
 }

@@ -32,6 +32,7 @@ class DetailsController extends AController
     public function referenceAction()
     {
         $speciesId = (int)$this->_getParam('species');
+        $synonymId = (int)$this->_getParam('synonym');
         $referenceId = $this->_getParam('id');
         $references = false;
         $sn = false;
@@ -50,6 +51,15 @@ class DetailsController extends AController
             if ($taxa instanceof ACI_Model_Table_Taxa && $taxa->nameCode) {
                 $references =
                    $detailsModel->getReferencesByNameCode($taxa->nameCode);
+                $numReferences = count($references);
+                $preface = $this->getHelper('DataFormatter')
+                   ->getReferencesLabel($numReferences, $taxa->name);
+            }
+        } elseif ($synonymId) {
+            $taxa = $detailsModel->getSynonymName($synonymId);
+            if ($taxa instanceof ACI_Model_Table_Taxa) {
+                $references =
+                   $detailsModel->getReferencesBySynonymId($taxa->id);
                 $numReferences = count($references);
                 $preface = $this->getHelper('DataFormatter')
                    ->getReferencesLabel($numReferences, $taxa->name);
@@ -108,6 +118,8 @@ class DetailsController extends AController
                         $detailsModel->species($id, $fromType, $fromId)
                     );
             }
+            $lsid = $detailsModel->getLsid($id);
+            //die($lsid);
         }
         $title = $speciesDetails && $speciesDetails->rank ==
            ACI_Model_Table_Taxa::RANK_INFRASPECIES ?

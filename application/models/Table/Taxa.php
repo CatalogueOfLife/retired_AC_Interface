@@ -82,6 +82,7 @@ class ACI_Model_Table_Taxa
     public $dbImage;
     public $dbVersion;
     public $webSite;
+    public $urls = array();
     public $scrutinyDate;
     public $hierarchy = array();
     public $synonyms = array();
@@ -163,7 +164,7 @@ class ACI_Model_Table_Taxa
                         $this->genus,
                         $this->species,
                         $this->infra,
-                        $this->infraMarker,
+                        $this->rank,
                         $this->author
                     );
                 return $this->name;
@@ -225,12 +226,12 @@ class ACI_Model_Table_Taxa
     }
     
     public static function getAcceptedScientificName($genus, $species,
-        $infraspecies, $infraspeciesMarker, $author)
+        $infraspecies, $rank, $author)
     {
         $name  = "<i>$genus $species";
         if ($infraspecies) {
-            if ($infraspeciesMarker) {
-                $name .= "</i> $infraspeciesMarker <i>$infraspecies";
+            if (self::getInfraSpecificMarker($rank)) {
+                $name .= "</i> ".self::getInfraSpecificMarker($rank)." <i>$infraspecies";
             } else {
                 $name .= " $infraspecies";
             }
@@ -238,6 +239,27 @@ class ACI_Model_Table_Taxa
         $name .= '</i>';
         $name .= $author ? " $author" : '';
         return $name;
+    }
+    
+    public static function getInfraSpecificMarker($rank)
+    {
+        switch ($rank) {
+            case 19://form
+                return 'form';
+                break;
+            case 49://infraspecies
+                return 'infrasp.';
+                break;
+            case 104://subspecies
+                return 'subsp.';
+                break;
+            case 129://variety
+                return 'var.';
+                break;
+            default:
+                return false;
+                break;
+        }
     }
     
     public function __set($key, $value)
