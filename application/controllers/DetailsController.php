@@ -48,9 +48,9 @@ class DetailsController extends AController
                 ->getReferencesLabel(count($ids));
         } elseif ($speciesId) {
             $taxa = $detailsModel->getScientificName($speciesId);
-            if ($taxa instanceof ACI_Model_Table_Taxa && $taxa->nameCode) {
+            if ($taxa instanceof ACI_Model_Table_Taxa) {
                 $references =
-                   $detailsModel->getReferencesByNameCode($taxa->nameCode);
+                   $detailsModel->getReferencesByTaxonId($taxa->id);
                 $numReferences = count($references);
                 $preface = $this->getHelper('DataFormatter')
                    ->getReferencesLabel($numReferences, $taxa->name);
@@ -119,7 +119,6 @@ class DetailsController extends AController
                     );
             }
             $lsid = $detailsModel->getLsid($id);
-            //die($lsid);
         }
         $title = $speciesDetails && $speciesDetails->rank ==
            ACI_Model_Table_Taxa::RANK_INFRASPECIES ?

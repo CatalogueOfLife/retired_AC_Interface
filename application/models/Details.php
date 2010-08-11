@@ -227,7 +227,7 @@ class ACI_Model_Details extends AModel
         $species->synonyms     = $this->synonyms($species->id);
         $species->commonNames = $this->commonNames($species->id);
         $species->infraspecies = $this->infraspecies($species->id);
-        $species->references   = $this->references($species->id);
+        $species->references   = $this->getReferencesByTaxonId($species->id);
         $species->distribution = $this->distributions($species->id);
         
         return $species;
