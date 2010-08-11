@@ -51,9 +51,9 @@ class ACI_Model_Details extends AModel
         switch ($fromType) {
             case 'common':
                 $extraFields = array(
-                    'taxa_id' => 'cn.record_id',
-                    'taxa_name' => 'cn.common_name',
-                    'taxa_language' => 'cn.language',
+                    'taxa_id' => 'cn.id',
+                    'taxa_name' => 'cne.name',
+                    'taxa_language' => 'l.name',
                     'taxa_status' =>
                         new Zend_Db_Expr(
                             ACI_Model_Table_Taxa::STATUS_COMMON_NAME
@@ -61,8 +61,18 @@ class ACI_Model_Details extends AModel
                 );
                 $joinLeft = array(
                     array(
-                        'name' => array('cn' => 'common_names'),
-                        'cond' => 'cn.record_id = ' . (int)$fromId,
+                        'name' => array('cn' => 'common_name'),
+                        'cond' => 'cn.id = ' . (int)$fromId,
+                        'columns' => array()
+                    ),
+                    array(
+                        'name' => array('cne' => 'common_name_element'),
+                        'cond' => 'cn.common_name_element_id = cne.id',
+                        'columns' => array()
+                    ),
+                    array(
+                        'name' => array('l' => 'language'),
+                        'cond' => 'cn.language_iso = l.iso',
                         'columns' => array()
                     )
                 );
