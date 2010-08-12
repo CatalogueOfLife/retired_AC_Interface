@@ -42,10 +42,7 @@ class ACI_Model_Details extends AModel
                 'status' => 'td.scientific_name_status_id',
                 'specialist_name' => 'sp.name',
                 'db_id' => 't.source_database_id',
-                'rank' => 't.taxonomic_rank_id'/*new Zend_Db_Expr(
-                            'IF(t.taxon = "Infraspecies", ' .
-                                ACI_Model_Table_Taxa::RANK_INFRASPECIES . ', ' .
-                                ACI_Model_Table_Taxa::RANK_SPECIES . ')')*/
+                'rank' => 't.taxonomic_rank_id'
             );
             
         switch ($fromType) {
@@ -79,20 +76,73 @@ class ACI_Model_Details extends AModel
                 break;
             case 'taxa':
                 $extraFields = array(
-                    'taxa_id' => 'tx.record_id',
-                    'taxa_name' => 'tx.name',
-                    'taxa_status' => 'tx.sp2000_status_id',
-                    'taxa_author' => 'snt.author'
+                    'taxa_id' => 'sn.id',
+                    'taxa_name' => 'CONCAT(snen_g.name_element,'.
+                        'IF(snen_sg.name_element IS NOT NULL,'.
+                            'CONCAT(" ",snen_sg.name_element),""'.
+                        ')," ",snen_s.name_element,'.
+                        'IF(snen_ss.name_element IS NOT NULL,CONCAT('.
+                            '" ",snen_ss.name_element'.
+                        '),"")'.
+                    ')',
+                    'taxa_author' => 'ass.string',
+                    'taxa_status' => 'sn.scientific_name_status_id'
                 );
                 $joinLeft = array(
                     array(
-                        'name' => array('tx' => 'taxa'),
-                        'cond' => 'tx.record_id = ' . (int)$fromId,
+                        'name' => array('sn' => 'synonym'),
+                        'cond' => 'sn.id = ' . (int)$fromId,
                         'columns' => array()
                     ),
                     array(
-                        'name' => array('snt' => 'scientific_names'),
-                        'cond' => 'tx.name_code = snt.name_code',
+                        'name' => array('sne_g' => 'synonym_name_element'),
+                        'cond' => 'sn.id = sne_g.synonym_id AND sne_g.taxonomic_rank_id = ' .
+                            ACI_Model_Table_Taxa::RANK_GENUS,
+                        'columns' => array()
+                    ),
+                    array(
+                        'name' => array('snen_g' => 'scientific_name_element'),
+                        'cond' => 'sne_g.scientific_name_element_id = snen_g.id',
+                        'columns' => array()
+                    ),
+                    array(
+                        'name' => array('sne_sg' => 'synonym_name_element'),
+                        'cond' => 'sn.id = sne_sg.synonym_id AND sne_sg.taxonomic_rank_id = ' .
+                            ACI_Model_Table_Taxa::RANK_SUBGENUS,
+                        'columns' => array()
+                    ),
+                    array(
+                        'name' => array('snen_sg' => 'scientific_name_element'),
+                        'cond' => 'sne_sg.scientific_name_element_id = snen_sg.id',
+                        'columns' => array()
+                    ),
+                    array(
+                        'name' => array('sne_s' => 'synonym_name_element'),
+                        'cond' => 'sn.id = sne_s.synonym_id AND sne_s.taxonomic_rank_id = ' .
+                            ACI_Model_Table_Taxa::RANK_SPECIES,
+                        'columns' => array()
+                    ),
+                    array(
+                        'name' => array('snen_s' => 'scientific_name_element'),
+                        'cond' => 'sne_s.scientific_name_element_id = snen_s.id',
+                        'columns' => array()
+                    ),
+                    array(
+                        'name' => array('sne_ss' => 'synonym_name_element'),
+                        'cond' => 'sn.id = sne_ss.synonym_id AND sne_ss.taxonomic_rank_id NOT IN (' .
+                            ACI_Model_Table_Taxa::RANK_GENUS . ',' .
+                            ACI_Model_Table_Taxa::RANK_SUBGENUS . ',' .
+                            ACI_Model_Table_taxa::RANK_SPECIES . ')',
+                        'columns' => array()
+                    ),
+                    array(
+                        'name' => array('snen_ss' => 'scientific_name_element'),
+                        'cond' => 'sne_ss.scientific_name_element_id = snen_ss.id',
+                        'columns' => array()
+                    ),
+                    array(
+                        'name' => array('ass' => 'author_string'),
+                        'cond' => 'sn.author_string_id = ass.id',
                         'columns' => array()
                     )
                 );

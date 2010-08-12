@@ -92,11 +92,15 @@ class DetailsController extends AController
         $id = $this->_getParam('id');
         $source = $this->_getParam('source', '');
         $commonNameId = $this->_getParam('common');
+        $synonymId = $this->_getParam('synonym');
         $speciesDetails = false;
         
         if ($commonNameId) {
             $fromType = 'common';
             $fromId = $commonNameId;
+        } elseif ($synonymId) {
+            $fromType = 'taxa';
+            $fromId = $synonymId;
         } else {
             $fromType = $fromId = null;
         }
@@ -104,14 +108,6 @@ class DetailsController extends AController
             $detailsModel = new ACI_Model_Details($this->_db);
             // This will modify the id to that of the accepted name for synonyms
             // and keep the same for accepted names
-            if (ACI_Model_Table_Taxa::isSynonym(
-                $detailsModel->speciesStatus($id)
-            )) {
-                $fromType = 'taxa';
-                $links = $detailsModel->synonymLinks($id);
-                $id = $links['id'];
-                $fromId = $links['taxa_id'];
-            }
             if ($detailsModel->species($id, $fromType, $fromId)) {
                 $speciesDetails =
                     $this->getHelper('DataFormatter')->formatSpeciesDetails(
