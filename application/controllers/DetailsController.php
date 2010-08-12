@@ -108,6 +108,11 @@ class DetailsController extends AController
             $detailsModel = new ACI_Model_Details($this->_db);
             // This will modify the id to that of the accepted name for synonyms
             // and keep the same for accepted names
+            if (ACI_Model_Table_Taxa::isSynonym(
+                $detailsModel->speciesStatus($synonymId)
+            )) {
+                $links = $detailsModel->synonymLinks($synonymId);
+            }
             if ($detailsModel->species($id, $fromType, $fromId)) {
                 $speciesDetails =
                     $this->getHelper('DataFormatter')->formatSpeciesDetails(
