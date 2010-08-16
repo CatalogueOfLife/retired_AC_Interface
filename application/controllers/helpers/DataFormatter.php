@@ -26,17 +26,26 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             // get accepted species data if yet not there
             $this->_addAcceptedName($row);
             // create links
-            if ($row['rank'] >= ACI_Model_Table_Taxa::RANK_SPECIES) {
+            if (!in_array($row['rank'], array(
+                'kingdom',
+                'phylum',
+                'class',
+                'order',
+                'superfamily',
+                'family',
+                'genus',
+                'subgenus'
+            ))) {
                 $res[$i]['link'] = $translator->translate('Show_details');
                 if (ACI_Model_Table_Taxa::isSynonym($row['status'])) {
                     $res[$i]['url'] = '/details/species/id/' . $row['id'];
                 } else {
+//TODO: common name page Notice: Undefined index: accepted_species_id in /home/dennis/ws/AC_with_Baseschema/application/controllers/helpers/DataFormatter.php on line 44
                 $res[$i]['url'] =
                     '/details/species/id/' . $row['accepted_species_id'];
                 }
-                if ($row['status'] ==
-                        ACI_Model_Table_Taxa::STATUS_COMMON_NAME) {
-                        $res[$i]['url'] .= '/common/' . $row['taxa_id'];
+                if ($row['status'] == 'common name') {
+                        $res[$i]['url'] .= $row['taxa_id'] .'/common/' . $row['id'];
                 }
             } else {
                 $res[$i]['link'] = $translator->translate('Show_tree');
@@ -60,16 +69,20 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     $row['rank']
                 ),
                 $row['status'],
-                $row['status'] == ACI_Model_Table_Taxa::STATUS_COMMON_NAME ?
+                $row['status'] == 'common name' ?
                 $row['language'] : $row['author']
             );
             $res[$i]['rank'] = $translator->translate(
                 ACI_Model_Table_Taxa::getRankString($row['rank'])
             );
             
-            $res[$i]['status'] = $translator->translate(
+/*            $res[$i]['status'] = $translator->translate(
                 ACI_Model_Table_Taxa::getStatusString($row['status'])
-            );
+            );*/
+            $res[$i]['status'] = $row['status'] . ' for <i>' .
+                $row['accepted_species_name'] . '</i>'.
+                ($row['accepted_species_author'] != '' ?
+                ' '.$row['accepted_species_author'] : '');
             
             $res[$i]['group'] = $row['kingdom'];
             
@@ -411,10 +424,12 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     
     protected function _addAcceptedName(array &$row)
     {
+//TODO: common name page Notice: Undefined index: accepted_species_id in /home/dennis/ws/AC_with_Baseschema/application/controllers/helpers/DataFormatter.php on line 426
         if (!$row['accepted_species_id']) {
             $row = array_merge(
                 $row,
                 $this->getActionController()->getHelper('Query')
+//TODO: common name page Notice: Undefined index: accepted_name_code in /home/dennis/ws/AC_with_Baseschema/application/controllers/helpers/DataFormatter.php on line 430
                      ->getAcceptedSpecies($row['accepted_name_code'])
             );
         }
@@ -427,7 +442,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     {
         if ($suffix) {
             switch($status) {
-                case ACI_Model_Table_Taxa::STATUS_COMMON_NAME:
+                case 'common name':
                     $source .= ' (' . $suffix . ')';
                     break;
                 default:

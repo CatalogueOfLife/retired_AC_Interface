@@ -501,52 +501,26 @@ class ACI_Model_Search extends AModel
         
         $select->from(
             array(
-                'cn' => 'common_names'
+                'tst' => 'temp_search_table'
             ),
             array(
-                'id' => new Zend_Db_Expr(0),
-                'taxa_id' => 'cn.record_id',
-                'rank' => 'IF(sn.infraspecies IS NULL OR ' .
-                    'LENGTH(TRIM(sn.infraspecies)) = 0, ' .
-                    ACI_Model_Table_Taxa::RANK_SPECIES . ', ' .
-                    ACI_Model_Table_Taxa::RANK_INFRASPECIES . ')',
-                'name' => 'cn.common_name',
-                'cn.name_code',
+                'id' => 'tst.id',
+                'taxa_id' => 'tst.accepted_taxon_id',
+                'rank' => 'tst.rank',
+                'name' => 'tst.name',
                 'is_accepted_name' => new Zend_Db_Expr(0),
-                'sn.author',
-                'cn.language',
-                'accepted_name_code' => 'sn.name_code',
-                'accepted_species_id' => 'sn.record_id',
-                'accepted_species_name' =>
-                    "TRIM(CONCAT(IF(sn.genus IS NULL, '', sn.genus) " .
-                    ", ' ', IF(sn.species IS NULL, '', sn.species), ' ', " .
-                    "IF(sn.infraspecies IS NULL, '', sn.infraspecies)))",
-                'accepted_species_author' => 'sn.author',
-                'db_name' => 'db.database_name',
-                'db_id' => 'db.record_id',
+                'language' => 'tst.name_suffix',
+                'accepted_species_name' => 'tst.name_status_suffix',
+                'accepted_species_author' => 'tst.name_status_suffix_suffix',
+                'db_name' => 'tst.source_database',
+                'db_id' => 'tst.source_database_id',
                 'db_thumb' =>
-                    'CONCAT(REPLACE(db.database_name, " ", "_"), ".gif")',
-                'kingdom' => 'fm.kingdom',
-                'status' => new Zend_Db_Expr(
-                    ACI_Model_Table_Taxa::STATUS_COMMON_NAME
-                )
+                    'CONCAT(REPLACE(tst.source_database, " ", "_"), ".gif")',
+                'kingdom' => 'tst.group',
+                'status' => 'tst.name_status'
             )
-        )
-        ->joinLeft(
-            array('sn' => 'scientific_names'),
-            'cn.name_code = sn.name_code',
-            array()
-        )
-        ->joinLeft(
-            array('fm' => 'families'),
-            'sn.family_id = fm.record_id',
-            array()
-        )
-        ->joinLeft(
-            array('db' => 'databases'),
-            'cn.database_id = db.record_id',
-            array()
         );
+        $column = (preg_match('/\s/',$searchKey) ? 'name' : 'name_element');
         if ($matchWholeWords) {
             $replacedSearchKey = self::wildcardHandlingInRegExp(
                 $searchKey, 1
@@ -554,26 +528,29 @@ class ACI_Model_Search extends AModel
             // When non alphabetic characters are used, this first filtering
             // will allow to match single words equal to the search key
             $select->where(
-                'cn.common_name = "' . $searchKey . '"'
+                'tst.'.$column.' = "' . $searchKey . '"'
             );
-            $select->orWhere(
-                'cn.common_name LIKE "%&#32;' . $searchKey . '"'
-            );
-            $select->orWhere(
-                'cn.common_name LIKE "' . $searchKey . '&#32;%"'
-            );
-            $select->orWhere(
-                'cn.common_name LIKE "%&#32;' . $searchKey . '&#32;%"'
-            );
-            $select->orWhere(
-                'cn.common_name REGEXP "' . $replacedSearchKey . '"'
-            );
+            if($column == 'name')
+            {
+                $select->orWhere(
+                    'tst.'.$column.' LIKE "%&#32;' . $searchKey . '"'
+                );
+                $select->orWhere(
+                    'tst.'.$column.' LIKE "' . $searchKey . '&#32;%"'
+                );
+                $select->orWhere(
+                    'tst.'.$column.' LIKE "%&#32;' . $searchKey . '&#32;%"'
+                );
+                $select->orWhere(
+                    'tst.'.$column.' REGEXP "' . $replacedSearchKey . '"'
+                );
+            }
         }
         else {
-            $select->where('cn.common_name LIKE "%' . $searchKey . '%"');
+            $select->where('tst.'.$column.' LIKE "%' . $searchKey . '%"');
         }
         $select->group(
-            array('name', 'language', 'accepted_species_name', 'db.record_id')
+            array('name', 'language', 'accepted_species_name', 'db_id')
         );
         return $select;
     }
