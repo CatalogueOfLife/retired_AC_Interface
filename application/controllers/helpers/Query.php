@@ -180,10 +180,10 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
             array(
                 'zend_paginator_row_count' => new Zend_Db_Expr('COUNT(1)'),
                 'species' => new Zend_Db_Expr(
-                    'SUM(IF(LENGTH(TRIM(sn.infraspecies)) > 0, 0, 1))'
+                    'SUM(IF(LENGTH(TRIM(dss.infraspecies)) > 0, 0, 1))'
                 ),
                 'infraspecies' => new Zend_Db_Expr(
-                    'SUM(IF(LENGTH(TRIM(sn.infraspecies)) > 0, 1, 0))'
+                    'SUM(IF(LENGTH(TRIM(dss.infraspecies)) > 0, 1, 0))'
                 )
             )
         );

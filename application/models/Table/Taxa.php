@@ -210,8 +210,8 @@ class ACI_Model_Table_Taxa
         $synonymStatuses = array(
            self::STATUS_SYNONYM,
            self::STATUS_AMBIGUOUS_SYNONYM
-        );
-        $status = is_null($status) ? $this->status : (int)$status;
+        );//TODO: self::STATUS_SYNONYM below was $this->status, but get fatal error since it's static
+        $status = is_null($status) ? self::STATUS_SYNONYM : (int)$status;
         return in_array($status, $synonymStatuses);
     }
     

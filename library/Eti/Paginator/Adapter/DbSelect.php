@@ -37,7 +37,6 @@ class Eti_Paginator_Adapter_DbSelect extends Zend_Paginator_Adapter_DbSelect
 
             $rowCountColumn =
                 $this->_select->getAdapter()->foldCase(self::ROW_COUNT_COLUMN);
-                
             $rowCountColumExists = false;
             
             foreach ($columns as $col) {

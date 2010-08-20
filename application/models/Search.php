@@ -40,7 +40,7 @@ class ACI_Model_Search extends AModel
     
     protected static function _getDefaultSortExpression($searchKey,
         $matchWholeWords)
-    {
+    { return;
         if (is_array($searchKey)) {
             // Scientific search, multiple fields
             $searchKey = trim(
@@ -57,11 +57,10 @@ class ACI_Model_Search extends AModel
         
         return array(
             new Zend_Db_Expr(
-                'IF(rank < '. ACI_Model_Table_Taxa::RANK_SPECIES . ', rank, 99)'
+                'IF(LENGTH(species) > 0, 1, 99)'
             ),
             new Zend_Db_Expr(
-                'CONCAT(IF(status = '.
-                ACI_Model_Table_Taxa::STATUS_COMMON_NAME . ', "D", "C"), "")'
+                'CONCAT(IF(name_status = "common name", "D", "C"), "")'
             ),
             new Zend_Db_Expr(
                 'CONCAT(IF(' .
@@ -565,55 +564,24 @@ class ACI_Model_Search extends AModel
     protected function _selectScientificNames(array $key, $matchWholeWords)
     {
         $select = new Eti_Db_Select($this->_db);
-        $joinSn = true;
 
         foreach ($key as $rank => $name) {
-            if ($this->stringRefersToHigherTaxa($rank)) {
-                $field = "fm.$rank";
-                $joinSn = false;
-            } else {
-                $field = "sn.$rank";
-            }
             if (trim($name) != '') {
                 $searchKey = self::wildcardHandling($name);
                 if ($matchWholeWords) {
                     $select->where(
-                        $field . ' ' .
+                        'dss.`'.$rank.'` ' .
                         (strstr($searchKey, '%') ? 'LIKE' : '=') . ' ?',
                         $searchKey
                     );
                 } else {
-                    $select->where($field . ' LIKE "%' . $searchKey . '%"');
+                    $select->where('dss.`'.$rank.'` LIKE "%' . $searchKey . '%"');
                 }
             }
         }
         $select->from(
-            array('sn' => 'scientific_names'),
-            $joinSn ?
-                $this->_getScientificSearchFields() :
-                $this->_getStrictScientificSearchFields()
-        )
-        ->joinLeft(
-            array('fm' => 'families'),
-            'sn.family_id = fm.record_id',
-            array()
-        )
-        ->joinLeft(
-            array('db' => 'databases'),
-            'sn.database_id = db.record_id',
-            array()
+            array('dss' => 'denormalized_search_scientific')
         );
-        if ($joinSn) {
-            $select
-            ->joinLeft(
-                array('sna' => 'scientific_names'),
-                'sna.accepted_name_code = sn.accepted_name_code
-                AND sna.is_accepted_name = 1',
-                array()
-            );
-        } else {
-            $select->where('sn.is_accepted_name = 1');
-        }
         return $select;
     }
     

@@ -23,6 +23,10 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         unset($paginator);
         
         foreach ($it as $row) {
+            if(!isset($row['rank']))
+            {
+                $row['rank'] = $this->_getRank($row);
+            }
             // get accepted species data if yet not there
             $this->_addAcceptedName($row);
             // create links
@@ -38,20 +42,28 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             ))) {
                 $res[$i]['link'] = $translator->translate('Show_details');
                 if (ACI_Model_Table_Taxa::isSynonym($row['status'])) {
-                    $res[$i]['url'] = '/details/species/id/' . $row['id'];
+                    $res[$i]['url'] = '/details/species/id/' . $row['accepted_species_id'];
                 } else {
 //TODO: common name page Notice: Undefined index: accepted_species_id in /home/dennis/ws/AC_with_Baseschema/application/controllers/helpers/DataFormatter.php on line 44
                 $res[$i]['url'] =
-                    '/details/species/id/' . $row['accepted_species_id'];
+                    '/details/species/id/' . $row['id'];
                 }
                 if ($row['status'] == 'common name') {
                         $res[$i]['url'] .= $row['taxa_id'] .'/common/' . $row['id'];
+                } elseif (in_array($row['status'],array(2,3,5))) {
+                    $res[$i]['url'] .= '/synonym/'.$row['id'];
                 }
             } else {
                 $res[$i]['link'] = $translator->translate('Show_tree');
                 $res[$i]['url'] = '/browse/tree/id/' . $row['taxa_id'];
             }
-            
+            if(!isset($row['name']))
+            {
+                $row['name'] = $row['genus'] .
+                    ($row['subgenus'] ? ' ('.$row['subgenus'].')' : '') .
+                    ($row['species'] ? ' '.$row['species'] : '') .
+                    ($row['infraspecies'] ? ' '.$row['infraspecies'] : '');
+            }
             $res[$i]['name'] = $this->_appendTaxaSuffix(
                 $this->_wrapTaxaName(
                     $textDecorator->highlightMatch(
@@ -75,19 +87,16 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $res[$i]['rank'] = $translator->translate(
                 ACI_Model_Table_Taxa::getRankString($row['rank'])
             );
-            
-/*            $res[$i]['status'] = $translator->translate(
+
+            $res[$i]['status'] = $translator->translate(
                 ACI_Model_Table_Taxa::getStatusString($row['status'])
-            );*/
-            $res[$i]['status'] = $row['status'] . ' for <i>' .
-                $row['accepted_species_name'] . '</i>'.
-                ($row['accepted_species_author'] != '' ?
-                ' '.$row['accepted_species_author'] : '');
+            );
             
             $res[$i]['group'] = $row['kingdom'];
             
             // Status + accepted name
-            if (!$row['is_accepted_name']) {
+            if ((isset($row['is_accepted_name']) && !$row['is_accepted_name']) ||
+                (isset($row['accepted_species_id']) && $row['accepted_species_id'])) {
                 $res[$i]['status'] = sprintf(
                     $res[$i]['status'],
                     $this->_appendTaxaSuffix(
@@ -103,10 +112,13 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             }
             // Database
             $res[$i]['dbLogo'] = '/images/databases/' .
-                $row['db_thumb'];
-            $res[$i]['dbLabel'] = $row['db_name'];
+                (isset($row['db_thumb']) ? $row['db_thumb'] :
+                    str_replace(' ','_',$row['source_database_name']).'.gif');
+            $res[$i]['dbLabel'] = (isset($row['db_name']) ? $row['db_name'] :
+                $row['source_database_name']);
             $res[$i]['dbUrl'] =
-                '/details/database/id/' . $row['db_id'];
+                '/details/database/id/' . (isset($row['db_id']) ?
+                    $row['db_id'] : $row['source_database_id']);
             if (isset($row['distribution'])) {
                 $res[$i]['distribution'] = $textDecorator->highlightMatch(
                     $row['distribution'],
@@ -117,6 +129,30 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $i++;
         }
         return $res;
+    }
+    
+    private function _getRank($row)
+    {
+        if($row['infraspecies'])
+            return ACI_Model_Table_Taxa::RANK_INFRASPECIES;
+        elseif($row['species'])
+            return ACI_Model_Table_Taxa::RANK_SPECIES;
+        elseif($row['subgenus'])
+            return ACI_Model_Table_Taxa::RANK_SUBGENUS;
+        elseif($row['genus'])
+            return ACI_Model_Table_Taxa::RANK_GENUS;
+        elseif($row['family'])
+            return ACI_Model_Table_Taxa::RANK_FAMILY;
+        elseif($row['superfamily'])
+            return ACI_Model_Table_Taxa::RANK_SUPERFAMILY;
+        elseif($row['order'])
+            return ACI_Model_Table_Taxa::RANK_ORDER;
+        elseif($row['class'])
+            return ACI_Model_Table_Taxa::RANK_CLASS;
+        elseif($row['phylum'])
+            return ACI_Model_Table_Taxa::RANK_PHYLUM;
+        elseif($row['kingdom'])
+            return ACI_Model_Table_Taxa::RANK_KINGDOM;
     }
     
     public function formatPlainRow(array $row)
@@ -425,7 +461,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     protected function _addAcceptedName(array &$row)
     {
 //TODO: common name page Notice: Undefined index: accepted_species_id in /home/dennis/ws/AC_with_Baseschema/application/controllers/helpers/DataFormatter.php on line 426
-        if (!$row['accepted_species_id']) {
+        if (!$row['accepted_species_id'] && isset($row['accepted_name_code'])) {
             $row = array_merge(
                 $row,
                 $this->getActionController()->getHelper('Query')
@@ -433,7 +469,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                      ->getAcceptedSpecies($row['accepted_name_code'])
             );
         }
-        if ($row['is_accepted_name']) {
+        if (isset($row['is_accepted_name']) && $row['is_accepted_name']) {
             $row['id'] = $row['accepted_species_id'];
         }
     }

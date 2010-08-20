@@ -103,7 +103,6 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
         $this->_ac->view->exportable = $paginator->getTotalItemCount() <=
             $this->_ac->getHelper('Export')->getNumRowsLimit() &&
             $paginator->getTotalItemCount() > 0;
-        
         $this->_logger->debug($paginator->getCurrentItems());
         $this->_ac->view->data = $this->_ac->getHelper('DataFormatter')
             ->formatSearchResults($paginator);
