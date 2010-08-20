@@ -27,18 +27,23 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             {
                 $row['rank'] = $this->_getRank($row);
             }
+            if(!is_int($row['status']))
+            {
+                if($row['status'] == 'common name')
+                    $row['status'] = 6;
+            }
             // get accepted species data if yet not there
             $this->_addAcceptedName($row);
             // create links
             if (!in_array($row['rank'], array(
-                'kingdom',
-                'phylum',
-                'class',
-                'order',
-                'superfamily',
-                'family',
-                'genus',
-                'subgenus'
+                ACI_Model_Table_Taxa::RANK_KINGDOM,
+                ACI_Model_Table_Taxa::RANK_PHYLUM,
+                ACI_Model_Table_Taxa::RANK_CLASS,
+                ACI_Model_Table_Taxa::RANK_ORDER,
+                ACI_Model_Table_Taxa::RANK_SUPERFAMILY,
+                ACI_Model_Table_Taxa::RANK_FAMILY,
+                ACI_Model_Table_Taxa::RANK_GENUS,
+                ACI_Model_Table_Taxa::RANK_SUBGENUS
             ))) {
                 $res[$i]['link'] = $translator->translate('Show_details');
                 if (ACI_Model_Table_Taxa::isSynonym($row['status'])) {
@@ -46,23 +51,32 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 } else {
 //TODO: common name page Notice: Undefined index: accepted_species_id in /home/dennis/ws/AC_with_Baseschema/application/controllers/helpers/DataFormatter.php on line 44
                 $res[$i]['url'] =
-                    '/details/species/id/' . $row['id'];
+                    '/details/species/id/' . ($row['status'] != 6 ?
+                        $row['id'] : '');
                 }
-                if ($row['status'] == 'common name') {
+                if ($row['status'] == 6) {
                         $res[$i]['url'] .= $row['taxa_id'] .'/common/' . $row['id'];
                 } elseif (in_array($row['status'],array(2,3,5))) {
                     $res[$i]['url'] .= '/synonym/'.$row['id'];
                 }
             } else {
                 $res[$i]['link'] = $translator->translate('Show_tree');
-                $res[$i]['url'] = '/browse/tree/id/' . $row['taxa_id'];
+                $res[$i]['url'] = '/browse/tree/id/' . $row['id'];
             }
             if(!isset($row['name']))
             {
-                $row['name'] = $row['genus'] .
+                $row['name'] = 
+                ($row['genus'] ? $row['genus'] .
                     ($row['subgenus'] ? ' ('.$row['subgenus'].')' : '') .
                     ($row['species'] ? ' '.$row['species'] : '') .
-                    ($row['infraspecies'] ? ' '.$row['infraspecies'] : '');
+                    ($row['infraspecies'] ? ' '.$row['infraspecies'] : '') :
+                    ($row['family'] ? $row['family'] :
+                        ($row['superfamily'] ? $row['superfamily'] :
+                            ($row['order'] ? $row['order'] :
+                                ($row['class'] ? $row['class'] :
+                                    ($row['phylum'] ? $row['phylum'] :
+                                        $row['kingdom'])))))
+                );
             }
             $res[$i]['name'] = $this->_appendTaxaSuffix(
                 $this->_wrapTaxaName(
@@ -81,7 +95,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     $row['rank']
                 ),
                 $row['status'],
-                $row['status'] == 'common name' ?
+                $row['status'] == 6 ?
                 $row['language'] : $row['author']
             );
             $res[$i]['rank'] = $translator->translate(
@@ -460,12 +474,13 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     
     protected function _addAcceptedName(array &$row)
     {
-//TODO: common name page Notice: Undefined index: accepted_species_id in /home/dennis/ws/AC_with_Baseschema/application/controllers/helpers/DataFormatter.php on line 426
-        if (!$row['accepted_species_id'] && isset($row['accepted_name_code'])) {
+        if ((!isset($row['accepted_species_id']) || (
+            isset($row['accepted_species_id']) &&
+            !$row['accepted_species_id'])) &&
+            isset($row['accepted_name_code'])) {
             $row = array_merge(
                 $row,
                 $this->getActionController()->getHelper('Query')
-//TODO: common name page Notice: Undefined index: accepted_name_code in /home/dennis/ws/AC_with_Baseschema/application/controllers/helpers/DataFormatter.php on line 430
                      ->getAcceptedSpecies($row['accepted_name_code'])
             );
         }
