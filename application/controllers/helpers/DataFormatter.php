@@ -49,7 +49,6 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 if (ACI_Model_Table_Taxa::isSynonym($row['status'])) {
                     $res[$i]['url'] = '/details/species/id/' . $row['accepted_species_id'];
                 } else {
-//TODO: common name page Notice: Undefined index: accepted_species_id in /home/dennis/ws/AC_with_Baseschema/application/controllers/helpers/DataFormatter.php on line 44
                 $res[$i]['url'] =
                     '/details/species/id/' . ($row['status'] != 6 ?
                         $row['id'] : '');
