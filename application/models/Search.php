@@ -188,10 +188,10 @@ class ACI_Model_Search extends AModel
             array(
                 $this->_selectTaxa(
                     $searchKey, $matchWholeWords
-                )->reset('order'),
+                )->reset('order')/*,
                 $this->_selectCommonNames(
                     $searchKey, $matchWholeWords
-                )->reset('order')
+                )->reset('order')*/
             )
         )
         ->order(
@@ -252,40 +252,16 @@ class ACI_Model_Search extends AModel
         $select = new Zend_Db_Select($this->_db);
         
         $select->from(
-            array('ds' => 'distribution'),
-            array_merge(
-                $this->_getScientificSearchFields(),
-                array('ds.distribution')
-            )
+            array('dsd' => 'denormalized_search_distribution'),
+                array('*')
         )
-        ->joinLeft(
-            array('sn' => 'scientific_names'),
-            'sn.name_code = ds.name_code',
-            array()
-        )
-        ->joinLeft(
-            array('sna' => 'scientific_names'),
-            'sna.accepted_name_code = sn.accepted_name_code AND ' .
-            'sna.is_accepted_name = 1',
-            array()
-        )
-        ->joinLeft(
-            array('fm' => 'families'),
-            'sn.family_id = fm.record_id',
-            array()
-        )
-        ->joinLeft(
-            array('db' => 'databases'),
-            'sn.database_id = db.record_id',
-            array()
-        )
-        ->where('ds.distribution LIKE ?', '%' . $searchKey . '%');
+        ->where('dsd.distribution LIKE ?', '%' . $searchKey . '%');
         
         $replacedSearchKey = self::wildcardHandlingInRegExp(
             $searchKey, $matchWholeWords
         );
         $select->where(
-            ' ds.distribution REGEXP "' . $replacedSearchKey . '" = 1'
+            ' dsd.distribution REGEXP "' . $replacedSearchKey . '" = 1'
         );
         return $select;
     }
@@ -380,24 +356,24 @@ class ACI_Model_Search extends AModel
     public static function getRankDefinition()
     {
         return new Zend_Db_Expr(
-            'CASE tx.taxon ' .
-            'WHEN "Kingdom" THEN ' .
+            'CASE LOWER(tst.rank) ' .
+            'WHEN "kingdom" THEN ' .
                 ACI_Model_Table_Taxa::RANK_KINGDOM . ' ' .
-            'WHEN "Phylum" THEN ' .
+            'WHEN "phylum" THEN ' .
                 ACI_Model_Table_Taxa::RANK_PHYLUM . ' ' .
-            'WHEN "Class" THEN ' .
+            'WHEN "class" THEN ' .
                 ACI_Model_Table_Taxa::RANK_CLASS . ' ' .
-            'WHEN "Order" THEN ' .
+            'WHEN "order" THEN ' .
                 ACI_Model_Table_Taxa::RANK_ORDER . ' ' .
-            'WHEN "Supefamily" THEN ' .
+            'WHEN "supefamily" THEN ' .
                 ACI_Model_Table_Taxa::RANK_SUPERFAMILY . ' ' .
-            'WHEN "Family" THEN ' .
+            'WHEN "family" THEN ' .
                 ACI_Model_Table_Taxa::RANK_FAMILY . ' ' .
-            'WHEN "Genus" THEN ' .
+            'WHEN "genus" THEN ' .
                 ACI_Model_Table_Taxa::RANK_GENUS . ' ' .
-            'WHEN "Species" THEN ' .
+            'WHEN "species" THEN ' .
                 ACI_Model_Table_Taxa::RANK_SPECIES . ' ' .
-            'WHEN "Infraspecies" THEN ' .
+            'WHEN "infraspecies" THEN ' .
                 ACI_Model_Table_Taxa::RANK_INFRASPECIES . ' ' .
             'END'
         );
@@ -416,69 +392,41 @@ class ACI_Model_Search extends AModel
         $select = new Zend_Db_Select($this->_db);
         
         $select->from(
-            array('tx' => 'taxa'),
+            array('tst' => 'temp_search_table'),
             array(
-                'id' => 'sn.record_id',
-                'taxa_id' => 'tx.record_id',
+                'id' => 'tst.id',
+                'taxa_id' => 'tst.accepted_taxon_id',
                 'rank' => self::getRankDefinition(),
-                'tx.name',
-                'tx.name_code',
-                'tx.is_accepted_name',
-                'sn.author',
+                'tst.name',
+                'author' => 'name_suffix',
                 'language' => new Zend_Db_Expr("''"),
-                'sn.accepted_name_code',
-                // Joining again to scientific_names produces a killing query
-                // The accepted species data is retrieved afterwards
-                'accepted_species_id' => new Zend_Db_Expr(0),
-                'accepted_species_name' => new Zend_Db_Expr("''"),
-                'accepted_species_author' => new Zend_Db_Expr("''"),
-                //----------
-                'db_name' => 'db.database_name',
-                'db_id' => 'db.record_id',
+                'accepted_species_id' => 'tst.accepted_taxon_id',
+                'accepted_species_name' => 'tst.name_status_suffix',
+                'accepted_species_author' => 'tst.name_status_suffix_suffix',
+                'db_name' => 'tst.source_database',
+                'db_id' => 'tst.source_database_id',
                 'db_thumb' =>
-                    'CONCAT(REPLACE(db.database_name, " ", "_"), ".gif")',
-                'kingdom' => 'fm.kingdom',
-                'status' => 'tx.sp2000_status_id'
+                    'CONCAT(REPLACE(tst.source_database, " ", "_"), ".gif")',
+                'kingdom' => 'tst.group',
+                'status' => 'tst.name_status'
             )
         );
         
-        if ($matchWholeWords) {
-            $select->join(
-                array('ss' => 'simple_search'),
-                'ss.taxa_id = tx.record_id',
-                array()
-            )
-            ->where(
-                'ss.words ' . (strstr($searchKey, '%') ? 'LIKE' : '=') . ' ? ' .
-                'AND tx.is_species_or_nonsynonymic_higher_taxon = 1',
+        $column = (preg_match('/\s/',$searchKey) ? 'name' : 'name_element');
+        if ($matchWholeWords && $column == 'name_element') {
+            $select->where(
+                'tst.'.$column.' ' . (strstr($searchKey, '%') ? 'LIKE' : '=') . ' ? ',
                 $searchKey
             );
         } else {
             $select->where(
-                'tx.name LIKE "%' . $searchKey . '%" AND ' .
-                'tx.is_species_or_nonsynonymic_higher_taxon = 1'
+                'tst.'.$column.' LIKE "%' . $searchKey . '%"'
             );
         }
            
-        $select
-        ->joinLeft(
-            array('sn' => 'scientific_names'),
-            'tx.name_code = sn.name_code',
-            array()
-        )
-        ->joinLeft(
-            array('fm' => 'families'),
-            'sn.family_id = fm.record_id',
-            array()
-        )
-        ->joinLeft(
-            array('db' => 'databases'),
-            'tx.database_id = db.record_id',
-            array()
-        )
         // Prevent multiple selection of the same taxon (cased by duplicated
         // name codes)
-        ->group(array('tx.record_id'))
+        $select->group(array('tst.id'))
         ->order(array('name', 'status'));
          
         return $select;

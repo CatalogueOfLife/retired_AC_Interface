@@ -21,7 +21,6 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $this->getActionController()->getHelper('TextDecorator');
         $it = $paginator->getIterator();
         unset($paginator);
-        
         foreach ($it as $row) {
             if(!isset($row['rank']))
             {
@@ -64,18 +63,22 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             }
             if(!isset($row['name']))
             {
-                $row['name'] = 
-                ($row['genus'] ? $row['genus'] .
-                    ($row['subgenus'] ? ' ('.$row['subgenus'].')' : '') .
-                    ($row['species'] ? ' '.$row['species'] : '') .
-                    ($row['infraspecies'] ? ' '.$row['infraspecies'] : '') :
-                    ($row['family'] ? $row['family'] :
-                        ($row['superfamily'] ? $row['superfamily'] :
-                            ($row['order'] ? $row['order'] :
-                                ($row['class'] ? $row['class'] :
-                                    ($row['phylum'] ? $row['phylum'] :
-                                        $row['kingdom'])))))
-                );
+                if(isset($row['taxon_name'])) {
+                    $row['name'] = $row['taxon_name'];
+                } else {
+                    $row['name'] = 
+                    ($row['genus'] ? $row['genus'] .
+                        ($row['subgenus'] ? ' ('.$row['subgenus'].')' : '') .
+                        ($row['species'] ? ' '.$row['species'] : '') .
+                        ($row['infraspecies'] ? ' '.$row['infraspecies'] : '') :
+                        ($row['family'] ? $row['family'] :
+                            ($row['superfamily'] ? $row['superfamily'] :
+                                ($row['order'] ? $row['order'] :
+                                    ($row['class'] ? $row['class'] :
+                                        ($row['phylum'] ? $row['phylum'] :
+                                            $row['kingdom'])))))
+                    );
+                }
             }
             $res[$i]['name'] = $this->_appendTaxaSuffix(
                 $this->_wrapTaxaName(
