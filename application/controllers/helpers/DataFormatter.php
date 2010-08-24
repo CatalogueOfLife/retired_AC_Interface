@@ -129,7 +129,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             // Database
             $res[$i]['dbLogo'] = '/images/databases/' .
                 (isset($row['db_thumb']) ? $row['db_thumb'] :
-                    str_replace(' ','_',$row['source_database_name']).'.gif');
+                    str_replace(' ','_',(isset($row['db_name']) ? $row['db_name'] :
+                $row['source_database_name'])).'.gif');
             $res[$i]['dbLabel'] = (isset($row['db_name']) ? $row['db_name'] :
                 $row['source_database_name']);
             $res[$i]['dbUrl'] =

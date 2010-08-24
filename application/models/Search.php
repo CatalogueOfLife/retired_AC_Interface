@@ -770,33 +770,23 @@ class ACI_Model_Search extends AModel
     {
         $select = new Zend_Db_Select($this->_db);
         $select->from(
-            array('tx' => 'taxa'),
+            array('ttt' => 'temp_taxon_tree'),
             array(
-                'id' => 'tx.record_id',
-                'snId' => 'sn.record_id',
-                'name' => 'tx.name',
-                'type' => 'tx.taxon',
-                'parentId' => 'tx.parent_id',
-                'numChildren' => new Zend_Db_Expr('COUNT(txc.record_id)')
+                'id' => 'ttt.taxon_id',
+                'snId' => new Zend_Db_Expr('""'),
+                'name' => 'ttt.name',
+                'type' => 'ttt.rank',
+                'parentId' => 'ttt.parent_id',
+                'numChildren' => 'ttt.number_of_children'
             )
         )
-        ->joinLeft(
-            array('txc' => 'taxa'),
-            'tx.record_id = txc.parent_id AND txc.is_accepted_name = 1',
-            array()
-        )
-        ->joinLeft(
-            array('sn' => 'scientific_names'),
-            'tx.name_code = sn.name_code',
-            array()
-        )
-        ->where('tx.parent_id = ? AND tx.is_accepted_name = 1', $parentId)
-        ->group(array('tx.parent_id', 'tx.name'))
+        ->where('ttt.parent_id = ?', $parentId)
+        ->group(array('ttt.parent_id', 'ttt.name'))
         ->order(
             array(
-                new Zend_Db_Expr('tx.taxon <> "Superfamily"'),
-                new Zend_Db_Expr('INSTR(tx.name, "Not assigned")'),
-                'tx.name'
+                new Zend_Db_Expr('ttt.rank <> "superfamily"'),
+                new Zend_Db_Expr('INSTR(ttt.name, "Not assigned")'),
+                'ttt.name'
             )
         );
         $res = $select->query()->fetchAll();

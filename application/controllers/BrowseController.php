@@ -197,9 +197,12 @@ class BrowseController extends AController
             // If not properly encoded, the names with diacritics are truncated
             // in the tree
             $row['name'] = utf8_encode($row['name']);
-            $row['type'] = $row['type'] == "Kingdom" ? '' : $row['type'];
-            $row['url'] = $row['snId'] ?
-                $this->view->baseUrl() . '/details/species/id/' . $row['snId'] .
+            $row['type'] = $row['type'] == "kingdom" ? '' : $row['type'];
+            $row['url'] = !in_array($row['type'],
+                array('','phylum','class','order','superfamily',
+                'family','genus','subgenus')
+            ) ?
+                $this->view->baseUrl() . '/details/species/id/' . $row['id'] .
                     '/source/tree' : null;
             if ($row['type'] == "Infraspecies") {
                 $row['name'] = $this->getHelper('DataFormatter')
