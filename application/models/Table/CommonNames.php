@@ -12,8 +12,8 @@
  */
 class ACI_Model_Table_CommonNames extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'common_names';
-    protected $_primary = 'record_id';
+    protected $_name = 'common_name';
+    protected $_primary = 'id';
     protected static $_numCommonNames;
     
     public function count()

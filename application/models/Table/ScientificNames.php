@@ -12,8 +12,8 @@
  */
 class ACI_Model_Table_ScientificNames extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'scientific_names';
-    protected $_primary = 'record_id';
+    protected $_name = 'taxon';
+    protected $_primary = 'id';
     protected static $_numAcceptedNames;
     protected static $_numScientificNames;
     protected static $_numSpecies;
@@ -52,14 +52,7 @@ class ACI_Model_Table_ScientificNames extends Zend_Db_Table_Abstract
     {
         if (is_null(self::$_numSynonyms)) {
             $select = $this->select();
-            $select->from($this, array('COUNT(1) AS total'))->where(
-                'sp2000_status_id IN (?)',
-                array(
-                    ACI_Model_Table_Taxa::STATUS_AMBIGUOUS_SYNONYM,
-                    ACI_Model_Table_Taxa::STATUS_SYNONYM,
-                    ACI_Model_Table_Taxa::STATUS_MISAPPLIED_NAME
-                )
-            );
+            $select->from(array('s' => 'synonym'), array('COUNT(1) AS total'));
             $rows = $this->fetchAll($select);
             self::$_numSynonyms = $rows[0]->total;
         }

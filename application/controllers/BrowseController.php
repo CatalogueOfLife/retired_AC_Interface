@@ -193,21 +193,23 @@ class BrowseController extends AController
         $search = new ACI_Model_Search($this->_db);
         $res = $search->getTaxonChildren($parentId);
         $this->_logger->debug($res);
+        $higher_taxon = array('','phylum','class','order','superfamily',
+                'family','genus','subgenus');
         foreach ($res as &$row) {
             // If not properly encoded, the names with diacritics are truncated
             // in the tree
             $row['name'] = utf8_encode($row['name']);
             $row['type'] = $row['type'] == "kingdom" ? '' : $row['type'];
             $row['url'] = !in_array($row['type'],
-                array('','phylum','class','order','superfamily',
-                'family','genus','subgenus')
+                $higher_taxon
             ) ?
                 $this->view->baseUrl() . '/details/species/id/' . $row['id'] .
                     '/source/tree' : null;
-            if ($row['type'] == "Infraspecies") {
+            //TODO: Get infraspecies marker in between
+/*            if (!in_array($row['type'],array_merge($higher_taxon,array('species')))) {
                 $row['name'] = $this->getHelper('DataFormatter')
                     ->splitByMarkers($row['name']);
-            }
+            }*/
         }
         
         $data = new Zend_Dojo_Data('id', $res, $parentId);

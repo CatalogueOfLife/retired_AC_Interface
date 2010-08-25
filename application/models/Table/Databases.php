@@ -60,7 +60,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
             $select = $this->select();
             $select->from(
                 $this, array('COUNT(1) AS total')
-            )->where('is_new');
+            )->where('1');
             $rows = $this->fetchAll($select);
             self::$_numDatabasesNew = $rows[0]->total;
         }
@@ -72,8 +72,11 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
         if (is_null(self::$_numDatabasesWithAcceptedNames)) {
             $select = $this->select();
             $select->from(
-                $this, array('COUNT(1) AS total')
-            )->where('accepted_species_names > 0');
+                $this, array('COUNT(DISTINCT source_database.id) AS total')
+            )->joinLeft(array('t' => 'taxon'),
+                'source_database.id = t.source_database_id',
+                array()
+            );
             $rows = $this->fetchAll($select);
             self::$_numDatabasesWithAcceptedNames = $rows[0]->total;
         }
