@@ -43,30 +43,6 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
         return $results;
     }
     
-    public function count()
-    {
-        if (is_null(self::$_numDatabases)) {
-            $select = $this->select();
-            $select->from($this, array('COUNT(1) AS total'));
-            $rows = $this->fetchAll($select);
-            self::$_numDatabases = $rows[0]->total;
-        }
-        return self::$_numDatabases;
-    }
-    
-    public function countNew()
-    {
-        if (is_null(self::$_numDatabasesNew)) {
-            $select = $this->select();
-            $select->from(
-                $this, array('COUNT(1) AS total')
-            )->where('1');
-            $rows = $this->fetchAll($select);
-            self::$_numDatabasesNew = $rows[0]->total;
-        }
-        return self::$_numDatabasesNew;
-    }
-    
     public function countWithAcceptedNames()
     {
         if (is_null(self::$_numDatabasesWithAcceptedNames)) {
