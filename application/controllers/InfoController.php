@@ -73,8 +73,9 @@ class InfoController extends AController
         
         $this->view->sort = $sortCol;
         
-        $dbTable = new ACI_Model_Table_Databases();
-        $rowset =
+        $info = new ACI_Model_Info($this->_db);
+        $rowset = $info->getSourceDatabases($sortCol, $direction);
+/*        $rowset =
             $dbTable->getAll(
                 array_merge(
                     array(
@@ -83,11 +84,11 @@ class InfoController extends AController
                     ),
                     array(ACI_Model_Info::getRightColumnName($defaultSortCol))
                 )
-            );
+            );*/
         $results = array();
         foreach ($rowset as $row) {
             $results[] = $this->getHelper('DataFormatter')
-                ->formatDatabaseDetails($row);
+                ->formatDatabaseResultPage($row);
         }
         $this->view->results = $results;
         $this->_setNavigator();

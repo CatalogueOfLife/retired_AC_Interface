@@ -319,7 +319,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     public function formatDatabaseDetails(array $dbDetails)
     {
         $dbDetails['name'];
-//        $dbDetails['label'] = $dbDetails['database_name'];
+        $dbDetails['label'] = $dbDetails['abbreviation'];
         $dbDetails['accepted_species_names'] =
             number_format($dbDetails['accepted_species_names']);
         $dbDetails['accepted_infraspecies_names'] =
@@ -336,7 +336,6 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $this->getTaxonLinksInDatabaseDetailsPage(
                 $dbDetails['taxonomic_coverage']
             );
-        
         // raw links text
         $links = explode(';', $dbDetails['web_site']);
         unset($dbDetails['web_site']);
@@ -346,6 +345,18 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $dbDetails['web_sites'][] = $this->getActionController()
                 ->getHelper('TextDecorator')->createLink($link, '_blank');
         }
+        return $dbDetails;
+    }
+     
+    public function formatDatabaseResultPage(array $dbDetails)
+    {
+        $dbDetails['name'];
+        $dbDetails['label'] = $dbDetails['abbreviation'];
+        $dbDetails['accepted_species_names'] =
+            number_format($dbDetails['total_species']);
+        $dbDetails['url'] = '/details/database/id/'.$dbDetails['id'];
+        $dbDetails['thumb'] = '/images/databases/' .
+            str_replace(' ', '_', $dbDetails['label']) . '.gif';
         return $dbDetails;
     }
      

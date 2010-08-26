@@ -22,12 +22,38 @@ class ACI_Model_Info extends AModel
     public static function getRightColumnName($columName)
     {
         $columMap = array(
-            'source' => 'database_name_displayed',
-            'group' => 'taxa',
-            'names' => 'accepted_species_names'
+            'source' => 'name',
+            'group' => 'english_name',
+            'names' => 'total_species'
         );
         return isset($columMap[$columName]) ?
             $columMap[$columName] : null;
+    }
+    
+    public function getSourceDatabases($order =  'name', $direction = 'asc')
+    {
+        $select = new Zend_Db_Select($this->_db);
+        $select->from(
+            array('dsdt' => 'denormalized_source_database_table'),
+            array(
+                'id' => 'dsdt.id',
+                'name' => 'dsdt.name',
+                'abbreviation' => 'dsdt.abbreviation',
+                'taxa' => 'dsdt.english_name',
+                'total_species' => 'dsdt.total_species',
+                'is_new' => 'dsdt.is_new'
+            )
+        )
+        ->order(
+            array(
+                'dsdt.' . $this->getRightColumnName($order) . ' ' .
+                    strtoupper($direction)
+            )
+        );
+        $res = $select->query()->fetchAll();
+        $total = count($res);
+        $this->_logger->debug("$total source databases");
+        return $res;
     }
     
     /**
