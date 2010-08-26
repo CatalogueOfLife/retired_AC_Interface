@@ -117,12 +117,14 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     $res[$i]['status'],
                     $this->_appendTaxaSuffix(
                         $this->_wrapTaxaName(
-                            $row['accepted_species_name'],
+                            (isset($row['accepted_species_name']) ?
+                                $row['accepted_species_name'] : $row['name']),
                             ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME,
                             $row['rank']
                         ),
                         ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME,
-                        $row['accepted_species_author']
+                        (isset($row['accepted_species_author']) ?
+                            $row['accepted_species_author'] : $row['author'])
                     )
                 );
             }
@@ -318,8 +320,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     
     public function formatDatabaseDetails(array $dbDetails)
     {
-        $dbDetails['name'];
-        $dbDetails['label'] = $dbDetails['abbreviation'];
+        $dbDetails['label'] = $dbDetails['abbreviated_name'];
+        $dbDetails['name'] = $dbDetails['label'] . ': ' . $dbDetails['name'];
         $dbDetails['accepted_species_names'] =
             number_format($dbDetails['accepted_species_names']);
         $dbDetails['accepted_infraspecies_names'] =
@@ -357,6 +359,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         $dbDetails['url'] = '/details/database/id/'.$dbDetails['id'];
         $dbDetails['thumb'] = '/images/databases/' .
             str_replace(' ', '_', $dbDetails['label']) . '.gif';
+        $dbDetails['database_name_displayed'] = $dbDetails['abbreviation'] .
+            ': ' . $dbDetails['name'];
         return $dbDetails;
     }
      

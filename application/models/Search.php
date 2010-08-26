@@ -253,7 +253,11 @@ class ACI_Model_Search extends AModel
         
         $select->from(
             array('dsd' => 'denormalized_search_distribution'),
-                array('*')
+                array(
+                    '*',
+                    'status' => new Zend_Db_Expr(1),
+                    'id' => 'dsd.accepted_species_id'
+                )
         )
         ->where('dsd.distribution LIKE ?', '%' . $searchKey . '%');
         
