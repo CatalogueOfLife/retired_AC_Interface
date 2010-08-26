@@ -152,25 +152,25 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     
     private function _getRank($row)
     {
-        if($row['infraspecies'])
+        if(isset($row['infraspecies']) && $row['infraspecies'])
             return ACI_Model_Table_Taxa::RANK_INFRASPECIES;
-        elseif($row['species'])
+        elseif(isset($row['species']) && $row['species'])
             return ACI_Model_Table_Taxa::RANK_SPECIES;
-        elseif($row['subgenus'])
+        elseif(isset($row['subgenus']) && $row['subgenus'])
             return ACI_Model_Table_Taxa::RANK_SUBGENUS;
-        elseif($row['genus'])
+        elseif(isset($row['genus']) && $row['genus'])
             return ACI_Model_Table_Taxa::RANK_GENUS;
-        elseif($row['family'])
+        elseif(isset($row['family']) && $row['family'])
             return ACI_Model_Table_Taxa::RANK_FAMILY;
-        elseif($row['superfamily'])
+        elseif(isset($row['superfamily']) && $row['superfamily'])
             return ACI_Model_Table_Taxa::RANK_SUPERFAMILY;
-        elseif($row['order'])
+        elseif(isset($row['order']) && $row['order'])
             return ACI_Model_Table_Taxa::RANK_ORDER;
-        elseif($row['class'])
+        elseif(isset($row['class']) && $row['class'])
             return ACI_Model_Table_Taxa::RANK_CLASS;
-        elseif($row['phylum'])
+        elseif(isset($row['phylum']) && $row['phylum'])
             return ACI_Model_Table_Taxa::RANK_PHYLUM;
-        elseif($row['kingdom'])
+        elseif(isset($row['kingdom']) && $row['kingdom'])
             return ACI_Model_Table_Taxa::RANK_KINGDOM;
     }
     
