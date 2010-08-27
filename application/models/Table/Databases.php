@@ -12,7 +12,7 @@
  */
 class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'source_database';
+    protected $_name = 'denormalized_source_database_details';
     protected $_primary = 'id';
     protected static $_numDatabases;
     protected static $_numDatabasesNew;
@@ -174,73 +174,19 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
         $select->from(
             $this,
             array(
-                'kingdom' => 'sne_k.name_element',
-                'phylum' => 'sne_p.name_element',
-                'class' => 'sne_c.name_element',
-                'order' => 'sne_o.name_element',
-                'kingdom_id' => 'tne_k.taxon_id',
-                'phylum_id' => 'tne_p.taxon_id',
-                'class_id' => 'tne_c.taxon_id',
-                'order_id' => 'tne_o.taxon_id'
+                'kingdom' => 'dsdtc.kingdom',
+                'phylum' => 'dsdtc.phylum',
+                'class' => 'dsdtc.class',
+                'order' => 'dsdtc.order',
+                'kingdom_id' => 'dsdtc.kingdom_id',
+                'phylum_id' => 'dsdtc.phylum_id',
+                'class_id' => 'dsdtc.class_id',
+                'order_id' => 'dsdtc.order_id'
                 )
         )->joinRight(
-            array('t' => 'taxon'),
-            'source_database.id = t.source_database_id AND t.taxonomic_rank_id = ' .
-            ACI_Model_Table_Taxa::RANK_GENUS,
-            array()
-        )->joinRight(
-            array('tne_g' => 'taxon_name_element'),
-            't.id = tne_g.taxon_id',
-            array()
-        )->joinRight(
-            array('tne_f' => 'taxon_name_element'),
-            'tne_g.parent_id = tne_f.taxon_id',
-            array()
-        )->joinLeft(
-            array('tne_sf' => 'taxon_name_element'),
-            'tne_f.parent_id = tne_sf.taxon_id',
-            array()
-        )
-        ->joinLeft(
-            array('t_sf' => 'taxon'),
-            'tne_sf.taxon_id = t_sf.id AND t_sf.taxonomic_rank_id = ' .
-            ACI_Model_Table_Taxa::RANK_SUPERFAMILY,
-            array()
-        )
-        ->joinRight(
-            array('tne_o' => 'taxon_name_element'),
-            '(tne_f.parent_id = tne_o.taxon_id AND t_sf.id IS NULL) OR ' .
-            '(tne_sf.parent_id = tne_o.taxon_id AND t_sf.id IS NOT NULL)',
-            array()
-        )->joinRight(
-            array('sne_o' => 'scientific_name_element'),
-            'tne_o.scientific_name_element_id = sne_o.id',
-            array()
-        )->joinRight(
-            array('tne_c' => 'taxon_name_element'),
-            'tne_o.parent_id = tne_c.taxon_id',
-            array()
-        )->joinRight(
-            array('sne_c' => 'scientific_name_element'),
-            'tne_c.scientific_name_element_id = sne_c.id',
-            array()
-        )->joinRight(
-            array('tne_p' => 'taxon_name_element'),
-            'tne_c.parent_id = tne_p.taxon_id',
-            array()
-        )->joinRight(
-            array('sne_p' => 'scientific_name_element'),
-            'tne_p.scientific_name_element_id = sne_p.id',
-            array()
-        )->joinRight(
-            array('tne_k' => 'taxon_name_element'),
-            'tne_p.parent_id = tne_k.taxon_id',
-            array()
-        )->joinRight(
-            array('sne_k' => 'scientific_name_element'),
-            'tne_k.scientific_name_element_id = sne_k.id',
-            array()
-        )->where('source_database.id = ?'
+            array('dsdtc' => 'denormalized_source_database_taxonomic_coverage'),
+            'denormalized_source_database_details.id = dsdtc.source_database_id'
+        )->where('denormalized_source_database_details.id = ?'
         )
         ->bind(array($id));
         $rows = $this->fetchAll($select);
@@ -269,13 +215,13 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
             array('uri.resource_identifier')
         )->joinLeft(
             array('utsd' => 'uri_to_source_database'),
-            'source_database.id = utsd.source_database_id',
+            'denormalized_source_database_details.id = utsd.source_database_id',
             array()
         )->joinLeft(
             array('uri'),
             'utsd.uri_id = uri.id',
             array()
-        )->where('source_database.id = ?'
+        )->where('denormalized_source_database_details.id = ?'
         )
         ->bind(array($id));
         $rows = $this->fetchAll($select);
@@ -312,24 +258,21 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
     
     protected function _decorate(array $row)
     {
-        $row['image'] = $this->_getImageFromName($row['abbreviated_name']);
-        $row['thumb'] = $this->_getThumbFromName($row['abbreviated_name']);
+        $row['image'] = $this->_getImageFromName($row['short_name']);
+        $row['thumb'] = $this->_getThumbFromName($row['short_name']);
         $row['url'] = $this->_getUrlFromId($row['id']);
-        $row['accepted_species_names'] = $this->_countAcceptedSpecies($row['id']);
-        $row['accepted_infraspecies_names'] = $this->_countAcceptedInfraSpecies($row['id']);
-        $row['common_names'] = $this->_countCommonNames($row['id']);
-        $row['species_synonyms'] = $this->_countSpeciesSynonyms($row['id']);
-        $row['infraspecies_synonyms'] = $this->_countInfraSpeciesSynonyms($row['id']);
-        $row['total_names'] = $row['accepted_species_names'] +
-            $row['accepted_infraspecies_names'] + $row['common_names'] +
-            $row['species_synonyms'] + $row['infraspecies_synonyms'];
+        $row['accepted_species_names'] = $row['number_of_species'];
+        $row['accepted_infraspecies_names'] = $row['number_of_infraspecific_taxon'];
+        $row['common_names'] = $row['number_of_common_names'];
+        $row['synonyms'] = $row['number_of_synonyms'];
+        $row['total_names'] = $row['total_number'];
         $row['taxonomic_coverage'] = $this->_getTaxonomicCoverage($row['id']);
-        $row['database_full_name'] = $row['name'];
-        $row['database_name'] = $row['abbreviated_name'];
-        $row['is_new'] = false; //TODO: Link it to is_new field
-        $row['authors_editors'] = $row['authors_and_editors'];
-        $row['taxa'] = $row['group_name_in_english'];
-        $row['organization'] = $row['organisation'];
+        $row['database_full_name'] = $row['full_name'];
+        $row['database_name'] = $row['short_name'];
+        $row['is_new'] = $row['is_new'];
+        $row['authors_editors'] = $row['authors_editors'];
+        $row['taxa'] = $row['english_name'];
+        $row['organization'] = $row['organization'];
         $row['web_site'] = $this->_getWebsites($row['id']);
         return $row;
     }
