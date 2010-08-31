@@ -377,7 +377,7 @@ class ACI_Model_Search extends AModel
                 ACI_Model_Table_Taxa::RANK_GENUS . ' ' .
             'WHEN "species" THEN ' .
                 ACI_Model_Table_Taxa::RANK_SPECIES . ' ' .
-            'WHEN "infraspecies" THEN ' .
+            'ELSE ' .
                 ACI_Model_Table_Taxa::RANK_INFRASPECIES . ' ' .
             'END'
         );

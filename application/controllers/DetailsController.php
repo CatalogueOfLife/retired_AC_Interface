@@ -119,10 +119,9 @@ class DetailsController extends AController
                         $detailsModel->species($id, $fromType, $fromId)
                     );
             }
-            $lsid = $detailsModel->getLsid($id);
         }
         $title = $speciesDetails && $speciesDetails->rank ==
-           ACI_Model_Table_Taxa::RANK_INFRASPECIES ?
+           ACI_Model_Table_Taxa::RANK_SPECIES ?
            'Infraspecies_details' : 'Species_details';
         $this->view->title = $this->view->translate($title);
         $this->view->headTitle($this->view->title, 'APPEND');

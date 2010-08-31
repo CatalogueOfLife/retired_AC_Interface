@@ -29,20 +29,45 @@ class ACI_Model_Details extends AModel
         
         $fields =
             array(
-                'id' => 'td.taxon_id',
-                'family_id' => 'tax_f.taxon_id',
-                'kingdom' => 'taxn_k.name_element',
-                'genus' => 'taxn_g.name_element',
-                'species' => 'taxn_s.name_element',
-                'infra_marker' => 'td.taxon_id',
-                'infra' => 'taxn_i.name_element',
-                'author' => 'as.string',
-                'comment' => 'td.additional_data',
-                'scrutiny_date' => 'sc.scrutiny_date',
-                'status' => 'td.scientific_name_status_id',
-                'specialist_name' => 'sp.name',
-                'db_id' => 't.source_database_id',
-                'rank' => 't.taxonomic_rank_id'
+                'id' => 'taxon_id',
+                'kingdom' => 'kingdom_name',
+                'phylum' => 'phylum_name',
+                'class' => 'class_name',
+                'order' => 'order_name',
+                'superfamily' => 'superfamily_name',
+                'family' => 'family_name',
+                'genus' => 'genus_name',
+                'subgenus' => 'subgenus_name',
+                'species' => 'species_name',
+                'infra' => 'infraspecies_name',
+                'kingdom_id' => 'kingdom_id',
+                'phylum_id' => 'phylum_id',
+                'class_id' => 'class_id',
+                'order_id' => 'order_id',
+                'superfamily_id' => 'superfamily_id',
+                'family_id' => 'family_id',
+                'genus_id' => 'genus_id',
+                'subgenus_id' => 'subgenus_id',
+                'species_id' => 'species_id',
+                'infra_id' => 'infraspecies_id',
+                'kingdom_lsid' => 'kingdom_lsid',
+                'phylum_lsid' => 'phylum_lsid',
+                'class_lsid' => 'class_lsid',
+                'order_lsid' => 'order_lsid',
+                'superfamily_lsid' => 'superfamily_lsid',
+                'family_lsid' => 'family_lsid',
+                'genus_lsid' => 'genus_lsid',
+                'subgenus_lsid' => 'subgenus_lsid',
+                'species_lsid' => 'species_lsid',
+                'infra_lsid' => 'infraspecies_lsid',
+                'author',
+                'status',
+                'comment' => 'additional_data',
+                'dbId' => 'source_database_id',
+                'dbName' => 'source_database_short_name',
+                'dbVersion' => 'source_database_release_date',
+                'scrutinyDate' => 'scrutiny_date',
+                'specialistName' => 'specialist'
             );
             
         switch ($fromType) {
@@ -153,116 +178,10 @@ class ACI_Model_Details extends AModel
         }
         
         $select->from(
-            array('td' => 'taxon_detail'),
+            array('dsd' => 'denormalized_species_details'),
             array_merge($fields, $extraFields)
         )
-        ->joinRight(
-            array('t' => 'taxon'),
-            'td.taxon_id = t.id',
-            array()
-        )
-        ->joinLeft(
-            array('tax_i' => 'taxon_name_element'),
-            '(t.taxonomic_rank_id != ' . ACI_Model_Table_Taxa::RANK_SPECIES . ' ' .
-            'AND t.id = tax_i.taxon_id)',
-            array()
-        )
-        ->joinLeft(
-            array('taxn_i' => 'scientific_name_element'),
-            'tax_i.scientific_name_element_id = taxn_i.id',
-            array()
-        )
-        ->joinLeft(
-            array('tax_s' => 'taxon_name_element'),
-            '(t.taxonomic_rank_id = ' . ACI_Model_Table_Taxa::RANK_SPECIES . ' ' .
-            'AND t.id = tax_s.taxon_id) OR tax_i.parent_id = tax_s.taxon_id',
-            array()
-        )
-        ->joinRight(
-            array('taxn_s' => 'scientific_name_element'),
-            'tax_s.scientific_name_element_id = taxn_s.id',
-            array()
-        )
-        ->joinLeft(
-            array('tax_sg' => 'taxon_name_element'),
-            'tax_s.parent_id = tax_sg.taxon_id',
-            array()
-        )
-        ->joinLeft(
-            array('tax_sg_t' => 'taxon'),
-            'tax_sg.taxon_id = tax_sg_t.id AND tax_sg_t.taxonomic_rank_id = ' .
-            ACI_Model_Table_Taxa::RANK_SUBGENUS,
-            array()
-        )
-        ->joinLeft(
-            array('tax_g' => 'taxon_name_element'),
-            '(tax_s.parent_id = tax_g.taxon_id AND tax_sg_t.id IS NULL) OR ' .
-            '(tax_sg.parent_id = tax_g.taxon_id AND tax_sg_t.id IS NOT NULL)',
-            array()
-        )
-        ->joinRight(
-            array('taxn_g' => 'scientific_name_element'),
-            'tax_g.scientific_name_element_id = taxn_g.id',
-            array()
-        )
-        ->joinLeft(
-            array('tax_f' => 'taxon_name_element'),
-            'tax_g.parent_id = tax_f.taxon_id',
-            array()
-        )
-        ->joinLeft(
-            array('tax_sf' => 'taxon_name_element'),
-            'tax_f.parent_id = tax_sf.taxon_id',
-            array()
-        )
-        ->joinLeft(
-            array('tax_sf_t' => 'taxon'),
-            'tax_sf.taxon_id = tax_sf_t.id AND tax_sf_t.taxonomic_rank_id = ' .
-            ACI_Model_Table_Taxa::RANK_SUPERFAMILY,
-            array()
-        )
-        ->joinLeft(
-            array('tax_o' => 'taxon_name_element'),
-            '(tax_f.parent_id = tax_o.taxon_id AND tax_sf_t.id IS NULL) OR ' .
-            '(tax_sf.parent_id = tax_o.taxon_id AND tax_sf_t.id IS NOT NULL)',
-            array()
-        )
-        ->joinLeft(
-            array('tax_c' => 'taxon_name_element'),
-            'tax_o.parent_id = tax_c.taxon_id',
-            array()
-        )
-        ->joinLeft(
-            array('tax_p' => 'taxon_name_element'),
-            'tax_c.parent_id = tax_p.taxon_id',
-            array()
-        )
-        ->joinLeft(
-            array('tax_k' => 'taxon_name_element'),
-            'tax_p.parent_id = tax_k.taxon_id',
-            array()
-        )
-        ->joinRight(
-            array('taxn_k' => 'scientific_name_element'),
-            'tax_k.scientific_name_element_id = taxn_k.id',
-            array()
-        )
-        ->joinRight(
-            array('as' => 'author_string'),
-            'td.author_string_id = as.id',
-            array()
-        )
-        ->joinRight(
-            array('sc' => 'scrutiny'),
-            'td.scrutiny_id = sc.id',
-            array()
-        )
-        ->joinLeft(
-            array('sp' => 'specialist'),
-            'sc.specialist_id = sp.id',
-            array()
-        )
-        ->where('td.taxon_id = ?', (int)$id);
+        ->where('dsd.taxon_id = ?', (int)$id);
         
         foreach ($joinLeft as $jl) {
             $select->joinLeft($jl['name'], $jl['cond'], $jl['columns']);
@@ -273,17 +192,13 @@ class ACI_Model_Details extends AModel
         if (!$species instanceof ACI_Model_Table_Taxa) {
             return false;
         }
-        $species->lsid      = $this->getLsid($species->id);
+        $species->lsid      = ($species->id == $species->species_id ?
+            $species->species_lsid : $species->infra_lsid);
         $species->urls      = $this->getUrls($species->id);
         
-        $db = new ACI_Model_Table_Databases();
-        $dbDetails = $db->get($species->dbId);
-        
-        $species->dbImage   = $dbDetails['image'];
-        $species->dbName    = $dbDetails['abbreviated_name'];
-        $species->dbVersion = $dbDetails['version'];
-        
-        $species->hierarchy    = $this->speciesHierarchy($species->id);
+        $species->dbImage      = '/images/databases/' .
+            str_replace(' ','_',$species->dbName) . '.png';
+        $species->hierarchy    = $this->getHierachyFromSpecies($species);
         $species->synonyms     = $this->synonyms($species->id);
         $species->commonNames = $this->commonNames($species->id);
         $species->infraspecies = $this->infraspecies($species->id);
@@ -291,6 +206,111 @@ class ACI_Model_Details extends AModel
         $species->distribution = $this->distributions($species->id);
         
         return $species;
+    }
+    
+    public function getHierachyFromSpecies($species)
+    {
+        if($species->kingdom)
+        {
+            $res[] = array(
+                'record_id' => $species->kingdom_id,
+                'parent_id' => '',
+                'name' => $species->kingdom,
+                'taxon' => '',
+                'LSID' => $species->kingdom_lsid
+            );
+        }
+        if($species->phylum)
+        {
+            $res[] = array(
+                'record_id' => $species->phylum_id,
+                'parent_id' => '',
+                'name' => $species->phylum,
+                'taxon' => 'phylum',
+                'LSID' => $species->phylum_lsid
+            );
+        }
+        if($species->class)
+        {
+            $res[] = array(
+                'record_id' => $species->class_id,
+                'parent_id' => '',
+                'name' => $species->class,
+                'taxon' => 'class',
+                'LSID' => $species->class_lsid
+            );
+        }
+        if($species->order)
+        {
+            $res[] = array(
+                'record_id' => $species->order_id,
+                'parent_id' => '',
+                'name' => $species->order,
+                'taxon' => 'order',
+                'LSID' => $species->order_lsid
+            );
+        }
+        if($species->superfamily)
+        {
+            $res[] = array(
+                'record_id' => $species->superfamily_id,
+                'parent_id' => '',
+                'name' => $species->superfamily,
+                'taxon' => 'superfamily',
+                'LSID' => $species->superfamily_lsid
+            );
+        }
+        if($species->family)
+        {
+            $res[] = array(
+                'record_id' => $species->family_id,
+                'parent_id' => '',
+                'name' => $species->family,
+                'taxon' => 'family',
+                'LSID' => $species->family_lsid
+            );
+        }
+        if($species->genus)
+        {
+            $res[] = array(
+                'record_id' => $species->genus_id,
+                'parent_id' => '',
+                'name' => $species->genus,
+                'taxon' => 'genus',
+                'LSID' => $species->genus_lsid
+            );
+        }
+        if($species->subgenus)
+        {
+            $res[] = array(
+                'record_id' => $species->subgenus_id,
+                'parent_id' => '',
+                'name' => $species->subgenus,
+                'taxon' => 'subgenus',
+                'LSID' => $species->subgenus_lsid
+            );
+        }
+        if($species->species)
+        {
+            $res[] = array(
+                'record_id' => $species->species_id,
+                'parent_id' => '',
+                'name' => $species->species,
+                'taxon' => 'species',
+                'LSID' => $species->species_lsid
+            );
+        }
+        if($species->infra)
+        {
+            $res[] = array(
+                'record_id' => $species->infra_id,
+                'parent_id' => '',
+                'name' => $species->infra,
+                'taxon' => 'infraspecies',
+                'LSID' => $species->infa_lsid
+            );
+        }
+        return $res;
     }
     
     /**
@@ -798,22 +818,8 @@ class ACI_Model_Details extends AModel
 
     public function getLsid($taxon_id)
     {
-        $select = new Zend_Db_Select($this->_db);
-        $select->from(
-            array('utt' => 'uri_to_taxon'),
-            array(
-                'uri.resource_identifier',
-                'uri.uri_scheme_id'
-            )
-        )
-        ->joinRight(
-            array('uri' => 'uri'),
-            'utt.uri_id = uri.id',
-            array()
-        )
-        ->where('utt.taxon_id = ? AND uri.uri_scheme_id = 9', $taxon_id);
-        $lsid = $select->query()->fetchAll();
-        return $lsid[0]['resource_identifier'];
+        return ($species->species_id == $species->taxon_id ? $species->species_lsid :
+            $species->infraspecies_lsid);
     }
 
     public function getUrls($taxon_id)
