@@ -72,11 +72,11 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
         
         $translator = Zend_Registry::get('Zend_Translate');
         
-        $clear = $this->createElement('SubmitButton', 'clear')
+        $clear = $this->createElement('Button', 'clear')
             ->setOptions(array('onclick' => 'javascript="window.refresh(true)"'))
             ->setLabel('Clear_form');
         
-        $submit = $this->createElement('Button', 'search')
+        $submit = $this->createElement('SubmitButton', 'search')
             ->setLabel($translator->translate('Search'));
         
         $this->addElement($match)
