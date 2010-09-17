@@ -770,7 +770,7 @@ class ACI_Model_Search extends AModel
             $select->distinct()
                ->from(array('hard_coded_taxon_lists'), array('name'))
                ->where('rank = ?', $rank)
-               ->where('name LIKE "' . $qStr . '"')
+               ->where('name LIKE "' . $str . '%"')
                ->where('accepted_names_only = 1')
                ->order(
                    array(
