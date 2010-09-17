@@ -761,10 +761,10 @@ class ACI_Model_Search extends AModel
                ->where(
                    "`$rank` NOT IN('', 'Not assigned') AND " .
                    "is_accepted_name = 1 AND " .
-                   "`$rank` LIKE \"" . $qStr . "\""
+                   "`$rank` LIKE \"" . $str . "%\""
                )
                ->order(
-                   array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"), $rank)
+                   array($rank)
                );
         } else { // Search for species in hard_coded_taxon_lists
             $select->distinct()
@@ -774,7 +774,6 @@ class ACI_Model_Search extends AModel
                ->where('accepted_names_only = 1')
                ->order(
                    array(
-                       new Zend_Db_Expr('INSTR(name, "' . $str . '")'),
                        'name'
                    )
                )
