@@ -556,16 +556,13 @@ class ACI_Model_Search extends AModel
                 'cn.common_name = "' . $searchKey . '"'
             );
             $select->orWhere(
-                'cn.common_name LIKE "%&#32;' . $searchKey . '"'
+                'cn.common_name LIKE "% ' . $searchKey . '"'
             );
             $select->orWhere(
-                'cn.common_name LIKE "' . $searchKey . '&#32;%"'
+                'cn.common_name LIKE "' . $searchKey . ' %"'
             );
             $select->orWhere(
-                'cn.common_name LIKE "%&#32;' . $searchKey . '&#32;%"'
-            );
-            $select->orWhere(
-                'cn.common_name REGEXP "' . $replacedSearchKey . '"'
+                'cn.common_name LIKE "% ' . $searchKey . ' %"'
             );
         }
         else {
