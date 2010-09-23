@@ -334,6 +334,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             'superfamily',
             'superfamilies',
             '^family',
+            'family',
             'genera',
             '^genus',
             'genus',
