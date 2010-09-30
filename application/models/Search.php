@@ -55,8 +55,8 @@ class ACI_Model_Search extends AModel
         $regexpSearchKey = strtolower(str_replace('*', '.*', $searchKey));
         $mysqlSearchKey = strtolower(str_replace('*', '%', $searchKey));
         
-        return array(
-            new Zend_Db_Expr(
+        return array('name'
+/*            new Zend_Db_Expr(
                 'IF(rank < '. ACI_Model_Table_Taxa::RANK_SPECIES . ', rank, 99)'
             ),
             new Zend_Db_Expr(
@@ -74,7 +74,7 @@ class ACI_Model_Search extends AModel
                 new Zend_Db_Expr('CONCAT(IF(LOWER(name) REGEXP
                     "[[:<:]]' . $regexpSearchKey . '[[:>:]]", "G", "H"), name)'
                 ) : 'name'
-             )
+             )*/
         );
     }
     
@@ -390,7 +390,7 @@ class ACI_Model_Search extends AModel
                 ACI_Model_Table_Taxa::RANK_CLASS . ' ' .
             'WHEN "Order" THEN ' .
                 ACI_Model_Table_Taxa::RANK_ORDER . ' ' .
-            'WHEN "Supefamily" THEN ' .
+            'WHEN "Superfamily" THEN ' .
                 ACI_Model_Table_Taxa::RANK_SUPERFAMILY . ' ' .
             'WHEN "Family" THEN ' .
                 ACI_Model_Table_Taxa::RANK_FAMILY . ' ' .
@@ -557,16 +557,13 @@ class ACI_Model_Search extends AModel
                 'cn.common_name = "' . $searchKey . '"'
             );
             $select->orWhere(
-                'cn.common_name LIKE "%&#32;' . $searchKey . '"'
+                'cn.common_name LIKE "' . $searchKey . ' %"'
             );
             $select->orWhere(
-                'cn.common_name LIKE "' . $searchKey . '&#32;%"'
+                'cn.common_name LIKE "% ' . $searchKey . '"'
             );
             $select->orWhere(
-                'cn.common_name LIKE "%&#32;' . $searchKey . '&#32;%"'
-            );
-            $select->orWhere(
-                'cn.common_name REGEXP "' . $replacedSearchKey . '"'
+                'cn.common_name LIKE "% ' . $searchKey . ' %"'
             );
         }
         else {
@@ -774,11 +771,11 @@ class ACI_Model_Search extends AModel
             $select->distinct()
                ->from(array('hard_coded_taxon_lists'), array('name'))
                ->where('rank = ?', $rank)
-               ->where('name LIKE "' . $qStr . '"')
+               ->where('name LIKE "' . $str . '%"')
                ->where('accepted_names_only = 1')
                ->order(
                    array(
-                       new Zend_Db_Expr('INSTR(name, "' . $str . '")'),
+//                       new Zend_Db_Expr('INSTR(name, "' . $str . '")'),
                        'name'
                    )
                )
