@@ -390,7 +390,7 @@ class ACI_Model_Search extends AModel
                 ACI_Model_Table_Taxa::RANK_CLASS . ' ' .
             'WHEN "Order" THEN ' .
                 ACI_Model_Table_Taxa::RANK_ORDER . ' ' .
-            'WHEN "Supefamily" THEN ' .
+            'WHEN "Superfamily" THEN ' .
                 ACI_Model_Table_Taxa::RANK_SUPERFAMILY . ' ' .
             'WHEN "Family" THEN ' .
                 ACI_Model_Table_Taxa::RANK_FAMILY . ' ' .
