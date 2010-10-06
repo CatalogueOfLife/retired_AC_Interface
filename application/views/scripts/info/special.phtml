@@ -17,53 +17,83 @@ printf($this->translate('Info_special_edition'), $this->app->edition);
 ?>
 </div>
 <?php
-echo $this->navigator_top;
+echo $this->navigator_top
 ?>
 <div class="info_content">
 
-<p class="iyb-slogan">"Biodiversity is Life"</p>
+<p class="iyb-slogan">In this 2nd October 2010 version</p>
+
+<p class="field_header">There are three new taxonomic databases:</p>
+
 <p>
-<a href="http://www.cbd.int/2010" target="_blank" title="2010 International Year of Biodiversity">
-    <img
-    class="right-align"
-    src="<?php echo $this->baseUrl(); ?>/images/IYB2010_Logo_English_sm.jpg"
-    width="170" height="66">
-</a>
-This Special Edition of the Catalogue of Life has been published by arrangement
-with the UN Convention on Biological Diversity, in the International Year of
-Biodiversity 2010.
+<div style='margin-left: 10px;'> 
+<p>&#8226; CunaxidBase: Family Cunaxidae Database by J. den Heyer.</p>
+<p>&#8226; LIAS: A Global Information System for Lichenized and Non-Lichenized Ascomycetes by G. Rambold as the lead editor (LIAS database replaces the lichen taxa previously provided by Species Fungorum).</p>
+<p>&#8226; WoRMS Bryozoa: World Marine Bryozoa Database by P. Bock & D. Gordon (WoRMS Bryozoa replaces the bryozoan taxa previously provided by ITIS).</p> 
+</div>
 </p>
+<p>&nbsp;</p>
+<p class="field_header">Four taxonomic databases have been updated:</p>
+
 <p>
-We rely on the diversity of life to provide us with the food, fuel, medicine
-and other essentials we simply cannot live without. Yet this rich diversity is
-being lost at a greatly accelerated rate because of human activities.
-Cataloguing and sharing information on the names, taxonomy and distribution of
-species is fundamental to achieving global biodiversity conservation. Work to
-complete the Catalogue of Life helps to underpin knowledge of biodiversity
-world-wide.
+<div style='margin-left: 10px;'> 
+<p>&#8226; Lacistemataceae Holistic Database</p>
+<p>&#8226; SalticidDB</p>
+<p>&#8226; World Scarabaeidae Database</p>
+<p>&#8226; WTaxa</p>
+</div>
+</p>
+<p>&nbsp;</p>
+<p class="field_header">Additional data has been contributed:</p>
+
+<p>
+<div style='margin-left: 10px;'> 
+<p>&#8226; Aljos Farjon (Conifer Database) contributed over 4,000 new Conifer common names in 20 languages as a result of his 4D4Life pilot project.</p>
+<p>&#8226; Paul Schoolmeesters (Scarabs database) contributed 11,720 new species from the family Melolonthidae as a result of his 4D4Life pilot project.</p>
+</div>
+<p>&nbsp;</p>
+</p>
+<p class="field_header">New feature:</p>
+<p>A full list of citations for the contributing databases, using the recommended style, is now available from the <a href ='www.catalogueoflife.org/col/info/cite'>how to cite</a> page at <a href ='www.catalogueoflife.org/col/info/cite'>www.catalogueoflife.org/col/info/cite</a>. These may be used for copying & pasting such citations.</p>
+
+<br />
+<hr />
+<p>&nbsp;</p>
+<p class="iyb-slogan">In the Catalogue of Life, 1st July 2010</p>
+
+
+<p class="field_header">Eight taxonomic databases have been updated:</p>
+
+<p>
+<div style='margin-left: 10px;'> 
+<p>&#8226; Aphid Species File,</p>
+<p>&#8226; Blattodea Species File,</p>
+<p>&#8226; Conifer Database,</p> 
+<p>&#8226; Global Taxonomic Database of Gracillariidae,</p>
+<p>&#8226; Orthoptera Species File,</p> 
+<p>&#8226; Phasmida Species File,</p> 
+<p>&#8226; Plecoptera Species File,</p> 
+<p>&#8226; Mantodea Species File</p> 
+</div>
 </p>
 
-<p class="field_header">International Year of Biodiversity 2010</p>
-<p>
-The Catalogue of Life programme celebrates the diversity of life on Earth. It
-aims to accumulate and synthesise knowledge about the entire diversity of life,
-and to create a uniform and validated index to all known species for use
-throughout society.
-</p>
+<p>&nbsp;</p>
+<p class="field_header">The following bugs have been fixed:</p>
+<div style='margin-left: 10px;margin-right: 100px'>
+<p>&#8226; Missing order names in some ITIS sectors returned back.</p>
+<p>&#8226; 175 ITIS family names have been misplaced in superfamily field in AC10. Corrected in this version.</p> 
+<p>&#8226; 52,654 empty infraspecific marker values caused the problem with species and infraspecific taxa statistics in AC10. Problem fixed in this version.</p> 
+<p>&#8226; 33,017 missing common names have been returned back to the database.</p>
+<p>&#8226; Position of the family Poaceae in the classification have been corrected.</p>
+<p>&#8226; Redundant phylum name Hepatophyta has been deleted. All liverworts species are placed in the phylum Marchantiophyta.</p>
+<p>&#8226; Few duplications in species authorstrings have been fixed.</p>
+</div>
 
-<p class="field_header"><em>Global Taxonomy Initiative</em></p>
-<p>
-The Catalogue of Life contributes towards "a widely accessible checklist of
-known species" prioritised by the Global Taxonomy Initiative of the UN
-Convention on Biological Diversity.
-</p>
-
-<p class="field_header"><em>Global Strategy for Plant Conservation</em></p>
-<p>
-The Catalogue of Life contributes towards assembling "a widely accessible
-working list of known plant species" prioritised by the Global Strategy for
-Plant Conservation Target 1.
-</p>
+<p>&nbsp;</p>
+<p class="field_header">Changes in the management classification:</p>
+<div style='margin-left: 10px;margin-right: 100px'>
+<p>&#8226; Phylum name &quot;Ectoprocta&quot; has been changed to &quot;Bryozoa&quot; in response to request from Dennis Gordon (22 July 2010)</p>
+</div>
 
 </div>
 <?php
