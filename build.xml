@@ -9,7 +9,6 @@
     
     <patternset id="inc.php.files">
         <include name="**/*.php" />
-        <exclude name="**/tests/**" />
         <exclude name="**/library/**" />
         <exclude name="**/public/scripts/**" />
     </patternset>
