@@ -12,7 +12,7 @@
  */
 class ACI_Model_Table_Totals extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'totals';
+    protected $_name = '_totals';
     protected $_primary = 'description';
     protected static $_numCommonNames;
     protected static $_numAcceptedNames;

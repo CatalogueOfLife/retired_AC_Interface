@@ -22,7 +22,7 @@ class ACI_Model_Info extends AModel
     public static function getRightColumnName($columName)
     {
         $columMap = array(
-            'source' => 'name',
+            'source' => 'full_name',
             'group' => 'english_name',
             'names' => 'total_species'
         );
@@ -30,23 +30,23 @@ class ACI_Model_Info extends AModel
             $columMap[$columName] : null;
     }
     
-    public function getSourceDatabases($order =  'name', $direction = 'asc')
+    public function getSourceDatabases($order =  'source', $direction = 'asc')
     {
         $select = new Zend_Db_Select($this->_db);
         $select->from(
-            array('dsdt' => 'denormalized_source_database_table'),
+            array('dsdd' => '_source_database_details'),
             array(
-                'id' => 'dsdt.id',
-                'name' => 'dsdt.name',
-                'abbreviation' => 'dsdt.abbreviation',
-                'taxa' => 'dsdt.english_name',
-                'total_species' => 'dsdt.total_species',
-                'is_new' => 'dsdt.is_new'
+                'id' => 'dsdd.id',
+                'name' => 'dsdd.full_name',
+                'abbreviation' => 'dsdd.short_name',
+                'taxa' => 'dsdd.english_name',
+                'total_species' => 'dsdd.number_of_species',
+                'is_new' => 'dsdd.is_new'
             )
         )
         ->order(
             array(
-                'dsdt.' . $this->getRightColumnName($order) . ' ' .
+                'dsdd.' . $this->getRightColumnName($order) . ' ' .
                     strtoupper($direction)
             )
         );

@@ -83,7 +83,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $res[$i]['name'] = $this->_appendTaxaSuffix(
                 $this->_wrapTaxaName(
                     $textDecorator->highlightMatch(
-                        $row['name'],
+                        ucfirst(trim($row['name'])),
                         $this->getRequest()->getParam('key', false) ?
                         $this->getRequest()->getParam('key') :
                         array(
@@ -108,7 +108,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 ACI_Model_Table_Taxa::getStatusString($row['status'])
             );
             
-            $res[$i]['group'] = $row['kingdom'];
+            $res[$i]['group'] = ucfirst($row['kingdom']);
             
             // Status + accepted name
             if ((isset($row['is_accepted_name']) && !$row['is_accepted_name']) ||
@@ -117,8 +117,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     $res[$i]['status'],
                     $this->_appendTaxaSuffix(
                         $this->_wrapTaxaName(
-                            (isset($row['accepted_species_name']) ?
-                                $row['accepted_species_name'] : $row['name']),
+                            ucfirst(trim((isset($row['accepted_species_name']) ?
+                                $row['accepted_species_name'] : $row['name']))),
                             ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME,
                             $row['rank']
                         ),

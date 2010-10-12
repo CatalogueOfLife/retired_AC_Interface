@@ -178,7 +178,7 @@ class ACI_Model_Details extends AModel
         }
         
         $select->from(
-            array('dsd' => 'denormalized_species_details'),
+            array('dsd' => '_species_details'),
             array_merge($fields, $extraFields)
         )
         ->where('dsd.taxon_id = ?', (int)$id);
@@ -375,7 +375,7 @@ class ACI_Model_Details extends AModel
         if (!$res) {
             $select = new Zend_Db_Select($this->_db);
             $select->from(
-                array('tree' => 'temp_taxon_tree'),
+                array('tree' => '_taxon_tree'),
                 array(
                     'record_id' => 'tree.taxon_id',
                     'parent_id' => 'tree.parent_id',
@@ -658,8 +658,13 @@ class ACI_Model_Details extends AModel
         ->from(
             array('d' => 'distribution_free_text'),
             array(
-                'distribution' => 'd.free_text'
+                'distribution' => 'rft.free_text'
             )
+        )
+        ->joinRight(
+            array('rft' => 'region_free_text'),
+            'd.region_free_text_id = rft.id',
+            array()
         )
         ->where('d.taxon_detail_id = ?', $taxon_id);
         

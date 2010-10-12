@@ -28,8 +28,8 @@ class ACI_View_Helper_InternalLink extends Zend_View_Helper_Abstract
                 $replace[] = '<a href="' . $this->view->baseUrl() .
                     '/details/database/id/' . $match . '"
                     alt="' . $db['database_name'] . '"
-                    title="'. ($db['short_name'] == $db['full_name'] ?
-                        $db['short_name'] :
+                    title="'. (strstr($db['full_name'],$db['short_name']) ?
+                        $db['full_name'] :
                         $db['short_name'] . ': ' . $db['full_name']) . '">'.
                     $db['database_name'] .'</a>' . ($db['is_new'] ? $new : '');
             }

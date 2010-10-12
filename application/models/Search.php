@@ -40,7 +40,7 @@ class ACI_Model_Search extends AModel
     
     protected static function _getDefaultSortExpression($searchKey,
         $matchWholeWords)
-    { return;
+    {
         if (is_array($searchKey)) {
             // Scientific search, multiple fields
             $searchKey = trim(
@@ -60,7 +60,7 @@ class ACI_Model_Search extends AModel
                 'IF(LENGTH(species) > 0, 1, 99)'
             ),
             new Zend_Db_Expr(
-                'CONCAT(IF(name_status = "common name", "D", "C"), "")'
+                'CONCAT(IF(name_status = 6, "D", "C"), "")'
             ),
             new Zend_Db_Expr(
                 'CONCAT(IF(' .
@@ -252,7 +252,7 @@ class ACI_Model_Search extends AModel
         $select = new Zend_Db_Select($this->_db);
         
         $select->from(
-            array('dsd' => 'denormalized_search_distribution'),
+            array('dsd' => '_search_distribution'),
                 array(
                     '*',
                     'status' => new Zend_Db_Expr(1),
@@ -396,12 +396,13 @@ class ACI_Model_Search extends AModel
         $select = new Zend_Db_Select($this->_db);
         
         $select->from(
-            array('tst' => 'temp_search_table'),
+            array('tst' => '_search_all'),
             array(
                 'id' => 'tst.id',
                 'taxa_id' => 'tst.accepted_taxon_id',
                 'rank' => self::getRankDefinition(),
                 'tst.name',
+                'species' => 'tst.name',
                 'author' => 'name_suffix',
                 'language' => new Zend_Db_Expr("''"),
                 'accepted_species_id' => 'tst.accepted_taxon_id',
@@ -452,7 +453,7 @@ class ACI_Model_Search extends AModel
         
         $select->from(
             array(
-                'tst' => 'temp_search_table'
+                'tst' => '_search_all'
             ),
             array(
                 'id' => 'tst.id',
@@ -532,7 +533,11 @@ class ACI_Model_Search extends AModel
             }
         }
         $select->from(
-            array('dss' => 'denormalized_search_scientific')
+            array('dss' => '_search_scientific'),
+            array('*',
+                'name' => 'CONCAT(genus," ",species," ",infraspecies)',
+                'name_status' => 'status'
+            )
         );
         return $select;
     }
@@ -603,7 +608,7 @@ class ACI_Model_Search extends AModel
         $field = $rank;
         $select->distinct()
         ->from(
-            array('dss' => 'denormalized_search_scientific'),
+            array('dss' => '_search_scientific'),
             array('name' => $field)
         );
         if ($str) {
@@ -651,7 +656,7 @@ class ACI_Model_Search extends AModel
         $select = new Zend_Db_Select($this->_db);
 //        $rank = $this->getRankFromId($rankId);
         $select->distinct()
-        ->from(array('denormalized_search_scientific'), array('name' => $rank))
+        ->from(array('_search_scientific'), array('name' => $rank))
         ->where(
             "`$rank` NOT IN('', 'Not assigned') AND " .
             "accepted_species_id = 0 AND ".
@@ -702,7 +707,7 @@ class ACI_Model_Search extends AModel
         // Higher taxa
 //        if ($this->stringRefersToHigherTaxa($rank)) {
             $select->from(
-                array('denormalized_search_scientific'),
+                array('_search_scientific'),
                 array('total' => new Zend_Db_Expr('COUNT(*)'))
             )->where("`$rank` = ?", $name);
 /*        } else { // Genus, species, infraspecies
@@ -779,7 +784,7 @@ class ACI_Model_Search extends AModel
     {
         $select = new Zend_Db_Select($this->_db);
         $select->from(
-            array('ttt' => 'temp_taxon_tree'),
+            array('ttt' => '_taxon_tree'),
             array(
                 'id' => 'ttt.taxon_id',
                 'snId' => new Zend_Db_Expr('""'),

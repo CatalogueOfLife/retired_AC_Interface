@@ -12,7 +12,7 @@
  */
 class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'denormalized_source_database_details';
+    protected $_name = '_source_database_details';
     protected $_primary = 'id';
     protected static $_numDatabases;
     protected static $_numDatabasesNew;
@@ -184,9 +184,9 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
                 'order_id' => 'dsdtc.order_id'
                 )
         )->joinRight(
-            array('dsdtc' => 'denormalized_source_database_taxonomic_coverage'),
-            'denormalized_source_database_details.id = dsdtc.source_database_id'
-        )->where('denormalized_source_database_details.id = ?'
+            array('dsdtc' => '_source_database_taxonomic_coverage'),
+            '_source_database_details.id = dsdtc.source_database_id'
+        )->where('_source_database_details.id = ?'
         )
         ->bind(array($id));
         $rows = $this->fetchAll($select);
@@ -215,13 +215,13 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
             array('uri.resource_identifier')
         )->joinLeft(
             array('utsd' => 'uri_to_source_database'),
-            'denormalized_source_database_details.id = utsd.source_database_id',
+            '_source_database_details.id = utsd.source_database_id',
             array()
         )->joinLeft(
             array('uri'),
             'utsd.uri_id = uri.id',
             array()
-        )->where('denormalized_source_database_details.id = ?'
+        )->where('_source_database_details.id = ?'
         )
         ->bind(array($id));
         $rows = $this->fetchAll($select);
