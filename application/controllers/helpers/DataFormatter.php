@@ -293,7 +293,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             !$speciesDetails->dbVersion) {
             $speciesDetails->dbName = $textDecorator->getEmptyField();
         }
-        if (!$speciesDetails->scrutinyDate &&
+        $speciesDetails->dbVersion = $this->formatDate($speciesDetails->dbVersion);
+        if ((!$speciesDetails->scrutinyDate || $speciesDetails->scrutinyDate = '0000-00-00') &&
             !$speciesDetails->specialistName) {
             $speciesDetails->latestScrutiny = $textDecorator->getEmptyField();
         } else {
@@ -302,7 +303,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     ', ',
                     array(
                         $speciesDetails->specialistName,
-                        $speciesDetails->scrutinyDate
+                        $this->formatDate($speciesDetails->scrutinyDate)
                     )
                 ), ',')
             );
@@ -316,6 +317,30 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         $speciesDetails->preface = $preface;
         
         return $speciesDetails;
+    }
+    
+    public function formatDate($date)
+    {
+        if($date == '0000-00-00') {
+            return '';
+        }
+        //changes yyyy-mm-dd into dd mmm yyyy
+        $date_elements = explode('-',$date);
+        $months = array(
+            1 => 'Jan',
+            2 => 'Feb',
+            3 => 'Mar',
+            4 => 'Apr',
+            5 => 'May',
+            6 => 'Jun',
+            7 => 'Jul',
+            8 => 'Aug',
+            9 => 'Sep',
+            10 => 'Oct',
+            11 => 'Nov',
+            12 => 'Dec',
+        );
+        return $date_elements[2] . ' ' . $months[$date_elements[1]] . ' ' . $date_elements[0];
     }
     
     public function formatDatabaseDetails(array $dbDetails)
