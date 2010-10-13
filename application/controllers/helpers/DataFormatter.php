@@ -294,7 +294,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $speciesDetails->dbName = $textDecorator->getEmptyField();
         }
         $speciesDetails->dbVersion = $this->formatDate($speciesDetails->dbVersion);
-        if ((!$speciesDetails->scrutinyDate || $speciesDetails->scrutinyDate = '0000-00-00') &&
+        if (!$speciesDetails->scrutinyDate &&
             !$speciesDetails->specialistName) {
             $speciesDetails->latestScrutiny = $textDecorator->getEmptyField();
         } else {
@@ -322,7 +322,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     public function formatDate($date)
     {
         if($date == '0000-00-00') {
-            return '';
+            return $date;
         }
         //changes yyyy-mm-dd into dd mmm yyyy
         $date_elements = explode('-',$date);
