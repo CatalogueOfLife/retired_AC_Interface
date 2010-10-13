@@ -489,6 +489,43 @@ class ACI_Model_Search extends AModel
             )
         );
         $column = (preg_match('/\s/',$searchKey) ? 'name' : 'name_element');
+        if ($matchWholeWords && $column == 'name_element') {
+            $select->where(
+                'tst.'.$column.' ' . (strstr($searchKey, '%') ? 'LIKE' : '=') . ' ? ',
+                $searchKey
+            );
+        } elseif ($matchWholeWords && !strstr($searchKey, '%')) {
+            $name_elements = explode(' ',$searchKey);
+            $having = '';
+            foreach($name_elements as $name_element)
+            {
+                $select->orWhere(
+                    'tst.name_element = ?',
+                    $name_element
+                );
+                $having .= ' AND `name` LIKE "%' . $name_element . '%"';
+            }
+        } else {
+            $select->where(
+                'tst.'.$column.' LIKE "%' . $searchKey . '%"'
+            );
+        }
+           
+        // Prevent multiple selection of the same taxon (cased by duplicated
+        // name codes)
+        $select->group(array('tst.id'));
+        if(isset($having)) {
+            $select->having(
+                'COUNT(tst.id) >= ' . count($name_elements) . $having
+            );
+        }
+        $select->order(array('name', 'status'));
+        /*
+         * 
+         * 
+         * 
+         * 
+         * 
         if ($matchWholeWords) {
             $replacedSearchKey = self::wildcardHandlingInRegExp(
                 $searchKey, 1
@@ -519,7 +556,7 @@ class ACI_Model_Search extends AModel
         }
         $select->group(
             array('name', 'language', 'accepted_species_name', 'db_id')
-        );
+        );*/
         return $select;
     }
     
