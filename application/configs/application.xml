@@ -4,7 +4,7 @@
     <production>
         <eti>
             <application>
-                <name>Annual Checklist Interface</name>
+                <name>Annual Checklist Interfaceblabla</name>
                 <edition>@APP.EDITION@</edition>
                 <version>@APP.VERSION@</version>
                 <revision>@APP.REVISION@</revision>
@@ -43,7 +43,7 @@
                 <defaultAction>all</defaultAction>
             </frontController>
             <view>
-                <encoding>ISO-8859-1</encoding>
+                <encoding>UTF-8</encoding>
                 <scripts>/scripts</scripts>      
             </view>            
         </resources>
