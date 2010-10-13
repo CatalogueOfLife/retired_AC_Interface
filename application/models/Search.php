@@ -418,7 +418,7 @@ class ACI_Model_Search extends AModel
         );
         
         $column = (preg_match('/\s/',$searchKey) ? 'name' : 'name_element');
-        if ($matchWholeWords && $column == 'name_element') {
+        if ($matchWholeWords && ($column == 'name_element' || strstr($searchKey, '%'))) {
             $select->where(
                 'tst.'.$column.' ' . (strstr($searchKey, '%') ? 'LIKE' : '=') . ' ? ',
                 $searchKey
@@ -489,7 +489,7 @@ class ACI_Model_Search extends AModel
             )
         );
         $column = (preg_match('/\s/',$searchKey) ? 'name' : 'name_element');
-        if ($matchWholeWords && $column == 'name_element') {
+        if ($matchWholeWords && ($column == 'name_element' || strstr($searchKey, '%'))) {
             $select->where(
                 'tst.'.$column.' ' . (strstr($searchKey, '%') ? 'LIKE' : '=') . ' ? ',
                 $searchKey
@@ -520,43 +520,7 @@ class ACI_Model_Search extends AModel
             );
         }
         $select->order(array('name', 'status'));
-        /*
-         * 
-         * 
-         * 
-         * 
-         * 
-        if ($matchWholeWords) {
-            $replacedSearchKey = self::wildcardHandlingInRegExp(
-                $searchKey, 1
-            );
-            // When non alphabetic characters are used, this first filtering
-            // will allow to match single words equal to the search key
-            $select->where(
-                'tst.'.$column.' = "' . $searchKey . '"'
-            );
-            if($column == 'name')
-            {
-                $select->orWhere(
-                    'tst.'.$column.' LIKE "%&#32;' . $searchKey . '"'
-                );
-                $select->orWhere(
-                    'tst.'.$column.' LIKE "' . $searchKey . '&#32;%"'
-                );
-                $select->orWhere(
-                    'tst.'.$column.' LIKE "%&#32;' . $searchKey . '&#32;%"'
-                );
-                $select->orWhere(
-                    'tst.'.$column.' REGEXP "' . $replacedSearchKey . '"'
-                );
-            }
-        }
-        else {
-            $select->where('tst.'.$column.' LIKE "%' . $searchKey . '%"');
-        }
-        $select->group(
-            array('name', 'language', 'accepted_species_name', 'db_id')
-        );*/
+        
         return $select;
     }
     
