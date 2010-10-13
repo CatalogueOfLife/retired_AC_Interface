@@ -423,6 +423,23 @@ class ACI_Model_Search extends AModel
                 'tst.'.$column.' ' . (strstr($searchKey, '%') ? 'LIKE' : '=') . ' ? ',
                 $searchKey
             );
+        } elseif ($matchWholeWords) {
+            $select->where(
+                'tst.'.$column.' '. (strstr($searchKey, '%') ? 'LIKE' : '=') .' ?',
+                $searchKey
+            );
+            $select->orWhere(
+                'tst.'.$column.' LIKE ?',
+                $searchKey . ' %'
+            );
+            $select->orWhere(
+                'tst.'.$column.' LIKE ?',
+                '% ' . $searchKey
+            );
+            $select->orWhere(
+                'tst.'.$column.' LIKE ?',
+                '% ' . $searchKey . ' %'
+            );
         } else {
             $select->where(
                 'tst.'.$column.' LIKE "%' . $searchKey . '%"'
