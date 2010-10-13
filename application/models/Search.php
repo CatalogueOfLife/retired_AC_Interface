@@ -423,23 +423,17 @@ class ACI_Model_Search extends AModel
                 'tst.'.$column.' ' . (strstr($searchKey, '%') ? 'LIKE' : '=') . ' ? ',
                 $searchKey
             );
-        } elseif ($matchWholeWords) {
-            $select->where(
-                'tst.'.$column.' '. (strstr($searchKey, '%') ? 'LIKE' : '=') .' ?',
-                $searchKey
-            );
-            $select->orWhere(
-                'tst.'.$column.' LIKE ?',
-                $searchKey . ' %'
-            );
-            $select->orWhere(
-                'tst.'.$column.' LIKE ?',
-                '% ' . $searchKey
-            );
-            $select->orWhere(
-                'tst.'.$column.' LIKE ?',
-                '% ' . $searchKey . ' %'
-            );
+        } elseif ($matchWholeWords && !strstr($searchKey, '%')) {
+            $name_elements = explode(' ',$searchKey);
+            $having = '';
+            foreach($name_elements as $name_element)
+            {
+                $select->orWhere(
+                    'tst.name_element = ?',
+                    $name_element
+                );
+                $having .= ' AND `name` LIKE "%' . $name_element . '%"';
+            }
         } else {
             $select->where(
                 'tst.'.$column.' LIKE "%' . $searchKey . '%"'
@@ -448,8 +442,13 @@ class ACI_Model_Search extends AModel
            
         // Prevent multiple selection of the same taxon (cased by duplicated
         // name codes)
-        $select->group(array('tst.id'))
-        ->order(array('name', 'status'));
+        $select->group(array('tst.id'));
+        if(isset($having)) {
+            $select->having(
+                'COUNT(tst.id) >= ' . count($name_elements) . $having
+            );
+        }
+        $select->order(array('name', 'status'));
          
         return $select;
     }
