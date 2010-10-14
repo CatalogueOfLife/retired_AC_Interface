@@ -639,9 +639,9 @@ class ACI_Model_Search extends AModel
         
         $rankId = $this->getRankIdFromString($rank);
         if ($rankId == ACI_Model_Table_Taxa::RANK_SPECIES) {
-            $select->where(
+/*            $select->where(
                 'LENGTH(TRIM(dss.infraspecies)) = 0'
-            );
+            );*/
         }
         else if ($rankId == ACI_Model_Table_Taxa::RANK_INFRASPECIES) {
             $select->where(
@@ -651,7 +651,7 @@ class ACI_Model_Search extends AModel
                 
         $select
             ->where("LENGTH(TRIM(`$field`)) > 0")
-            ->where('dss.accepted_species_id = 0')
+            ->where('dss.accepted_species_id = 0 OR dss.accepted_species_id IS NULL')
             ->order(
                 array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"), $rank)
             )
