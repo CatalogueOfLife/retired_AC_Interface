@@ -677,7 +677,7 @@ class ACI_Model_Search extends AModel
         ->where(
             "`$rank` NOT IN('', 'Not assigned') AND " .
             "(accepted_species_id = 0 OR accepted_species_id IS NULL) AND ".
-            "`$rank` LIKE \"" . $qStr . "\""
+            "`$rank` LIKE \"" . $str . "%\""
         )->order(
                    array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"), $rank)
        );
