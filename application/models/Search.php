@@ -629,7 +629,7 @@ class ACI_Model_Search extends AModel
             array('name' => $field)
         );
         if ($str) {
-            $select->where("`$rank` LIKE \"" . $qStr . "\"");
+            $select->where("`$rank` LIKE \"" . $str . "%\"");
         }
         foreach ($key as $p => $v) {
             $select->where(
@@ -733,7 +733,8 @@ class ACI_Model_Search extends AModel
 //        if ($this->stringRefersToHigherTaxa($rank)) {
             $select->from(
                 array(($rank == 'kingdom' || $rank == 'phylum' || $rank == 'class' ||
-          $rank == 'order' || $rank == 'superfamily' || $rank == 'family' ? '_search_family' : '_search_scientific')),
+                  $rank == 'order' || $rank == 'superfamily' || $rank == 'family' ?
+                  '_search_family' : '_search_scientific')),
                 array('total' => new Zend_Db_Expr('COUNT(*)'))
             )->where("`$rank` = ?", $name);
 /*        } else { // Genus, species, infraspecies
