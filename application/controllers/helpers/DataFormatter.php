@@ -31,7 +31,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 if($row['status'] == 'common name')
                 {
                     $row['status'] = 6;
-                    $row['author'] = $row['name_suffix_suffix'];
+                    $row['accepted_species_author'] = $row['name_suffix_suffix'];
                 }
             }
             // get accepted species data if yet not there
