@@ -54,7 +54,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     '/details/species/id/' . ($row['status'] != 6 ?
                         $row['id'] : '');
                 }
-                if ($row['status'] == 6) {
+                if ($row['status'] == 6) { var_dump($row);
                     $row['accepted_species_author'] = $row['name_suffix_suffix'];
                     $res[$i]['url'] .= $row['taxa_id'] .'/common/' . $row['id'];
                 } elseif (in_array($row['status'],array(2,3,5))) {
