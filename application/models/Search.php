@@ -732,7 +732,8 @@ class ACI_Model_Search extends AModel
         // Higher taxa
 //        if ($this->stringRefersToHigherTaxa($rank)) {
             $select->from(
-                array('_search_scientific'),
+                array(($rank == 'kingdom' || $rank == 'phylum' || $rank == 'class' ||
+          $rank == 'order' || $rank == 'superfamily' || $rank == 'family' ? '_search_family' : '_search_scientific')),
                 array('total' => new Zend_Db_Expr('COUNT(*)'))
             )->where("`$rank` = ?", $name);
 /*        } else { // Genus, species, infraspecies
