@@ -369,7 +369,7 @@ class ACI_Model_Search extends AModel
                 ACI_Model_Table_Taxa::RANK_CLASS . ' ' .
             'WHEN "order" THEN ' .
                 ACI_Model_Table_Taxa::RANK_ORDER . ' ' .
-            'WHEN "supefamily" THEN ' .
+            'WHEN "superfamily" THEN ' .
                 ACI_Model_Table_Taxa::RANK_SUPERFAMILY . ' ' .
             'WHEN "family" THEN ' .
                 ACI_Model_Table_Taxa::RANK_FAMILY . ' ' .
@@ -676,7 +676,7 @@ class ACI_Model_Search extends AModel
         ->from(array('_search_scientific'), array('name' => $rank))
         ->where(
             "`$rank` NOT IN('', 'Not assigned') AND " .
-            "accepted_species_id = 0 AND ".
+            "(accepted_species_id = 0 OR accepted_species_id IS NULL) AND ".
             "`$rank` LIKE \"" . $qStr . "\""
         )->order(
                    array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"), $rank)
