@@ -650,7 +650,7 @@ class ACI_Model_Search extends AModel
         }
                 
         $select
-            ->where("LENGTH(TRIM($field)) > 0")
+            ->where("LENGTH(TRIM(`$field`)) > 0")
             ->where('dss.accepted_species_id = 0')
             ->order(
                 array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"), $rank)
