@@ -31,7 +31,6 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 if($row['status'] == 'common name')
                 {
                     $row['status'] = 6;
-                    $row['accepted_species_author'] = $row['name_suffix_suffix'];
                 }
             }
             // get accepted species data if yet not there
@@ -56,7 +55,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                         $row['id'] : '');
                 }
                 if ($row['status'] == 6) {
-                        $res[$i]['url'] .= $row['taxa_id'] .'/common/' . $row['id'];
+                    $row['accepted_species_author'] = $row['name_suffix_suffix'];
+                    $res[$i]['url'] .= $row['taxa_id'] .'/common/' . $row['id'];
                 } elseif (in_array($row['status'],array(2,3,5))) {
                     $res[$i]['url'] .= '/synonym/'.$row['id'];
                 }
