@@ -672,9 +672,14 @@ class ACI_Model_Search extends AModel
     {
         $select = new Zend_Db_Select($this->_db);
 //        $rank = $this->getRankFromId($rankId);
-        $select->distinct()
-        ->from(array('_search_scientific'), array('name' => $rank))
-        ->where(
+        $select->distinct();
+        if($rank == 'kingdom' || $rank == 'phylum' || $rank == 'class' ||
+          $rank == 'order' || $rank == 'superfamily' || $rank == 'family' ) {
+            $select->from(array('_search_family'), array('name' => $rank));
+        } else {
+            $select->from(array('_search_scientific'), array('name' => $rank));
+        }
+        $select->where(
             "`$rank` NOT IN('', 'Not assigned') AND " .
             "(accepted_species_id = 0 OR accepted_species_id IS NULL) AND ".
             "`$rank` LIKE \"" . $str . "%\""
