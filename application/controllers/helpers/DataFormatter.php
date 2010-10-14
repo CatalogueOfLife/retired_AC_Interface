@@ -54,9 +54,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     '/details/species/id/' . ($row['status'] != 6 ?
                         $row['id'] : '');
                 }
-                if ($row['status'] == 6) { var_dump($row);
-                    $row['accepted_species_author'] = $row['name_suffix_suffix'];
-                    $res[$i]['url'] .= $row['taxa_id'] .'/common/' . $row['id'];
+                if ($row['status'] == 6) {
+                        $res[$i]['url'] .= $row['taxa_id'] .'/common/' . $row['id'];
                 } elseif (in_array($row['status'],array(2,3,5))) {
                     $res[$i]['url'] .= '/synonym/'.$row['id'];
                 }
@@ -127,7 +126,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                         ),
                         ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME,
                         (isset($row['accepted_species_author']) ?
-                            $row['accepted_species_author'] : $row['author'])
+                            $row['accepted_species_author'] : (isset($row['author']) ?
+                                $row['author'] : ''))
                     )
                 );
             }
