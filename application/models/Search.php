@@ -488,6 +488,9 @@ class ACI_Model_Search extends AModel
                 'status' => 'tst.name_status'
             )
         );
+        $select->where(
+            'name_status = 6'
+        );
         $column = (preg_match('/\s/',$searchKey) ? 'name' : 'name_element');
         if ($matchWholeWords && ($column == 'name_element' || strstr($searchKey, '%'))) {
             $select->where(
