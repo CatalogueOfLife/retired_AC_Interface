@@ -477,7 +477,7 @@ class ACI_Model_Search extends AModel
                 'rank' => 'tst.rank',
                 'name' => 'tst.name',
                 'is_accepted_name' => new Zend_Db_Expr(0),
-                'language' => 'tst.name_suffix',
+                'author' => 'tst.name_suffix',
                 'accepted_species_name' => 'tst.name_status_suffix',
                 'accepted_species_author' => 'tst.name_status_suffix_suffix',
                 'db_name' => 'tst.source_database',
