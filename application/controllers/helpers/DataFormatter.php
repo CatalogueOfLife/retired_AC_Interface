@@ -99,7 +99,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     $row['rank']
                 ),
                 $row['status'],
-                $row['status'] == 6 ?
+                $row['status'] == 6 && $row['author'] != '' ?
                 '(' . $row['author'] . ')' : $row['author']
             );
             $res[$i]['rank'] = $translator->translate(
