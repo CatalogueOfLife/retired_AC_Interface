@@ -87,7 +87,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     $textDecorator->highlightMatch(
                         ucfirst(trim($row['name'])),
                         $this->getRequest()->getParam('key', false) ?
-                        $this->getRequest()->getParam('key') :
+                        explode(' ',$this->getRequest()->getParam('key')) :
                         array(
                             $this->getRequest()->getParam('genus'),
                             $this->getRequest()->getParam('species'),
