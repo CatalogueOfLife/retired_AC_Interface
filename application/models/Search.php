@@ -474,7 +474,7 @@ class ACI_Model_Search extends AModel
             array(
                 'id' => 'tst.id',
                 'taxa_id' => 'tst.accepted_taxon_id',
-                'rank' => 'tst.rank',
+                'rank' => self::getRankDefinition(),
                 'name' => 'tst.name',
                 'is_accepted_name' => new Zend_Db_Expr(0),
                 'author' => 'tst.name_suffix',
