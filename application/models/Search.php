@@ -590,7 +590,11 @@ class ACI_Model_Search extends AModel
         }
         if (!$res) {
             if (strlen($cleanStr) < $this->_getMinStrLen($rank, $key)) {
-                return array('error' => true);
+                if(!in_array($rank,array('kingdom','phylum','class','order',
+                  'superfamily','family')))
+                {
+                    return array('error' => true);
+                }
             }
             $substr = explode('*', $query);
             $orderSubstr = $substr[0] ? $substr[0] : $substr[1];
