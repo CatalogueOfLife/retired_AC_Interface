@@ -632,8 +632,8 @@ class ACI_Model_Search extends AModel
         $field = $rank;
         if(($rank == 'kingdom' || $rank == 'phylum' || $rank == 'class' ||
           $rank == 'order' || $rank == 'superfamily' || $rank == 'family') &&
-          !in_array(array('genus'),$key) && !in_array(array('species'),$key) &&
-          !in_array(array('infraspecies'),$key) ) {
+          !array_key_exists('genus',$key) && !array_key_exists('species',$key) &&
+          !array_key_exists('infraspecies',$key) ) {
             $from = '_search_family';
         } else {
             $from = '_search_scientific';
@@ -668,8 +668,8 @@ class ACI_Model_Search extends AModel
         $select->where("LENGTH(TRIM(`$field`)) > 0");
         if(($rank == 'kingdom' || $rank == 'phylum' || $rank == 'class' ||
           $rank == 'order' || $rank == 'superfamily' || $rank == 'family') &&
-          !in_array(array('genus'),$key) && !in_array(array('species'),$key) &&
-          !in_array(array('infraspecies'),$key) ) {
+          !array_key_exists('genus',$key) && !array_key_exists('species',$key) &&
+          !array_key_exists('infraspecies',$key) ) {
               
         } else {
             $select->where('dss.accepted_species_id = 0 OR dss.accepted_species_id IS NULL');
