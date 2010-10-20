@@ -84,16 +84,18 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             }
             $res[$i]['name'] = $this->_appendTaxaSuffix(
                 $this->_wrapTaxaName(
-                    $textDecorator->highlightMatch(
-                        ucfirst(trim($row['name'])),
-                        $this->getRequest()->getParam('key', false) ?
-                        explode(' ',$this->getRequest()->getParam('key')) :
-                        array(
-                            $this->getRequest()->getParam('genus'),
-                            $this->getRequest()->getParam('species'),
-                            $this->getRequest()->getParam('infraspecies')
-                        ),
-                        (bool)$this->getRequest()->getParam('match')
+                    (!isset($row['distribution']) ?
+                        $textDecorator->highlightMatch(
+                            ucfirst(trim($row['name'])),
+                            $this->getRequest()->getParam('key', false) ?
+                            explode(' ',$this->getRequest()->getParam('key')) :
+                            array(
+                                $this->getRequest()->getParam('genus'),
+                                $this->getRequest()->getParam('species'),
+                                $this->getRequest()->getParam('infraspecies')
+                            ),
+                            (bool)$this->getRequest()->getParam('match')
+                        ) : ucfirst(trim($row['name']))
                     ),
                     $row['status'],
                     $row['rank']
