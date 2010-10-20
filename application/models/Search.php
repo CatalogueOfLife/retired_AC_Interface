@@ -626,9 +626,18 @@ class ACI_Model_Search extends AModel
     {
         $select = new Zend_Db_Select($this->_db);
         $field = $rank;
+        if(($rank == 'kingdom' || $rank == 'phylum' || $rank == 'class' ||
+          $rank == 'order' || $rank == 'superfamily' || $rank == 'family') &&
+          !in_array(array('genus'),$key) && !in_array(array('species'),$key) &&
+          !in_array(array('infraspecies'),$key) ) {
+            $from = '_search_family';
+        } else {
+            $from = '_search_scientific';
+        }
+        
         $select->distinct()
         ->from(
-            array('dss' => '_search_scientific'),
+            array('dss' => $from),
             array('name' => $field)
         );
         if ($str) {
@@ -652,10 +661,16 @@ class ACI_Model_Search extends AModel
             );
         }
                 
-        $select
-            ->where("LENGTH(TRIM(`$field`)) > 0")
-            ->where('dss.accepted_species_id = 0 OR dss.accepted_species_id IS NULL')
-            ->order(
+        $select->where("LENGTH(TRIM(`$field`)) > 0");
+        if(($rank == 'kingdom' || $rank == 'phylum' || $rank == 'class' ||
+          $rank == 'order' || $rank == 'superfamily' || $rank == 'family') &&
+          !in_array(array('genus'),$key) && !in_array(array('species'),$key) &&
+          !in_array(array('infraspecies'),$key) ) {
+              
+        } else {
+            $select->where('dss.accepted_species_id = 0 OR dss.accepted_species_id IS NULL');
+        }
+        $select->order(
                 array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"), $rank)
             )
             ->limit(self::API_ROWSET_LIMIT + 1);
@@ -678,11 +693,11 @@ class ACI_Model_Search extends AModel
         $select->distinct();
         $where = '';
         if($rank == 'kingdom' || $rank == 'phylum' || $rank == 'class' ||
-          $rank == 'order' || $rank == 'superfamily' || $rank == 'family' ) {
+          $rank == 'order' || $rank == 'superfamily' || $rank == 'family') {
             $select->from(array('_search_family'), array('name' => $rank));
         } else {
             $select->from(array('_search_scientific'), array('name' => $rank));
-            $where = "(accepted_species_id = 0 OR accepted_species_id IS NULL) AND ";
+//            $where = "(accepted_species_id = 0 OR accepted_species_id IS NULL) AND ";
             
         }
         $select->where(
