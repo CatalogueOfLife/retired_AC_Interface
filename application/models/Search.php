@@ -502,10 +502,18 @@ class ACI_Model_Search extends AModel
             $having = '';
             foreach($name_elements as $name_element)
             {
-                $select->orWhere(
-                    'tst.name_element = ?',
-                    $name_element
-                );
+                if($having == '')
+                {
+                    $select->where(
+                        'tst.name_element = ?',
+                        $name_element
+                    );
+                } else {
+                    $select->orWhere(
+                        'tst.name_element = ?',
+                        $name_element
+                    );
+                }
                 $having .= ' AND `name` LIKE "%' . $name_element . '%"';
             }
         } else {
