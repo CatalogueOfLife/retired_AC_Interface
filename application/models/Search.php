@@ -265,7 +265,7 @@ class ACI_Model_Search extends AModel
             $searchKey, $matchWholeWords
         );*/
         $select->where(
-            'MATCH (dsd.distribution) AGAINST ("'.$searchKey.'" IN BOOLEAN MODE)'
+            'MATCH (dsd.distribution) AGAINST ("'.$searchKey.'*" IN BOOLEAN MODE)'
         );
         return $select;
     }
