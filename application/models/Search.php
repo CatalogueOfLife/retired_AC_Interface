@@ -555,7 +555,7 @@ class ACI_Model_Search extends AModel
         $select->from(
             array('dss' => '_search_scientific'),
             array('*',
-                'name' => 'CONCAT(genus," ",species," ",infraspecies)',
+                'name' => 'CONCAT_WS(" ",genus,species,infraspecies)',
                 'name_status' => 'status'
             )
         );
