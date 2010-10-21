@@ -563,6 +563,8 @@ class ACI_Model_Details extends AModel
             array('t' => 'taxon'),
             array(
                 'id' => 't.id',
+                'genus' => 'sne_g.name_element',
+                'species' => 'sne_s.name_element',
                 'infraspecies' => 'sne_i.name_element',
                 'infraspecies_marker' => 't.id',
                 'author' => 'as.string',
@@ -619,7 +621,7 @@ class ACI_Model_Details extends AModel
             $infraspecies[$i]['id'] = $row['id'];
             $infraspecies[$i]['name'] =
                 ACI_Model_Table_Taxa::getAcceptedScientificName(
-                    $genus, $species, $row['infraspecies'],
+                    $row['genus'], $row['species'], $row['infraspecies'],
                     $row['rank'], $row['author']
                 );
             $infraspecies[$i]['url'] = '/details/species/id/' . $row['id'];
