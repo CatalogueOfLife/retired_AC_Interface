@@ -560,55 +560,54 @@ class ACI_Model_Details extends AModel
         
         $select
         ->from(
-            array('t' => 'taxon'),
+            array('tne_s' => 'taxon_name_element'),
             array(
-                'id' => 't.id',
+                'id' => 'tne_s.taxon_id',
                 'genus' => 'sne_g.name_element',
                 'species' => 'sne_s.name_element',
                 'infraspecies' => 'sne_i.name_element',
-                'infraspecies_marker' => 't.id',
-                'author' => 'as.string',
+                'infraspecies_marker' => 'tne_s.taxon_id',
+                'author' => 'aus.string',
                 'name' =>
-                    "TRIM(CONCAT(IF(sne_g.name_element IS NULL, '', sne_g.name_element) " .
-                    ", ' ', IF(sne_s.name_element IS NULL, '', sne_s.name_element)))",
+                    "CONCAT_WS(\" \",sne_g.name_element,sne_s.name_element,sne_i.name_element)",
                 'rank' => 't.taxonomic_rank_id'
             
             )
         )
-        ->joinRight(
-            array('tne_s' => 'taxon_name_element'),
-            't.id = tne_s.taxon_id',
-            array()
-        )->joinRight(
-            array('sne_s' => 'scientific_name_element'),
-            'tne_s.scientific_name_element_id = sne_s.id',
-            array()
-        )->joinRight(
+        ->joinLeft(
             array('tne_i' => 'taxon_name_element'),
             'tne_s.taxon_id = tne_i.parent_id',
             array()
-        )->joinRight(
-            array('sne_i' => 'scientific_name_element'),
-            'tne_i.scientific_name_element_id = sne_i.id',
-            array()
-        )->joinRight(
+        )->joinLeft(
             array('tne_g' => 'taxon_name_element'),
             'tne_g.taxon_id = tne_s.parent_id',
             array()
-        )->joinRight(
+        )->joinLeft(
             array('sne_g' => 'scientific_name_element'),
             'tne_g.scientific_name_element_id = sne_g.id',
             array()
-        )->joinRight(
-            array('td_i' => 'taxon_detail'),
-            'tne_i.taxon_id = td_i.taxon_id',
+        )->joinLeft(
+            array('sne_s' => 'scientific_name_element'),
+            'tne_s.scientific_name_element_id = sne_s.id',
             array()
-        )->joinRight(
-            array('as' => 'author_string'),
-            'td_i.author_string_id = as.id',
+        )->joinLeft(
+            array('sne_i' => 'scientific_name_element'),
+            'tne_i.scientific_name_element_id = sne_i.id',
+            array()
+        )->joinLeft(
+            array('td' => 'taxon_detail'),
+            'tne_i.taxon_id = td.taxon_id',
+            array()
+        )->joinLeft(
+            array('aus' => 'author_string'),
+            'td.author_string_id = aus.id',
+            array()
+        )->joinLeft(
+            array('t' => 'taxon'),
+            'tne_i.taxon_id = t.id',
             array()
         )
-        ->where('t.id = ?')
+        ->where('tne_s.taxon_id = ?')
         ->order(array('infraspecies', 'infraspecies_marker'));
         
         $select->bind(array($taxon_id));
