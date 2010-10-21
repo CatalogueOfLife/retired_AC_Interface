@@ -331,6 +331,16 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         }
         //changes yyyy-mm-dd into dd mmm yyyy
         $date_elements = explode('-',$date);
+        $i = 0;
+        foreach($date_elements as $value) {
+            $i++;
+            if(!is_numeric($value)) {
+                return $date;
+            }
+        }
+        if($i != 3) {
+            return $date;
+        }
         $months = array(
             1 => 'Jan',
             2 => 'Feb',
@@ -345,7 +355,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             11 => 'Nov',
             12 => 'Dec',
         );
-        return $date_elements[2] . ' ' . $months[$date_elements[1]] . ' ' . $date_elements[0];
+        return $date_elements[2] . ' ' . $months[intval($date_elements[1])] . ' ' . $date_elements[0];
     }
     
     public function formatDatabaseDetails(array $dbDetails)
