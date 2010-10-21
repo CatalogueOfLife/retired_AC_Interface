@@ -103,13 +103,13 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                     <th class="country"><?php echo $this->translate('Country'); ?></th>
                     <th class="trailing"></th>
                 </tr>
-            <?php $languageGroup = ($rowClass == "odd" ? "odd" : "even");
+            <?php $languageGroup = ($rowClass == "odd" ? "even" : "odd");
                 $previousLanguage = ''; ?>
             <?php foreach ($this->species->commonNames as $common): ?>
                 <?php if ($previousLanguage != $common['language'])
                 {
                     if ($languageGroup == "odd") $languageGroup = "even"; else $languageGroup = "odd"; } ?>
-                <tr class="<?php echo $languageGroup; ?>">
+                <tr class="language<?php echo $languageGroup; ?>">
                     <td><?php echo $common['common_name']; ?></td>
                     <td><?php echo $common['language'] ? $common['language'] : '-'; ?></td>
                     <td><?php echo $common['country'] ? $common['country'] : '-'; ?></td>

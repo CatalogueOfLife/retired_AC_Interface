@@ -109,6 +109,13 @@ tr.even td, tr.even th {
 tr.odd td, tr.odd th {
     background-color: #eaf2f7;
 }
+tr.languageeven td, tr.languageeven th {
+    background-color: #fafcfe;
+}
+
+tr.languageodd td, tr.languageodd th {
+    background-color: #eaf2f7;
+}
 tr.divisor td {
     height: 20px;
     border-bottom: 1px solid #336;
