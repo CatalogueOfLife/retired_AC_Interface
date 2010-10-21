@@ -258,14 +258,14 @@ class ACI_Model_Search extends AModel
                     'status' => new Zend_Db_Expr(1),
                     'id' => 'dsd.accepted_species_id'
                 )
-        )
-        ->where('dsd.distribution LIKE ?', '%' . $searchKey . '%');
+        );
+/*        ->where('dsd.distribution LIKE ?', '%' . $searchKey . '%');
         
         $replacedSearchKey = self::wildcardHandlingInRegExp(
             $searchKey, $matchWholeWords
-        );
+        );*/
         $select->where(
-            ' dsd.distribution REGEXP "' . $replacedSearchKey . '" = 1'
+            'MATCH (dsd.distribution) AGAINST ("$searchKey")'
         );
         return $select;
     }
