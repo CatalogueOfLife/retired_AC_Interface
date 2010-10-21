@@ -254,7 +254,7 @@ class ACI_Model_Table_Taxa
     public static function getAcceptedScientificName($genus, $species,
         $infraspecies, $rank, $author)
     {
-        $name  = "<i>$genus $species";
+        $name  = "<i>".ucfirst($genus)." $species";
         if ($infraspecies) {
             if (self::getInfraSpecificMarker($rank)) {
                 $name .= "</i> ".self::getInfraSpecificMarker($rank)." <i>$infraspecies";
