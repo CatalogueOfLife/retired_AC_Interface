@@ -709,8 +709,7 @@ class ACI_Model_Search extends AModel
             $select->from(array('_search_family'), array('name' => $rank));
         } else {
             $select->from(array('_search_scientific'), array('name' => $rank));
-//            $where = "(accepted_species_id = 0 OR accepted_species_id IS NULL) AND ";
-            
+            $select->where('accepted_species_id = 0 OR accepted_species_id IS NULL');
         }
         $select->where(
             "`$rank` NOT IN('', 'Not assigned') AND " .
