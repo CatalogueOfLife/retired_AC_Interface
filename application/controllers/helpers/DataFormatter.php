@@ -330,7 +330,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             return $date;
         }
         //changes yyyy-mm-dd into dd mon yyyy
-        return date('d-M-Y', strtotime($date));
+        return date('d M Y', strtotime($date));
     }
     
     public function formatDatabaseDetails(array $dbDetails)
