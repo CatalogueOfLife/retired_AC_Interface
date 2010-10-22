@@ -448,7 +448,7 @@ class ACI_Model_Search extends AModel
                 'COUNT(tst.id) >= ' . count($name_elements) . $having
             );
         }
-        $select->order(array('name', 'status'));
+        $select->order(array('`name`', '`status`'));
          
         return $select;
     }
@@ -530,7 +530,7 @@ class ACI_Model_Search extends AModel
                 'COUNT(tst.id) >= ' . count($name_elements) . $having
             );
         }
-        $select->order(array('name', 'status'));
+        $select->order(array('`name`', '`status`'));
         
         return $select;
     }
@@ -856,8 +856,8 @@ class ACI_Model_Search extends AModel
         ->order(
             array(
                 new Zend_Db_Expr('ttt.rank <> "superfamily"'),
-                new Zend_Db_Expr('INSTR(ttt.name, "Not assigned")'),
-                'ttt.name'
+                new Zend_Db_Expr('INSTR(ttt.`name`, "Not assigned")'),
+                'ttt.`name`'
             )
         );
         $res = $select->query()->fetchAll();
