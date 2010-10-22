@@ -329,33 +329,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         if($date == '0000-00-00') {
             return $date;
         }
-        //changes yyyy-mm-dd into dd mmm yyyy
-        $date_elements = explode('-',$date);
-        $i = 0;
-        foreach($date_elements as $value) {
-            $i++;
-            if(!is_numeric($value)) {
-                return $date;
-            }
-        }
-        if($i != 3) {
-            return $date;
-        }
-        $months = array(
-            1 => 'Jan',
-            2 => 'Feb',
-            3 => 'Mar',
-            4 => 'Apr',
-            5 => 'May',
-            6 => 'Jun',
-            7 => 'Jul',
-            8 => 'Aug',
-            9 => 'Sep',
-            10 => 'Oct',
-            11 => 'Nov',
-            12 => 'Dec',
-        );
-        return $date_elements[2] . ' ' . $months[intval($date_elements[1])] . ' ' . $date_elements[0];
+        //changes yyyy-mm-dd into dd mon yyyy
+        return date('d-M-Y', strtotime($date));
     }
     
     public function formatDatabaseDetails(array $dbDetails)
