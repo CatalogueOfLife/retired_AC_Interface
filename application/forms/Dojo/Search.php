@@ -32,7 +32,7 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
         
 /*        $match = $this->createElement('CheckBox', 'match')->setValue(1)
             ->setLabel('Match_whole_words_only');*/
-        $match = $this->createElement('radio','match')->setValue(1)
+        $match = $this->createElement('radio','match')->setValue(2)
           ->addMultiOption(2,'Match_starts_with')
           ->addMultiOption(1,'Match_whole_words_only')
           ->addMultiOption(0,'Match_all');
