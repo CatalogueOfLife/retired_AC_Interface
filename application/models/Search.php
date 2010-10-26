@@ -419,18 +419,20 @@ class ACI_Model_Search extends AModel
         
         $column = (preg_match('/\s/',$searchKey) ? 'name' : 'name_element');
         if ($matchWholeWords && ($column == 'name_element' || strstr($searchKey, '%'))) {
+            $key = ($matchWholeWords == 1 ? $searchKey : $searchKey . '%');
             $select->where(
-                'tst.'.$column.' ' . (strstr($searchKey, '%') ? 'LIKE' : '=') . ' ? ',
-                $searchKey
+                'tst.'.$column.' ' . (strstr($key, '%') ? 'LIKE' : '=') . ' ? ',
+                $key
             );
         } elseif ($matchWholeWords && !strstr($searchKey, '%')) {
             $name_elements = explode(' ',$searchKey);
             $having = '';
             foreach($name_elements as $name_element)
             {
+                $key = ($matchWholeWords == 1 ? $name_element : $name_element . '%');
                 $select->orWhere(
-                    'tst.name_element = ?',
-                    $name_element
+                    'tst.name_element ' . (strstr($key, '%') ? 'LIKE' : '=') . ' ?',
+                    $key
                 );
                 $having .= ' AND `name` LIKE "%' . $name_element . '%"';
             }
@@ -493,25 +495,27 @@ class ACI_Model_Search extends AModel
         );
         $column = (preg_match('/\s/',$searchKey) ? 'name' : 'name_element');
         if ($matchWholeWords && ($column == 'name_element' || strstr($searchKey, '%'))) {
+            $key = ($matchWholeWords == 1 ? $searchKey : $searchKey . '%');
             $select->where(
-                'tst.'.$column.' ' . (strstr($searchKey, '%') ? 'LIKE' : '=') . ' ? ',
-                $searchKey
+                'tst.'.$column.' ' . (strstr($key, '%') ? 'LIKE' : '=') . ' ? ',
+                $key
             );
         } elseif ($matchWholeWords && !strstr($searchKey, '%')) {
             $name_elements = explode(' ',$searchKey);
             $having = '';
             foreach($name_elements as $name_element)
             {
+                $key = ($matchWholeWords == 1 ? $name_element : $name_element . '%');
                 if($having == '')
                 {
                     $select->where(
-                        'tst.name_element = ?',
-                        $name_element
+                        'tst.name_element ' . (strstr($key, '%') ? 'LIKE' : '=') . ' ?',
+                        $key
                     );
                 } else {
                     $select->orWhere(
-                        'tst.name_element = ?',
-                        $name_element
+                        'tst.name_element ' . (strstr($key, '%') ? 'LIKE' : '=') . ' ?',
+                        $key
                     );
                 }
                 $having .= ' AND `name` LIKE "%' . $name_element . '%"';
@@ -521,7 +525,7 @@ class ACI_Model_Search extends AModel
                 'tst.'.$column.' LIKE "%' . $searchKey . '%"'
             );
         }
-           
+        
         // Prevent multiple selection of the same taxon (cased by duplicated
         // name codes)
         $select->group(array('tst.id'));
@@ -530,7 +534,7 @@ class ACI_Model_Search extends AModel
                 'COUNT(tst.id) >= ' . count($name_elements) . $having
             );
         }
-        $select->order(array('`name`', '`status`'));
+        $select->order(array('name', 'status'));
         
         return $select;
     }

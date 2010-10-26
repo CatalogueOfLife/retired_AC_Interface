@@ -30,10 +30,14 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
             
         $this->addErrorMessage('Error_key_too_short');
         
-        $match = $this->createElement('CheckBox', 'match')->setValue(1)
-            ->setLabel('Match_whole_words_only');
-        $match->getDecorator('label')->setOption('placement', 'append');
+/*        $match = $this->createElement('CheckBox', 'match')->setValue(1)
+            ->setLabel('Match_whole_words_only');*/
+        $match = $this->createElement('radio','match');
+        $match->addMultiOption(2,'match starts with')
+        ->addMultiOption(1,'match whole words only')
+        ->addMultiOption(0,'match all (very slow)');
         
+        $match->getDecorator('label')->setOption('placement', 'append');
         $submit = $this->createElement('SubmitButton', 'search')
             ->setLabel($translator->translate('Search'));
                 
