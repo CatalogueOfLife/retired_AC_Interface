@@ -264,9 +264,16 @@ class ACI_Model_Search extends AModel
         $replacedSearchKey = self::wildcardHandlingInRegExp(
             $searchKey, $matchWholeWords
         );*/
-        $select->where(
-            'MATCH (dsd.distribution) AGAINST ("'.$searchKey.($matchWholeWords == true ? '"' : '*" IN BOOLEAN MODE').')'
-        );
+        if($matchWholeWords == 0)
+        {
+            $select->where(
+                'dsd.distribution LIKE "%'.$searchKey.'%"'
+            );
+        } else {
+            $select->where(
+                'MATCH (dsd.distribution) AGAINST ("'.$searchKey.($matchWholeWords == 1 ? '"' : '*" IN BOOLEAN MODE').')'
+            );
+        }
         return $select;
     }
     
