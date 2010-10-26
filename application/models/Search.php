@@ -867,7 +867,7 @@ class ACI_Model_Search extends AModel
             array(
                 new Zend_Db_Expr('ttt.rank <> "superfamily"'),
                 new Zend_Db_Expr('INSTR(ttt.`name`, "Not assigned")'),
-                'ttt.`name`'
+                'ttt.name'
             )
         );
         $res = $select->query()->fetchAll();
