@@ -691,7 +691,7 @@ class ACI_Model_Search extends AModel
           !array_key_exists('infraspecies',$key) ) {
               
         } else {
-            $select->where('dss.accepted_species_id = 0 OR dss.accepted_species_id IS NULL');
+            $select->where('dss.accepted_species_id = 0');
         }
         $select->order(
                 array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"), $rank)
@@ -720,7 +720,7 @@ class ACI_Model_Search extends AModel
             $select->from(array('_search_family'), array('name' => $rank));
         } else {
             $select->from(array('_search_scientific'), array('name' => $rank));
-            $select->where('accepted_species_id = 0 OR accepted_species_id IS NULL');
+            $select->where('accepted_species_id = 0');
         }
         $select->where(
             "`$rank` NOT IN('', 'Not assigned') AND " .
