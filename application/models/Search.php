@@ -541,7 +541,7 @@ class ACI_Model_Search extends AModel
                 'COUNT(tst.id) >= ' . count($name_elements) . $having
             );
         }
-        $select->order(array('name', 'status'));
+        $select->order(array('name'));
         
         return $select;
     }
@@ -560,7 +560,8 @@ class ACI_Model_Search extends AModel
         foreach ($key as $rank => $name) {
             if (trim($name) != '') {
                 $searchKey = self::wildcardHandling($name);
-                if ($matchWholeWords) {
+                if ($matchWholeWords != 0) {
+                    $searchKey = $searchKey . ($matchWholeWords == 2 ? '%' : '');
                     $select->where(
                         'dss.`'.$rank.'` ' .
                         (strstr($searchKey, '%') ? 'LIKE' : '=') . ' ?',
