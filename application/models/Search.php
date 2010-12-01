@@ -680,7 +680,7 @@ class ACI_Model_Search extends AModel
         }
         else if ($rankId == ACI_Model_Table_Taxa::RANK_INFRASPECIES) {
             $select->where(
-                'LENGTH(TRIM(dss.infraspecies)) > 0'
+                'LENGTH(dss.infraspecies) > 0'
             );
         }
                 
