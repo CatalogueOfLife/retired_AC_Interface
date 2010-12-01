@@ -693,9 +693,7 @@ class ACI_Model_Search extends AModel
         } else {
             $select->where('dss.accepted_species_id = 0');
         }
-        $select->order(
-                array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"), $rank)
-            )
+        $select->order($rank)
             ->limit(self::API_ROWSET_LIMIT + 1);
             
         return $select;
@@ -726,9 +724,7 @@ class ACI_Model_Search extends AModel
             "`$rank` NOT IN('', 'Not assigned') AND " .
             $where .
             "`$rank` LIKE \"" . $str . "%\""
-        )->order(
-                   array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"), $rank)
-       );
+        )->order($rank);
         
         // Search for higher taxa in families
 /*        if ($this->stringRefersToHigherTaxa($rank)) {
