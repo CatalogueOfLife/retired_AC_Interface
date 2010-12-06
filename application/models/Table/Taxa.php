@@ -222,7 +222,7 @@ class ACI_Model_Table_Taxa
                 }
                 break;
             default:
-                $taxaFullName = '<i>' . $name . '</i>';
+                $taxaFullName = '<i>' . ucfirst($name) . '</i>';
                 if ($author) {
                     $taxaFullName .= ' ' . $author;
                 }
