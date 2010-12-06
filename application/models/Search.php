@@ -77,6 +77,19 @@ class ACI_Model_Search extends AModel
         );
     }
     
+    private function getTrueMatchWholeWords($matchWholeWords, $searchWord)
+    {
+        if($matchWholeWords == 1)
+        {
+            return 1;
+        } elseif (strpos($searchWord,'%') === false)
+        {
+            return 2;
+        } else {
+            return 0;
+        }
+    }
+    
     /**
      * Returns the final query (sorted) to search for common names
      *
@@ -88,6 +101,7 @@ class ACI_Model_Search extends AModel
     public function commonNames($searchKey, $matchWholeWords, $sort = null,
         $direction = null)
     {
+        $matchWholeWords = $this->getTrueMatchWholeWords($matchWholeWords, $searchKey);
         $this->_logger->debug(__METHOD__);
         $this->_logger->debug(func_get_args());
         return $this->_selectCommonNames($searchKey, $matchWholeWords)
@@ -112,6 +126,7 @@ class ACI_Model_Search extends AModel
      */
     public function taxa($searchKey, $matchWholeWords)
     {
+        $matchWholeWords = $this->getTrueMatchWholeWords($matchWholeWords, $searchKey);
         return $this->_selectTaxa($searchKey, $matchWholeWords);
     }
     
@@ -153,6 +168,7 @@ class ACI_Model_Search extends AModel
     public function distributions($searchKey, $matchWholeWords, $sort = null,
         $direction = null)
     {
+        $matchWholeWords = $this->getTrueMatchWholeWords($matchWholeWords, $searchKey);
         $this->_logger->debug(__METHOD__);
         $this->_logger->debug(func_get_args());
         $searchKey = self::wildcardHandling($searchKey);
@@ -182,6 +198,7 @@ class ACI_Model_Search extends AModel
     public function all($searchKey, $matchWholeWords, $sort = null,
         $direction = null)
     {
+        $matchWholeWords = $this->getTrueMatchWholeWords($matchWholeWords, $searchKey);
         $this->_logger->debug(__METHOD__);
         $this->_logger->debug(func_get_args());
         return $this->_db->select()->union(
@@ -558,6 +575,7 @@ class ACI_Model_Search extends AModel
         $select = new Eti_Db_Select($this->_db);
 
         foreach ($key as $rank => $name) {
+            $matchWholeWords = $this->getTrueMatchWholeWords($matchWholeWords, $name);
             if (trim($name) != '') {
                 $searchKey = self::wildcardHandling($name);
                 if ($matchWholeWords != 0) {
