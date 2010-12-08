@@ -77,6 +77,19 @@ class BrowseController extends AController
     
     public function classificationAction()
     {
+        $reset = $this->_getParam('reset', false);
+        if($reset) {
+            $this->getHelper('SessionHandler')->clear('kingdom');
+            $this->getHelper('SessionHandler')->clear('phylum');
+            $this->getHelper('SessionHandler')->clear('class');
+            $this->getHelper('SessionHandler')->clear('order');
+            $this->getHelper('SessionHandler')->clear('superfamily');
+            $this->getHelper('SessionHandler')->clear('family');
+            $this->getHelper('SessionHandler')->clear('genus');
+            $this->getHelper('SessionHandler')->clear('species');
+            $this->getHelper('SessionHandler')->clear('infraspecies');
+            $this->getHelper('SessionHandler')->clear('match');
+        }
         // Search hint query request
         $fetch = $this->_getParam('fetch', false);
         if ($fetch) {
