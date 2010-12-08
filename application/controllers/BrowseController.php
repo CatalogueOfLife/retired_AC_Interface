@@ -103,9 +103,9 @@ class BrowseController extends AController
             );
         }
         // Prefill form fields from request
-        $name = $this->_getParam('name', false);
+        $id = $this->_getParam('id', false);
         if ($name) {
-           $this->_setParamForTaxa($name);
+           $this->_setParamForTaxa($id);
         }
         $this->view->title = $this->view
             ->translate('Browse_taxonomic_classification');
@@ -154,13 +154,13 @@ class BrowseController extends AController
      *
      * @param string $name
      */
-    protected function _setParamForTaxa($name)
+    protected function _setParamForTaxa($id)
     {
         $select = new ACI_Model_Search($this->_db);
-        $taxaRecords = $select->getRecordIdFromName($name);
+//        $taxaRecords = $select->getRecordIdFromName($name);
         
-        if (!empty($taxaRecords)) {
-            $hierarchy = $this->_getHierarchy($taxaRecords[0]['id']);
+        if (!$id) {
+            $hierarchy = $this->_getHierarchy($id);
             if (is_array($hierarchy)) {
                 // prefill the form with the hierarchy values
                 foreach ($hierarchy as $rank) {
