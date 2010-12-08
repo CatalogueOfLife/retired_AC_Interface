@@ -104,7 +104,7 @@ class BrowseController extends AController
         }
         // Prefill form fields from request
         $id = $this->_getParam('id', false);
-        if ($name) {
+        if ($id) {
            $this->_setParamForTaxa($id);
         }
         $this->view->title = $this->view
@@ -128,7 +128,7 @@ class BrowseController extends AController
                 $this->view->formError = true;
                 $this->_setSessionFromParams($form->getInputElements());
             }
-            if ($this->_getParam('submit', 1) && !$name) {
+            if ($this->_getParam('submit', 1) && !$id) {
                 $this->_setParamsFromSession($form->getInputElements());
             }
             $this->_renderFormPage($this->view->title, $form);
