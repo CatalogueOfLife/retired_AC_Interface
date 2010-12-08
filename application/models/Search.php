@@ -959,7 +959,7 @@ class ACI_Model_Search extends AModel
     {
         $select = new Zend_Db_Select($this->_db);
         $select->from(
-            array('tx' => '_tree'),
+            array('tx' => '_taxon_tree'),
             array(
                 'id' => 'tx.taxon_id',
                 'rank',
