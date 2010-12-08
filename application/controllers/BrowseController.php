@@ -90,6 +90,8 @@ class BrowseController extends AController
             $this->getHelper('SessionHandler')->clear('infraspecies');
             $this->getHelper('SessionHandler')->clear('match');
         }
+        $this->view->controller = 'browse';
+        $this->view->action = 'classification';
         // Search hint query request
         $fetch = $this->_getParam('fetch', false);
         if ($fetch) {

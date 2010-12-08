@@ -43,6 +43,8 @@ class SearchController extends AController
             $this->getHelper('SessionHandler')->clear('infraspecies');
             $this->getHelper('SessionHandler')->clear('match');
         }
+        $this->view->controller = 'search';
+        $this->view->action = 'scientific';
         // Search hint query request
         $fetch = $this->_getParam('fetch', false);
         if ($fetch) {
