@@ -955,18 +955,18 @@ class ACI_Model_Search extends AModel
         return $select->query()->fetchColumn(0);
     }
     
-    public function getRankAndNameFromRecordId($recordId)
+    public function getRankAndNameFromRecordId($taxonId)
     {
         $select = new Zend_Db_Select($this->_db);
         $select->from(
-            array('tx' => 'taxa'),
+            array('tx' => '_tree'),
             array(
-                'id' => 'tx.record_id',
-                'rank' => 'tx.taxon',
-                'name' => 'tx.name'
+                'id' => 'tx.taxon_id',
+                'rank',
+                'name'
             )
         )
-        ->where('tx.record_id = ?', $recordId);
+        ->where('tx.taxon_id = ?', $taxonId);
         return $select->query()->fetchAll();
     }
     
