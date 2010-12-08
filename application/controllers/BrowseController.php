@@ -152,24 +152,22 @@ class BrowseController extends AController
      * Prefills the taxonomic browser form with the hierarchy of the given
      * rank name
      *
-     * @param string $name
+     * @param string $id
      */
     protected function _setParamForTaxa($id)
     {
         $select = new ACI_Model_Search($this->_db);
 //        $taxaRecords = $select->getRecordIdFromName($name);
         
-        if (!$id) {
-            $hierarchy = $this->_getHierarchy($id);
-            if (is_array($hierarchy)) {
-                // prefill the form with the hierarchy values
-                foreach ($hierarchy as $rank) {
-                    if ($rank != 0) {
-                        $temp = $select->getRankAndNameFromRecordId($rank);
-                        $this->_setParam(
-                            strtolower($temp[0]['rank']), $temp[0]['name']
-                        );
-                    }
+        $hierarchy = $this->_getHierarchy($id);
+        if (is_array($hierarchy)) {
+            // prefill the form with the hierarchy values
+            foreach ($hierarchy as $rank) {
+                if ($rank != 0) {
+                    $temp = $select->getRankAndNameFromRecordId($rank);
+                    $this->_setParam(
+                        strtolower($temp[0]['rank']), $temp[0]['name']
+                    );
                 }
             }
         }
