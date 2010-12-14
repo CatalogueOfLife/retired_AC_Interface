@@ -147,7 +147,8 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                     <td class="taxon"><a href="<?php echo $this->baseUrl() . '/browse/tree/id/' .
                       $hierarchy['record_id']; ?>">
                         <?php echo in_array(strtolower($hierarchy['taxon']), array('species', 'genus')) ?
-                         "<i>$hierarchy[name]</i>" : $hierarchy['name']; ?>
+                         '<i>'.(strtolower($hierarchy['taxon']) == 'genus' ? ucfirst($hierarchy['name']) : lcfirst($hierarchy['name'])).
+                         '</i>' : ucfirst($hierarchy['name']); ?>
                         </a></td>
                     <td>
                         <div class="lsid-selector collapsed">
