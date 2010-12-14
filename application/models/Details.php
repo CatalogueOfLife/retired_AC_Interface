@@ -562,7 +562,7 @@ class ACI_Model_Details extends AModel
         ->from(
             array('tne_s' => 'taxon_name_element'),
             array(
-                'id' => 'tne_s.taxon_id',
+                'id' => 'tne_i.taxon_id',
                 'genus' => 'sne_g.name_element',
                 'species' => 'sne_s.name_element',
                 'infraspecies' => 'sne_i.name_element',
@@ -607,7 +607,7 @@ class ACI_Model_Details extends AModel
             'tne_i.taxon_id = t.id',
             array()
         )
-        ->where('tne_s.taxon_id = ?')
+        ->where('tne_s.taxon_id = ? AND t.taxonomic_rank_id != 83')
         ->order(array('infraspecies', 'infraspecies_marker'));
         
         $select->bind(array($taxon_id));
