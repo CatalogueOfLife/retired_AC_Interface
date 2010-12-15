@@ -153,7 +153,7 @@ class ACI_Model_WebserviceSearch extends AModel
                 'url' => new Zend_Db_Expr('""'),
                 'source_database' => 'db.database_name_displayed',
                 'source_database_url' => 'db.web_site',
-                'record_scrutiny_date' => 'sn.scrutiny_date',
+                'record_scrutiny_date' => 'sn.original_scrutiny_date',
                 'online_resource' => 'sn.web_site'
             )
         )->joinLeft(
