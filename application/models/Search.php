@@ -174,11 +174,11 @@ class ACI_Model_Search extends AModel
      * @return Zend_Db_Select
      */
     public function scientificNames(array $key, $matchWholeWords, $sort = null,
-        $direction = null)
+        $direction = null, $action)
     {
         $this->_logger->debug(__METHOD__);
         $this->_logger->debug(func_get_args());
-        return $this->_selectScientificNames($key, $matchWholeWords)
+        return $this->_selectScientificNames($key, $matchWholeWords, $action)
         ->order(
 	        ($sort ?
 	        	($sort == 'status' ?
@@ -636,7 +636,7 @@ class ACI_Model_Search extends AModel
      * @param boolean $matchWholeWords
      * @return Eti_Db_Select
      */
-    protected function _selectScientificNames(array $key, $matchWholeWords)
+    protected function _selectScientificNames(array $key, $matchWholeWords, $action='scientific')
     {
         $select = new Eti_Db_Select($this->_db);
 
@@ -654,12 +654,15 @@ class ACI_Model_Search extends AModel
                 } else {
                     $select->where('dss.`'.$rank.'` LIKE "%' . $searchKey . '%"');
                 }
+                if($action != 'scientific') {
+                	$select->where('dss.`species` != "" AND dss.`accepted_species_id` = 0');
+                }
             }
         }
         $select->from(
             array('dss' => '_search_scientific'),
             array('*',
-                'name' => 'CONCAT_WS(" ",genus,species,infraspecies)',
+                'name' => 'CONCAT_WS(" ",genus,species,infraspecific_marker,infraspecies)',
                 'name_status' => 'status'
             )
         );

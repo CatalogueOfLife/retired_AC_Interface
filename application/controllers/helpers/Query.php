@@ -56,7 +56,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                         $match = $params['match'];
                         unset($params['match']);
                         $select = $model->scientificNames(
-                            $params, $match
+                            $params, $match, null, null, $action
                         );
                         break;
                     case 'common':
@@ -77,7 +77,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                         $match = $params['match'];
                         unset($params['match']);
                         $select = $model->scientificNames(
-                            $params, $match
+                            $params, $match, null, null, $action
                         );
                         break;
                 }
@@ -115,7 +115,8 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                     ),
                     $this->getRequest()->getParam('match'),
                     $this->getRequest()->getParam('sort'),
-                    $this->getRequest()->getParam('direction')
+                    $this->getRequest()->getParam('direction'),
+                    $action
                 );
                 break;
             case 'browse/classification':
@@ -135,7 +136,8 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                     ),
                     $this->getRequest()->getParam('match'),
                     $this->getRequest()->getParam('sort'),
-                    $this->getRequest()->getParam('direction')
+                    $this->getRequest()->getParam('direction'),
+                    $action
                 );
                 break;
             case 'search/distribution':
