@@ -17,18 +17,43 @@ class ACI_Model_Search extends AModel
     const API_ROWSET_LIMIT = 500;
 
     // Default sort params, also added after the custom sort fields
-    protected static $_defaultSortParams = array(
-        'scientific' => array('name'),
-        'common' => array('name'),
-        'distribution' => array('distribution')
-    );
-    
-    protected static function _getSortParams($action)
+    protected static function _getDefaultSortParams($action='all',$direction='asc')
     {
-        if (!isset(self::$_defaultSortParams[$action])) {
+    	switch ($action) {
+    		case 'scientific':
+    			return array(
+		        	'name'.self::getRightSortDirection($direction),
+		            'author'.self::getRightSortDirection($direction),
+		            'name_status'.self::getRightSortDirection($direction),
+		            'accepted_species_name'.self::getRightSortDirection($direction),
+		            'accepted_species_author'.self::getRightSortDirection($direction)
+    			);
+    			break;
+    		case 'distribution':
+    			return array(
+    				'distribution'.self::getRightSortDirection($direction)
+    			);
+    			break;
+    		case 'all':
+    		case 'common':
+    		default:
+				return array(
+		    		'name'.self::getRightSortDirection($direction),
+		            'name_suffix'.self::getRightSortDirection($direction),
+		            'name_status'.self::getRightSortDirection($direction),
+		            'name_status_suffix'.self::getRightSortDirection($direction),
+		            'name_status_suffix_suffix'.self::getRightSortDirection($direction)
+				);
+    			break;
+    	}
+    }
+    
+    protected static function _getSortParams($action,$direction='asc')
+    {
+        if (!self::_getDefaultSortParams($action,$direction)) {
             return false;
         }
-        $params = self::$_defaultSortParams[$action];
+        $params = self::_getDefaultSortParams($action,$direction);
         return $params;
     }
     
@@ -73,7 +98,7 @@ class ACI_Model_Search extends AModel
                 new Zend_Db_Expr('CONCAT(IF(LOWER(name) REGEXP
                     "[[:<:]]' . $regexpSearchKey . '[[:>:]]", "G", "H"), name)'
                 ) : 'name'
-             )
+            )
         );
     }
     
@@ -105,15 +130,25 @@ class ACI_Model_Search extends AModel
         $this->_logger->debug(__METHOD__);
         $this->_logger->debug(func_get_args());
         return $this->_selectCommonNames($searchKey, $matchWholeWords)
+        ->reset('order')
         ->order(
-            $sort ?
-            array_merge(
-                array(
-                    self::getRightColumnName($sort) .
-                    self::getRightSortDirection($direction)
-                ),
-                self::_getSortParams('common')
-            ) : self::_getSortParams('common')
+            ($sort ?
+                ($sort == 'scientificName' ?
+                	array_merge(
+			            array(
+		                    'name_status' . self::getRightSortDirection($direction),
+	                    	'name_status_suffix' . self::getRightSortDirection($direction),
+	                    ),
+	                    self::_getSortParams('common',$direction)
+                    ) :
+	                array_merge(
+	                	array(
+		                    self::getRightColumnName($sort) . self::getRightSortDirection($direction)
+	                	),
+	                    self::_getSortParams('common',$direction)
+                	)
+            	) : self::_getSortParams('common',$direction)
+            )
         );
     }
     
@@ -145,14 +180,23 @@ class ACI_Model_Search extends AModel
         $this->_logger->debug(func_get_args());
         return $this->_selectScientificNames($key, $matchWholeWords)
         ->order(
-            $sort ?
-            array_merge(
-                array(
-                    self::getRightColumnName($sort) .
-                    self::getRightSortDirection($direction)
-                ),
-                self::_getSortParams('scientific')
-            ) : self::_getDefaultSortExpression($key, $matchWholeWords)
+	        ($sort ?
+	        	($sort == 'status' ?
+			        array_merge(
+		                array(
+		                    self::getRightColumnName($sort) . self::getRightSortDirection($direction),
+		                    'accepted_species_name' . self::getRightSortDirection($direction)
+		                ),
+		                self::_getSortParams('scientific',$direction)
+	                ) :
+	                array_merge(
+	                	array(
+	                		self::getRightColumnName($sort) . self::getRightSortDirection($direction)
+	                	),
+	                	self::_getSortParams('scientific',$direction)
+	                )
+	            ) : self::_getSortParams('scientific',$direction)
+            )
         );
     }
     
@@ -174,14 +218,23 @@ class ACI_Model_Search extends AModel
         $searchKey = self::wildcardHandling($searchKey);
         return $this->_selectDistributions($searchKey, $matchWholeWords)
         ->order(
-            $sort ?
-            array_merge(
-                array(
-                    self::getRightColumnName($sort) .
-                    self::getRightSortDirection($direction)
-                ),
-                self::_getSortParams('distribution')
-            ) : self::_getSortParams('distribution')
+	        ($sort ?
+	        	($sort == 'name' ?
+			        array_merge(
+		                array(
+		                    self::getRightColumnName($sort) . self::getRightSortDirection($direction),
+		                    'author' . self::getRightSortDirection($direction)
+		                ),
+		                self::_getSortParams('distribution',$direction)
+	                ) :
+	                array_merge(
+	                	array(
+	                		self::getRightColumnName($sort) . self::getRightSortDirection($direction)
+	                	),
+	                	self::_getSortParams('distribution',$direction)
+	                )
+	            ) : self::_getSortParams('distribution',$direction)
+            )
         );
     }
     
@@ -212,11 +265,24 @@ class ACI_Model_Search extends AModel
             )
         )
         ->order(
-            $sort ?
-                array(
-                    self::getRightColumnName($sort) .
-                    self::getRightSortDirection($direction)
-            ) : self::_getDefaultSortExpression($searchKey, $matchWholeWords)
+            ($sort ?
+                ($sort == 'status' ?
+                	array_merge(
+			            array(
+		                    self::getRightColumnName($sort) . self::getRightSortDirection($direction),
+	                    	'name_status_suffix' . self::getRightSortDirection($direction),
+	                    	'name_status_suffix_suffix' . self::getRightSortDirection($direction),
+	                    ),
+	                    self::_getSortParams('all',$direction)
+                    ) :
+	                array_merge(
+	                	array(
+		                    self::getRightColumnName($sort) . self::getRightSortDirection($direction)
+	                	),
+	                    self::_getSortParams('all',$direction)
+                	)
+            	) : self::_getSortParams('all',$direction)
+            )
         );
    }
     
@@ -231,7 +297,7 @@ class ACI_Model_Search extends AModel
         $columMap = array(
             'name' => 'name',
             'rank' => 'rank',
-            'status' => 'status',
+            'status' => 'name_status',
             'db' => 'db_name',
             'scientificName' => 'accepted_species_name',
             'group' => 'kingdom',
