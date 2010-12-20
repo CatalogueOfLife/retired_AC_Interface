@@ -22,7 +22,7 @@ class ACI_Model_Search extends AModel
     	switch ($action) {
     		case 'scientific':
     			return array(
-		        	'name'.self::getRightSortDirection($direction),
+		        	'name',
 		            'author'.self::getRightSortDirection($direction),
 		            'name_status'.self::getRightSortDirection($direction),
 		            'accepted_species_name'.self::getRightSortDirection($direction),
@@ -31,14 +31,14 @@ class ACI_Model_Search extends AModel
     			break;
     		case 'distribution':
     			return array(
-    				'distribution'.self::getRightSortDirection($direction)
+    				'distribution'
     			);
     			break;
     		case 'all':
     		case 'common':
     		default:
 				return array(
-		    		'name'.self::getRightSortDirection($direction),
+		    		'name',
 		            'name_suffix'.self::getRightSortDirection($direction),
 		            'name_status'.self::getRightSortDirection($direction),
 		            'name_status_suffix'.self::getRightSortDirection($direction),
@@ -298,7 +298,7 @@ class ACI_Model_Search extends AModel
             'name' => 'name',
             'rank' => 'rank',
             'status' => 'name_status',
-            'db' => 'db_name',
+            'db' => 'source_database_name',
             'scientificName' => 'accepted_species_name',
             'group' => 'kingdom',
             'distribution' => 'distribution'
@@ -498,10 +498,10 @@ class ACI_Model_Search extends AModel
                 'accepted_species_id' => 'tst.accepted_taxon_id',
                 'accepted_species_name' => 'tst.name_status_suffix',
                 'accepted_species_author' => 'tst.name_status_suffix_suffix',
-                'db_name' => 'tst.source_database',
+                'db_name' => 'tst.source_database_name',
                 'db_id' => 'tst.source_database_id',
                 'db_thumb' =>
-                    'CONCAT(REPLACE(tst.source_database, " ", "_"), ".gif")',
+                    'CONCAT(REPLACE(tst.source_database_name, " ", "_"), ".gif")',
                 'kingdom' => 'tst.group',
                 'status' => 'tst.name_status'
             )
@@ -572,10 +572,10 @@ class ACI_Model_Search extends AModel
                 'author' => 'tst.name_suffix',
                 'accepted_species_name' => 'tst.name_status_suffix',
                 'accepted_species_author' => 'tst.name_status_suffix_suffix',
-                'db_name' => 'tst.source_database',
+                'db_name' => 'tst.source_database_name',
                 'db_id' => 'tst.source_database_id',
                 'db_thumb' =>
-                    'CONCAT(REPLACE(tst.source_database, " ", "_"), ".gif")',
+                    'CONCAT(REPLACE(tst.source_database_name, " ", "_"), ".gif")',
                 'kingdom' => 'tst.group',
                 'status' => 'tst.name_status'
             )
