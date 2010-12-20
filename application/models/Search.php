@@ -215,7 +215,7 @@ class ACI_Model_Search extends AModel
 	                	self::_getSortParams('scientific',$direction)
 	                )
             	) : array_merge(
-            		$this->_getDefaultSortExpression($searchKey, $matchWholeWords),
+            		$this->_getDefaultSortExpression($key, $matchWholeWords),
             		self::_getSortParams('scientific',$direction)
             	)
             )
