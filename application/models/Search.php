@@ -162,7 +162,10 @@ class ACI_Model_Search extends AModel
 	                	),
 	                    self::_getSortParams('common',$direction)
                 	)
-            	) : self::_getSortParams('common',$direction)
+            	) : array_merge(
+            		$this->_getDefaultSortExpression($searchKey, $matchWholeWords),
+            		self::_getSortParams('common',$direction)
+            	)
             )
         );
     }
@@ -211,7 +214,10 @@ class ACI_Model_Search extends AModel
 	                	),
 	                	self::_getSortParams('scientific',$direction)
 	                )
-	            ) : self::_getSortParams('scientific',$direction)
+            	) : array_merge(
+            		$this->_getDefaultSortExpression($searchKey, $matchWholeWords),
+            		self::_getSortParams('scientific',$direction)
+            	)
             )
         );
     }
@@ -249,7 +255,10 @@ class ACI_Model_Search extends AModel
 	                	),
 	                	self::_getSortParams('distribution',$direction)
 	                )
-	            ) : self::_getSortParams('distribution',$direction)
+            	) : array_merge(
+            		$this->_getDefaultSortExpression($searchKey, $matchWholeWords),
+            		self::_getSortParams('distribution',$direction)
+            	)
             )
         );
     }
@@ -297,7 +306,10 @@ class ACI_Model_Search extends AModel
 	                	),
 	                    self::_getSortParams('all',$direction)
                 	)
-            	) : self::_getSortParams('all',$direction)
+            	) : array_merge(
+            		$this->_getDefaultSortExpression($searchKey, $matchWholeWords),
+            		self::_getSortParams('all',$direction)
+            	)
             )
         );
    }
