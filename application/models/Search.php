@@ -107,13 +107,28 @@ class ACI_Model_Search extends AModel
         if($matchWholeWords == 1)
         {
             return 1;
-        } elseif (strpos($searchWord,'%') === false)
+        } elseif ($this->_strposInarray('%',$searchWord))
         {
             return 2;
         } else {
             return 0;
         }
     }
+
+    private function _strposInarray ($strpos, $searchWord)
+    {
+    	if(is_array($searchWord))
+    	{
+	        foreach ($searchWord as $key => $value) {
+	            if (strpos($value, $strpos) === false) {
+	                return true;
+	            }
+	        }
+    	} elseif(strpos($searchWord,$strpos) === false) {
+    		return true;
+    	}
+		return false;
+    } 
     
     /**
      * Returns the final query (sorted) to search for common names
@@ -176,7 +191,8 @@ class ACI_Model_Search extends AModel
     public function scientificNames(array $key, $matchWholeWords, $sort = null,
         $direction = null, $action)
     {
-        $this->_logger->debug(__METHOD__);
+        $matchWholeWords = $this->getTrueMatchWholeWords($matchWholeWords, $key);
+    	$this->_logger->debug(__METHOD__);
         $this->_logger->debug(func_get_args());
         return $this->_selectScientificNames($key, $matchWholeWords, $action)
         ->order(
