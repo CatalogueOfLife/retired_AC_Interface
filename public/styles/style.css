@@ -510,8 +510,7 @@ form div.items-form dt#items-label dt {
 }
 form div.items-form dt#key-label,  
 form div.items-form dd#key-element,
-form div.items-form dt#match-label,
-form div.items-form dd#match-element
+form div.items-form dt#match-label,  
 form div.items-form dd#key-element,
 form div.items-form dt#update-label,
 form div.items-form dt#itemsGroup-label
@@ -548,16 +547,7 @@ form div.search-form dd fieldset dl dt label {
     display: block;
     width: 90px;
 }
-
-#match-element {
-    line-height: 0;
-    padding: 0 10px 0 0;
-    display: inline;
-    font-family:Verdana,Arial,Helvetica,sans-serif;
-    font-size:100%;
-}
-
-form div.search-form dd fieldset dl dt#match-label dd#match-element label {
+form div.search-form dd fieldset dl dt#match-label label {
     padding: 0 0 0 5px;
     width: auto;
 }
