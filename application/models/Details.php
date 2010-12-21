@@ -567,7 +567,7 @@ class ACI_Model_Details extends AModel
                 'genus' => 'sne_g.name_element',
                 'species' => 'sne_s.name_element',
                 'infraspecies' => 'sne_i.name_element',
-                'infraspecies_marker' => 'tne_s.taxon_id',
+                'infraspecies_marker' => 'tr.marker_displayed',
                 'author' => 'aus.string',
                 'name' =>
                     "CONCAT_WS(\" \",sne_g.name_element,sne_s.name_element,sne_i.name_element)",
@@ -607,6 +607,10 @@ class ACI_Model_Details extends AModel
             array('t' => 'taxon'),
             'tne_i.taxon_id = t.id',
             array()
+        )->joinLeft(
+            array('tr' => 'taxonomic_rank'),
+            't.taxonomic_rank_id = tr.id',
+            array()
         )
         ->where('tne_s.taxon_id = ? AND t.taxonomic_rank_id != 83')
         ->order(array('infraspecies', 'infraspecies_marker'));
@@ -622,7 +626,7 @@ class ACI_Model_Details extends AModel
             $infraspecies[$i]['name'] =
                 ACI_Model_Table_Taxa::getAcceptedScientificName(
                     $row['genus'], $row['species'], $row['infraspecies'],
-                    $row['rank'], $row['author']
+                    $row['rank'], $row['author'], $row['infraspecies_marker']
                 );
             $infraspecies[$i]['url'] = '/details/species/id/' . $row['id'];
             $i++;
