@@ -120,8 +120,7 @@ class DetailsController extends AController
                     );
             }
         }
-        $title = $speciesDetails && $speciesDetails->rank ==
-           ACI_Model_Table_Taxa::RANK_SPECIES ?
+        $title = $speciesDetails && $speciesDetails->infra_id != '' ?
            'Infraspecies_details' : 'Species_details';
         $this->view->title = $this->view->translate($title);
         $this->view->headTitle($this->view->title, 'APPEND');
