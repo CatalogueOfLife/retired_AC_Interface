@@ -87,7 +87,7 @@ class ACI_Model_Table_Taxa
     public $subgenus_lsid;
     public $species_lsid;
     public $infra_lsid;
-    public $infraMarker;
+    public $infraspecific_marker;
     public $isAcceptedName;
     public $nameCode;
     public $acceptedNameCode;
@@ -191,7 +191,8 @@ class ACI_Model_Table_Taxa
                         $this->species,
                         $this->infra,
                         $this->rank,
-                        $this->author
+                        $this->author,
+                        $this->infraspecific_marker
                     );
                 return $this->name;
                 break;
@@ -252,12 +253,12 @@ class ACI_Model_Table_Taxa
     }
     
     public static function getAcceptedScientificName($genus, $species,
-        $infraspecies, $rank, $author)
+        $infraspecies, $rank, $author, $marker = '')
     {
         $name  = "<i>".ucfirst($genus)." $species";
         if ($infraspecies) {
-            if (self::getInfraSpecificMarker($rank)) {
-                $name .= "</i> ".self::getInfraSpecificMarker($rank)." <i>$infraspecies";
+            if ($marker) {
+                $name .= "</i> ".$marker." <i>$infraspecies";
             } else {
                 $name .= " $infraspecies";
             }

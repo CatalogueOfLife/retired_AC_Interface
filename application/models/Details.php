@@ -60,6 +60,7 @@ class ACI_Model_Details extends AModel
                 'subgenus_lsid' => 'subgenus_lsid',
                 'species_lsid' => 'species_lsid',
                 'infra_lsid' => 'infraspecies_lsid',
+            	'infraspecific_marker' => 'infraspecific_marker',
                 'author',
                 'status',
                 'comment' => 'additional_data',
