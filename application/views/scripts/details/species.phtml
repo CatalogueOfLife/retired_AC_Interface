@@ -195,7 +195,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Online_resource'); ?>:</th>
         <td><?php foreach ($this->species->urls as $url) : ?><a
-        href="<?php echo $url['url'];?>"><?php echo $url['url'];?></a>
+        href="<?php echo str_replace('#','',$url['url']);?>"><?php echo str_replace('#','',$url['url']);?></a>
         <?php endforeach; ?>
         </td>
     </tr>
