@@ -300,6 +300,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         }
         $speciesDetails->dbVersion = $speciesDetails->dbVersion;
         if (!$speciesDetails->scrutinyDate &&
+        	$speciesDetails->scrutinyDate == '' &&
             !$speciesDetails->specialistName) {
             $speciesDetails->latestScrutiny = $textDecorator->getEmptyField();
         } else {
@@ -308,7 +309,9 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     ', ',
                     array(
                         $speciesDetails->specialistName,
-                        $this->formatDate($speciesDetails->scrutinyDate)
+                        $speciesDetails->scrutinyDate != '' ?
+                        $this->formatDate($speciesDetails->scrutinyDate) :
+                        ''
                     )
                 ), ',')
             );
