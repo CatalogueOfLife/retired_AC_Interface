@@ -757,7 +757,7 @@ form div.items-form dd#update-element {
 .dijitTreeLabel .rank {
     color: #666;    
 }
-.dijitTreeLabel .node-Genus {
+.node-Genus {
     font-style: italic;
 }
 .dijitTreeRow .lsid {
@@ -876,4 +876,12 @@ li:hover ul, li.over ul {
 }
 #footer a:hover {
     color: #006;
+}
+
+.node-genus {
+    font-style: italic;
+}
+
+.rank {
+    font-transform: capitalize;
 }
