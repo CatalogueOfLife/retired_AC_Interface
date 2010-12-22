@@ -348,7 +348,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             number_format($dbDetails['common_names']);
         $dbDetails['total_names'] =
             number_format($dbDetails['total_names']);
-        $dbDetails['total_synonyms'] = $dbDetails['synonyms'];
+        $dbDetails['total_synonyms'] =
+        	number_format($dbDetails['synonyms']);
         $dbDetails['taxonomic_coverage'] =
             $this->getTaxonLinksInDatabaseDetailsPage(
                 $dbDetails['taxonomic_coverage']
