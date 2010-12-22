@@ -42,7 +42,25 @@ class ACI_Model_Search extends AModel
 		            'name_suffix'.self::getRightSortDirection($direction),
 		            'name_status'.self::getRightSortDirection($direction),
 		            'name_status_suffix'.self::getRightSortDirection($direction),
-		            'name_status_suffix_suffix'.self::getRightSortDirection($direction)
+		            'name_status_suffix_suffix'.self::getRightSortDirection($direction),
+					($direction != 'desc' ?
+						new Zend_Db_Expr(
+						'IF(rank = "Phylum", "E",
+						  IF(rank = "Class", "F",
+						   IF(rank = "Order", "G",
+						    IF(rank = "Superfamily", "H",
+						     IF(rank = "Family", "I",
+						      IF(rank = "Genus", "J","K"
+						))))))') :
+						new Zend_Db_Expr(
+						'IF(rank = "Phylum", "K",
+						  IF(rank = "Class", "J",
+						   IF(rank = "Order", "I",
+						    IF(rank = "Superfamily", "H",
+						     IF(rank = "Family", "G",
+						      IF(rank = "Genus", "F","E"
+						))))))')
+					) 
 				);
     			break;
     	}
