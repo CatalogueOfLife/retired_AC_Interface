@@ -883,5 +883,5 @@ li:hover ul, li.over ul {
 }
 
 .rank {
-    font-transform: capitalize;
+    text-transform: capitalize;
 }
