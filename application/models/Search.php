@@ -188,7 +188,6 @@ class ACI_Model_Search extends AModel
 	                    self::_getSortParams('common',$direction)
                 	)
             	) : array_merge(
-            		$this->_getDefaultSortExpression($searchKey, $matchWholeWords),
             		self::_getSortParams('common',$direction)
             	)
             )
