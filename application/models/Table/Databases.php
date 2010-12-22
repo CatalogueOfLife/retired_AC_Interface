@@ -181,7 +181,11 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
                 'kingdom_id' => 'dsdtc.kingdom_id',
                 'phylum_id' => 'dsdtc.phylum_id',
                 'class_id' => 'dsdtc.class_id',
-                'order_id' => 'dsdtc.order_id'
+                'order_id' => 'dsdtc.order_id',
+                'kingdom_status' => 'dsdtc.kingdom_status',
+                'phylum_status' => 'dsdtc.phylum_status',
+                'class_status' => 'dsdtc.class_status',
+                'order_status' => 'dsdtc.order_status'
                 )
         )->joinRight(
             array('dsdtc' => '_source_database_taxonomic_coverage'),
@@ -201,7 +205,11 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
                 'kingdom_id' => $row['kingdom_id'],
                 'phylum_id' => $row['phylum_id'],
                 'class_id' => $row['class_id'],
-                'order_id' => $row['order_id']
+                'order_id' => $row['order_id'],
+                'kingdom_status' => $row['kingdom_status'],
+                'phylum_status' => $row['phylum_status'],
+                'class_status' => $row['class_status'],
+                'order_status' => $row['order_status']
             );
         }
         return $temp;

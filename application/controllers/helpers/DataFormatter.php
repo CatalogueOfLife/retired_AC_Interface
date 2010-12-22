@@ -469,22 +469,36 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             {
                 $output .= 
                     $this->_getLinkToTree($taxa['kingdom_id'],$taxa['kingdom']) .
+                    $this->_getRankStatus($taxa['kingdom_status']) . 
                     $seperatorDifferentRank .
                     $this->_getLinkToTree($taxa['phylum_id'],$taxa['phylum']) .
+                    $this->_getRankStatus($taxa['phylum_status']) . 
                     $seperatorDifferentRank .
-                    $this->_getLinkToTree($taxa['class_id'],$taxa['class']);
+                    $this->_getLinkToTree($taxa['class_id'],$taxa['class']) .
+                    $this->_getRankStatus($taxa['class_status']);
                 $class = $taxa['class_id'];
             }
             if($order != $taxa['order_id'])
             {
                 $output .= ($sameRank == true ? $seperatorSameRank :
                     $seperatorDifferentRank) .
-                    $this->_getLinkToTree($taxa['order_id'],$taxa['order']);
+                    $this->_getLinkToTree($taxa['order_id'],$taxa['order']) .
+                    $this->_getRankStatus($taxa['order_status']);
                 $order = $taxa['order_id'];
                 $sameRank = true;
             }
         }
         return $output;
+    }
+    
+    protected function _getRankStatus($status)
+    {
+        if($status == 1) {
+            return ' <span class="new">NEW!</span>';
+        } elseif($status == 2) {
+            return ' <span class="new">UPDATED!</span>';
+        }
+        return '';
     }
     
     protected function _getLinkToTree($id,$name)
