@@ -24,7 +24,7 @@ class ACI_Model_Info extends AModel
         $columMap = array(
             'source' => 'full_name',
             'group' => 'english_name',
-            'names' => 'total_species'
+            'names' => 'number_of_species'
         );
         return isset($columMap[$columName]) ?
             $columMap[$columName] : null;
