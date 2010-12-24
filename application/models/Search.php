@@ -31,8 +31,7 @@ class ACI_Model_Search extends AModel
     			break;
     		case 'distribution':
     			return array(
-    				'distribution',
-					self::_getSortRank($direction)
+    				'distribution'
     			);
     			break;
     		case 'all':
@@ -43,8 +42,7 @@ class ACI_Model_Search extends AModel
 		            'name_suffix'.self::getRightSortDirection($direction),
 		            'name_status'.self::getRightSortDirection($direction),
 		            'name_status_suffix'.self::getRightSortDirection($direction),
-		            'name_status_suffix_suffix'.self::getRightSortDirection($direction),
-					self::_getSortRank($direction)
+		            'name_status_suffix_suffix'.self::getRightSortDirection($direction)
 				);
     			break;
     	}
@@ -53,22 +51,22 @@ class ACI_Model_Search extends AModel
     protected static function _getSortRank($direction)
     {
     	return($direction != 'desc' ?
-		new Zend_Db_Expr(
+		array(new Zend_Db_Expr(
 		'IF(rank = "Phylum", "E",
 		  IF(rank = "Class", "F",
 		   IF(rank = "Order", "G",
 		    IF(rank = "Superfamily", "H",
 		     IF(rank = "Family", "I",
 		      IF(rank = "Genus", "J","K"
-		))))))') :
-		new Zend_Db_Expr(
+		))))))')) :
+		array(new Zend_Db_Expr(
 		'IF(rank = "Phylum", "K",
 		  IF(rank = "Class", "J",
 		   IF(rank = "Order", "I",
 		    IF(rank = "Superfamily", "H",
 		     IF(rank = "Family", "G",
 		      IF(rank = "Genus", "F","E"
-		))))))')
+		))))))'))
 	);
     
     }
@@ -106,7 +104,7 @@ class ACI_Model_Search extends AModel
         $mysqlSearchKey = strtolower(str_replace('*', '%', $searchKey));
         
         return array(
-            new Zend_Db_Expr(
+        new Zend_Db_Expr(
                 'IF(LENGTH(species) > 0, 1, 99)'
             ),
             new Zend_Db_Expr(
@@ -329,9 +327,10 @@ class ACI_Model_Search extends AModel
 	                	),
 	                    self::_getSortParams('all',$direction)
                 	)
-            	) : array_merge(
-            		$this->_getDefaultSortExpression($searchKey, $matchWholeWords),
-            		self::_getSortParams('all',$direction)
+                ) : array_merge(
+                    self::_getSortRank($direction),
+                    $this->_getDefaultSortExpression($searchKey, $matchWholeWords),
+                    self::_getSortParams('all',$direction)
             	)
             )
         );
