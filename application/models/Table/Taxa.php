@@ -30,30 +30,30 @@ class ACI_Model_Table_Taxa
     const RANK_SPECIES = 83;
     const RANK_INFRASPECIES = 49;
     
-    public static $markers =
-        array(
-            'subsp.',
-            'var.',
-            'forma',
-            'ab.',
-            'm.',
-            'nothosubsp.',
-            'nothovar.',
-            'subvar.',
-            'lusus',
-            'race',
-            'subforma',
-            'nothof.',
-            'col. var.',
-            'prol.',
-            'convar.',
-            'mut.',
-            'sublus.',
-            'monstr.',
-            'notst',
-            'convar',
-            'provar'
-        );
+    public static $markers = array(
+        'ab.', 
+        'agsp.', 
+        'agvar.', 
+        'col. var.', 
+        'f.', 
+        'lusus', 
+        'm.', 
+        'microgene', 
+        'nm.', 
+        'nothof.', 
+        'nothosp.', 
+        'nothosubsp.', 
+        'nothovar.', 
+        'notst', 
+        'provar', 
+        'status', 
+        'staxon', 
+        'strain', 
+        'subsp.', 
+        'subtaxon', 
+        'subvar.', 
+        'var.'
+    );
     
     public $id;
     public $kingdom;
@@ -98,7 +98,7 @@ class ACI_Model_Table_Taxa
     public $comment;
     public $taxaId;
     public $taxaName;
-    public $taxaAuthor;   //synonyms only
+    public $taxaAuthor; //synonyms only
     public $taxaLanguage; //common names only
     public $taxaStatus;
     public $snTaxaId;
@@ -116,7 +116,7 @@ class ACI_Model_Table_Taxa
     public $commonNames = array();
     public $distribution = array();
     public $references = array();
-     
+
     /**
      * Returns a string for the status what can be translated
      *
@@ -124,93 +124,78 @@ class ACI_Model_Table_Taxa
      * @param bool $phrased
      * @return string
      */
-    public static function getStatusString($id, $phrased = true)
+    public static function getStatusString ($id, $phrased = true)
     {
         $statuses = array(
-            self::STATUS_ACCEPTED_NAME =>
-                'STATUS_ACCEPTED_NAME',
-            self::STATUS_AMBIGUOUS_SYNONYM => $phrased ?
-                'STATUS_AMBIGUOUS_SYNONYM_FOR' : 'STATUS_AMBIGUOUS_SYNONYM',
-            self::STATUS_MISAPPLIED_NAME => $phrased ?
-                'STATUS_MISAPPLIED_NAME_FOR' : 'STATUS_MISAPPLIED_NAME',
-            self::STATUS_PROVISIONALLY_ACCEPTED_NAME =>
-                'STATUS_PROVISIONALLY_ACCEPTED_NAME',
-            self::STATUS_SYNONYM => $phrased ?
-                'STATUS_SYNONYM_FOR' : 'STATUS_SYNONYM',
-            self::STATUS_COMMON_NAME => $phrased ?
-                'STATUS_COMMON_NAME_FOR' : 'STATUS_COMMON_NAME'
+            self::STATUS_ACCEPTED_NAME => 'STATUS_ACCEPTED_NAME', 
+            self::STATUS_AMBIGUOUS_SYNONYM => $phrased ? 'STATUS_AMBIGUOUS_SYNONYM_FOR' : 'STATUS_AMBIGUOUS_SYNONYM', 
+            self::STATUS_MISAPPLIED_NAME => $phrased ? 'STATUS_MISAPPLIED_NAME_FOR' : 'STATUS_MISAPPLIED_NAME', 
+            self::STATUS_PROVISIONALLY_ACCEPTED_NAME => 'STATUS_PROVISIONALLY_ACCEPTED_NAME', 
+            self::STATUS_SYNONYM => $phrased ? 'STATUS_SYNONYM_FOR' : 'STATUS_SYNONYM', 
+            self::STATUS_COMMON_NAME => $phrased ? 'STATUS_COMMON_NAME_FOR' : 'STATUS_COMMON_NAME'
         );
         return isset($statuses[$id]) ? $statuses[$id] : '';
     }
-    
+
     /**
      * Returns a string for the rank what can be translated
      *
      * @param int $id
      * @return string
      */
-    public static function getRankString($id)
+    public static function getRankString ($id)
     {
         $ranks = self::getRanks();
         return isset($ranks[$id]) ? $ranks[$id] : '';
     }
-    
-    public static function getRanks()
+
+    public static function getRanks ()
     {
         $ranks = array(
-            self::RANK_KINGDOM => 'RANK_KINGDOM',
-            self::RANK_PHYLUM => 'RANK_PHYLUM',
-            self::RANK_CLASS => 'RANK_CLASS',
-            self::RANK_ORDER => 'RANK_ORDER',
-            self::RANK_SUPERFAMILY => 'RANK_SUPERFAMILY',
-            self::RANK_FAMILY => 'RANK_FAMILY',
-            self::RANK_GENUS => 'RANK_GENUS',
-            self::RANK_SPECIES => 'RANK_SPECIES',
+            self::RANK_KINGDOM => 'RANK_KINGDOM', 
+            self::RANK_PHYLUM => 'RANK_PHYLUM', 
+            self::RANK_CLASS => 'RANK_CLASS', 
+            self::RANK_ORDER => 'RANK_ORDER', 
+            self::RANK_SUPERFAMILY => 'RANK_SUPERFAMILY', 
+            self::RANK_FAMILY => 'RANK_FAMILY', 
+            self::RANK_GENUS => 'RANK_GENUS', 
+            self::RANK_SPECIES => 'RANK_SPECIES', 
             self::RANK_INFRASPECIES => 'RANK_INFRASPECIES'
         );
         return $ranks;
     }
-    
-    public function hasSynonyms()
+
+    public function hasSynonyms ()
     {
-        return (bool)count($this->synonyms);
+        return (bool) count($this->synonyms);
     }
-        
-    public function hasCommonNames()
+
+    public function hasCommonNames ()
     {
-        return (bool)count($this->commonNames);
+        return (bool) count($this->commonNames);
     }
-    
-    public function __get($name)
+
+    public function __get ($name)
     {
         switch ($name) {
             case 'name':
-                $this->name =
-                    self::getAcceptedScientificName(
-                        $this->genus,
-                        $this->species,
-                        $this->infra,
-                        $this->rank,
-                        $this->author,
-                        $this->infraspecific_marker
-                    );
+                $this->name = self::getAcceptedScientificName($this->genus, 
+                    $this->species, $this->infra, 
+                    $this->rank, $this->author, 
+                    $this->infraspecific_marker);
                 return $this->name;
                 break;
             case 'taxaFullName':
-                $this->taxaFullName =
-                    self::getTaxaFullName(
-                        $this->taxaName,
-                        $this->taxaStatus,
-                        $this->taxaAuthor,
-                        $this->taxaLanguage
-                    );
+                $this->taxaFullName = self::getTaxaFullName($this->taxaName, 
+                    $this->taxaStatus, $this->taxaAuthor, 
+                    $this->taxaLanguage);
                 return $this->taxaFullName;
                 break;
         }
         return null;
     }
-    
-    public static function getTaxaFullName($name, $status, $author, $language)
+
+    public static function getTaxaFullName ($name, $status, $author, $language)
     {
         if (!$status) {
             return '';
@@ -231,35 +216,35 @@ class ACI_Model_Table_Taxa
         }
         return $taxaFullName;
     }
-    
-    public static function isSynonym($status = null)
+
+    public static function isSynonym ($status = null)
     {
         $synonymStatuses = array(
-           self::STATUS_SYNONYM,
-           self::STATUS_AMBIGUOUS_SYNONYM
-        );//TODO: self::STATUS_SYNONYM below was $this->status, but get fatal error since it's static
-        $status = is_null($status) ? self::STATUS_SYNONYM : (int)$status;
+            self::STATUS_SYNONYM, 
+            self::STATUS_AMBIGUOUS_SYNONYM
+        ); //TODO: self::STATUS_SYNONYM below was $this->status, but get fatal error since it's static
+        $status = is_null($status) ? self::STATUS_SYNONYM : (int) $status;
         return in_array($status, $synonymStatuses);
     }
-    
-    public static function isAcceptedName($status = null)
+
+    public static function isAcceptedName ($status = null)
     {
         $anStatuses = array(
-           self::STATUS_ACCEPTED_NAME,
-           self::STATUS_PROVISIONALLY_ACCEPTED_NAME
+            self::STATUS_ACCEPTED_NAME, 
+            self::STATUS_PROVISIONALLY_ACCEPTED_NAME
         );
-        $status = is_null($status) ? $this->status : (int)$status;
+        $status = is_null($status) ? $this->status : (int) $status;
         return in_array($status, $anStatuses);
     }
-    
-    public static function getAcceptedScientificName($genus, $species,
-        $infraspecies, $rank, $author, $marker = '')
+
+    public static function getAcceptedScientificName ($genus, $species, $infraspecies, $rank, $author, $marker = '')
     {
-        $name  = "<i>".ucfirst($genus)." $species";
+        $name = "<i>" . ucfirst($genus) . " $species";
         if ($infraspecies) {
             if ($marker) {
-                $name .= "</i> ".$marker." <i>$infraspecies";
-            } else {
+                $name .= "</i> " . $marker . " <i>$infraspecies";
+            }
+            else {
                 $name .= " $infraspecies";
             }
         }
@@ -267,20 +252,20 @@ class ACI_Model_Table_Taxa
         $name .= $author ? " $author" : '';
         return $name;
     }
-    
-    public static function getInfraSpecificMarker($rank)
+
+    public static function getInfraSpecificMarker ($rank)
     {
         switch ($rank) {
-            case 19://form
+            case 19: //form
                 return 'form';
                 break;
-            case 49://infraspecies
+            case 49: //infraspecies
                 return 'infrasp.';
                 break;
-            case 104://subspecies
+            case 104: //subspecies
                 return 'subsp.';
                 break;
-            case 129://variety
+            case 129: //variety
                 return 'var.';
                 break;
             default:
@@ -288,8 +273,8 @@ class ACI_Model_Table_Taxa
                 break;
         }
     }
-    
-    public function __set($key, $value)
+
+    public function __set ($key, $value)
     {
         if (strpos($key, '_')) {
             $nameParts = explode('_', $key);
@@ -303,7 +288,8 @@ class ACI_Model_Table_Taxa
                 $key .= $part;
                 $i++;
             }
-        } else {
+        }
+        else {
             Zend_Registry::get('logger')->debug("UNDEFINED attribute $key");
         }
         $this->$key = $value;

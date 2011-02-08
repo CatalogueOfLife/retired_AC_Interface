@@ -310,7 +310,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     array(
                         $speciesDetails->specialistName,
                         $speciesDetails->scrutinyDate != '' ?
-                        $this->formatDate($speciesDetails->scrutinyDate) :
+                        $speciesDetails->scrutinyDate :
                         ''
                     )
                 ), ',')
