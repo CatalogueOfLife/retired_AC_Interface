@@ -56,7 +56,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 }
                 if ($row['status'] == 6) {
                         $res[$i]['url'] .= $row['taxa_id'] .'/common/' . $row['id'];
-                } elseif (in_array($row['status'],array(2,3,5))) {
+                } elseif (ACI_Model_Table_Taxa::isSynonym($row['status'])) {
                     $res[$i]['url'] .= '/synonym/'.$row['id'];
                 }
             } else {
