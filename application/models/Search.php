@@ -140,16 +140,16 @@ class ACI_Model_Search extends AModel
 
     private function _strposInarray ($strpos, $searchWord)
     {
-    	if(is_array($searchWord))
+    	if(!is_array($searchWord))
     	{
-	        foreach ($searchWord as $key => $value) {
-	            if (strpos($value, $strpos) === false) {
-	                return true;
-	            }
-	        }
-    	} elseif(strpos($searchWord,$strpos) === false) {
-    		return true;
+    		$array[] = $searchWord;
+    		$searchWord = $array;
     	}
+        foreach ($searchWord as $key => $value) {
+            if (strpos($value, $strpos) === false || strpos($value, $strpos) != 0) {
+                return true;
+            }
+        }
 		return false;
     } 
     

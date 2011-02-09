@@ -35,11 +35,11 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
         if ($wrapWords == true && !preg_match('#&\#[0-9]{1,5};#', $needle)) {
             $prefix = '\b';
             $suffix = '\b';
-            $replace = '[^ \b]*';
+            $replace = '';
         } else {
             $prefix = '';
             $suffix = '';
-            $replace = '.*';
+            $replace = '';
         }
         $regexp = '/(' .
             str_replace('*', $replace, $prefix . $needle . $suffix) . ')/i';
@@ -48,7 +48,7 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
             "<span class=\"matchHighlight\">$1</span>",
             $haystack
         );
-    }
+    }  
     
     public function getEmptyField()
     {
