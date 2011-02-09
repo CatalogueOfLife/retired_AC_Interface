@@ -130,7 +130,7 @@ class ACI_Model_Search extends AModel
         if($matchWholeWords == 1)
         {
             return 1;
-        } elseif ($this->_strposInarray('%',$searchWord))
+        } elseif ($this->_strposInarray('*',$searchWord))
         {
             return 2;
         } else {
