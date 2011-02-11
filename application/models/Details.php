@@ -539,7 +539,8 @@ class ACI_Model_Details extends AModel
         $synonyms = $select->query()->fetchAll();
         
         foreach ($synonyms as &$synonym) {
-            $synonym['name'] = ACI_Model_Table_Taxa::italicizeName($synonym['name']);
+            $synonym['name'] = ACI_Model_Table_Taxa::getTaxaFullName($synonym['name'], 
+                    $synonym['status'], $synonym['author'], '');
             $synonym['status'] =
                 ACI_Model_Table_Taxa::getStatusString(
                     $synonym['status'], false
