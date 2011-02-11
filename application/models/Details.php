@@ -419,7 +419,7 @@ class ACI_Model_Details extends AModel
         $select = new Zend_Db_Select($this->_db);
         
         //TODO: Retrieve also the reference information
-        $select->distinct()
+/*        $select->distinct()
         ->from(
             array('sn' => 'synonym'),
             array(
@@ -485,20 +485,39 @@ class ACI_Model_Details extends AModel
         )
         ->group('sn.id')
         ->order(array('genus', 'species', 'infraspecies', 'author'));
+        */
+        $select->distinct()
+        ->from(
+            array('sa' => '_search_all'),
+            array(
+                'id' => 'sa.id',
+                'name_code' => 'sa.id',
+                'status' => 'sa.name_status',
+                'name' => 'sa.name',
+                'author' => 'sa.name_suffix',
+                'num_references' => '(SELECT COUNT(*) FROM
+                    reference_to_synonym WHERE synonym_id = sa.id)',
+                'rank' => 'sa.rank'
+            )
+        )->where(
+            'sa.accepted_taxon_id = ?'
+        )
+        ->group('sa.id')
+        ->order(array('name'));
         
         $select->bind(array($taxon_id));
         
         $synonyms = $select->query()->fetchAll();
         
         foreach ($synonyms as &$synonym) {
-            $synonym['name'] =
+/*            $synonym['name'] =
                 ACI_Model_Table_Taxa::getAcceptedScientificName(
                     $synonym['genus'],
                     $synonym['species'],
                     $synonym['infraspecies'],
                     $synonym['rank'],
                     $synonym['author']
-                );
+                );*/
             $synonym['status'] =
                 ACI_Model_Table_Taxa::getStatusString(
                     $synonym['status'], false

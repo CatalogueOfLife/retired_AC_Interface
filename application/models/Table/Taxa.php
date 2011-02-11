@@ -30,6 +30,7 @@ class ACI_Model_Table_Taxa
     const RANK_SPECIES = 83;
     const RANK_INFRASPECIES = 49;
     
+    //TODO: get this dynamically.
     public static $markers = array(
         'ab.', 
         'agsp.', 
@@ -256,13 +257,9 @@ class ACI_Model_Table_Taxa
 
     public static function getInfraSpecificMarker ($rank)
     {
-    	if($this->kingdom == 'animalia')
-    	{
+    	if($this->kingdom == 'animalia') {
     		return false;
     	} else {
-    		if($this->infraspecific_marker == "") {
-    			//get infraspecific marker
-    		}
     		return $this->infraspecific_marker;
     	}
 /*        switch ($rank) {
