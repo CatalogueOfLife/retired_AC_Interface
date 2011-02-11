@@ -108,6 +108,7 @@ class ACI_Model_Details extends AModel
                             'CONCAT(" ",snen_sg.name_element),""'.
                         ')," ",snen_s.name_element,'.
                         'IF(snen_ss.name_element IS NOT NULL,CONCAT('.
+                'IF(kingdom_name != "animalia", CONCAT(" ",tr.marker_displayed),""),'.
                             '" ",snen_ss.name_element'.
                         '),"")'.
                     ')',
@@ -169,6 +170,11 @@ class ACI_Model_Details extends AModel
                     array(
                         'name' => array('ass' => 'author_string'),
                         'cond' => 'sn.author_string_id = ass.id',
+                        'columns' => array()
+                    ),
+                    array(
+                        'name' => array('tr' => 'taxonomic_rank'),
+                        'cond' => 'sne_ss.taxonomic_rank_id = tr.id',
                         'columns' => array()
                     )
                 );
@@ -414,12 +420,10 @@ class ACI_Model_Details extends AModel
      * @param string $nameCode
      * @return array
      */
-    public function synonyms($taxon_id)
+/*    public function synonyms($taxon_id)
     {
         $select = new Zend_Db_Select($this->_db);
-        
-        //TODO: Retrieve also the reference information
-/*        $select->distinct()
+        $select->distinct()
         ->from(
             array('sn' => 'synonym'),
             array(
@@ -485,7 +489,32 @@ class ACI_Model_Details extends AModel
         )
         ->group('sn.id')
         ->order(array('genus', 'species', 'infraspecies', 'author'));
-        */
+        
+        $select->bind(array($taxon_id));
+        
+        $synonyms = $select->query()->fetchAll();
+        
+        foreach ($synonyms as &$synonym) {
+            $synonym['name'] =
+                ACI_Model_Table_Taxa::getAcceptedScientificName(
+                    $synonym['genus'],
+                    $synonym['species'],
+                    $synonym['infraspecies'],
+                    $synonym['rank'],
+                    $synonym['author']
+                );
+            $synonym['status'] =
+                ACI_Model_Table_Taxa::getStatusString(
+                    $synonym['status'], false
+                );
+        }
+        
+        return $synonyms;
+    }
+*/
+    public function synonyms($taxon_id)
+    {
+        $select = new Zend_Db_Select($this->_db);
         $select->distinct()
         ->from(
             array('sa' => '_search_all'),
@@ -510,14 +539,7 @@ class ACI_Model_Details extends AModel
         $synonyms = $select->query()->fetchAll();
         
         foreach ($synonyms as &$synonym) {
-/*            $synonym['name'] =
-                ACI_Model_Table_Taxa::getAcceptedScientificName(
-                    $synonym['genus'],
-                    $synonym['species'],
-                    $synonym['infraspecies'],
-                    $synonym['rank'],
-                    $synonym['author']
-                );*/
+            $synonym['name'] = ACI_Model_Table_Taxa::italicizeName($synonym['name']);
             $synonym['status'] =
                 ACI_Model_Table_Taxa::getStatusString(
                     $synonym['status'], false
@@ -574,7 +596,7 @@ class ACI_Model_Details extends AModel
         return $select->query()->fetchAll();
     }
     
-    public function infraspecies($taxon_id)
+/*  public function infraspecies($taxon_id)
     {
         $select = new Zend_Db_Select($this->_db);
         
@@ -652,7 +674,46 @@ class ACI_Model_Details extends AModel
         }
         return $infraspecies;
     }
-    
+*/
+    public function infraspecies($taxon_id)
+    {
+        $select = new Zend_Db_Select($this->_db);
+        
+        $select
+        ->from(
+            array('tt' => '_taxon_tree'),
+            array(
+                'id' => 'tt.taxon_id',
+                'name' => 'tt.name',
+                'author' => 'aus.string'
+            )
+        )->joinLeft(
+            array('td' => 'taxon_detail'),
+            'tt.taxon_id = td.taxon_id',
+            array()
+        )->joinLeft(
+            array('aus' => 'author_string'),
+            'td.author_string_id = aus.id',
+            array()
+        )
+        ->where('tt.parent_id = ?')
+        ->order(array('name'));
+        
+        $select->bind(array($taxon_id));
+        
+        $rowSet = $select->query()->fetchAll();
+        
+        $infraspecies = array();
+        $i = 0;
+        foreach ($rowSet as $row) {
+            $infraspecies[$i]['id'] = $row['id'];
+            $infraspecies[$i]['name'] = ACI_Model_Table_Taxa::italicizeName($row['name']) . ' ' . $row['author'];
+            $infraspecies[$i]['url'] = '/details/species/id/' . $row['id'];
+            $i++;
+        }
+        return $infraspecies;
+    }
+   
     /**
      * Gets all the ditributions of a particular name code
      *

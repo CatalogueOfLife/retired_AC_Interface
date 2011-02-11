@@ -222,7 +222,7 @@ class ACI_Model_Table_Taxa
     {
         $synonymStatuses = array(
             self::STATUS_SYNONYM, 
-            self::STATUS_AMBIGUOUS_SYNONYM,
+            self::STATUS_AMBIGUOUS_SYNONYM, 
             self::STATUS_MISAPPLIED_NAME
         ); //TODO: self::STATUS_SYNONYM below was $this->status, but get fatal error since it's static
         $status = is_null($status) ? self::STATUS_SYNONYM : (int) $status;
@@ -255,14 +255,29 @@ class ACI_Model_Table_Taxa
         return $name;
     }
 
+    public static function italicizeName ($name)
+    {
+        $name = '<i>' . $name . '</i>';
+        foreach (self::$markers as $marker) {
+            if (strstr($name, $marker) !== FALSE) {
+                $name = str_replace($marker, '</i>' . $marker . '<i>', $name);
+            }
+        }
+        return $name;
+    }
+    
+/*    private function _getPrefaceName () {
+        $name = $this->genus . ' ' . $this->species;
+        if($this->kingdom != 'animalia' && $this->infraspecific_marker != '') {
+            $name .= ' ' . $this->infraspecific_marker;
+        }
+            $name .= ' ' . $this->infra;
+        return $name;
+    }*/
+
     public static function getInfraSpecificMarker ($rank)
     {
-    	if($this->kingdom == 'animalia') {
-    		return false;
-    	} else {
-    		return $this->infraspecific_marker;
-    	}
-/*        switch ($rank) {
+        switch ($rank) {
             case 19: //form
                 return 'form';
                 break;
@@ -278,7 +293,7 @@ class ACI_Model_Table_Taxa
             default:
                 return false;
                 break;
-        }*/
+        }
     }
 
     public function __set ($key, $value)
