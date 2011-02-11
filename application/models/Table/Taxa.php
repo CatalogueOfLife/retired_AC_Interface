@@ -256,7 +256,16 @@ class ACI_Model_Table_Taxa
 
     public static function getInfraSpecificMarker ($rank)
     {
-        switch ($rank) {
+    	if($this->kingdom == 'animalia')
+    	{
+    		return false;
+    	} else {
+    		if($this->infraspecific_marker == "") {
+    			//get infraspecific marker
+    		}
+    		return $this->infraspecific_marker;
+    	}
+/*        switch ($rank) {
             case 19: //form
                 return 'form';
                 break;
@@ -272,7 +281,7 @@ class ACI_Model_Table_Taxa
             default:
                 return false;
                 break;
-        }
+        }*/
     }
 
     public function __set ($key, $value)
