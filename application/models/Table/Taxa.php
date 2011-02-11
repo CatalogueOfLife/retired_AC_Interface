@@ -209,7 +209,7 @@ class ACI_Model_Table_Taxa
                 }
                 break;
             default:
-                $taxaFullName = '<i>' . ucfirst($name) . '</i>';
+                $taxaFullName = self::italicizeName(ucfirst($name));
                 if ($author) {
                     $taxaFullName .= ' ' . $author;
                 }
