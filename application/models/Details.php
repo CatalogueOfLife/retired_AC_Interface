@@ -854,7 +854,7 @@ class ACI_Model_Details extends AModel
         return $species;
     }
 
-    public function getSynonymName($id)
+/*    public function getSynonymName($id)
     {
         $select = new Zend_Db_Select($this->_db);
         $select->from(
@@ -906,6 +906,23 @@ class ACI_Model_Details extends AModel
         ->where('s.id = ?', $id);
         $species = $select->query()->fetchObject('ACI_Model_Table_Taxa');
         return $species;
+    }*/
+
+    public function getSynonymName($id)
+    {
+        $select = new Zend_Db_Select($this->_db);
+        $select->from(
+            array('sa' => '_search_all'),
+            array(
+                'taxaName' => 'sa.name',
+                'taxaAuthor' => 'sa.name_suffix',
+                'taxaStatus' => 'sa.name_status',
+                'id' => 'sa.id'
+            )
+        )
+        ->where('sa.id = ?', $id)
+        ->group(array('id'));
+        return $select->query()->fetchObject('ACI_Model_Table_Taxa');
     }
 
     public function getLsid($taxon_id)

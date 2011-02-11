@@ -62,7 +62,7 @@ class DetailsController extends AController
                    $detailsModel->getReferencesBySynonymId($taxa->id);
                 $numReferences = count($references);
                 $preface = $this->getHelper('DataFormatter')
-                   ->getReferencesLabel($numReferences, $taxa->name);
+                   ->getReferencesLabel($numReferences, $taxa->taxaFullName);
             }
         }
         $this->view->title = $this->view->translate('Literature_references');
