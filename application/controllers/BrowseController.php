@@ -103,9 +103,9 @@ class BrowseController extends AController
             );
         }
         // Prefill form fields from request
-        $id = $this->_getParam('id', false);
-        if ($id) {
-           $this->_setParamForTaxa($id);
+        $name = $this->_getParam('name', false);
+        if ($name) {
+           $this->_setParamForTaxa($name);
         }
         $this->view->title = $this->view
             ->translate('Browse_taxonomic_classification');
@@ -128,7 +128,7 @@ class BrowseController extends AController
                 $this->view->formError = true;
                 $this->_setSessionFromParams($form->getInputElements());
             }
-            if ($this->_getParam('submit', 1) && !$id) {
+            if ($this->_getParam('submit', 1) && !$name) {
                 $this->_setParamsFromSession($form->getInputElements());
             }
             $this->_renderFormPage($this->view->title, $form);
