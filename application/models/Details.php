@@ -529,7 +529,8 @@ class ACI_Model_Details extends AModel
                 'rank' => 'sa.rank'
             )
         )->where(
-            'sa.accepted_taxon_id = ?'
+            'sa.accepted_taxon_id = ? AND '.
+            'sa.name_status != '.ACI_Model_Table_Taxa::STATUS_COMMON_NAME
         )
         ->group('sa.id')
         ->order(array('name'));
