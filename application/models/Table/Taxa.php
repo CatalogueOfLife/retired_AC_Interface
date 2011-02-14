@@ -239,11 +239,12 @@ class ACI_Model_Table_Taxa
         return in_array($status, $anStatuses);
     }
 
-    public static function getAcceptedScientificName ($genus, $species, $infraspecies, $rank, $author, $marker = '')
+    public static function getAcceptedScientificName ($genus, $species, $infraspecies, $rank, $author, $marker = '', 
+        $kingdom = '')
     {
         $name = "<i>" . ucfirst($genus) . " $species";
         if ($infraspecies) {
-            if ($marker) {
+            if ($marker && strtolower($kingdom) != 'animalia') {
                 $name .= "</i> " . $marker . " <i>$infraspecies";
             }
             else {
@@ -265,8 +266,8 @@ class ACI_Model_Table_Taxa
         }
         return $name;
     }
-    
-/*    private function _getPrefaceName () {
+
+    /*    private function _getPrefaceName () {
         $name = $this->genus . ' ' . $this->species;
         if($this->kingdom != 'animalia' && $this->infraspecific_marker != '') {
             $name .= ' ' . $this->infraspecific_marker;
@@ -274,7 +275,7 @@ class ACI_Model_Table_Taxa
             $name .= ' ' . $this->infra;
         return $name;
     }*/
-
+    
     public static function getInfraSpecificMarker ($rank)
     {
         switch ($rank) {

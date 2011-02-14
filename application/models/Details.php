@@ -206,11 +206,11 @@ class ACI_Model_Details extends AModel
         $species->dbImage      = '/images/databases/' .
             str_replace(' ','_',$species->dbName) . '.png';
         $species->hierarchy    = $this->getHierachyFromSpecies($species);
-        $species->synonyms     = $this->synonyms($species->id);
         $species->commonNames = $this->commonNames($species->id);
-        $species->infraspecies = $this->infraspecies($species->id);
         $species->references   = $this->getReferencesByTaxonId($species->id);
         $species->distribution = $this->distributions($species->id);
+        $species->synonyms     = $this->synonyms($species->id, $species->kingdom);
+        $species->infraspecies = $this->infraspecies($species->id, $species->kingdom);
         
         return $species;
     }
@@ -420,7 +420,7 @@ class ACI_Model_Details extends AModel
      * @param string $nameCode
      * @return array
      */
-/*    public function synonyms($taxon_id)
+    public function synonyms($taxon_id, $kingdom = '')
     {
         $select = new Zend_Db_Select($this->_db);
         $select->distinct()
@@ -433,6 +433,7 @@ class ACI_Model_Details extends AModel
                 'genus' => 'snen_g.name_element',
                 'species' => 'snen_s.name_element',
                 'infraspecies' => 'snen_i.name_element',
+                'infraspecific_marker' => 'tr.marker_displayed',
                 'author' => 'as.string',
                 'num_references' => '(SELECT COUNT(*) FROM
                     reference_to_synonym WHERE synonym_id = sn.id)',
@@ -446,7 +447,7 @@ class ACI_Model_Details extends AModel
             'sn.id = sne_g.synonym_id AND sne_g.taxonomic_rank_id = ' .
             ACI_Model_Table_Taxa::RANK_GENUS,
             array()
-        )->joinLeft(
+            )->joinLeft(
             array('snen_g' => 'scientific_name_element'),
             'sne_g.scientific_name_element_id = snen_g.id',
             array()
@@ -483,6 +484,10 @@ class ACI_Model_Details extends AModel
             array('as' => 'author_string'),
             'sn.author_string_id = as.id',
             array()
+        )->joinLeft(
+            array('tr' => 'taxonomic_rank'),
+            'sne_i.taxonomic_rank_id = tr.id',
+            array()
         )
         ->where(
             'sn.taxon_id = ?'
@@ -501,8 +506,10 @@ class ACI_Model_Details extends AModel
                     $synonym['species'],
                     $synonym['infraspecies'],
                     $synonym['rank'],
-                    $synonym['author']
-                );
+                    $synonym['author'],
+                    $synonym['infraspecific_marker'],
+                    $kingdom
+                    );
             $synonym['status'] =
                 ACI_Model_Table_Taxa::getStatusString(
                     $synonym['status'], false
@@ -511,8 +518,8 @@ class ACI_Model_Details extends AModel
         
         return $synonyms;
     }
-*/
-    public function synonyms($taxon_id)
+
+/*    public function synonyms($taxon_id)
     {
         $select = new Zend_Db_Select($this->_db);
         $select->distinct()
@@ -529,9 +536,9 @@ class ACI_Model_Details extends AModel
                 'rank' => 'sa.rank'
             )
         )->where(
-            'sa.accepted_taxon_id = ? AND '.
-            'sa.name_status != '.ACI_Model_Table_Taxa::STATUS_COMMON_NAME
-        )
+            'sa.accepted_taxon_id = ?AND 
+            sa.name_status != '.ACI_Model_Table_Taxa::STATUS_COMMON_NAME
+         )
         ->group('sa.id')
         ->order(array('name'));
         
@@ -550,7 +557,7 @@ class ACI_Model_Details extends AModel
         
         return $synonyms;
     }
-    
+*/    
     /**
      * Gets the list of common names of a species and their details
      *
@@ -598,7 +605,7 @@ class ACI_Model_Details extends AModel
         return $select->query()->fetchAll();
     }
     
-/*  public function infraspecies($taxon_id)
+    public function infraspecies($taxon_id, $kingdom = '')
     {
         $select = new Zend_Db_Select($this->_db);
         
@@ -610,7 +617,7 @@ class ACI_Model_Details extends AModel
                 'genus' => 'sne_g.name_element',
                 'species' => 'sne_s.name_element',
                 'infraspecies' => 'sne_i.name_element',
-                'infraspecies_marker' => 'tr.marker_displayed',
+                'infraspecific_marker' => 'tr.marker_displayed',
                 'author' => 'aus.string',
                 'name' =>
                     "CONCAT_WS(\" \",sne_g.name_element,sne_s.name_element,sne_i.name_element)",
@@ -656,7 +663,7 @@ class ACI_Model_Details extends AModel
             array()
         )
         ->where('tne_s.taxon_id = ? AND t.taxonomic_rank_id != 83')
-        ->order(array('infraspecies', 'infraspecies_marker'));
+        ->order(array('infraspecies', 'infraspecific_marker'));
         
         $select->bind(array($taxon_id));
         
@@ -669,15 +676,15 @@ class ACI_Model_Details extends AModel
             $infraspecies[$i]['name'] =
                 ACI_Model_Table_Taxa::getAcceptedScientificName(
                     $row['genus'], $row['species'], $row['infraspecies'],
-                    $row['rank'], $row['author'], $row['infraspecies_marker']
+                    $row['rank'], $row['author'], $row['infraspecific_marker'], $kingdom
                 );
             $infraspecies[$i]['url'] = '/details/species/id/' . $row['id'];
             $i++;
         }
         return $infraspecies;
     }
-*/
-    public function infraspecies($taxon_id)
+
+/*    public function infraspecies($taxon_id)
     {
         $select = new Zend_Db_Select($this->_db);
         
@@ -715,7 +722,7 @@ class ACI_Model_Details extends AModel
         }
         return $infraspecies;
     }
-   
+*/   
     /**
      * Gets all the ditributions of a particular name code
      *
