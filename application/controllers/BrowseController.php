@@ -103,9 +103,9 @@ class BrowseController extends AController
             );
         }
         // Prefill form fields from request
-        $id = $this->_getParam('id', false);
-        if ($id) {
-           $this->_setParamForTaxa($id);
+        $name = $this->_getParam('name', false);
+        if ($name) {
+           $this->_setParamForTaxa($name);
         }
         $this->view->title = $this->view
             ->translate('Browse_taxonomic_classification');
@@ -128,7 +128,7 @@ class BrowseController extends AController
                 $this->view->formError = true;
                 $this->_setSessionFromParams($form->getInputElements());
             }
-            if ($this->_getParam('submit', 1) && !$id) {
+            if ($this->_getParam('submit', 1) && !$name) {
                 $this->_setParamsFromSession($form->getInputElements());
             }
             $this->_renderFormPage($this->view->title, $form);
@@ -154,11 +154,11 @@ class BrowseController extends AController
      *
      * @param string $id
      */
-    protected function _setParamForTaxa($id)
+/*    protected function _setParamForTaxa($id)
     {
         $select = new ACI_Model_Search($this->_db);
 //        $taxaRecords = $select->getRecordIdFromName($name);
-        
+       
         $hierarchy = $this->_getHierarchy($id);
         if (is_array($hierarchy)) {
             // prefill the form with the hierarchy values
@@ -171,8 +171,29 @@ class BrowseController extends AController
                 }
             }
         }
+    }*/
+ 
+    protected function _setParamForTaxa($name)
+    {
+        $select = new ACI_Model_Search($this->_db);
+        $taxaRecords = $select->getRecordIdFromName($name);
+       
+        if (!empty($taxaRecords)) {
+            $hierarchy = $this->_getHierarchy($taxaRecords[0]['id']);
+            if (is_array($hierarchy)) {
+                // prefill the form with the hierarchy values
+                foreach ($hierarchy as $rank) {
+                    if ($rank != 0) {
+                        $temp = $select->getRankAndNameFromRecordId($rank);
+                        $this->_setParam(
+                            strtolower($temp[0]['rank']), $temp[0]['name']
+                        );
+                    }
+                }
+            }
+        }
     }
-    
+        
     /**
      * Returns an array with all taxa names by rank on a dojo-suitable format
      * Used to populate the browse by classification search combo boxes
