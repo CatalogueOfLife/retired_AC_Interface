@@ -154,7 +154,7 @@ class BrowseController extends AController
      *
      * @param string $id
      */
-    protected function _setParamForTaxa($id)
+/*    protected function _setParamForTaxa($id)
     {
         $select = new ACI_Model_Search($this->_db);
 //        $taxaRecords = $select->getRecordIdFromName($name);
@@ -168,6 +168,27 @@ class BrowseController extends AController
                     $this->_setParam(
                         strtolower($temp[0]['rank']), $temp[0]['name']
                     );
+                }
+            }
+        }
+    }*/
+
+    protected function _setParamForTaxa($name)
+    {
+        $select = new ACI_Model_Search($this->_db);
+        $taxaRecords = $select->getRecordIdFromName($name);
+        
+        if (!empty($taxaRecords)) {
+            $hierarchy = $this->_getHierarchy($taxaRecords[0]['id']);
+            if (is_array($hierarchy)) {
+                // prefill the form with the hierarchy values
+                foreach ($hierarchy as $rank) {
+                    if ($rank != 0) {
+                        $temp = $select->getRankAndNameFromRecordId($rank);
+                        $this->_setParam(
+                            strtolower($temp[0]['rank']), $temp[0]['name']
+                        );
+                    }
                 }
             }
         }

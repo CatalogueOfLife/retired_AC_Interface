@@ -1021,14 +1021,13 @@ class ACI_Model_Search extends AModel
     {
         $select = new Zend_Db_Select($this->_db);
         $select->from(
-            array('tx' => 'taxa'),
+            array('tt' => '_taxon_tree'),
             array(
-                'id' => 'tx.record_id',
-                'rank' => 'tx.taxon'
+                'id' => 'tt.taxon_id',
+                'rank' => 'tt.rank'
             )
         )
-        ->where('tx.name = ?', $name)
-        ->where('tx.is_accepted_name = 1');
+        ->where('tt.name = ?', $name);
         return $select->query()->fetchAll();
     }
     
