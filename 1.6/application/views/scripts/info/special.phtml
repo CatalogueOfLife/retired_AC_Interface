@@ -1,0 +1,71 @@
+<?php
+/**
+ * Annual Checklist Interface
+ *
+ * about.phtml
+ * Info - Special 2010 Edition
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  views/scripts
+ *
+ */
+?>
+<div class="page_header">
+<?php
+printf($this->translate('Info_special_edition'), $this->app->edition);
+?>
+</div>
+<?php
+echo $this->navigator_top;
+?>
+<div class="info_content">
+
+<p class="iyb-slogan">"Biodiversity is Life"</p>
+<p>
+<a href="http://www.cbd.int/2010" target="_blank" title="2010 International Year of Biodiversity">
+    <img
+    class="right-align"
+    src="<?php echo $this->baseUrl(); ?>/images/IYB2010_Logo_English_sm.jpg"
+    width="170" height="66">
+</a>
+This Special Edition of the Catalogue of Life has been published by arrangement
+with the UN Convention on Biological Diversity, in the International Year of
+Biodiversity 2010.
+</p>
+<p>
+We rely on the diversity of life to provide us with the food, fuel, medicine
+and other essentials we simply cannot live without. Yet this rich diversity is
+being lost at a greatly accelerated rate because of human activities.
+Cataloguing and sharing information on the names, taxonomy and distribution of
+species is fundamental to achieving global biodiversity conservation. Work to
+complete the Catalogue of Life helps to underpin knowledge of biodiversity
+world-wide.
+</p>
+
+<p class="field_header">International Year of Biodiversity 2010</p>
+<p>
+The Catalogue of Life programme celebrates the diversity of life on Earth. It
+aims to accumulate and synthesise knowledge about the entire diversity of life,
+and to create a uniform and validated index to all known species for use
+throughout society.
+</p>
+
+<p class="field_header"><em>Global Taxonomy Initiative</em></p>
+<p>
+The Catalogue of Life contributes towards "a widely accessible checklist of
+known species" prioritised by the Global Taxonomy Initiative of the UN
+Convention on Biological Diversity.
+</p>
+
+<p class="field_header"><em>Global Strategy for Plant Conservation</em></p>
+<p>
+The Catalogue of Life contributes towards assembling "a widely accessible
+working list of known plant species" prioritised by the Global Strategy for
+Plant Conservation Target 1.
+</p>
+
+</div>
+<?php
+echo $this->navigator_bottom;
+?>

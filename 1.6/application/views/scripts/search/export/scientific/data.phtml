@@ -1,0 +1,19 @@
+<?php
+/**
+ * Annual Checklist Interface
+ *
+ * data.phtml
+ * Export template for search scientific data
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  views/scripts
+ *
+ */
+?>
+<?php
+echo $this->data['name'] . $this->separator .
+     $this->data['status'] . $this->separator .
+     $this->data['kingdom'] . $this->separator .
+     $this->data['db_name'] . PHP_EOL;
+unset($this->data);

@@ -1,0 +1,33 @@
+<?php
+/**
+ * Annual Checklist Interface
+ *
+ * websites.phtml
+ * Info - Websites page view
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  views/scripts
+ *
+ */
+?>
+<div class="page_header">
+<?php
+echo $this->translate('Web_sites')?>
+</div>
+<?php
+echo $this->navigator_top;
+?>
+<div class="info_content">
+<p class="field_header">Online version of the Annual Checklist:</p>
+<p><a href="<?php echo $this->app->location; ?>" target="_blank"><?php echo $this->app->location; ?></a></p>
+
+<p class="field_header">Web service</p>
+<p>Species 2000 provides web services to facilitate automated access to
+the Annual Checklist by computer programs. Please visit
+<a href="http://www.sp2000.org/webservices" target="_blank">http://www.sp2000.org/webservices</a> for
+more information.</p>
+</div>
+<?php
+echo $this->navigator_bottom;
+?>

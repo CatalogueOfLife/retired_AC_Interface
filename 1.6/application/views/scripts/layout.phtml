@@ -1,0 +1,155 @@
+<?php
+/**
+ * Annual Checklist Interface
+ *
+ * layout.phtml
+ * Defines the global layout
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  views/scripts
+ *
+ */
+?>
+<?php echo $this->doctype();?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <?php
+    echo $this->headMeta();
+    echo $this->headTitle();
+    // styles
+    $this->headLink()->setStylesheet(
+        $this->baseUrl() . '/styles/style.css', 'all'
+    );
+    $this->headLink()->appendStylesheet(
+        $this->baseUrl() . '/styles/style-ie6.css', 'all', 'IE 6'
+    );
+    $this->headLink()->appendStylesheet(
+        $this->baseUrl() . '/styles/style-ie7.css', 'all', 'IE 7'
+    );
+    echo $this->headLink();
+    if ($this->dojo()->isEnabled()) {
+        $this->dojo()->setLocalPath(
+            $this->baseUrl() . JS_PATH . '/library/dojo/dojo/dojo.js'
+        )
+        // forcing the locale
+        ->setDjConfigOption('locale', 'en')
+        ->addStyleSheetModule('dijit.themes.tundra');
+   	    echo $this->dojo();
+    }
+    echo $this->headScript()->appendFile(
+        $this->baseUrl() . JS_PATH . '/main.js'
+    );
+    ?>
+</head>
+<body class="tundra">
+    <?php if ('standalone' == APPLICATION_ENV): ?>
+    <div class="standalone-icon">
+        <img src="<?php echo $this->baseUrl(); ?>/images/dvd-icon.png"/>
+    </div>
+    <?php endif; ?>
+    <div id="header">
+        <h1 class="title"><?php printf($this->translate('title'), $this->app->edition); ?></h1>
+    </div>
+    <div id="menu" class="view">
+        <span id="log"></span>
+        <ul id="nav">
+          <li class="<?php echo $this->controller == 'browse' ?
+                'menuselected' : ''; ?>">
+            <a href="<?php echo $this->baseUrl() ?>/browse/tree">
+            <img
+                src="<?php echo $this->baseUrl(); ?>/images/Icon_Browse.gif"
+                alt="<?php echo $this->translate('Browse');?>"/>
+            <span><?php echo $this->translate('Browse'); ?></span></a>
+            <ul>
+              <li class="<?php echo $this->action == 'tree' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/browse/tree">
+              <?php echo $this->translate('Taxonomic_tree'); ?></a></li>
+              <li class="<?php echo $this->action == 'classification' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/browse/classification">
+              <?php echo $this->translate('Taxonomic_classification'); ?></a></li>
+            </ul>
+          </li>
+          <li class="<?php echo $this->controller == 'search' ?
+                'menuselected' : ''; ?>">
+            <a href="<?php echo $this->baseUrl(); ?>/search/all">
+            <img src="<?php echo $this->baseUrl(); ?>/images/Icon_Search.gif"
+                 alt="<?php echo $this->translate('Search'); ?>"/>
+            <span><?php echo $this->translate('Search'); ?></span></a>
+            <ul>
+              <li class="<?php echo $this->action == 'all' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/all">
+              <?php echo $this->translate('Search_all_names'); ?></a></li>
+              <li class="<?php echo $this->action == 'scientific' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/scientific">
+              <?php echo $this->translate('Search_scientific_names'); ?></a></li>
+              <li class="<?php echo $this->action == 'common' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/common">
+              <?php echo $this->translate('Search_common_names'); ?></a></li>
+              <li class="<?php echo $this->action == 'distribution' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/distribution">
+              <?php echo $this->translate('Search_distribution'); ?></a></li>
+            </ul>
+          </li>
+          <li class="<?php echo $this->controller == 'info' ?
+                'menuselected' : ''; ?>">
+            <a href="<?php echo $this->baseUrl(); ?>/info/about">
+            <img src="<?php echo $this->baseUrl(); ?>/images/Icon_Info.gif"
+                 alt="<?php echo $this->translate('Info'); ?>"/>
+            <span><?php echo $this->translate('Info'); ?></span></a>
+            <ul>
+              <li class="<?php echo $this->action == 'about' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/about">
+                  <?php echo $this->translate('Info_about'); ?></a></li>
+              <li class="<?php echo $this->action == 'special' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/special">
+                  <?php printf($this->translate('Info_special_edition'),
+                      $this->app->edition); ?></a></li>
+              <li class="<?php echo $this->action == 'ac' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/ac">
+                  <?php printf($this->translate('Info_annual_checklist'),
+                      $this->app->edition); ?></a></li>
+              <li class="<?php echo $this->action == 'databases' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/databases">
+                  <?php echo $this->translate('Source_databases'); ?></a></li>
+              <li class="<?php echo $this->action == 'hierarchy' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/hierarchy">
+                  <?php echo $this->translate('Management_hierarchy'); ?></a></li>
+              <li class="<?php echo $this->action == 'copyright' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/copyright">
+                <?php echo $this->translate('Copyright_reproduction_sale'); ?></a></li>
+              <li class="<?php echo $this->action == 'cite' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/cite">
+                <?php echo $this->translate('Cite_work'); ?></a></li>
+              <li class="<?php echo $this->action == 'websites' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/websites">
+                <?php echo $this->translate('Web_sites'); ?></a></li>
+              <li class="<?php echo $this->action == 'contact' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/contact">
+                <?php echo $this->translate('Contact_us'); ?></a></li>
+              <li class="<?php echo $this->action == 'acknowledgements' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/acknowledgements">
+                <?php echo $this->translate('Acknowledgements'); ?></a></li>
+            </ul>
+          </li>
+        </ul>
+    </div>
+    <div id="right-col">
+        <div id="content" class="view <?php echo isset($this->contentClass) ? $this->contentClass : ''; ?>">
+            <?php echo $this->layout()->content; ?>
+            <?php echo $this->inlineScript(); ?>
+        </div>
+        <div id="footer">
+            <?php echo '<span class="app-name">' . $this->app->name . '</span> ' .
+                '<span class="app-version">v' . $this->app->version .
+                ' <!--r' . $this->app->revision . '--></span> ' .
+                sprintf(
+                    $this->translate('developed_by'),
+                    '<a href="http://www.eti.uva.nl">ETI BioInformatics</a>'
+                );
+            ?>
+        </div>
+    </div>
+    <?php echo $this->googleAnalytics($this->googleAnalyticsTrackerId); ?>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<?php
+/**
+ * Annual Checklist Interface
+ *
+ * cite.phtml
+ * Info - How to cite this work page view
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  views/scripts
+ *
+ */
+?>
+<div class="page_header">
+<?php
+echo $this->translate('Cite_work')?>
+</div>
+<?php
+echo $this->navigator_top;
+?>
+<div class="info_content">
+<p>
+    <span class="field_header">How to cite the Catalogue of Life on DVD:</span>
+    <br />
+    Bisby FA, Roskov YR, Orrell TM, Nicolson D, Paglinawan LE, Bailly N,
+    Kirk PM, Bourgoin T, Baillargeon G., eds (2010). Species 2000 &amp; ITIS
+    Catalogue of Life: <?php echo $this->app->edition; ?> Annual Checklist.
+    DVD; Species 2000: Reading, UK.
+</p>
+<p>
+    <span class="field_header">How to cite individual databases included
+    in this work, for example:</span>
+    <br />
+    Yu D.S.K. (2010). Taxapad Ichneumonoidea (May 2009 version). In Species 2000
+    &amp; ITIS Catalogue of Life: <?php echo $this->app->edition; ?> Annual Checklist
+    (Bisby F.A., Roskov Y.R., Orrell T.M., Nicolson D., Paglinawan L.E., Bailly N.,
+    Kirk P.M., Bourgoin T., Baillargeon G., eds). DVD; Species 2000: Reading, UK.
+</p>
+<p>
+    <span class="field_header">How to cite the Catalogue of Life
+    Taxonomic Classification: </span>
+    <br />
+    Bisby FA, Roskov YR, Orrell TM, Nicolson D, Paglinawan LE, Bailly N,
+    Kirk PM, Bourgoin T, Baillargeon G., eds (2010). Species 2000 &amp; ITIS
+    Catalogue of Life: <?php echo $this->app->edition; ?> Annual Checklist
+    Taxonomic Classification. DVD; Species 2000: Reading, UK.
+</p>
+<p>
+    <span class="field_header">On-line version of the Annual Checklist:</span>
+    <br />
+    <a href="<?php echo $this->app->location; ?>" target="_blank"><?php echo $this->app->location; ?></a>
+</p>
+<p>
+    <span class="field_header">How to cite the Catalogue of Life on the Web: </span>
+    <br />
+    Bisby FA, Roskov YR, Orrell TM, Nicolson D, Paglinawan LE, Bailly N,
+    Kirk PM, Bourgoin T, Baillargeon G., eds (2010). Species 2000 &amp; ITIS
+    Catalogue of Life: <?php echo $this->app->edition; ?> Annual Checklist. Digital resource at
+    <a href="<?php echo $this->app->location; ?>" target="_blank"><?php echo $this->app->location; ?></a>.
+    Species 2000: Reading, UK.
+</p>
+</div>
+<?php
+echo $this->navigator_bottom;
+?>

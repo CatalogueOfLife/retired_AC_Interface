@@ -1,0 +1,29 @@
+<?php
+/**
+ * Annual Checklist Interface
+ *
+ * form.phtml
+ * Form view
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  views/scripts
+ *
+ */
+?>
+<div class="page_header">
+<?php echo $this->formHeader; ?>
+</div>
+<div id="form-box">
+<?php if ($this->form->isErrors()): ?>
+    <div class="errors">
+        <ul>
+            <li><?php echo $this->form->getErrorMessage(); ?></li>
+        </ul>
+    </div>
+<?php endif; ?>
+<div class="form-container">
+<form id="clear_form" name="clear_form" action="<?php echo $this->baseUrl($this->controller.'/'.$this->action); ?>" method="post"><input type="hidden" name="reset" value="1" /></form>
+<?php echo $this->form; ?>
+</div>
+</div>
