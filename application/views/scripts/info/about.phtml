@@ -23,13 +23,13 @@ echo $this->navigator_top;
 <p>
 The Species 2000 &amp; ITIS Catalogue of Life is planned to become a
 comprehensive catalogue of all known species of organisms on Earth.
-Rapid progress has been made recently and this, the tenth edition of the
+Rapid progress has been made recently and this, the eleventh edition of the
 Annual Checklist, contains <b><?php echo $this->stats['species']; ?> </b>
-species. Please note that this is probably just about 2/3 of the world's
+species. Please note that this is probably just slightly over 2/3 of the world's
 known species. This means that for many groups it continues to be deficient,
 and users will notice that many species are still missing from the Catalogue.</p>
 <p>The present Catalogue is compiled with sectors provided by
-<?php echo $this->stats['databases']; ?> taxonomic databases from around the
+<?php #echo $this->stats['databases']; ?><b>99</b> taxonomic databases from around the
 world. Many of these contain taxonomic data and opinions from extensive networks
 of specialists, so that the complete work contains contributions from more than
 3,000 specialists from throughout the taxonomic profession. Species 2000 and
@@ -39,6 +39,44 @@ hierarchical classification. It is planned to introduce alternative
 taxonomic treatments and alternative classifications, but an important
 feature is that for those users who wish to use it, a single preferred
 catalogue, based on peer reviews, will continue to be provided.
+</p>
+
+<p>As a new development started in 2010, there has been a change in the published
+ editions of the Catalogue. This is part of a process in the EC 4D4Life Project 
+to bring the Annual Checklist and Dynamic Checklist into better relation with each 
+other and ultimately to have only a single product - The Catalogue of Life.<br/>
+&nbsp;&nbsp;&nbsp;i) As a temporary measure what are presently &quot;quarterly editions&quot; of the Catalogue of Life
+ are published on each of the 3 quarters between one Annual Checklist (1st April) and the next,
+ and the Dynamic Checklist is discontinued for the present. Unlike the old Dynamic Checklist,
+ the &quot;quarterly editions&quot; bring together taxonomic sectors harvested by several different processes,
+ but all into a single work that will become &quot;The Catalogue of Life&quot;. We expect in future to
+ increase the frequency from quarterly, and, in the long term, plan that it will become truly
+ dynamic with some sectors harvested semi-automatically from supplier GSDs.<br/>
+&nbsp;&nbsp;&nbsp;ii) The publication of the Annual Checklist, as a fixed yearly edition will continue online,
+ as a web-service and on DVD.
+</p>
+<p>
+<span class="field_header">&#8226; The Catalogue of Life <span style="font-weight: normal;">(quarterly editions)</span></span>
+<br/>
+These are progressively enhanced editions in what will become a dynamically 
+developing system, made available online and as web-services.
+The present frequency is quarterly with releases in July, October, January and 
+on 1st April as an Annual Checklist. At all times the latest release is available 
+for online access at <a href = "http://www.catalogueoflife.org/col"  target = "_blank">www.catalogueoflife.org/col</a>. Archives of previous releases can be 
+downloaded from <a href = "http://www.catalogueoflife.org/services"  target = "_blank">www.catalogueoflife.org/services</a>.
+</p>
+<p>
+<span class="field_header">&#8226; Annual Checklist <span style="font-weight: normal;">of the Catalogue of Life</span></span>
+<br/>
+Published each April online, as web-services, and on DVD. At all times 
+the latest Annual Checklist is online at <a href = "http://www.catalogueoflife.org/annual-checklist"  target = "_blank">www.catalogueoflife.org/annual-checklist</a>.
+A fixed edition that is published, archived and deposited in public libraries, 
+that can be cited, and that can be used as a common catalogue for comparative 
+purposes by many organisations. A copy is on this DVD, which is distributed free 
+of charge, and identical copies are viewable and downloadable on the website. The 
+archive edition for 2011 is at <a href = "http://www.catalogueoflife.org/annual-checklist/2011"  target = "_blank">www.catalogueoflife.org/annual-checklist/2011</a>. Archived 
+editions can be found by changing the year in the URL (e.g. /2010, /2009 etc.), and downloadable 
+versions and web-services can be found at <a href = "http://www.catalogueoflife.org/services"  target = "_blank">www.catalogueoflife.org/services</a>.
 </p>
 
 <p class="field_header">The Catalogue of Life partnership</p>
@@ -54,24 +92,31 @@ compilation and comparison. For instance, it is used as the principal taxonomic
 index in the GBIF and EoL data portals and recognised by the CBD.
 </p>
 
+<p>The scientific policy for the Catalogue of Life programme is developed by the CoL 
+Global Team: Guy Baillargeon (Canada), Frank Bisby (UK), Thierry Bourgoin (France), 
+Jerry Cooper (New Zealand), Mark Costello (New Zealand), David Eades (USA), Dennis Gordon (New Zealand), 
+Hugo Navarrete (Ecuador), Liqiang Ji (China), Heimo Rainer (Austria), Michael Ruggiero (USA), 
+Nicolas Bailly (Philippines), Edward Vanden Berghe (USA), Richard White (UK), with further assistance 
+from the Regional Hubs.</p>
+
 <p class="field_header">About ITIS</p>
 <p>
 <a href="http://www.itis.gov/" target="_blank" title="ITIS" target="_blank">
     <img class="right-align"
     src="<?php echo $this->baseUrl(); ?>/images/ITIS.gif"
-    width="161" height="80">
+    width="142" height="71">
 </a>
 The Integrated Taxonomic Information System (ITIS) is a partnership of federal
 agencies and other organisations from the United States, Canada, and Mexico,
 with data stewards and experts from around the world (see <a
-    href="http://www.itis.gov" target="_blank">http://www.itis.gov</a>).  
+    href="http://www.itis.gov" target="_blank">www.itis.gov</a>).  
 The ITIS database is an automated reference of scientific and common names of 
-biota of interest to North America . It contains more than 596,000 scientific  
+biota of interest to North America . It contains more than 629,800 scientific  
 and common names in all kingdoms, and is accessible via the World Wide Web 
 in English, French, Spanish, and Portuguese (<a
-    href="http://itis.gbif.net" target="_blank">http://itis.gbif.net</a>).  
+    href="http://itis.gbif.net" target="_blank">itis.gbif.net</a>).  
 ITIS is part of the US National Biological Information Infrastructure  
-(<a href="http://www.nbii.gov" target="_blank">http://www.nbii.gov</a>) and an  
+(<a href="http://www.nbii.gov" target="_blank">www.nbii.gov</a>) and an  
 associate member of GBIF
 </p>
 
@@ -91,27 +136,28 @@ Steering Committee and ITIS Data Stewards.
     src="<?php echo $this->baseUrl(); ?>/images/sp2000_small.gif"
     width="142" height="62">
 </a>
-Species 2000 (<a href="http://www.sp2000.org" target="_blank">http://www.sp2000.org</a>) 
-is an autonomous federation of taxonomic database custodians, involving
-taxonomists throughout the world. Its goal is to collate a uniform and
-validated index to the world's known species. It is a not-for-profit
-company limited by guarantee (registered in England No. 3479405) with
-six directors and taxonomic database organisations from around the world
-as members. It is sponsored by CODATA, IUBS and IUMS; is an associate
-participant in GBIF; and is recognised by UNEP and the CBD. The
-Phase II Programme is establishing a number of regional/national hubs of
-which the European Hub, the Species 2000 China Node 
-(<a href="http://www.sp2000.cn" target="_blank">http://www.sp2000.cn</a>), the
-Brazilian Hub (El Catalogo da Vida Brazil) and the N America Hub are the
-first to appear.
+Species 2000 (<a href="http://www.sp2000.org" target = "_blank">www.sp2000.org</a>) is an autonomous federation of taxonomic 
+database custodians, involving taxonomists throughout the world. The goal 
+is to collate a uniform and validated index to the world's known species. 
+Species 2000 is registered as a not-for-profit company limited by guarantee 
+(registered in England No. 3479405) with six directors, and taxonomic database 
+and relevant software organisations from around the world as members. It started 
+from a TDWG Task Group; sponsored by CODATA, IUBS and IUMS; is an associate 
+participant in GBIF, a data provider to EC LifeWatch; and is recognised by UNEP 
+and the CBD. Its Phase II Programme includes EC 4D4Life and i4Life e-infrastructure 
+projects. 4D4Life includes the establishment of a Global Multi-Hub Network with Regional 
+Centres in China, New Zealand, Australia, Brazil and N. America. i4Life includes 
+pipelines for data exchange and checklist harmonisation with GBIF, EBI/NSDC, 
+Barcode of Life, IUCN Red List and EoL.
 </p>
-<p>The Species 2000 scientific programme is led by its Team: Guy
-Baillargeon (Canada), Frank Bisby (UK), Thierry Bourgoin (France), Jerry
-Cooper (New Zealand), Dennis Gordon (New Zealand), Keping Ma (China),
-Luciane Marinoni (Brazil), Michael A Ruggiero (USA), Nicolas Bailly
-(Philippines), Edward Vanden Berghe (Belgium), Richard J White (UK),
-Karen L Wilson (Australia), with further assistance from the Regional Hubs.
+<p>
+Species 2000 is governed by an elected Board of Directors that deals with legal 
+and financial matters, and that is advised by the CoL Global Team on scientific 
+policy. The Directors are presently: Peter Schalk (Chair, The Netherlands), 
+Guy Baillargeon (Convenor of the CoL Global Team, Canada), Frank Bisby (Executive Director, UK), 
+Vanderlei Canhos (Brazil), Alex Gray (UK) and Keping Ma (China).
 </p>
 </div>
 <?php
 echo $this->navigator_bottom;
+?>
