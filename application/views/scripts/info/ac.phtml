@@ -20,17 +20,18 @@ printf($this->translate('Info_annual_checklist'), $this->app->edition);
 echo $this->navigator_top;
 $fcImgAlt = $this->app->edition . ' Annual Checklist DVD front cover';
 ?>
-<div class="info_content"><img
-    src="<?php
-    echo $this->baseUrl();
-    ?>/images/dvd_front_cover.jpg"
-    title="<?php echo $fcImgAlt; ?>"
-    alt="<?php echo $fcImgAlt; ?>" width="317"
+<div class="info_content">
+<p style="margin-bottom: 20px;">
+<img
+    src="../images/dvd_front_cover.png"
+    title="2011 Annual Checklist DVD front cover"
+    alt="2011 Annual Checklist DVD front cover" width="317"
     height="317" class="right-align bordered-img" />
-<p style="margin-bottom: 20px;">The <?php echo $this->app->edition; ?> Annual
-Checklist contains contributions from <?php echo $this->stats['databases']; ?>
-databases with information on <b><?php echo $this->stats['species']; ?></b>
-species and <b><?php echo $this->stats['infraspecific_taxa']; ?></b> infraspecific
+
+<i><b>The Catalogue of Life: 2011 Annual Checklist</b></i> contains contributions from
+ <?php #echo $this->stats['databases']; ?><b>99</b> 
+databases with information on <b><?php echo $this->stats['species']; ?> </b>
+species and <b><?php echo $this->stats['infraspecific_taxa']; ?> </b> infraspecific
 taxa, and also includes <b><?php echo $this->stats['synonyms']; ?></b> synonyms
 and <b><?php echo $this->stats['common_names']; ?></b> common names covering the
 following groups:</p>
@@ -53,39 +54,40 @@ echo $this->internalLink('Viruses and Subviral agents from [link:db:14]');
  &#8226; <?php echo $this->internalLink('Slime moulds from [link:db:53]'); ?>
 </p>
 <p><b class="field_header">Fungi</b>
- &#8226; <?php echo $this->internalLink('Various taxa in whole or in part from CABI Bioscience databases ([link:db:28], [link:db:23], [link:db:25] and [link:db:38] databases) and from three other databases covering [link:db:36], [link:db:12] and [link:db:33]'); ?>
+ &#8226; <?php echo $this->internalLink('Various taxa in whole or in part from CABI Bioservices databases ([link:db:28], [link:db:23], [link:db:25], [link:db:97] and [link:db:38] databases) and from three other databases covering [link:db:36], [link:db:12], [link:db:33], [link:db:98] Lichens from [link:db:79]'); ?>
 </p>
 <p><b class="field_header">Plantae (Plants)</b>
  &#8226; <?php echo $this->internalLink('Mosses from [link:db:19]'); ?>
  &#8226; <?php echo $this->internalLink('Liverworts and hornworts from [link:db:74]'); ?>
- &#8226; <?php echo $this->internalLink('Conifers from [link:db:45]'); ?>
- &#8226; <?php echo $this->internalLink('Cycads and 6 flowering plant families from [link:db:16] and 93 families from [link:db:24]'); ?>
- &#8226; <?php echo $this->internalLink('Plus individual groups: Brazil Nut family ([link:db:43]), Cranesbills ([link:db:48]), Crucifers ([link:db:73]), Custard Apple family ([link:db:40]), Legume family ([link:db:15]), Nightshade genus ([link:db:64]), Sundew family ([link:db:66]), Sunflower family ([link:db:72]) and Waits Numi family ([link:db:56])'); ?>
+ &#8226; <?php echo $this->internalLink('Conifers from [link:db:45] '); ?>
+ &#8226; <?php echo $this->internalLink('Cycads and 6 flowering plant families from [link:db:16] and 99 families from [link:db:24]'); ?>
+ &#8226; <?php echo $this->internalLink('Plus individual groups: Brazil Nut family ([link:db:43]), Cranesbills ([link:db:48]), Crucifers ([link:db:73]), Custard Apple family ([link:db:40]), Legume family ([link:db:15]), Nightshade genus ([link:db:64]), Sundew family ([link:db:66]), Sunflower family ([link:db:72]) and Waits Numi family ([link:db:56]) '); ?>
 </p>
 <p><b class="field_header">Animalia (Animals)</b>
- &#8226; <?php echo $this->internalLink('Sponges from [link:db:44]'); ?>
- &#8226; <?php echo $this->internalLink('Marine invertebrates (12 phyla & 10 classes ) and chordates (4 classes) from [link:db:35]'); ?>
+ &#8226; <?php echo $this->internalLink('Sponges, freeliving flatworms, ribbon worms, marine oligochaetes, bristle worms, remipedes, brachypods, cumaceans, pillbugs, slaters, woodlice, bryozoans, lamp-shells, horseshoe worms, sea stars, brittle and basket stars from WoRMS (13 <span class="new">NEW!</span> checklists)'); ?>
+ &#8226; <?php echo $this->internalLink('Other marine invertebrates (10 phyla & 21 classes ) and chordates (4 classes) from [link:db:35]'); ?>
  &#8226; <?php echo $this->internalLink('Sea anemones from the [link:db:13]'); ?>
- &#8226; <?php echo $this->internalLink('Rotifers from [link:db:47]'); ?>
+ &#8226; <?php echo $this->internalLink('Rotifers from [link:db:47] database'); ?>
  &#8226; <?php echo $this->internalLink('Entoprocts, cycliophorans, velvet worms, water bears from [link:db:17]'); ?>
- &#8226; <?php echo $this->internalLink('Shrimps, krill, cumaceans, freshwater crabs from [link:db:17], [link:db:9], [link:db:58], [link:db:77]'); ?>
- &#8226; <?php echo $this->internalLink('Spiders, scorpions, ticks &amp; mites from [link:db:29], [link:db:71], [link:db:17], [link:db:30] &amp; Mites GSDs ([link:db:70] &amp; [link:db:78])'); ?>
+ &#8226; <?php echo $this->internalLink('Shrimps, krill, cumaceans, freshwater crabs from [link:db:17], [link:db:9], [link:db:77]'); ?>
+ &#8226; <?php echo $this->internalLink('Spiders, scorpions, ticks &amp; mites from [link:db:29], [link:db:71] , [link:db:17], [link:db:30], Mites GSDs, [link:db:82] &amp;  [link:db:80]'); ?>
  &#8226; <?php echo $this->internalLink('Diplopods, centipedes, pauropods and symphylans from [link:db:41] and [link:db:42]'); ?>
- &#8226; <?php echo $this->internalLink('Dragonflies and damselflies from the [link:db:20] database'); ?>
- &#8226; <?php echo $this->internalLink('Stoneflies from [link:db:65]'); ?>
- &#8226; <?php echo $this->internalLink('Cockroaches from [link:db:51]'); ?>
- &#8226; <?php echo $this->internalLink('Praying mantids from [link:db:62]'); ?>
- &#8226; <?php echo $this->internalLink('Stick and leaf insects from [link:db:50]'); ?>
- &#8226; <?php echo $this->internalLink('Grasshoppers, locusts, katydids and crickets from [link:db:21]'); ?>
- &#8226; <?php echo $this->internalLink('Some groups of true bugs from [link:db:26], [link:db:11], [link:db:52], [link:db:54], [link:db:61] &amp; [link:db:76]'); ?>
+ &#8226; <?php echo $this->internalLink('Dragonflies and damselflies from [link:db:20] database'); ?>
+ &#8226; <?php echo $this->internalLink('Stoneflies from [link:db:65] '); ?>
+ &#8226; <?php echo $this->internalLink('Cockroaches from [link:db:51] '); ?>
+ &#8226; <?php echo $this->internalLink('Praying mantids from [link:db:62] '); ?>
+ &#8226; <?php echo $this->internalLink('Stick and leaf insects from [link:db:50] '); ?>
+ &#8226; <?php echo $this->internalLink('Grasshoppers, locusts, katydids and crickets from [link:db:21] '); ?>
+ &#8226; <?php echo $this->internalLink('Webspinners from [link:db:89] '); ?>
+ &#8226; <?php echo $this->internalLink('Some groups of true bugs from [link:db:26], [link:db:11], [link:db:52], [link:db:54], [link:db:61] , [link:db:76], [link:db:83], [link:db:84] &amp; [link:db:96]'); ?>
  &#8226; <?php echo $this->internalLink('Lacewings, antlions, owlflies, fishflies, dobsonflies & snakeflies from [link:db:55]'); ?>
- &#8226; <?php echo $this->internalLink('Some beetle groups from the [link:db:27], [link:db:32], [link:db:39] & [link:db:17]'); ?>
+ &#8226; <?php echo $this->internalLink('Some beetle groups from the [link:db:27] , [link:db:32], [link:db:39]  &amp; [link:db:17]'); ?>
  &#8226; <?php echo $this->internalLink('Fleas from [link:db:22]'); ?>
- &#8226; <?php echo $this->internalLink('Flies, mosquitoes, bots, midges and gnats from [link:db:3], [link:db:5] & [link:db:6]'); ?>
- &#8226; <?php echo $this->internalLink('Butterflies and moths from [link:db:18], [link:db:46], [link:db:31], [link:db:49]'); ?>
+ &#8226; <?php echo $this->internalLink('Flies, mosquitoes, bots, midges and gnats from [link:db:101], [link:db:5] & [link:db:6]'); ?>
+ &#8226; <?php echo $this->internalLink('Butterflies and moths from [link:db:18], [link:db:46], [link:db:31], [link:db:49] '); ?>
  &#8226; <?php echo $this->internalLink('Bees &amp; wasps from [link:db:67], [link:db:68], [link:db:34] and [link:db:37]'); ?>
  &#8226; <?php echo $this->internalLink('Snails and slugs from [link:db:1]'); ?>
- &#8226; <?php echo $this->internalLink('Horseshoe worms, lamp-shells, brittle and basket stars from [link:db:57]'); ?>
+ &#8226; <?php echo $this->internalLink('brachypods, bristle worms, brittle and basket stars, bryozoans, horseshoe worms, hot-springs shrimps, lamp-shells, mystacocarids, pillbugs, slaters & woodlice, remipedes, ribbon worms, sea stars, tantulocaridans  from WoRMS'); ?>
  &#8226; <?php echo $this->internalLink('Fishes from [link:db:10]'); ?>
  &#8226; <?php echo $this->internalLink('Reptiles from [link:db:8]'); ?>
  &#8226; <?php echo $this->internalLink('Amphibians, birds and mammals from [link:db:17]'); ?>
@@ -93,7 +95,7 @@ echo $this->internalLink('Viruses and Subviral agents from [link:db:14]');
 <p><span class="field_header">PLUS</span> additional species of many groups from
 <?php echo $this->internalLink('[link:db:17] & [link:db:75]'); ?>
 </p>
-<p class="field_header">Structure of the Annual Checklist</p>
+<p class="field_header">Structure of the Catalogue of Life</p>
 <p>The goal is to list every distinct species in each group of
 organisms. At present, some groups are globally complete, some are
 represented by global sectors that are nearing completion, and others
@@ -139,16 +141,35 @@ the Species 2000 website (<a href="http://www.sp2000.org" target="_blank">http:/
 <p>Each species is linked via the genus and family to the taxonomic
 classification. Above the node of attachment of each data sector this
 classification has been agreed by Species 2000 and ITIS as a practical
-management tool to provide access to the Catalogue, the Catalogue of Life
-Taxonomic Classification Edition 1. This top level classification has remained
-unchanged in 2005-2010. However, below the nodes of attachment for each
-taxonomic sector, the classification originates from the supplier databases and
-so may change from year to year. Because of these lower level changes there are
-therefore annual versions of Edition 1 for 2005, 2006, 2007, 2008, 2009 and
-2010. Please also read the draft discussion document
-"<a href="<?php echo $this->baseUrl() . '/info/hierarchy'; ?>">Towards a management
-hierarchy (classification) for the Catalogue of Life</a>" by Dennis Gordon
-appended to this edition of the Annual Checklist.</p>
+management tool to provide access to the Catalogue of Life. The top levels 
+of this management classification were set in 2005, as the <i>CoL Taxonomic 
+Classification Edition 1</i>, and used for the six years 2005 - 2010. 
+A second edition has now been prepared by the CoL Hierarchy Panel, 
+and this year <i>Part A</i> is released for the Animalia and Fungi, with <i>Parts B</i> 
+and <i>C</i> still to follow.</p>
+<p>
+The CoL Hierarchy Panel is composed of experts who make recommendations on the higher 
+level classification, led by Michael Ruggiero, Dennis Gordon, Nicolas Bailly and 
+David Nicolson. Please read the draft discussion document &quot;Towards a management 
+hierarchy (classification) for the Catalogue of Life&quot; by Dennis Gordon, appended 
+to this edition of the Annual Checklist 
+(<a href="hierarchy">www.catalogueoflife.org/annual-checklist/2011/info/hierarchy</a>).
+</p>
+
+<p>
+This <i>CoL Taxonomic Classification Edition 2 Part A</i> re-arranges the Fungi 
+following the 10th edition of the Dictionary of the 
+Fungi (Kirk, Cannon, Minter & Stalper, 2008 - CABI). We are grateful to 
+Paul Kirk for his work with the CoL Hierarchy Panel.
+</p>
+
+<p>
+This <i>CoL Taxonomic Classification Edition 2 Part A</i> re-arranges the phyla
+ of Animalia in a new system, following the recommendations of the CoL Hierarchy Panel,
+ with a detailed arrangement carried out by Michael Ruggiero, Dennis Gordon and 
+Nicolas Bailly, with technical assistance from David Nicolson.
+</p>
+
 <p>Where available from the suppliers, infraspecific taxa such as
 subspecies and varieties have also been included but this coverage is
 variable between taxonomic sectors.</p>
@@ -180,7 +201,7 @@ the LSID is displayed in full), and the LSID is shown at the base of
 each Species Details screen. This is done so that a user can copy and
 paste the LSIDs into other software or services: it is NOT intended for
 them to be read or typed.</p>
-<p class="field_header">Functionality of the Annual Checklist</p>
+<p class="field_header">Functionality of the system</p>
 <p>&#8226; Species (and infraspecific taxa) can be located either by
 searching by name or by tracking down through the hierarchical
 classification.<br />
@@ -212,24 +233,31 @@ working with colleagues around the world.</p>
 <p>&#8226; <b><em>Yuri Roskov</em></b>, Executive Editor at the Species 2000 Secretariat, Reading, UK</p>
 <p>&#8226; <b><em>Thomas Orrell</em></b>, ITIS Acting Director, ITIS Secretariat, Smithsonian Institution, Washington DC, USA</p>
 <p>&#8226; <b><em>David Nicolson</em></b>, ITIS Data Development Leader, USGS/Smithsonian Institution, Washington DC, USA</p>
-<p>&#8226; <b><em>Luvie Paglinawan</em></b>, Annual Checklist Dataset Compiler, at the Species 2000 Philippines Office, WorldFish Center, Los-Baños, Philippines</p>
-<p>&#8226; <b><em>Nicolas Bailly</em></b>, Taxonomic Editorial Advisor for Marine sectors and Species 2000 Philippines Office Manager at the WorldFish Center, Los-Baños, Philippines</p>
+<p>&#8226; <b><em>Luvie Paglinawan</em></b>, Annual Checklist Dataset Compiler, at the Species 2000 Philippines Office, WorldFish Center, FIN, Los-Ba&ntilde;os, Philippines</p>
+<p>&#8226; <b><em>Nicolas Bailly</em></b>, Taxonomic Editorial Advisor for Marine sectors and Species 2000 Philippines Office Manager at the WorldFish Center, Los-Banos, Philippines</p>
 <p>&#8226; <b><em>Paul Kirk</em></b>, Taxonomic Editorial Advisor for Fungi and Chromista sectors at CABI, Egham, UK</p>
 <p>&#8226; <b><em>Thierry Bourgoin</em></b>, Taxonomic Editorial Advisor for Insects at the Museum National d'Histoire Naturelle, Paris, France</p>
 <p>&#8226; <b><em>Guy Baillargeon</em></b>, Taxonomic Editorial Advisor for Plants at Agriculture and Agri-Food Canada</p>
-
+<p>&#8226; <b><em>David Ouvrard</em></b>, 4D4Life GSD network convener at the Museum National d'Histoire Naturelle, Paris, France</p>
+<br/>
+<p class="field_header">Annual Checklist Production Team</p>
+<p>&#8226; <b><em>Luvie Paglinawan</em></b>, Annual Checklist Dataset Compiler and <b><em>Luisa Abucay</em></b>, Assistant for Annual Checklist Dataset Compiler, at the Species 2000 Philippines Office, FIN, Los-Ba&ntilde;os, Philippines</p>
+<p>&#8226; <b><em>Viktoras Did&#382;iulis</em></b>, Systems Manager at the Species 2000 Secretariat, Reading, UK</p>
+<p>&#8226; <b><em>Paul Klinkenberg</em></b>, Annual Checklist Cover Design and DVD Production at ETI Bioinformatics, Amsterdam, The Netherlands</p>
+<p>Under coordination of <b><em>Yuri Roskov</em></b> at the Species 2000 Secretariat, Reading, UK</p>
+<br/>
 <p class="field_header">Annual Checklist Software Development</p>
 <p>&#8226; <b><em>Wouter Addink</em></b>, Leader of the Annual Checklist Software Development and Software Production at ETI Bioinformatics, Amsterdam, The Netherlands</p>
-<p>&#8226; <b><em>Núria Torrescasana Aloy</em></b>, Senior Annual Checklist Interface Development at ETI Bioinformatics, Amsterdam, The Netherlands</p>
-<p>&#8226; <b><em>Dennis Seijts</em></b>, Junior Annual Checklist Interface Development at ETI Bioinformatics, Amsterdam, The Netherlands</p>
+<p>&#8226; <b><em>Dennis Seijts</em></b>, Annual Checklist Interface Development at ETI Bioinformatics, Amsterdam, The Netherlands</p>
 <p>&#8226; <b><em>Gideon Gijswijt</em></b>, Annual Checklist DVD Master and Installation Development at ETI Bioinformatics, Amsterdam, The Netherlands</p>
-<p>&#8226; <b><em>Paul Klinkenberg</em></b>, Annual Checklist Cover Design and DVD Production at ETI Bioinformatics, Amsterdam, The Netherlands</p>
-<p>&#8226; <b><em>Jorrit van Hertum</em></b>, former author of the Annual Checklist Software and Annual Checklist Optimizer Software at ETI Bioinformatics, Amsterdam, The Netherlands</p>
-<p>&#8226; <b><em>Richard White</em></b>, author of Taxon Matcher Software at Cardiff University, UK</p>
+<p>&#8226; <b><em>Ruud Altenburg</em></b>, author of Base Schema Conversion Software at ETI BioInformatics, Amsterdam, the Netherlands</p>
+<p>&#8226; <b><em>N&uacute;ria Torrescasana Aloy</em></b>, former author of the Annual Checklist Software at ETI BioInformatics, Amsterdam, the Netherlands</p>
+<p>&#8226; <b><em>Richard White</em></b>, author of the Taxon Matcher Software at Cardiff University, UK</p>
+
 
 <p>The Annual Checklist Assembly Interface is developed by
 <b><em>Luvie Paglinawan</em></b> and <b><em>Nicolas Bailly</em></b>,
-Species 2000 Philippines Office at the WorldFish Center, Los-Baños, Philippines.</p>
+Species 2000 Philippines Office, Los-Ba&ntilde;os, Philippines.</p>
 </div>
 <?php
 echo $this->navigator_bottom;
