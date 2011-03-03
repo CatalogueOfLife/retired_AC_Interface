@@ -1,5 +1,6 @@
 SetEnv APPLICATION_ENV @ENVIRONMENT@
 php_value session.auto_start 0
+AddDefaultCharset UTF-8
 
 RewriteEngine On
 RewriteBase /

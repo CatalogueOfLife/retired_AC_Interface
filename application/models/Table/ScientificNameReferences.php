@@ -12,14 +12,35 @@
  */
 class ACI_Model_Table_ScientificNameReferences extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'scientific_name_references';
-    protected $_primary = 'record_id';
+    protected $_name = 'reference';
+    protected $_primary = 'id';
     
-    public function get ($nameCode)
+    public function getByTaxonId ($taxon_id)
     {
         $select = $this->select(true)
+            ->joinRight(
+                array('rtt' => 'reference_to_taxon'),
+                'rtt.reference_id = reference.id',
+                array()
+            )
             ->where(
-                'name_code = ? AND reference_type <> "ComNameRef"', $nameCode
+                'rtt.taxon_id = ?', $taxon_id
+            );
+        $stmt = $this->_db->query($select);
+        $data = $stmt->fetchAll();
+        return $this->_filterData($data);
+    }
+    
+    public function getBySynonymId ($synonym_id)
+    {
+        $select = $this->select(true)
+            ->joinRight(
+                array('rts' => 'reference_to_synonym'),
+                'rts.reference_id = reference.id',
+                array()
+            )
+            ->where(
+                'rts.synonym_id = ?', $synonym_id
             );
         $stmt = $this->_db->query($select);
         $data = $stmt->fetchAll();
@@ -30,7 +51,7 @@ class ACI_Model_Table_ScientificNameReferences extends Zend_Db_Table_Abstract
     {
         $filteredData = array();
         foreach ($data as $d) {
-            $filteredData[] = $d['reference_id'];
+            $filteredData[] = $d['id'];
         }
         return $filteredData;
     }

@@ -12,20 +12,46 @@
  */
 class ACI_Model_Table_References extends Zend_Db_Table_Abstract
 {
-    protected $_name = 'references';
-    protected $_primary = 'record_id';
+    protected $_name = 'reference';
+    protected $_primary = 'id';
     
-    public function getByNameCode($nameCode)
+    public function getByTaxonId($taxon_id)
     {
         $snr = new ACI_Model_Table_ScientificNameReferences();
-        $refIds = $snr->get($nameCode);
+        $refIds = $snr->getByTaxonId($taxon_id);
         if (empty($refIds)) {
             return array();
         }
         $select = $this->select(true)->where(
-            'record_id IN (' . implode(',', $refIds) . ')'
-        );
+            'id IN (' . implode(',', $refIds) . ')'
+        )
+        ->joinRight(
+            array('rtt' => 'reference_to_taxon'),
+            'reference.id = rtt.reference_id',
+            array()
+        )
+        ->where('rtt.taxon_id = ?', $taxon_id);
         
+        $stmt = $this->_db->query($select);
+        $data = $stmt->fetchAll(Zend_Db::FETCH_ASSOC);
+        return $data;
+    }
+    
+    public function getBySynonymId($synonym_id)
+    {
+        $snr = new ACI_Model_Table_ScientificNameReferences();
+        $refIds = $snr->getBySynonymId($synonym_id);
+        if (empty($refIds)) {
+            return array();
+        }
+        $select = $this->select(true)
+        ->joinRight(
+            array('rts' => 'reference_to_synonym'),
+            'reference.id = rts.reference_id',
+            array()
+        )
+        ->where(
+            'id IN (' . implode(',', $refIds) . ') AND rts.synonym_id = ?', $synonym_id);
         $stmt = $this->_db->query($select);
         $data = $stmt->fetchAll(Zend_Db::FETCH_ASSOC);
         return $data;

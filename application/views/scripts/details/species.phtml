@@ -65,7 +65,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                         <td align="right">
                         <?php if ($synonym['num_references']): ?>
                         <a href="<?php echo $this->baseUrl() .
-                              '/details/reference/species/' . $synonym['id']; ?>"><img
+                              '/details/reference/synonym/' . $synonym['id']; ?>"><img
                             src="<?php echo $this->baseUrl() . '/images/book.gif'; ?>"
                             alt="<?php echo $synonym['referenceLabel']; ?>"
                             title="<?php echo $synonym['referenceLabel'] ?>"/>
@@ -109,7 +109,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                 <?php if ($previousLanguage != $common['language'])
                 {
                     if ($languageGroup == "odd") $languageGroup = "even"; else $languageGroup = "odd"; } ?>
-                <tr class="<?php echo $languageGroup; ?>">
+                <tr class="language<?php echo $languageGroup; ?>">
                     <td><?php echo $common['common_name']; ?></td>
                     <td><?php echo $common['language'] ? $common['language'] : '-'; ?></td>
                     <td><?php echo $common['country'] ? $common['country'] : '-'; ?></td>
@@ -142,12 +142,14 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                 if ($i != $latest):
                 ?>
                 <tr>
-                    <td class="rank"><?php echo $hierarchy['taxon'] == 'Kingdom' ?
-                        "" : $hierarchy['taxon']; ?></td>
+                    <td class="rank"><?php echo $hierarchy['taxon'] == 'kingdom' ?
+                        "" : ucfirst($hierarchy['taxon']); ?></td>
                     <td class="taxon"><a href="<?php echo $this->baseUrl() . '/browse/tree/id/' .
                       $hierarchy['record_id']; ?>">
-                        <?php echo in_array($hierarchy['taxon'], array('Species', 'Genus')) ?
-                         "<i>$hierarchy[name]</i>" : $hierarchy['name']; ?>
+                        <?php echo in_array(strtolower($hierarchy['taxon']), array('species', 'genus')) ?
+                         '<i>'.(strtolower($hierarchy['taxon']) == 'genus' ? ucfirst($hierarchy['name']) : 
+                        		ucfirst($lastHierachy['name']) . ' ' . strtolower($hierarchy['name'])).
+                         '</i>' : ucfirst($hierarchy['name']); $lastHierachy = $hierarchy ?>
                         </a></td>
                     <td>
                         <div class="lsid-selector collapsed">
@@ -192,7 +194,10 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Online_resource'); ?>:</th>
-        <td><?php echo $this->species->webSite; ?></td>
+        <td><?php foreach ($this->species->urls as $url) : ?><a
+        href="<?php echo str_replace('#','',$url['url']);?>" target="_blank"><?php echo str_replace('#','',$url['url']);?></a>
+        <?php endforeach; ?>
+        </td>
     </tr>
     <tr class="<?php echo $rowClass; ?> divisor">
         <td colspan="2 "/>

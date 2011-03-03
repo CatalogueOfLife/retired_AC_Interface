@@ -43,7 +43,7 @@
                 <defaultAction>all</defaultAction>
             </frontController>
             <view>
-                <encoding>ISO-8859-1</encoding>
+                <encoding>UTF-8</encoding>
                 <scripts>/scripts</scripts>      
             </view>            
         </resources>
@@ -88,7 +88,7 @@
         <eti>
             <application>
                 <edition>2010</edition>
-                <version>1.5</version>
+                <version>1.6</version>
                 <revision>000</revision>
                 <location>http://www.catalogueoflife.org/annual-checklist/2010</location>
             </application>

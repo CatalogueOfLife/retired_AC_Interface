@@ -15,7 +15,6 @@ class ACI_View_Helper_InternalLink extends Zend_View_Helper_Abstract
     public function internalLink($str = '')
     {   
         $matches = $find = $replace = array();
-
         // links to databases
         preg_match_all('#\[link:db:([0-9]+)\]#', $str, $matches);
         
@@ -29,7 +28,9 @@ class ACI_View_Helper_InternalLink extends Zend_View_Helper_Abstract
                 $replace[] = '<a href="' . $this->view->baseUrl() .
                     '/details/database/id/' . $match . '"
                     alt="' . $db['database_name'] . '"
-                    title="' . $db['database_name_displayed'] . '">'.
+                    title="'. (strstr($db['full_name'],$db['short_name']) ?
+                        $db['full_name'] :
+                        $db['short_name'] . ': ' . $db['full_name']) . '">'.
                     $db['database_name'] .'</a>' . ($db['is_new'] ? $new : '');
             }
         }

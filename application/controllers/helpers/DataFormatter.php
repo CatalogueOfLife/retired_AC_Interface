@@ -21,79 +21,128 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $this->getActionController()->getHelper('TextDecorator');
         $it = $paginator->getIterator();
         unset($paginator);
-        
         foreach ($it as $row) {
+            if(!isset($row['rank']))
+            {
+                $row['rank'] = $this->_getRank($row);
+            }
+            if(!is_int($row['status']))
+            {
+                if($row['status'] == 'common name')
+                {
+                    $row['status'] = 6;
+                }
+            }
             // get accepted species data if yet not there
             $this->_addAcceptedName($row);
             // create links
-            if ($row['rank'] >= ACI_Model_Table_Taxa::RANK_SPECIES) {
+            if (!in_array($row['rank'], array(
+                ACI_Model_Table_Taxa::RANK_KINGDOM,
+                ACI_Model_Table_Taxa::RANK_PHYLUM,
+                ACI_Model_Table_Taxa::RANK_CLASS,
+                ACI_Model_Table_Taxa::RANK_ORDER,
+                ACI_Model_Table_Taxa::RANK_SUPERFAMILY,
+                ACI_Model_Table_Taxa::RANK_FAMILY,
+                ACI_Model_Table_Taxa::RANK_GENUS,
+                ACI_Model_Table_Taxa::RANK_SUBGENUS
+            ))) {
                 $res[$i]['link'] = $translator->translate('Show_details');
                 if (ACI_Model_Table_Taxa::isSynonym($row['status'])) {
-                    $res[$i]['url'] = '/details/species/id/' . $row['id'];
+                    $res[$i]['url'] = '/details/species/id/' . $row['accepted_species_id'];
                 } else {
                 $res[$i]['url'] =
-                    '/details/species/id/' . $row['accepted_species_id'];
+                    '/details/species/id/' . ($row['status'] != 6 ?
+                        $row['id'] : '');
                 }
-                if ($row['status'] ==
-                        ACI_Model_Table_Taxa::STATUS_COMMON_NAME) {
-                        $res[$i]['url'] .= '/common/' . $row['taxa_id'];
+                if ($row['status'] == 6) {
+                        $res[$i]['url'] .= $row['taxa_id'] .'/common/' . $row['id'];
+                } elseif (ACI_Model_Table_Taxa::isSynonym($row['status'])) {
+                    $res[$i]['url'] .= '/synonym/'.$row['id'];
                 }
             } else {
                 $res[$i]['link'] = $translator->translate('Show_tree');
-                $res[$i]['url'] = '/browse/tree/id/' . $row['taxa_id'];
+                $res[$i]['url'] = '/browse/tree/id/' . $row['id'];
             }
-            
+            if(!isset($row['name']))
+            {
+                if(isset($row['taxon_name'])) {
+                    $row['name'] = $row['taxon_name'];
+                } else {
+                    $row['name'] = 
+                    ($row['genus'] ? $row['genus'] .
+                        ($row['subgenus'] ? ' ('.$row['subgenus'].')' : '') .
+                        ($row['species'] ? ' '.$row['species'] : '') .
+                        ($row['infraspecies'] ? ' '.$row['infraspecies'] : '') :
+                        ($row['family'] ? $row['family'] :
+                            ($row['superfamily'] ? $row['superfamily'] :
+                                ($row['order'] ? $row['order'] :
+                                    ($row['class'] ? $row['class'] :
+                                        ($row['phylum'] ? $row['phylum'] :
+                                            $row['kingdom'])))))
+                    );
+                }
+            }
             $res[$i]['name'] = $this->_appendTaxaSuffix(
                 $this->_wrapTaxaName(
-                    $textDecorator->highlightMatch(
-                        $row['name'],
-                        $this->getRequest()->getParam('key', false) ?
-                        $this->getRequest()->getParam('key') :
-                        array(
-                            $this->getRequest()->getParam('genus'),
-                            $this->getRequest()->getParam('species'),
-                            $this->getRequest()->getParam('infraspecies')
-                        ),
-                        (bool)$this->getRequest()->getParam('match')
+                    (!isset($row['distribution']) ?
+                        $textDecorator->highlightMatch(
+                            ucfirst(trim($row['name'])),
+                            $this->getRequest()->getParam('key', false) ?
+                            explode(' ',$this->getRequest()->getParam('key')) :
+                            array(
+                                $this->getRequest()->getParam('genus'),
+                                $this->getRequest()->getParam('species'),
+                                $this->getRequest()->getParam('infraspecies')
+                            ),
+                            (bool)$this->getRequest()->getParam('match')
+                        ) : ucfirst(trim($row['name']))
                     ),
                     $row['status'],
                     $row['rank']
                 ),
                 $row['status'],
-                $row['status'] == ACI_Model_Table_Taxa::STATUS_COMMON_NAME ?
-                $row['language'] : $row['author']
+                $row['status'] == 6 && $row['author'] != '' ?
+                '(' . $row['author'] . ')' : $row['author']
             );
             $res[$i]['rank'] = $translator->translate(
                 ACI_Model_Table_Taxa::getRankString($row['rank'])
             );
-            
+
             $res[$i]['status'] = $translator->translate(
                 ACI_Model_Table_Taxa::getStatusString($row['status'])
             );
             
-            $res[$i]['group'] = $row['kingdom'];
+            $res[$i]['group'] = ucfirst($row['kingdom']);
             
             // Status + accepted name
-            if (!$row['is_accepted_name']) {
+            if ((isset($row['is_accepted_name']) && !$row['is_accepted_name']) ||
+                (isset($row['accepted_species_id']) && $row['accepted_species_id'])) {
                 $res[$i]['status'] = sprintf(
                     $res[$i]['status'],
                     $this->_appendTaxaSuffix(
                         $this->_wrapTaxaName(
-                            $row['accepted_species_name'],
+                            ucfirst(trim((isset($row['accepted_species_name']) ?
+                                $row['accepted_species_name'] : $row['name']))),
                             ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME,
                             $row['rank']
                         ),
                         ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME,
-                        $row['accepted_species_author']
+                        (isset($row['accepted_species_author']) ?
+                            $row['accepted_species_author'] : (isset($row['author']) ?
+                                $row['author'] : ''))
                     )
                 );
             }
             // Database
             $res[$i]['dbLogo'] = '/images/databases/' .
-                $row['db_thumb'];
-            $res[$i]['dbLabel'] = $row['db_name'];
+                (isset($row['db_thumb']) ? $row['db_thumb'] :
+                    str_replace(' ','_',(isset($row['db_name']) ? $row['db_name'] :
+                $row['source_database_name'])).'.gif');
+            $res[$i]['dbLabel'] = (isset($row['db_name']) ? $row['db_name'] :
+                $row['source_database_name']);
             $res[$i]['dbUrl'] =
-                '/details/database/id/' . $row['db_id'];
+                '/details/database/id/' . (isset($row['db_id']) ?
+                    $row['db_id'] : $row['source_database_id']);
             if (isset($row['distribution'])) {
                 $res[$i]['distribution'] = $textDecorator->highlightMatch(
                     $row['distribution'],
@@ -104,6 +153,30 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $i++;
         }
         return $res;
+    }
+    
+    private function _getRank($row)
+    {
+        if(isset($row['infraspecies']) && $row['infraspecies'])
+            return ACI_Model_Table_Taxa::RANK_INFRASPECIES;
+        elseif(isset($row['species']) && $row['species'])
+            return ACI_Model_Table_Taxa::RANK_SPECIES;
+        elseif(isset($row['subgenus']) && $row['subgenus'])
+            return ACI_Model_Table_Taxa::RANK_SUBGENUS;
+        elseif(isset($row['genus']) && $row['genus'])
+            return ACI_Model_Table_Taxa::RANK_GENUS;
+        elseif(isset($row['family']) && $row['family'])
+            return ACI_Model_Table_Taxa::RANK_FAMILY;
+        elseif(isset($row['superfamily']) && $row['superfamily'])
+            return ACI_Model_Table_Taxa::RANK_SUPERFAMILY;
+        elseif(isset($row['order']) && $row['order'])
+            return ACI_Model_Table_Taxa::RANK_ORDER;
+        elseif(isset($row['class']) && $row['class'])
+            return ACI_Model_Table_Taxa::RANK_CLASS;
+        elseif(isset($row['phylum']) && $row['phylum'])
+            return ACI_Model_Table_Taxa::RANK_PHYLUM;
+        elseif(isset($row['kingdom']) && $row['kingdom'])
+            return ACI_Model_Table_Taxa::RANK_KINGDOM;
     }
     
     public function formatPlainRow(array $row)
@@ -225,7 +298,9 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             !$speciesDetails->dbVersion) {
             $speciesDetails->dbName = $textDecorator->getEmptyField();
         }
+        $speciesDetails->dbVersion = $speciesDetails->dbVersion;
         if (!$speciesDetails->scrutinyDate &&
+        	$speciesDetails->scrutinyDate == '' &&
             !$speciesDetails->specialistName) {
             $speciesDetails->latestScrutiny = $textDecorator->getEmptyField();
         } else {
@@ -234,7 +309,9 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     ', ',
                     array(
                         $speciesDetails->specialistName,
-                        $speciesDetails->scrutinyDate
+                        $speciesDetails->scrutinyDate != '' ?
+                        $speciesDetails->scrutinyDate :
+                        ''
                     )
                 ), ',')
             );
@@ -250,10 +327,19 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         return $speciesDetails;
     }
     
+    public function formatDate($date)
+    {
+        if($date == '0000-00-00') {
+            return $date;
+        }
+        //changes yyyy-mm-dd into dd mon yyyy
+        return date('d M Y', strtotime($date));
+    }
+    
     public function formatDatabaseDetails(array $dbDetails)
     {
-        $dbDetails['name'] = $dbDetails['database_name_displayed'];
-        $dbDetails['label'] = $dbDetails['database_name'];
+        $dbDetails['label'] = $dbDetails['short_name'];
+        $dbDetails['name'] = $dbDetails['label'] . ': ' . $dbDetails['full_name'];
         $dbDetails['accepted_species_names'] =
             number_format($dbDetails['accepted_species_names']);
         $dbDetails['accepted_infraspecies_names'] =
@@ -263,14 +349,11 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         $dbDetails['total_names'] =
             number_format($dbDetails['total_names']);
         $dbDetails['total_synonyms'] =
-            number_format($dbDetails['species_synonyms'] +
-                $dbDetails['infraspecies_synonyms']
-            );
+        	number_format($dbDetails['synonyms']);
         $dbDetails['taxonomic_coverage'] =
             $this->getTaxonLinksInDatabaseDetailsPage(
                 $dbDetails['taxonomic_coverage']
             );
-        
         // raw links text
         $links = explode(';', $dbDetails['web_site']);
         unset($dbDetails['web_site']);
@@ -280,6 +363,20 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $dbDetails['web_sites'][] = $this->getActionController()
                 ->getHelper('TextDecorator')->createLink($link, '_blank');
         }
+        return $dbDetails;
+    }
+     
+    public function formatDatabaseResultPage(array $dbDetails)
+    {
+        $dbDetails['name'];
+        $dbDetails['label'] = $dbDetails['abbreviation'];
+        $dbDetails['accepted_species_names'] =
+            number_format($dbDetails['total_species']);
+        $dbDetails['url'] = '/details/database/id/'.$dbDetails['id'];
+        $dbDetails['thumb'] = '/images/databases/' .
+            str_replace(' ', '_', $dbDetails['label']) . '.gif';
+        $dbDetails['database_name_displayed'] = $dbDetails['abbreviation'] .
+            ': ' . $dbDetails['name'];
         return $dbDetails;
     }
      
@@ -325,7 +422,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         }
         return $label;
     }
-    
+
     public function getTaxonLinksInDatabaseDetailsPage($taxonCoverage)
     {
         $ignoreItems = array (
@@ -425,6 +522,26 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         return $output;
     }
     
+/*    public function getTaxonLinksInDatabaseDetailsPage($taxonCoverage)
+    {
+        $ignoreItems = array (
+            '\(.*\)', // Ignore everything within parenthesis ()
+            '^.*\:', // Ignore everything before the colon :
+            'superfamily',
+            'superfamilies',
+            '^family',
+            'genera',
+            '^genus',
+            'NA', // Not Available, it shouldn't show a link
+            'pro parte'
+        );
+        
+        $firstKingdom = true;
+        $output = '';
+        $output = $this->_formatTaxonCoverage($taxonCoverage);
+        return $output;
+    }*/
+    
     public function splitByMarkers($name)
     {
         $nameArray = explode(' ', $name);
@@ -432,6 +549,62 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $n = array($n, in_array($n, ACI_Model_Table_Taxa::$markers));
         }
         return $nameArray;
+    }
+    
+    protected function _formatTaxonCoverage($taxonCoverage)
+    {
+        $kingdom = $phylum = $class = $order= $output = '';
+        $sameRank = false;
+        $seperatorDifferentRank = ' - ';
+        $seperatorSameRank = ', ';
+        foreach($taxonCoverage as $taxa)
+        {
+            if($class != '' && $class != $taxa['class_id'])
+            {
+                $output .= '<br />';
+                $sameRank = false;
+            }
+            if($class != $taxa['class_id'])
+            {
+                $output .= 
+                    $this->_getLinkToTree($taxa['kingdom_id'],$taxa['kingdom']) .
+                    $this->_getRankStatus($taxa['kingdom_status']) . 
+                    $seperatorDifferentRank .
+                    $this->_getLinkToTree($taxa['phylum_id'],$taxa['phylum']) .
+                    $this->_getRankStatus($taxa['phylum_status']) . 
+                    $seperatorDifferentRank .
+                    $this->_getLinkToTree($taxa['class_id'],$taxa['class']) .
+                    $this->_getRankStatus($taxa['class_status']);
+                $class = $taxa['class_id'];
+            }
+            if($order != $taxa['order_id'])
+            {
+                $output .= ($sameRank == true ? $seperatorSameRank :
+                    $seperatorDifferentRank) .
+                    $this->_getLinkToTree($taxa['order_id'],$taxa['order']) .
+                    $this->_getRankStatus($taxa['order_status']);
+                $order = $taxa['order_id'];
+                $sameRank = true;
+            }
+        }
+        return $output;
+    }
+    
+    protected function _getRankStatus($status)
+    {
+        if($status == 1) {
+            return ' <span class="new">NEW!</span>';
+        } elseif($status == 2) {
+            return ' <span class="new">UPDATED!</span>';
+        }
+        return '';
+    }
+    
+    protected function _getLinkToTree($id,$name)
+    {
+        $link = $this->getFrontController()->getBaseUrl() .
+            '/browse/classification/id/' . $id;
+        return '<a href="'.$link.'">'.$name.'</a>';
     }
     
     protected function _formatInfraspeciesName($name)
@@ -448,14 +621,17 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     
     protected function _addAcceptedName(array &$row)
     {
-        if (!$row['accepted_species_id']) {
+        if ((!isset($row['accepted_species_id']) || (
+            isset($row['accepted_species_id']) &&
+            !$row['accepted_species_id'])) &&
+            isset($row['accepted_name_code'])) {
             $row = array_merge(
                 $row,
                 $this->getActionController()->getHelper('Query')
                      ->getAcceptedSpecies($row['accepted_name_code'])
             );
         }
-        if ($row['is_accepted_name']) {
+        if (isset($row['is_accepted_name']) && $row['is_accepted_name']) {
             $row['id'] = $row['accepted_species_id'];
         }
     }
@@ -464,7 +640,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     {
         if ($suffix) {
             switch($status) {
-                case ACI_Model_Table_Taxa::STATUS_COMMON_NAME:
+                case 'common name':
                     $source .= ' (' . $suffix . ')';
                     break;
                 default:

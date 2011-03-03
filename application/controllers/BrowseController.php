@@ -77,6 +77,21 @@ class BrowseController extends AController
     
     public function classificationAction()
     {
+        $reset = $this->_getParam('reset', false);
+        if($reset) {
+            $this->getHelper('SessionHandler')->clear('kingdom');
+            $this->getHelper('SessionHandler')->clear('phylum');
+            $this->getHelper('SessionHandler')->clear('class');
+            $this->getHelper('SessionHandler')->clear('order');
+            $this->getHelper('SessionHandler')->clear('superfamily');
+            $this->getHelper('SessionHandler')->clear('family');
+            $this->getHelper('SessionHandler')->clear('genus');
+            $this->getHelper('SessionHandler')->clear('species');
+            $this->getHelper('SessionHandler')->clear('infraspecies');
+            $this->getHelper('SessionHandler')->clear('match');
+        }
+        $this->view->controller = 'browse';
+        $this->view->action = 'classification';
         // Search hint query request
         $fetch = $this->_getParam('fetch', false);
         if ($fetch) {
@@ -137,13 +152,32 @@ class BrowseController extends AController
      * Prefills the taxonomic browser form with the hierarchy of the given
      * rank name
      *
-     * @param string $name
+     * @param string $id
      */
+/*    protected function _setParamForTaxa($id)
+    {
+        $select = new ACI_Model_Search($this->_db);
+//        $taxaRecords = $select->getRecordIdFromName($name);
+       
+        $hierarchy = $this->_getHierarchy($id);
+        if (is_array($hierarchy)) {
+            // prefill the form with the hierarchy values
+            foreach ($hierarchy as $rank) {
+                if ($rank != 0) {
+                    $temp = $select->getRankAndNameFromRecordId($rank);
+                    $this->_setParam(
+                        strtolower($temp[0]['rank']), $temp[0]['name']
+                    );
+                }
+            }
+        }
+    }*/
+ 
     protected function _setParamForTaxa($name)
     {
         $select = new ACI_Model_Search($this->_db);
         $taxaRecords = $select->getRecordIdFromName($name);
-        
+       
         if (!empty($taxaRecords)) {
             $hierarchy = $this->_getHierarchy($taxaRecords[0]['id']);
             if (is_array($hierarchy)) {
@@ -159,7 +193,7 @@ class BrowseController extends AController
             }
         }
     }
-    
+        
     /**
      * Returns an array with all taxa names by rank on a dojo-suitable format
      * Used to populate the browse by classification search combo boxes
@@ -193,18 +227,23 @@ class BrowseController extends AController
         $search = new ACI_Model_Search($this->_db);
         $res = $search->getTaxonChildren($parentId);
         $this->_logger->debug($res);
+        $higher_taxon = array('','phylum','class','order','superfamily',
+                'family','genus','subgenus');
         foreach ($res as &$row) {
             // If not properly encoded, the names with diacritics are truncated
             // in the tree
             $row['name'] = utf8_encode($row['name']);
-            $row['type'] = $row['type'] == "Kingdom" ? '' : $row['type'];
-            $row['url'] = $row['snId'] ?
-                $this->view->baseUrl() . '/details/species/id/' . $row['snId'] .
+            $row['type'] = $row['type'] == "kingdom" ? '' : $row['type'];
+            $row['url'] = !in_array($row['type'],
+                $higher_taxon
+            ) ?
+                $this->view->baseUrl() . '/details/species/id/' . $row['id'] .
                     '/source/tree' : null;
-            if ($row['type'] == "Infraspecies") {
+            //TODO: Get infraspecies marker in between
+/*            if (!in_array($row['type'],array_merge($higher_taxon,array('species')))) {
                 $row['name'] = $this->getHelper('DataFormatter')
                     ->splitByMarkers($row['name']);
-            }
+            }*/
         }
         
         $data = new Zend_Dojo_Data('id', $res, $parentId);

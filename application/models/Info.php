@@ -22,12 +22,38 @@ class ACI_Model_Info extends AModel
     public static function getRightColumnName($columName)
     {
         $columMap = array(
-            'source' => 'database_name_displayed',
-            'group' => 'taxa',
-            'names' => 'accepted_species_names'
+            'source' => 'full_name',
+            'group' => 'english_name',
+            'names' => 'number_of_species'
         );
         return isset($columMap[$columName]) ?
             $columMap[$columName] : null;
+    }
+    
+    public function getSourceDatabases($order =  'source', $direction = 'asc')
+    {
+        $select = new Zend_Db_Select($this->_db);
+        $select->from(
+            array('dsdd' => '_source_database_details'),
+            array(
+                'id' => 'dsdd.id',
+                'name' => 'dsdd.full_name',
+                'abbreviation' => 'dsdd.short_name',
+                'taxa' => 'dsdd.english_name',
+                'total_species' => 'dsdd.number_of_species',
+                'is_new' => 'dsdd.is_new'
+            )
+        )
+        ->order(
+            array(
+                'dsdd.' . $this->getRightColumnName($order) . ' ' .
+                    strtoupper($direction)
+            )
+        );
+        $res = $select->query()->fetchAll();
+        $total = count($res);
+        $this->_logger->debug("$total source databases");
+        return $res;
     }
     
     /**
@@ -66,24 +92,24 @@ class ACI_Model_Info extends AModel
     protected function _calculateStatistics()
     {
         $stats = array();
+        
+        //Totals
+        $totals = new ACI_Model_Table_Totals();
+        $totals->countTotals();
         // Number of databases
-        $databases = new ACI_Model_Table_Databases();
-        $stats['databases'] =
-            number_format($databases->countWithAcceptedNames());
+        $stats['databases'] = number_format($totals->getNumSourceDatabases());
         // Number of new databases
-        $stats['new_databases'] =
-            number_format($databases->countNew());
+        $stats['new_databases'] = number_format($totals->getNumNewSourceDatabases());
         // Number of common names
-        $commonNames = new ACI_Model_Table_CommonNames();
-        $stats['common_names'] = number_format($commonNames->count());
+        $stats['common_names'] = number_format($totals->getNumCommonNames());
         // Number of synonyms
-        $scientificNames = new ACI_Model_Table_ScientificNames();
-        $stats['synonyms'] = number_format($scientificNames->countSynonyms());
+        $stats['synonyms'] = number_format($totals->getNumSynonyms());
         // Number of infraspecific taxa
-        $stats['infraspecific_taxa'] =
-            number_format($scientificNames->countInfraspecificTaxa());
+        $stats['infraspecific_taxa'] = 
+            number_format($totals->getNumInfraspecificTaxa());
         // Number of accepted names
-        $stats['species'] = number_format($scientificNames->countSpecies());
+        $stats['species'] = number_format($totals->getNumSpecies());
+            
         return $stats;
     }
 }

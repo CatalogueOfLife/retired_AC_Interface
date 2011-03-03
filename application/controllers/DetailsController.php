@@ -32,6 +32,7 @@ class DetailsController extends AController
     public function referenceAction()
     {
         $speciesId = (int)$this->_getParam('species');
+        $synonymId = (int)$this->_getParam('synonym');
         $referenceId = $this->_getParam('id');
         $references = false;
         $sn = false;
@@ -47,12 +48,21 @@ class DetailsController extends AController
                 ->getReferencesLabel(count($ids));
         } elseif ($speciesId) {
             $taxa = $detailsModel->getScientificName($speciesId);
-            if ($taxa instanceof ACI_Model_Table_Taxa && $taxa->nameCode) {
+            if ($taxa instanceof ACI_Model_Table_Taxa) {
                 $references =
-                   $detailsModel->getReferencesByNameCode($taxa->nameCode);
+                   $detailsModel->getReferencesByTaxonId($taxa->id);
                 $numReferences = count($references);
                 $preface = $this->getHelper('DataFormatter')
                    ->getReferencesLabel($numReferences, $taxa->name);
+            }
+        } elseif ($synonymId) {
+            $taxa = $detailsModel->getSynonymName($synonymId);
+            if ($taxa instanceof ACI_Model_Table_Taxa) {
+                $references =
+                   $detailsModel->getReferencesBySynonymId($taxa->id);
+                $numReferences = count($references);
+                $preface = $this->getHelper('DataFormatter')
+                   ->getReferencesLabel($numReferences, $taxa->taxaFullName);
             }
         }
         $this->view->title = $this->view->translate('Literature_references');
@@ -82,11 +92,15 @@ class DetailsController extends AController
         $id = $this->_getParam('id');
         $source = $this->_getParam('source', '');
         $commonNameId = $this->_getParam('common');
+        $synonymId = $this->_getParam('synonym');
         $speciesDetails = false;
         
         if ($commonNameId) {
             $fromType = 'common';
             $fromId = $commonNameId;
+        } elseif ($synonymId) {
+            $fromType = 'taxa';
+            $fromId = $synonymId;
         } else {
             $fromType = $fromId = null;
         }
@@ -95,12 +109,9 @@ class DetailsController extends AController
             // This will modify the id to that of the accepted name for synonyms
             // and keep the same for accepted names
             if (ACI_Model_Table_Taxa::isSynonym(
-                $detailsModel->speciesStatus($id)
+                $detailsModel->speciesStatus($synonymId)
             )) {
-                $fromType = 'taxa';
-                $links = $detailsModel->synonymLinks($id);
-                $id = $links['id'];
-                $fromId = $links['taxa_id'];
+                $links = $detailsModel->synonymLinks($synonymId);
             }
             if ($detailsModel->species($id, $fromType, $fromId)) {
                 $speciesDetails =
@@ -109,8 +120,7 @@ class DetailsController extends AController
                     );
             }
         }
-        $title = $speciesDetails && $speciesDetails->rank ==
-           ACI_Model_Table_Taxa::RANK_INFRASPECIES ?
+        $title = $speciesDetails && $speciesDetails->infra_id != '' ?
            'Infraspecies_details' : 'Species_details';
         $this->view->title = $this->view->translate($title);
         $this->view->headTitle($this->view->title, 'APPEND');

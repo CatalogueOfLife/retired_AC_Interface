@@ -36,6 +36,15 @@ class SearchController extends AController
     
     public function scientificAction()
     {
+        $reset = $this->_getParam('reset', false);
+        if($reset) {
+            $this->getHelper('SessionHandler')->clear('genus');
+            $this->getHelper('SessionHandler')->clear('species');
+            $this->getHelper('SessionHandler')->clear('infraspecies');
+            $this->getHelper('SessionHandler')->clear('match');
+        }
+        $this->view->controller = 'search';
+        $this->view->action = 'scientific';
         // Search hint query request
         $fetch = $this->_getParam('fetch', false);
         if ($fetch) {

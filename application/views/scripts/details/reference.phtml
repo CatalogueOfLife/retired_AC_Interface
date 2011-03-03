@@ -24,7 +24,7 @@ if (is_array($this->references)):
 <?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Author'); ?>:</th>
-        <td><?php echo ($ref['author'] == '' ? '&#150;' : $ref['author']); ?></td>
+        <td><?php echo ($ref['authors'] == '' ? '&#150;' : $ref['authors']); ?></td>
     </tr>
 <?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
     <tr class="<?php echo $rowClass; ?>">
@@ -36,11 +36,11 @@ if (is_array($this->references)):
         <th class="vertical"><?php echo $this->translate('Title'); ?>:</th>
         <td><?php echo ($ref['title'] == '' ? '&#150;' : $ref['title']); ?></td>
     </tr>
-<?php if (isset($ref['source'])): ?>
+<?php if (isset($ref['text'])): ?>
 <?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Source'); ?>:</th>
-        <td><?php echo ($ref['source'] == '' ? '&#150;' : $ref['source']); ?></td>
+        <td><?php echo ($ref['text'] == '' ? '&#150;' : $ref['text']); ?></td>
     </tr>
 <?php endif; ?>
 </table>

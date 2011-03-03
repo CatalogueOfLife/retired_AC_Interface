@@ -119,4 +119,5 @@ clearForm = function() {
         }
     );
     updateKey();
+    document.clear_form.submit();
 }

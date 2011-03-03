@@ -23,14 +23,11 @@ Functional:
   * Species and common names details
   * References details
   * Source databases details
+  * UTF-8 encoding now supported
 
 Non-functional:
   * Cache system
   * Error logging system
-
-LIMITATIONS
-============
-* UTF-8 encoding not yet supported
 
 INSTALLATION
 =============
