@@ -885,3 +885,16 @@ li:hover ul, li.over ul {
 .rank {
     text-transform: capitalize;
 }
+
+.treeSourceDatabase:a {
+	font-weight: normal;
+}
+
+.tundra .dijitTreeRow .treeSourceDatabase a {
+    margin-left: 5px;
+    font-style: normal;
+}
+.tundra .dijitTreeNodeSelected .treeSourceDatabase a {
+    background:#e2ebfe none repeat scroll 0 0;
+    font-weight: normal;
+}
