@@ -992,7 +992,9 @@ class ACI_Model_Search extends AModel
                 'name' => 'ttt.name',
                 'type' => 'ttt.rank',
                 'parentId' => 'ttt.parent_id',
-                'numChildren' => 'ttt.number_of_children'
+                'numChildren' => 'ttt.number_of_children',
+            	'estimation' => 'ttt.total_species_estimation',
+            	'total' => 'ttt.total_species'
             )
         )
         ->where('ttt.parent_id = ?', $parentId)
@@ -1007,6 +1009,26 @@ class ACI_Model_Search extends AModel
         $res = $select->query()->fetchAll();
         $total = count($res);
         $this->_logger->debug("$total children of $parentId");
+        return $res;
+    }
+    
+    public function getSourceDatabasesPerTaxonTreeId($id) {
+        $select = new Zend_Db_Select($this->_db);
+        $select->from(
+            array('sdtttb' => '_source_database_to_taxon_tree_branche'),
+            array(
+                'source_database_id' => 'sdtttb.source_database_id',
+                'short_name' => 'sd.abbreviated_name',
+            	'full_name' => 'sd.name'
+            )
+        )
+        ->joinLeft(
+            array('sd' => 'source_database'),
+            'sdtttb.source_database_id = sd.id',
+            array()
+        )
+        ->where('sdtttb.taxon_tree_id = ?', $id);
+        $res = $select->query()->fetchAll();
         return $res;
     }
     

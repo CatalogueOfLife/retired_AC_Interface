@@ -244,6 +244,14 @@ class BrowseController extends AController
                 $row['name'] = $this->getHelper('DataFormatter')
                     ->splitByMarkers($row['name']);
             }*/
+            $row['percentage'] = round($row['total']/$row['estimation']*100);
+            if($row['percentage'] > 100) {
+            	$row['percentage'] = 100;
+            }
+            $row['estimation'] = number_format($row['estimation'],0,'.',',');
+            $row['total'] = number_format($row['total'],0,'.',',');
+            $gsds = $search->getSourceDatabasesPerTaxonTreeId($row['id']);
+            $row['source_databases'] = $gsds;
         }
         
         $data = new Zend_Dojo_Data('id', $res, $parentId);
