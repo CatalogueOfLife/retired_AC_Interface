@@ -244,9 +244,13 @@ class BrowseController extends AController
                 $row['name'] = $this->getHelper('DataFormatter')
                     ->splitByMarkers($row['name']);
             }*/
-            $row['percentage'] = round($row['total']/$row['estimation']*100);
-            if($row['percentage'] > 100) {
-            	$row['percentage'] = 100;
+            if($row['total'] && $row['estimation']) {
+	            $row['percentage'] = round($row['total']/$row['estimation']*100);
+	            if($row['percentage'] > 100) {
+	            	$row['percentage'] = 100;
+	            }
+            } else {
+            	$row['percentage'] = "";
             }
             $row['estimation'] = number_format($row['estimation'],0,'.',',');
             $row['total'] = number_format($row['total'],0,'.',',');

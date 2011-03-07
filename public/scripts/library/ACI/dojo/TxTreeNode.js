@@ -15,15 +15,17 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
         
         var statistics = dojo.doc.createElement('span');
         statistics.className = 'treeStatistics';
-        var temp = dojo.clone(bullet);
-        statistics.appendChild(temp);
-        statistics.appendChild(
-        	dojo.doc.createTextNode(
-        		this.tree.model.store.getValue(this.item, 'total') + ' spp;' +
-        		' est ' + this.tree.model.store.getValue(this.item, 'estimation') + ';' +
-        		' ' + this.tree.model.store.getValue(this.item, 'percentage') + '%'
-        	)
-        );
+        if(this.tree.model.store.getValue(this.item, 'estimation')) {
+	        var temp = dojo.clone(bullet);
+	        statistics.appendChild(temp);
+	        statistics.appendChild(
+	        	dojo.doc.createTextNode(
+	        		this.tree.model.store.getValue(this.item, 'total') + ' spp;' +
+	        		' est ' + this.tree.model.store.getValue(this.item, 'estimation') + ';' +
+	        		' ' + this.tree.model.store.getValue(this.item, 'percentage') + '%'
+	        	)
+	        );
+        }
         
         var source_databases = this.tree.model.store.getValue(this.item, 'source_databases');
         var gsdCounter = 0;
@@ -63,7 +65,9 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
             taxon.appendChild(dojo.doc
                     .createTextNode(' ' + label));
             this.labelNode.appendChild(taxon);
-            this.labelNode.appendChild(statistics);
+            if(this.tree.model.store.getValue(this.item, 'estimation') != 0 || this.tree.model.store.getValue(this.item, 'total') != 0) {
+            	this.labelNode.appendChild(statistics);
+            }
             this.labelNode.appendChild(source_database);
         } else {
             var leaf = dojo.doc.createElement('span');
