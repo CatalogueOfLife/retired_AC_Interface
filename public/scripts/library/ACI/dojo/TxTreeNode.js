@@ -62,9 +62,9 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
             taxon.className = 'nodeLabel node-' + type;
             taxon.appendChild(dojo.doc
                     .createTextNode(' ' + label));
-            taxon.appendChild(statistics);
-            taxon.appendChild(source_database);
             this.labelNode.appendChild(taxon);
+            this.labelNode.appendChild(statistics);
+            this.labelNode.appendChild(source_database);
         } else {
             var leaf = dojo.doc.createElement('span');
             leaf.className = 'leaf';
