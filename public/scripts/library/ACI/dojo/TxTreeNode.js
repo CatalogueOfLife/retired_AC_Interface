@@ -30,6 +30,7 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
         var source_databases = this.tree.model.store.getValue(this.item, 'source_databases');
         var gsdCounter = 0;
     	var source_database = dojo.doc.createElement('span');
+    	var title = '';
     	source_database.className = 'treeSourceDatabase';
         var temp = dojo.clone(bullet);
     	source_database.appendChild(temp);
@@ -42,12 +43,15 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
             a.appendChild(dojo.doc.createTextNode(source_databases[i].short_name));
     		if(gsdCounter > 0) {
     			source_database.appendChild(dojo.doc.createTextNode(separator));
+    			title = title + separator + ' ';
     		}
+            title = title + source_databases[i].short_name;
         	source_database.appendChild(a);
             gsdCounter++;
         }
         if(gsdCounter > 5) {
         	source_database = dojo.doc.createElement('span');
+        	source_database.title = title;
         	source_database.appendChild(temp);
         	source_database.appendChild(dojo.doc.createTextNode('multiple GSD\'s'));
         }
