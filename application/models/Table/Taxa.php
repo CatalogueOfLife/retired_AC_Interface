@@ -30,6 +30,8 @@ class ACI_Model_Table_Taxa
     const RANK_SPECIES = 83;
     const RANK_INFRASPECIES = 49;
     
+    const POINT_OF_ATTACHMENT_TOP = 'CoL';
+    
     //TODO: get this dynamically.
     public static $markers = array(
         'ab.', 
@@ -117,7 +119,10 @@ class ACI_Model_Table_Taxa
     public $commonNames = array();
     public $distribution = array();
     public $references = array();
-
+    public $pointOfAttachmentId;
+    public $pointOfAttachment = self::POINT_OF_ATTACHMENT_TOP;
+    public $pointOfAttachmentLinkId = 0;
+        
     /**
      * Returns a string for the status what can be translated
      *

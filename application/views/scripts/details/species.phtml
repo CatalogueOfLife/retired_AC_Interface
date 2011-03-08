@@ -151,6 +151,14 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                         		ucfirst($lastHierachy['name']) . ' ' . strtolower($hierarchy['name'])).
                          '</i>' : ucfirst($hierarchy['name']); $lastHierachy = $hierarchy ?>
                         </a></td>
+                    <td class="rank"><?php 
+                    $db = $hierarchy['sourceDb'];
+                    if ($hierarchy['sourceDbId'] != 0) {
+                        $db = '<a href="'.$this->baseUrl(). '/details/database/id/' . 
+                        $hierarchy['sourceDbId'] . '">'.$db.'</a>';
+                    }
+                    echo $db;
+                    ?></td>
                     <td>
                         <div class="lsid-selector collapsed">
                             <div class="lsid-selector-wrapper" onclick="javascript:switchLSIDSelector(this.parentNode)">
