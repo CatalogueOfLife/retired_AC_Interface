@@ -12,6 +12,8 @@
  */
 ?>
 <p class="page_header"><?php echo $this->translate('Browse_taxonomic_tree'); ?></p>
+<p><input id="showGSDCheckbox" type="checkbox" name="showGSD" value="0" onchange="javascript:collapseAll('treeSourceDatabase')" /> Show source databases
+<input id="showStatisticsCheckbox" type="checkbox" name="showEstimates" value="0" onchange="javascript:collapseAll('treeStatistics')" /> Show estimates</p><br />
 <?php
 echo '<script type="text/javascript">';
 echo 'var baseUrl = "' . $this->baseUrl() . '";';

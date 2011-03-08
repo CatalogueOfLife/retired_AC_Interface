@@ -122,3 +122,18 @@ init = function() {
 }
 window.onload = init;
 window.onscroll = moveMenu;
+
+function collapseAll(className) {
+	var spans = document.getElementsByClassName(className);
+	var span;
+	for (i = 0; i < spans.length; i++) {
+	    span = spans[i];
+    	if(span.style.visibility == "visible") {
+    		span.style.visibility = "hidden";
+    		span.style.position = "fixed";
+    	} else {
+    		span.style.visibility = "visible"
+    		span.style.position = "relative";
+    	}
+    }
+}

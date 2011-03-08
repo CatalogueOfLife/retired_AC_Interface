@@ -31,7 +31,6 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
         var gsdCounter = 0;
     	var source_database = dojo.doc.createElement('span');
     	var title = '';
-    	source_database.className = 'treeSourceDatabase';
         var temp = dojo.clone(bullet);
     	source_database.appendChild(temp);
     	separator = ',';
@@ -55,8 +54,25 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
         	source_database.appendChild(temp);
         	source_database.appendChild(dojo.doc.createTextNode('multiple GSD\'s'));
         }
-        
-        if (this.tree.model.store
+    	source_database.className = 'treeSourceDatabase';
+    	showGSDCheckbox = document.getElementById('showGSDCheckbox');
+    	if(showGSDCheckbox.checked == true) {
+    		source_database.style.visibility = "visible";
+    		source_database.style.position = "relative";
+    	} else {
+    		source_database.style.visibility = "hidden";
+    		source_database.style.position = "fixed";
+    	}
+    	showStatisticsCheckbox = document.getElementById('showStatisticsCheckbox');
+    	if(showStatisticsCheckbox.checked == true) {
+    		statistics.style.visibility = "visible";
+    		statistics.style.position = "relative";
+    	} else {
+    		statistics.style.visibility = "hidden";
+    		statistics.style.position = "fixed";
+    	}
+
+		if (this.tree.model.store
                 .getValue(this.item, 'url') == null) {  
             var rank = dojo.doc.createElement('span');            
             rank.className = 'rank';

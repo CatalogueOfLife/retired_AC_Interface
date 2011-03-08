@@ -890,6 +890,11 @@ li:hover ul, li.over ul {
 	font-weight: normal;
 }
 
+.treeSourceDatabase, .treeStatistics {
+	visibility: hidden;
+	position: fixed;
+}
+
 .tundra .dijitTreeRow .treeSourceDatabase a {
     margin-left: 5px;
     font-style: normal;
