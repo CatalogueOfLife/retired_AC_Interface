@@ -18,7 +18,7 @@ class BrowseController extends AController
     
     public function treeAction()
     {
-        $fetch = $this->_getParam('fetch', false);
+    	$fetch = $this->_getParam('fetch', false);
         if ($fetch !== false) {
             $this->view->layout()->disableLayout();
             exit($this->_getTaxonChildren($this->_getParam('id', 0)));
@@ -49,6 +49,40 @@ class BrowseController extends AController
              ->requireModule('ACI.dojo.TxStoreModel')
              ->requireModule('ACI.dojo.TxTree')
              ->requireModule('ACI.dojo.TxTreeNode');
+		var_dump($_COOKIE);
+		if($_COOKIE['source_databases_checkbox'] === false) {
+        	setcookie( 'source_databases_checkbox' , 0 , time()+(60*60*24*14),'/','');
+        	$showSourceDatabasesCheckbox = 0;
+        } else {
+        	$showSourceDatabasesCheckbox = $_COOKIE['source_databases_checkbox'];
+        }
+        $this->view->showSourceDatabaseCheckboxSelected = $showSourceDatabasesCheckbox;
+        
+        if($_COOKIE['estimations_checkbox'] === false) {
+        	setcookie( 'estimations_checkbox' , 0 , time()+(60*60*24*14),'/','');
+        	$showEstimationsCheckbox = 0;
+        } else {
+        	$showEstimationsCheckbox = $_COOKIE['estimations_checkbox'];
+        }
+        $this->view->showEstimationCheckboxSelected = $showEstimationsCheckbox;
+		var_dump($_COOKIE);
+    }
+    
+    public function treeUpdateCookieAction()
+    {
+		$this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+    	$source_database = $this->_getParam('treeSourceDatabase', false);
+        $statistics = $this->_getParam('treeStatistics', false);
+        if($source_database !== false) {
+	        setcookie( 'source_databases_checkbox' , $source_database , time()+(60*60*24*14),'/','');
+	        echo 'gsd: ' . $source_database;
+        }
+        if($statistics !== false) {
+	        setcookie( 'estimations_checkbox' , $statistics , time()+(60*60*24*14),'/','');
+	        echo 'estimation: ' . $statistics;
+        }
+        var_dump($_COOKIE);
     }
     
     /**

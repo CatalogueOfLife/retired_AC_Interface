@@ -126,14 +126,39 @@ window.onscroll = moveMenu;
 function collapseAll(className) {
 	var spans = document.getElementsByClassName(className);
 	var span;
+	var value = 0;
 	for (i = 0; i < spans.length; i++) {
 	    span = spans[i];
     	if(span.style.visibility == "visible") {
     		span.style.visibility = "hidden";
     		span.style.position = "fixed";
+    		value = 0;
     	} else {
     		span.style.visibility = "visible"
     		span.style.position = "relative";
+    		value = 1;
     	}
     }
+	sendAjaxRequestForCookie(className, value);
+}
+
+function sendAjaxRequestForCookie(className, value) {
+	var xmlhttp;
+	if (window.XMLHttpRequest)
+	{// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp=new XMLHttpRequest();
+	}
+	else
+	{// code for IE6, IE5
+		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+/*	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		{
+			document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+		}
+	}*/
+	xmlhttp.open("GET",baseUrl + "/browse/tree-update-cookie/" + className + "/" + value,true);
+	xmlhttp.send();
 }
