@@ -404,8 +404,10 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         return $icon;
     }
     
-    private function _getDbConfidenceIcons($confidence = '') {
-        $confidence_icons = array();
+    private function _getDbConfidenceIcons($confidence = 0) {
+        if ($confidence == 0){
+            return array();
+        }
         for ($i = 1; $i <= 5; $i++) {
             if ($i <= $confidence) {
                 $confidence_icons[] = 'star';

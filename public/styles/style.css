@@ -65,6 +65,11 @@ table {
 	margin: 0;
 	width: 35%;
 }
+#database-qualifiers-table table th, 
+#database-qualifiers-table table td {
+	padding: 2px;
+	white-space: nowrap;
+}
 #database-qualifiers-span {
     margin-left: 35px;
 }
