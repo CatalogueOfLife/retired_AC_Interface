@@ -14,7 +14,13 @@
  */
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
-    public function _initAutoload()
+	
+    /**
+     * @var Bootstrap
+     */
+    private static $_instance = null;
+    
+	public function _initAutoload()
     {
         $resourceLoader = new Zend_Loader_Autoloader_Resource(
             array(
@@ -140,4 +146,37 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         }
         Zend_Registry::set('cache', $cache);
     }
+
+    /**
+     * Convenience method to get a reference to The Bootstrap
+     * singleton when not in an action.
+     * 
+     * @return Bootstrap
+     */
+    public static function instance ()
+    {
+        if (self::$_instance === null) {
+            self::$_instance = Zend_Controller_Front::getInstance()->getParam('bootstrap');
+        }
+        return self::$_instance;
+    }
+
+    public function getOption ($key)
+    {
+        $chunks = explode('.', $key);
+        if (count($chunks) === 1) {
+            return parent::getOption($key);
+        }
+        $options = parent::getOptions();
+        foreach ($chunks as $chunk) {
+            if (array_key_exists($chunk, $options)) {
+                $options = $options[$chunk];
+            }
+            else {
+                throw new Exception('No such option: ' . $key);
+            }
+        }
+        return $options;
+    }
+
 }

@@ -49,22 +49,28 @@ class BrowseController extends AController
              ->requireModule('ACI.dojo.TxStoreModel')
              ->requireModule('ACI.dojo.TxTree')
              ->requireModule('ACI.dojo.TxTreeNode');
-		if($_COOKIE['source_databases_checkbox'] === false) {
-        	setcookie( 'source_databases_checkbox' , 0 , time()+(60*60*24*14),'/','');
-        	$showSourceDatabasesCheckbox = 0;
-        } else {
-        	$showSourceDatabasesCheckbox = $_COOKIE['source_databases_checkbox'];
-        }
-        $this->view->showSourceDatabaseCheckboxSelected = $showSourceDatabasesCheckbox;
-        
-        if($_COOKIE['estimations_checkbox'] === false) {
-        	setcookie( 'estimations_checkbox' , 0 , time()+(60*60*24*14),'/','');
-        	$showEstimationsCheckbox = 0;
-        } else {
-        	$showEstimationsCheckbox = $_COOKIE['estimations_checkbox'];
-        }
-        $this->view->showEstimationCheckboxSelected = $showEstimationsCheckbox;
-    }
+             
+        //Checks if the module statistics is enabled
+        $statisticsModuleEnabled = Bootstrap::instance()->getOption('module.statistics');
+        $this->view->statisticsModuleEnabled = $statisticsModuleEnabled;
+		if($statisticsModuleEnabled) {
+			if($_COOKIE['source_databases_checkbox'] === false) {
+	        	setcookie( 'source_databases_checkbox' , 0 , time()+(60*60*24*14),'/','');
+	        	$showSourceDatabasesCheckbox = 0;
+	        } else {
+	        	$showSourceDatabasesCheckbox = $_COOKIE['source_databases_checkbox'];
+	        }
+	        $this->view->showSourceDatabaseCheckboxSelected = $showSourceDatabasesCheckbox;
+	        
+	        if($_COOKIE['estimations_checkbox'] === false) {
+	        	setcookie( 'estimations_checkbox' , 0 , time()+(60*60*24*14),'/','');
+	        	$showEstimationsCheckbox = 0;
+	        } else {
+	        	$showEstimationsCheckbox = $_COOKIE['estimations_checkbox'];
+	        }
+	        $this->view->showEstimationCheckboxSelected = $showEstimationsCheckbox;
+		}
+	}
     
     public function treeUpdateCookieAction()
     {
@@ -281,10 +287,14 @@ class BrowseController extends AController
             } else {
             	$row['percentage'] = "";
             }
-            $row['estimation'] = number_format($row['estimation'],0,'.',',');
-            $row['total'] = number_format($row['total'],0,'.',',');
-            $gsds = $search->getSourceDatabasesPerTaxonTreeId($row['id']);
-            $row['source_databases'] = $gsds;
+	        //Checks if the module statistics is enabled
+	        $statisticsModuleEnabled = Bootstrap::instance()->getOption('module.statistics');
+			if($statisticsModuleEnabled) {
+	            $row['estimation'] = number_format($row['estimation'],0,'.',',');
+	            $row['total'] = number_format($row['total'],0,'.',',');
+	            $gsds = $search->getSourceDatabasesPerTaxonTreeId($row['id']);
+	            $row['source_databases'] = $gsds;
+			}
         }
         
         $data = new Zend_Dojo_Data('id', $res, $parentId);

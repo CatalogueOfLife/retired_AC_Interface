@@ -13,64 +13,68 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
         	)
         );
         
-        var statistics = dojo.doc.createElement('span');
-        statistics.className = 'treeStatistics';
-        if(this.tree.model.store.getValue(this.item, 'estimation')) {
+        //Checks if the checkbox showGSDCheckbox and showStatisticsCheckbox both exists.
+        //If not, the module is most likely disabled.
+        if(document.getElementById('showGSDCheckbox') && document.getElementById('showStatisticsCheckbox')) {
+	        var statistics = dojo.doc.createElement('span');
+	        statistics.className = 'treeStatistics';
+	        if(this.tree.model.store.getValue(this.item, 'estimation')) {
+		        var temp = dojo.clone(bullet);
+		        statistics.appendChild(temp);
+		        statistics.appendChild(
+		        	dojo.doc.createTextNode(
+		        		this.tree.model.store.getValue(this.item, 'total') + ' spp;' +
+		        		' est ' + this.tree.model.store.getValue(this.item, 'estimation') + ';' +
+		        		' ' + this.tree.model.store.getValue(this.item, 'percentage') + '%'
+		        	)
+		        );
+	        }
+	        
+	        var source_databases = this.tree.model.store.getValue(this.item, 'source_databases');
+	        var gsdCounter = 0;
+	    	var source_database = dojo.doc.createElement('span');
+	    	var title = '';
 	        var temp = dojo.clone(bullet);
-	        statistics.appendChild(temp);
-	        statistics.appendChild(
-	        	dojo.doc.createTextNode(
-	        		this.tree.model.store.getValue(this.item, 'total') + ' spp;' +
-	        		' est ' + this.tree.model.store.getValue(this.item, 'estimation') + ';' +
-	        		' ' + this.tree.model.store.getValue(this.item, 'percentage') + '%'
-	        	)
-	        );
+	    	source_database.appendChild(temp);
+	    	separator = ',';
+	    	for(var i in source_databases)
+	        {
+	            var a = dojo.doc.createElement('a');
+	            a.href = baseUrl + '/details/database/id/' + source_databases[i].source_database_id;
+	            a.title = source_databases[i].full_name;
+	            a.appendChild(dojo.doc.createTextNode(source_databases[i].short_name));
+	    		if(gsdCounter > 0) {
+	    			source_database.appendChild(dojo.doc.createTextNode(separator));
+	    			title = title + separator + ' ';
+	    		}
+	            title = title + source_databases[i].short_name;
+	        	source_database.appendChild(a);
+	            gsdCounter++;
+	        }
+	        if(gsdCounter > 5) {
+	        	source_database = dojo.doc.createElement('span');
+	        	source_database.title = title;
+	        	source_database.appendChild(temp);
+	        	source_database.appendChild(dojo.doc.createTextNode('multiple GSD\'s'));
+	        }
+	    	source_database.className = 'treeSourceDatabase';
+	    	showGSDCheckbox = document.getElementById('showGSDCheckbox');
+	    	if(showGSDCheckbox.checked == true) {
+	    		source_database.style.visibility = "visible";
+	    		source_database.style.position = "relative";
+	    	} else {
+	    		source_database.style.visibility = "hidden";
+	    		source_database.style.position = "fixed";
+	    	}
+	    	showStatisticsCheckbox = document.getElementById('showStatisticsCheckbox');
+	    	if(showStatisticsCheckbox.checked == true) {
+	    		statistics.style.visibility = "visible";
+	    		statistics.style.position = "relative";
+	    	} else {
+	    		statistics.style.visibility = "hidden";
+	    		statistics.style.position = "fixed";
+	    	}
         }
-        
-        var source_databases = this.tree.model.store.getValue(this.item, 'source_databases');
-        var gsdCounter = 0;
-    	var source_database = dojo.doc.createElement('span');
-    	var title = '';
-        var temp = dojo.clone(bullet);
-    	source_database.appendChild(temp);
-    	separator = ',';
-    	for(var i in source_databases)
-        {
-            var a = dojo.doc.createElement('a');
-            a.href = baseUrl + '/details/database/id/' + source_databases[i].source_database_id;
-            a.title = source_databases[i].full_name;
-            a.appendChild(dojo.doc.createTextNode(source_databases[i].short_name));
-    		if(gsdCounter > 0) {
-    			source_database.appendChild(dojo.doc.createTextNode(separator));
-    			title = title + separator + ' ';
-    		}
-            title = title + source_databases[i].short_name;
-        	source_database.appendChild(a);
-            gsdCounter++;
-        }
-        if(gsdCounter > 5) {
-        	source_database = dojo.doc.createElement('span');
-        	source_database.title = title;
-        	source_database.appendChild(temp);
-        	source_database.appendChild(dojo.doc.createTextNode('multiple GSD\'s'));
-        }
-    	source_database.className = 'treeSourceDatabase';
-    	showGSDCheckbox = document.getElementById('showGSDCheckbox');
-    	if(showGSDCheckbox.checked == true) {
-    		source_database.style.visibility = "visible";
-    		source_database.style.position = "relative";
-    	} else {
-    		source_database.style.visibility = "hidden";
-    		source_database.style.position = "fixed";
-    	}
-    	showStatisticsCheckbox = document.getElementById('showStatisticsCheckbox');
-    	if(showStatisticsCheckbox.checked == true) {
-    		statistics.style.visibility = "visible";
-    		statistics.style.position = "relative";
-    	} else {
-    		statistics.style.visibility = "hidden";
-    		statistics.style.position = "fixed";
-    	}
 
 		if (this.tree.model.store
                 .getValue(this.item, 'url') == null) {  
@@ -85,10 +89,16 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
             taxon.appendChild(dojo.doc
                     .createTextNode(' ' + label));
             this.labelNode.appendChild(taxon);
-            if(this.tree.model.store.getValue(this.item, 'estimation') != 0 || this.tree.model.store.getValue(this.item, 'total') != 0) {
-            	this.labelNode.appendChild(statistics);
+            //Checks if the checkbox exists (the checkbox is enabled by the module)
+            if(document.getElementById('showGSDCheckbox')) {
+            	if(this.tree.model.store.getValue(this.item, 'estimation') != 0 || this.tree.model.store.getValue(this.item, 'total') != 0) {
+            		this.labelNode.appendChild(statistics);
+            	}
             }
-            this.labelNode.appendChild(source_database);
+            //Checks if the checkbox exists (the checbox is enabled by the module)
+            if(document.getElementById('showGSDCheckbox')) {
+            	this.labelNode.appendChild(source_database);
+            }
         } else {
             var leaf = dojo.doc.createElement('span');
             leaf.className = 'leaf';
@@ -117,7 +127,10 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
             }            
             leaf.appendChild(a);
             this.labelNode.innerHTML = '';
-            leaf.appendChild(source_database);
+            //Checks if the checkbox exists (the checbox is enabled by the module)
+            if(document.getElementById('showGSDCheckbox')) {
+            	leaf.appendChild(source_database);
+            }
             this.expandoNode.parentNode.className += ' dijitTreeLeafLabel'
             this.labelNode.appendChild(leaf);
         }
