@@ -214,7 +214,12 @@ class ACI_Model_Details extends AModel
         $species->distribution = $this->distributions($species->id);
         $species->synonyms     = $this->synonyms($species->id, $species->kingdom);
         $species->infraspecies = $this->infraspecies($species->id, $species->kingdom);
-        
+        $species->images = $this->getImages($species->id);
+        $sourceDatabaseQualifiers = $this->getSourceDatabaseQualifiers($species->dbId);
+        $species->dbCoverage = $sourceDatabaseQualifiers['dbCoverage'];
+        $species->dbCompleteness = $sourceDatabaseQualifiers['dbCompleteness'];
+        $species->dbConfidence = $sourceDatabaseQualifiers['dbConfidence'];
+                
         return $species;
     }
     
@@ -997,5 +1002,24 @@ class ACI_Model_Details extends AModel
         ->where('utt.taxon_id = ? AND uri.uri_scheme_id IN (5,6,7,10,18)', $taxon_id);
         $species = $select->query()->fetchAll();
         return $species;
+    }
+    
+    public function getImages($taxon_id) {
+        $select = new Zend_Db_Select($this->_db);
+        $select->from('_image_resource');
+        $select->where('taxon_id = ?', $taxon_id);
+        return $select->query()->fetchAll();
+    }
+    
+    public function getSourceDatabaseQualifiers($source_database_id) {
+        $select = new Zend_Db_Select($this->_db);
+        $select->from('_source_database_details',
+            array(
+                'dbCoverage' => 'coverage',
+                'dbCompleteness' => 'completeness',
+                'dbConfidence' => 'confidence'
+                ));
+        $select->where('id = ?', $source_database_id);
+        return $select->query()->fetch();
     }
 }

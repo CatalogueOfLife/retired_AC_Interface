@@ -324,7 +324,31 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             
         $speciesDetails->preface = $preface;
         
+        if (!empty($speciesDetails->images)) {
+            $this->resizeThumbnails($speciesDetails);
+        } else {
+            $speciesDetails->images = $textDecorator->getEmptyField();
+        }
+        $speciesDetails->dbCoverageIcon = $this->_getDbCoverageIcon($speciesDetails->dbCoverage);
+        $speciesDetails->dbConfidenceIcons = $this->_getDbConfidenceIcons($speciesDetails->dbConfidence);
         return $speciesDetails;
+    }
+    
+    // Resize images to the thumbnail with the smallest height
+    public function resizeThumbnails(ACI_Model_Table_Taxa $speciesDetails) {
+        $minimumHeight = 500;
+        foreach ($speciesDetails->images as $image) {
+            if ($image['height'] < $minimumHeight) {
+                $minimumHeight = $image['height'];
+            }
+        }
+        foreach ($speciesDetails->images as &$image) {
+            if ($image['height'] > $minimumHeight) {
+                $ratio = $minimumHeight / $image['height'];
+                $image['height'] = round($ratio * $image['height']);
+                $image['width'] = round($ratio * $image['width']);
+            }
+        }
     }
     
     public function formatDate($date)
@@ -363,9 +387,35 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $dbDetails['web_sites'][] = $this->getActionController()
                 ->getHelper('TextDecorator')->createLink($link, '_blank');
         }
+        $dbDetails['coverage_icon'] = $this->_getDbCoverageIcon($dbDetails['coverage']);
+        $dbDetails['confidence_icons'] = $this->_getDbConfidenceIcons($dbDetails['confidence']);
+
         return $dbDetails;
     }
-     
+    
+    private function _getDbCoverageIcon($coverage = '') {
+        if ($coverage == '') {
+            return false;
+        }
+        $icon = 'global';
+        if (strstr(strtolower($coverage), 'region') !== false) {
+            $icon = 'regional';
+        }
+        return $icon;
+    }
+    
+    private function _getDbConfidenceIcons($confidence = '') {
+        $confidence_icons = array();
+        for ($i = 1; $i <= 5; $i++) {
+            if ($i <= $confidence) {
+                $confidence_icons[] = 'star';
+            } else {
+                $confidence_icons[] = 'no_star';
+            }
+        }
+        return $confidence_icons;
+    }
+    
     public function formatDatabaseResultPage(array $dbDetails)
     {
         $dbDetails['name'];

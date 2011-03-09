@@ -128,7 +128,7 @@ class DetailsController extends AController
         $this->view->species = $speciesDetails;
         $this->view->source = $source;
     }
-     
+         
     public function __call($name, $arguments)
     {
         $this->_forward('all', 'search');

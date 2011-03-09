@@ -192,7 +192,26 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         <th class="vertical"><?php echo $this->translate('Source_database'); ?>:</th>
         <td><a href="<?php echo $this->baseUrl() . '/details/database/id/' . $this->species->dbId; ?>"><?php
           echo $this->species->dbName . '</a>, ' . $this->species->dbVersion;
-        ?></a></td>
+        ?></a>
+        <span id="database-qualifiers-span">
+            <?php if ($this->species->dbCoverageIcon !== false): ?>
+                <img src="<?php echo $this->baseUrl() .'/images/'. $this->species->dbCoverageIcon; ?>.png" 
+                class="vertical-align" title="<?php echo $this->translate('Coverage'); ?>" />&nbsp;
+            <?php endif; ?>
+            <?php if ($this->species->dbCompleteness != 0): ?>
+                <span title="<?php echo $this->translate('Completeness'); ?>" class="vertical-align">
+                    <?php echo $this->species->dbCompleteness; ?>%
+                </span>
+            <?php endif; ?>
+            <?php if ($this->species->dbConfidence != 0): ?>
+                <span title="<?php echo $this->translate('Checklist_confidence'); ?>">
+                    <?php foreach ($this->species->dbConfidenceIcons as $icon): ?>
+                        <img src="<?php echo $this->baseUrl() .'/images/'. $icon; ?>.png" alt="" class="vertical-align" />
+                    <?php endforeach; ?>
+                </span>
+            <?php endif; ?>
+        </span>
+         </td>
     </tr>
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
@@ -207,6 +226,45 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         <?php endforeach; ?>
         </td>
     </tr>
+
+        
+<?php if (is_array($this->species->images)): ?>
+    <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Images'); ?>:</th>
+        <td>
+            <table id="thumbnails-table">
+                <tr>
+                <?php foreach ($this->species->images as $image): ?>
+                    <td class="thumbnail-image" style="width: <?php echo $image['width'] + 2; ?>px;">
+                        <a href="<?php echo $image['href']; ?>" target="_blank">
+                        <img class="thumbnail" 
+                        height="<?php echo $image['height'] ?>" 
+                        width="<?php echo $image['width'] ?>" 
+                        src="<?php echo $image['src'] ?>" 
+                        alt="<?php echo $image['caption'] ?>" 
+                        title ="<?php echo $image['caption'] ?>" />
+                        </a>
+                    </td>
+                <?php endforeach; ?>
+                </tr>
+                <tr>
+                <?php foreach ($this->species->images as $image): ?>
+                    <td class="thumbnail-caption" style="width: <?php echo $image['width'] + 2; ?>px;">
+                    <?php echo $image['source']; ?>
+                    </td>
+                <?php endforeach; ?>
+                </tr>
+            </table>
+        </td>
+    </tr>
+<?php endif; ?>
+
+
+
+
+
+
     <tr class="<?php echo $rowClass; ?> divisor">
         <td colspan="2 "/>
     </tr>

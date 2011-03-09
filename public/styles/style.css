@@ -56,6 +56,27 @@ table {
     padding: 10px;
     margin: 0;
 }
+#logo-image {
+	float: left;
+}
+#database-qualifiers-table {
+    float: right;
+	padding: 0;
+	margin: 0;
+	width: 35%;
+}
+#database-qualifiers-span {
+    margin-left: 35px;
+}
+#confidence-span {
+    vertical-align: middle;
+}
+.vertical-align {
+	vertical-align: middle;
+}
+.clear {
+	clear: both;
+}
 .number {
     text-align: right;
 }
@@ -138,6 +159,30 @@ table.details-table tr th {
 .details p {
     padding-top: 10px;
 }
+
+
+/* Thumbnails */
+#thumbnails-table {
+    width: auto;
+    margin-top: 2px;
+}
+table #thumbnails-table td.thumbnail-image {
+    padding: 0 5px 0 0;
+    margin: 0;
+}
+table #thumbnails-table td.thumbnail-caption {
+    padding: 0 5px 0 0;
+    margin: 0;
+    text-align: center;
+}
+img.thumbnail {
+    padding: 0;
+    margin: 0;
+	border: 1px solid black;
+}
+
+
+
 .errors ul li {
     line-height: 16px;
     color: #b41a1a;    

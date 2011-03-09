@@ -119,9 +119,17 @@ class ACI_Model_Table_Taxa
     public $commonNames = array();
     public $distribution = array();
     public $references = array();
+
+    // Added in 1.7
     public $pointOfAttachmentId;
     public $pointOfAttachment = self::POINT_OF_ATTACHMENT_TOP;
     public $pointOfAttachmentLinkId = 0;
+    public $images = array();
+    public $dbCoverage = '';
+    public $dbCompleteness = 0;
+    public $dbConfidence = 0;
+    public $dbCoverageIcon;
+    public $dbConfidenceIcons = array();
         
     /**
      * Returns a string for the status what can be translated

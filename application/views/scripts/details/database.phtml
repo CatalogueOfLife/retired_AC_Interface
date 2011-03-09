@@ -18,11 +18,28 @@
 if (is_array($this->db)):
 ?>
 <div class="wrapLogo">
-    <a href="<?php echo $this->db['web_link']; ?>" target="_blank"><img
+    <div id="logo-image"><a href="<?php echo $this->db['web_link']; ?>" target="_blank"><img
       src="<?php echo $this->baseUrl() . $this->db['image']; ?>"
       alt="<?php echo $this->db['name']; ?>"
       title="<?php echo $this->db['name']; ?>"
-    /></a>
+    /></a></div>
+    <div id="database-qualifiers-table"><table>
+        <tr><th colspan="2"><?php echo $this->translate('Database_qualifiers'); ?></th></tr>
+        <tr><th><?php echo $this->translate('Coverage'); ?>:</th>
+        <td>
+        <img src="<?php echo $this->baseUrl() .'/images/'. $this->db['coverage_icon']; ?>.png" 
+        class="vertical-align" />&nbsp;
+        <?php echo $this->db['coverage']; ?></td></tr>
+        <tr><th><?php echo $this->translate('Completeness'); ?>:</th>
+        <td><?php echo $this->db['completeness']; ?>%</td></tr>
+        <tr><th><?php echo $this->translate('Checklist_confidence'); ?>:</th>
+        <td>
+            <?php foreach ($this->db['confidence_icons'] as $icon): ?>
+                <img src="<?php echo $this->baseUrl() .'/images/'. $icon; ?>.png" alt="" />
+            <?php endforeach; ?>
+        </td></tr>
+    </table></div>
+    <div class="clear"</div>
 </div>
 <table class="details-table">
     <tr class="even">
