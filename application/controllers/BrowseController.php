@@ -70,7 +70,10 @@ class BrowseController extends AController
 	        }
 	        $this->view->showEstimationCheckboxSelected = $showEstimationsCheckbox;
 		}
-	}
+		$translator = Zend_Registry::get('Zend_Translate');
+		$this->view->textShowSourceDatabases = $translator->translate('Show_source_databases');
+		$this->view->textShowStatistics = $translator->translate('Show_statistics');
+    }
     
     public function treeUpdateCookieAction()
     {
