@@ -1,9 +1,4 @@
 <?php
-	// Error at Inovirus enterobacteria phage x-2
-	
-	// Stopped at Gemylus wainiloka
-
-
     @ini_set('zlib.output_compression', 0);
     @ini_set('implicit_flush', 1);
     for ($i = 0; $i < ob_get_level(); $i++) {

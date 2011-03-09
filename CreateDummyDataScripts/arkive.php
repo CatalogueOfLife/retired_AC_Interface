@@ -18,8 +18,9 @@
 	$base_url = 'http://www.arkive.org/api/ED41047V5D/portlet/latin/';
 	$added = 0;
 	
-	$query = 'SELECT `taxon_id`, `genus_name`, `species_name`, `infraspecies_name` FROM `_species_details` WHERE `taxon_id` > 6595698';
-	$result = mysql_query($query) or die(mysql_error());
+    //$query = 'SELECT `taxon_id`, `genus_name`, `species_name`, `infraspecies_name` FROM `_species_details`';
+    $query = 'SELECT `taxon_id`, `genus_name`, `species_name`, `infraspecies_name` FROM `_species_details` WHERE `taxon_id` > 6595698';
+    $result = mysql_query($query) or die(mysql_error());
 	$total = mysql_num_rows($result) or die(mysql_error());
 	while ($row = mysql_fetch_array($result)) {
 
