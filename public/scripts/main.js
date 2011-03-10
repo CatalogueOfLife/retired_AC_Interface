@@ -172,4 +172,6 @@ function setCookie(c_name,value,exdays) {
 
 function changeLanguage(language) {
 	setCookie('language',language,14);
+	window.location.reload();
+
 }

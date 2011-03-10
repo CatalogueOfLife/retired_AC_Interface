@@ -1,5 +1,5 @@
 <?php
-	// Stopped at Heriades curviventris
+	// Stopped at Xiphocolaptes promeropirhynchus crassirostris
 
 
     @ini_set('zlib.output_compression', 0);
