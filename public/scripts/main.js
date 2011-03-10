@@ -162,3 +162,14 @@ function sendAjaxRequestForCookie(className, value) {
 	xmlhttp.open("GET",baseUrl + "/browse/tree-update-cookie/" + className + "/" + value,true);
 	xmlhttp.send();
 }
+
+function setCookie(c_name,value,exdays) {
+	var exdate=new Date();
+	exdate.setDate(exdate.getDate() + exdays);
+	var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+	document.cookie=c_name + "=" + c_value + ";path=/";
+}
+
+function changeLanguage(language) {
+	setCookie('language',language,14);
+}
