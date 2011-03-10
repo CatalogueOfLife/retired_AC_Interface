@@ -38,6 +38,10 @@ abstract class AController extends Zend_Controller_Action
             $config->view->googleAnalytics->trackerId;
     }
     
+    protected function _moduleEnabled($module) {
+        return Bootstrap::instance()->getOption('module.'.$module);
+    }
+    
     public function getDbAdapter()
     {
         return $this->_db;

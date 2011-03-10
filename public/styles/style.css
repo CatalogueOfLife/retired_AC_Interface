@@ -67,6 +67,7 @@ table {
 }
 #database-qualifiers-table table th, 
 #database-qualifiers-table table td {
+	height: 25px;
 	padding: 2px;
 	white-space: nowrap;
 }

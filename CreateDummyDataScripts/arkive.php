@@ -19,7 +19,7 @@
 	$added = 0;
 	
     //$query = 'SELECT `taxon_id`, `genus_name`, `species_name`, `infraspecies_name` FROM `_species_details`';
-    $query = 'SELECT `taxon_id`, `genus_name`, `species_name`, `infraspecies_name` FROM `_species_details` WHERE `taxon_id` > 6869800';
+    $query = 'SELECT `taxon_id`, `genus_name`, `species_name`, `infraspecies_name` FROM `_species_details` WHERE `taxon_id` > 6903812';
     $result = mysql_query($query) or die(mysql_error());
 	$total = mysql_num_rows($result) or die(mysql_error());
 	while ($row = mysql_fetch_array($result)) {
@@ -45,7 +45,7 @@
 			$height = $size[1];
 			$caption = getAttribute('alt', $image_link);
 			
-			$insert = 'INSERT INTO `_image_resource` (`taxon_id`, `src`, `href`, `width`, `height`, `source`, `caption`) VALUES ("' .
+			$insert = 'INSERT INTO `_import_image_resource` (`taxon_id`, `src`, `href`, `width`, `height`, `source`, `caption`) VALUES ("' .
 			$row[0] . '", "' .
 			mysql_real_escape_string($src) . '", "' .
 			mysql_real_escape_string($href) . '", ' .
