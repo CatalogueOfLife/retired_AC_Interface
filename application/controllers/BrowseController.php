@@ -54,7 +54,7 @@ class BrowseController extends AController
         $statisticsModuleEnabled = $this->_moduleEnabled('statistics');
         $this->view->statisticsModuleEnabled = $statisticsModuleEnabled;
 		if($statisticsModuleEnabled) {
-			if($_COOKIE['source_databases_checkbox'] === false) {
+			if(!isset($_COOKIE['source_databases_checkbox']) || $_COOKIE['source_databases_checkbox'] === false) {
 	        	setcookie( 'source_databases_checkbox' , 0 , time()+(60*60*24*14),'/','');
 	        	$showSourceDatabasesCheckbox = 0;
 	        } else {
@@ -62,7 +62,7 @@ class BrowseController extends AController
 	        }
 	        $this->view->showSourceDatabaseCheckboxSelected = $showSourceDatabasesCheckbox;
 	        
-	        if($_COOKIE['estimations_checkbox'] === false) {
+	        if(!isset($_COOKIE['estimations_checkbox']) || $_COOKIE['estimations_checkbox'] === false) {
 	        	setcookie( 'estimations_checkbox' , 0 , time()+(60*60*24*14),'/','');
 	        	$showEstimationsCheckbox = 0;
 	        } else {
