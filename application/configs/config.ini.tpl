@@ -10,6 +10,9 @@ database.params.charset  = "utf8"
 ; Google Analytics Tracker Id
 view.googleAnalytics.trackerId =
 
-//Turn modules on by filling in true or 1, turn modules off by filling in false or 0.
+// Turn modules on with 1, turn off with 0.
 ; Batch 1 Modules
-module.statistics = true
+module.statistics = 1;           Show credits and species estimates in taxonomic tree
+module.credits = 1;              Show point of attachment in species details
+module.indicators = 1;           Show indicators for data quality in species and database details
+module.images = 1;               Show thumbnails of images in species details

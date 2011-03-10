@@ -85,6 +85,7 @@ class DetailsController extends AController
         }
         $this->_logger->debug($dbDetails);
         $this->view->db = $dbDetails;
+        $this->view->indicatorsModuleEnabled = $this->_moduleEnabled('indicators');
     }
     
     public function speciesAction()
@@ -127,14 +128,9 @@ class DetailsController extends AController
         $this->_logger->debug($speciesDetails);
         $this->view->species = $speciesDetails;
         $this->view->source = $source;
-        
-       //Checks if the module statistics is enabled
-        $statisticsModuleEnabled = Bootstrap::instance()->getOption('module.statistics');
-        $this->view->statisticsModuleEnabled = $statisticsModuleEnabled;
-        if($statisticsModuleEnabled) {
-        
-        }
-        
+        $this->view->creditsModuleEnabled = $this->_moduleEnabled('credits');
+        $this->view->indicatorsModuleEnabled = $this->_moduleEnabled('indicators');
+        $this->view->imagesModuleEnabled = $this->_moduleEnabled('images');
     }
          
     public function __call($name, $arguments)

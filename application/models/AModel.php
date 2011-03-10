@@ -27,4 +27,8 @@ abstract class AModel
         $select->from(null, new Zend_Db_Expr('FOUND_ROWS()'));
         return $select->query()->fetchColumn(0);
     }
+    
+    protected function _moduleEnabled($module) {
+        return Bootstrap::instance()->getOption('module.'.$module);
+    }
 }
