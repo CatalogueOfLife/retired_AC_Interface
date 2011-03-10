@@ -53,7 +53,7 @@ class BrowseController extends AController
         //Checks if the module statistics is enabled
         //$statisticsModuleEnabled = Bootstrap::instance()->getOption('module.statistics');
         $statisticsModuleEnabled = $this->_moduleEnabled('statistics');
-        $this->view->statisticsModuleEnabled = $this->statisticsModuleEnabled;
+        $this->view->statisticsModuleEnabled = $statisticsModuleEnabled;
 		if($statisticsModuleEnabled) {
 			if($_COOKIE['source_databases_checkbox'] === false) {
 	        	setcookie( 'source_databases_checkbox' , 0 , time()+(60*60*24*14),'/','');
