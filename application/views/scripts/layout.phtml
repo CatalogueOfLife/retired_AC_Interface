@@ -51,13 +51,6 @@
     <div id="header">
         <h1 class="title"><?php printf($this->translate('title'), $this->app->edition); ?></h1>
     </div>
-    <div id="lanuageChooser" style="position: absolute; top: 25px; left: 900px;" class="view">
-    	<h2>Choose a language</h2>
-    	<a href="javascript:changeLanguage('en');">English</a><br />
-    	<a href="javascript:changeLanguage('ch');">Chinese</a><br />
-    	<a href="javascript:changeLanguage('es');">Spanish</a><br />
-    	<a href="javascript:changeLanguage('pt');">Portoguees</a><br />
-    </div>
     <div id="menu" class="view">
         <span id="log"></span>
         <ul id="nav">
@@ -137,6 +130,23 @@
               <li class="<?php echo $this->action == 'acknowledgements' ?
                 'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/acknowledgements">
                 <?php echo $this->translate('Acknowledgments'); ?></a></li>
+            </ul>
+          </li>
+          <li class="">
+            <a href="javascript:void(0);">
+            <img
+                src="<?php echo $this->baseUrl(); ?>/images/Icon_Browse.gif"
+                alt="<?php echo $this->translate('Language');?>"/>
+            <span><?php echo $this->translate('Language'); ?></span></a>
+            <ul>
+              <li class="<?php echo $this->language == 'en' ?
+                'menuselected' : ''; ?>"><a href="javascript:changeLanguage('en');">English</a></li>
+              <li class="<?php echo $this->language == 'ch' ?
+                'menuselected' : ''; ?>"><a href="javascript:changeLanguage('ch');">Chinese</a></li>
+              <li class="<?php echo $this->language == 'es' ?
+                'menuselected' : ''; ?>"><a href="javascript:changeLanguage('es');">Spanish</a></li>
+              <li class="<?php echo $this->language == 'pt' ?
+                'menuselected' : ''; ?>"><a href="javascript:changeLanguage('pt');">Portoguees</a></li>
             </ul>
           </li>
         </ul>
