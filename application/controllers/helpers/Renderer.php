@@ -181,7 +181,7 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
                     'websites' => $this->_ac->view->translate('Web_sites'),
                     'contact' => $this->_ac->view->translate('Contact_us'),
                     'acknowledgements' =>
-                        $this->_ac->view->translate('Acknowledgements')
+                        $this->_ac->view->translate('Acknowledgments')
                 )
             )
             ->setValue(array($this->getRequest()->getParam('action')))

@@ -132,7 +132,7 @@ class InfoController extends AController
     
     public function acknowledgementsAction ()
     {
-        $this->view->title = $this->view->translate('Acknowledgements');
+        $this->view->title = $this->view->translate('Acknowledgments');
         $this->view->headTitle($this->view->title, 'APPEND');
         $this->_setNavigator();
     }

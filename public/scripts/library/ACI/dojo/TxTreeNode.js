@@ -5,6 +5,7 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
             return this.inherited(arguments);
         }
         var type = this.tree.model.store.getValue(this.item, 'type');
+        var rankName = this.tree.model.store.getValue(this.item, 'rank');
         var bullet = dojo.doc.createElement('span');
         bullet.className = 'bullet';
         bullet.appendChild(
@@ -82,7 +83,7 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
             rank.className = 'rank';
             rank.id = 'sn-' + this.tree.model.store.getValue(this.item, 'id');
             rank.appendChild(dojo.doc
-                    .createTextNode(type));
+                    .createTextNode(rankName));
             this.labelNode.appendChild(rank);
             var taxon = dojo.doc.createElement('span');
             taxon.className = 'nodeLabel node-' + type;

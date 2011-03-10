@@ -17,7 +17,8 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
    
     public function init()
     {
-        $this->addAttribs(array('class' => 'multi-search'));
+		$translator = Zend_Registry::get('Zend_Translate');
+    	$this->addAttribs(array('class' => 'multi-search'));
         
         foreach ($this->_combos as $comboId => $comboLabel) {
              
@@ -46,7 +47,7 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
                     ),
                     'style' => 'width: 300px'
                 )
-            )->setLabel($comboLabel);
+            )->setLabel($translator->translate($comboLabel == 'Top_level_group' ? $comboLabel : 'RANK_' . strtoupper($comboLabel)));
             
             $comboBox->removeValidator('NotEmpty');
             

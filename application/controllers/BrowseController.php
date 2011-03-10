@@ -267,11 +267,14 @@ class BrowseController extends AController
         $this->_logger->debug($res);
         $higher_taxon = array('','phylum','class','order','superfamily',
                 'family','genus','subgenus');
+		$translator = Zend_Registry::get('Zend_Translate');
         foreach ($res as &$row) {
             // If not properly encoded, the names with diacritics are truncated
             // in the tree
             $row['name'] = utf8_encode($row['name']);
             $row['type'] = $row['type'] == "kingdom" ? '' : $row['type'];
+            
+            $row['rank'] = $row['type'] == "" ? '' : $translator->translate(strtoupper('RANK_' . $row['type']));
             $row['url'] = !in_array($row['type'],
                 $higher_taxon
             ) ?
