@@ -51,7 +51,6 @@ class BrowseController extends AController
              ->requireModule('ACI.dojo.TxTreeNode');
              
         //Checks if the module statistics is enabled
-        //$statisticsModuleEnabled = Bootstrap::instance()->getOption('module.statistics');
         $statisticsModuleEnabled = $this->_moduleEnabled('statistics');
         $this->view->statisticsModuleEnabled = $statisticsModuleEnabled;
 		if($statisticsModuleEnabled) {
