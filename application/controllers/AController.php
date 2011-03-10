@@ -36,6 +36,7 @@ abstract class AController extends Zend_Controller_Action
         $this->view->app = $config->eti->application;
         $this->view->googleAnalyticsTrackerId =
             $config->view->googleAnalytics->trackerId;
+        $this->view->language = (isset($_COOKIE['language']) ? $_COOKIE['language'] : 'en');
     }
     
     protected function _moduleEnabled($module) {
