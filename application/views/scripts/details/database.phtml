@@ -23,23 +23,42 @@ if (is_array($this->db)):
       alt="<?php echo $this->db['name']; ?>"
       title="<?php echo $this->db['name']; ?>"
     /></a></div>
+     <?php if ($this->indicatorsModuleEnabled) : ?>
     <div id="database-qualifiers-table">
         <table>
         <tr class="even"><th colspan="2"><?php echo $this->translate('Database_qualifiers'); ?></th></tr>
         <tr class="odd"><th><?php echo $this->translate('Coverage'); ?>:</th>
         <td>
-        <img src="<?php echo $this->baseUrl() .'/images/'. $this->db['coverage_icon']; ?>.png" 
-        class="vertical-align" />&nbsp;
-        <?php echo $this->db['coverage']; ?></td></tr>
+        <?php if (!empty($this->db['coverage'])): ?>
+             <img src="<?php echo $this->baseUrl() .'/images/'. $this->db['coverage_icon']; ?>.png" 
+            class="vertical-align" alt="" title="<?php echo ucfirst($this->db['coverage_icon']) ?>" />
+            &nbsp;<?php echo $this->db['coverage']; ?>
+        <?php else: ?>
+            <?php echo $this->translate('Not_available'); ?>
+        <?php endif; ?>
+        </td></tr>
         <tr class="even"><th><?php echo $this->translate('Completeness'); ?>:</th>
-        <td><?php echo $this->db['completeness']; ?>%</td></tr>
+        <td>
+        <?php if (!empty($this->db['completeness'])): ?>
+            <?php echo $this->db['completeness']; ?>%
+        <?php else: ?>
+            <?php echo $this->translate('Not_available'); ?>
+        <?php endif; ?>
+        </td></tr>
         <tr class="odd"><th><?php echo $this->translate('Checklist_confidence'); ?>:</th>
         <td>
+        <?php if (!empty($this->db['confidence_icons'])): ?>
+            <span title="<?php echo $this->translate('db_confidence_'.$this->db['confidence'].'_star_title'); ?>">
             <?php foreach ($this->db['confidence_icons'] as $icon): ?>
                 <img src="<?php echo $this->baseUrl() .'/images/'. $icon; ?>.png" alt="" />
             <?php endforeach; ?>
+            </span>
+        <?php else: ?>
+            <?php echo $this->translate('Not_available'); ?>
+        <?php endif; ?>
         </td></tr>
     </table></div>
+    <?php endif; ?>
     <div class="clear"</div>
 </div>
 <table class="details-table">

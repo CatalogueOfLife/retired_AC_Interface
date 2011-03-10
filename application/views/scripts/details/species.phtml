@@ -151,14 +151,16 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                         		ucfirst($lastHierachy['name']) . ' ' . strtolower($hierarchy['name'])).
                          '</i>' : ucfirst($hierarchy['name']); $lastHierachy = $hierarchy ?>
                         </a></td>
-                    <td class="rank"><?php 
-                    $db = $hierarchy['sourceDb'];
-                    if ($hierarchy['sourceDbId'] != 0) {
-                        $db = '<a href="'.$this->baseUrl(). '/details/database/id/' . 
-                        $hierarchy['sourceDbId'] . '">'.$db.'</a>';
-                    }
-                    echo $db;
-                    ?></td>
+                    <?php if ($this->creditsModuleEnabled) : ?>
+                        <td class="rank">
+                        <?php if (!empty($hierarchy['sourceDbId'])) : 
+                            echo '<a href="'.$this->baseUrl(). '/details/database/id/' . 
+                            $hierarchy['sourceDbId'] . '">'.$hierarchy['sourceDb'].'</a>';
+                        else:
+                            echo $hierarchy['sourceDb'];
+                        endif; ?>
+                        </td>
+                    <?php endif; ?>
                     <td>
                         <div class="lsid-selector collapsed">
                             <div class="lsid-selector-wrapper" onclick="javascript:switchLSIDSelector(this.parentNode)">
@@ -193,24 +195,26 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         <td><a href="<?php echo $this->baseUrl() . '/details/database/id/' . $this->species->dbId; ?>"><?php
           echo $this->species->dbName . '</a>, ' . $this->species->dbVersion;
         ?></a>
-        <span id="database-qualifiers-span">
-            <?php if ($this->species->dbCoverageIcon !== false): ?>
-                <img src="<?php echo $this->baseUrl() .'/images/'. $this->species->dbCoverageIcon; ?>.png" 
-                class="vertical-align" title="<?php echo $this->translate('Coverage'); ?>" />&nbsp;
-            <?php endif; ?>
-            <?php if ($this->species->dbCompleteness != 0): ?>
-                <span title="<?php echo $this->translate('Completeness'); ?>" class="vertical-align">
-                    <?php echo $this->species->dbCompleteness; ?>%
-                </span>
-            <?php endif; ?>
-            <?php if ($this->species->dbConfidence != 0): ?>
-                <span title="<?php echo $this->translate('Checklist_confidence'); ?>">
-                    <?php foreach ($this->species->dbConfidenceIcons as $icon): ?>
-                        <img src="<?php echo $this->baseUrl() .'/images/'. $icon; ?>.png" alt="" class="vertical-align" />
-                    <?php endforeach; ?>
-                </span>
-            <?php endif; ?>
-        </span>
+        <?php if ($this->indicatorsModuleEnabled) : ?>
+            <span id="database-qualifiers-span">
+                <?php if (!empty($this->species->dbCoverageIcon)): ?>
+                    <img src="<?php echo $this->baseUrl() .'/images/'. $this->species->dbCoverageIcon; ?>.png" 
+                    class="vertical-align" title="<?php echo ucfirst($this->species->dbCoverageIcon) ?>" />&nbsp;
+                <?php endif; ?>
+                <?php if (!empty($this->species->dbCompleteness)): ?>
+                    <span title="<?php echo $this->translate('Completeness'); ?>" class="vertical-align">
+                        <?php echo $this->species->dbCompleteness; ?>%
+                    </span>
+                <?php endif; ?>
+                <?php if (!empty($this->species->dbConfidence)): ?>
+                    <span title="<?php echo $this->translate('db_confidence_'.$this->species->dbConfidence.'_star_title'); ?>">
+                        <?php foreach ($this->species->dbConfidenceIcons as $icon): ?>
+                            <img src="<?php echo $this->baseUrl() .'/images/'. $icon; ?>.png" alt="" class="vertical-align" />
+                        <?php endforeach; ?>
+                    </span>
+                <?php endif; ?>
+            </span>
+        <?php endif; ?>
          </td>
     </tr>
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
@@ -226,9 +230,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         <?php endforeach; ?>
         </td>
     </tr>
-
-        
-<?php if (is_array($this->species->images)): ?>
+<?php if ($this->imagesModuleEnabled && is_array($this->species->images)): ?>
     <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Images'); ?>:</th>
@@ -259,12 +261,6 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         </td>
     </tr>
 <?php endif; ?>
-
-
-
-
-
-
     <tr class="<?php echo $rowClass; ?> divisor">
         <td colspan="2 "/>
     </tr>

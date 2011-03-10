@@ -329,8 +329,12 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         } else {
             $speciesDetails->images = $textDecorator->getEmptyField();
         }
-        $speciesDetails->dbCoverageIcon = $this->_getDbCoverageIcon($speciesDetails->dbCoverage);
-        $speciesDetails->dbConfidenceIcons = $this->_getDbConfidenceIcons($speciesDetails->dbConfidence);
+        if (!empty($speciesDetails->dbCoverage)) {
+            $speciesDetails->dbCoverageIcon = $this->_getDbCoverageIcon($speciesDetails->dbCoverage);
+        }
+        if (!empty($speciesDetails->dbConfidence)) {
+            $speciesDetails->dbConfidenceIcons = $this->_getDbConfidenceIcons($speciesDetails->dbConfidence);
+        }
         return $speciesDetails;
     }
     
@@ -387,9 +391,12 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $dbDetails['web_sites'][] = $this->getActionController()
                 ->getHelper('TextDecorator')->createLink($link, '_blank');
         }
-        $dbDetails['coverage_icon'] = $this->_getDbCoverageIcon($dbDetails['coverage']);
-        $dbDetails['confidence_icons'] = $this->_getDbConfidenceIcons($dbDetails['confidence']);
-
+        if (!empty($dbDetails['coverage'])) {
+            $dbDetails['coverage_icon'] = $this->_getDbCoverageIcon($dbDetails['coverage']);
+        }
+        if (!empty($dbDetails['confidence'])) {
+            $dbDetails['confidence_icons'] = $this->_getDbConfidenceIcons($dbDetails['confidence']);
+        }
         return $dbDetails;
     }
     
