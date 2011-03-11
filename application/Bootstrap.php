@@ -58,10 +58,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     public function _initTranslate ()
     {
-        if (!isset($_COOKIE['language'])) {
-            $language = 'en';
+        // First check if multilingual interface has been enabled
+        $multiLingual = false;
+        if (array_search(1, $this->getOption('language')) !== false) {
+            $multiLingual = true;
         }
-        else {
+        if (!isset($_COOKIE['language']) || $multiLingual === false) {
+            $language = 'en';
+        } else {
             $language = $_COOKIE['language'];
         }
         $translator = new Zend_Translate('Ini', 

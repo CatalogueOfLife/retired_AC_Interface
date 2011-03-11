@@ -132,23 +132,21 @@
                 <?php echo $this->translate('Acknowledgments'); ?></a></li>
             </ul>
           </li>
-          <li class="">
+          <?php if(count($this->interfaceLanguages) > 1): ?>
+            <li class="">
             <a href="javascript:void(0);">
             <img
                 src="<?php echo $this->baseUrl(); ?>/images/Icon_Language.gif"
                 alt="<?php echo $this->translate('Language');?>"/>
             <span><?php echo $this->translate('Language'); ?></span></a>
             <ul>
-              <li class="<?php echo $this->language == 'en' ?
-                'menuselected' : ''; ?>"><a href="javascript:changeLanguage('en');">English</a></li>
-              <li class="<?php echo $this->language == 'ch' ?
-                'menuselected' : ''; ?>"><a href="javascript:changeLanguage('ch');">中文</a></li>
-              <li class="<?php echo $this->language == 'es' ?
-                'menuselected' : ''; ?>"><a href="javascript:changeLanguage('es');">Español</a></li>
-              <li class="<?php echo $this->language == 'pt' ?
-                'menuselected' : ''; ?>"><a href="javascript:changeLanguage('pt');">Português</a></li>
+                 <?php foreach ($this->interfaceLanguages as $iso => $language): ?> 
+                      <li class="<?php echo $this->language == $iso ? 'menuselected' : ''; ?>">
+                      <a href="javascript:changeLanguage('<?php echo $iso; ?>');"><?php echo $language; ?></a></li>
+                 <?php endforeach; ?>
             </ul>
-          </li>
+            </li>
+          <?php endif; ?>
         </ul>
     </div>
     <div id="right-col">

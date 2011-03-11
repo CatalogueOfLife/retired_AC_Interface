@@ -36,11 +36,35 @@ abstract class AController extends Zend_Controller_Action
         $this->view->app = $config->eti->application;
         $this->view->googleAnalyticsTrackerId =
             $config->view->googleAnalytics->trackerId;
-        $this->view->language = (isset($_COOKIE['language']) ? $_COOKIE['language'] : 'en');
+        $currentLanguage = $this->_getCurrentLanguage();
+        $this->view->language = $currentLanguage;
+        $this->view->interfaceLanguages = $this->_setInterfaceLanguages($currentLanguage);
     }
     
     protected function _moduleEnabled($module) {
         return Bootstrap::instance()->getOption('module.'.$module);
+    }
+    
+    private function _getCurrentLanguage() {
+        return isset($_COOKIE['language']) ? $_COOKIE['language'] : 'en';
+    }
+    
+    private function _setInterfaceLanguages($currentIso) {
+        $locale = new Zend_Locale($currentIso);
+        $allLanguages = Bootstrap::instance()->getOption('language');
+        $selectedLanguages = array_flip(array_keys($allLanguages, 1));
+        $languageScripts = $locale->getTranslationList('ScriptToLanguage', 'en');
+        $currentLanguageScripts = explode(' ', $languageScripts[$currentIso]);
+        foreach ($selectedLanguages as $iso => $language) {
+            $selectedLanguages[$iso] = ucfirst($locale->getTranslation($iso, 'language', $iso));
+            // Append transliteration script(s) of this language does not match script(s) of current language
+            $scripts = explode(' ', $languageScripts[$iso]);
+            if (count(array_intersect($currentLanguageScripts, $scripts)) == 0) {
+                $selectedLanguages[$iso] .= ' ('.ucfirst($locale->getTranslation($iso, 'language', $currentIso)).')';
+            }
+        }
+        asort($selectedLanguages, SORT_LOCALE_STRING);
+        return $selectedLanguages;
     }
     
     public function getDbAdapter()
