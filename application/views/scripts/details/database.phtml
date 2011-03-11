@@ -31,7 +31,7 @@ if (is_array($this->db)):
         <td>
         <?php if (!empty($this->db['coverage'])): ?>
              <img src="<?php echo $this->baseUrl() .'/images/'. $this->db['coverage_icon']; ?>.png" 
-            class="vertical-align" alt="" title="<?php echo ucfirst($this->db['coverage_icon']) ?>" />
+            class="vertical-align" alt="" title="<?php echo $this->translate(ucfirst($this->db['coverage_icon'])) ?>" />
             &nbsp;<?php echo $this->db['coverage']; ?>
         <?php else: ?>
             <?php echo $this->translate('Not_available'); ?>

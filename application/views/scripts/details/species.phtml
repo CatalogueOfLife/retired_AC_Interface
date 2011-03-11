@@ -199,7 +199,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
             <span id="database-qualifiers-span">
                 <?php if (!empty($this->species->dbCoverageIcon)): ?>
                     <img src="<?php echo $this->baseUrl() .'/images/'. $this->species->dbCoverageIcon; ?>.png" 
-                    class="vertical-align" title="<?php echo ucfirst($this->species->dbCoverageIcon) ?>" />&nbsp;
+                    class="vertical-align" title="<?php echo $this->translate(ucfirst($this->species->dbCoverageIcon)) ?>" />&nbsp;
                 <?php endif; ?>
                 <?php if (!empty($this->species->dbCompleteness)): ?>
                     <span title="<?php echo $this->translate('Completeness'); ?>" class="vertical-align">
