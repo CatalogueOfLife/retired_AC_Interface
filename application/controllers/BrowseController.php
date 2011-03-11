@@ -54,39 +54,25 @@ class BrowseController extends AController
         $statisticsModuleEnabled = $this->_moduleEnabled('statistics');
         $this->view->statisticsModuleEnabled = $statisticsModuleEnabled;
 		if($statisticsModuleEnabled) {
-			if(!isset($_COOKIE['source_databases_checkbox']) || $_COOKIE['source_databases_checkbox'] === false) {
-	        	setcookie( 'source_databases_checkbox' , 0 , time()+(60*60*24*14),'/','');
+			if(!isset($_COOKIE['treeSourceDatabase']) || $_COOKIE['treeSourceDatabase'] === false) {
+	        	setcookie( 'treeSourceDatabase' , 0 , time()+(60*60*24*14),'/','');
 	        	$showSourceDatabasesCheckbox = 0;
 	        } else {
-	        	$showSourceDatabasesCheckbox = $_COOKIE['source_databases_checkbox'];
+	        	$showSourceDatabasesCheckbox = $_COOKIE['treeSourceDatabase'];
 	        }
 	        $this->view->showSourceDatabaseCheckboxSelected = $showSourceDatabasesCheckbox;
 	        
-	        if(!isset($_COOKIE['estimations_checkbox']) || $_COOKIE['estimations_checkbox'] === false) {
-	        	setcookie( 'estimations_checkbox' , 0 , time()+(60*60*24*14),'/','');
+	        if(!isset($_COOKIE['treeStatistics']) || $_COOKIE['treeStatistics'] === false) {
+	        	setcookie( 'treeStatistics' , 0 , time()+(60*60*24*14),'/','');
 	        	$showEstimationsCheckbox = 0;
 	        } else {
-	        	$showEstimationsCheckbox = $_COOKIE['estimations_checkbox'];
+	        	$showEstimationsCheckbox = $_COOKIE['treeStatistics'];
 	        }
 	        $this->view->showEstimationCheckboxSelected = $showEstimationsCheckbox;
 		}
 		$translator = Zend_Registry::get('Zend_Translate');
 		$this->view->textShowSourceDatabases = $translator->translate('Show_source_databases');
 		$this->view->textShowStatistics = $translator->translate('Show_statistics');
-    }
-    
-    public function treeUpdateCookieAction()
-    {
-		$this->_helper->layout->disableLayout();
-        $this->_helper->viewRenderer->setNoRender();
-    	$source_database = $this->_getParam('treeSourceDatabase', false);
-        $statistics = $this->_getParam('treeStatistics', false);
-        if($source_database !== false) {
-	        setcookie( 'source_databases_checkbox' , $source_database , time()+(60*60*24*14),'/','');
-        }
-        if($statistics !== false) {
-	        setcookie( 'estimations_checkbox' , $statistics , time()+(60*60*24*14),'/','');
-        }
     }
     
     /**
