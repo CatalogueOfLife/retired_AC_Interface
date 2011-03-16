@@ -10,8 +10,12 @@ database.params.charset  = "utf8"
 ; Google Analytics Tracker Id
 view.googleAnalytics.trackerId =
 
-; Interface languages (default = English; on = 1, off = 0)
-; To disable the multi-lingual interface, set all languages to 0
+; Interface languages (on = 1, off = 0)
+; If a single language is selected, the language menu will be hidden.
+; To disable the multi-lingual interface, set all languages to 0; 
+; in this case the interface will default to the browser language.
+; If a language translation file in the browser language is not available, 
+; the default language is set to English.
 language.en = 1                 ; English
 language.zh = 1                 ; Chinese
 language.pt = 1                 ; Portuguese
@@ -22,3 +26,11 @@ module.statistics = 1           ; Show credits and species estimates in taxonomi
 module.credits = 1              ; Show point of attachment in species details
 module.indicators = 1           ; Show indicators for data quality in species and database details
 module.images = 1               ; Show thumbnails of images in species details
+
+; Advanced settings
+; Cookies are used to store display preferences for the taxonomic tree and interface language. 
+; Set the cookie expiration time in seconds. The default expiration time is 14 days.
+advanced.cookie_expiration = 1209600
+; Web services are used to retrieve species images. Set the maximum time in seconds after which
+; the application should abort trying to retrieve external data.
+advanced.webservice_timeout = 5

@@ -19,6 +19,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      * @var Bootstrap
      */
     private static $_instance = null;
+    const DEFAULT_LANGUAGE = 'en';
+    private $_browserLanguage;
+    public $currentLanguage;
 
     public function _initAutoload ()
     {
@@ -58,18 +61,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     public function _initTranslate ()
     {
-        // First check if multilingual interface has been enabled
-        $multiLingual = false;
-        if (array_search(1, $this->getOption('language')) !== false) {
-            $multiLingual = true;
-        }
-        if (!isset($_COOKIE['language']) || $multiLingual === false) {
-            $language = 'en';
-        } else {
-            $language = $_COOKIE['language'];
-        }
+        $this->currentLanguage = $this->_getCurrentLanguage();
         $translator = new Zend_Translate('Ini', 
-            APPLICATION_PATH . '/data/languages/lang.' . $language . '.ini');
+            APPLICATION_PATH . '/data/languages/lang.' . $this->currentLanguage . '.ini');
         Zend_Registry::set('Zend_Translate', $translator);
     }
 
@@ -86,9 +80,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $view->encoding = $config->resources->view->encoding;
         $view->setEncoding($view->encoding);
         $view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=' . $view->encoding);
-        $view->headTitle(
-            'Catalogue of Life - ' . $config->eti->application->edition . ' Annual Checklist');
+        $view->headTitle('Catalogue of Life - ' . $config->eti->application->edition . ' Annual Checklist');
         $view->headTitle()->setSeparator(' :: ');
+        // Also pass currentLanguage to viewer
+        $view->language = $this->_getCurrentLanguage();
         // Add custom view helpers path        
         $view->addHelperPath('Eti/View/Helper/', 'Eti_View_Helper_');
         // View renderer
@@ -181,4 +176,42 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         return $options;
     }
 
+    private function _getBrowserLanguage ()
+    {
+        $locale = new Zend_Locale();
+        return $locale->getLanguage();
+    }
+
+    private function _getCurrentLanguage ()
+    {
+        if ($this->currentLanguage) {
+            return $this->currentLanguage;
+        }
+        return $this->_setCurrentLanguage();
+    }
+
+    private function _setCurrentLanguage ()
+    {
+        $this->browserLanguage = $this->_getBrowserLanguage();
+        $currentLanguage = self::DEFAULT_LANGUAGE;
+        if (isset($_COOKIE['aci_language'])) {
+            return $_COOKIE['aci_language'];
+        }
+        if ($this->_localLanguageIsAvailable()) {
+            $currentLanguage = $this->_browserLanguage;
+        }
+        setcookie('aci_language', $currentLanguage, time() + (60 * 60 * 24 * 14), '/', '');
+        return $currentLanguage;
+    }
+
+    private function _localLanguageIsAvailable ()
+    {
+        $allLanguages = $this->getOption('language');
+        // Translation file in browser language is available and language is enabled in config.ini
+        if (array_key_exists($this->_browserLanguage, $allLanguages) &&
+             $allLanguages[$this->_browserLanguage] == 1) {
+                return true;
+        }
+        return false;
+    }
 }

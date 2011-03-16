@@ -30,7 +30,7 @@ class ACI_Model_Table_Taxa
     const RANK_SPECIES = 83;
     const RANK_INFRASPECIES = 49;
     
-    const POINT_OF_ATTACHMENT_TOP = 'CoL';
+    const POINT_OF_ATTACHMENT_TOP = 'CoL'; // Top level in Species details > Classification > Point of attachment
     
     //TODO: get this dynamically.
     public static $markers = array(
