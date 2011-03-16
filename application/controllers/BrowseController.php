@@ -55,7 +55,7 @@ class BrowseController extends AController
         $this->view->statisticsModuleEnabled = $statisticsModuleEnabled;
 		if($statisticsModuleEnabled) {
 			if(!isset($_COOKIE['treeSourceDatabase']) || $_COOKIE['treeSourceDatabase'] === false) {
-	        	setcookie( 'treeSourceDatabase' , 0 , time()+(60*60*24*14),'/','');
+	        	setcookie( 'treeSourceDatabase' , 0 , time() + $this->_cookieExpiration,'/','');
 	        	$showSourceDatabasesCheckbox = 0;
 	        } else {
 	        	$showSourceDatabasesCheckbox = $_COOKIE['treeSourceDatabase'];
@@ -63,7 +63,7 @@ class BrowseController extends AController
 	        $this->view->showSourceDatabaseCheckboxSelected = $showSourceDatabasesCheckbox;
 	        
 	        if(!isset($_COOKIE['treeStatistics']) || $_COOKIE['treeStatistics'] === false) {
-	        	setcookie( 'treeStatistics' , 0 , time()+(60*60*24*14),'/','');
+	        	setcookie( 'treeStatistics' , 0 , time() + $this->_cookieExpiration,'/','');
 	        	$showEstimationsCheckbox = 0;
 	        } else {
 	        	$showEstimationsCheckbox = $_COOKIE['treeStatistics'];

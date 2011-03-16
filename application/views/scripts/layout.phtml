@@ -12,7 +12,7 @@
  */
 ?>
 <?php echo $this->doctype();?>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language ?>" lang="<?php echo $this->language ?>">
 <head>
     <?php
     echo $this->headMeta();
@@ -41,6 +41,8 @@
         $this->baseUrl() . JS_PATH . '/main.js'
     );
     ?>
+
+<script type="text/javascript">var cookieExpiration = <?php echo (round($this->cookieExpiration/86400)); ?></script>
 </head>
 <body class="tundra">
     <?php if ('standalone' == APPLICATION_ENV): ?>

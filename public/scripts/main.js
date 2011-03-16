@@ -139,10 +139,13 @@ function collapseAll(className) {
     		value = 1;
     	}
     }
-	setCookie(className,value,14);
+	setCookie(className,value,cookieExpiration);
 }
 
 function setCookie(c_name,value,exdays) {
+	if (typeof exdays == 'undefined') {
+		exdays = 14;
+	}
 	var exdate=new Date();
 	exdate.setDate(exdate.getDate() + exdays);
 	var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
@@ -150,7 +153,6 @@ function setCookie(c_name,value,exdays) {
 }
 
 function changeLanguage(language) {
-	setCookie('aci_language',language,14);
+	setCookie('aci_language',language,cookieExpiration);
 	window.location.reload();
-
 }

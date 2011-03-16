@@ -14,6 +14,9 @@ abstract class AController extends Zend_Controller_Action
 {
     protected $_logger;
     protected $_db;
+    // Advanced options from ini available as properties
+    protected $_cookieExpiration;
+    protected $_webserviceTimeout;
 
     public function init ()
     {
@@ -35,41 +38,11 @@ abstract class AController extends Zend_Controller_Action
         $this->view->app = $config->eti->application;
         $this->view->googleAnalyticsTrackerId = $config->view->googleAnalytics->trackerId;
         $this->view->interfaceLanguages = $this->_setInterfaceLanguages();
-    }
-
-    protected function _moduleEnabled ($module)
-    {
-        return Bootstrap::instance()->getOption('module.' . $module);
+        $this->_cookieExpiration = $this->_setCookieExpiration();
+        $this->view->cookieExpiration = $this->_cookieExpiration;
+        $this->_webserviceTimeout = $this->_setWebserviceTimeout();
     }
     
-    private function _setCurrentLanguage() {
-        return Bootstrap::instance()->currentLanguage;
-    }
-
-    private function _setInterfaceLanguages ()
-    {
-        $locale = new Zend_Locale($this->view->language);
-        $allLanguages = Bootstrap::instance()->getOption('language');
-        $selectedLanguages = array_flip(array_keys($allLanguages, 1));
-        $languageScripts = $locale->getTranslationList('ScriptToLanguage', 'en');
-        $currentLanguageScripts = explode(' ', $languageScripts[$this->view->language]);
-        foreach ($selectedLanguages as $iso => $language) {
-            $selectedLanguages[$iso] = ucfirst(
-                $locale->getTranslation($iso, 'language', $iso));
-            // Append transliteration script(s) of this language does not match script(s) of current language
-            $scripts = explode(
-                ' ', $languageScripts[$iso]);
-            if (count(array_intersect($currentLanguageScripts, $scripts)) == 0) {
-                $selectedLanguages[$iso] .= ' (' . ucfirst(
-                    $locale->getTranslation($iso, 'language', 
-                        $this->view->language)) .
-                     ')';
-            }
-        }
-        asort($selectedLanguages, SORT_LOCALE_STRING);
-        return $selectedLanguages;
-    }
-
     public function getDbAdapter ()
     {
         return $this->_db;
@@ -157,5 +130,42 @@ abstract class AController extends Zend_Controller_Action
                 $this->getRequest()->getParam('controller'), 
                 $this->getRequest()->getParam('module'), $params);
         }
+    }
+
+    protected function _moduleEnabled ($module)
+    {
+        return Bootstrap::instance()->getOption('module.' . $module);
+    }
+    
+    private function _setInterfaceLanguages ()
+    {
+        $locale = new Zend_Locale($this->view->language);
+        $allLanguages = Bootstrap::instance()->getOption('language');
+        $selectedLanguages = array_flip(array_keys($allLanguages, 1));
+        $languageScripts = $locale->getTranslationList('ScriptToLanguage', 'en');
+        $currentLanguageScripts = explode(' ', $languageScripts[$this->view->language]);
+        foreach ($selectedLanguages as $iso => $language) {
+            $selectedLanguages[$iso] = ucfirst(
+                $locale->getTranslation($iso, 'language', $iso));
+            // Append transliteration script(s) of this language does not match script(s) of current language
+            $scripts = explode(
+                ' ', $languageScripts[$iso]);
+            if (count(array_intersect($currentLanguageScripts, $scripts)) == 0) {
+                $selectedLanguages[$iso] .= ' (' . ucfirst(
+                    $locale->getTranslation($iso, 'language', 
+                        $this->view->language)) .
+                     ')';
+            }
+        }
+        asort($selectedLanguages, SORT_LOCALE_STRING);
+        return $selectedLanguages;
+    }
+
+    private function _setCookieExpiration() {
+        return Bootstrap::instance()->getOption('advanced.cookie_expiration');
+    }
+
+    private function _setWebserviceTimeout() {
+        return Bootstrap::instance()->getOption('advanced.webservice_timeout');
     }
 }

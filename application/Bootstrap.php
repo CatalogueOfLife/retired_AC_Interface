@@ -192,7 +192,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     private function _setCurrentLanguage ()
     {
-        $this->browserLanguage = $this->_getBrowserLanguage();
+        $this->_browserLanguage = $this->_getBrowserLanguage();
         $currentLanguage = self::DEFAULT_LANGUAGE;
         if (isset($_COOKIE['aci_language'])) {
             return $_COOKIE['aci_language'];
@@ -200,7 +200,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         if ($this->_localLanguageIsAvailable()) {
             $currentLanguage = $this->_browserLanguage;
         }
-        setcookie('aci_language', $currentLanguage, time() + (60 * 60 * 24 * 14), '/', '');
+        setcookie('aci_language', $currentLanguage, time() + $this->getOption('advanced.cookie_expiration'), 
+            '/', '');
         return $currentLanguage;
     }
 
