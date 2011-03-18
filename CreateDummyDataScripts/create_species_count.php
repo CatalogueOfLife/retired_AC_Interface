@@ -68,7 +68,7 @@ while($row = mysql_fetch_array($result,MYSQL_ASSOC)) {
 			//mysql_query($sqlUpdateCountSpecies,$connect);
 		}
 	}
-	$sqlInsertGSDperTaxonTreeId = 'INSERT INTO `_source_database_to_taxon_tree_branche` (`source_database_id`, `taxon_tree_id`) VALUES';
+	$sqlInsertGSDperTaxonTreeId = 'INSERT INTO `_source_database_to_taxon_tree_branch` (`source_database_id`, `taxon_tree_id`) VALUES';
 	if($resultGetGSD !== false) {
 		$firstValues = true;
 		while($rowGetGSD = mysql_fetch_array($resultGetGSD,MYSQL_ASSOC)) {

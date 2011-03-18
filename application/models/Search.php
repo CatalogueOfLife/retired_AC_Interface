@@ -1017,7 +1017,7 @@ class ACI_Model_Search extends AModel
     public function getSourceDatabasesPerTaxonTreeId($id) {
         $select = new Zend_Db_Select($this->_db);
         $select->from(
-            array('sdtttb' => '_source_database_to_taxon_tree_branche'),
+            array('sdtttb' => '_source_database_to_taxon_tree_branch'),
             array(
                 'source_database_id' => 'sdtttb.source_database_id',
                 'short_name' => 'sd.abbreviated_name',
