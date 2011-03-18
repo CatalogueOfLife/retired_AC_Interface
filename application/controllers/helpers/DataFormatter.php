@@ -438,7 +438,31 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             ': ' . $dbDetails['name'];
         return $dbDetails;
     }
-     
+    
+    public function formatSpeciesEstimates(array $phyla)
+    {
+        $previous = false;
+        $total = count($phyla);
+        for ($i = 0; $i < $total; $i++) {
+            $current = $phyla[$i]['kingdom'];
+            if ($current != $previous) {
+                if ($previous !== false) {
+                    $res[$previous] = $$previous;
+                    unset($$previous);
+                }
+                $$current = array();
+            }
+            array_push($$current, $phyla[$i]);
+            if ($i == $total - 1) {
+                $res[$current] = $$current;
+            }
+            $previous = $current;
+        }
+        return $res;
+    }
+    
+    
+    
     /**
      * Returns the references label based on the number of references and
      * the name of the species

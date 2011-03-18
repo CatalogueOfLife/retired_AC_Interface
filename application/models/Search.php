@@ -732,9 +732,10 @@ class ACI_Model_Search extends AModel
     public function fetchTaxaByRank($rank, $query, array $key)
     {
         $cleanStr = trim(str_replace('*', '', $query));
-        $cache = Zend_Registry::get('cache');
+        //cache = Zend_Registry::get('cache');
         $cacheKey = $rank . '_' . $cleanStr . '_' . implode('_', $key);
-        $res = false;
+        $res = $this->_fetchFromCache($cacheKey);
+/*      $res = false;
         if ($cache) {
             // Try to load cached results
             try {
@@ -745,7 +746,7 @@ class ACI_Model_Search extends AModel
                 $cache = false;
             }
         }
-        if (!$res) {
+*/      if (!$res) {
             if (strlen($cleanStr) < $this->_getMinStrLen($rank, $key)) {
                 if(!in_array($rank,array('kingdom','phylum','class','order',
                   'superfamily','family')))
@@ -765,9 +766,10 @@ class ACI_Model_Search extends AModel
                     $rank, $qSubstr, $orderSubstr, $key
                 );
             $res = $select->query()->fetchAll();
-            if ($cache) {
+/*          if ($cache) {
                 $cache->save($res, $cacheKey);
             }
+*/          $this->_storeInCache($res, $cacheKey);
         }
         return array_merge(array('error' => false), $res);
     }

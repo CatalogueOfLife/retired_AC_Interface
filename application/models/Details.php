@@ -425,9 +425,10 @@ class ACI_Model_Details extends AModel
     public function speciesHierarchy($id)
     {
         $cacheKey = $id . '_hierarchy';
-        $cache = Zend_Registry::get('cache');
+        // $cache = Zend_Registry::get('cache');
         // Try to load cached results
-        $res = $cache ? $cache->load($cacheKey) : false;
+        // $res = $cache ? $cache->load($cacheKey) : false;
+        $res = $this->_fetchFromCache($cacheKey);
         if (!$res) {
             $select = new Zend_Db_Select($this->_db);
             $select->from(
@@ -456,9 +457,10 @@ class ACI_Model_Details extends AModel
             } while ($id > 0);
 
             $res = array_reverse($hierarchy);
-            if ($cache) {
+/*          if ($cache) {
                 $cache->save($res, $cacheKey);
             }
+*/          $this->_storeInCache($res, $cacheKey);
         }
         return $res;
     }

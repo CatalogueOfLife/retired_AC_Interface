@@ -31,4 +31,27 @@ abstract class AModel
     protected function _moduleEnabled($module) {
         return Bootstrap::instance()->getOption('module.'.$module);
     }
+    
+    protected function _fetchFromCache($cacheKey) {
+        $cache = Zend_Registry::get('cache');
+        if ($cache) {
+            // Try to load cached results
+            try {
+                $res = $cache->load($cacheKey);
+            } catch (Zend_Cache_Exception $zce) {
+                // An exception may be thrown if the cache key is not valid
+                // In that case, the cache is not used
+                return false;
+            }
+            return $res;
+        }
+        return false;
+    }
+    
+    protected function _storeInCache($res, $cacheKey) {
+        $cache = Zend_Registry::get('cache');
+        if ($cache) {
+            $cache->save($res, $cacheKey);
+        }
+     }
 }

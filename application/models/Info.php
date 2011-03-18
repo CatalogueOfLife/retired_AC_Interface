@@ -64,17 +64,11 @@ class ACI_Model_Info extends AModel
      */
     public function getStatistics()
     {
-        $cache = Zend_Registry::get('cache');
         $cacheKey = 'statistics';
-        $res = false;
-        if ($cache) {
-            $res = $cache->load($cacheKey);
-        }
+        $res = $this->_fetchFromCache($cacheKey);
         if (!$res) {
             $res = $this->_calculateStatistics();
-            if ($cache) {
-                $cache->save($res, $cacheKey);
-            }
+            $this->_storeInCache($res, $cacheKey);
         }
         return $res;
     }
@@ -111,5 +105,39 @@ class ACI_Model_Info extends AModel
         $stats['species'] = number_format($totals->getNumSpecies());
             
         return $stats;
+    }
+    
+    public function getSpeciesEstimates() {
+        $cacheKey = 'estimates';
+        $res = false;
+        //$res = $this->_fetchFromCache($cacheKey);
+        if (!$res) {
+            $select = new Zend_Db_Select($this->_db);
+            $select->from(
+                array('t1' => '_taxon_tree'),
+                array(
+                    't2.taxon_id',
+                    't2.rank',
+                    'name' => 't2.name',
+                    'kingdom' => 't1.name',
+                    't2.total_species_estimation',
+                    't2.total_species'
+                )
+            )
+            ->joinLeft(
+                array('t2' => '_taxon_tree'),
+                't2.parent_id = t1.taxon_id',
+                array()
+                )
+            ->where('t2.rank = ?', 'phylum')
+            ->order(
+                array(
+                    'kingdom', 'name'
+                )
+            );
+            $res = $select->query()->fetchAll();
+            //$this->_storeInCache($res, $cacheKey);
+        }
+        return $res;
     }
 }

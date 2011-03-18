@@ -19,7 +19,7 @@
 	$added = 0;
 	
     //$query = 'SELECT `taxon_id`, `genus_name`, `species_name`, `infraspecies_name` FROM `_species_details`';
-    $query = 'SELECT `taxon_id`, `genus_name`, `species_name`, `infraspecies_name` FROM `_species_details` WHERE `taxon_id` > 7835245';
+    $query = 'SELECT `taxon_id`, `genus_name`, `species_name`, `infraspecies_name` FROM `_species_details` WHERE `taxon_id` > 8748342';
     $result = mysql_query($query) or die(mysql_error());
 	$total = mysql_num_rows($result) or die(mysql_error());
 	while ($row = mysql_fetch_array($result)) {
@@ -76,7 +76,7 @@
 	}
 	
 	function taxonNameOK($name) {
-		$chars_to_skip = array('-', '+', '/', '"');
+		$chars_to_skip = array('-', '+', '/', '"', '*');
 		foreach ($chars_to_skip as $char) {
 			if (strstr($name ,$char) !== false) {
 				return false;

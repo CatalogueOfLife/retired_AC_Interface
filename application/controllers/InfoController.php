@@ -137,6 +137,26 @@ class InfoController extends AController
         $this->_setNavigator();
     }
     
+    public function estimatesAction ()
+    {
+        $this->view->title = $this->view->translate('Species_estimates');
+        $this->view->headTitle($this->view->title, 'APPEND');
+        
+        
+        $info = new ACI_Model_Info($this->_db);
+        $results = $info->getSpeciesEstimates();
+/*       
+        foreach ($rowset as $row) {
+            $results[] = $this->getHelper('DataFormatter')
+                ->formatDatabaseResultPage($row);
+        }
+*/
+        $results = $this->getHelper('DataFormatter')->formatSpeciesEstimates($results);
+        $this->view->results = $results;        
+        
+        $this->_setNavigator();
+    }
+    
     protected function _setNavigator()
     {
         $this->view->navigator_top =

@@ -1,0 +1,27 @@
+<?php
+/**
+ * Annual Checklist Interface
+ *
+ * estimates.phtml
+ * Info - Species estimates view
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  views/scripts
+ *
+ */
+?>
+<div class="page_header">
+<?php
+echo $this->translate('Species_estimates')?>
+</div>
+<?php
+echo $this->navigator_top;
+?>
+<div class="info_content">
+<p>
+<?php print_r($this->results)?>
+</p>
+</div>
+<?php
+echo $this->navigator_bottom; ?>
