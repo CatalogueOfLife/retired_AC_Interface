@@ -441,9 +441,10 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     
     public function formatSpeciesEstimates(array $phyla)
     {
+        $translator = Zend_Registry::get('Zend_Translate');
         $previous = false;
-        $total = count($phyla);
-        for ($i = 0; $i < $total; $i++) {
+        $total_phyla = count($phyla);
+        for ($i = 0; $i < $total_phyla; $i++) {
             $current = $phyla[$i]['kingdom'];
             if ($current != $previous) {
                 if ($previous !== false) {
@@ -452,7 +453,27 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 }
                 $$current = array();
             }
-            array_push($$current, $phyla[$i]);
+            // Format estimate and percentage
+            $estimate = $phyla[$i]['total_species_estimation'];
+            if ($estimate == 0) {
+                 $estimate = $translator->translate('Not_available');
+            }
+            $total = $phyla[$i]['total_species'];
+            $percentage = $translator->translate('Not_available');
+            if ($estimate != 0) {
+                 $percentage = round(($total/$estimate)*100);
+                 if ($percentage > 100) {
+                     $percentage = 100;
+                 }
+            }
+            $output = array (
+                'phylum' => $phyla[$i]['name'],
+                'url' => $this->_getLinkToTree($phyla[$i]['taxon_id'], $phyla[$i]['name']),
+                'estimate' => $estimate,
+                'total' => $total,
+                'percentage' => $percentage
+            );
+            array_push($$current, $output);
             if ($i == $total - 1) {
                 $res[$current] = $$current;
             }
