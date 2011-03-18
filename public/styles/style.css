@@ -420,6 +420,7 @@ th.vertical {
 }
 tr.padded th {
 	padding-top: 30px;
+    border-top: 1px solid #edebeb;
 }
 .treenode {
     margin-left: 4px;
