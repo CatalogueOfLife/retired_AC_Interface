@@ -439,50 +439,60 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         return $dbDetails;
     }
     
-    public function formatSpeciesEstimates(array $phyla)
+    public function formatSpeciesEstimates(array $input)
     {
         $translator = Zend_Registry::get('Zend_Translate');
         $previous = false;
-        $total_phyla = count($phyla);
-        for ($i = 0; $i < $total_phyla; $i++) {
-            $current = $phyla[$i]['kingdom'];
+        $total = count($input);
+        $phyla = $totals = array();
+        $c1 = $c2 = 0;
+        for ($i = 0; $i < $total; $i++) {
+            $current = $input[$i]['kingdom'];
             if ($current != $previous) {
-                if ($previous !== false) {
-                    $res[$previous] = $$previous;
+                if ($previous) {
+                    $phyla[$previous] = $$previous;
+                    $totals[$previous] = $this->_getCoverage($c2, $c1);
+                    $c1 = $c2 = 0;
                     unset($$previous);
                 }
                 $$current = array();
             }
             // Format estimate and percentage
-            $estimate = $phyla[$i]['total_species_estimation'];
-            if ($estimate == 0) {
-                 $estimate = $translator->translate('Not_available');
-            }
-            $total = $phyla[$i]['total_species'];
-            $percentage = $translator->translate('Not_available');
-            if ($estimate != 0) {
-                 $percentage = round(($total/$estimate)*100);
-                 if ($percentage > 100) {
-                     $percentage = 100;
-                 }
-            }
+            $estimate = $input[$i]['total_species_estimation'];
+            $c1 += $estimate;
+            $actual = $input[$i]['total_species'];
+            $c2 += $actual;
             $output = array (
-                'phylum' => $phyla[$i]['name'],
-                'url' => $this->_getLinkToTree($phyla[$i]['taxon_id'], $phyla[$i]['name']),
-                'estimate' => $estimate,
-                'total' => $total,
-                'percentage' => $percentage
+                'name' => $this->_getLinkToTree($input[$i]['taxon_id'], $input[$i]['name']),
+                'estimate' => $estimate == 0 ? $translator->translate('Not_available') : number_format($estimate),
+                'actual' => number_format($actual),
+                'coverage' => $this->_getCoverage($actual, $estimate)
             );
             array_push($$current, $output);
             if ($i == $total - 1) {
-                $res[$current] = $$current;
+                $phyla[$current] = $$current;
+                $totals[$current] = $this->_getCoverage($c2, $c1);
             }
             $previous = $current;
         }
-        return $res;
+        return array(
+            'phyla' => $phyla, 
+            'totals' => $totals
+        );
     }
     
-    
+    private function _getCoverage($actual, $estimate) {
+        $translator = Zend_Registry::get('Zend_Translate');
+        $coverage = $translator->translate('Not_available');
+        if ($actual != 0 && $estimate != 0) {
+             $coverage = round(($actual/$estimate)*100);
+             if ($coverage > 100) {
+                 $coverage = 100;
+             }
+             $coverage .= '%';
+        }
+        return $coverage;
+    }
     
     /**
      * Returns the references label based on the number of references and
@@ -671,13 +681,13 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             if($class != $taxa['class_id'])
             {
                 $output .= 
-                    $this->_getLinkToTree($taxa['kingdom_id'],$taxa['kingdom']) .
+                    $this->_getLinkToClassification($taxa['kingdom_id'],$taxa['kingdom']) .
                     $this->_getRankStatus($taxa['kingdom_status']) . 
                     $seperatorDifferentRank .
-                    $this->_getLinkToTree($taxa['phylum_id'],$taxa['phylum']) .
+                    $this->_getLinkToClassification($taxa['phylum_id'],$taxa['phylum']) .
                     $this->_getRankStatus($taxa['phylum_status']) . 
                     $seperatorDifferentRank .
-                    $this->_getLinkToTree($taxa['class_id'],$taxa['class']) .
+                    $this->_getLinkToClassification($taxa['class_id'],$taxa['class']) .
                     $this->_getRankStatus($taxa['class_status']);
                 $class = $taxa['class_id'];
             }
@@ -685,7 +695,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             {
                 $output .= ($sameRank == true ? $seperatorSameRank :
                     $seperatorDifferentRank) .
-                    $this->_getLinkToTree($taxa['order_id'],$taxa['order']) .
+                    $this->_getLinkToClassification($taxa['order_id'],$taxa['order']) .
                     $this->_getRankStatus($taxa['order_status']);
                 $order = $taxa['order_id'];
                 $sameRank = true;
@@ -704,10 +714,17 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         return '';
     }
     
+    protected function _getLinkToClassification($id,$name)
+    {
+        $link = $this->getFrontController()->getBaseUrl() .
+            '/browse/t/id/' . $id;
+        return '<a href="'.$link.'">'.$name.'</a>';
+    }
+    
     protected function _getLinkToTree($id,$name)
     {
         $link = $this->getFrontController()->getBaseUrl() .
-            '/browse/classification/id/' . $id;
+            '/browse/tree/id/' . $id;
         return '<a href="'.$link.'">'.$name.'</a>';
     }
     

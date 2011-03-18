@@ -418,7 +418,9 @@ th.vertical a:hover {
 th.vertical {
     color: #336;
 }
-
+tr.padded th {
+	padding-top: 30px;
+}
 .treenode {
     margin-left: 4px;
 }
