@@ -17,6 +17,9 @@ table tr td, table tr th {
     padding: 6px;
     line-height: 16px;
 }
+table#species-estimates {
+	margin-top: 30px;
+}
 a:link {
     color: #0B0BF2;
     text-decoration: none;
@@ -60,15 +63,13 @@ table {
 	float: left;
 }
 #database-qualifiers-table {
+    width: 275px;
     float: right;
-	padding: 0;
-	margin: 0;
-	width: 35%;
 }
 #database-qualifiers-table table th, 
 #database-qualifiers-table table td {
 	height: 25px;
-	padding: 2px;
+	padding: 2px 3px;
 	white-space: nowrap;
 }
 #database-qualifiers-span {
@@ -160,7 +161,7 @@ table.details-table table {
 }
 table.details-table tr td, 
 table.details-table tr th {    
-    padding: 2px;
+    padding: 2px 3px;
 }
 .details p {
     padding-top: 10px;
@@ -528,7 +529,7 @@ div.export-warning {
     padding: 15px;
     margin: 0;
     display: block;
-    min-width: 410px;
+    min-width: 603px;
 }
 .centered-box {
     width: 410px;
