@@ -167,7 +167,6 @@ table.details-table tr th {
     padding-top: 10px;
 }
 
-
 /* Thumbnails */
 #thumbnails-table {
     width: auto;
@@ -828,6 +827,17 @@ form div.items-form dd#update-element {
     width: 99%;
     display: block;
 }
+#tree-checkboxes {
+    margin-bottom: 15px;
+}
+#tree-checkboxes label, #tree-checkboxes input {
+    vertical-align: middle;
+    margin: 1px;
+}
+#tree-checkboxes label {
+    margin-right: 10px;
+}
+
 /* Menu */
 /********/
 #menu {
