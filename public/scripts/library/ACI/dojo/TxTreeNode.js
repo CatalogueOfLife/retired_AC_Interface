@@ -14,7 +14,7 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
         	)
         );
         
-        //Checks if the checkbox showGSDCheckbox and showStatisticsCheckbox both exists.
+        //Checks if the checkbox showGSDCheckbox and showStatisticsCheckbox both exist.
         //If not, the module is most likely disabled.
         if(document.getElementById('showGSDCheckbox') && document.getElementById('showStatisticsCheckbox')) {
 	        var statistics = dojo.doc.createElement('span');
@@ -59,7 +59,7 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
 	        	source_database.appendChild(dojo.doc.createTextNode('multiple GSD\'s'));
 	        }
 	    	source_database.className = 'treeSourceDatabase';
-	    	showGSDCheckbox = document.getElementById('showGSDCheckbox');
+	    	var showGSDCheckbox = document.getElementById('showGSDCheckbox');
 	    	if(showGSDCheckbox.checked == true) {
 	    		source_database.style.visibility = "visible";
 	    		source_database.style.position = "relative";
@@ -67,7 +67,7 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
 	    		source_database.style.visibility = "hidden";
 	    		source_database.style.position = "fixed";
 	    	}
-	    	showStatisticsCheckbox = document.getElementById('showStatisticsCheckbox');
+	    	var showStatisticsCheckbox = document.getElementById('showStatisticsCheckbox');
 	    	if(showStatisticsCheckbox.checked == true) {
 	    		statistics.style.visibility = "visible";
 	    		statistics.style.position = "relative";
