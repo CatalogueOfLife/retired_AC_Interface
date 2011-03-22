@@ -124,7 +124,7 @@ window.onload = init;
 window.onscroll = moveMenu;
 
 function collapseAll(className) {
-	var spans = document.getElementsByClassName(className);
+	var spans = dojo.query('.' + className);
 	var span;
 	var value = 0;
 	for (i = 0; i < spans.length; i++) {
