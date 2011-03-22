@@ -277,12 +277,12 @@ class BrowseController extends AController
 	            	$row['percentage'] = 100;
 	            }
             } else {
-            	$row['percentage'] = "";
+            	$row['percentage'] = "?";
             }
 	        //Checks if the module statistics is enabled
 	        $statisticsModuleEnabled = Bootstrap::instance()->getOption('module.statistics');
 			if($statisticsModuleEnabled) {
-	            $row['estimation'] = number_format($row['estimation'],0,'.',',');
+	            $row['estimation'] = $row['estimation'] == 0 ? '?' : number_format($row['estimation'],0,'.',',');
 	            $row['total'] = number_format($row['total'],0,'.',',');
 	            $gsds = $search->getSourceDatabasesPerTaxonTreeId($row['id']);
 	            $row['source_databases'] = $gsds;
