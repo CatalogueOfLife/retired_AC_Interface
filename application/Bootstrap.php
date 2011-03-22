@@ -197,7 +197,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $browserLocale = $this->_getBrowserLocale();
         $currentLanguage = self::DEFAULT_LANGUAGE;
         if (isset($_COOKIE['aci_language'])) {
-            return $_COOKIE['aci_language'];
+            // Additional check if translation file exists; otherwise throws fatal error
+            if (file_exists(APPLICATION_PATH . '/data/languages/lang.' . $_COOKIE['aci_language'] . '.ini')) {
+                return $_COOKIE['aci_language'];
+            }
         }
         if ($browserLanguage = $this->_browserLanguageTranslation($browserLocale['language'], 
             $browserLocale['region'])) {
