@@ -11,6 +11,7 @@ database.params.charset  = "utf8"
 view.googleAnalytics.trackerId =
 
 ; Interface languages (on = 1, off = 0)
+; If a localized version should be used, append the region with _XX (extension in capitals)
 ; If a single language is selected, the language menu will be hidden.
 ; To disable the multi-lingual interface, set all languages to 0; 
 ; in this case the interface will default to the browser language.
@@ -18,7 +19,7 @@ view.googleAnalytics.trackerId =
 ; the default language is set to English.
 language.en = 1                 ; English
 language.zh = 1                 ; Chinese
-language.pt = 1                 ; Portuguese
+language.pt_BR = 1              ; Portuguese (Brazil)
 language.es = 1                 ; Spanish
 
 ; Batch 1 modules (on = 1, off = 0)

@@ -20,7 +20,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     private static $_instance = null;
     const DEFAULT_LANGUAGE = 'en';
-    private $_browserLanguage;
     public $currentLanguage;
 
     public function _initAutoload ()
@@ -176,10 +175,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         return $options;
     }
 
-    private function _getBrowserLanguage ()
+    private function _getBrowserLocale ()
     {
         $locale = new Zend_Locale();
-        return $locale->getLanguage();
+        return array(
+            'language' => $locale->getLanguage(), 
+            'region' => $locale->getRegion()
+        );
     }
 
     private function _getCurrentLanguage ()
@@ -192,26 +194,33 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     private function _setCurrentLanguage ()
     {
-        $this->_browserLanguage = $this->_getBrowserLanguage();
+        $browserLocale = $this->_getBrowserLocale();
         $currentLanguage = self::DEFAULT_LANGUAGE;
         if (isset($_COOKIE['aci_language'])) {
             return $_COOKIE['aci_language'];
         }
-        if ($this->_localLanguageIsAvailable()) {
-            $currentLanguage = $this->_browserLanguage;
+        if ($browserLanguage = $this->_browserLanguageTranslation($browserLocale['language'], 
+            $browserLocale['region'])) {
+            $currentLanguage = $browserLanguage;
         }
         setcookie('aci_language', $currentLanguage, time() + $this->getOption('advanced.cookie_expiration'), 
             '/', '');
         return $currentLanguage;
     }
 
-    private function _localLanguageIsAvailable ()
+    private function _browserLanguageTranslation ($browserLanguage, $browserRegion)
     {
         $allLanguages = $this->getOption('language');
         // Translation file in browser language is available and language is enabled in config.ini
-        if (array_key_exists($this->_browserLanguage, $allLanguages) &&
-             $allLanguages[$this->_browserLanguage] == 1) {
-                return true;
+        // First try if localized translation file is available; if not test for just the language
+        $translationFiles = array(
+            $browserLanguage . '_' . strtoupper($browserRegion), 
+            $browserLanguage
+        );
+        foreach ($translationFiles as $language) {
+            if (array_key_exists($language, $allLanguages) && $allLanguages[$language] == 1) {
+                return $language;
+            }
         }
         return false;
     }

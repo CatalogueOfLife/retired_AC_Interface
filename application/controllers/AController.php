@@ -42,7 +42,7 @@ abstract class AController extends Zend_Controller_Action
         $this->view->cookieExpiration = $this->_cookieExpiration;
         $this->_webserviceTimeout = $this->_setWebserviceTimeout();
     }
-    
+
     public function getDbAdapter ()
     {
         return $this->_db;
@@ -136,37 +136,38 @@ abstract class AController extends Zend_Controller_Action
     {
         return Bootstrap::instance()->getOption('module.' . $module);
     }
-    
+
     private function _setInterfaceLanguages ()
     {
         $locale = new Zend_Locale($this->view->language);
         $allLanguages = Bootstrap::instance()->getOption('language');
         $selectedLanguages = array_flip(array_keys($allLanguages, 1));
         $languageScripts = $locale->getTranslationList('ScriptToLanguage', 'en');
-        $currentLanguageScripts = explode(' ', $languageScripts[$this->view->language]);
+        // Strip off the potentially present locale first when checking for scripts!
+        $currentLanguageScripts = explode(' ', $languageScripts[substr($this->view->language, 0, 2)]);
         foreach ($selectedLanguages as $iso => $language) {
             $selectedLanguages[$iso] = ucfirst(
-                $locale->getTranslation($iso, 'language', $iso)) .
-                ($iso == 'pt' ? ' (Br)' : '');
+                $locale->getTranslation($iso, 'language', $iso));
             // Append transliteration script(s) of this language does not match script(s) of current language
-            $scripts = explode(
-                ' ', $languageScripts[$iso]);
+            // Strip off the potentially present locale first when checking for scripts!
+            $scripts = explode(' ', $languageScripts[substr($iso, 0, 2)]);
             if (count(array_intersect($currentLanguageScripts, $scripts)) == 0) {
                 $selectedLanguages[$iso] .= ' (' . ucfirst(
                     $locale->getTranslation($iso, 'language', 
-                        $this->view->language)) .
-                     ')';
+                        $this->view->language)) . ')';
             }
         }
         asort($selectedLanguages, SORT_LOCALE_STRING);
         return $selectedLanguages;
     }
 
-    private function _setCookieExpiration() {
+    private function _setCookieExpiration ()
+    {
         return Bootstrap::instance()->getOption('advanced.cookie_expiration');
     }
 
-    private function _setWebserviceTimeout() {
+    private function _setWebserviceTimeout ()
+    {
         return Bootstrap::instance()->getOption('advanced.webservice_timeout');
     }
 }
