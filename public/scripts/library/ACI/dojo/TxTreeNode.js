@@ -1,5 +1,5 @@
 dojo.provide('ACI.dojo.TxTreeNode');
-dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {                
+dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
     setLabelNode : function(label) {
         if (this.item.root) {
             return this.inherited(arguments);
@@ -56,7 +56,7 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
 	        	source_database = dojo.doc.createElement('span');
 	        	source_database.title = title;
 	        	source_database.appendChild(temp);
-	        	source_database.appendChild(dojo.doc.createTextNode('multiple GSD\'s'));
+	        	source_database.appendChild(dojo.doc.createTextNode('multiple providers'));
 	        }
 	    	source_database.className = 'treeSourceDatabase';
 	    	var showGSDCheckbox = document.getElementById('showGSDCheckbox');
