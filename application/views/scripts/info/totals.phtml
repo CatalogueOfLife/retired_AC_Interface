@@ -47,7 +47,7 @@ echo $this->navigator_top;
     <?php endforeach; ?>
     <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
-        <td><?php echo sprintf($this->translate('Completeness_for_%s'), $kingdom); ?></td>
+        <td><?php echo sprintf($this->translate('Completeness_for'), $kingdom); ?></td>
         <td></td>
         <td></td>
         <td class="number"><?php echo $this->results['totals'][$kingdom]; ?></td>
