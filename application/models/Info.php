@@ -110,7 +110,7 @@ class ACI_Model_Info extends AModel
     public function getSpeciesTotals() {
         $cacheKey = 'totals';
         $res = false;
-        //$res = $this->_fetchFromCache($cacheKey);
+        $res = $this->_fetchFromCache($cacheKey);
         if (!$res) {
             $select = new Zend_Db_Select($this->_db);
             $select->from(

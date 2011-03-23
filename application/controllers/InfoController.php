@@ -141,13 +141,10 @@ class InfoController extends AController
     {
         $this->view->title = $this->view->translate('Species_totals');
         $this->view->headTitle($this->view->title, 'APPEND');
-        
-        
         $info = new ACI_Model_Info($this->_db);
         $results = $info->getSpeciesTotals();
         $results = $this->getHelper('DataFormatter')->formatSpeciesTotals($results);
-        $this->view->results = $results;        
-        
+        $this->view->results = $results;
         $this->_setNavigator();
     }
     
