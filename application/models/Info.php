@@ -107,8 +107,8 @@ class ACI_Model_Info extends AModel
         return $stats;
     }
     
-    public function getSpeciesEstimates() {
-        $cacheKey = 'estimates';
+    public function getSpeciesTotals() {
+        $cacheKey = 'totals';
         $res = false;
         //$res = $this->_fetchFromCache($cacheKey);
         if (!$res) {
@@ -121,7 +121,8 @@ class ACI_Model_Info extends AModel
                     'name' => 't2.name',
                     'kingdom' => 't1.name',
                     't2.total_species_estimation',
-                    't2.total_species'
+                    't2.total_species',
+                    'source' => 't2.estimate_source'
                 )
             )
             ->joinLeft(
@@ -136,7 +137,7 @@ class ACI_Model_Info extends AModel
                 )
             );
             $res = $select->query()->fetchAll();
-            //$this->_storeInCache($res, $cacheKey);
+            $this->_storeInCache($res, $cacheKey);
         }
         return $res;
     }

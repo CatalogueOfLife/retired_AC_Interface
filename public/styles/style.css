@@ -17,8 +17,11 @@ table tr td, table tr th {
     padding: 6px;
     line-height: 16px;
 }
-table#species-estimates {
-	margin-top: 30px;
+table#species-totals {
+    margin-top: 30px;
+}
+.source-icon {
+	margin-left: 8px;
 }
 a:link {
     color: #0B0BF2;

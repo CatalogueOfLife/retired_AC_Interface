@@ -1,0 +1,60 @@
+<?php
+/**
+ * Annual Checklist Interface
+ *
+ * totals.phtml
+ * Info - Species totals view
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  views/scripts
+ *
+ */
+?>
+<div class="page_header">
+<?php echo $this->translate('Species_totals') ?>
+</div>
+<?php
+echo $this->navigator_top;
+?>
+<div class="info_content">
+<p>Explanation of this table.</p>
+<table id="species-totals">
+<?php $first = true; ?>
+<?php foreach ($this->results['phyla'] as $kingdom => $phyla): ?>
+    <?php $first ? $padding = '' : $padding = 'padded'; ?>
+    <tr class="<?php echo $padding; ?>">
+        <th><?php echo $this->translate('Taxon'); ?></th>
+        <th class="number"><?php echo $this->translate('Actual_number_in_CoL'); ?></th>
+        <th class="number">
+            <?php echo $this->translate('Estimated_number'); ?> 
+            (<?php echo $this->translate('Reference'); ?>)
+        </th>
+        <th class="number"><?php echo $this->translate('CoL_completeness'); ?></th>
+    </tr>
+    <tr>
+        <th colspan="4"><?php echo $kingdom; ?></th>
+    </tr>
+    <?php $rowClass = "even" ?>
+    <?php foreach ($phyla as $phylum): ?>
+    <?php $rowClass = ($rowClass == "odd" ? "even" : "odd"); ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <td><?php echo $phylum['name'] ?></td>
+        <td class="number"><?php echo $phylum['actual'] ?></td>
+        <td class="number"><?php echo $phylum['estimate'] ?> <?php echo $phylum['source'] ?></td>
+        <td class="number"><?php echo $phylum['coverage'] ?></td>
+    </tr>
+    <?php endforeach; ?>
+    <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <td><?php echo sprintf($this->translate('Completeness_for_%s'), $kingdom); ?></td>
+        <td></td>
+        <td></td>
+        <td class="number"><?php echo $this->results['totals'][$kingdom]; ?></td>
+    </tr>
+    <?php $first = false; ?>
+<?php endforeach ?>
+</table>
+</div>
+<?php
+echo $this->navigator_bottom; ?>

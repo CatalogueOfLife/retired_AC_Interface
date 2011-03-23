@@ -171,8 +171,8 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
                     ),
                     'databases' =>
                         $this->_ac->view->translate('Source_databases'),
-                    'estimates' =>
-                        $this->_ac->view->translate('Species_estimates'),
+                    'totals' =>
+                        $this->_ac->view->translate('Species_totals'),
                     'hierarchy' =>
                         $this->_ac->view->translate('Management_hierarchy'),
                     'copyright' =>

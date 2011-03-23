@@ -439,7 +439,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         return $dbDetails;
     }
     
-    public function formatSpeciesEstimates(array $input)
+    public function formatSpeciesTotals(array $input)
     {
         $translator = Zend_Registry::get('Zend_Translate');
         $previous = false;
@@ -466,7 +466,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 'name' => $this->_getLinkToTree($input[$i]['taxon_id'], $input[$i]['name']),
                 'estimate' => $estimate == 0 ? $translator->translate('Not_available') : number_format($estimate),
                 'actual' => number_format($actual),
-                'coverage' => $this->_getCoverage($actual, $estimate)
+                'coverage' => $this->_getCoverage($actual, $estimate),
+                'source' => $this->_formatSourceImage($input[$i]['source'])
             );
             array_push($$current, $output);
             if ($i == $total - 1) {
@@ -479,6 +480,15 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             'phyla' => $phyla, 
             'totals' => $totals
         );
+    }
+    
+    private function _formatSourceImage($reference) {
+        if (empty($reference)) {
+            return false;
+        }
+        $src = $this->getFrontController()->getBaseUrl() . '/images/book.gif';
+        $img = '<img class="source-icon" src="'.$src.'" alt="'.$reference.'" title="'.$reference.'" />';
+        return $img;
     }
     
     private function _getCoverage($actual, $estimate) {
