@@ -26,7 +26,9 @@ language.es = 1                 ; Spanish
 module.statistics = 1           ; Show credits and species estimates in taxonomic tree
 module.credits = 1              ; Show point of attachment in species details
 module.indicators = 1           ; Show indicators for data quality in species and database details
-module.images = 1               ; Show thumbnails of images in species details
+; Display images in species details; if both are enabled image urls are retrieved from database
+module.images_database = 0      ; Retrieve images from database
+module.images_ajax = 1          ; Retrieve images from live web service(s)
 
 ; Advanced settings
 ; Cookies are used to store display preferences for the taxonomic tree and interface language. 

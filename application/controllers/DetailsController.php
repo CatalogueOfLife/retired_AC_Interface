@@ -129,12 +129,10 @@ class DetailsController extends AController
         $this->view->source = $source;
         $this->view->creditsModuleEnabled = $this->_moduleEnabled('credits');
         $this->view->indicatorsModuleEnabled = $this->_moduleEnabled('indicators');
-        $this->view->imagesModuleEnabled = $this->_moduleEnabled('images');
-        
-        // Ruud 23-03-11: AJAX added
-        $this->view->imagesAjaxEnabled = $this->_moduleEnabled(
-            'ajax_images');
-        if ($this->view->imagesAjaxEnabled) {
+        $this->view->imagesModuleDatabaseEnabled = $this->_moduleEnabled('images_database');
+        $this->view->imagesModuleAjaxEnabled = $this->_moduleEnabled(
+            'images_ajax');
+        if ($this->view->imagesModuleAjaxEnabled) {
             $this->view->dojo()->enable();
             $this->view->ajaxUri = '/ajax/images/name/' . $this->view->species->genus . ' ' .
                  $this->view->species->species;

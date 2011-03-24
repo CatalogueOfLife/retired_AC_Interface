@@ -233,7 +233,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
     </tr>
 <?php 
     // Retrieval of images from database
-    if ($this->imagesModuleEnabled && is_array($this->species->images)): ?>
+    if ($this->imagesModuleDatabaseEnabled && is_array($this->species->images)): ?>
     <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Images'); ?>:</th>
@@ -265,7 +265,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
     </tr>
 <?php 
     // Retrieval of images from webservice(s)
-    elseif ($this->imagesAjaxEnabled): ?>
+    elseif ($this->imagesModuleAjaxEnabled): ?>
     <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Images'); ?>:</th>

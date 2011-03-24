@@ -214,8 +214,7 @@ class ACI_Model_Details extends AModel
         $species->distribution = $this->distributions($species->id);
         $species->synonyms     = $this->synonyms($species->id, $species->kingdom);
         $species->infraspecies = $this->infraspecies($species->id, $species->kingdom);
-
-        if ($this->_moduleEnabled('images')) {
+        if ($this->_moduleEnabled('images_database')) {
             $species->images = $this->getImages($species->id);
         }
         if ($this->_moduleEnabled('indicators')) {

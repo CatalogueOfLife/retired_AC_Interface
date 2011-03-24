@@ -40,7 +40,7 @@
     $this->headScript()->appendFile(
         $this->baseUrl() . JS_PATH . '/main.js'
     );
-    if ($this->imagesAjaxEnabled) {
+    if ($this->imagesModuleAjaxEnabled) {
         $this->headScript()->appendFile(
             $this->baseUrl() . JS_PATH . '/ajax.js'
         );
