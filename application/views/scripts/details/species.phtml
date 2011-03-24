@@ -16,6 +16,7 @@
 </div>
 <?php
 if ($this->species instanceof ACI_Model_Table_Taxa):
+//print_r($this->species);
 ?>
 <div class="wrapLogo"><a href="<?php echo $this->baseUrl() .
     '/details/database/id/' . $this->species->dbId; ?>">
@@ -230,7 +231,9 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         <?php endforeach; ?>
         </td>
     </tr>
-<?php if ($this->imagesModuleEnabled && is_array($this->species->images)): ?>
+<?php 
+    // Retrieval of images from database
+    if ($this->imagesModuleEnabled && is_array($this->species->images)): ?>
     <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Images'); ?>:</th>
@@ -258,6 +261,38 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                 <?php endforeach; ?>
                 </tr>
             </table>
+        </td>
+    </tr>
+<?php 
+    // Retrieval of images from webservice(s)
+    elseif ($this->imagesAjaxEnabled): ?>
+    <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Images'); ?>:</th>
+        <td>
+            <script type="text/javascript">
+                function getImages() { // 
+                    dojo.xhrGet( { // 
+                        url: "<?php echo $this->baseUrl() . $this->ajaxUri; ?>", 
+                        handleAs: "json",
+                        timeout: <?php echo $this->webserviceTimeoutInMs; ?>, 
+                        load: function(response, ioArgs) { 
+                            parseImageResponse(response, "<?php echo $this->translate('No_images_found') ?>");
+                        },
+                        error: function(response, ioArgs) {  
+                            console.error(response); 
+                            throwImageResponseError("<?php echo $this->translate('Failed_to_fetch_images') ?>");
+                        }
+                    });
+                }
+                dojo.addOnLoad(getImages);
+            </script>
+            <div id="thumbnails-placeholder">
+                <img src="<?php echo $this->baseUrl() . '/images/ajax-loader.gif'; ?>" 
+                     alt="<?php echo $this->translate('Loading_images') ?>..." 
+                     title="<?php echo $this->translate('Loading_images') ?>..." />&nbsp;
+                <?php echo $this->translate('Loading_images') ?>...
+            </div>
         </td>
     </tr>
 <?php endif; ?>

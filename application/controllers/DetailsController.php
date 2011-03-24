@@ -14,14 +14,14 @@ require_once 'AController.php';
 class DetailsController extends AController
 {
     protected $_empty;
-    
-    public function init()
+
+    public function init ()
     {
         parent::init();
         $this->view->key = $this->_getParam('key');
         $this->view->contentClass = 'details';
     }
-    
+
     /**
      * Handles the reference details requests
      * Accepted request parameters are:
@@ -29,10 +29,10 @@ class DetailsController extends AController
      * OR
      * - id -> reference id
      */
-    public function referenceAction()
+    public function referenceAction ()
     {
-        $speciesId = (int)$this->_getParam('species');
-        $synonymId = (int)$this->_getParam('synonym');
+        $speciesId = (int) $this->_getParam('species');
+        $synonymId = (int) $this->_getParam('synonym');
         $referenceId = $this->_getParam('id');
         $references = false;
         $sn = false;
@@ -44,25 +44,26 @@ class DetailsController extends AController
             foreach ($ids as $id) {
                 $references[] = $detailsModel->getReferenceById($id);
             }
-            $preface = $this->getHelper('DataFormatter')
-                ->getReferencesLabel(count($ids));
-        } elseif ($speciesId) {
+            $preface = $this->getHelper('DataFormatter')->getReferencesLabel(count($ids));
+        }
+        elseif ($speciesId) {
             $taxa = $detailsModel->getScientificName($speciesId);
             if ($taxa instanceof ACI_Model_Table_Taxa) {
-                $references =
-                   $detailsModel->getReferencesByTaxonId($taxa->id);
+                $references = $detailsModel->getReferencesByTaxonId(
+                    $taxa->id);
                 $numReferences = count($references);
-                $preface = $this->getHelper('DataFormatter')
-                   ->getReferencesLabel($numReferences, $taxa->name);
+                $preface = $this->getHelper('DataFormatter')->getReferencesLabel(
+                    $numReferences, $taxa->name);
             }
-        } elseif ($synonymId) {
+        }
+        elseif ($synonymId) {
             $taxa = $detailsModel->getSynonymName($synonymId);
             if ($taxa instanceof ACI_Model_Table_Taxa) {
-                $references =
-                   $detailsModel->getReferencesBySynonymId($taxa->id);
+                $references = $detailsModel->getReferencesBySynonymId(
+                    $taxa->id);
                 $numReferences = count($references);
-                $preface = $this->getHelper('DataFormatter')
-                   ->getReferencesLabel($numReferences, $taxa->taxaFullName);
+                $preface = $this->getHelper('DataFormatter')->getReferencesLabel(
+                    $numReferences, $taxa->taxaFullName);
             }
         }
         $this->view->title = $this->view->translate('Literature_references');
@@ -72,23 +73,22 @@ class DetailsController extends AController
         $this->view->sn = $sn;
         $this->view->preface = $preface;
     }
-    
-    public function databaseAction()
+
+    public function databaseAction ()
     {
         $this->view->title = $this->view->translate('Database_details');
         $this->view->headTitle($this->view->title, 'APPEND');
         $dbTable = new ACI_Model_Table_Databases();
         $dbDetails = $dbTable->get($this->_getParam('id'));
         if ($dbDetails) {
-            $dbDetails = $this->getHelper('DataFormatter')
-                ->formatDatabaseDetails($dbDetails);
+            $dbDetails = $this->getHelper('DataFormatter')->formatDatabaseDetails($dbDetails);
         }
         $this->_logger->debug($dbDetails);
         $this->view->db = $dbDetails;
         $this->view->indicatorsModuleEnabled = $this->_moduleEnabled('indicators');
     }
-    
-    public function speciesAction()
+
+    public function speciesAction ()
     {
         $id = $this->_getParam('id');
         $source = $this->_getParam('source', '');
@@ -99,10 +99,12 @@ class DetailsController extends AController
         if ($commonNameId) {
             $fromType = 'common';
             $fromId = $commonNameId;
-        } elseif ($synonymId) {
+        }
+        elseif ($synonymId) {
             $fromType = 'taxa';
             $fromId = $synonymId;
-        } else {
+        }
+        else {
             $fromType = $fromId = null;
         }
         if ($id) {
@@ -110,19 +112,16 @@ class DetailsController extends AController
             // This will modify the id to that of the accepted name for synonyms
             // and keep the same for accepted names
             if (ACI_Model_Table_Taxa::isSynonym(
-                $detailsModel->speciesStatus($synonymId)
-            )) {
+                $detailsModel->speciesStatus($synonymId))) {
                 $links = $detailsModel->synonymLinks($synonymId);
             }
             if ($detailsModel->species($id, $fromType, $fromId)) {
-                $speciesDetails =
-                    $this->getHelper('DataFormatter')->formatSpeciesDetails(
-                        $detailsModel->species($id, $fromType, $fromId)
-                    );
+                $speciesDetails = $this->getHelper('DataFormatter')->formatSpeciesDetails(
+                    $detailsModel->species($id, $fromType, 
+                        $fromId));
             }
         }
-        $title = $speciesDetails && $speciesDetails->infra_id != '' ?
-           'Infraspecies_details' : 'Species_details';
+        $title = $speciesDetails && $speciesDetails->infra_id != '' ? 'Infraspecies_details' : 'Species_details';
         $this->view->title = $this->view->translate($title);
         $this->view->headTitle($this->view->title, 'APPEND');
         $this->_logger->debug($speciesDetails);
@@ -131,9 +130,22 @@ class DetailsController extends AController
         $this->view->creditsModuleEnabled = $this->_moduleEnabled('credits');
         $this->view->indicatorsModuleEnabled = $this->_moduleEnabled('indicators');
         $this->view->imagesModuleEnabled = $this->_moduleEnabled('images');
+        
+        // Ruud 23-03-11: AJAX added
+        $this->view->imagesAjaxEnabled = $this->_moduleEnabled(
+            'ajax_images');
+        if ($this->view->imagesAjaxEnabled) {
+            $this->view->dojo()->enable();
+            $this->view->ajaxUri = '/ajax/images/name/' . $this->view->species->genus . ' ' .
+                 $this->view->species->species;
+            if ($this->view->species->infra) {
+                $this->view->ajaxUri .= '+' . $this->view->species->infra;
+            }
+            $this->view->webserviceTimeoutInMs = $this->_webserviceTimeout * 1000;
+        }
     }
-         
-    public function __call($name, $arguments)
+
+    public function __call ($name, $arguments)
     {
         $this->_forward('all', 'search');
     }

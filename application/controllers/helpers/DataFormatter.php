@@ -340,15 +340,31 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     
     // Resize images to the thumbnail with the smallest height
     public function resizeThumbnails(ACI_Model_Table_Taxa $speciesDetails) {
-        $minimumHeight = 500;
+        $minHeight = 250;
+        $maxWidth = 250;
         foreach ($speciesDetails->images as $image) {
-            if ($image['height'] < $minimumHeight) {
-                $minimumHeight = $image['height'];
+            if ($image['height'] < $minHeight) {
+                $minHeight = $image['height'];
             }
         }
         foreach ($speciesDetails->images as &$image) {
-            if ($image['height'] > $minimumHeight) {
-                $ratio = $minimumHeight / $image['height'];
+/*          if ($image['height'] > $minHeight) {
+                $ratio = $minHeight / $image['height'];
+                $image['height'] = round($ratio * $image['height']);
+                $image['width'] = round($ratio * $image['width']);
+            }
+            if ($image['width'] > $maxWidth) {
+                $ratio = $maxWidth / $image['width'];
+                $image['height'] = round($ratio * $image['height']);
+                $image['width'] = round($ratio * $image['width']);
+            }
+*/
+        
+        
+            if ($image['height'] > $minHeight || $image['width'] > $maxWidth) {
+                $heightRatio = $minHeight / $image['height'];
+                $widthRatio = $maxWidth / $image['width'];
+                $heightRatio < $widthRatio ? $ratio = $heightRatio : $ratio = $widthRatio;
                 $image['height'] = round($ratio * $image['height']);
                 $image['width'] = round($ratio * $image['width']);
             }

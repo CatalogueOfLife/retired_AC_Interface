@@ -168,6 +168,11 @@ abstract class AController extends Zend_Controller_Action
 
     private function _setWebserviceTimeout ()
     {
-        return Bootstrap::instance()->getOption('advanced.webservice_timeout');
+        $timeout = Bootstrap::instance()->getOption('advanced.webservice_timeout');
+        // Maximize to 10s
+        if (empty($timeout) || $timeout > 10) {
+            $timeout = 10;
+        }
+        return $timeout;
     }
 }

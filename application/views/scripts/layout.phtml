@@ -37,9 +37,15 @@
         ->addStyleSheetModule('dijit.themes.tundra');
    	    echo $this->dojo();
     }
-    echo $this->headScript()->appendFile(
+    $this->headScript()->appendFile(
         $this->baseUrl() . JS_PATH . '/main.js'
     );
+    if ($this->imagesAjaxEnabled) {
+        $this->headScript()->appendFile(
+            $this->baseUrl() . JS_PATH . '/ajax.js'
+        );
+    }
+    echo $this->headScript();
     ?>
 
 <script type="text/javascript">var cookieExpiration = <?php echo (round($this->cookieExpiration/86400)); ?></script>

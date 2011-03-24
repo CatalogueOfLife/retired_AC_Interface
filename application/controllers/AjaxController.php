@@ -13,28 +13,18 @@ require_once 'AController.php';
  */
 class AjaxController extends AController
 {
-    const TIMEOUT = 5;
     private $_species; // Name parameter containing species name to be queried
     private $_errors = array();
     private $_remoteData = array();
-    private $_emptyChannelResult = array(
-        'source' => '', 
-        'src' => '', 
-        'href' => '', 
-        'width' => 0, 
-        'height' => 0, 
-        'photographer' => '', 
-        'caption' => ''
-    );
     private $_jsonChannelResults = array();
-    private $_json = array(
+    private $_jsonOutput = array(
         'errors' => '', 
-        'numberOfChannels' => 0, 
+        'numberOfResults' => 0, 
         'results' => array()
     );
     
     // Channels queried with queryWebservices should be in multi-dimensional array as below
-    // Species name in url with be replaced with sprintf %s, optional key with str_replace [key]
+    // Species name in url will be replaced with sprintf %s, optional key with str_replace [key]
     private $_imageChannels = array(
         array(
             'channel' => 'ARKive', 
@@ -48,6 +38,17 @@ class AjaxController extends AController
             'key' => '', 
             'link' => 'http://images.search.yahoo.com/search/images?p=%s'
         )
+    );
+    // Empty container to fill with data, in this case specific for image query
+    // Array will be cast to object on access
+    private $_emptyImageChannelResult = array(
+        'source' => '', 
+        'src' => '', 
+        'href' => '', 
+        'width' => 0, 
+        'height' => 0, 
+        'photographer' => '', 
+        'caption' => ''
     );
 
     public function init ()
@@ -66,8 +67,8 @@ class AjaxController extends AController
     {
         $this->_setSpecies();
         if (!empty($this->_errors)) {
-            $this->_createErrorJson();
-            exit();
+            $this->_response->setBody($this->_createErrorJson());
+            return false;
         }
         $this->_remoteData = $this->queryWebservices($this->_imageChannels);
         foreach ($this->_imageChannels as $k => $v) {
@@ -75,12 +76,11 @@ class AjaxController extends AController
             $method = '_parse' . $channel;
             // Dynamically call the json parsers
             if (method_exists(
-                $this, $method)) {
-                $this->_jsonChannelResults[] = $this->$method();
+                $this, $method) && $parsedChannel = $this->$method()) {
+                $this->_jsonChannelResults[] = $parsedChannel;
             }
         }
-        $json = $this->_createJson();
-        $this->_response->setBody($json);
+        $this->_response->setBody($this->_createJsonOutput());
     }
 
     public function queryWebservices ($channels = array())
@@ -95,7 +95,7 @@ class AjaxController extends AController
             curl_setopt($ch[$i], CURLOPT_URL, $url);
             curl_setopt($ch[$i], CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch[$i], CURLOPT_HEADER, false);
-            curl_setopt($ch[$i], CURLOPT_TIMEOUT, AjaxController::TIMEOUT);
+            curl_setopt($ch[$i], CURLOPT_TIMEOUT, $this->_webserviceTimeout);
             curl_multi_add_handle($mh, $ch[$i]);
         }
         
@@ -113,13 +113,15 @@ class AjaxController extends AController
         return $this->_remoteData;
     }
 
+    // Parsers should be named _parse + $_imageChannels[$i][channel] 
+    // so they can be accessed automatically
     private function _parseARKive ()
     {
         $remoteData = $this->_remoteData['ARKive'];
         if (isset($remoteData) && !empty($remoteData)) {
-            $channelResult = (object) $this->_emptyChannelResult;
             $data = json_decode($remoteData);
-            if ($data->error == '') {
+            if (empty($data->error)) {
+                $channelResult = (object) $this->_emptyImageChannelResult;
                 $image_link = $data->results[0];
                 $channelResult->source = 'ARKive';
                 $channelResult->href = $this->getAttribute('href', 
@@ -131,8 +133,8 @@ class AjaxController extends AController
                 $channelResult->height = $size[1];
                 $channelResult->caption = $this->getAttribute('alt', 
                     $image_link);
+                return $channelResult;
             }
-            return $channelResult;
         }
         return false;
     }
@@ -141,33 +143,35 @@ class AjaxController extends AController
     {
         $remoteData = $this->_remoteData['YahooImages'];
         if (isset($remoteData) && !empty($remoteData)) {
-            $channelResult = (object) $this->_emptyChannelResult;
+            $channelResult = (object) $this->_emptyImageChannelResult;
             $data = unserialize($remoteData);
-            // Only a single result is required
-            $data = $data['ResultSet']['Result'][0];
-            $channelResult->source = 'Yahoo Images';
-            $href = $this->_imageChannels[$this->_getLinkKey('YahooImages')]['link'];
-            $channelResult->href = sprintf($href, urlencode($this->_species));
-            $channelResult->src = $data['Thumbnail']['Url'];
-            $channelResult->width = $data['Thumbnail']['Width'];
-            $channelResult->height = $data['Thumbnail']['Height'];
-            $channelResult->caption = $data['Summary'];
-            return $channelResult;
+            if (!empty($data['ResultSet']['Result'])) {
+                // Only a single result is required
+                $data = $data['ResultSet']['Result'][0];
+                $channelResult->source = 'Yahoo Images';
+                $href = $this->_imageChannels[$this->_getLinkKey('YahooImages')]['link'];
+                $channelResult->href = sprintf($href, urlencode($this->_species));
+                $channelResult->src = $data['Thumbnail']['Url'];
+                $channelResult->width = $data['Thumbnail']['Width'];
+                $channelResult->height = $data['Thumbnail']['Height'];
+                $channelResult->caption = $data['Summary'];
+                return $channelResult;
+            }
         }
         return false;
     }
 
     private function _createErrorJson ()
     {
-        $this->_json['errors'] = $this->_errors;
-        return Zend_Json::encode($this->_json);
+        $this->_jsonOutput['errors'] = $this->_errors;
+        return Zend_Json::encode($this->_jsonOutput);
     }
 
-    private function _createJson ()
+    private function _createJsonOutput ()
     {
-        $this->_json['numberOfChannels'] = count($this->_jsonChannelResults);
-        $this->_json['results'] = $this->_jsonChannelResults;
-        return Zend_Json::encode($this->_json);
+        $this->_jsonOutput['numberOfResults'] = count($this->_jsonChannelResults);
+        $this->_jsonOutput['results'] = $this->_jsonChannelResults;
+        return Zend_Json::encode($this->_jsonOutput);
     }
 
     private function _getLinkKey ($source)
@@ -191,7 +195,7 @@ class AjaxController extends AController
             $this->_species = $this->_getParam('name');
         }
         else {
-            $this_errors[] = 'Name parameter with species name empty or missing';
+            $this->_errors[] = 'Species name parameter empty or missing';
         }
     }
 
@@ -201,12 +205,12 @@ class AjaxController extends AController
             '-', 
             '+', 
             '/', 
-            '"',
+            '"', 
             '*'
         );
         foreach ($chars_to_skip as $char) {
             if (strstr($this->_species, $char) !== false) {
-                $this_errors[] = 'Species name contains invalid character';
+                $this->_errors[] = 'Species name contains invalid character(s)';
             }
         }
     }
@@ -219,8 +223,6 @@ class AjaxController extends AController
         if ($match) {
             return urldecode($match[1]);
         }
-        else {
-            return false;
-        }
+        return false;
     }
 }

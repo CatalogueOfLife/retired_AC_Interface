@@ -171,6 +171,9 @@ table.details-table tr th {
 }
 
 /* Thumbnails */
+#thumbnails-placeholder img {
+	vertical-align: middle;
+}
 #thumbnails-table {
     width: auto;
     margin-top: 2px;
