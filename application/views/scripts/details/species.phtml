@@ -265,7 +265,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
     </tr>
 <?php 
     // Retrieval of images from webservice(s)
-    elseif ($this->imagesModuleAjaxEnabled): ?>
+    elseif (!$this->imagesModuleDatabaseEnabled && $this->imagesModuleAjaxEnabled): ?>
     <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Images'); ?>:</th>
