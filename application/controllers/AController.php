@@ -163,12 +163,14 @@ abstract class AController extends Zend_Controller_Action
 
     private function _setCookieExpiration ()
     {
-        return Bootstrap::instance()->getOption('advanced.cookie_expiration');
+        $config = Zend_Registry::get('config');
+        return $config->advanced->cookie_expiration;
     }
 
     private function _setWebserviceTimeout ()
     {
-        $timeout = Bootstrap::instance()->getOption('advanced.webservice_timeout');
+        $config = Zend_Registry::get('config');
+        $timeout = $config->advanced->webservice_timeout;
         // Maximize to 10s
         if (empty($timeout) || $timeout > 10) {
             $timeout = 10;

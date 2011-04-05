@@ -175,15 +175,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         return $options;
     }
 
-    private function _getBrowserLocale ()
-    {
-        $locale = new Zend_Locale();
-        return array(
-            'language' => $locale->getLanguage(), 
-            'region' => $locale->getRegion()
-        );
-    }
-
     private function _getCurrentLanguage ()
     {
         if ($this->currentLanguage) {
@@ -194,26 +185,31 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     private function _setCurrentLanguage ()
     {
-        $browserLocale = $this->_getBrowserLocale();
+        $config = Zend_Registry::get('config');
+        $cookieExpiration = $config->advanced->cookie_expiration;
         $currentLanguage = self::DEFAULT_LANGUAGE;
+        // Language has already been set in cookie
         if (isset($_COOKIE['aci_language'])) {
-            // Additional check if translation file exists; otherwise throws fatal error
             if (file_exists(APPLICATION_PATH . '/data/languages/lang.' . $_COOKIE['aci_language'] . '.ini')) {
                 return $_COOKIE['aci_language'];
             }
         }
-        if ($browserLanguage = $this->_browserLanguageTranslation($browserLocale['language'], 
-            $browserLocale['region'])) {
+        // Test if translation in browser language exists; if not return default
+        if ($browserLanguage = $this->_setLanguageBasedOnBrowser()) {
             $currentLanguage = $browserLanguage;
         }
-        setcookie('aci_language', $currentLanguage, time() + $this->getOption('advanced.cookie_expiration'), 
+        setcookie('aci_language', $currentLanguage, time() + $cookieExpiration, 
             '/', '');
+        
         return $currentLanguage;
     }
 
-    private function _browserLanguageTranslation ($browserLanguage, $browserRegion)
+    private function _setLanguageBasedOnBrowser ()
     {
-        $allLanguages = $this->getOption('language');
+        $locale = new Zend_Locale();
+        $browserLanguage = $locale->getLanguage();
+        $browserRegion = $locale->getRegion();
+        $allLanguages = self::getOption('language');
         // Translation file in browser language is available and language is enabled in config.ini
         // First try if localized translation file is available; if not test for just the language
         $translationFiles = array(
