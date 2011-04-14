@@ -34,6 +34,19 @@ class ACI_Model_Webservice extends AModel
     protected $_model;
     protected $_detailsModel;
     
+    public static $classificationRanks = array(
+        'kingdom',
+        'phylum',
+        'class',
+        'order',
+        'superfamily',
+        'family',
+        'genus',
+        'subgenus',
+        'species',
+    'infraspecies'
+    );
+    
     public function query(Zend_Controller_Request_Abstract $request)
     {
         if (is_null($this->_filter)) {
@@ -45,7 +58,7 @@ class ACI_Model_Webservice extends AModel
         try {
             $this->_process($this->_validate($request));
         } catch(Zend_Db_Exception $e) {
-            $this->_setError('Database query failed');
+            $this->_setError('Database query failed: '.$e);
         } catch (ACI_Model_Webservice_Exception $e) {
             $this->_setError($e->getMessage());
         }
@@ -119,7 +132,7 @@ class ACI_Model_Webservice extends AModel
         $request->setParam('name', $this->_response['name']);
         $request->setParam('response', $responseFormat);
         $request->setParam('start', $this->_response['start']);
-        
+
         return $request;
     }
     
@@ -171,19 +184,21 @@ class ACI_Model_Webservice extends AModel
     
     protected function _processCommonName(array $row, /*bool*/$full)
     {
+        $languageAndCountry = $this->_model->getLanguageAndCountry($row['record_id']);
+        $sourceDatabase = $this->_getSourceDatabase($row['source_database_id']);
         $item = array(
             'name' => $row['name'],
             'name_status' => $this->_getNameStatusById($row['status']),
-            'language' => $row['language'],
-            'country' => $row['country'],
+            'language' => $languageAndCountry['language'],
+            'country' => $languageAndCountry['country'],
             'url' => self::getTaxaUrl(
                 $row['record_id'], $row['rank_id'], $row['status'],
                 $row['sn_id']
             ),
-            'source_database' => $row['source_database'],
-            'source_database_url' => $row['source_database_url'],
+            'source_database' => $sourceDatabase['full_name'],
+            'source_database_url' => $sourceDatabase['web_site'],
             'accepted_name' => $this->_getScientificName(
-                $row['name_code'], $full, true
+                $row['sn_id'], $full, true
             )
         );
         
@@ -193,18 +208,19 @@ class ACI_Model_Webservice extends AModel
         
         // full response =+ references
         $item['references'] =
-            $this->_getReferences(array($row['reference_id']));
+            $this->_getReferences($row['record_id']);
         
         return $item;
     }
     
     protected function _processScientificName(array $row, /*bool*/$full)
     {
+        // Higher taxon
         if ($row['rank_id'] < ACI_Model_Table_Taxa::RANK_SPECIES) {
             $sn = array(
                 'id' => $row['record_id'],
                 'name' => $row['name'],
-                'rank' => $row['rank'],
+                'rank' => $this->checkRank($row['rank']),
                 'name_status' => $this->_getNameStatusById($row['status']),
                 'name_html' => $row['name_html'],
                 'url' => self::getTaxaUrl(
@@ -213,29 +229,34 @@ class ACI_Model_Webservice extends AModel
             );
             if($full) {
                 $sn['classification'] =
-                    $this->_getClassification($row['record_id'], false);
+                    $this->_model->getHigherTaxonClassification($row['record_id']);
                 $sn['child_taxa'] =
-                    $this->_getChildren($row['record_id'], false);
+                    $this->_model->getChildTaxa($row['record_id']);
             }
             return $sn;
         }
         // Species and infraspecies
-        $sn = $this->_getScientificName($row['name_code'], $full, false);
+        $sn = $this->_getScientificName($row['record_id'], $full, false);
         if (!ACI_Model_Table_Taxa::isAcceptedName($row['status'])) {
             $sn['accepted_name'] = $this->_getScientificName(
-                $this->_model->getAcceptedNameCodeFromId($sn['id']), $full, true
+                $sn['sn_id'], $full, true
             );
         }
         return $sn;
     }
     
-    protected function _getScientificName($nameCode, /*bool*/$full,
-        /*bool*/$acceptedName)
+    protected function _getScientificName($id, /*bool*/ $full,
+        /*bool*/ $acceptedName)
     {
-        $an = $this->_model->scientificName($nameCode, $acceptedName);
+        $an = $this->_model->scientificName($id, $acceptedName);
         if (!$an) {
             return array();
         }
+        $db = $this->_getSourceDatabase($an['source_database_id']);
+        $an['source_database'] = $db['full_name'];
+        $an['source_database_url'] = $db['web_site'];
+        $an['online_resource'] = $this->_getOnlineResource($an['id']);
+        $an['record_scrutiny_date'] = $this->_model->getScrutinyDate($an['id']);
         $an['name_html'] =
             ACI_Model_Table_Taxa::getAcceptedScientificName(
                 $an['genus'], $an['species'], $an['infraspecies'],
@@ -246,10 +267,8 @@ class ACI_Model_Webservice extends AModel
         $an['url'] = self::getTaxaUrl(
             $an['id'], $an['rank_id'], $an['status'], $an['id']
         );
-        
-        $nameCode = $an['name_code'];
         $status = $an['status'];
-        unset($an['rank_id'], $an['status'], $an['name_code']);
+        unset($an['rank_id'], $an['status'], $an['source_database_id']);
         
         if (!$full) {
             $this->_arrayFilterKeys(
@@ -260,20 +279,19 @@ class ACI_Model_Webservice extends AModel
             return $an;
         }
         // full response
-        $an['distribution'] = $this->_getDistribution($nameCode);
-        $an['references'] = $this->_getReferences($nameCode);
-        
+        $an['distribution'] = $this->_getDistribution($an['id']);
+        $an['references'] = $this->_getReferences($an['id']);
         if(ACI_Model_Table_Taxa::isAcceptedName($status)) {
-            $an['classification'] = $this->_getClassification($an['id'], true);
-            $an['child_taxa'] = $this->_getChildren($an['id'], true);
-            $an['synonyms'] = $this->_getSynonyms($nameCode);
-            $an['common_names'] = $this->_getCommonNames($nameCode);
+            $an['classification'] = $this->_model->getSpeciesClassification($an['id']);
+            $an['child_taxa'] = $this->_model->getChildTaxa($an['id']);
+            $an['synonyms'] = $this->_getSynonyms($an['id']);
+            $an['common_names'] = $this->_getCommonNames($an['id']);
         }
         
         return $an;
     }
     
-    protected function _getReferences(/*mixed*/$rCode)
+    protected function _getReferences(/*mixed*/ $rCode)
     {
         $dm = $this->_getDetailsModel();
         
@@ -286,34 +304,21 @@ class ACI_Model_Webservice extends AModel
                 }
             }
         } else {
-            $refs = $dm->getReferencesByNameCode($rCode);
+            $refs = $dm->getReferencesByTaxonId($rCode);
         }
-        
+        // Reset to 'old' array keys
+        $refs = $this->_resetReferences($refs);
         $this->_arrayFilterKeys(
             $refs, array('author', 'title', 'year', 'source')
         );
         return $refs;
     }
     
-    protected function _getDistribution($nameCode)
+    protected function _getDistribution($id)
     {
         $dm = $this->_getDetailsModel();
-        $distributions = $dm->distributions($nameCode);
+        $distributions = $dm->distributions($id);
         return implode('; ', $distributions);
-    }
-    
-    protected function _getClassification($id, /*bool*/$isSnId)
-    {
-        return $this->_model->classification(
-            $isSnId ? $this->_getTaxaFromSpeciesId($id) : $id
-        );
-    }
-    
-    protected function _getChildren($id, /*bool*/$isSnId)
-    {
-        return $this->_model->childTaxa(
-            $isSnId ? $this->_getTaxaFromSpeciesId($id) : $id
-        );
     }
     
     protected function _getTaxaFromSpeciesId($snId)
@@ -322,12 +327,12 @@ class ACI_Model_Webservice extends AModel
         return $searchModel->getTaxaFromSpeciesId($snId);
     }
     
-    protected function _getSynonyms($nameCode)
+    protected function _getSynonyms($id)
     {
-        $synonyms = $this->_model->synonyms($nameCode);
+        $synonyms = $this->_model->synonyms($id);
         foreach ($synonyms as &$syn) {
-            $syn['name_html'] =
-            ACI_Model_Table_Taxa::getAcceptedScientificName(
+            $syn['name_html'] = 
+                ACI_Model_Table_Taxa::getAcceptedScientificName(
                 $syn['genus'], $syn['species'], $syn['infraspecies'],
                 $syn['infraspecies_marker'], $syn['author']
             );
@@ -336,27 +341,29 @@ class ACI_Model_Webservice extends AModel
             $syn['url'] = self::getTaxaUrl(
                 $syn['id'], $syn['rank_id'], $syn['status'], $syn['id']
             );
-            $syn['references'] = $this->_getReferences($syn['name_code']);
-            unset($syn['rank_id'], $syn['status'], $syn['name_code'],
+            $syn['references'] = $this->_getReferences($syn['id']);
+            unset($syn['rank_id'], $syn['status'], $syn['source_database_id'],
                 $syn['distribution']);
         }
         return $synonyms;
     }
     
-    protected function _getCommonNames($nameCode)
+    protected function _getCommonNames($id)
     {
         $dm = $this->_getDetailsModel();
-        $commonNames = $dm->commonNames($nameCode);
+        $commonNames = $dm->commonNames($id);
         foreach($commonNames as &$cn) {
             $refIds = explode(',', $cn['references']);
             $refs = array();
             foreach($refIds as $refId) {
-                // some references do not exist (incosistent data)
+                // some references do not exist (inconsistent data)
                 // check first if we can really obtain that reference
                 if($ref = $dm->getReferenceById($refId)) {
                     $refs[] = $ref;
                 }
             }
+            // Reset to 'old' array keys
+            $refs = $this->_resetReferences($refs);
             $this->_arrayFilterKeys(
                 $refs, array('author', 'title', 'year', 'source')
             );
@@ -440,6 +447,43 @@ class ACI_Model_Webservice extends AModel
                 return 'Genus';
         }
         return 'unknown';
+    }
+    
+    protected function _getSourceDatabase($id) {
+       $db = new ACI_Model_Table_Databases($this->_db);
+       return $db->get($id);
+    }
+    
+    protected function _getOnlineResource($id) {
+       $resources = array();
+       $details = new ACI_Model_Details($this->_db);
+       $urls = $details->getUrls($id);
+       foreach ($urls as $url) {
+           $resources[] = $url['url'];
+       };
+       return implode('; ', $resources);
+    }
+    
+    // Reset array keys to the original values
+    private function _resetReferences($refs) {
+        $parsedRefs = array();
+        foreach ($refs as $ref) {
+            $parsedRefs[] = array(
+                'author' => $ref['authors'],
+                'year' => $ref['year'],
+                'title' => $ref['title'],
+                'source' => $ref['text']
+            );
+        }
+        return $parsedRefs;
+    }
+    
+    // Simplify rank to infraspecies if necessary and set first character to uppercase
+    public static function checkRank($rank) {
+        if (!in_array($rank, self::$classificationRanks)) {
+            $rank = 'infraspecies';
+        }
+        return ucfirst($rank);
     }
     
     public function setFilter(Zend_Filter_Interface $filter)

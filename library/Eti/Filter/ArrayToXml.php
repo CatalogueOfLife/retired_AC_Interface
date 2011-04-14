@@ -189,7 +189,7 @@ class Eti_Filter_ArrayToXml implements Zend_Filter_Interface
      */
     protected function _cleanStr($str)
     {
-        return trim(utf8_encode(str_replace(chr(11), chr(32), $str)));
+        return trim(str_replace(chr(11), chr(32), $str));
     }
     
     /**
