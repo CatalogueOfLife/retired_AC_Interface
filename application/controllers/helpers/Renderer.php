@@ -233,6 +233,8 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
         );
     }
     
+    // Insert item into array after specified key
+    // $arr2 is key => value of item to insert
     public function insertIntoArray(&$arr1, $key, $arr2) {
         $index = array_search($key, array_keys($arr1));
         if ($index === false) {
