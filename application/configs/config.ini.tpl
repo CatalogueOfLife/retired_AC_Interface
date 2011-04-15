@@ -23,12 +23,12 @@ language.pt_BR = 1              ; Portuguese (Brazil)
 language.es = 1                 ; Spanish
 
 ; Batch 1 modules (on = 1, off = 0)
-module.statistics = 1           ; Show credits and species estimates in taxonomic tree
-module.credits = 1              ; Show point of attachment in species details
-module.indicators = 1           ; Show indicators for data quality in species and database details
+module.statistics = 0           ; Show credits and species estimates in taxonomic tree
+module.credits = 0              ; Show point of attachment in species details
+module.indicators = 0           ; Show indicators for data quality in species and database details
 ; Display images in species details; if both are enabled images are retrieved from database
 module.images_database = 0      ; Retrieve images from database
-module.images_ajax = 1          ; Retrieve images from live web service(s)
+module.images_ajax = 0          ; Retrieve images from live web service(s)
 
 ; Advanced settings
 ; Cookies are used to store display preferences for the taxonomic tree and interface language. 
