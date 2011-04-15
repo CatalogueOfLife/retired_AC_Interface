@@ -120,9 +120,11 @@
               <li class="<?php echo $this->action == 'databases' ?
                 'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/databases">
                   <?php echo $this->translate('Source_databases'); ?></a></li>
+        <?php if ($this->statisticsModuleEnabled): ?>
               <li class="<?php echo $this->action == 'total' ?
                 'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/totals">
                   <?php echo $this->translate('Species_totals'); ?></a></li>
+        <?php endif; ?>
               <li class="<?php echo $this->action == 'hierarchy' ?
                 'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/hierarchy">
                   <?php echo $this->translate('Management_hierarchy'); ?></a></li>

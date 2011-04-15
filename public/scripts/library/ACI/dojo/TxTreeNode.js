@@ -16,7 +16,7 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
         
         //Checks if the checkbox showGSDCheckbox and showStatisticsCheckbox both exist.
         //If not, the module is most likely disabled.
-        if(document.getElementById('showGSDCheckbox') && document.getElementById('showStatisticsCheckbox')) {
+        if(dojo.byId('showGSDCheckbox') && dojo.byId('showStatisticsCheckbox')) {
 	        var statistics = dojo.doc.createElement('span');
 	        statistics.className = 'treeStatistics';
 	        if(this.tree.model.store.getValue(this.item, 'estimation')) {
@@ -91,13 +91,13 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
                     .createTextNode(' ' + label));
             this.labelNode.appendChild(taxon);
             //Checks if the checkbox exists (the checkbox is enabled by the module)
-            if(document.getElementById('showGSDCheckbox')) {
+            if(dojo.byId('showGSDCheckbox')) {
             	if(this.tree.model.store.getValue(this.item, 'estimation') != 0 || this.tree.model.store.getValue(this.item, 'total') != 0) {
             		this.labelNode.appendChild(statistics);
             	}
             }
             //Checks if the checkbox exists (the checbox is enabled by the module)
-            if(document.getElementById('showGSDCheckbox')) {
+            if(dojo.byId('showGSDCheckbox')) {
             	this.labelNode.appendChild(source_database);
             }
         } else {
@@ -128,11 +128,11 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
             }            
             leaf.appendChild(a);
             this.labelNode.innerHTML = '';
-            //Checks if the checkbox exists (the checbox is enabled by the module)
-            if(document.getElementById('showGSDCheckbox')) {
+            //Checks if the checkbox exists (the checkbox is enabled by the module)
+            if(dojo.byId('showGSDCheckbox')) {
             	leaf.appendChild(source_database);
             }
-            this.expandoNode.parentNode.className += ' dijitTreeLeafLabel'
+            this.expandNode.parentNode.className += ' dijitTreeLeafLabel'
             this.labelNode.appendChild(leaf);
         }
     },    

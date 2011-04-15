@@ -157,35 +157,40 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
         $selId = 'page_' . $pos;
         $baseUrl = $this->_ac->view->baseUrl() . '/info/';
         $nav = new ACI_Form_Dojo_InfoNavigator();
+        $menu = array(
+            'about' => $this->_ac->view->translate('Info_about'),
+            'special' => sprintf(
+                $this->_ac->view->translate('Info_special_edition'),
+                $this->_ac->view->app->edition
+            ),
+            'ac' => sprintf(
+                $this->_ac->view->translate('Info_annual_checklist'),
+                $this->_ac->view->app->edition
+            ),
+            'databases' =>
+                $this->_ac->view->translate('Source_databases'),
+            'hierarchy' =>
+                $this->_ac->view->translate('Management_hierarchy'),
+            'copyright' =>
+                $this->_ac->view->translate(
+                    'Copyright_reproduction_sale'
+                ),
+            'cite' => $this->_ac->view->translate('Cite_work'),
+            'websites' => $this->_ac->view->translate('Web_sites'),
+            'contact' => $this->_ac->view->translate('Contact_us'),
+            'acknowledgements' =>
+                $this->_ac->view->translate('Acknowledgments')
+        );
+        // Totals in info menu only is statistics have been enabled
+        if ($this->_moduleEnabled('statistics')) {
+            $this->insertIntoArray(
+                $menu,
+                'databases',
+                array('totals' => $this->_ac->view->translate('Species_totals'))
+            );
+        }
         $nav->getElement('page')->setAttrib('id', $selId)
-            ->addMultiOptions(
-                array(
-                    'about' => $this->_ac->view->translate('Info_about'),
-                    'special' => sprintf(
-                        $this->_ac->view->translate('Info_special_edition'),
-                        $this->_ac->view->app->edition
-                    ),
-                    'ac' => sprintf(
-                        $this->_ac->view->translate('Info_annual_checklist'),
-                        $this->_ac->view->app->edition
-                    ),
-                    'databases' =>
-                        $this->_ac->view->translate('Source_databases'),
-                    'totals' =>
-                        $this->_ac->view->translate('Species_totals'),
-                    'hierarchy' =>
-                        $this->_ac->view->translate('Management_hierarchy'),
-                    'copyright' =>
-                        $this->_ac->view->translate(
-                            'Copyright_reproduction_sale'
-                        ),
-                    'cite' => $this->_ac->view->translate('Cite_work'),
-                    'websites' => $this->_ac->view->translate('Web_sites'),
-                    'contact' => $this->_ac->view->translate('Contact_us'),
-                    'acknowledgements' =>
-                        $this->_ac->view->translate('Acknowledgments')
-                )
-            )
+            ->addMultiOptions($menu)
             ->setValue(array($this->getRequest()->getParam('action')))
             ->onchange =
                 'navigateToSelected("' . $baseUrl . '", this, "current")';
@@ -226,5 +231,19 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
         return htmlspecialchars(
             $str, ENT_NOQUOTES, $config->resources->view->encoding, false
         );
+    }
+    
+    public function insertIntoArray(&$arr1, $key, $arr2) {
+        $index = array_search($key, array_keys($arr1));
+        if ($index === false) {
+            $index = count($arr1); // insert @ end of array if $key not found
+        }
+        $end = array_splice($arr1, $index++);
+        $arr1 = array_merge($arr1, $arr2, $end);
+    }
+    
+    protected function _moduleEnabled ($module)
+    {
+        return Bootstrap::instance()->getOption('module.' . $module);
     }
 }
