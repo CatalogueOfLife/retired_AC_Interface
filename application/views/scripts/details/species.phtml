@@ -231,13 +231,29 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         <?php endforeach; ?>
         </td>
     </tr>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('CoL_taxon_LSID'); ?>:</th>
+        <td><span class="lsid"><?php echo $this->species->lsid;
+        ?></span></td>
+    </tr>
+
+    
+    <!-- Additional content -->
+    <tr class="<?php echo $rowClass; ?> divisor">
+        <td colspan="2 "/>
+    </tr>
 <?php 
-    // Retrieval of images from database
-    if ($this->imagesModuleDatabaseEnabled && is_array($this->species->images)): ?>
+    // Images from third party source(s)
+    if ($this->imagesModuleDatabaseEnabled || $this->imagesModuleAjaxEnabled): ?>
     <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
-        <th class="vertical"><?php echo $this->translate('Images'); ?>:</th>
+        <th class="vertical"><?php echo $this->translate('Unvetted_images'); ?>:</th>
         <td>
+        <?php 
+        // Retrieval of images from database
+        if ($this->imagesModuleDatabaseEnabled):
+            if (is_array($this->species->images)): ?>
             <table id="thumbnails-table">
                 <tr>
                 <?php foreach ($this->species->images as $image): ?>
@@ -261,15 +277,12 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                 <?php endforeach; ?>
                 </tr>
             </table>
-        </td>
-    </tr>
-<?php 
-    // Retrieval of images from webservice(s)
-    elseif (!$this->imagesModuleDatabaseEnabled && $this->imagesModuleAjaxEnabled): ?>
-    <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
-    <tr class="<?php echo $rowClass; ?>">
-        <th class="vertical"><?php echo $this->translate('Images'); ?>:</th>
-        <td>
+            <?php else: echo $this->translate('No_images_found'); ?>
+            <?php endif; ?>
+        <?php 
+        // Retrieval of images from webservice(s)
+        elseif (!$this->imagesModuleDatabaseEnabled && $this->imagesModuleAjaxEnabled): ?>
+        <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
             <script type="text/javascript">
                 function getImages() { // 
                     dojo.xhrGet( { // 
@@ -293,18 +306,10 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                      title="<?php echo $this->translate('Loading_images') ?>..." />&nbsp;
                 <?php echo $this->translate('Loading_images') ?>...
             </div>
+        <?php endif; ?>
         </td>
     </tr>
 <?php endif; ?>
-    <tr class="<?php echo $rowClass; ?> divisor">
-        <td colspan="2 "/>
-    </tr>
-<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
-    <tr class="<?php echo $rowClass; ?>">
-        <th class="vertical"><?php echo $this->translate('CoL_taxon_LSID'); ?>:</th>
-        <td><span class="lsid"><?php echo $this->species->lsid;
-        ?></span></td>
-    </tr>
 </table>
 <?php
 else:
