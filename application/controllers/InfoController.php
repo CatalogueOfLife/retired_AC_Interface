@@ -17,6 +17,7 @@ class InfoController extends AController
         parent::init();
         $info = new ACI_Model_Info($this->_db);
         $this->view->stats = $info->getStatistics();
+        $this->view->statisticsModuleEnabled = $this->_moduleEnabled('statistics');
     }
     
     public function aboutAction ()
