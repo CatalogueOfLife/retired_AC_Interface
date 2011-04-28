@@ -32,19 +32,23 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
         
         $match = $this->createElement('CheckBox', 'match')->setValue(1)
             ->setLabel('Match_whole_words_only');
+            
+        $fuzzy = $this->createElement('CheckBox', 'fuzzy')->setValue(0)
+            ->setLabel('Use_fuzzy_search');
 /*        $match = $this->createElement('radio','match')->setValue(2)
           ->addMultiOption(2,'Match_starts_with')
           ->addMultiOption(1,'Match_whole_words_only')
           ->addMultiOption(0,'Match_all');*/
         
         $match->getDecorator('label')->setOption('placement', 'append');
+        $fuzzy->getDecorator('label')->setOption('placement', 'append');
         $submit = $this->createElement('SubmitButton', 'search')
             ->setLabel($translator->translate('Search'));
                 
-        $this->addElement($key)->addElement($match)->addElement($submit);
+        $this->addElement($key)->addElement($match)->addElement($fuzzy)->addElement($submit);
         
         $this->addDisplayGroup(array('key'), 'keyGroup');
-        $this->addDisplayGroup(array('match'), 'matchGroup');
+        $this->addDisplayGroup(array('match', 'fuzzy'), 'matchGroup');
         $this->addDisplayGroup(array('search'), 'submitGroup');
         
         $this->setDecorators(
@@ -62,7 +66,7 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
     
     public function getInputElements()
     {
-        return array('key', 'match');
+        return array('key', 'match', 'fuzzy');
     }
     
     /**

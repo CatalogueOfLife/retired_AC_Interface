@@ -117,6 +117,17 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
             $this->getRequest()->getParam('action') .
             '.phtml'
         );
+        
+        // Fuzzy (new view results)
+        $fuzzy = $this->getRequest()->getParam('fuzzy', '0') == '1' && $this->getRequest()->getParam('action') == 'all' && $paginator->getTotalItemCount() == 0;
+        $this->_ac->view->fuzzy = $fuzzy;
+        
+        if ($fuzzy)
+        {
+            $this->_ac->view->data = $this->_ac->getHelper('Fuzzy')->getMatches($this->escape($this->getRequest()->getParam('key')));
+            $this->_ac->view->results = $this->_ac->view->render('search/results/fuzzy.phtml');
+        }
+        
         // Render the results layout
         $this->_ac->renderScript('search/results/layout.phtml');
     }
