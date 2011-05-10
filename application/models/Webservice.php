@@ -239,7 +239,7 @@ class ACI_Model_Webservice extends AModel
         $sn = $this->_getScientificName($row['record_id'], $full, false);
         if (!ACI_Model_Table_Taxa::isAcceptedName($row['status'])) {
             $sn['accepted_name'] = $this->_getScientificName(
-                $sn['sn_id'], $full, true
+                $sn['id'], $full, true
             );
         }
         return $sn;
