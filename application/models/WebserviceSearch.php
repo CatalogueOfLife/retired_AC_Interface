@@ -87,7 +87,6 @@ class ACI_Model_WebserviceSearch extends AModel
                     "TRIM(CONCAT(IF(ss.genus = '', '', ss.genus) " .
                     ", ' ', IF(ss.species = '', '', ss.species), ' ', " .
                     "IF(ss.infraspecies = '', '', ss.infraspecies)))",
-                //'name_code' => new Zend_Db_Expr('""'),
                 'rank' => new Zend_Db_Expr('""'),
                 'rank_id' => 'IF(ss.infraspecies = "" OR ' .
                     'LENGTH(TRIM(ss.infraspecies)) = 0, ' .
@@ -95,15 +94,12 @@ class ACI_Model_WebserviceSearch extends AModel
                     ACI_Model_Table_Taxa::RANK_INFRASPECIES . ')',
                 'name_status' => new Zend_Db_Expr('""'),
                 'status' => 'ss.status',
-                //'name_html' => new Zend_Db_Expr('""'),
+                'sn_id' => 'ss.accepted_species_id',
                 'genus' => 'ss.genus',
                 'species' => 'ss.species',
                 'infraspecies_marker' => 'ss.infraspecific_marker',
                 'infraspecies' => 'ss.infraspecies',
                 'author' => 'ss.author',
-                //'additional_data' => new Zend_Db_Expr('""'),
-                //'distribution' => new Zend_Db_Expr('""'),
-                //'url' => new Zend_Db_Expr('""'),
                 'source_database_id' => 'ss.source_database_id', // Fetch db name and uri separately!
                 'record_scrutiny_date' => new Zend_Db_Expr('""'), // Fetch scrutiny separately!
                 'online_resource' => new Zend_Db_Expr('""') // Fetch taxon url separately!
