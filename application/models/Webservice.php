@@ -265,7 +265,7 @@ class ACI_Model_Webservice extends AModel
         $an['rank'] = $this->_getRankNameById($an['rank_id']);
         $an['name_status'] = $this->_getNameStatusById($an['status']);
         $an['url'] = self::getTaxaUrl(
-            $an['id'], $an['rank_id'], $an['status'], $an['id']
+            $an['id'], $an['rank_id'], $an['status'], $an['sn_id']
         );
         $status = $an['status'];
         unset($an['rank_id'], $an['status'], $an['source_database_id']);
@@ -394,6 +394,12 @@ class ACI_Model_Webservice extends AModel
         $url = $config->eti->application->location . '/';
         if ($statusId == ACI_Model_Table_Taxa::STATUS_COMMON_NAME) {
             $url .= 'details/species/id/' . $snId . '/common/' . $taxaId;
+        } else if (!in_array($statusId, 
+            array(
+                ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME, 
+                ACI_Model_Table_Taxa::STATUS_PROVISIONALLY_ACCEPTED_NAME
+            ))) {
+            $url .= 'details/species/id/' . $snId . '/synonym/' . $taxaId;
         } else {
             // species or infraspecies
             if ($rankId >= ACI_Model_Table_Taxa::RANK_SPECIES) {
