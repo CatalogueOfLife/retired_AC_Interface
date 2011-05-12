@@ -85,6 +85,7 @@ class ACI_Model_Webservice extends AModel
         $this->_response['name'] =
             str_replace('%', '*' , (string)$request->getParam('name', ''));
         $this->_response['start'] = (int)$request->getParam('start');
+        $this->_response['version'] = $this->_setVersion();
         
         $responseFormat = $request->getParam(
             'response', current(array_keys($this->_responseLimits))
@@ -162,7 +163,6 @@ class ACI_Model_Webservice extends AModel
             $res, $request->getParam('response') == 'full' ? true : false
         );
         $this->_response['results'] = $names;
-        $this->_response['version'] = $this->_setVersion();
     }
     
     protected function _processResults(array $res, /*bool*/$full)
