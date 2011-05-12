@@ -14,7 +14,6 @@ require_once 'AModel.php';
 class ACI_Model_Webservice extends AModel
 {
     const REQUEST_NAME_MIN_STRLEN = 3;
-//  const VERSION = '1.2';
     
     // allowed parameters
     protected static $_params = array(
@@ -28,8 +27,8 @@ class ACI_Model_Webservice extends AModel
         'total_number_of_results' => 0,
         'number_of_results_returned' => 0,
         'start' => 0,
-        'error_message' => ''//,
-//      'version' => self::VERSION
+        'error_message' => '',
+        'version' => ''
     );
     protected $_model;
     protected $_detailsModel;
@@ -163,6 +162,7 @@ class ACI_Model_Webservice extends AModel
             $res, $request->getParam('response') == 'full' ? true : false
         );
         $this->_response['results'] = $names;
+        $this->_response['version'] = $this->_setVersion();
     }
     
     protected function _processResults(array $res, /*bool*/$full)
@@ -500,5 +500,11 @@ class ACI_Model_Webservice extends AModel
     protected function _setError($message)
     {
         $this->_response['error_message'] = $message;
+    }
+    
+    protected function _setVersion() 
+    {
+        $config = Zend_Registry::get('config');
+        return $config->eti->application->version.' rev '.$config->eti->application->revision;
     }
 }
