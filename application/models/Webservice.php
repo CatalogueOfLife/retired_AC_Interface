@@ -14,7 +14,7 @@ require_once 'AModel.php';
 class ACI_Model_Webservice extends AModel
 {
     const REQUEST_NAME_MIN_STRLEN = 3;
-    const VERSION = '1.2';
+//  const VERSION = '1.2';
     
     // allowed parameters
     protected static $_params = array(
@@ -29,7 +29,7 @@ class ACI_Model_Webservice extends AModel
         'number_of_results_returned' => 0,
         'start' => 0,
         'error_message' => '',
-        'version' => self::VERSION
+//      'version' => self::VERSION
     );
     protected $_model;
     protected $_detailsModel;
