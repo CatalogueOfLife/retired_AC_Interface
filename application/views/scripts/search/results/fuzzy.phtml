@@ -2,8 +2,8 @@
 /**
  * Annual Checklist Interface
  *
- * all.phtml
- * Search all results page view
+ * fuzzy.phtml
+ * Search fuzzy results page view
  *
  * @category    ACI
  * @package     application
@@ -12,6 +12,7 @@
  */
 ?>
 <table class="results">
+<?php $rowClass = "even"; ?>
 <?php $item = 1 ?>
 <?php for ($i = 0; $i < count($this->data); $i++): ?>
     <?php if ($item == 1): ?>
