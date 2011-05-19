@@ -45,12 +45,7 @@ initTree = function() {
 };
 
 initInfoPanel = function() {
-    dialog = new dijit.TooltipDialog({
-        /*onBlur: function() { 
-            console.dir(dijit.getFocus);
-            dijit.popup.close(dialog);
-        }*/
-    });
+    dialog = new dijit.TooltipDialog({ });
 };
 
 dojo.addOnLoad(initTree);

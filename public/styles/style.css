@@ -804,7 +804,10 @@ form div.items-form dd#update-element {
 }
 .tundra .dijitTreeNodeSelected a {
     background:#e2ebfe none repeat scroll 0 0;
-    font-weight: bold;
+/*  
+    Bold disabled to avoid moving 'i' icon
+    font-weight: bold; 
+*/
 }
 .tundra .dijitTreeIcon {
     display: none;
@@ -981,7 +984,7 @@ li:hover ul, li.over ul {
 }
 
 .tundra .dijitTreeRow .treeSourceDatabase a {
-    margin-left: 5px;
+	margin: 0;
     font-style: normal;
 }
 .tundra .dijitTreeNodeSelected .treeSourceDatabase a {

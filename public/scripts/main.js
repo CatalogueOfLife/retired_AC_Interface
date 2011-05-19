@@ -124,6 +124,7 @@ window.onload = init;
 window.onscroll = moveMenu;
 
 function collapseAll(className) {
+	dijit.popup.close(dialog);
 	var spans = dojo.query('.' + className);
 	var span;
 	var value = 0;

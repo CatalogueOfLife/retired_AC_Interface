@@ -24,49 +24,13 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
             bullet.className = 'bullet';
             bullet.appendChild(
             		dojo.doc.createTextNode(
-            		' - '
+            		' • '
             	)
             );
-/*	        var statistics = dojo.doc.createElement('span');
-	        statistics.className = 'treeStatistics';
-	        if(this.tree.model.store.getValue(this.item, 'estimation')) {
-		        var temp = dojo.clone(bullet);
-		        statistics.appendChild(temp);
-		        statistics.appendChild(
-		        	dojo.doc.createTextNode(
-		        		this.tree.model.store.getValue(this.item, 'total') + ' spp;' +
-		        		' est ' + this.tree.model.store.getValue(this.item, 'estimation') + ';' +
-		        		' ' + this.tree.model.store.getValue(this.item, 'percentage') + '%'
-		        	)
-		        );
-	        }*/
             var statistics = createStatistics(this.item, dojo.clone(bullet), "treeStatistics");
-	        	        
 	        var source_databases = this.tree.model.store.getValue(this.item, 'source_databases');
 	        var source_database = createDatabaseLinks(this.item, dojo.clone(bullet));
-	        
-	        /*	        var source_databases = this.tree.model.store.getValue(this.item, 'source_databases');
-	        var gsdCounter = 0;
-	    	var source_database = dojo.doc.createElement('span');
-	    	var title = '';
-	        var temp = dojo.clone(bullet);
-	    	source_database.appendChild(temp);
-	    	separator = ',';
-	    	for(var i in source_databases)
-	        {
-	            var a = dojo.doc.createElement('a');
-	            a.href = baseUrl + '/details/database/id/' + source_databases[i].source_database_id;
-	            a.title = source_databases[i].full_name;
-	            a.appendChild(dojo.doc.createTextNode(source_databases[i].short_name));
-	    		if(gsdCounter > 0) {
-	    			source_database.appendChild(dojo.doc.createTextNode(separator));
-	    			title = title + separator + ' ';
-	    		}
-	            title = title + source_databases[i].short_name;
-	        	source_database.appendChild(a);
-	            gsdCounter++;
-	        }
-*/
+
 	        if(source_databases.length > 5) {
 	        	source_database = dojo.doc.createElement('span');
 	        	//source_database.title = title;
@@ -90,8 +54,6 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
 	    		statistics.style.visibility = "hidden";
 	    		statistics.style.position = "fixed";
 	    	}
-	    	
-	        //console.dir(this.item);
 	        var panel = createInfoPanel(this.item);
         }
         
