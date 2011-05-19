@@ -130,7 +130,6 @@ class ACI_Model_WebserviceSearch extends AModel
         ->order(array('genus', 'species', 'infraspecies', 'author'));
         
         $res = $select->query()->fetchAll();
-        
         return $res;
     }
 

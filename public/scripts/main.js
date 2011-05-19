@@ -157,3 +157,10 @@ function changeLanguage(language) {
 	setCookie('aci_language', language, cookieExpiration);
 	window.location.reload();
 }
+
+function translate(str) {
+	if (translations && translations.constructor === Array && typeof translations[str] != 'undefined') {
+		return translations[str];
+	}
+	return str;
+}

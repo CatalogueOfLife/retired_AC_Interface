@@ -20,14 +20,16 @@
     <label for="showGSDCheckbox"><?php echo $this->textShowSourceDatabases; ?></label>
 </div>
 <?php endif; ?>
-<?php
-echo '<script type="text/javascript">';
-echo 'var baseUrl = "' . $this->baseUrl() . '";';
-echo 'var hierarchy = new Array(' . $this->hierarchy . ');';
-echo '</script>';
-?>
 <script type="text/javascript">
-init = function() {
+var baseUrl = "<?php echo $this->baseUrl(); ?>";
+var hierarchy = new Array(<?php echo $this->hierarchy; ?>);
+<?php echo $this->jsTranslation; ?>
+</script>
+<script type="text/javascript">
+dojo.require("dijit.TooltipDialog");
+var dialog;
+
+initTree = function() {
     var store = new dojox.data.QueryReadStore({ url: baseUrl + '/browse/tree/fetch/taxa' });
     var model = new ACI.dojo.TxStoreModel({
         store: store,
@@ -40,7 +42,18 @@ init = function() {
     }, 'store');
     var tree = new ACI.dojo.TxTree({ model: model }, 'tree');
     tree.persist = false;
-}
-dojo.addOnLoad(init);
+};
+
+initInfoPanel = function() {
+    dialog = new dijit.TooltipDialog({
+        /*onBlur: function() { 
+            console.dir(dijit.getFocus);
+            dijit.popup.close(dialog);
+        }*/
+    });
+};
+
+dojo.addOnLoad(initTree);
+dojo.addOnLoad(initInfoPanel);
 </script>
 <div id="tree"></div>

@@ -996,7 +996,8 @@ class ACI_Model_Search extends AModel
                 'parentId' => 'ttt.parent_id',
                 'numChildren' => 'ttt.number_of_children',
             	'estimation' => 'ttt.total_species_estimation',
-            	'total' => 'ttt.total_species'
+            	'total' => 'ttt.total_species',
+                'estimate_source' => 'ttt.estimate_source'
             )
         )
         ->where('ttt.parent_id = ?', $parentId)
@@ -1029,7 +1030,8 @@ class ACI_Model_Search extends AModel
             'sdtttb.source_database_id = sd.id',
             array()
         )
-        ->where('sdtttb.taxon_tree_id = ?', $id);
+        ->where('sdtttb.taxon_tree_id = ?', $id)
+        ->order('sd.abbreviated_name');
         $res = $select->query()->fetchAll();
         return $res;
     }

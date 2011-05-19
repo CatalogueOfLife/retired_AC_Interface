@@ -29,7 +29,8 @@ class WebserviceController extends AController
             $config = Zend_Registry::get('config');
             $this->view->location = $config->eti->application->location .
                 '/webservice';
-            $this->view->version = ACI_Model_Webservice::VERSION;
+            $this->view->version = $config->eti->application->version.' rev '.
+                $config->eti->application->revision;
             $this->view->layout()->disableLayout();
         }
     }
