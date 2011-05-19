@@ -30,7 +30,7 @@ language.zh = 1                 ; Chinese
 language.pt_BR = 1              ; Portuguese (Brazil)
 language.es = 1                 ; Spanish
 
-Batch 2 modules (on = 1, off = 0)
+; Batch 2 modules (on = 1, off = 0)
 module.fuzzy_search = 0         ; Enable fuzzy search functionality
 
 ; Advanced settings
