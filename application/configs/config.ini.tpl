@@ -10,6 +10,14 @@ database.params.charset  = "utf8"
 ; Google Analytics Tracker Id
 view.googleAnalytics.trackerId =
 
+; Batch 1 modules (on = 1, off = 0)
+module.statistics = 1           ; Show credits and species estimates in taxonomic tree
+module.credits = 1              ; Show point of attachment in species details
+module.indicators = 1           ; Show indicators for data quality in species and database details
+; Display images in species details; if both are enabled images are retrieved from database
+module.images_database = 0      ; Retrieve images from database
+module.images_ajax = 1          ; Retrieve images from live web service(s)
+
 ; Interface languages (on = 1, off = 0)
 ; If a localized version should be used, append the region with _XX (extension in capitals)
 ; If a single language is selected, the language menu will be hidden.
@@ -22,13 +30,8 @@ language.zh = 1                 ; Chinese
 language.pt_BR = 1              ; Portuguese (Brazil)
 language.es = 1                 ; Spanish
 
-; Batch 1 modules (on = 1, off = 0)
-module.statistics = 1           ; Show credits and species estimates in taxonomic tree
-module.credits = 1              ; Show point of attachment in species details
-module.indicators = 1           ; Show indicators for data quality in species and database details
-; Display images in species details; if both are enabled images are retrieved from database
-module.images_database = 0      ; Retrieve images from database
-module.images_ajax = 1          ; Retrieve images from live web service(s)
+Batch 2 modules (on = 1, off = 0)
+module.fuzzy_search = 0         ; Enable fuzzy search functionality
 
 ; Advanced settings
 ; Cookies are used to store display preferences for the taxonomic tree and interface language. 
