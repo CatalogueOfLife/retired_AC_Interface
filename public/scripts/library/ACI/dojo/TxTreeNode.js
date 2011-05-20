@@ -243,13 +243,13 @@ function createInfoPanelContents(treeNode) {
 	var title = dojo.doc.createElement('span');
 	title.appendChild(rank);
 	title.appendChild(scientificName);
-	title.className = 'infoPanel infoPanelTitle';
+	title.className = 'infoPanelSection infoPanelTitle';
 	
 	var dbLabel = (treeNode.i.source_databases.length == 1) ? 'Source_database' : 'Source_databases';
 	var databaseLinks = dojo.doc.createElement('span');
 	databaseLinks.appendChild(setLabel(dbLabel));
 	databaseLinks.appendChild(createDatabaseLinks(treeNode));
-	databaseLinks.className = 'infoPanel';
+	databaseLinks.className = 'infoPanelSection';
 	
 	p.appendChild(closeButton);
 	p.appendChild(title);
@@ -268,9 +268,9 @@ function setLabel(str) {
 	return label;
 }
 
-function addInfoPanelLine(thisParent, thisLabel, thisValue) {
+function addInfoPanelSection(thisParent, thisLabel, thisValue) {
 	var thisVar = dojo.doc.createElement('span')
-	thisVar.className = 'infoPanel';
+	thisVar.className = 'infoPanelSection';
 	thisVar.appendChild(setLabel(thisLabel));
 	thisVar.appendChild(dojo.doc.createTextNode(thisValue));
 	thisVar.appendChild(dojo.doc.createElement('br'));
@@ -279,14 +279,14 @@ function addInfoPanelLine(thisParent, thisLabel, thisValue) {
 
 function createInfoPanelStatistics(treeNode) {
 	var statistics = dojo.doc.createElement('span');
-	addInfoPanelLine(statistics, 'Number_of_species', treeNode.i.total);
+	addInfoPanelSection(statistics, 'Number_of_species', treeNode.i.total);
     if(treeNode.i.estimation) {
-    	addInfoPanelLine(statistics, 'Estimated_number', treeNode.i.estimation);
+    	addInfoPanelSection(statistics, 'Estimated_number', treeNode.i.estimation);
         if (treeNode.i.percentage != '?') {
-        	addInfoPanelLine(statistics, 'Percentage_covered', treeNode.i.percentage + '%');
+        	addInfoPanelSection(statistics, 'Percentage_covered', treeNode.i.percentage + '%');
         }
         if (treeNode.i.estimate_source) {
-        	addInfoPanelLine(statistics, 'Estimation_source', treeNode.i.estimate_source);
+        	addInfoPanelSection(statistics, 'Estimation_source', treeNode.i.estimate_source);
         }
     }
     return statistics;

@@ -998,8 +998,11 @@ li:hover ul, li.over ul {
     vertical-align: middle;
     cursor: pointer;
 }
-
 .infoPanel {
+	min-width: 250px; 
+	max-width: 450px;
+}
+.infoPanelSection {
 	display: block;
 	margin-bottom: 5px;
 }

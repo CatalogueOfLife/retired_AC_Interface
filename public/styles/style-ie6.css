@@ -2,3 +2,7 @@
 div.results_header div.results_form form {    
     width: 360px; 
 }
+/* min-width and max-width are not supported; simply provide width instead */
+.infoPanel {
+    width: 450px;
+}
