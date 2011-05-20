@@ -833,7 +833,7 @@ form div.items-form dd#update-element {
     background: transparent;
 }
 .dijitTreeLabel .rank {
-    color: #666;    
+	color: #666;    
 }
 .node-Genus {
     font-style: italic;
@@ -979,8 +979,7 @@ li:hover ul, li.over ul {
 }
 
 .treeSourceDatabase, .treeStatistics {
-	visibility: hidden;
-	position: fixed;
+	display: none;
 }
 
 .tundra .dijitTreeRow .treeSourceDatabase a {
@@ -992,10 +991,9 @@ li:hover ul, li.over ul {
     font-weight: normal;
 }
 .infoIcon {
-    width: 15px;
+    width: 20px;
     height: 15px;
-    background: url(../images/info.png) no-repeat;
-    margin-left: 7px;
+    background: url(../images/info.png) no-repeat right;
     padding-bottom: 2px;
     vertical-align: middle;
     cursor: pointer;
@@ -1003,8 +1001,6 @@ li:hover ul, li.over ul {
 
 .infoPanel {
 	display: block;
-	min-width: 200px;
-	max-width: 450px;
 	margin-bottom: 5px;
 }
 .infoPanelLabel {
@@ -1024,7 +1020,12 @@ li:hover ul, li.over ul {
 	width: 12px;
 	height: 12px;
     background: url(../images/tabClose.png) no-repeat;
+    cursor: pointer;
 }
 .closeButton:hover {
     background: url(../images/tabCloseHover.png) no-repeat;
+}
+.bullet {
+	display: inline-block;
+	padding: 0 5px;
 }

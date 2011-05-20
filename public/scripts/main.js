@@ -123,20 +123,18 @@ init = function() {
 window.onload = init;
 window.onscroll = moveMenu;
 
-function collapseAll(className) {
+function showOrHide(className) {
 	dijit.popup.close(dialog);
 	var spans = dojo.query('.' + className);
 	var span;
 	var value = 0;
 	for (i = 0; i < spans.length; i++) {
 		span = spans[i];
-		if (span.style.visibility == "visible") {
-			span.style.visibility = "hidden";
-			span.style.position = "fixed";
+		if (span.style.display == "inline-block") {
+			span.style.display = "none";
 			value = 0;
 		} else {
-			span.style.visibility = "visible"
-			span.style.position = "relative";
+			span.style.display = "inline-block"
 			value = 1;
 		}
 	}

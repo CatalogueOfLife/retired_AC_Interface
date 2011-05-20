@@ -14,9 +14,9 @@
 <p class="page_header"><?php echo $this->translate('Browse_taxonomic_tree'); ?></p>
 <?php if($this->statisticsModuleEnabled): ?>
 <div id="tree-checkboxes">
-    <input <?php if($this->showEstimationCheckboxSelected != false) echo 'checked'; ?> id="showStatisticsCheckbox" type="checkbox" name="showEstimates" value="0" onclick="javascript:collapseAll('treeStatistics')" /> 
+    <input <?php if($this->showEstimationCheckboxSelected != false) echo 'checked'; ?> id="showStatisticsCheckbox" type="checkbox" name="showEstimates" value="0" onclick="javascript:showOrHide('treeStatistics')" /> 
     <label for="showStatisticsCheckbox"><?php echo $this->textShowStatistics; ?></label>
-    <input <?php if($this->showSourceDatabaseCheckboxSelected != false) echo 'checked'; ?> id="showGSDCheckbox" type="checkbox" name="showGSD" value="0" onclick="javascript:collapseAll('treeSourceDatabase')" /> 
+    <input <?php if($this->showSourceDatabaseCheckboxSelected != false) echo 'checked'; ?> id="showGSDCheckbox" type="checkbox" name="showGSD" value="0" onclick="javascript:showOrHide('treeSourceDatabase')" /> 
     <label for="showGSDCheckbox"><?php echo $this->textShowSourceDatabases; ?></label>
 </div>
 <?php endif; ?>
@@ -45,7 +45,9 @@ initTree = function() {
 };
 
 initInfoPanel = function() {
-    dialog = new dijit.TooltipDialog({ });
+    dialog = new dijit.TooltipDialog({ 
+    	style: "width: 450px;  min-width: 200px; max-width: 450px;"
+    });
 };
 
 dojo.addOnLoad(initTree);

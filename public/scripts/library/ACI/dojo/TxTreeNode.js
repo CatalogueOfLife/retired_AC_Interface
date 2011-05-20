@@ -40,19 +40,19 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
 	    	source_database.className = 'treeSourceDatabase';
 	    	var showGSDCheckbox = dojo.byId('showGSDCheckbox');
 	    	if(showGSDCheckbox.checked == true) {
-	    		source_database.style.visibility = "visible";
-	    		source_database.style.position = "relative";
+	    		source_database.style.display = "inline-block";
+	    		//source_database.style.position = "relative";
 	    	} else {
-	    		source_database.style.visibility = "hidden";
-	    		source_database.style.position = "fixed";
+	    		source_database.style.display = "none";
+	    		//source_database.style.position = "fixed";
 	    	}
 	    	var showStatisticsCheckbox = dojo.byId('showStatisticsCheckbox');
 	    	if(showStatisticsCheckbox.checked == true) {
-	    		statistics.style.visibility = "visible";
-	    		statistics.style.position = "relative";
+	    		statistics.style.display = "inline-block";
+	    		//statistics.style.position = "relative";
 	    	} else {
-	    		statistics.style.visibility = "hidden";
-	    		statistics.style.position = "fixed";
+	    		statistics.style.display = "none";
+	    		//statistics.style.position = "fixed";
 	    	}
 	        var panel = createInfoPanel(this.item);
         }
@@ -219,11 +219,14 @@ function showInfo(treeNode){
 function createInfoPanelContents(treeNode) {
 	var p = dojo.doc.createElement('p');
 	
-	var closeButton = dojo.doc.createElement('a');
-	closeButton.href = "javascript:closeInfo(" + treeNode.i.id + ")";
+	var closeButton = dojo.doc.createElement('span');
+	dojo.connect(closeButton, 'onclick', function(evt) {
+    	closeInfo(treeNode.i.id);
+    });
+	//closeButton.href = "javascript:closeInfo(" + treeNode.i.id + ")";
 	closeButton.title = translate('Close_window');
 	closeButton.className = "closeButton";
-	//closeButton.appendChild(dojo.doc.createTextNode('X'));
+	//closeButton.appendChild(dojo.doc.createTextNode('X'));*/
 
 	var rankName = '';
 	if(treeNode.i.rank) {
@@ -276,38 +279,25 @@ function addInfoPanelLine(thisParent, thisLabel, thisValue) {
 
 function createInfoPanelStatistics(treeNode) {
 	var statistics = dojo.doc.createElement('span');
-	addInfoPanelLine(
-		statistics, 
-		'Number_of_species', 
-		treeNode.i.total
-	);
+	addInfoPanelLine(statistics, 'Number_of_species', treeNode.i.total);
     if(treeNode.i.estimation) {
-    	addInfoPanelLine(
-    		statistics, 
-    		'Estimated_number', 
-			treeNode.i.estimation
-		);
+    	addInfoPanelLine(statistics, 'Estimated_number', treeNode.i.estimation);
         if (treeNode.i.percentage != '?') {
-        	addInfoPanelLine(
-    			statistics, 
-    			'Percentage_covered', 
-    			treeNode.i.percentage + '%'
-    		);
+        	addInfoPanelLine(statistics, 'Percentage_covered', treeNode.i.percentage + '%');
         }
         if (treeNode.i.estimate_source) {
-        	addInfoPanelLine(
-    			statistics, 
-    			'Estimation_source', 
-    			treeNode.i.estimate_source
-    		);
+        	addInfoPanelLine(statistics, 'Estimation_source', treeNode.i.estimate_source);
         }
     }
     return statistics;
 }
 
-function closeInfo(id){
+function closeInfo(currentId){
+	//alert('blah');
+	//dijit.popup.close(dojo.byId('TooltipDialog_0'));
 	dijit.popup.close(dialog);
-	dojo.style(dojo.byId("infoPanel_" + id), "display", "none");
+	dojo.style(dojo.byId("infoPanel_" + currentId), "display", "none");
+	return false;
 }
 
 function hidePreviousInfoPanels(currentId) {
