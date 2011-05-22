@@ -607,18 +607,18 @@ form div.search-form dd fieldset dl dt label {
     display: block;
     width: 90px;
 }
-form div.search-form dd fieldset dl {
+form div.search-form dd fieldset dl dt{
     padding: 0 0 0 5px;
     width: auto;
 }
 
-dt#match-label label {
+#match-label label {
     padding: 0 0 0 5px;
     margin: 0 14px 0 0;	
     width: auto;
 }
 
-dt#fuzzy-label label {
+#fuzzy-label label {
     padding: 0 0 0 5px;
     width: auto;
 }
