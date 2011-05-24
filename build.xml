@@ -180,9 +180,11 @@
               command="tar czvf ${dist}/${dist.name}.tar.gz ${dist.name}"
               escape = "false"/>
         <delete dir="${dist}/source" includeemptydirs="true" />
+		
+       <target name="build" depends="clean,checkout,deploy,phpcb,pdepend,phpcs,phpdoc,phpunit" />
+	
     </target>
 
-    <target name="build" depends="clean,checkout,deploy" />
-	<!-- Unused Targets: phpcb, pdepend, phpcs, phpdoc, phpunit -->
+	<!-- Unused Targets:  -->
 
 </project>
