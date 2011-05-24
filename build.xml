@@ -181,10 +181,11 @@
               escape = "false"/>
         <delete dir="${dist}/source" includeemptydirs="true" />
 		
-       <target name="build" depends="clean,checkout,deploy,phpcb,pdepend,phpcs,phpdoc,phpunit" />
 	
     </target>
 
-	<!-- Unused Targets:  -->
+       <target name="build" depends="clean,checkout" />
+
+	<!-- Unused Targets: ,deploy,phpcb,pdepend,phpcs,phpdoc,phpunit -->
 
 </project>
