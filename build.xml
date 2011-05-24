@@ -6,14 +6,14 @@
     <property name="cc" value="${basedir}/../../../" />
     <property file="build.properties" />
     <property name="dist" value="${basedir}/dist" />
-    
+   
     <patternset id="inc.php.files">
         <include name="**/*.php" />
         <exclude name="**/tests/**" />
         <exclude name="**/library/**" />
         <exclude name="**/public/scripts/**" />
     </patternset>
-    
+   
     <patternset id="dist.exc">
         <!-- hidden files -->
         <exclude name=".**" />
@@ -22,8 +22,8 @@
         <!-- dist folder -->
         <exclude name="dist**" />
         <!--tests-->
-        <exclude name="test" /> 
-    	<exclude name="**/tests/**" />
+        <exclude name="test" />
+        <exclude name="**/tests/**" />
         <!--file templates -->
         <exclude name="**/*.tpl" />
         <!-- cache and log files -->
@@ -37,8 +37,8 @@
     <!-- Checkout latest version from SVN -->
     <target name="checkout">
         <svnupdate svnpath="svn" nocache="true" todir="${basedir}" />
-        <svnlastrevision svnpath="svn" workingcopy="${basedir}" 
-            propertyname="revision"/>
+        <svnlastrevision svnpath="svn" workingcopy="${basedir}"
+           propertyname="revision"/>
     </target>
 
     <!-- Clean and set up build/dist directories -->
@@ -50,84 +50,104 @@
         <mkdir dir="${build}/graph" />
         <mkdir dir="${build}/php-code-browser" />
     </target>
-    
+   
     <!-- Generate documentation -->
     <target name="phpdoc">
         <exec dir="${basedir}"
-            checkreturn="true" 
-            command="phpdoc -ct type -ue on -t ${build}/api
-                     -tb /usr/share/php/data/phpUnderControl/data/phpdoc -o HTML:Phpuc:phpuc
-                     -d ${basedir}/application,${basedir}/tests -f ${basedir}/public/index.php" />
+           checkreturn="true"
+           command="phpdoc -ct type -ue on -t ${build}/api
+                    -tb /usr/share/php/data/phpUnderControl/data/phpdoc -o HTML:Phpuc:phpuc
+                    -d ${basedir}/application,${basedir}/tests -f ${basedir}/public/index.php" />
     </target>
-    
+   
     <!-- Execute Code Sniffer -->
     <target name="phpcs">
-        <exec dir="${basedir}" 
-            command="phpcs --report=checkstyle --standard=Zend 
-                   --ignore=library/Zend/**,public/scripts/** 
-                   ${basedir} > ${build}/logs/checkstyle.xml"
+        <exec dir="${basedir}"
+           command="phpcs --report=checkstyle --standard=Zend
+                  --ignore=library/Zend/**,public/scripts/**
+                  ${basedir} > ${build}/logs/checkstyle.xml"
             escape="false" />
     </target>
-    
+   
     <!-- PHPUnit -->
     <target name="phpunit">
         <exec dir="${basedir}"
-            checkreturn="true" 
-            command="phpunit
-            --configuration tests/phpunit.xml
-            --log-junit ${build}/logs/phpunit.xml
-            --coverage-clover ${build}/logs/phpunit.coverage.xml
-            --coverage-html ${build}/coverage
-            --log-pmd ${build}/logs/phpunit.pmd.xml
-            tests" />
+           checkreturn="true"
+           command="phpunit
+           --configuration tests/phpunit.xml
+           --log-junit ${build}/logs/phpunit.xml
+           --coverage-clover ${build}/logs/phpunit.coverage.xml
+           --coverage-html ${build}/coverage
+           --log-pmd ${build}/logs/phpunit.pmd.xml
+           tests" />
     </target>
-    
+   
     <!-- PHP Code Browser -->
     <target name="phpcb">
-       <exec dir="${basedir}" 
-                command="phpcb 
-                    --log ${build}/logs 
-                    --source ${basedir}
-                    --output ${build}/php-code-browser"/>
+       <exec dir="${basedir}"
+               command="phpcb
+                   --log ${build}/logs
+                   --source ${basedir}
+                   --output ${build}/php-code-browser"/>
     </target>
-    
+   
     <!-- Execute pdepend and store reports -->
     <target name="pdepend">
         <exec dir="${basedir}"
-            command="pdepend --jdepend-xml=${build}/logs/jdepend.xml 
-                           --summary-xml=${build}/logs/jdepend-summary.xml 
-                           --overview-pyramid=${build}/graph/pyramid.svg 
-                           --jdepend-chart=${build}/graph/jdepend.svg
-                           --ignore=library/Zend/**,public/scripts/** 
-                           ${basedir}" />
+           command="pdepend --jdepend-xml=${build}/logs/jdepend.xml
+                          --summary-xml=${build}/logs/jdepend-summary.xml
+                          --overview-pyramid=${build}/graph/pyramid.svg
+                          --jdepend-chart=${build}/graph/jdepend.svg
+                          --ignore=library/Zend/**,public/scripts/**
+                          ${basedir}" />
     </target>
-    
-     <!-- Create deliverable -->
+   
+    <!-- Deploy -->
+    <target name="deploy">
+        <svnupdate svnpath="svn" nocache="true" todir="${project.path}" />
+        <copy todir="${project.path}/application/configs" overwrite="true">
+            <filterchain>
+                  <replacetokens>
+                      <token key="APP.EDITION" value="${project.edition}" />
+                      <token key="APP.VERSION" value="${project.version}" />
+                      <token key="APP.REVISION" value="${revision}" />
+                  </replacetokens>
+            </filterchain>
+            <fileset dir="${basedir}/application/configs">
+                <include name="application.xml" />
+            </fileset>
+        </copy>
+        <!-- Setting permissions -->
+        <exec dir="${basedir}"
+            command="chmod 777 application/log application/cache" />
+    </target>
+   
+    <!-- Create deliverable -->
     <!-- not included in the build target, to be executed independently in local -->
     <!-- Ex: phing dist (from the application root directory) -->
     <target name="dist" depends="checkout">
         <property name="dist.name" value="${project.name}-${project.version}.r${revision}" />
-        
+       
         <!-- cleanup -->        
         <delete dir="${dist}" includeemptydirs="true" />        
         <mkdir dir="${dist}" />
         <mkdir dir="${dist}/source" />
         <mkdir dir="${dist}/source/${dist.name}" />
-        
+       
         <copy todir="${dist}/source/${dist.name}">
             <fileset dir=".">
                 <patternset refid="dist.exc" />
             </fileset>
         </copy>
-        
+       
         <copy file="${basedir}/application/configs/config.ini.tpl"
-              tofile="${dist}/source/${dist.name}/application/configs/config.ini" 
-              overwrite="true" />
-        
+             tofile="${dist}/source/${dist.name}/application/configs/config.ini"
+             overwrite="true" />
+       
         <copy file="${basedir}/public/.htaccess.tpl"
-              tofile="${dist}/source/${dist.name}/public/.htaccess" 
-              overwrite="true" />
-        
+             tofile="${dist}/source/${dist.name}/public/.htaccess"
+             overwrite="true" />
+       
         <reflexive>
             <fileset dir="${dist}/source/${dist.name}">
                 <include name="application/configs/config.ini" />
@@ -142,7 +162,7 @@
                     <token key="APP.REVISION" value="${revision}" />
                     <token key="TIMESTAMP" value="${now}" />
                     <token key="ENVIRONMENT" value="development" />
-                	<token key="DB.PORT" value="3306" />
+                        <token key="DB.PORT" value="3306" />
                     <token key="DB.HOST" value="localhost" />
                     <token key="DB.USERNAME" value="" />
                     <token key="DB.PASSWORD" value="" />
@@ -150,22 +170,18 @@
                 </replacetokens>
             </filterchain>
         </reflexive>
-        
+       
         <!-- zip -->
         <exec dir="${dist}/source"
-              command="zip -r ${dist}/${dist.name}.zip ${dist.name}"
-              escape = "false"/>
+             command="zip -r ${dist}/${dist.name}.zip ${dist.name}"
+             escape = "false"/>
         <!-- tar.gz -->
         <exec dir="${dist}/source"
-              command="tar czvf ${dist}/${dist.name}.tar.gz ${dist.name}"
-              escape = "false"/>
+             command="tar czvf ${dist}/${dist.name}.tar.gz ${dist.name}"
+             escape = "false"/>
         <delete dir="${dist}/source" includeemptydirs="true" />
-		
-	
     </target>
 
-       <target name="build" depends="checkout" />
-
-	<!-- Unused Targets: clean,deploy,phpcb,pdepend,phpcs,phpdoc,phpunit -->
+    <target name="build" depends="clean,checkout,phpunit,phpdoc,deploy,phpcs,pdepend,phpcb" />
 
 </project>
