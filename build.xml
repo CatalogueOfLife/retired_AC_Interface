@@ -184,8 +184,8 @@
 	
     </target>
 
-       <target name="build" depends="clean,checkout" />
+       <target name="build" depends="checkout" />
 
-	<!-- Unused Targets: ,deploy,phpcb,pdepend,phpcs,phpdoc,phpunit -->
+	<!-- Unused Targets: clean,deploy,phpcb,pdepend,phpcs,phpdoc,phpunit -->
 
 </project>
