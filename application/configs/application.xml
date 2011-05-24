@@ -89,7 +89,7 @@
             <application>
                 <edition>2011</edition>
                 <version>1.7</version>
-                <revision>000</revision>
+                <revision>@APP.REVISION@</revision>
                 <location>http://www.catalogueoflife.org/annual-checklist/2011</location>
             </application>
         </eti>
