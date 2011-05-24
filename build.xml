@@ -182,6 +182,7 @@
         <delete dir="${dist}/source" includeemptydirs="true" />
     </target>
 
-    <target name="build" depends="clean,checkout,phpunit,phpdoc,deploy,phpcs,pdepend,phpcb" />
+    <target name="build" depends="clean,checkout,deploy" />
+	<!-- Unused Targets: phpcb, pdepend, phpcs, phpdoc, phpunit -->
 
 </project>
