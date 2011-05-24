@@ -31,13 +31,13 @@ class AjaxController extends AController
             'url' => 'http://www.arkive.org/api/[key]/portlet/latin/%s/1?media=images', 
             'key' => 'ED41047V5D', 
             'link' => ''
-        ), 
+        ) /*, 
         array(
             'channel' => 'YahooImages', 
             'url' => 'http://search.yahooapis.com/ImageSearchService/V1/imageSearch?appid=YahooDemo&query=%s&type=phrase&output=php&results=1', 
             'key' => '', 
             'link' => 'http://images.search.yahoo.com/search/images?p=%s'
-        )
+        )*/
     );
     // Empty container to fill with data, in this case specific for image query
     // Array will be cast to object on access
