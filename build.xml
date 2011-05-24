@@ -102,27 +102,7 @@
                            ${basedir}" />
     </target>
     
-    <!-- Deploy -->
-    <target name="deploy">
-        <svnupdate svnpath="svn" nocache="true" todir="${project.path}" />
-        <copy todir="${project.path}/application/configs" overwrite="true">
-            <filterchain>
-                  <replacetokens>
-                      <token key="APP.EDITION" value="${project.edition}" />
-                      <token key="APP.VERSION" value="${project.version}" />
-                      <token key="APP.REVISION" value="${revision}" />
-                  </replacetokens>
-            </filterchain>
-            <fileset dir="${basedir}/application/configs">
-                <include name="application.xml" />
-            </fileset>
-        </copy>
-        <!-- Setting permissions -->
-        <exec dir="${basedir}" 
-             command="chmod 777 application/log application/cache" />
-    </target>
-    
-    <!-- Create deliverable -->
+     <!-- Create deliverable -->
     <!-- not included in the build target, to be executed independently in local -->
     <!-- Ex: phing dist (from the application root directory) -->
     <target name="dist" depends="checkout">
