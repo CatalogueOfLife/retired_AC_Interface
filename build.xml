@@ -109,7 +109,7 @@
             <filterchain>
                   <replacetokens>
                       <token key="APP.EDITION" value="${project.edition}" />
-                      <token key="APP.VERSION" value="${project.version}.r${revision}" />
+                      <token key="APP.VERSION" value="${project.version}" />
                       <token key="APP.REVISION" value="${revision}" />
                   </replacetokens>
             </filterchain>
