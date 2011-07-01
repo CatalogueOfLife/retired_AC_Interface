@@ -457,30 +457,32 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     
     public function formatSpeciesTotals(array $input)
     {
-        $translator = Zend_Registry::get('Zend_Translate');
         $previous = false;
         $total = count($input);
-        $phyla = $totals = array();
-        $c1 = $c2 = 0;
+        $phyla = $totals = $c1 = $c2 = array();
         for ($i = 0; $i < $total; $i++) {
             $current = $input[$i]['kingdom'];
             if ($current != $previous) {
                 if ($previous) {
                     $phyla[$previous] = $$previous;
-                    $totals[$previous] = $this->_getCoverage($c2, $c1);
-                    $c1 = $c2 = 0;
+                    $totals[$previous] = array(
+                        'actual' => number_format(array_sum($c2)), 
+                        'estimate' => in_array(0, $c1) ? 'Not available' : number_format(array_sum($c1)),
+                        'coverage' => $this->_getCoverage($c2, $c1)
+                    );
+                    $c1 = $c2 = array();
                     unset($$previous);
                 }
                 $$current = array();
             }
             // Format estimate and percentage
             $estimate = $input[$i]['total_species_estimation'];
-            $c1 += $estimate;
+            $c1[] = $estimate;
             $actual = $input[$i]['total_species'];
-            $c2 += $actual;
+            $c2[] = $actual;
             $output = array (
                 'name' => $this->_getLinkToTree($input[$i]['taxon_id'], $input[$i]['name']),
-                'estimate' => $estimate == 0 ? $translator->translate('Not_available') : number_format($estimate),
+                'estimate' => $estimate == 0 ? 'Not available' : number_format($estimate),
                 'actual' => number_format($actual),
                 'coverage' => $this->_getCoverage($actual, $estimate),
                 'source' => $this->_formatSourceImage($input[$i]['source'])
@@ -488,7 +490,11 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             array_push($$current, $output);
             if ($i == $total - 1) {
                 $phyla[$current] = $$current;
-                $totals[$current] = $this->_getCoverage($c2, $c1);
+                $totals[$current] = array(
+                    'actual' => number_format(array_sum($c2)), 
+                    'estimate' => in_array(0, $c1) ? 'Not available' : number_format(array_sum($c1)),
+                    'coverage' => $this->_getCoverage($c2, $c1)
+                );
             }
             $previous = $current;
         }
@@ -498,24 +504,32 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         );
     }
     
+    public function formatNumber(array $counter) {
+        return array_sum();
+    }
+    
     private function _formatSourceImage($reference) {
         if (empty($reference)) {
             return false;
         }
+        $reference = htmlentities($reference);
         $src = $this->getFrontController()->getBaseUrl() . '/images/book.gif';
-        $img = '<img class="source-icon" src="'.$src.'" alt="'.$reference.'" title="'.$reference.'" />';
+        $img = '<img src="'.$src.'" alt="'.$reference.'" title="'.$reference.'" />';
         return $img;
     }
     
     private function _getCoverage($actual, $estimate) {
-        $translator = Zend_Registry::get('Zend_Translate');
-        $coverage = $translator->translate('Not_available');
-        if ($actual != 0 && $estimate != 0) {
-             $coverage = round(($actual/$estimate)*100);
+        is_array($actual) ? $_actual = array_sum($actual) : $_actual = $actual;
+        is_array($estimate) ? $_estimate = array_sum($estimate) : $_estimate = $estimate;
+        $coverage = 'Not available';
+        if ((is_array($estimate) && !in_array(0, $estimate)) || 
+             (!is_array($estimate) && $_actual != 0 && $_estimate != 0)) {
+             $coverage = round(($_actual/$_estimate)*100);
              if ($coverage > 100) {
-                 $coverage = 100;
+                 $coverage = '(100%)';
+             } else {
+                 $coverage .= '%';
              }
-             $coverage .= '%';
         }
         return $coverage;
     }

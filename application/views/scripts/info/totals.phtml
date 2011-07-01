@@ -18,22 +18,31 @@
 echo $this->navigator_top;
 ?>
 <div class="info_content">
-<p>Explanation of this table.</p>
+<p>This table presents a known species tally for the phyla represented in the Catalogue of Life. 
+It compares the actual number of recognised species, worldwide, to the number of accepted and provisionally 
+accepted names estimated for that phylum in the current literature; hover over the book icon 
+to display the source used for the estimate. The last column displays the completeness 
+(or coverage) of the Catalogue of Life, expressed as a percentage.</p>
 <table id="species-totals">
 <?php $first = true; ?>
 <?php foreach ($this->results['phyla'] as $kingdom => $phyla): ?>
     <?php $first ? $padding = '' : $padding = 'padded'; ?>
     <tr class="<?php echo $padding; ?>">
-        <th><?php echo $this->translate('Taxon'); ?></th>
-        <th class="number"><?php echo $this->translate('Actual_number_in_CoL'); ?></th>
-        <th class="number">
-            <?php echo $this->translate('Estimated_number'); ?> 
-            (<?php echo $this->translate('Reference'); ?>)
-        </th>
-        <th class="number"><?php echo $this->translate('CoL_completeness'); ?></th>
+        <th>Taxon</th>
+        <th class="number">Actual number in CoL</th>
+        <th class="number">Estimated number</th>
+        <th></th>
+        <th class="number">CoL completeness</th>
+    </tr>
+     <tr>
+        <td></td>
+        <td class="no-padding">(Recognised species, worldwide)</td>
+        <td class="no-padding">(Accepted & provisionally accepted species)</td>
+        <td></td>
+        <td></td>
     </tr>
     <tr>
-        <th colspan="4"><?php echo $kingdom; ?></th>
+        <td colspan="5" class="field_header"><?php echo $kingdom; ?></td>
     </tr>
     <?php $rowClass = "even" ?>
     <?php foreach ($phyla as $phylum): ?>
@@ -41,16 +50,18 @@ echo $this->navigator_top;
     <tr class="<?php echo $rowClass; ?>">
         <td><?php echo $phylum['name'] ?></td>
         <td class="number"><?php echo $phylum['actual'] ?></td>
-        <td class="number"><?php echo $phylum['estimate'] ?> <?php echo $phylum['source'] ?></td>
+        <td class="number"><?php echo $phylum['estimate'] ?></td>
+        <td class="icon"><?php echo $phylum['source']; ?></td>
         <td class="number"><?php echo $phylum['coverage'] ?></td>
     </tr>
     <?php endforeach; ?>
     <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
-    <tr class="<?php echo $rowClass; ?>">
-        <td><?php echo sprintf($this->translate('Completeness_for'), $kingdom); ?></td>
+    <tr class="tally">
+        <td>Known species tally</td>
+        <td class="number"><?php echo $this->results['totals'][$kingdom]['actual']; ?></td>
+        <td class="number"><?php echo $this->results['totals'][$kingdom]['estimate']; ?></td>
         <td></td>
-        <td></td>
-        <td class="number"><?php echo $this->results['totals'][$kingdom]; ?></td>
+        <td class="number"><?php echo $this->results['totals'][$kingdom]['coverage']; ?></td>
     </tr>
     <?php $first = false; ?>
 <?php endforeach ?>

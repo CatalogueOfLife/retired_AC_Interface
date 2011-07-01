@@ -41,6 +41,7 @@ abstract class AController extends Zend_Controller_Action
         $this->_cookieExpiration = $this->_setCookieExpiration();
         $this->view->cookieExpiration = $this->_cookieExpiration;
         $this->_webserviceTimeout = $this->_setWebserviceTimeout();
+        $this->view->statisticsModuleEnabled = $this->_moduleEnabled('statistics');
     }
 
     public function getDbAdapter ()
