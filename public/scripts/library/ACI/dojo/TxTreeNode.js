@@ -183,7 +183,7 @@ function createStatistics(treeNode, bullet, className) {
         var statsText = treeNode.i.total + ' spp;' +
 		' ' + translate('est') + ' ' + treeNode.i.estimation;
         if (treeNode.i.percentage != '?') {
-        	statsText += ';' + ' ' + treeNode.i.percentage + '%';
+        	statsText += ';' + ' ' + treeNode.i.percentage;
         }
         statistics.appendChild(
         	dojo.doc.createTextNode(statsText)
@@ -193,7 +193,7 @@ function createStatistics(treeNode, bullet, className) {
 }
 
 function createInfoPanel(treeNode) {
-	if(treeNode.i.name.indexOf(' ') != -1) {
+	if(treeNode.i.name.indexOf(' ') != -1 && treeNode.i.name != 'Not assigned') {
 		return dojo.create("span");
 	}
     var panel = dojo.create("span", {
@@ -283,7 +283,7 @@ function createInfoPanelStatistics(treeNode) {
     if(treeNode.i.estimation) {
     	addInfoPanelSection(statistics, 'Estimated_number', treeNode.i.estimation);
         if (treeNode.i.percentage != '?') {
-        	addInfoPanelSection(statistics, 'Percentage_covered', treeNode.i.percentage + '%');
+        	addInfoPanelSection(statistics, 'Percentage_covered', treeNode.i.percentage);
         }
         if (treeNode.i.estimate_source) {
         	addInfoPanelSection(statistics, 'Estimation_source', treeNode.i.estimate_source);

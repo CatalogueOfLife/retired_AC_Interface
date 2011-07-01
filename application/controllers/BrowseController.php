@@ -15,6 +15,18 @@ class BrowseController extends AController
 {
     // Tree persistance
     protected $_persistTree = false;
+    private $_jsTreeTranslation = array(
+        'est', 
+        'Number_of_species', 
+        'Estimated_number', 
+        'Percentage_covered', 
+        'Estimation_source', 
+        'Source_database', 
+        'Source_databases', 
+        'Multiple_providers',
+        'Close_window'
+    );
+    
 
     public function treeAction ()
     {
@@ -76,23 +88,7 @@ class BrowseController extends AController
         $translator = Zend_Registry::get('Zend_Translate');
         $this->view->textShowSourceDatabases = $translator->translate('Show_providers');
         $this->view->textShowStatistics = $translator->translate('Show_statistics');
-        
-        $jsTranslation = array(
-            'est', 
-            'Number_of_species', 
-            'Estimated_number', 
-            'Percentage_covered', 
-            'Estimation_source', 
-            'Source_database', 
-            'Source_databases', 
-            'Multiple_providers',
-            'Close_window'
-        );
-        $jsArray = "var translations = new Array();\n";
-        foreach ($jsTranslation as $v) {
-            $jsArray .= "translations['$v'] = '".$translator->translate($v)."';\n";
-        }
-        $this->view->jsTranslation = $jsArray;
+        $this->view->jsTranslation = $this->_createJsTranslationArray($this->_jsTreeTranslation);
     }
 
     /**
@@ -301,13 +297,15 @@ class BrowseController extends AController
             }*/
             //$row['estimate_source'] = 'estimation source';
             if ($row['total'] && $row['estimation']) {
-                $row['percentage'] = round(
+/*                $row['percentage'] = round(
                     $row['total'] / $row['estimation'] * 100);
                 if ($row['percentage'] > 100) {
                     $row['percentage'] = 100;
                 }
-            }
-            else {
+*/
+                $row['percentage'] = $this->getHelper('DataFormatter')->getCoverage(
+                    $row['total'], $row['estimation']);
+            } else {
                 $row['percentage'] = "?";
             }
             //Checks if the module statistics is enabled

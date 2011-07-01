@@ -59,7 +59,7 @@ while($row = mysql_fetch_array($result,MYSQL_ASSOC)) {
 		$sqlCountSpecies = 'SELECT 1 AS counter FROM `_taxon_tree` WHERE `taxon_id` = "' . $row['taxon_id'] . '";';
 		$resultCountSpecies = mysql_query($sqlCountSpecies,$connect);
 	} else {
-		$sqlCountSpecies = 'SELECT COUNT(*) AS counter FROM `_search_scientific` WHERE `' . $row['rank'] .'` = "' . $row['name'] . '" AND `species` != "" AND `infraspecies` = "" ;';
+		$sqlCountSpecies = 'SELECT COUNT(*) AS counter FROM `_search_scientific` WHERE `' . $row['rank'] .'` = "' . $row['name'] . '" AND `species` != "" AND `infraspecies` = "" AND status NOT IN ;';
 		$resultCountSpecies = mysql_query($sqlCountSpecies,$connect);
 	}
 	if($resultCountSpecies !== false) {

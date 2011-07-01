@@ -348,19 +348,6 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             }
         }
         foreach ($speciesDetails->images as &$image) {
-/*          if ($image['height'] > $minHeight) {
-                $ratio = $minHeight / $image['height'];
-                $image['height'] = round($ratio * $image['height']);
-                $image['width'] = round($ratio * $image['width']);
-            }
-            if ($image['width'] > $maxWidth) {
-                $ratio = $maxWidth / $image['width'];
-                $image['height'] = round($ratio * $image['height']);
-                $image['width'] = round($ratio * $image['width']);
-            }
-*/
-        
-        
             if ($image['height'] > $minHeight || $image['width'] > $maxWidth) {
                 $heightRatio = $minHeight / $image['height'];
                 $widthRatio = $maxWidth / $image['width'];
@@ -468,7 +455,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     $totals[$previous] = array(
                         'actual' => number_format(array_sum($c2)), 
                         'estimate' => in_array(0, $c1) ? 'Not available' : number_format(array_sum($c1)),
-                        'coverage' => $this->_getCoverage($c2, $c1)
+                        'coverage' => $this->getCoverage($c2, $c1)
                     );
                     $c1 = $c2 = array();
                     unset($$previous);
@@ -484,7 +471,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 'name' => $this->_getLinkToTree($input[$i]['taxon_id'], $input[$i]['name']),
                 'estimate' => $estimate == 0 ? 'Not available' : number_format($estimate),
                 'actual' => number_format($actual),
-                'coverage' => $this->_getCoverage($actual, $estimate),
+                'coverage' => $this->getCoverage($actual, $estimate),
                 'source' => $this->_formatSourceImage($input[$i]['source'])
             );
             array_push($$current, $output);
@@ -493,7 +480,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 $totals[$current] = array(
                     'actual' => number_format(array_sum($c2)), 
                     'estimate' => in_array(0, $c1) ? 'Not available' : number_format(array_sum($c1)),
-                    'coverage' => $this->_getCoverage($c2, $c1)
+                    'coverage' => $this->getCoverage($c2, $c1)
                 );
             }
             $previous = $current;
@@ -502,10 +489,6 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             'phyla' => $phyla, 
             'totals' => $totals
         );
-    }
-    
-    public function formatNumber(array $counter) {
-        return array_sum();
     }
     
     private function _formatSourceImage($reference) {
@@ -518,7 +501,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         return $img;
     }
     
-    private function _getCoverage($actual, $estimate) {
+    public function getCoverage($actual, $estimate) {
         is_array($actual) ? $_actual = array_sum($actual) : $_actual = $actual;
         is_array($estimate) ? $_estimate = array_sum($estimate) : $_estimate = $estimate;
         $coverage = 'Not available';

@@ -103,6 +103,16 @@ abstract class AController extends Zend_Controller_Action
             }
         }
     }
+    
+    protected function _createJsTranslationArray (array $jsTranslation)
+    {
+        $translator = Zend_Registry::get('Zend_Translate');
+        $jsArray = "var translations = new Array();\n";
+        foreach ($jsTranslation as $v) {
+            $jsArray .= "\ttranslations['$v'] = '".$translator->translate($v)."';\n";
+        }
+        return $jsArray;
+    }
 
     /**
      * Redirects a request using the given action, controller, module and params
