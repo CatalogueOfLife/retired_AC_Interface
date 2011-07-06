@@ -28,16 +28,16 @@ to display the source used for the estimate. The last column displays the comple
 <?php foreach ($this->results['phyla'] as $kingdom => $phyla): ?>
     <?php $first ? $padding = '' : $padding = 'padded'; ?>
     <tr class="<?php echo $padding; ?>">
-        <th>Taxon</th>
-        <th class="number">Actual number in CoL</th>
-        <th class="number">Estimated number</th>
+        <th><?php echo $this->translate('Taxon'); ?></th>
+        <th class="number"><?php echo $this->translate('Actual_number_in_CoL'); ?></th>
+        <th class="number"><?php echo $this->translate('Estimated_number'); ?></th>
         <th></th>
-        <th class="number">CoL completeness</th>
+        <th class="number"><?php echo $this->translate('CoL_completeness'); ?></th>
     </tr>
      <tr>
         <td></td>
-        <td class="no-padding">(Recognised species, worldwide)</td>
-        <td class="no-padding">(Accepted & provisionally accepted species)</td>
+        <td class="no-padding">(<?php echo $this->translate('Recognised_species_worldwide'); ?>)</td>
+        <td class="no-padding">(<?php echo $this->translate('Accepted_provisionally_accepted_species'); ?>)</td>
         <td></td>
         <td></td>
     </tr>
@@ -57,7 +57,7 @@ to display the source used for the estimate. The last column displays the comple
     <?php endforeach; ?>
     <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="tally">
-        <td>Known species tally</td>
+        <td><?php echo $this->translate('Known_species_tally'); ?></td>
         <td class="number"><?php echo $this->results['totals'][$kingdom]['actual']; ?></td>
         <td class="number"><?php echo $this->results['totals'][$kingdom]['estimate']; ?></td>
         <td></td>
