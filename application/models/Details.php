@@ -111,7 +111,8 @@ class ACI_Model_Details extends AModel
                             'CONCAT(" ",snen_sg.name_element),""'.
                         ')," ",snen_s.name_element,'.
                         'IF(snen_ss.name_element IS NOT NULL,CONCAT('.
-                'IF(kingdom_name != "animalia", CONCAT(" ",tr.marker_displayed),""),'.
+                'IF(kingdom_name != "animalia" AND tr.marker_displayed IS NOT NULL,
+                   CONCAT(" ",tr.marker_displayed),""),'.
                             '" ",snen_ss.name_element'.
                         '),"")'.
                     ')',
