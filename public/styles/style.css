@@ -1031,6 +1031,62 @@ li:hover ul, li.over ul {
     margin-bottom: 7px;
     border-bottom: 1px dotted black;
 }
+.comment_content {
+    margin: 10px 0;
+    padding: 10px 0;
+    border-bottom: 1px solid #336;
+    text-align: justify;
+}
+.comment_content p {
+    margin: 10px 0;
+}
+.comment_content img.right-align {
+    float: right;
+    margin: 10px 0 10px 20px;
+}
+.comment_content th.vertical {
+    vertical-align: middle;
+}
+.comment_content blockquote {
+    padding: 5px 30px;
+}
+.comment_content p.iyb-slogan {    
+    color: #336;
+    font-size: 1.2em;
+    font-style: italics;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0 15px 0;
+}
+.commentIcon {
+    width: 20px;
+    height: 15px;
+    background: url(../images/comment.jpg) no-repeat right;
+    padding-bottom: 2px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.commentPanel {
+	min-width: 250px; 
+	max-width: 450px;
+}
+.commentPanelSection {
+	display: block;
+	margin-bottom: 5px;
+}
+.commentPanelLabel {
+    color: #336;
+    font-weight: bold;
+    font-size: 10px;
+}
+.commentPanelTitle {
+    color: #b41a1a;
+    font-weight: bold;
+    padding-bottom: 5px;
+    margin-bottom: 7px;
+    border-bottom: 1px dotted black;
+}
+
 .closeButton {
 	float: right;
 	width: 12px;

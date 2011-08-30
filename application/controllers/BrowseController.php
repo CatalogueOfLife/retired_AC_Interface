@@ -24,7 +24,15 @@ class BrowseController extends AController
         'Source_database', 
         'Source_databases', 
         'Multiple_providers',
-        'Close_window'
+        'Close_window',
+	    'type',
+		'comment',
+		'Placed_in_the_wrong_branche',
+	    'Free_general_comment',
+	    'Errors_to_be_corrected',
+	    'Futher_knowledge_to_be_added',
+		'Send',
+    	'Comment_already_sending'
     );
     
 
@@ -89,6 +97,8 @@ class BrowseController extends AController
         $this->view->textShowSourceDatabases = $translator->translate('Show_providers');
         $this->view->textShowStatistics = $translator->translate('Show_statistics');
         $this->view->jsTranslation = $this->_createJsTranslationArray($this->_jsTreeTranslation);
+        $config = Zend_Registry::get('config');
+        $this->view->jsFeedbackUrl = $config->module->feedbackUrl;
     }
 
     /**

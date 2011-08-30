@@ -1,8 +1,13 @@
+var showCommentFeedback;
+showCommentFeedback = true;
 dojo.provide('ACI.dojo.TxTreeNode');
 dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
     _onMouseEnter:function(evt){
     	if(dojo.byId("infoPanel_" + this.item.i.id)) {
     		dojo.style(dojo.byId("infoPanel_" + this.item.i.id), "display", "inline-block");
+    	}
+    	if(dojo.byId("commentPanel_" + this.item.i.id)) {
+    		dojo.style(dojo.byId("commentPanel_" + this.item.i.id), "display", "inline-block");
     	}
     },
     _onMouseLeave:function(evt){
@@ -10,6 +15,10 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
     		!dojo.byId("infoPanel_" + this.item.i.id + "_dropdown")) {
     		dojo.style(dojo.byId("infoPanel_" + this.item.i.id), "display", "none");
     	}
+    	if (dojo.byId("commentPanel_" + this.item.i.id) && 
+        		!dojo.byId("commentPanel_" + this.item.i.id + "_dropdown")) {
+        		dojo.style(dojo.byId("commentPanel_" + this.item.i.id), "display", "none");
+        	}
     },
     setLabelNode : function(label) {
         if (this.item.root) {
@@ -55,7 +64,24 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
 	    		//statistics.style.position = "fixed";
 	    	}
 	        var panel = createInfoPanel(this.item);
+	        var commentPanel = createCommentPanel(this.item);
         }
+        
+/*        var commentSpan;
+        commentSpan = dojo.doc.createElement('span');
+        if(showCommentFeedback == true) {
+        	var commentLink;
+        	commentLink = dojo.doc.createElement('a');
+        	commentLink.href = "javascript:openCommentWindow();";
+        	var commentIcon;
+        	commentIcon = dojo.doc.createElement('img');
+        	dojo.attr(commentIcon, {
+        	    src: "../images/comment.jpg",
+        	    alt: "Comment"
+        	});
+        	commentLink.appendChild(commentIcon);
+        	commentSpan.appendChild(commentLink);
+        }*/
         
         
         if (this.tree.model.store
@@ -118,6 +144,7 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
             this.labelNode.appendChild(leaf);
         }
         this.labelNode.appendChild(panel);
+        this.labelNode.appendChild(commentPanel);
     },    
     expand : function() {
         this.inherited(arguments);
@@ -305,5 +332,178 @@ function hidePreviousInfoPanels(currentId) {
         if("infoPanel_" + currentId != panel.id) {
         	panel.style.display = "none";
         }
-    }); 
+    });
+}
+
+function openCommentWindow() {
+    alert('clickerdieclick');
+	var createCommentPanelContents;
+	createCommentsPanel = dojo.doc.createElement('span');
+    dialog.attr("content", createCommentPanelContents);
+    dijit.popup.open({ 
+        popup: dialog, 
+        around: dojo.byId("commentPanel") 
+    });
+}
+
+/////////////////////////////////////////////////////////
+
+function createCommentPanel(treeNode) {
+	if(treeNode.i.name.indexOf(' ') != -1 && treeNode.i.name != 'Not assigned') {
+		return dojo.create("span");
+	}
+    var panel = dojo.create("span", {
+        id: "commentPanel" + '_' + treeNode.i.id,
+        className: "commentIcon",
+        style: "display: none;"
+    });
+    dojo.connect(panel, 'onclick', function(evt) {
+    	showComment(treeNode);
+    });
+	return panel;
+}
+
+function showComment(treeNode){
+	hidePreviousCommentPanels(treeNode.i.id);
+    dialog.attr("content", createCommentPanelContents(treeNode));
+    dijit.popup.open({ 
+        popup: dialog, 
+        around: dojo.byId("commentPanel_" + treeNode.i.id) 
+    });
+} 
+
+function createCommentPanelContents(treeNode) {
+	var form = dojo.doc.createElement('form');
+	form.method = 'get';
+	form.id = 'commentForm';
+	form.action = 'javascript:sendComment();';
+	
+	var closeButton = dojo.doc.createElement('span');
+	dojo.connect(closeButton, 'onclick', function(evt) {
+    	closeComment(treeNode.i.id);
+    });
+	//closeButton.href = "javascript:closeInfo(" + treeNode.i.id + ")";
+	closeButton.title = translate('Close_window');
+	closeButton.className = "closeButton";
+	//closeButton.appendChild(dojo.doc.createTextNode('X'));*/
+
+	var rankName = '';
+	if(treeNode.i.rank) {
+		rankName = treeNode.i.rank + ' ';
+	}
+	
+	var rank = dojo.doc.createElement('span');
+	rank.appendChild(dojo.doc.createTextNode(rankName));
+	
+	var scientificName = dojo.doc.createElement('span');
+	scientificName.appendChild(dojo.doc.createTextNode(treeNode.i.name));
+	scientificName.className = 'node-' + treeNode.i.rank;
+	
+	var title = dojo.doc.createElement('span');
+	title.appendChild(rank);
+	title.appendChild(scientificName);
+	title.className = 'commentPanelSection commentPanelTitle';
+	
+	var type = dojo.doc.createElement('select');
+	/*var type = dojo.doc.createElement('span');
+	type.className = 'commentPanelLabel';
+	type.appendChild(dojo.doc.createTextNode('type:'));*/
+	type.name = 'commentType';
+	addOption('error','Errors_to_be_corrected',type);
+	addOption('free_general_comment','Free_general_comment',type);
+	addOption('futher_knowledge','Futher_knowledge_to_be_added',type);
+	addOption('wrong_branche','Placed_in_the_wrong_branche',type);
+
+	/*var comment = dojo.doc.createElement('span');
+	comment.className = 'commentPanelLabel';
+	comment.appendChild(dojo.doc.createTextNode('comment:'));*/
+
+	var name = dojo.doc.createElement('input');
+	name.type = 'text';
+	name.name = 'name';
+	
+	var email = dojo.doc.createElement('input');
+	email.type = 'text';
+	email.name = 'email';
+	
+	var textArea = dojo.doc.createElement('textarea');
+	textArea.name = 'comment';
+	textArea.style.width = "300px";
+	textArea.style.height = "75px";
+	
+	var hiddenTaxaId = dojo.doc.createElement('input');
+	hiddenTaxaId.type = 'hidden';
+	hiddenTaxaId.name = 'taxaId';
+	hiddenTaxaId.value = treeNode.i.id;
+	
+	var sendButton = dojo.doc.createElement('input');
+	sendButton.type = 'submit';
+	sendButton.value = translate('Send');
+	
+	form.appendChild(closeButton);
+	form.appendChild(title);
+	form.appendChild(setLabel('name'));
+	form.appendChild(name);
+	form.appendChild(dojo.doc.createElement('br'));
+	form.appendChild(setLabel('e-mail'));
+	form.appendChild(email);
+	form.appendChild(dojo.doc.createElement('br'));
+	form.appendChild(setLabel('type'));
+	form.appendChild(type);
+	form.appendChild(dojo.doc.createElement('br'));
+	form.appendChild(setLabel('comment'));
+	form.appendChild(textArea);
+	form.appendChild(hiddenTaxaId);
+	form.appendChild(dojo.doc.createElement('br'));
+	form.appendChild(sendButton);
+	
+	return form;
+}
+
+function addOption(value, innerHTML, select) {
+	var option = dojo.doc.createElement('option');
+	option.value = value;
+	option.innerHTML = translate(innerHTML);
+	select.appendChild(option);
+}
+
+function addCommentPanelSection(thisParent, thisLabel, thisValue) {
+	var thisVar = dojo.doc.createElement('span')
+	thisVar.className = 'commentPanelSection';
+	thisVar.appendChild(setLabel(thisLabel));
+	thisVar.appendChild(dojo.doc.createTextNode(thisValue));
+	thisVar.appendChild(dojo.doc.createElement('br'));
+	thisParent.appendChild(thisVar);
+}
+
+function closeComment(currentId){
+	//alert('blah');
+	//dijit.popup.close(dojo.byId('TooltipDialog_0'));
+	dijit.popup.close(dialog);
+	dojo.style(dojo.byId("commentPanel_" + currentId), "display", "none");
+	return false;
+}
+
+function hidePreviousCommentPanels(currentId) {
+	dojo.query("[id^='commentPanel_']").forEach(function(panel, i) {
+        if("commentPanel_" + currentId != panel.id) {
+        	panel.style.display = "none";
+        }
+    });
+}
+
+function sendComment() {
+	var form = document.getElementById('commentForm');
+	form.action = 'javascript:alert(\''+translate('Comment_already_sending')+'\');';
+	// The "xhrGet" method executing an HTTP GET
+	dojo.xhrGet({
+	    // The URL to request
+	    url: jsFeedbackUrl+"?id="+form.taxaId.value+"&comment="+form.comment.value+"&commentType="+form.commentType.value+"&name="+form.name.value+"&email="+form.email.value,
+	    // The method that handles the request's successful result
+	    // Handle the response any way you'd like!
+	    load: function(result) {
+	        alert("The message is: " + result);
+	        closeComment(form.taxaId.value);
+	    }
+	});
 }
