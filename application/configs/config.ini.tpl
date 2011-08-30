@@ -35,6 +35,10 @@ language.vi = 0                 ; Vietnamese
 ; Batch 2 modules (on = 1, off = 0)
 module.fuzzy_search = 0         ; Enable fuzzy search functionality
 
+module.feedback = 1				; Enable feedbackservice
+; Fill in the location of the feedbackservice
+module.feedbackUrl = ""
+
 ; Advanced settings
 ; Cookies are used to store display preferences for the taxonomic tree and interface language. 
 ; Set the cookie expiration time in seconds. The default expiration time is 14 days.
