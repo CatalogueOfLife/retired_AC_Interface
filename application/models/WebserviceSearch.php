@@ -217,7 +217,7 @@ class ACI_Model_WebserviceSearch extends AModel
         $select->from(
             array('tt' => '_taxon_tree'),
             array(
-                'id' => 'sd.taxon_id',
+                'id' => 'tt.taxon_id',
                 'name' => 'tt.name',
                 'rank' => 'tt.rank',
                 'status' => 'sd.status',
@@ -248,10 +248,10 @@ class ACI_Model_WebserviceSearch extends AModel
                 'name' => $taxon['name'],
                 'rank' => $rank,
                 'name_html' =>
-                    $rank == 'Genus'
+                    strtolower($rank) == 'genus'
                         ?
                         '<i>' . $taxon['name'] . '</i>' :
-                    ($rank != 'Species' && $rank != 'Infraspecies'
+                    (strstr($rank, 'species') === false
                         ?
                         $taxon['name'] : 
                         ACI_Model_Table_Taxa::getAcceptedScientificName(
@@ -269,7 +269,11 @@ class ACI_Model_WebserviceSearch extends AModel
                         0 : 
                         ACI_Model_Table_Taxa::RANK_SPECIES
                     ), 
-                    $taxon['status']
+                    (strstr($rank, 'species') === false
+                        ?
+                        ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME :
+                        $taxon['status']
+                    )
                 )
             );
         }
