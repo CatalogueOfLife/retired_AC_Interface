@@ -117,6 +117,8 @@ class SearchController extends AController
         if ($form->isValid($this->_getAllParams()) &&
             $this->_hasParam('key') && $this->_getParam('submit', 1)) {
                 
+            $this->_removeInfraMarkerFromSearchString();
+            	
             $this->_setSessionFromParams($form->getInputElements());
             $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage($form->getInputElements());
@@ -143,5 +145,35 @@ class SearchController extends AController
     public function __call($name, $arguments)
     {
         $this->_forward('all');
+    }
+    
+    private function _removeInfraMarkerFromSearchString() {
+    	$key = $this->_getParam('key');
+    	$removeFromSearchString = array(
+    		'f. ',
+			'm. ',
+			'strain ',
+			'subvar ',
+			'subsp. ',
+			'var. ',
+			'subtaxon ',
+			'staxon ',
+			'microgene ',
+			'nm. ',
+			'nothovar. ',
+			'ab. ',
+			'col. var. ',
+			'notst ',
+			'provar ',
+			'nothosubsp. ',
+			'nothosp. ',
+			'status ',
+			'lusus ',
+			'nothof. ',
+			'agvar. ',
+			'agsp. '
+    	);
+    	$key = str_replace($removeFromSearchString,'',$key);
+    	$this->_setParam('key',$key);
     }
 }
