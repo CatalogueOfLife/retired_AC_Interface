@@ -790,7 +790,9 @@ class ACI_Model_Details extends AModel
         ->from(
             array('d' => 'distribution'),
             array(
-                'distribution' => 'r.name'
+                'distribution' => 'r.name',
+            	'id' => 'r.id',
+            	'region_standard' => 'r.region_standard_id'
             )
         )
         ->joinRight(
@@ -804,7 +806,9 @@ class ACI_Model_Details extends AModel
         ->from(
             array('d' => 'distribution_free_text'),
             array(
-                'distribution' => 'rft.free_text'
+                'distribution' => 'rft.free_text',
+            	'id' => 'rft.id',
+            	'region_standard' => new Zend_Db_Expr(0)
             )
         )
         ->joinRight(
@@ -821,7 +825,11 @@ class ACI_Model_Details extends AModel
         
         $dist = array();
         foreach ($rowSet as $row) {
-            $dist[] = $row['distribution'];
+            $dist[] = array(
+            	'distribution' => $row['distribution'],
+            	'id' => $row['id'],
+            	'region_standard' => $row['region_standard']
+            );
         }
         return $dist;
     }

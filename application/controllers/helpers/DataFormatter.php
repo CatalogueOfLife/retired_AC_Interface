@@ -287,8 +287,12 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         if (!$speciesDetails->distribution) {
             $speciesDetails->distribution = $textDecorator->getEmptyField();
         } else {
-            $speciesDetails->distribution = implode(
-                '; ', $speciesDetails->distribution
+        	$temp = array();
+        	foreach($speciesDetails->distribution as $dist) {
+        		$temp[] = $dist['distribution'];
+        	}
+            $speciesDetails->distributionString = implode(
+                '; ', $temp
             );
         }
         if (!$speciesDetails->comment) {

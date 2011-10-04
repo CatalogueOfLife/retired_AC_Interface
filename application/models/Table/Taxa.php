@@ -130,6 +130,9 @@ class ACI_Model_Table_Taxa
     public $dbConfidence = 0;
     public $dbCoverageIcon;
     public $dbConfidenceIcons = array();
+    
+    // Added in 1.8
+    public $distributionString;
         
     /**
      * Returns a string for the status what can be translated

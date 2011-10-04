@@ -141,6 +141,14 @@ class DetailsController extends AController
             }
             $this->view->webserviceTimeoutInMs = $this->_webserviceTimeout * 1000;
         }
+        $this->view->googleMaps = true;
+	    $regions = array();
+        foreach($speciesDetails->distribution as $dist) {
+        	if($dist['region_standard'] != 0)
+		        $regions[] = $dist['id'];
+        }
+        $this->view->regionsCount = count($regions);
+        $this->view->regions = implode(',',$regions);
     }
 
     public function __call ($name, $arguments)
