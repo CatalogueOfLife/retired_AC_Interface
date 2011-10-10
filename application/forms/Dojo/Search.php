@@ -49,7 +49,7 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
         $submit = $this->createElement('SubmitButton', 'search')
             ->setLabel($translator->translate('Search'));
             
-        $this->addElement($key)->addElement($match)->addElement($submit);        
+        $this->addElement($key)->addElement($match)->addElement($submit);
     
         if ($this->_action == "all" && $this->_moduleEnabled("fuzzy_search"))
         {
@@ -62,7 +62,7 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
         $this->addDisplayGroup(array('key'), 'keyGroup');
         $this->addDisplayGroup(array('match', 'fuzzy'), 'matchGroup');
         $this->addDisplayGroup(array('search'), 'submitGroup');
-        
+
         $this->setDecorators(
             array(
                 'FormElements',
@@ -72,6 +72,19 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
                     'Form'
             )
         );
+        
+        /*$this->setDecorators(
+        	array(
+        		'FormElements',
+                array(
+                	'HtmlTag',
+        			array(
+        				'tag' => 'div', 'id' => 'map_canvas'
+        			),
+        			'Form'
+        		)
+        	)
+        );*/
         
         $this->setAttrib('onsubmit', 'submitSearchForm');
     }
@@ -124,7 +137,7 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
         return $em ?
             Zend_Registry::get('Zend_Translate')->translate(current($em)) :
             null;
-    }    
+    }
 
     protected function _moduleEnabled ($module)
     {

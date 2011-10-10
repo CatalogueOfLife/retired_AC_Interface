@@ -36,7 +36,7 @@ class ACI_Helper_FormLoader extends Zend_Controller_Action_Helper_Abstract
                     case 'all':
                     case 'common':
                     case 'distribution':
-                        $form = new ACI_Form_Dojo_Search($this->_action);
+                    	$form = new ACI_Form_Dojo_Search($this->_action);
                         break;
                 }
                 break;

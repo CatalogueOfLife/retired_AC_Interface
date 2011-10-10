@@ -27,4 +27,18 @@ class ACI_Model_Table_Regions extends Zend_Db_Table_Abstract
         $data = $stmt->fetchAll(Zend_Db::FETCH_ASSOC);
         return $data[0];
     }
+
+    public function getRegions($regionStandardId)
+    {
+        $select = $this->select();
+        $select->from(
+            $this,
+            array('id', 'region_standard_id', 'name')
+        )->where('region.region_standard_id = ?', $regionStandardId)
+        ->order('region.name');
+
+        $stmt = $this->_db->query($select);
+        $data = $stmt->fetchAll(Zend_Db::FETCH_ASSOC);
+        return $data;
+    }
 }

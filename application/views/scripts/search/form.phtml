@@ -23,7 +23,20 @@
     </div>
 <?php endif; ?>
 <div class="form-container">
-<form id="clear_form" name="clear_form" action="<?php echo $this->baseUrl($this->controller.'/'.$this->action); ?>" method="post"><input type="hidden" name="reset" value="1" /></form>
+<form id="clear_form" name="clear_form" action="<?php echo $this->baseUrl($this->controller.'/'.$this->action); ?>" method="post"><input type="hidden" name="reset" value="1" /><?php 
+if($this->controller == 'search' && $this->action == 'distribution'): ?>
+<div id="region_search">
+	<div id="regions"><select name="region" id="regionSelectList" multiple="multiple" style="height: 510px;width:250px;"></select></div>
+	<div id="map_canvas"></div>
+	<div id="region_standards">
+	Choose layer:<br />
+		<input type="radio" name="regionStandard" value="1" onclick="javascript:getRegionsInRegionSelect(1);" CHECKED /> TDWG Regions Level 4<br />
+		<input type="radio" name="regionStandard" value="2" onclick="javascript:getRegionsInRegionSelect(2);" /> IHO Sea Areas<br />
+		<input type="radio" name="regionStandard" value="3" onclick="javascript:getRegionsInRegionSelect(3);" /> World Exclusive Economic Zones<br />
+		<input type="radio" name="regionStandard" value="4" onclick="javascript:getRegionsInRegionSelect(4);" /> TDWG Regions Level 1
+	</div>
+</div>
+<?php endif; ?></form>
 <?php echo $this->form; ?>
 </div>
 </div>

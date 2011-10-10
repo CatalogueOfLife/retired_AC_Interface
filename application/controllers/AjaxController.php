@@ -91,6 +91,14 @@ class AjaxController extends AController
     	echo json_encode($region);
     }
 
+    public function regionlistAction()
+    {
+    	$id = $this->_getParam('regionStandard');
+    	$regionModel = new ACI_Model_Table_Regions($this->_db);
+    	$region =  $regionModel->getRegions($id);
+    	echo json_encode($region);
+    }
+    
     public function queryWebservices ($channels = array())
     {
         $mh = curl_multi_init();

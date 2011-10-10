@@ -1103,7 +1103,22 @@ li:hover ul, li.over ul {
 }
 
 #map_canvas {
+  float:left;
   height: 510px;
   width: 515px;
+}
+
+#regions {
+	float:left;
+	width:250px;
+}
+
+#region_standards {
+	float:left;
+	width:250px;
+}
+
+#region_search {
+	width: 1015px;	
 }
 }
