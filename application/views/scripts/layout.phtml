@@ -140,8 +140,9 @@ dojo.require("dojo.parser");
     function createMap() {
         var newOptions = [ { stylers: [ { visibility: "off" } ] },{ featureType: "water", elementType: "geometry", stylers: [ { hue: "#0000ff" }, { visibility: "on" } ] },{ featureType: "administrative.country", elementType: "geometry", stylers: [ { visibility: "on" } ] },{ featureType: "administrative.province", elementType: "geometry", stylers: [ { visibility: "on" } ] } ];
         var myOptions = {
-            zoom: 2,
-            center: new google.maps.LatLng(0,0),
+            zoom: 1,
+            center: new google.maps.LatLng(27,0),
+            mapTypeControl: 0,
             streetViewControl: 0,
             mapTypeId: google.maps.MapTypeId.ROADMAP, //ROADMAP, SATELLITE, TERRAIN
             zoomControlOptions: {

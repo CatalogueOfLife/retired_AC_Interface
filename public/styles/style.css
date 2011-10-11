@@ -1104,8 +1104,13 @@ li:hover ul, li.over ul {
 
 #map_canvas {
   float:left;
-  height: 510px;
+  height: 285px;
   width: 515px;
+}
+
+#regionSelectList {
+	height: 285px;
+	width:250px;
 }
 
 #regions {
@@ -1120,5 +1125,4 @@ li:hover ul, li.over ul {
 
 #region_search {
 	width: 1015px;	
-}
 }

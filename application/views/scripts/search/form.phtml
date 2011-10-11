@@ -26,7 +26,7 @@
 <form id="clear_form" name="clear_form" action="<?php echo $this->baseUrl($this->controller.'/'.$this->action); ?>" method="post"><input type="hidden" name="reset" value="1" /><?php 
 if($this->controller == 'search' && $this->action == 'distribution'): ?>
 <div id="region_search">
-	<div id="regions"><select name="region" id="regionSelectList" multiple="multiple" style="height: 510px;width:250px;"></select></div>
+	<div id="regions"><select name="region" id="regionSelectList" multiple="multiple"></select></div>
 	<div id="map_canvas"></div>
 	<div id="region_standards">
 	Choose layer:<br />
