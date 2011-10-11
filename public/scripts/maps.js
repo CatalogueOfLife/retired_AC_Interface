@@ -76,7 +76,7 @@ function progressBar() {
 
 function getRegion(region_id) { // 
     dojo.xhrGet( { // 
-        url: "/ACI/ajax/region/region/" + region_id, 
+        url: baseUrl+"/ajax/region/region/" + region_id, 
         handleAs: "json",
         timeout: 10000, 
         load: function(response, ioArgs) { 
@@ -102,7 +102,7 @@ function getRegionsInRegionSelect(regionStandardId) {
 	    } 
 	}
     dojo.xhrGet( { // 
-        url: "/ACI/ajax/regionlist/regionStandard/" + regionStandardId, 
+        url: baseUrl+"/ajax/regionlist/regionStandard/" + regionStandardId, 
         handleAs: "json",
         timeout: 1000, 
         load: function(response, ioArgs) { 

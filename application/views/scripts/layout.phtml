@@ -56,6 +56,7 @@
 <script type="text/javascript">
 var regionStandard = 1;
 var region = Array();
+var baseUrl = "<?php echo $this->baseUrl(); ?>";
 function createPolygonsOnMap() {
 	resetPolygonsOnMap();
 	for (var i in region[regionStandard]) {
