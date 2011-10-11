@@ -29,6 +29,7 @@ function createGeoJsonPolygon_nojquery(geojson,region_standard_id,clickable, reg
 			paths.push(path);
 		}
 	}
+	strokeOpacity = 0;
 	var polygon = new google.maps.Polygon({
 		paths: paths,
 		strokeColor: strokeColor,
@@ -66,7 +67,6 @@ function progressBar() {
 	var numberOfRegions = regions.length;
 	progressBarCounter++;
 	var progressbar = document.getElementById('map_progress_bar');
-	//alert(numberOfRegionsShown);
 	if(progressBarCounter >= numberOfRegions) {
 		progressbar.innerHTML = 'All region\'s retrieved.';
 	} else {
@@ -123,8 +123,6 @@ function insertRegions(regions) {
 		option.id = 'region_' + regions[i].id;
 		option.value = regions[i].id;
 		option.innerHTML = regions[i].name;
-//		option.onmouseover = areaMouseOver(i);
-//		option.onclick = areaClick(i);
 		select.appendChild(option);
 	}	
 }

@@ -143,10 +143,12 @@ class DetailsController extends AController
         }
         $this->view->googleMaps = true;
 	    $regions = array();
-        foreach($speciesDetails->distribution as $dist) {
-        	if($dist['region_standard'] != 0)
-		        $regions[] = $dist['id'];
-        }
+	    if(is_array($speciesDetails->distribution)) {
+	        foreach($speciesDetails->distribution as $dist) {
+	        	if($dist['region_standard'] != 0)
+			        $regions[] = $dist['id'];
+	        }
+	    }
         $this->view->regionsCount = count($regions);
         $this->view->regions = implode(',',$regions);
     }
