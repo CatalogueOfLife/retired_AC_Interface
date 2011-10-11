@@ -127,7 +127,7 @@ dojo.require("dojo.parser");
 <?php if($this->controller == 'details' && $this->action == 'species'): ?>
     	createMap();
 <?php elseif($this->controller == 'search' && $this->action == 'distribution'):?>
-		getRegionsInRegionSelect();
+		getRegionsInRegionSelect(regionStandard);
 <?php endif; ?>
 <?php if($this->controller == 'details' && $this->action == 'species'): ?>
         dojo.addOnLoad(showRegions);
@@ -151,8 +151,6 @@ dojo.require("dojo.parser");
         };
         map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
         map.setOptions({styles: newOptions});
-
-
     }
     google.maps.event.addDomListener(window, 'load', initializeMap);
 </script>
