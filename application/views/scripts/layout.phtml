@@ -56,6 +56,7 @@
 <script type="text/javascript">
 var regionStandard = 1;
 var region = Array();
+var polygonSet = Array();
 var baseUrl = "<?php echo $this->baseUrl(); ?>";
 function createPolygonsOnMap() {
 	resetPolygonsOnMap();
@@ -63,6 +64,7 @@ function createPolygonsOnMap() {
 		var polygon = createGeoJsonPolygon_nojquery(region[regionStandard][i],regionStandard,true,i,region[regionStandard][i].name);
 		if((regionStandard==2 && i!=694) || (regionStandard==1 && i!=37) || regionStandard==3 || (regionStandard==4 && i!=951))
 		polygon.setMap(map);
+		polygonSet[i] = polygon;
 	 	google.maps.event.addListener(polygon, 'mouseover', areaMouseOver);
 	 	google.maps.event.addListener(polygon, 'mouseout', areaMouseOut);
 	 	google.maps.event.addListener(polygon, 'click', areaClick);
@@ -83,10 +85,10 @@ function areaMouseOut() {
 	}
 }
 
-function areaMouseOver(event) {
-	mapInfoWindow.setContent(this.name);
-	mapInfoWindow.setPosition(event.latLng);
-	mapInfoWindow.open(map);
+function areaMouseOver() {
+	/*mapInfoWindow.setContent(this.name);
+	mapInfoWindow.setPosition(new google.maps.LatLng(0,0));
+	mapInfoWindow.open(map);*/
 
 	if(highligthedAreas[this.id] == null) {
 		this.fillOpacity = 0;
@@ -96,18 +98,32 @@ function areaMouseOver(event) {
 }
 
 function areaClick() {
-	if(highligthedAreas[this.id] != null) {
-		document.getElementById('region_'+this.id).selected = false;
-		this.fillOpacity = 0.0;
-		this.strokeOpacity = 0;
-		this.setMap(map);
-		highligthedAreas[this.id] = null;
+	highLightArea(this.id);
+}
+
+function getPolygonById(id) {
+	for(var i in polygonSet) {
+		if(polygonSet[i].id == id) {
+			return polygonSet[i];
+		}
+	}
+	return false;
+}
+
+function highLightArea(id) {
+	var polygon = getPolygonById(id);
+	if(highligthedAreas[id] != null) {
+		document.getElementById('region_'+id).selected = false;
+		polygon.fillOpacity = 0.0;
+		polygon.strokeOpacity = 0;
+		polygon.setMap(map);
+		highligthedAreas[id] = null;
 	} else {
-		document.getElementById('region_'+this.id).selected = true;
-		this.fillOpacity = 0.5;
-		this.strokeOpacity = 0;
-		this.setMap(map);
-		highligthedAreas[this.id] = true;
+		document.getElementById('region_'+id).selected = true;
+		polygon.fillOpacity = 0.5;
+		polygon.strokeOpacity = 0;
+		polygon.setMap(map);
+		highligthedAreas[id] = true;
 	}
 }
 </script>

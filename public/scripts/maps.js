@@ -99,7 +99,7 @@ function getRegionsInRegionSelect(regionStandardId) {
 	    while ( select.childNodes.length >= 1 )
 	    {
 	    	select.removeChild( select.firstChild );       
-	    } 
+	    }
 	}
     dojo.xhrGet( { // 
         url: baseUrl+"/ajax/regionlist/regionStandard/" + regionStandardId, 
@@ -123,6 +123,12 @@ function insertRegions(regions) {
 		option.id = 'region_' + regions[i].id;
 		option.value = regions[i].id;
 		option.innerHTML = regions[i].name;
+		option.onclick = function () {
+			var regionId = this.id;
+			regionId = regionId.replace("region_","");
+			highLightArea(regionId);
+		};
+//		option.onclick = 'javascript:highLightArea('+regions[i].id+');';
 		select.appendChild(option);
 	}	
 }
