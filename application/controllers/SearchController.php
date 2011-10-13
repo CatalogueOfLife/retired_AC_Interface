@@ -85,13 +85,20 @@ class SearchController extends AController
         $this->view->headTitle($this->view->title, 'APPEND');
         
         $form = $this->_getSearchForm();
-        
         if ($form->isValid($this->_getAllParams()) &&
             $this->_hasParam('key') && $this->_getParam('submit', 1)) {
                 
             $this->_setSessionFromParams($form->getInputElements());
             $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage($form->getInputElements());
+            
+        } elseif ($form->isValid($this->_getAllParams()) &&
+            $this->_hasParam('regions') && $this->_getParam('submit', 1)) {
+            $regionIds = explode(',',$this->_getParam('regions')); 
+
+            $this->_setSessionFromParams(array('regions'));
+            $this->getHelper('Query')->tagLatestQuery();
+            $this->_renderResultsPage(array('regions'));
             
         } else {
             if (!$this->_hasParam('key')) {

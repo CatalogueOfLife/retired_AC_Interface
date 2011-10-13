@@ -125,6 +125,18 @@ function highLightArea(id) {
 		polygon.setMap(map);
 		highligthedAreas[id] = true;
 	}
+	var hidden = document.getElementById('selectedRegions');
+	var first = true;
+	for(var i in highligthedAreas) {
+		if(typeof(highligthedAreas[i]) != "undefined") {
+			if(first == false) {
+				hidden.value = hidden.value + ',' + i;
+			} else {
+				hidden.value = i;
+				first = false;
+			}
+		}
+	}
 }
 </script>
 <?php if($this->controller == 'search' && $this->action == 'distribution'): ?>

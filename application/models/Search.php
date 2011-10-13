@@ -254,14 +254,18 @@ class ACI_Model_Search extends AModel
      * @return Zend_Db_Select
      */
     public function distributions($searchKey, $matchWholeWords, $sort = null,
-        $direction = null)
+        $direction = null, $regions = null)
     {
         $matchWholeWords = $this->getTrueMatchWholeWords($matchWholeWords, $searchKey);
         $this->_logger->debug(__METHOD__);
         $this->_logger->debug(func_get_args());
         $searchKey = self::wildcardHandling($searchKey);
-        return $this->_selectDistributions($searchKey, $matchWholeWords)
-        ->order(
+        if($regions != "") {
+	        $distributions = $this->_selectDistributionsByIds($regions, $matchWholeWords);
+        } else {
+	        $distributions = $this->_selectDistributions($searchKey, $matchWholeWords);
+        }
+        return $distributions->order(
 	        ($sort ?
 	        	($sort == 'name' ?
 			        array_merge(
@@ -410,6 +414,41 @@ class ACI_Model_Search extends AModel
         return $select;
     }
     
+    protected function _selectDistributionsByIds($regionIds)
+    {
+        $select = new Zend_Db_Select($this->_db);
+        
+        $select->from(
+            array('d' => 'distribution'),
+                array(
+                    'distribution' => 'r.name',
+                    'accepted_species_id' => 'd.taxon_detail_id',
+                    'name' => new Zend_Db_Expr(1),
+                	'author' => 'dsd.author',
+                	'rank' => new Zend_Db_Expr(1),
+                	'kingdom' => 'dsd.kingdom_name',
+                	'source_database_id' => 'dsd.source_database_id',
+                	'status' => new Zend_Db_Expr(1),
+                	'id' => 'd.taxon_detail_id'
+                )
+        );
+        
+        $select->joinLeft(
+            array('dsd' => '_species_details'),
+            'dsd.taxon_id = d.taxon_detail_id',
+            array()
+        );
+        $select->joinLeft(
+            array('r' => 'region'),
+            'd.region_id = r.id',
+            array()
+        );
+        
+        $select->where(
+            'd.region_id IN (?)', $regionIds
+        );
+        return $select;
+    }
     /**
      * Returns the fields needed to display the results of the scientific search
      * queries (require a join from sn to sn for synonyms)

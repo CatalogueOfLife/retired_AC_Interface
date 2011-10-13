@@ -23,10 +23,13 @@
     </div>
 <?php endif; ?>
 <div class="form-container">
-<form id="clear_form" name="clear_form" action="<?php echo $this->baseUrl($this->controller.'/'.$this->action); ?>" method="post"><input type="hidden" name="reset" value="1" /><?php 
+<form id="clear_form" name="clear_form" action="<?php echo $this->baseUrl($this->controller.'/'.$this->action); ?>" method="post"><input type="hidden" name="reset" value="1" /></form>
+<?php 
 if($this->controller == 'search' && $this->action == 'distribution'): ?>
+<form id="searchFormWithMap" action="<?php echo $this->baseUrl($this->controller.'/'.$this->action); ?>" onsubmit="submitSearchForm" method="post" enctype="application/x-www-form-urlencoded">
 <div id="region_search">
-	<div id="regions"><select name="region" id="regionSelectList" multiple="multiple"></select></div>
+	<div id="regions"><select name="regionList" id="regionSelectList" multiple="multiple"></select></div>
+	<input type="hidden" name="regions" id="selectedRegions" value="" />
 	<div id="map_canvas"></div>
 	<div id="region_standards">
 	Choose layer:<br />
@@ -36,7 +39,9 @@ if($this->controller == 'search' && $this->action == 'distribution'): ?>
 		<input type="radio" name="regionStandard" value="4" onclick="javascript:getRegionsInRegionSelect(4);" /> TDWG Regions Level 1
 	</div>
 </div>
-<?php endif; ?></form>
+<input type="submit" value="Search" name="search">
+</form>
+<?php endif; ?>
 <?php echo $this->form; ?>
 </div>
 </div>
