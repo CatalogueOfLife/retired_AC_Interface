@@ -421,31 +421,39 @@ class ACI_Model_Search extends AModel
         $select->from(
             array('d' => 'distribution'),
                 array(
-                    'distribution' => 'r.name',
+                    'distribution' => new Zend_Db_Expr('GROUP_CONCAT(r.name ORDER BY r.name DESC SEPARATOR \', \')'),
                     'accepted_species_id' => 'd.taxon_detail_id',
-                    'name' => new Zend_Db_Expr(1),
+                    'name' => "TRIM(CONCAT(dsd.genus_name " .
+	                    ", ' ', dsd.species_name, ' ', " .
+	                    "IF(dsd.infraspecific_marker = '', '', dsd.infraspecific_marker)," .
+	                    "IF(dsd.infraspecies_name = '', '', dsd.infraspecies_name)))",
                 	'author' => 'dsd.author',
-                	'rank' => new Zend_Db_Expr(1),
+                	'rank' => 't.taxonomic_rank_id',
                 	'kingdom' => 'dsd.kingdom_name',
                 	'source_database_id' => 'dsd.source_database_id',
-                	'status' => new Zend_Db_Expr(1),
+                	'source_database_name' => 'dsd.source_database_short_name',
+                	'status' => 'dsd.status',
                 	'id' => 'd.taxon_detail_id'
                 )
-        );
-        
-        $select->joinLeft(
+        )
+        ->joinLeft(
             array('dsd' => '_species_details'),
             'dsd.taxon_id = d.taxon_detail_id',
             array()
-        );
-        $select->joinLeft(
+        )
+        ->joinLeft(
             array('r' => 'region'),
             'd.region_id = r.id',
             array()
-        );
-        
-        $select->where(
-            'd.region_id IN (?)', $regionIds
+        )
+        ->joinLeft(
+        	array('t' => 'taxon'),
+        	'd.taxon_detail_id = t.id',
+        	array()
+        )
+        ->group(array('d.taxon_detail_id'))
+        ->where(
+            'd.region_id IN ('.$regionIds.')'
         );
         return $select;
     }
