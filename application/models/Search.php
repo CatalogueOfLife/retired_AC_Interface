@@ -265,6 +265,7 @@ class ACI_Model_Search extends AModel
         } else {
 	        $distributions = $this->_selectDistributions($searchKey, $matchWholeWords);
         }
+        //return $distributions->order(array('name'));
         return $distributions->order(
 	        ($sort ?
 	        	($sort == 'name' ?
@@ -281,8 +282,10 @@ class ACI_Model_Search extends AModel
 	                	),
 	                	self::_getSortParams('distribution',$direction)
 	                )
-            	) : array_merge(
-            		self::_getSortParams('distribution',$direction)
+            	) :
+            		($regions != "" ? 'name' : array_merge(
+            			self::_getSortParams('distribution',$direction)
+            		)
             	)
             )
         );
