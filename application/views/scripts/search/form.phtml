@@ -41,7 +41,8 @@ if($this->controller == 'search' && $this->action == 'distribution'): ?>
 </div>
 <input type="submit" value="Search" name="search">
 </form>
-<?php endif; ?>
-<?php echo $this->form; ?>
+<?php else:
+	echo $this->form;
+endif; ?>
 </div>
 </div>
