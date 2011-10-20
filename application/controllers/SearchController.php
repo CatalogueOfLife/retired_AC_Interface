@@ -94,8 +94,9 @@ class SearchController extends AController
             
         } elseif ($form->isValid($this->_getAllParams()) &&
             $this->_hasParam('regions') && $this->_getParam('submit', 1)) {
-            $regionIds = explode(',',$this->_getParam('regions')); 
-
+            $regionIds = explode(',',$this->_getParam('regions'));
+            $this->view->searchString = $this->view->translate('Search_distribution') . ' - ' . str_replace('%s','"'.$this->_getParam('regions').'"',$this->view->translate('Search_results_for'));
+            
             $this->_setSessionFromParams(array('regions'));
             $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage(array('regions'));
