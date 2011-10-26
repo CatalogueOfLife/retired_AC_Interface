@@ -41,4 +41,4 @@ class ACI_Model_Table_Regions extends Zend_Db_Table_Abstract
         $data = $stmt->fetchAll(Zend_Db::FETCH_ASSOC);
         return $data;
     }
-}
+ }

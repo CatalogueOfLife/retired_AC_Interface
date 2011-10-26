@@ -52,7 +52,8 @@
         djConfig="parseOnLoad: true">
         </script>
 <script type="text/javascript">var cookieExpiration = <?php echo (round($this->cookieExpiration/86400)); ?></script>
-<?php if(($this->controller == 'details' && $this->action == 'species') || ($this->controller == 'search' && $this->action == 'distribution')): ?>
+<?php if(($this->controller == 'details' && $this->action == 'species') || ($this->controller == 'browse' && $this->action == 'tree')
+	|| ($this->controller == 'search' && $this->action == 'distribution')): ?>
 <script type="text/javascript">
 var regionStandard = 1;
 var region = Array();
@@ -139,7 +140,8 @@ function highLightArea(id) {
 	}
 }
 </script>
-<?php if($this->controller == 'search' && $this->action == 'distribution'): ?>
+<?php if($this->controller == 'search' && $this->action == 'distribution' ||
+	$this->controller == 'browse' && $this->action == 'tree'): ?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('/scripts/library/ACI/polygons/iho_sea_areas.js');?>"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl('/scripts/library/ACI/polygons/tdwg_continents_level_1.js');?>"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl('/scripts/library/ACI/polygons/tdwg_regions_level_4.js');?>"></script>

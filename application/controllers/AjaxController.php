@@ -91,6 +91,21 @@ class AjaxController extends AController
     	echo json_encode($region);
     }
 
+    public function regionsAction ()
+    {
+    	$id = $this->_getParam('taxon');
+    	$rank = $this->_getParam('rank');
+    	$distributionModel = new ACI_Model_Table_Distributions($this->_db);
+    	$regionIds =  $distributionModel->getRegionsByTaxonId($id,$rank);
+/*    	$regionModel = new ACI_Model_Table_Regions($this->_db);
+    	$regions = array(); 
+    	foreach($regionIds as $id) {
+    		$regions[] = $regionModel->getRegion($id);
+    	}
+    	die( json_encode($regions));*/
+    	echo json_encode($regionIds);
+    }
+
     public function regionlistAction()
     {
     	$id = $this->_getParam('regionStandard');

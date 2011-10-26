@@ -89,6 +89,33 @@ function getRegion(region_id) { //
     });
 }
 
+function getRegions(taxon_id,rank) { // 
+    dojo.xhrGet( { // 
+        url: baseUrl+"/ajax/regions/taxon/" + taxon_id + "/rank/" + rank, 
+        handleAs: "json",
+        timeout: 10000, 
+        load: function(response, ioArgs) { 
+    		storeRegions(response);
+        },
+        error: function(response, ioArgs) {  
+            console.error(response); 
+            throwImageResponseError("Failed_to_fetch_images");
+        }
+    });
+}
+
+function storeRegions(region_ids){
+	if(region_ids == '') {
+		document.getElementById('map_progress_bar').innerHTML = 'There are no regions to show.';
+		return;
+	}
+	regions = Array();
+	for(var i = 0; i < region_ids.length; i++) {
+		regions[i] = region_ids[i].region_id;
+	}
+	showRegions();
+}
+
 function getRegionsInRegionSelect(regionStandardId) {
 	createMap();
 	regionStandard = regionStandardId;
