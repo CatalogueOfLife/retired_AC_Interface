@@ -48,7 +48,7 @@
     echo $this->headScript();
     ?>
 
-<?php if($this->mapModuleEnabled == true || $this->mapInTreeModuleEnabled == true): ?>
+<?php if($this->mapModuleEnabled == true || $this->mapInTreeModuleEnabled == true || $this->mapSearchModuleEnabled == true ): ?>
 <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js"
         djConfig="parseOnLoad: true">
         </script>
@@ -148,9 +148,8 @@ function highLightArea(id) {
 	}
 }
 </script>
-<?php if(($this->mapModuleEnabled == true || $this->mapInTreeModuleEnabled == true) && 
-	$this->controller == 'search' && $this->action == 'distribution' ||
-	$this->controller == 'browse' && $this->action == 'tree'): ?>
+<?php if(($this->mapSearchModuleEnabled == true) && 
+	$this->controller == 'search' && $this->action == 'distribution' ): ?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('/scripts/library/ACI/polygons/iho_sea_areas.js');?>"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl('/scripts/library/ACI/polygons/tdwg_continents_level_1.js');?>"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl('/scripts/library/ACI/polygons/tdwg_regions_level_4.js');?>"></script>
