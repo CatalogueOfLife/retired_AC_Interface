@@ -48,13 +48,21 @@
     echo $this->headScript();
     ?>
 
+<?php if($this->mapModuleEnabled == true || $this->mapInTreeModuleEnabled == true): ?>
 <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js"
         djConfig="parseOnLoad: true">
         </script>
+<?php endif; ?>
+
 <script type="text/javascript">var cookieExpiration = <?php echo (round($this->cookieExpiration/86400)); ?></script>
-<?php if(($this->controller == 'details' && $this->action == 'species') || ($this->controller == 'browse' && $this->action == 'tree')
+<?php if(($this->mapModuleEnabled == true || $this->mapInTreeModuleEnabled == true || $this->mapSearchModuleEnabled == true) &&
+	($this->controller == 'details' && $this->action == 'species') || ($this->controller == 'browse' && $this->action == 'tree')
 	|| ($this->controller == 'search' && $this->action == 'distribution')): ?>
 <script type="text/javascript">
+
+<?php if($this->controller == 'browse' && $this->action == 'tree'): ?>
+var mapInTaxonomicTree = <?php if($this->mapInTreeModuleEnabled == true) echo 1; else echo 0; ?>;
+<?php endif; ?>
 var regionStandard = 1;
 var region = Array();
 var polygonSet = Array();
@@ -140,7 +148,8 @@ function highLightArea(id) {
 	}
 }
 </script>
-<?php if($this->controller == 'search' && $this->action == 'distribution' ||
+<?php if(($this->mapModuleEnabled == true || $this->mapInTreeModuleEnabled == true) && 
+	$this->controller == 'search' && $this->action == 'distribution' ||
 	$this->controller == 'browse' && $this->action == 'tree'): ?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('/scripts/library/ACI/polygons/iho_sea_areas.js');?>"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl('/scripts/library/ACI/polygons/tdwg_continents_level_1.js');?>"></script>
@@ -155,16 +164,15 @@ dojo.require("dojo.parser");
     var map;
     var mapInfoWindow;
     function initializeMap() {
-<?php if($this->controller == 'details' && $this->action == 'species'): ?>
+<?php if($this->mapModuleEnabled == true && $this->controller == 'details' &&
+	$this->action == 'species'): ?>
     	createMap();
-<?php elseif($this->controller == 'search' && $this->action == 'distribution'):?>
-		getRegionsInRegionSelect(regionStandard);
-<?php endif; ?>
-<?php if($this->controller == 'details' && $this->action == 'species'): ?>
         dojo.addOnLoad(showRegions);
-<?php elseif($this->controller == 'search' && $this->action == 'distribution'): ?>
+<?php elseif($this->mapSearchModuleEnabled == true && $this->controller == 'search' &&
+	$this->action == 'distribution'):?>
+		getRegionsInRegionSelect(regionStandard);
 		dojo.addOnLoad(createPolygonsOnMap);
-<?php endif;?>
+<?php endif; ?>
 		mapInfoWindow = new google.maps.InfoWindow();
     }
 

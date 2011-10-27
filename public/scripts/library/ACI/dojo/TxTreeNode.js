@@ -233,7 +233,7 @@ function createStatistics(treeNode, bullet, className) {
 }
 
 function createMapPanel(treeNode) {
-	if(treeNode.i.name.indexOf(' ') != -1 && treeNode.i.name != 'Not assigned') {
+	if(mapInTaxonomicTree == 0 || (treeNode.i.name.indexOf(' ') != -1 && treeNode.i.name != 'Not assigned')) {
 		return dojo.create("span");
 	}
     var panel = dojo.create("span", {

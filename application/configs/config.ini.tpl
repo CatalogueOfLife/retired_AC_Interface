@@ -46,3 +46,8 @@ advanced.cookie_expiration = 1209600
 ; Web services are used to retrieve species images. Set the maximum time in seconds after which
 ; the application should abort trying to retrieve external data.
 advanced.webservice_timeout = 5
+
+; Batch 3 modules (on = 1, off =0)
+module.map_search = 1			; Enables searching by map instead of by text
+module.map_species_details = 1	; Enables map with distribution data on species details page
+module.map_browse_tree = 1		; Enables map with distribution data in the taxonomic tree

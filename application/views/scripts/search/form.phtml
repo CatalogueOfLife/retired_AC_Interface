@@ -25,7 +25,7 @@
 <div class="form-container">
 <form id="clear_form" name="clear_form" action="<?php echo $this->baseUrl($this->controller.'/'.$this->action); ?>" method="post"><input type="hidden" name="reset" value="1" /></form>
 <?php 
-if($this->controller == 'search' && $this->action == 'distribution'): ?>
+if($this->mapSearchModuleEnabled == true && $this->controller == 'search' && $this->action == 'distribution'): ?>
 <form id="searchFormWithMap" action="<?php echo $this->baseUrl($this->controller.'/'.$this->action); ?>" onsubmit="submitSearchForm" method="post" enctype="application/x-www-form-urlencoded">
 <div id="region_search">
 	<div id="regions"><select name="regionList" id="regionSelectList" multiple="multiple"></select></div>

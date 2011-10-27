@@ -66,7 +66,9 @@ class BrowseController extends AController
             'dojox.data.QueryReadStore')->requireModule('ACI.dojo.TxStoreModel')->requireModule(
             'ACI.dojo.TxTree')->requireModule('ACI.dojo.TxTreeNode');
         
-        //Checks if the module statistics is enabled
+        $this->view->mapInTreeModuleEnabled = $this->_moduleEnabled(
+            'map_browse_tree');
+		//Checks if the module statistics is enabled
         $statisticsModuleEnabled = $this->_moduleEnabled(
             'statistics');
         $this->view->statisticsModuleEnabled = $statisticsModuleEnabled;

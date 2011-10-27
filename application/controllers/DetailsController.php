@@ -132,6 +132,8 @@ class DetailsController extends AController
         $this->view->imagesModuleDatabaseEnabled = $this->_moduleEnabled('images_database');
         $this->view->imagesModuleAjaxEnabled = $this->_moduleEnabled(
             'images_ajax');
+        $this->view->mapModuleEnabled = $this->_moduleEnabled(
+            'map_species_details');
         if ($this->view->imagesModuleAjaxEnabled) {
             $this->view->dojo()->enable();
             $this->view->ajaxUri = '/ajax/images/name/' . $this->view->species->genus . ' ' .
