@@ -112,7 +112,9 @@ class SearchController extends AController
             
         } else {
         	//No search
-            if (!$this->_hasParam('key')) {
+        	$this->view->mapSearchModuleEnabled = $this->_moduleEnabled(
+            	'map_search');
+        	if (!$this->_hasParam('key')) {
                 $this->_setParamsFromSession($form->getInputElements());
             }
             $this->_renderFormPage($this->view->title, $form);
