@@ -88,7 +88,6 @@ class SearchController extends AController
         if ($form->isValid($this->_getAllParams()) &&
             $this->_hasParam('key') && $this->_getParam('submit', 1)) {
             //Normal Search
-                
             $this->_setSessionFromParams($form->getInputElements());
             $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage($form->getInputElements());

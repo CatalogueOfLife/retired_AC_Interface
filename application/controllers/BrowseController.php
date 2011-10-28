@@ -32,7 +32,14 @@ class BrowseController extends AController
 	    'Errors_to_be_corrected',
 	    'Futher_knowledge_to_be_added',
 		'Send',
-    	'Comment_already_sending'
+    	'Comment_already_sending',
+    	'Searching_for_the_regions_please_wait',
+    	'All_regions_retrieved',
+		'out_of',
+		'regions_retrieved',
+    	'There_are_no_regions_to_show',
+    	'failed_to_retrieve_regions',
+    	'failed_to_retrieve_region'
     );
     
 

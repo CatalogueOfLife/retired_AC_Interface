@@ -33,13 +33,14 @@ if($this->mapSearchModuleEnabled == true && $this->controller == 'search' && $th
 	<div id="map_canvas"></div>
 	<div id="region_standards">
 	Choose layer:<br />
-		<input type="radio" name="regionStandard" value="1" onclick="javascript:getRegionsInRegionSelect(1);" CHECKED /> TDWG Regions Level 4<br />
-		<input type="radio" name="regionStandard" value="2" onclick="javascript:getRegionsInRegionSelect(2);" /> IHO Sea Areas<br />
-		<input type="radio" name="regionStandard" value="3" onclick="javascript:getRegionsInRegionSelect(3);" /> World Exclusive Economic Zones<br />
-		<input type="radio" name="regionStandard" value="4" onclick="javascript:getRegionsInRegionSelect(4);" /> TDWG Regions Level 1
+		<input type="radio" name="regionStandard" value="1" onclick="javascript:getRegionsInRegionSelect(1);" CHECKED /> <?php echo $this->translate('TDWG_Regions_Level_4');?><br />
+		<input type="radio" name="regionStandard" value="2" onclick="javascript:getRegionsInRegionSelect(2);" /> <?php echo $this->translate('IHO_Sea_Areas');?><br />
+		<input type="radio" name="regionStandard" value="3" onclick="javascript:getRegionsInRegionSelect(3);" /> <?php echo $this->translate('World_Exclusive_Economic_Zones');?><br />
+		<input type="radio" name="regionStandard" value="4" onclick="javascript:getRegionsInRegionSelect(4);" /> <?php echo $this->translate('TDWG_Continents_Level_1');?>
 	</div>
 </div>
-<input type="submit" value="Search" name="search">
+<input type="submit" value="<?php echo $this->translate('Search');?>" name="search">
+<button waistate="labelledby-clear_label" wairole="button" value="" type="button" name="clear" dojoattachpoint="titleNode,focusNode" class="dijitReset dijitStretch dijitButtonContents" role="button" aria-labelledby="clear_label" id="clear" tabindex="0" style="-moz-user-select: none;"><span dojoattachpoint="iconNode" class="dijitReset dijitInline"><span class="dijitReset dijitToggleButtonIconChar">&nbsp;</span></span><span dojoattachpoint="containerNode" id="clear_label" class="dijitReset dijitInline dijitButtonText"><?php echo $this->translate('Clear_form');?></span></button>
 </form>
 <?php else:
 	echo $this->form;

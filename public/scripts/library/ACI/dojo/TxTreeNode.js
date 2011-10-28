@@ -264,7 +264,7 @@ function createMapPanelContents(treeNode) {
 	
 	var divMapProgressBar = dojo.doc.createElement('div');
 	divMapProgressBar.id = 'map_progress_bar';
-	divMapProgressBar.appendChild(dojo.doc.createTextNode('Searching for the regions, please wait...'))
+	divMapProgressBar.appendChild(dojo.doc.createTextNode(translate('Searching_for_the_regions_please_wait')))
 	
 	var divMap = dojo.doc.createElement('div');
 	divMap.id = 'map_canvas';

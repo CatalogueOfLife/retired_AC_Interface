@@ -14,7 +14,14 @@ require_once 'AController.php';
 class DetailsController extends AController
 {
     protected $_empty;
-
+    private $_jsTreeTranslation = array(
+    	'All_regions_retrieved',
+		'out_of',
+		'regions_retrieved',
+    	'There_are_no_regions_to_show',
+    	'failed_to_retrieve_region'
+    );
+    
     public function init ()
     {
         parent::init();
@@ -125,6 +132,7 @@ class DetailsController extends AController
         $this->view->title = $this->view->translate($title);
         $this->view->headTitle($this->view->title, 'APPEND');
         $this->_logger->debug($speciesDetails);
+        $this->view->jsTranslation = $this->_createJsTranslationArray($this->_jsTreeTranslation);
         $this->view->species = $speciesDetails;
         $this->view->source = $source;
         $this->view->creditsModuleEnabled = $this->_moduleEnabled('credits');

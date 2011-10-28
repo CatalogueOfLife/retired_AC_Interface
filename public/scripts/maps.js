@@ -1,15 +1,15 @@
 function createGeoJsonPolygon_nojquery(geojson,region_standard_id,clickable, regionId, regionName){
-	var strokeColor = "#0F0";
-	var fillColor = "#0F0";
+	var strokeColor = "#F00";
+	var fillColor = "#F00";
 	var strokeOpacity = 1;
 	var fillOpacity = 0.5;
-	if(region_standard_id == 2) {
+/*	if(region_standard_id == 2) {
 		strokeColor = "#F00";
 		fillColor = "#F00";
 	} else if (region_standard_id == 3) {
 		strokeColor = "#FF0";
 		fillColor = "#FF0";
-	}
+	}*/
 	
 	if(clickable == true) {
 		strokeOpacity = 0;
@@ -34,7 +34,7 @@ function createGeoJsonPolygon_nojquery(geojson,region_standard_id,clickable, reg
 		paths: paths,
 		strokeColor: strokeColor,
 		strokeOpacity: strokeOpacity,
-		strokeWeight: 2,
+		strokeWeight: 1,
 		fillColor: fillColor,
 		fillOpacity: fillOpacity,
 		id: regionId,
@@ -57,8 +57,6 @@ function showRegion(region) {
 	highligthedAreas[region.id] = true;
  	google.maps.event.addListener(polygon, 'mouseover', areaMouseOver);
  	google.maps.event.addListener(polygon, 'mouseout', areaMouseOut);
-	var progressbar = document.getElementById('map_progress_bar');
-	progressbar.innerHTML = 'id: ' + region.id + '; name: ' + region.name;
 	progressBar();
 }
 
@@ -68,9 +66,9 @@ function progressBar() {
 	progressBarCounter++;
 	var progressbar = document.getElementById('map_progress_bar');
 	if(progressBarCounter >= numberOfRegions) {
-		progressbar.innerHTML = 'All region\'s retrieved.';
+		progressbar.innerHTML = translate('All_regions_retrieved');
 	} else {
-		progressbar.innerHTML = progressBarCounter + ' out of ' + numberOfRegions + ' regions retrieved.';
+		progressbar.innerHTML = progressBarCounter + ' ' + translate('out_of') + ' ' + numberOfRegions + ' ' + translate('regions_retrieved');
 	}
 }
 
@@ -84,7 +82,7 @@ function getRegion(region_id) { //
         },
         error: function(response, ioArgs) {  
             console.error(response); 
-            throwImageResponseError("Failed_to_fetch_images");
+            failedToRetrieveAjax("failed_to_retrieve_region");
         }
     });
 }
@@ -99,14 +97,14 @@ function getRegions(taxon_id,rank) { //
         },
         error: function(response, ioArgs) {  
             console.error(response); 
-            throwImageResponseError("Failed_to_fetch_images");
+            failedToRetrieveAjax("failed_to_retrieve_regions");
         }
     });
 }
 
 function storeRegions(region_ids){
 	if(region_ids == '') {
-		document.getElementById('map_progress_bar').innerHTML = 'There are no regions to show.';
+		document.getElementById('map_progress_bar').innerHTML = translate('There_are_no_regions_to_show');
 		return;
 	}
 	regions = Array();
@@ -137,7 +135,7 @@ function getRegionsInRegionSelect(regionStandardId) {
         },
         error: function(response, ioArgs) {  
             console.error(response); 
-            throwImageResponseError("Failed_to_fetch_regions");
+            failedToRetrieveAjax("failed_to_retrieve_regions");
         }
     });
 }
@@ -158,4 +156,8 @@ function insertRegions(regions) {
 //		option.onclick = 'javascript:highLightArea('+regions[i].id+');';
 		select.appendChild(option);
 	}	
+}
+
+function failedToRetrieveAjax(message) {
+	alert(translate(message));
 }
