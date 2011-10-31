@@ -178,6 +178,9 @@ dojo.require("dojo.parser");
     function createMap() {
         var newOptions = [ { stylers: [ { visibility: "off" }, { saturation: -100 }, { lightness: -50 } ] },{ featureType: "water", elementType: "geometry", stylers: [ { visibility: "on" }, { hue: "#ffff00" }, { lightness: 50 }, { gamma: 5.01 }, { saturation: 100 } ] },{ featureType: "administrative.country", elementType: "geometry", stylers: [ { visibility: "on" }, { invert_lightness: true } ] },{ featureType: "administrative.province", elementType: "geometry", stylers: [ { visibility: "on" }, { invert_lightness: true }, { lightness: 100 } ] } ];
         var myOptions = {
+            //lowest zoom 1
+            //don't run out of borders
+            //remove google logo
             zoom: 1,
             center: new google.maps.LatLng(27,0),
             mapTypeControl: 0,

@@ -161,3 +161,12 @@ function insertRegions(regions) {
 function failedToRetrieveAjax(message) {
 	alert(translate(message));
 }
+
+function clearDistributionSearchForm() {
+/*	region = Array();
+	createMap();
+	highligthedAreas = Array();*/
+	//Calling a new ajax query to retrieve a clean list.
+	/*getRegionsInRegionSelect(regionStandard);*/
+	document.getElementById('clear_form').submit();
+}
