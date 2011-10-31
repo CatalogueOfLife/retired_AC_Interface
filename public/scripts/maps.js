@@ -118,7 +118,7 @@ function getRegionsInRegionSelect(regionStandardId) {
 	createMap();
 	regionStandard = regionStandardId;
 	createPolygonsOnMap();
-	var select = document.getElementById('regionSelectList');
+	var select = document.getElementById('regions');
 	if ( select.hasChildNodes() )
 	{
 	    while ( select.childNodes.length >= 1 )
@@ -141,20 +141,31 @@ function getRegionsInRegionSelect(regionStandardId) {
 }
 
 function insertRegions(regions) {
-	var select = document.getElementById('regionSelectList');
+	var div = document.getElementById('regions');
 	for (var i = 0; i < regions.length; i++)
 	{
-		var option = document.createElement('option');
-		option.id = 'region_' + regions[i].id;
-		option.value = regions[i].id;
-		option.innerHTML = regions[i].name;
-		option.onclick = function () {
+		var span = document.createElement('span');
+		span.id = 'region_span_' + regions[i].id;
+		span.class = 'region_span';
+		var checkbox = document.createElement('input');
+		checkbox.type = 'checkbox';
+		checkbox.id = 'region_' + regions[i].id;
+		checkbox.value = regions[i].id;
+		checkbox.innerHTML = regions[i].name;
+		checkbox.onclick = function () {
 			var regionId = this.id;
 			regionId = regionId.replace("region_","");
 			highLightArea(regionId);
 		};
+		var label = document.createElement('label');
+		label.class = 'regionLabel';
+		label.htmlFor = 'region_' + regions[i].id;
+		label.innerHTML = regions[i].name;
 //		option.onclick = 'javascript:highLightArea('+regions[i].id+');';
-		select.appendChild(option);
+		span.appendChild(checkbox);
+		span.appendChild(label);
+		span.appendChild(document.createElement('br'));
+		div.appendChild(span);
 	}	
 }
 

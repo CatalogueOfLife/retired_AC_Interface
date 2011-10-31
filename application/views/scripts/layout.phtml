@@ -122,22 +122,23 @@ function getPolygonById(id) {
 function highLightArea(id) {
 	var polygon = getPolygonById(id);
 	if(highligthedAreas[id] != null) {
-		document.getElementById('region_'+id).selected = false;
+		document.getElementById('region_'+id).checked = false;
 		polygon.fillOpacity = 0.0;
 		polygon.strokeOpacity = 0;
 		polygon.setMap(map);
 		highligthedAreas[id] = null;
 	} else {
-		document.getElementById('region_'+id).selected = true;
+		document.getElementById('region_'+id).checked = true;
 		polygon.fillOpacity = 0.5;
 		polygon.strokeOpacity = 0;
 		polygon.setMap(map);
 		highligthedAreas[id] = true;
 	}
 	var hidden = document.getElementById('selectedRegions');
+	hidden.value = '';
 	var first = true;
 	for(var i in highligthedAreas) {
-		if(typeof(highligthedAreas[i]) != "undefined") {
+		if(typeof(highligthedAreas[i]) != "undefined" && highligthedAreas[i] != null) {
 			if(first == false) {
 				hidden.value = hidden.value + ',' + i;
 			} else {

@@ -28,7 +28,7 @@
 if($this->mapSearchModuleEnabled == true && $this->controller == 'search' && $this->action == 'distribution'): ?>
 <form id="searchFormWithMap" action="<?php echo $this->baseUrl($this->controller.'/'.$this->action); ?>" onsubmit="submitSearchForm" method="post" enctype="application/x-www-form-urlencoded">
 <div id="region_search">
-	<div id="regions"><select name="regionList" id="regionSelectList" multiple="multiple"></select></div>
+	<div id="regions"></div>
 	<input type="hidden" name="regions" id="selectedRegions" value="" />
 	<div id="map_canvas"></div>
 	<div id="region_standards">

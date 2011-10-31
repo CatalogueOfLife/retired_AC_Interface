@@ -1171,6 +1171,9 @@ li:hover ul, li.over ul {
 #regions {
 	float:left;
 	width:250px;
+	height: 285px;
+    overflow: auto;
+    border: 1px solid #ccc
 }
 
 #region_standards {
@@ -1179,5 +1182,5 @@ li:hover ul, li.over ul {
 }
 
 #region_search {
-	width: 1015px;	
+	width: 1017px;	
 }
