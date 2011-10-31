@@ -92,18 +92,24 @@ function areaMouseOut() {
 		this.strokeOpacity = 0;
 		this.setMap(map);
 	}
+	var infoWindow = document.getElementById('infoWindow_'+this.id);
+	infoWindow.parentNode.removeChild(infoWindow);
 }
 
 function areaMouseOver() {
 	/*mapInfoWindow.setContent(this.name);
 	mapInfoWindow.setPosition(new google.maps.LatLng(0,0));
 	mapInfoWindow.open(map);*/
-
 	if(highligthedAreas[this.id] == null) {
 		this.fillOpacity = 0;
 		this.strokeOpacity = 1;
 		this.setMap(map);
 	}
+	var infoWindow = document.createElement('div');
+	infoWindow.className = 'infoWindow';
+	infoWindow.id = 'infoWindow_' + this.id;
+	infoWindow.innerHTML = this.name;
+	document.getElementById('content').appendChild(infoWindow);
 }
 
 function areaClick() {

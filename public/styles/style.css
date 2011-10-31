@@ -1184,3 +1184,12 @@ li:hover ul, li.over ul {
 #region_search {
 	width: 1017px;	
 }
+
+.infoWindow {
+	border: 1px solid #333366;
+	background-color: #FAFCFE;
+	padding: 5px;
+	position:absolute;
+	left: 600px;
+	top: 448px;
+}
