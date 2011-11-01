@@ -1006,7 +1006,7 @@ li:hover ul, li.over ul {
 .infoIcon {
     width: 20px;
     height: 15px;
-    background: url(../images/info.png) no-repeat right;
+    background: url(../images/information.png) no-repeat right;
     padding-bottom: 2px;
     vertical-align: middle;
     cursor: pointer;
@@ -1061,7 +1061,7 @@ li:hover ul, li.over ul {
 .commentIcon {
     width: 20px;
     height: 15px;
-    background: url(../images/comment.jpg) no-repeat right;
+    background: url(../images/message_edit.png) no-repeat right;
     padding-bottom: 2px;
     vertical-align: middle;
     cursor: pointer;
@@ -1116,7 +1116,7 @@ li:hover ul, li.over ul {
 .mapIcon {
     width: 15px;
     height: 15px;
-    background: url(../images/map.gif) no-repeat right;
+    background: url(../images/earth.png) no-repeat right;
     padding-bottom: 2px;
     vertical-align: middle;
     cursor: pointer;
