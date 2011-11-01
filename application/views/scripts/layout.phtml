@@ -71,7 +71,6 @@ function createPolygonsOnMap() {
 	resetPolygonsOnMap();
 	for (var i in region[regionStandard]) {
 		var polygon = createGeoJsonPolygon_nojquery(region[regionStandard][i],regionStandard,true,i,region[regionStandard][i].name);
-		if((regionStandard==2 && i!=694) || (regionStandard==1 && i!=37) || regionStandard==3 || (regionStandard==4 && i!=951))
 		polygon.setMap(map);
 		polygonSet[i] = polygon;
 	 	google.maps.event.addListener(polygon, 'mouseover', areaMouseOver);
