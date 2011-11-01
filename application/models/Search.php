@@ -254,14 +254,14 @@ class ACI_Model_Search extends AModel
      * @return Zend_Db_Select
      */
     public function distributions($searchKey, $matchWholeWords, $sort = null,
-        $direction = null, $regions = null)
+        $direction = null, $regions = null, $regionStandard = null)
     {
         $matchWholeWords = $this->getTrueMatchWholeWords($matchWholeWords, $searchKey);
         $this->_logger->debug(__METHOD__);
         $this->_logger->debug(func_get_args());
         $searchKey = self::wildcardHandling($searchKey);
         if($regions != "") {
-	        $distributions = $this->_selectDistributionsByIds($regions, $matchWholeWords);
+	        $distributions = $this->_selectDistributionsByIds($regions, $regionStandard);
         } else {
 	        $distributions = $this->_selectDistributions($searchKey, $matchWholeWords);
         }
@@ -417,7 +417,7 @@ class ACI_Model_Search extends AModel
         return $select;
     }
     
-    protected function _selectDistributionsByIds($regionIds)
+    protected function _selectDistributionsByIds($regionIds, $regionStandard)
     {
         $select = new Zend_Db_Select($this->_db);
         
@@ -443,21 +443,39 @@ class ACI_Model_Search extends AModel
             array('dsd' => '_species_details'),
             'dsd.taxon_id = d.taxon_detail_id',
             array()
-        )
-        ->joinLeft(
-            array('r' => 'region'),
-            'd.region_id = r.id',
-            array()
-        )
-        ->joinLeft(
+        );
+        if($regionStandard == 4) {
+	        $select->joinLeft(
+	            array('r' => 'region'),
+	            'd.region_id = r.id',
+	            array()
+	        )->joinLeft(
+	            array('r_parent' => 'region'),
+	            'r.parent_id = r_parent.id',
+	            array()
+	        );
+        } else {
+	        $select->joinLeft(
+	            array('r' => 'region'),
+	            'd.region_id = r.id',
+	            array()
+	        );
+        }
+        $select->joinLeft(
         	array('t' => 'taxon'),
         	'd.taxon_detail_id = t.id',
         	array()
         )
-        ->group(array('d.taxon_detail_id'))
-        ->where(
-            'd.region_id IN ('.$regionIds.')'
-        );
+        ->group(array('d.taxon_detail_id'));
+        if($regionStandard == 4) {
+        	$select->where(
+            	'r_parent.id IN ('.$regionIds.')'
+        	);
+        } else {
+        	$select->where(
+            	'r.id IN ('.$regionIds.')'
+        	);
+        }
         return $select;
     }
     /**

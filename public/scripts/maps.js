@@ -88,7 +88,7 @@ function getRegion(region_id) { //
 }
 
 function getRegions(taxon_id,rank) { // 
-    dojo.xhrGet( { // 
+	dojo.xhrGet( { // 
         url: baseUrl+"/ajax/regions/taxon/" + taxon_id + "/rank/" + rank, 
         handleAs: "json",
         timeout: 10000, 

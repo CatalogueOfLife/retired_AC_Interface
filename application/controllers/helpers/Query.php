@@ -146,7 +146,8 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                     $this->getRequest()->getParam('match'),
                     $this->getRequest()->getParam('sort'),
                     $this->getRequest()->getParam('direction'),
-                    $this->getRequest()->getParam('regions')
+                    $this->getRequest()->getParam('regions'),
+                    $this->getRequest()->getParam('regionStandard')
                 );
 	            break;
             case 'search/all':
