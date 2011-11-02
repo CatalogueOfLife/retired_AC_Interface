@@ -1006,7 +1006,7 @@ li:hover ul, li.over ul {
 .infoIcon {
     width: 20px;
     height: 15px;
-    background: url(../images/information.png) no-repeat right;
+    background: url(../images/about.png) no-repeat right;
     padding-bottom: 2px;
     vertical-align: middle;
     cursor: pointer;
