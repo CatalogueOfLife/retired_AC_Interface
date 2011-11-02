@@ -39,36 +39,22 @@ if($this->mapSearchModuleEnabled == true && $this->controller == 'search' && $th
 		<input type="radio" name="regionStandard" value="4" onclick="javascript:getRegionsInRegionSelect(4);" /> <?php echo $this->translate('TDWG_Continents_Level_1');?>
 	</div>
 </div>
-<!-- <div class="search-form">
-<dd id="submitGroup-element">
-<fieldset id="fieldset-submitGroup">
-<dl>
-<dt id="clear-label">&nbsp;</dt>
-<dd id="clear-element">
-<span class="dijit dijitReset dijitLeft dijitInline dijitButton" dojoattachevent="ondijitclick:_onButtonClick,onmouseenter:_onMouse,onmouseleave:_onMouse,onmousedown:_onMouse" widgetid="clear">
-<span class="dijitReset dijitRight dijitInline">
-<span class="dijitReset dijitInline dijitButtonNode">
-<button id="clear" class="dijitReset dijitStretch dijitButtonContents" waistate="labelledby-clear_label" wairole="button" value="" type="button" name="clear" dojoattachpoint="titleNode,focusNode" role="button" aria-labelledby="clear_label" tabindex="0" style="-moz-user-select: none;">
-</span>
-</span>
-</span>
-</dd>
-<dt id="search-label">&nbsp;</dt>
-<dd id="search-element">
-<span class="dijit dijitReset dijitLeft dijitInline dijitButton" dojoattachevent="ondijitclick:_onButtonClick,onmouseenter:_onMouse,onmouseleave:_onMouse,onmousedown:_onMouse" widgetid="search">
-<span class="dijitReset dijitRight dijitInline">
-<span class="dijitReset dijitInline dijitButtonNode">
-<button id="search" class="dijitReset dijitStretch dijitButtonContents" waistate="labelledby-search_label" wairole="button" value="Search" type="submit" name="search" dojoattachpoint="titleNode,focusNode" role="button" aria-labelledby="search_label" tabindex="0" style="-moz-user-select: none;">
-</span>
-</span>
-</span>
-</dd>
-</dl>
-</fieldset>
-</dd>
-</div> -->
-<input type="submit" value="<?php echo $this->translate('Search');?>" name="search">
-<button onclick="javascript:clearDistributionSearchForm();" waistate="labelledby-clear_label" wairole="button" value="" type="button" name="clear" dojoattachpoint="titleNode,focusNode" class="dijitReset dijitStretch dijitButtonContents" role="button" aria-labelledby="clear_label" id="clear" tabindex="0" style="-moz-user-select: none;"><span dojoattachpoint="iconNode" class="dijitReset dijitInline"><span class="dijitReset dijitToggleButtonIconChar">&nbsp;</span></span><span dojoattachpoint="containerNode" id="clear_label" class="dijitReset dijitInline dijitButtonText"><?php echo $this->translate('Clear_form');?></span></button>
+<div class="search-form">
+	<dd id="submitGroup-element">
+		<fieldset id="fieldset-submitGroup">
+		<dl>
+			<dt id="clear-label">&nbsp;</dt>
+			<dd id="clear-element">
+				<button name="clear" id="clear" type="button" onclick="javascript:clearDistributionSearchForm();">Clear form</button>
+			<dt id="search-label">&nbsp;</dt>
+			<dd id="search-element">
+				<input id="search" name="search" value="<?php echo $this->translate('Search');?>" type="submit" />
+			</dd>
+		</dl>
+		</fieldset>
+	</dd>
+</div>
+
 </form>
 <?php else:
 	echo $this->form;
