@@ -260,6 +260,8 @@ function showMap(treeNode){
         popup: dialog, 
         around: dojo.byId("mapPanel_" + treeNode.i.id) 
     });
+    var dijitToolContainer = document.getElementById("mapPanel_" + treeNode.i.id + '_dropdown').firstElementChild.firstElementChild;
+    dijitToolContainer.className = dijitToolContainer.className + ' dijitMapContainer';
 	createMap();
     getRegions(treeNode.i.id,treeNode.i.type);
 }

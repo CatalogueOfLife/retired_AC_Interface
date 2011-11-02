@@ -1123,7 +1123,7 @@ li:hover ul, li.over ul {
 }
 #mapPanel {
     height: 330px;
-    width: 525px;
+    width: 515px;
 }
 .mapPanelSection {
 	display: block;
@@ -1203,4 +1203,8 @@ li:hover ul, li.over ul {
 
 .iconSpan {
 	
+}
+
+.dijitMapContainer {
+	width: 521px;
 }
