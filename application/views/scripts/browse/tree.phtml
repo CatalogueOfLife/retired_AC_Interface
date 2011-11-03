@@ -12,17 +12,18 @@
  */
 ?>
 <p class="page_header"><?php echo $this->translate('Browse_taxonomic_tree'); ?></p>
-<?php if($this->statisticsModuleEnabled): ?>
+<?php if($this->statisticsModuleEnabled || $this->iconsInTreeModuleEnabled): ?>
 <div id="tree-checkboxes">
+<?php if($this->statisticsModuleEnabled): ?>
     <input <?php if($this->showEstimationCheckboxSelected != false) echo 'checked'; ?> id="showStatisticsCheckbox" type="checkbox" name="showEstimates" value="0" onclick="javascript:showOrHide('treeStatistics')" /> 
     <label for="showStatisticsCheckbox"><?php echo $this->textShowStatistics; ?></label>
     <input <?php if($this->showSourceDatabaseCheckboxSelected != false) echo 'checked'; ?> id="showGSDCheckbox" type="checkbox" name="showGSD" value="0" onclick="javascript:showOrHide('treeSourceDatabase')" /> 
     <label for="showGSDCheckbox"><?php echo $this->textShowSourceDatabases; ?></label>
-<?php if($this->iconsInTreeModuleEnabled == true): ?>
+<?php endif; ?>
+<?php if($this->iconsInTreeModuleEnabled): ?>
     <input <?php if($this->showIconsInTreeSelected != false) echo 'checked'; ?> id="showIconsCheckbox" type="checkbox" name="showIcons" value="0" onclick="javascript:showOrHide('iconSpan')" />
     <label for="showIconsCheckbox"><?php echo $this->textShowIcons; ?></label>
-<?php endif; ?>    
-    
+<?php endif; ?>
 </div>
 <?php endif; ?>
 <script type="text/javascript">

@@ -94,19 +94,21 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
         	commentLink.appendChild(commentIcon);
         	commentSpan.appendChild(commentLink);
         }*/
-        var iconSpan = document.createElement('span');
-        iconSpan.className = 'iconSpan';
-        this.labelNode.appendChild(iconSpan);
-        var icon = document.createElement('img');
-        icon.src = baseUrl + '/images/tree_icons/' + label.toLowerCase() + '.png';
-        icon.className = 'treeIcon'
-    	if(document.getElementById('showIconsCheckbox').checked == true) {
-    		iconSpan.style.display = "inline-block";
-    	} else {
-    		iconSpan.style.display = "none";
-    	}    		
-        iconSpan.appendChild(icon);
-    	
+        if (document.getElementById('showIconsCheckbox') != null) {
+	        var iconSpan = document.createElement('span');
+	        iconSpan.className = 'iconSpan';
+	        this.labelNode.appendChild(iconSpan);
+	        var icon = document.createElement('img');
+	        icon.src = baseUrl + '/images/tree_icons/' + label.toLowerCase() + '.png';
+	        icon.className = 'treeIcon'
+	    	if(document.getElementById('showIconsCheckbox').checked == true) {
+	    		iconSpan.style.display = "inline-block";
+	    	} else {
+	    		iconSpan.style.display = "none";
+	    	}    		
+	        iconSpan.appendChild(icon);
+        }
+        
         if (this.tree.model.store
                 .getValue(this.item, 'url') == null) {  
             var rank = dojo.doc.createElement('span');            
