@@ -18,6 +18,11 @@
     <label for="showStatisticsCheckbox"><?php echo $this->textShowStatistics; ?></label>
     <input <?php if($this->showSourceDatabaseCheckboxSelected != false) echo 'checked'; ?> id="showGSDCheckbox" type="checkbox" name="showGSD" value="0" onclick="javascript:showOrHide('treeSourceDatabase')" /> 
     <label for="showGSDCheckbox"><?php echo $this->textShowSourceDatabases; ?></label>
+<?php if($this->iconsInTreeModuleEnabled == true): ?>
+    <input <?php if($this->showIconsInTreeSelected != false) echo 'checked'; ?> id="showIconsCheckbox" type="checkbox" name="showIcons" value="0" onclick="javascript:showOrHide('iconSpan')" />
+    <label for="showIconsCheckbox"><?php echo $this->textShowIcons; ?></label>
+<?php endif; ?>    
+    
 </div>
 <?php endif; ?>
 <script type="text/javascript">

@@ -73,7 +73,23 @@ class BrowseController extends AController
             'dojox.data.QueryReadStore')->requireModule('ACI.dojo.TxStoreModel')->requireModule(
             'ACI.dojo.TxTree')->requireModule('ACI.dojo.TxTreeNode');
         
-        $this->view->mapInTreeModuleEnabled = $this->_moduleEnabled(
+        $iconInTreeModuleEnabled = $this->_moduleEnabled(
+            'icons_browse_tree');
+        $this->view->iconsInTreeModuleEnabled = $iconInTreeModuleEnabled;
+        if ($iconInTreeModuleEnabled) {
+            if (!isset($_COOKIE['treeIcons']) || $_COOKIE['treeIcons'] === false) {
+                setcookie('treeIcons', 0, 
+                    time() + $this->_cookieExpiration, '/', 
+                    '');
+                $showIconsInTreeCheckbox = 0;
+            }
+            else {
+                $showIconsInTreeCheckbox = $_COOKIE['treeIcons'];
+            }
+            $this->view->showIconsInTreeSelected = $showIconsInTreeCheckbox;
+        }
+        
+		$this->view->mapInTreeModuleEnabled = $this->_moduleEnabled(
             'map_browse_tree');
 		//Checks if the module statistics is enabled
         $statisticsModuleEnabled = $this->_moduleEnabled(
@@ -105,6 +121,7 @@ class BrowseController extends AController
         $translator = Zend_Registry::get('Zend_Translate');
         $this->view->textShowSourceDatabases = $translator->translate('Show_providers');
         $this->view->textShowStatistics = $translator->translate('Show_statistics');
+        $this->view->textShowIcons = $translator->translate('Show_iconic_images');
         $this->view->jsTranslation = $this->_createJsTranslationArray($this->_jsTreeTranslation);
         $config = Zend_Registry::get('config');
         $this->view->jsFeedbackUrl = $config->module->feedbackUrl;

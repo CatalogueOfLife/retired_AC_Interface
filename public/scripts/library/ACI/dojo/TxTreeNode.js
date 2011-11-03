@@ -100,8 +100,13 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
         var icon = document.createElement('img');
         icon.src = baseUrl + '/images/tree_icons/' + label.toLowerCase() + '.png';
         icon.className = 'treeIcon'
+    	if(document.getElementById('showIconsCheckbox').checked == true) {
+    		iconSpan.style.display = "inline-block";
+    	} else {
+    		iconSpan.style.display = "none";
+    	}    		
         iconSpan.appendChild(icon);
-        
+    	
         if (this.tree.model.store
                 .getValue(this.item, 'url') == null) {  
             var rank = dojo.doc.createElement('span');            
