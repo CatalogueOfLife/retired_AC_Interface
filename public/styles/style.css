@@ -1192,8 +1192,8 @@ li:hover ul, li.over ul {
 	background-color: #FAFCFE;
 	padding: 5px;
 	position:absolute;
-	left: 600px;
-	top: 448px;
+	left: 200px;
+	bottom: 0px;
 }
 
 
