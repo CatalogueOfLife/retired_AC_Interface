@@ -82,7 +82,6 @@ function getRegion(region_id) { //
         },
         error: function(response, ioArgs) {  
             console.error(response); 
-            failedToRetrieveAjax("failed_to_retrieve_region");
         }
     });
 }
