@@ -94,18 +94,18 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
         	commentLink.appendChild(commentIcon);
         	commentSpan.appendChild(commentLink);
         }*/
-        if (document.getElementById('showIconsCheckbox') != null) {
+        if (document.getElementById('showIconsCheckbox') != null && this.item.i.image != 0) {
 	        var iconSpan = document.createElement('span');
 	        iconSpan.className = 'iconSpan';
 	        this.labelNode.appendChild(iconSpan);
 	        var icon = document.createElement('img');
-	        icon.src = baseUrl + '/images/tree_icons/' + label.toLowerCase() + '.png';
+	        icon.src = this.item.i.image;
 	        icon.className = 'treeIcon'
 	    	if(document.getElementById('showIconsCheckbox').checked == true) {
 	    		iconSpan.style.display = "inline-block";
 	    	} else {
 	    		iconSpan.style.display = "none";
-	    	}    		
+	    	}
 	        iconSpan.appendChild(icon);
         }
         

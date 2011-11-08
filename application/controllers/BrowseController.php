@@ -320,6 +320,12 @@ class BrowseController extends AController
             // in the tree
             $row['name'] = utf8_encode(
                 $row['name']);
+            $image = $this->view->baseUrl() . '/images/tree_icons/' . strtolower($row['name']) . '.png'; 
+            if(@fopen('http://' . $_SERVER['SERVER_NAME'] . $image, "r")) {
+            	$row['image'] = $image;
+            } else {
+            	$row['image'] = 0;
+            }
             $row['type'] = $row['type'] == "kingdom" ? '' : $row['type'];
             
             $row['rank'] = $row['type'] == "" ? '' : $translator->translate(
