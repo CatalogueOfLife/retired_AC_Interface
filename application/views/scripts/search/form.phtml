@@ -33,10 +33,10 @@ if($this->mapSearchModuleEnabled == true && $this->controller == 'search' && $th
 	<div id="map_canvas"></div>
 	<div id="region_standards">
 	<?php echo $this->translate('Choose_layer');?>:<br />
-		<input type="radio" name="regionStandard" value="1" onclick="javascript:getRegionsInRegionSelect(1);" CHECKED /> <?php echo $this->translate('TDWG_Regions_Level_4');?><br />
-		<input type="radio" name="regionStandard" value="2" onclick="javascript:getRegionsInRegionSelect(2);" /> <?php echo $this->translate('IHO_Sea_Areas');?><br />
-		<input type="radio" name="regionStandard" value="3" onclick="javascript:getRegionsInRegionSelect(3);" /> <?php echo $this->translate('World_Exclusive_Economic_Zones');?><br />
-		<input type="radio" name="regionStandard" value="4" onclick="javascript:getRegionsInRegionSelect(4);" /> <?php echo $this->translate('TDWG_Continents_Level_1');?>
+		<input id="regionsStandard1" type="radio" name="regionStandard" value="1" onclick="javascript:getRegionsInRegionSelect(1);" CHECKED /> <label for="regionsStandard1"><?php echo $this->translate('TDWG_Regions_Level_4');?></label><br />
+		<input id="regionsStandard2" type="radio" name="regionStandard" value="2" onclick="javascript:getRegionsInRegionSelect(2);" /> <label for="regionsStandard2"><?php echo $this->translate('IHO_Sea_Areas');?></label><br />
+		<input id="regionsStandard3" type="radio" name="regionStandard" value="3" onclick="javascript:getRegionsInRegionSelect(3);" /> <label for="regionsStandard3"><?php echo $this->translate('World_Exclusive_Economic_Zones');?></label><br />
+		<input id="regionsStandard4" type="radio" name="regionStandard" value="4" onclick="javascript:getRegionsInRegionSelect(4);" /> <label for="regionsStandard4"><?php echo $this->translate('TDWG_Continents_Level_1');?></label>
 	</div>
 </div>
 <div class="search-form">
