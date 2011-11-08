@@ -121,7 +121,7 @@ class BrowseController extends AController
         $translator = Zend_Registry::get('Zend_Translate');
         $this->view->textShowSourceDatabases = $translator->translate('Show_providers');
         $this->view->textShowStatistics = $translator->translate('Show_statistics');
-        $this->view->textShowIcons = $translator->translate('Show_iconic_images');
+        $this->view->textShowIcons = $translator->translate('Show_thumbnail_images');
         $this->view->jsTranslation = $this->_createJsTranslationArray($this->_jsTreeTranslation);
         $config = Zend_Registry::get('config');
         $this->view->jsFeedbackUrl = $config->module->feedbackUrl;
