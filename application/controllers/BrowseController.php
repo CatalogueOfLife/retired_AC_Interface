@@ -35,8 +35,7 @@ class BrowseController extends AController
     	'Comment_already_sending',
     	'Searching_for_the_regions_please_wait',
     	'All_regions_retrieved',
-		'out_of',
-		'regions_retrieved',
+		'x_out_of_y_regions_retrieved',
     	'There_are_no_regions_to_show',
     	'failed_to_retrieve_regions',
     	'failed_to_retrieve_region'

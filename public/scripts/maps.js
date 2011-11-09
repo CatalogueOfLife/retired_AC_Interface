@@ -68,7 +68,10 @@ function progressBar() {
 	if(progressBarCounter >= numberOfRegions) {
 		progressbar.innerHTML = translate('All_regions_retrieved');
 	} else {
-		progressbar.innerHTML = progressBarCounter + ' ' + translate('out_of') + ' ' + numberOfRegions + ' ' + translate('regions_retrieved');
+		var progressbarTranslation = translate('x_out_of_y_regions_retrieved');
+		progressbarTranslation = progressbarTranslation.replace("%s",progressBarCounter);
+		progressbarTranslation = progressbarTranslation.replace("%n",numberOfRegions);
+		progressbar.innerHTML = progressbarTranslation;
 	}
 }
 
