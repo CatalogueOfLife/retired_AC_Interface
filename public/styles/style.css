@@ -1208,5 +1208,13 @@ li:hover ul, li.over ul {
 }
 
 .dijitMapContainer {
-	width: 521px;
+	width: 527px;
+}
+
+table.panelTable table {
+    border: none;
+}
+table.panelTable tr td, 
+table.panelTable tr th {    
+    padding: 2px 3px;
 }
