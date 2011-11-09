@@ -1179,15 +1179,8 @@ li:hover ul, li.over ul {
     border: 1px solid #ccc
 }
 
-#region_standards {
-	float:left;
-	width:245px;
-	height: 285px;
-    border: 1px solid #ccc;
-}
-
 #region_search {
-	width: 1017px;	
+	width: 770px;	
 }
 
 .infoWindow {

@@ -149,11 +149,13 @@ function insertRegions(regions) {
 		var span = document.createElement('span');
 		span.id = 'region_span_' + regions[i].id;
 		span.class = 'region_span';
+
 		var checkbox = document.createElement('input');
 		checkbox.type = 'checkbox';
+		checkbox.setAttribute('dojoType', "dijit.form.CheckBox");
 		checkbox.id = 'region_' + regions[i].id;
 		checkbox.value = regions[i].id;
-		checkbox.innerHTML = regions[i].name;
+//		checkbox.innerHTML = regions[i].name;
 		checkbox.onclick = function () {
 			var regionId = this.id;
 			regionId = regionId.replace("region_","");
@@ -163,6 +165,8 @@ function insertRegions(regions) {
 		label.class = 'regionLabel';
 		label.htmlFor = 'region_' + regions[i].id;
 		label.innerHTML = regions[i].name;
+
+
 //		option.onclick = 'javascript:highLightArea('+regions[i].id+');';
 		span.appendChild(checkbox);
 		span.appendChild(label);

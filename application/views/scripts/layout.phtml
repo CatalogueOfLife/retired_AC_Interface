@@ -51,7 +51,16 @@
 <?php if($this->mapModuleEnabled == true || $this->mapInTreeModuleEnabled == true || $this->mapSearchModuleEnabled == true ): ?>
 <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js"
         djConfig="parseOnLoad: true">
+dojo.require("dijit.form.Button");
+dojo.require("dijit.Menu");
+</script>
+        <script type="text/javascript">
+            dojo.require("dijit.form.Button");
+            dojo.require("dijit.Menu");
+            dojo.require("dijit.form.CheckBox");
         </script>
+        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/tundra/tundra.css"
+        />
 <?php endif; ?>
 
 <script type="text/javascript">var cookieExpiration = <?php echo (round($this->cookieExpiration/86400)); ?></script>
