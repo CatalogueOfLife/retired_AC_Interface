@@ -274,6 +274,18 @@ function showMap(treeNode){
 }
 
 function createMapPanelContents(treeNode) {
+	var table = dojo.doc.createElement('table');
+	table.className = 'details-table';
+	var tr1 = dojo.doc.createElement('tr');
+	var tr2 = dojo.doc.createElement('tr');
+	var td1 = dojo.doc.createElement('td');
+	var td2 = dojo.doc.createElement('td');
+	
+	tr1.appendChild(td1);
+	tr2.appendChild(td2);
+	table.appendChild(tr1);
+	table.appendChild(tr2);
+	
 	var div = dojo.doc.createElement('div');
 	div.id = 'mapPanel';
 	
@@ -313,8 +325,9 @@ function createMapPanelContents(treeNode) {
 	
 	div.appendChild(closeButton);
 	div.appendChild(title);
-	div.appendChild(divMapProgressBar);
-	div.appendChild(divMap);
+	td1.appendChild(divMap);
+	td2.appendChild(divMapProgressBar);
+	div.appendChild(table);
 	return div;
 }
 

@@ -189,10 +189,17 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Distribution'); ?>:</th>
         <td><?php echo ($this->species->distributionString != '' ? $this->species->distributionString : '-'); ?>
-        <?php if($this->mapModuleEnabled == true): ?>
-        <br /><div id="map_progress_bar"></div><div id="map_canvas"></div></td>
-        <?php endif; ?>
     </tr>
+   <?php if($this->mapModuleEnabled == true): ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"> </th>
+        <td><div id="map_canvas"></div></td>
+    </tr>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"> </th>
+        <td><div id="map_progress_bar"></div></td>
+    </tr>
+    <?php endif; ?>
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Additional_data'); ?>:</th>

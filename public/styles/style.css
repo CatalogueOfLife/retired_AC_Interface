@@ -1125,7 +1125,7 @@ li:hover ul, li.over ul {
     cursor: pointer;
 }
 #mapPanel {
-    height: 330px;
+    height: 350px;
     width: 515px;
 }
 .mapPanelSection {
