@@ -170,7 +170,7 @@ dojo.require("dojo.parser");
     var mapInfoWindow;
     function initializeMap() {
 <?php if($this->mapModuleEnabled == true && $this->controller == 'details' &&
-	$this->action == 'species'): ?>
+	$this->action == 'species' && $this->regionsCount > 0): ?>
     	createMap();
         dojo.addOnLoad(showRegions);
 <?php elseif($this->mapSearchModuleEnabled == true && $this->controller == 'search' &&
