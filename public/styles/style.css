@@ -1211,3 +1211,7 @@ table.panelTable tr td,
 table.panelTable tr th {    
     padding: 2px 3px;
 }
+
+.dijitTooltipDialogPopup {
+    z-index: 10000;
+}
