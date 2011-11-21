@@ -1215,3 +1215,24 @@ table.panelTable tr th {
 .dijitTooltipDialogPopup {
     z-index: 9999;
 }
+
+#languagebar {
+	position: relative;
+	left: 125px;
+	padding-left: 10px;
+	padding-bottom: 10px;
+	font-size: 15px;
+}
+
+.languagebarItem {
+	padding:2px;
+}
+
+.languagebarItem, .languagebarItem a, .languagebarItem a:hover, .languagebarItem a:visited, .languagebarItem a:active, .languagebarItem a:focus {
+	color: #000;
+	text-decoration: none;
+}
+
+.selectedLanguagebarItem, .languagebarItem a:hover, .languagebarItem a:focus {
+	font-weight: bold;
+}
