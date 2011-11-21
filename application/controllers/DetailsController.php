@@ -141,7 +141,7 @@ class DetailsController extends AController
             'images_ajax');
         $this->view->mapModuleEnabled = $this->_moduleEnabled(
             'map_species_details');
-        if ($this->view->imagesModuleAjaxEnabled) {
+        if ($speciesDetails && $this->view->imagesModuleAjaxEnabled) {
             $this->view->dojo()->enable();
             $this->view->ajaxUri = '/ajax/images/name/' . $this->view->species->genus . ' ' .
                  $this->view->species->species;
@@ -152,7 +152,7 @@ class DetailsController extends AController
         }
         $this->view->googleMaps = true;
 	    $regions = array();
-	    if(is_array($speciesDetails->distribution)) {
+	    if($speciesDetails && is_array($speciesDetails->distribution)) {
 	        foreach($speciesDetails->distribution as $dist) {
 	        	if($dist['region_standard'] != 0)
 			        $regions[] = $dist['id'];
