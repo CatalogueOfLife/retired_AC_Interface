@@ -223,8 +223,8 @@ dojo.require("dojo.parser");
     <div id="languagebar">
     <?php if(count($this->interfaceLanguages) > 1): ?>
         <?php foreach ($this->interfaceLanguages as $iso => $language): ?> 
-            <span class="languagebarItem<?php echo $this->language == $iso ? ' selectedLanguagebarItem' : ''; ?>">
-                <a href="javascript:changeLanguage('<?php echo $iso; ?>');" title="<?php echo $language['english_name']; ?>"><?php echo $language['original_name']; ?></a>
+            <span class="languagebarItem<?php echo $this->language == $iso ? ' selectedLanguagebarItem' : ''; ?>"><a
+            	href="javascript:changeLanguage('<?php echo $iso; ?>');" title="<?php echo $language['english_name']; ?>"><?php echo $language['original_name']; ?></a>
             </span>
         <?php endforeach; ?>
     <?php endif; ?>
