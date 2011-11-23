@@ -1221,6 +1221,7 @@ table.panelTable tr th {
 	top: -10px;
 	padding-left: 10px;
 	padding-bottom: 15px;
+	max-width: 760px;
 }
 
 .languagebarItem {
