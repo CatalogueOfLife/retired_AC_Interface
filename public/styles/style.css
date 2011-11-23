@@ -1226,6 +1226,8 @@ table.panelTable tr th {
 
 .languagebarItem {
 	padding:2px;
+	padding-left:6px;
+	padding-right:6px;
 }
 
 .languagebarItem, .languagebarItem a, .languagebarItem a:hover, .languagebarItem a:visited, .languagebarItem a:active, .languagebarItem a:focus {
