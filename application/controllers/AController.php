@@ -181,8 +181,12 @@ abstract class AController extends Zend_Controller_Action
         $currentLanguageScripts = explode(' ', $languageScripts[substr($this->view->language, 0, 2)]);
         foreach ($selectedLanguages as $iso => $language) {
         	$selectedLanguages[$iso] = array();
-      		$selectedLanguages[$iso]['original_name'] = ucfirst(
-              	$locale->getTranslation($iso, 'language', $iso));
+        	if($iso != 'en') {
+	      		$selectedLanguages[$iso]['original_name'] = ucfirst(
+    	          	$locale->getTranslation($iso, 'language', $iso));
+        	} else {
+        		$selectedLanguages[$iso]['original_name'] = '';
+        	}
             // Append transliteration script(s) of this language does not match script(s) of current language
             // Strip off the potentially present locale first when checking for scripts!
             $scripts = explode(' ', $languageScripts[substr($iso, 0, 2)]);
