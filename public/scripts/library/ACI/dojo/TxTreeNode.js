@@ -373,6 +373,41 @@ function showComment(treeNode){
 } 
 
 function createCommentPanelContents(treeNode) {
+	var table = dojo.doc.createElement('table');
+	table.className = 'panelTable';
+	var tr1 = dojo.doc.createElement('tr');
+	var tr2 = dojo.doc.createElement('tr');
+	var tr3 = dojo.doc.createElement('tr');
+	var tr4 = dojo.doc.createElement('tr');
+	var tr5 = dojo.doc.createElement('tr');
+	var th1 = dojo.doc.createElement('th');
+	var th2 = dojo.doc.createElement('th');
+	var th3 = dojo.doc.createElement('th');
+	var th4 = dojo.doc.createElement('th');
+	var td1 = dojo.doc.createElement('td');
+	var td2 = dojo.doc.createElement('td');
+	var td3 = dojo.doc.createElement('td');
+	var td4 = dojo.doc.createElement('td');
+	var td5 = dojo.doc.createElement('td');
+	td5.colSpan = 2;
+	td5.align = 'right';
+	
+	table.appendChild(tr1);
+	table.appendChild(tr2);
+	table.appendChild(tr3);
+	table.appendChild(tr4);
+	table.appendChild(tr5);
+	
+	tr1.appendChild(th1);
+	tr1.appendChild(td1);
+	tr2.appendChild(th2);
+	tr2.appendChild(td2);
+	tr3.appendChild(th3);
+	tr3.appendChild(td3);
+	tr4.appendChild(th4);
+	tr4.appendChild(td4);
+	tr5.appendChild(td5);
+	
 	var form = dojo.doc.createElement('form');
 	form.method = 'get';
 	form.id = 'commentForm';
@@ -442,20 +477,18 @@ function createCommentPanelContents(treeNode) {
 	
 	form.appendChild(closeButton);
 	form.appendChild(title);
-	form.appendChild(setLabel('name'));
-	form.appendChild(name);
-	form.appendChild(dojo.doc.createElement('br'));
-	form.appendChild(setLabel('e-mail'));
-	form.appendChild(email);
-	form.appendChild(dojo.doc.createElement('br'));
-	form.appendChild(setLabel('type'));
-	form.appendChild(type);
-	form.appendChild(dojo.doc.createElement('br'));
-	form.appendChild(setLabel('comment'));
-	form.appendChild(textArea);
+	
+	form.appendChild(table);
+	th1.appendChild(setLabel('name'));
+	td1.appendChild(name);
+	th2.appendChild(setLabel('e-mail'));
+	td2.appendChild(email);
+	th3.appendChild(setLabel('type'));
+	td3.appendChild(type);
+	th4.appendChild(setLabel('comment'));
+	td4.appendChild(textArea);
 	form.appendChild(hiddenTaxaId);
-	form.appendChild(dojo.doc.createElement('br'));
-	form.appendChild(sendButton);
+	td5.appendChild(sendButton);
 	
 	return form;
 }
