@@ -31,6 +31,7 @@ language.pt_BR = 1              ; Portuguese (Brazil)
 language.es = 1                 ; Spanish
 language.th = 0                 ; Thai
 language.vi = 0                 ; Vietnamese
+language.fr = 0                 ; France
 
 ; Batch 2 modules (on = 1, off = 0)
 module.fuzzy_search = 0         ; Enable fuzzy search functionality
