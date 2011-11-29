@@ -560,7 +560,7 @@ function sendForm() {
         if(!allFieldsEnteredCheck) {
         	alert(translate("You_have_to_enter_all_fields")+".");
         }
-        var emailPatern = /[a-zA-Z0-9\.\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{1,3}/;
+        var emailPatern = /[a-zA-Z0-9\!\#\$\%\'\*\+\-\/\=\?\^\_\`\{\|\}\~\.]+@[a-zA-Z0-9\!\#\$\%\'\*\+\-\/\=\?\^\_\`\{\|\}\~\.]+\.[a-zA-Z]{1,3}/;
         var emailField = document.getElementById('emailField').value;
         if (!emailPatern.exec(emailField)) {
         	trEmail.style.backgroundColor = '#f66';
