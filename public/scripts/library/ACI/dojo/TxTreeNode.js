@@ -474,7 +474,7 @@ function createCommentPanelContents(treeNode) {
 	var hiddenTaxonString = dojo.doc.createElement('input');
 	hiddenTaxonString.id = 'taxonString';
 	hiddenTaxonString.type = 'hidden';
-	hiddenTaxonString.name = 'taxonString';
+	hiddenTaxonString.name = 'taxon_string';
 	hiddenTaxonString.value = '';
 	
 	var sendButton = dojo.doc.createElement('input');
