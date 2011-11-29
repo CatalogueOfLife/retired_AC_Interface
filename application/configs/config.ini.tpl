@@ -38,6 +38,7 @@ module.fuzzy_search = 0         ; Enable fuzzy search functionality
 
 module.feedback = 1				; Enable feedbackservice
 ; Fill in the location of the feedbackservice
+; NOTE, THIS MAY ONLY BE A URL WITHIN THE SAME DOMAIN!!
 module.feedbackUrl = ""
 
 ; Advanced settings
