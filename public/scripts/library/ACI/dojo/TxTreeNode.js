@@ -469,7 +469,6 @@ function createCommentPanelContents(treeNode) {
 	var hiddenVersion = dojo.doc.createElement('input');
 	hiddenVersion.type = 'hidden';
 	hiddenVersion.name = 'version';
-	console.dir(dojo.query(".app-version"));
 	hiddenVersion.value = dojo.query(".app-version")[0].innerHTML;
 	
 	var hiddenTaxonString = dojo.doc.createElement('input');
