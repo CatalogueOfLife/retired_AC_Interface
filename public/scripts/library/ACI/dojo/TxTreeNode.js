@@ -552,13 +552,13 @@ function sendForm() {
         	allFieldsEnteredCheck = false;
         }
         if(!allFieldsEnteredCheck) {
-        	alert("You_have_to_enter_all_fields");
+        	alert(translate("You_have_to_enter_all_fields")+".");
         }
         var emailPatern = /[a-zA-Z0-9\.\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{1,3}/;
         var emailField = document.getElementById('emailField').value;
         if (!emailPatern.exec(emailField)) {
         	trEmail.style.backgroundColor = '#f66';
-        	alert("Please_enter_a_valid_email_address");
+        	alert(translate("Please_enter_a_valid_email_address")+".");
         	allFieldsEnteredCheck = false;
         }
         if(!allFieldsEnteredCheck) {
@@ -582,21 +582,21 @@ function sendForm() {
     	            handleAs: "text",
     	            load: function(result) {
     	        		if(result == 0) {
-    	        			alert("Could_not_connect_to_feedback_database (#0).");
+    	        			alert(translate("Could_not_connect_to_feedback_database")+" (#0).");
     	        		} else if(result == 1) {
-    	        			alert("Your_feedback_has_been_submitted_successfully,");
+    	        			alert(translate("Your_feedback_has_been_submitted_successfully")+".");
     	        		} else if(result == 2) {
-    	        			alert("Your_feedback_has_already_been_submitted.");
+    	        			alert(translate("Your_feedback_has_already_been_submitted")+".");
     	        		} else if(result == 3) {
-    	        			alert("Feedback_form_incomplete (#3).");
+    	        			alert(translate("Feedback_form_incomplete")+" (#3).");
     	        		} else if(result == 4) {
-    	        			alert("Could_not_connect_to_feedback_database (#4).");
+    	        			alert(translate("Could_not_connect_to_feedback_database")+" (#4).");
     	        		} else {
-    	        			alert("Could_not_connect_to_feedback_database (#789).");
+    	        			alert(translate("Could_not_connect_to_feedback_database")+" (#789).");
     	        		}
     	            },
     	            error: function(error) {
-    	            	alert("Could_not_connect_to_feedback_server.");
+    	            	alert(translate("Could_not_connect_to_feedback_server")+".");
     	            	console.dir(error);
     	            }
     	        }
