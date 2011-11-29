@@ -466,6 +466,12 @@ function createCommentPanelContents(treeNode) {
 	hiddenTaxonId.name = 'taxonId';
 	hiddenTaxonId.value = treeNode.i.id;
 	
+	var hiddenVersion = dojo.doc.createElement('input');
+	hiddenVersion.type = 'hidden';
+	hiddenVersion.name = 'version';
+	console.dir(dojo.query(".app-version"));
+	hiddenVersion.value = dojo.query(".app-version")[0].innerHTML;
+	
 	var hiddenTaxonString = dojo.doc.createElement('input');
 	hiddenTaxonString.id = 'taxonString';
 	hiddenTaxonString.type = 'hidden';
@@ -490,6 +496,7 @@ function createCommentPanelContents(treeNode) {
 	form.appendChild(hiddenTaxonId);
 	form.appendChild(hiddenTaxonString);
 	form.appendChild(hiddenGsdIdString);
+	form.appendChild(hiddenVersion);
 	td5.appendChild(sendButton);
 	
 	return form;
