@@ -32,7 +32,13 @@ class BrowseController extends AController
 	    'Errors_to_be_corrected',
 	    'Futher_knowledge_to_be_added',
 		'Send',
-    	'Comment_already_sending'
+    	'Please_enter_a_valid_email_address',
+    	'You_have_to_enter_all_fields',
+    	'Could_not_connect_to_feedback_database',
+    	'Your_feedback_has_been_submitted_successfully',
+    	'Your_feedback_has_already_been_submitted',
+    	'Feedback_form_incomplete',
+    	'Could_not_connect_to_feedback_server'
     );
     
 
@@ -98,7 +104,14 @@ class BrowseController extends AController
         $this->view->textShowStatistics = $translator->translate('Show_statistics');
         $this->view->jsTranslation = $this->_createJsTranslationArray($this->_jsTreeTranslation);
         $config = Zend_Registry::get('config');
-        $this->view->jsFeedbackUrl = $config->module->feedbackUrl;
+        //Checks if the module feedback is enabled
+        $feedbackModuleEnabled = $this->_moduleEnabled(
+            'feedback');
+        $this->view->feedbackModule = $feedbackModuleEnabled; 
+        if($feedbackModuleEnabled) {
+	        $this->view->jsFeedbackUrl = $config->module->feedbackUrl;
+        }
+            
     }
 
     /**

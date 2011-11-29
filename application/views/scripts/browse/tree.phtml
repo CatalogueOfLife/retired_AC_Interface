@@ -24,7 +24,9 @@
 var baseUrl = "<?php echo $this->baseUrl(); ?>";
 var hierarchy = new Array(<?php echo $this->hierarchy; ?>);
 <?php echo $this->jsTranslation; ?>
+<?php if($this->feedbackModule): ?>
 var jsFeedbackUrl = "<?php echo $this->jsFeedbackUrl; ?>";
+<?php endif; ?>
 </script>
 <script type="text/javascript">
 dojo.require("dijit.TooltipDialog");

@@ -376,17 +376,17 @@ function createCommentPanelContents(treeNode) {
 	var table = dojo.doc.createElement('table');
 	table.className = 'panelTable';
 	var tr1 = dojo.doc.createElement('tr');
+	tr1.id = 'trName';
 	var tr2 = dojo.doc.createElement('tr');
-	var tr3 = dojo.doc.createElement('tr');
+	tr2.id = 'trEmail';
 	var tr4 = dojo.doc.createElement('tr');
+	tr4.id = 'trComment';
 	var tr5 = dojo.doc.createElement('tr');
 	var th1 = dojo.doc.createElement('th');
 	var th2 = dojo.doc.createElement('th');
-	var th3 = dojo.doc.createElement('th');
 	var th4 = dojo.doc.createElement('th');
 	var td1 = dojo.doc.createElement('td');
 	var td2 = dojo.doc.createElement('td');
-	var td3 = dojo.doc.createElement('td');
 	var td4 = dojo.doc.createElement('td');
 	var td5 = dojo.doc.createElement('td');
 	td5.colSpan = 2;
@@ -394,7 +394,6 @@ function createCommentPanelContents(treeNode) {
 	
 	table.appendChild(tr1);
 	table.appendChild(tr2);
-	table.appendChild(tr3);
 	table.appendChild(tr4);
 	table.appendChild(tr5);
 	
@@ -402,16 +401,14 @@ function createCommentPanelContents(treeNode) {
 	tr1.appendChild(td1);
 	tr2.appendChild(th2);
 	tr2.appendChild(td2);
-	tr3.appendChild(th3);
-	tr3.appendChild(td3);
 	tr4.appendChild(th4);
 	tr4.appendChild(td4);
 	tr5.appendChild(td5);
 	
 	var form = dojo.doc.createElement('form');
-	form.method = 'get';
+	form.method = 'post';
 	form.id = 'commentForm';
-	form.action = 'javascript:sendComment();';
+	form.action = jsFeedbackUrl;
 	
 	var closeButton = dojo.doc.createElement('span');
 	dojo.connect(closeButton, 'onclick', function(evt) {
@@ -439,40 +436,45 @@ function createCommentPanelContents(treeNode) {
 	title.appendChild(scientificName);
 	title.className = 'commentPanelSection commentPanelTitle';
 	
-	var type = dojo.doc.createElement('select');
-	/*var type = dojo.doc.createElement('span');
-	type.className = 'commentPanelLabel';
-	type.appendChild(dojo.doc.createTextNode('type:'));*/
-	type.name = 'commentType';
-	addOption('error','Errors_to_be_corrected',type);
-	addOption('free_general_comment','Free_general_comment',type);
-	addOption('futher_knowledge','Futher_knowledge_to_be_added',type);
-	addOption('wrong_branche','Placed_in_the_wrong_branche',type);
-
-	/*var comment = dojo.doc.createElement('span');
-	comment.className = 'commentPanelLabel';
-	comment.appendChild(dojo.doc.createTextNode('comment:'));*/
-
+	var hiddenGsdIdString = dojo.doc.createElement('input');
+	hiddenGsdIdString.type = 'hidden';
+	hiddenGsdIdString.name = 'gsd_id_string';
+	var gsd_ids = new Array();
+	for(i in treeNode.i.source_databases) {
+		gsd_ids[i] = treeNode.i.source_databases[i].source_database_id;
+	}
+	hiddenGsdIdString.value = gsd_ids.join('|');
+	
 	var name = dojo.doc.createElement('input');
+	name.id = 'nameField';
 	name.type = 'text';
 	name.name = 'name';
 	
 	var email = dojo.doc.createElement('input');
+	email.id = 'emailField';
 	email.type = 'text';
 	email.name = 'email';
 	
 	var textArea = dojo.doc.createElement('textarea');
+	textArea.id = 'commentField';
 	textArea.name = 'comment';
 	textArea.style.width = "300px";
 	textArea.style.height = "75px";
 	
-	var hiddenTaxaId = dojo.doc.createElement('input');
-	hiddenTaxaId.type = 'hidden';
-	hiddenTaxaId.name = 'taxaId';
-	hiddenTaxaId.value = treeNode.i.id;
+	var hiddenTaxonId = dojo.doc.createElement('input');
+	hiddenTaxonId.type = 'hidden';
+	hiddenTaxonId.name = 'taxonId';
+	hiddenTaxonId.value = treeNode.i.id;
+	
+	var hiddenTaxonString = dojo.doc.createElement('input');
+	hiddenTaxonString.id = 'taxonString';
+	hiddenTaxonString.type = 'hidden';
+	hiddenTaxonString.name = 'taxonString';
+	hiddenTaxonString.value = '';
 	
 	var sendButton = dojo.doc.createElement('input');
 	sendButton.type = 'submit';
+	sendButton.id = 'submitFormButton';
 	sendButton.value = translate('Send');
 	
 	form.appendChild(closeButton);
@@ -483,11 +485,11 @@ function createCommentPanelContents(treeNode) {
 	td1.appendChild(name);
 	th2.appendChild(setLabel('e-mail'));
 	td2.appendChild(email);
-	th3.appendChild(setLabel('type'));
-	td3.appendChild(type);
 	th4.appendChild(setLabel('comment'));
 	td4.appendChild(textArea);
-	form.appendChild(hiddenTaxaId);
+	form.appendChild(hiddenTaxonId);
+	form.appendChild(hiddenTaxonString);
+	form.appendChild(hiddenGsdIdString);
 	td5.appendChild(sendButton);
 	
 	return form;
@@ -510,7 +512,6 @@ function addCommentPanelSection(thisParent, thisLabel, thisValue) {
 }
 
 function closeComment(currentId){
-	//alert('blah');
 	//dijit.popup.close(dojo.byId('TooltipDialog_0'));
 	dijit.popup.close(dialog);
 	dojo.style(dojo.byId("commentPanel_" + currentId), "display", "none");
@@ -525,18 +526,87 @@ function hidePreviousCommentPanels(currentId) {
     });
 }
 
-function sendComment() {
-	var form = document.getElementById('commentForm');
-	form.action = 'javascript:alert(\''+translate('Comment_already_sending')+'\');';
-	// The "xhrGet" method executing an HTTP GET
-	dojo.xhrGet({
-	    // The URL to request
-	    url: jsFeedbackUrl+"?id="+form.taxaId.value+"&comment="+form.comment.value+"&commentType="+form.commentType.value+"&name="+form.name.value+"&email="+form.email.value,
-	    // The method that handles the request's successful result
-	    // Handle the response any way you'd like!
-	    load: function(result) {
-	        alert("The message is: " + result);
-	        closeComment(form.taxaId.value);
-	    }
-	});
+function sendForm() {
+    var form = dojo.byId("commentForm");
+
+    dojo.connect(form, "onsubmit", function(event) {
+        //Stop the submit event since we want to control form submission.
+        dojo.stopEvent(event);
+        var allFieldsEnteredCheck = true;
+    	var trName = document.getElementById('trName');
+    	trName.style.backgroundColor = '#fff';
+    	var trEmail = document.getElementById('trEmail');
+    	trEmail.style.backgroundColor = '#fff';
+    	var trComment = document.getElementById('trComment');
+    	trComment.style.backgroundColor = '#fff';
+        if(document.getElementById('emailField').value == '') {
+        	trEmail.style.backgroundColor = '#f66';
+        	allFieldsEnteredCheck = false;
+        }
+        if(document.getElementById('nameField').value == '') {
+        	trName.style.backgroundColor = '#f66';
+        	allFieldsEnteredCheck = false;
+        }
+        if(document.getElementById('commentField').value == '') {
+        	trComment.style.backgroundColor = '#f66';
+        	allFieldsEnteredCheck = false;
+        }
+        if(!allFieldsEnteredCheck) {
+        	alert("You_have_to_enter_all_fields");
+        }
+        var emailPatern = /[a-zA-Z0-9\.\-]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{1,3}/;
+        var emailField = document.getElementById('emailField').value;
+        if (!emailPatern.exec(emailField)) {
+        	trEmail.style.backgroundColor = '#f66';
+        	alert("Please_enter_a_valid_email_address");
+        	allFieldsEnteredCheck = false;
+        }
+        if(!allFieldsEnteredCheck) {
+        	return;
+        }
+        
+    	dojo.xhrGet({
+    	    // The URL to request
+    	    url: baseUrl+"/ajax/get-feedback-information-by-taxon-id/taxonId/"+document.getElementById('commentForm').taxonId.value,
+    	    // The method that handles the request's successful result
+    	    // Handle the response any way you'd like!
+    	    load: function(result) {
+    			document.getElementById('taxonString').value = result;
+    			/*sendFeedbackWithPost(form);*/
+    	        //The parameters to pass to xhrPost, the form, how to handle it, and the callbacks.
+    	        //Note that there isn't a url passed.  xhrPost will extract the url to call from the form's
+    	        //'action' attribute.  You could also leave off the action attribute and set the url of the xhrPost object
+    	        //either should work.
+    	        var xhrArgs = {
+    	            form: dojo.byId("commentForm"),
+    	            handleAs: "text",
+    	            load: function(result) {
+    	        		if(result == 0) {
+    	        			alert("Could_not_connect_to_feedback_database (#0).");
+    	        		} else if(result == 1) {
+    	        			alert("Your_feedback_has_been_submitted_successfully,");
+    	        		} else if(result == 2) {
+    	        			alert("Your_feedback_has_already_been_submitted.");
+    	        		} else if(result == 3) {
+    	        			alert("Feedback_form_incomplete (#3).");
+    	        		} else if(result == 4) {
+    	        			alert("Could_not_connect_to_feedback_database (#4).");
+    	        		} else {
+    	        			alert("Could_not_connect_to_feedback_database (#789).");
+    	        		}
+    	            },
+    	            error: function(error) {
+    	            	alert("Could_not_connect_to_feedback_server.");
+    	            	console.dir(error);
+    	            }
+    	        }
+    	        var deferred = dojo.xhrPost(xhrArgs);
+    	    }
+    	});
+
+        document.getElementById('submitFormButton').disabled = true;
+        closeComment(document.getElementById('commentForm').taxonId.value);
+        //Call the asynchronous xhrPost
+    });
 }
+dojo.addOnLoad(sendForm);

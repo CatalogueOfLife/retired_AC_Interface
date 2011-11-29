@@ -82,6 +82,28 @@ class AjaxController extends AController
         }
         $this->_response->setBody($this->_createJsonOutput());
     }
+    
+    public function getFeedbackInformationByTaxonIdAction ()
+    {
+    	//die(var_dump($this->_db->prepare('SELECT `dss`.* FROM `_search_scientific` AS `dss` WHERE (dss.`id` = \'2362377\')')->fetch()));
+    	
+    	$taxonId = $this->_getParam('taxonId');
+    	$feedbackInformation = new ACI_Model_FeedbackInformation($this->_db);
+    	$taxa = $feedbackInformation->selectScientificNames($taxonId);
+    	
+    	$temp = array();
+    	foreach($taxa as $taxon) {
+    		if($taxon == '' && empty($temp)) {
+    			continue;
+    		} else {
+    			$temp[] = $taxon;
+    		}
+    	}
+    	$taxa = array_reverse($temp);
+    	
+    	echo implode($taxa,'|');
+die();    	
+    }
 
     public function queryWebservices ($channels = array())
     {
