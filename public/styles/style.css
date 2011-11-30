@@ -1061,7 +1061,7 @@ li:hover ul, li.over ul {
 .commentIcon {
     width: 20px;
     height: 15px;
-    background: url(../images/comment.jpg) no-repeat right;
+    background: url(../images/comment.png) no-repeat right;
     padding-bottom: 2px;
     vertical-align: middle;
     cursor: pointer;
