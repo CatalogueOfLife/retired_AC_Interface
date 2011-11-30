@@ -1,12 +1,11 @@
 var showCommentFeedback;
-showCommentFeedback = true;
 dojo.provide('ACI.dojo.TxTreeNode');
 dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
     _onMouseEnter:function(evt){
     	if(dojo.byId("infoPanel_" + this.item.i.id)) {
     		dojo.style(dojo.byId("infoPanel_" + this.item.i.id), "display", "inline-block");
     	}
-    	if(dojo.byId("commentPanel_" + this.item.i.id)) {
+    	if(dojo.byId("commentPanel_" + this.item.i.id) && jsFeedbackUrl) {
     		dojo.style(dojo.byId("commentPanel_" + this.item.i.id), "display", "inline-block");
     	}
     },
@@ -16,7 +15,7 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
     		dojo.style(dojo.byId("infoPanel_" + this.item.i.id), "display", "none");
     	}
     	if (dojo.byId("commentPanel_" + this.item.i.id) && 
-        		!dojo.byId("commentPanel_" + this.item.i.id + "_dropdown")) {
+        		!dojo.byId("commentPanel_" + this.item.i.id + "_dropdown") && jsFeedbackUrl) {
         		dojo.style(dojo.byId("commentPanel_" + this.item.i.id), "display", "none");
         	}
     },
@@ -66,23 +65,6 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
 	        var panel = createInfoPanel(this.item);
 	        var commentPanel = createCommentPanel(this.item);
         }
-        
-/*        var commentSpan;
-        commentSpan = dojo.doc.createElement('span');
-        if(showCommentFeedback == true) {
-        	var commentLink;
-        	commentLink = dojo.doc.createElement('a');
-        	commentLink.href = "javascript:openCommentWindow();";
-        	var commentIcon;
-        	commentIcon = dojo.doc.createElement('img');
-        	dojo.attr(commentIcon, {
-        	    src: "../images/comment.jpg",
-        	    alt: "Comment"
-        	});
-        	commentLink.appendChild(commentIcon);
-        	commentSpan.appendChild(commentLink);
-        }*/
-        
         
         if (this.tree.model.store
                 .getValue(this.item, 'url') == null) {  
@@ -593,6 +575,12 @@ function sendForm() {
     	            handleAs: "text",
     	            load: function(result) {
     	        		if(result == 0) {
+    	        			initInfoPanel = function() {
+    	        			    dialog = new dijit.TooltipDialog({ 
+    	        			    	"class": "infoPanel"
+    	        			    });
+    	        			};
+
     	        			alert(translate("Could_not_connect_to_feedback_database")+" (#0).");
     	        		} else if(result == 1) {
     	        			alert(translate("Your_feedback_has_been_submitted_successfully")+".");
