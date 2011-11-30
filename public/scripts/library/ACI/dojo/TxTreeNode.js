@@ -449,17 +449,19 @@ function createCommentPanelContents(treeNode) {
 	name.id = 'nameField';
 	name.type = 'text';
 	name.name = 'name';
+	name.setAttribute("dojoType","dijit.form.TextBox");
 	
 	var email = dojo.doc.createElement('input');
 	email.id = 'emailField';
 	email.type = 'text';
 	email.name = 'email';
+	email.setAttribute("dojoType","dijit.form.TextBox");
 	
 	var textArea = dojo.doc.createElement('textarea');
 	textArea.id = 'commentField';
 	textArea.name = 'comment';
 	textArea.style.width = "300px";
-	textArea.style.height = "75px";
+	//textArea.setAttribute("dojoType","dijit.form.Textarea");
 	
 	var hiddenTaxonId = dojo.doc.createElement('input');
 	hiddenTaxonId.type = 'hidden';
@@ -477,10 +479,11 @@ function createCommentPanelContents(treeNode) {
 	hiddenTaxonString.name = 'taxon_string';
 	hiddenTaxonString.value = '';
 	
-	var sendButton = dojo.doc.createElement('input');
+	var sendButton = dojo.doc.createElement('button');
 	sendButton.type = 'submit';
 	sendButton.id = 'submitFormButton';
-	sendButton.value = translate('Send');
+	sendButton.innerHTML = translate('Send');
+	sendButton.setAttribute("dojoType","dijit.form.Button");
 	
 	form.appendChild(closeButton);
 	form.appendChild(title);

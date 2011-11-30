@@ -70,7 +70,8 @@ class BrowseController extends AController
         $this->view->dojo()->enable()->registerModulePath('ACI', 
             $this->view->baseUrl() . JS_PATH . '/library/ACI')->requireModule('dojo.parser')->requireModule(
             'dojox.data.QueryReadStore')->requireModule('ACI.dojo.TxStoreModel')->requireModule(
-            'ACI.dojo.TxTree')->requireModule('ACI.dojo.TxTreeNode');
+            'ACI.dojo.TxTree')->requireModule('ACI.dojo.TxTreeNode')->requireModule('dijit.form.Button')->
+            requireModule('dijit.form.TextBox')->requireModule('dijit.form.Form')->requireModule('dijit.form.Textarea');
         
         //Checks if the module statistics is enabled
         $statisticsModuleEnabled = $this->_moduleEnabled(
