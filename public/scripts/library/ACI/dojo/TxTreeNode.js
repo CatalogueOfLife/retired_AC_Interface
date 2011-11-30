@@ -575,12 +575,6 @@ function sendForm() {
     	            handleAs: "text",
     	            load: function(result) {
     	        		if(result == 0) {
-    	        			initInfoPanel = function() {
-    	        			    dialog = new dijit.TooltipDialog({ 
-    	        			    	"class": "infoPanel"
-    	        			    });
-    	        			};
-
     	        			alert(translate("Could_not_connect_to_feedback_database")+" (#0).");
     	        		} else if(result == 1) {
     	        			alert(translate("Your_feedback_has_been_submitted_successfully")+".");
