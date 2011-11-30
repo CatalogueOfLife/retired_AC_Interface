@@ -543,30 +543,32 @@ function sendForm() {
         dojo.stopEvent(event);
         var allFieldsEnteredCheck = true;
     	var trName = document.getElementById('trName');
-    	trName.style.backgroundColor = '#fff';
     	var trEmail = document.getElementById('trEmail');
-    	trEmail.style.backgroundColor = '#fff';
     	var trComment = document.getElementById('trComment');
-    	trComment.style.backgroundColor = '#fff';
+        var emailField = document.getElementById('emailField');
+        var nameField = document.getElementById('nameField');
+        var commentField = document.getElementById('commentField');
+        nameField.style.backgroundColor = '#fff';
+    	emailField.style.backgroundColor = '#fff';
+    	commentField.style.backgroundColor = '#fff';
         if(document.getElementById('emailField').value == '') {
-        	trEmail.style.backgroundColor = '#f66';
+        	emailField.style.backgroundColor = '#f66';
         	allFieldsEnteredCheck = false;
         }
         if(document.getElementById('nameField').value == '') {
-        	trName.style.backgroundColor = '#f66';
+        	nameField.style.backgroundColor = '#f66';
         	allFieldsEnteredCheck = false;
         }
         if(document.getElementById('commentField').value == '') {
-        	trComment.style.backgroundColor = '#f66';
+        	commentField.style.backgroundColor = '#f66';
         	allFieldsEnteredCheck = false;
         }
         if(!allFieldsEnteredCheck) {
         	alert(translate("You_have_to_enter_all_fields")+".");
         }
         var emailPatern = /[a-zA-Z0-9\!\#\$\%\'\*\+\-\/\=\?\^\_\`\{\|\}\~\.]+@[a-zA-Z0-9\!\#\$\%\'\*\+\-\/\=\?\^\_\`\{\|\}\~\.]+\.[a-zA-Z]{1,3}/;
-        var emailField = document.getElementById('emailField').value;
-        if (!emailPatern.exec(emailField)) {
-        	trEmail.style.backgroundColor = '#f66';
+        if (!emailPatern.exec(emailField.value)) {
+        	emailField.style.backgroundColor = '#f66';
         	alert(translate("Please_enter_a_valid_email_address")+".");
         	allFieldsEnteredCheck = false;
         }
