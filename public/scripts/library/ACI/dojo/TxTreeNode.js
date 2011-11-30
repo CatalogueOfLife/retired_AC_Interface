@@ -461,7 +461,7 @@ function createCommentPanelContents(treeNode) {
 	textArea.id = 'commentField';
 	textArea.name = 'comment';
 	textArea.style.width = "300px";
-	//textArea.setAttribute("dojoType","dijit.form.Textarea");
+	textArea.setAttribute("dojoType","dijit.form.Textarea");
 	
 	var hiddenTaxonId = dojo.doc.createElement('input');
 	hiddenTaxonId.type = 'hidden';
