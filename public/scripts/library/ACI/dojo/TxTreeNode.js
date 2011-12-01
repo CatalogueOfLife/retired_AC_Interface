@@ -465,15 +465,6 @@ function createCommentPanelContents(treeNode) {
 	sendButton.type = 'submit';
 	sendButton.id = 'submitFormButton';
 	sendButton.value = translate('Send');
-	sendButton.setAttribute("dojoType","dijit.form.Button");
-	//sendButton._onButtonClick = 'javascript:submit();';
-
-	 var sendButtonDijit = new dijit.form.Button({
-	        label: "Click me!",
-	        onClick: function(event) {
-		 		document.getElementById('commentForm').submit();
-	 		}
-	    }, "submitFormButton");
 
 	
 	form.appendChild(closeButton);
