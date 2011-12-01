@@ -530,24 +530,31 @@ function sendForm() {
         var emailField = document.getElementById('emailField');
         var nameField = document.getElementById('nameField');
         var commentField = document.getElementById('commentField');
-        if(document.getElementById('emailField').value == '') {
+        
+        nameField.style.borderColor = '';
+        emailField.style.borderColor = '';
+        commentField.style.borderColor = '';
+        
+        if(emailField.value == '') {
         	emailField.style.border = '1px solid #b41a1a';
         	allFieldsEnteredCheck = false;
         }
-        if(document.getElementById('nameField').value == '') {
+        if(nameField.value == '') {
         	nameField.style.border = '1px solid #b41a1a';
         	allFieldsEnteredCheck = false;
         }
-        if(document.getElementById('commentField').value == '') {
+        if(commentField.value == '') {
         	commentField.style.border = '1px solid #b41a1a';
         	allFieldsEnteredCheck = false;
         }
+        
+        
         if(!allFieldsEnteredCheck) {
         	alert(translate("You_have_to_enter_all_fields")+".");
         }
-        var emailPatern = /[a-zA-Z0-9\!\#\$\%\'\*\+\-\/\=\?\^\_\`\{\|\}\~\.]+@[a-zA-Z0-9\!\#\$\%\'\*\+\-\/\=\?\^\_\`\{\|\}\~\.]+\.[a-zA-Z]{1,3}/;
-        if (!emailPatern.exec(emailField.value)) {
-        	emailField.style.border = '1px solid red';
+        var emailPattern = /[a-zA-Z0-9\!\#\$\%\'\*\+\-\/\=\?\^\_\`\{\|\}\~\.]+@[a-zA-Z0-9\!\#\$\%\'\*\+\-\/\=\?\^\_\`\{\|\}\~\.]+\.[a-zA-Z]{1,3}/;
+        if (emailField.value && !emailPattern.exec(emailField.value)) {
+        	emailField.style.border = '1px solid #b41a1a';
         	alert(translate("Please_enter_a_valid_email_address")+".");
         	allFieldsEnteredCheck = false;
         }
