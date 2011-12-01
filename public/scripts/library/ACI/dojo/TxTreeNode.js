@@ -461,11 +461,20 @@ function createCommentPanelContents(treeNode) {
 	hiddenTaxonString.name = 'taxon_string';
 	hiddenTaxonString.value = '';
 	
-	var sendButton = dojo.doc.createElement('button');
+	var sendButton = dojo.doc.createElement('input');
 	sendButton.type = 'submit';
 	sendButton.id = 'submitFormButton';
-	sendButton.innerHTML = translate('Send');
+	sendButton.value = translate('Send');
 	sendButton.setAttribute("dojoType","dijit.form.Button");
+	//sendButton._onButtonClick = 'javascript:submit();';
+
+	 var sendButtonDijit = new dijit.form.Button({
+	        label: "Click me!",
+	        onClick: function(event) {
+		 		document.getElementById('commentForm').submit();
+	 		}
+	    }, "submitFormButton");
+
 	
 	form.appendChild(closeButton);
 	form.appendChild(title);
