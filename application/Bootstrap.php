@@ -24,6 +24,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     public function _initAutoload ()
     {
+        // Set default timezone to suppress strict error 
+        date_default_timezone_set(@date_default_timezone_get());
+        
         $resourceLoader = new Zend_Loader_Autoloader_Resource(
             array(
                 'basePath' => APPLICATION_PATH, 
