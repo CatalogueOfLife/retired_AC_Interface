@@ -1,0 +1,128 @@
+<?php
+/**
+ * Annual Checklist Interface
+ *
+ * form.phtml
+ * Form view
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  views/scripts
+ *
+ */
+?>
+<div class="page_header">
+<?php echo $this->formHeader; ?>
+</div>
+<div id="form-box">
+<?php if ($this->form->isErrors()): ?>
+    <div class="errors">
+        <ul>
+            <li><?php echo $this->form->getErrorMessage(); ?></li>
+        </ul>
+    </div>
+<?php endif; ?>
+<div class="form-container">
+<form id="clear_form" name="clear_form" action="<?php echo $this->baseUrl($this->controller.'/'.$this->action); ?>" method="post"><input type="hidden" name="reset" value="1" /></form>
+<?php 
+if($this->mapSearchModuleEnabled == true && $this->controller == 'search' && $this->action == 'distribution'): ?>
+        <script type="text/javascript">
+            dojo.addOnLoad(function() {
+                var menu = new dijit.Menu({
+                    style: "display: none;"
+                });
+                var menuItem1 = new dijit.MenuItem({
+                    label: "<?php echo $this->translate('TDWG_Regions_Level_4');?>",
+                    onClick: function() {
+                		getRegionsInRegionSelect(1);
+                    }
+                });
+                menu.addChild(menuItem1);
+
+                var menuItem2 = new dijit.MenuItem({
+                    label: "<?php echo $this->translate('IHO_Sea_Areas');?>",
+                    onClick: function() {
+                		getRegionsInRegionSelect(2);
+                    }
+                });
+                menu.addChild(menuItem2);
+
+                var menuItem3 = new dijit.MenuItem({
+                    label: "<?php echo $this->translate('World_Exclusive_Economic_Zones');?>",
+                    onClick: function() {
+                		getRegionsInRegionSelect(3);
+                    }
+                });
+                menu.addChild(menuItem3);
+
+                var menuItem4 = new dijit.MenuItem({
+                    label: "<?php echo $this->translate('TDWG_Continents_Level_1');?>",
+                    onClick: function() {
+                		getRegionsInRegionSelect(4);
+                    }
+                });
+                menu.addChild(menuItem4);
+
+
+                var button = new dijit.form.DropDownButton({
+                    label: "<?php echo $this->translate('Choose_layer');?>:",
+                    name: "chooseLayer",
+                    dropDown: menu,
+                    id: "chooseLayer"
+                });
+                dojo.byId("dropdownButtonContainer").appendChild(button.domNode);
+
+                var button = new dijit.form.Button({
+                    label: "<?php echo $this->translate('Clear_form');?>",
+                    onClick: function() {
+                		clearDistributionSearchForm();
+                    }
+                },
+                "clear");
+                
+                var button = new dijit.form.Button({
+                    label: "<?php echo $this->translate('Search');?>",
+                    onClick: function() {
+	            		document.getElementById('searchFormWithMap').submit();
+    	            }
+                },
+                "search");
+
+            });
+        </script>
+<form id="searchFormWithMap" action="<?php echo $this->baseUrl($this->controller.'/'.$this->action); ?>" onsubmit="submitSearchForm" method="post" enctype="application/x-www-form-urlencoded">
+<div id="region_search">
+	<div id="dropdownButtonContainer"></div>
+<!--		<?php echo $this->translate('Choose_layer');?>:<br />
+ 			<select name="regionStandard">
+				<option value="1" onclick="javascript:getRegionsInRegionSelect(1);"><?php echo $this->translate('TDWG_Regions_Level_4');?></option>
+				<option value="2" onclick="javascript:getRegionsInRegionSelect(2);"><?php echo $this->translate('IHO_Sea_Areas');?></option>
+				<option value="3" onclick="javascript:getRegionsInRegionSelect(3);"><?php echo $this->translate('World_Exclusive_Economic_Zones');?></option>
+				<option value="4" onclick="javascript:getRegionsInRegionSelect(4);"><?php echo $this->translate('TDWG_Continents_Level_1');?></option>
+			</select><br />-->
+	<div id="regions"></div>
+	<input type="hidden" name="regions" id="selectedRegions" value="" />
+	<div id="map_canvas"></div>
+</div>
+<div class="search-form">
+	<dd id="submitGroup-element">
+		<fieldset id="fieldset-submitGroup">
+		<dl>
+			<dt id="clear-label">&nbsp;</dt>
+			<dd id="clear-element">
+				<button name="clear" id="clear" onclick="javascript:clearDistributionSearchForm();" style="display:none;"><?php echo $this->translate('Clear_form');?></button>
+			<dt id="search-label">&nbsp;</dt>
+			<dd id="search-element">
+				<input id="search" name="search" type="submit" value="<?php echo $this->translate('Search');?>" style="display:none;">
+			</dd>
+		</dl>
+		</fieldset>
+	</dd>
+</div>
+
+</form>
+<?php else:
+	echo $this->form;
+endif; ?>
+</div>
+</div>

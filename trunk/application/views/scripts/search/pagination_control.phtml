@@ -1,0 +1,62 @@
+<?php
+/**
+ * Annual Checklist Interface
+ *
+ * pagination_control.phtml
+ * Paginator view
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  views/scripts
+ *
+ */
+?>
+<?php
+if ($this->pageCount && $this->pageCount > 1): ?>
+<div class="paginationControl">
+<!-- Previous page link -->
+<?php if (isset($this->previous)): ?>
+  <a class="page-slider" href="<?php echo $this->url(array_merge(array('page' => $this->previous), $this->urlParams)); ?>">
+    &lt;&lt; <?php echo $this->translate('Previous'); ?>
+  </a> |
+<?php endif; ?>
+
+<!-- Show first page if not present -->
+<?php if (!isset($this->pagesInRange[1])): ?>
+    <a href="<?php echo $this->url(array_merge(array('page' => 1), $this->urlParams)); ?>">
+        1
+    </a> |
+    <?php if (!isset($this->pagesInRange[2])): ?>
+    ... |
+    <?php endif; ?>
+<?php endif; ?>
+
+<!-- Numbered page links -->
+<?php foreach ($this->pagesInRange as $page): ?>
+  <?php if ($page != $this->current): ?>
+    <a href="<?php echo $this->url(array_merge(array('page' => $page), $this->urlParams)); ?>">
+        <?php echo $page; ?>
+    </a> |
+  <?php else: ?>
+    <span class="page-current"><?php echo $page;?></span> |
+  <?php endif; ?>
+<?php endforeach; ?>
+
+<!-- Show lastpage if not present -->
+<?php if ($this->pageCount != $page): ?>
+    <?php if (($this->pageCount -1) != $page): ?>
+        ... |
+    <?php endif; ?>
+    <a href="<?php echo $this->url(array_merge(array('page' => $this->pageCount), $this->urlParams)); ?>">
+        <?php echo $this->pageCount; ?>
+    </a> |
+<?php endif; ?>
+
+<!-- Next page link -->
+<?php if (isset($this->next)): ?>
+  <a class="page-slider" href="<?php echo $this->url(array_merge(array('page' => $this->next), $this->urlParams)); ?>">
+     <?php echo $this->translate('Next'); ?> &gt;&gt;
+  </a>
+<?php endif; ?>
+</div>
+<?php endif; ?>

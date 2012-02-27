@@ -1,0 +1,41 @@
+<?php
+/**
+ * Annual Checklist Interface
+ *
+ * websites.phtml
+ * Info - Websites page view
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  views/scripts
+ *
+ */
+?>
+<div class="page_header">
+<?php
+echo $this->translate('Web_sites')?>
+</div>
+<?php
+echo $this->navigator_top;
+?>
+<div class="info_content">
+<p class="field_header">Online version of the Annual Checklist:</p>
+<p>
+<a href="http://www.catalogueoflife.org/annual-checklist" target="_blank">http://www.catalogueoflife.org/annual-checklist</a>
+<!-- <a href="<?php echo $this->app->location; ?>" target="_blank"><?php echo $this->app->location; ?></a> --></p>
+
+<p class="field_header">Latest version of the Catalogue of Life (dynamic editions around a year):</p>
+<p><a href= "http://www.catalogueoflife.org/col" target="_blank">www.catalogueoflife.org/col</a></p>
+
+<p class="field_header">Archives of the Annual Checklists 2000-2011:</p>
+<p><a href= "http://www.catalogueoflife.org/services" target="_blank">www.catalogueoflife.org/services</a></p>
+
+<p class="field_header">Web service:</p>
+<p>Species 2000 provides web services to facilitate automated access to
+the Annual Checklist by computer programs. Please visit
+<a href= "http://www.catalogueoflife.org/services" target="_blank">www.catalogueoflife.org/services</a> for
+more information.</p>
+</div>
+<?php
+echo $this->navigator_bottom;
+?>

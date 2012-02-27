@@ -1,0 +1,293 @@
+<?php
+/**
+ * Annual Checklist Interface
+ *
+ * about.phtml
+ * Info - About page view
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  views/scripts
+ *
+ */
+?>
+<div class="page_header">
+<?php
+echo $this->translate('Info_about')?>
+</div>
+<?php
+echo $this->navigator_top;
+?>
+<div class="info_content">
+<p class="field_header">The Species 2000 &amp; ITIS Catalogue of Life</p>
+<p>
+The Species 2000 &amp; ITIS Catalogue of Life is planned to become a
+comprehensive catalogue of all known species of organisms on Earth.
+Rapid progress has been made recently and this, the twelfth edition of the
+Annual Checklist, contains <b><?php echo $this->stats['species']; ?> </b>
+species. Please note that this is probably just slightly over 2/3 of the world's
+known species. This means that for many groups it continues to be deficient,
+and users will notice that many species are still missing from the Catalogue.</p>
+<p>The present Catalogue is compiled with sectors provided by <?php #echo $this->stats['databases']; ?><b>115</b> taxonomic databases from around the
+world. Many of these contain taxonomic data and opinions from extensive networks
+of specialists, so that the complete work contains contributions from more than
+3,000 specialists from throughout the taxonomic profession. Species 2000 and
+ITIS teams peer review databases, select appropriate sectors and
+integrate the sectors into a single coherent catalogue with a single
+hierarchical classification. It is planned to introduce alternative
+taxonomic treatments and alternative classifications, but an important
+feature is that for those users who wish to use it, a single preferred
+catalogue, based on peer reviews, will continue to be provided.
+</p>
+
+<p>As a new development started in 2010, there has been a change in data assembly procedure and in published editions of the Catalogue. This is part of a process in the EC 4D4Life project to bring the Annual Checklist and Dynamic Checklist into unified workflow – The Catalogue of Life. The CoL Workbench tool has been used for data harvesting and final processing of the Catalogue of Life editions since September 2011.
+</p>
+<p>
+<span class="field_header">&#8226; The Catalogue of Life <span style="font-weight: normal;">(dynamic editions around a year)</span></span>
+<br/>
+These are progressively enhanced editions in what will become a dynamically developing system in 2012, made available online with additional web-services.
+In the 2011 annual cycle, five editions of the Catalogue have been released, on 26th July, 24th October, 5th December 2011, 2nd February (= 2012 Annual Checklist) and 15th March 2012. At all times the latest release is available for online access at <a href = "http://www.catalogueoflife.org/col"  target = "_blank">www.catalogueoflife.org/col</a>. Archives of previous releases can be 
+downloaded from <a href = "http://www.catalogueoflife.org/services"  target = "_blank">www.catalogueoflife.org/services</a>.
+
+</p>
+<p>
+<span class="field_header">&#8226; Annual Checklist <span style="font-weight: normal;">of the Catalogue of Life</span></span>
+<br/>
+Published each April online, as web-services, and on DVD. At all times 
+the latest Annual Checklist is online at <a href = "http://www.catalogueoflife.org/annual-checklist"  target = "_blank">www.catalogueoflife.org/annual-checklist</a>.
+A fixed edition that is published, archived and deposited in public libraries, 
+that can be cited, and that can be used as a common catalogue for comparative 
+purposes by many organisations. A copy is on this DVD, which is distributed free 
+of charge, and identical copies are viewable and downloadable on the website. The 
+archive edition for 2012 is at <a href = "http://www.catalogueoflife.org/annual-checklist/2012"  target = "_blank">www.catalogueoflife.org/annual-checklist/2012</a>. Archived 
+editions can be found by changing the year in the URL (e.g. /2011, /2010 etc.), and downloadable 
+versions and web-services can be found at <a href = "http://www.catalogueoflife.org/services"  target = "_blank">www.catalogueoflife.org/services</a>.
+</p>
+
+<p class="field_header">The Catalogue of Life partnership</p>
+<p>
+In June 2001 the Species 2000 and ITIS organisations, that had previously worked 
+separately, decided to work together to create the Catalogue of Life, now 
+estimated at 1.9 million species (Chapman, 2009). The two organisations remain 
+separate and different in structure. However, by working together in creating a 
+common product, the partnership has enabled them to reduce duplication of 
+effort, make better use of resources, and to accelerate production. The combined 
+Annual Checklist has become well established as a cited reference used for data 
+compilation and comparison. For instance, it is used as the principal taxonomic 
+index in the GBIF and EoL data portals and recognised by the CBD.
+</p>
+
+<p>The scientific policy for the Catalogue of Life programme is developed by the CoL 
+Global Team: Guy Baillargeon (Canada), Frank Bisby (UK), Thierry Bourgoin (France), 
+Jerry Cooper (New Zealand), Mark Costello (New Zealand), David Eades (USA), Dennis Gordon (New Zealand), 
+Hugo Navarrete (Ecuador), Liqiang Ji (China), Heimo Rainer (Austria), Michael Ruggiero (USA), 
+Nicolas Bailly (Philippines), Edward Vanden Berghe (USA), Richard White (UK), with further assistance 
+from the Regional Hubs.</p>
+
+<p class="field_header">About ITIS</p>
+<p>
+<a href="http://www.itis.gov/" target="_blank" title="ITIS" target="_blank">
+    <img class="right-align"
+    src="<?php echo $this->baseUrl(); ?>/images/ITIS.gif"
+    width="142" height="71">
+</a>
+The Integrated Taxonomic Information System (ITIS) is a partnership of federal
+agencies and other organisations from the United States, Canada, and Mexico,
+with data stewards and experts from around the world (see <a
+    href="http://www.itis.gov" target="_blank">www.itis.gov</a>).  
+The ITIS database is an automated reference of scientific and common names of 
+biota of interest to North America . It contains more than 629,800 scientific  
+and common names in all kingdoms, and is accessible via the World Wide Web 
+in English, French, Spanish, and Portuguese (<a
+    href="http://itis.gbif.net" target="_blank">itis.gbif.net</a>).  
+ITIS is a US Federal interagency activity led by USGS and the Smithsonian Institution and an associate member of GBIF.
+</p>
+
+<p>ITIS is managed by Gerald Guala (Director), Thomas Orrell (Deputy Director),
+Michael Ruggiero (Senior Scientific Advisor),
+David Nicolson (Data Development Leader),
+Mike Frame (Information Technology Leader), Roy McDiarmid (Taxonomy
+Leader), Guy Baillargeon (ITIS-Canada Director), and Patricia Koleff
+(SIIT-Mexico Director). They are advised and supported by the ITIS
+Steering Committee and ITIS Data Stewards.
+</p>
+
+<p class="field_header">About Species 2000</p>
+<p>
+<a href="http://www.sp2000.org" target="_blank" title="Species 2000">
+    <img class="right-align"
+    src="<?php echo $this->baseUrl(); ?>/images/sp2000_small.gif"
+    width="142" height="62">
+</a>
+Species 2000 (<a href="http://www.sp2000.org" target = "_blank">www.sp2000.org</a>) is an autonomous federation of taxonomic 
+database custodians, involving taxonomists throughout the world. The goal 
+is to collate a uniform and validated index to the world's known species. 
+Species 2000 is registered as a not-for-profit company limited by guarantee 
+(registered in England No. 3479405) with six directors, and taxonomic database 
+and relevant software organisations from around the world as members. It started 
+from a TDWG Task Group; sponsored by CODATA, IUBS and IUMS; is an associate 
+participant in GBIF, a data provider to EC LifeWatch; and is recognised by UNEP 
+and the CBD. Its Phase II Programme includes EC 4D4Life and i4Life e-infrastructure 
+projects. 4D4Life includes the establishment of a Global Multi-Hub Network with Regional 
+Centres in China, New Zealand, Australia, Brazil and N. America. i4Life includes 
+pipelines for data exchange and checklist harmonisation with GBIF, EBI/NSDC, 
+Barcode of Life, IUCN Red List and EoL.
+</p>
+<p>
+Species 2000 is governed by an elected Board of Directors that deals with legal 
+and financial matters, and that is advised by the CoL Global Team on scientific 
+policy. The Directors are presently: Peter Schalk (Chair, The Netherlands), 
+Guy Baillargeon (Convenor of the CoL Global Team, Canada), 
+Vanderlei Canhos (Brazil), Alex Gray (UK), Keping Ma (China), David Eades (USA) and Frank Bisby † (UK) as Species 2000 Executive Secretary until 25th October 2011.
+</p>
+
+<p class="field_header">Structure of the Catalogue of Life</p>
+<p>The goal is to list every distinct species in each group of
+organisms. At present, some groups are globally complete, some are
+represented by global sectors that are nearing completion, and others
+are represented by partial sectors. The global sectors, whether complete
+or not, are provided by selected, peer reviewed global species databases
+(GSDs - see definition below) in the Species 2000 federation or by
+equivalent global sectors of ITIS. The partial sectors are supplied
+principally by ITIS (N America),but also by NZIB, Species Fungorum and the Australian Faunal Directory, with the result that North American and New Zealand species are sometimes the only species represented for these incomplete groups.
+</p>
+<div class="copyright_notice"><b>Definition of a Global Species Database
+(GSD)</b>
+<p>GSDs aspire to the following properties</p>
+<p>&#8226; Cover one taxon worldwide<br />
+&#8226; Contain a taxonomic checklist of all species within that taxon<br />
+&#8226; Deal with species as taxa, and contain synonymy and taxonomic
+opinion<br />
+&#8226; Have an explicit mechanism for seeking at least one
+responsible/consensus taxonomy, and for applying it consistently<br />
+&#8226; Cross-index significant alternative taxonomies in their synonymy</p>
+</div>
+<p>Each species is listed with an accepted scientific name, a cited reference
+and its family and/or position in the hierarchical classification. Additional
+common names and synonyms may be provided, but these data are not complete, and
+for some species none may exist. The complete list of fields (known as the
+"Catalogue of Life Standard Dataset") is given below:</p>
+<div class="copyright_notice"><b>The Catalogue of Life Standard Dataset (2011 version)</b>
+<p>(1) Accepted scientific name with references<br/>
+    (2) Synonyms with references<br/> 
+    (3) Common names with references<br/> 
+    (4) Classification above genus<br/> 
+    (5) Distribution<br/> 
+    (6) Life Zone<br/>
+    (7) Additional data (optional)<br/> 
+    (8) Source database name and version<br/>
+    (9) Latest taxonomic scrutiny (specialist name and date)<br/> 
+  (10) CoL LSID<br/>
+  (11) Taxon GUID from GSD (not displayed through public interface)<br/>
+  (12) Name GUID (not displayed through public interface)<br/>
+  (13) Link to online resource<br/>
+
+</div>
+<p>More detailed information about the Standard Dataset is available on
+the Species 2000 website (<a href="http://www.sp2000.org" target="_blank">http://www.sp2000.org</a>)</p>
+<p>Each species is linked via the genus and family to the taxonomic
+classification. Above the node of attachment of each data sector this
+classification has been agreed by Species 2000 and ITIS as a practical
+management tool to provide access to the Catalogue of Life. The top levels 
+of this management classification were set in 2005, as the <i>CoL Taxonomic 
+Classification Edition 1</i>, and used for the six years 2005 - 2010. 
+A second edition has now been prepared by the CoL Hierarchy Panel, 
+and this year <i>Part A</i> is released for the Animalia and Fungi, with <i>Parts B</i> 
+and <i>C</i> still to follow.</p>
+<p>
+The CoL Hierarchy Panel is composed of experts who make recommendations on the higher 
+level classification, led by Michael Ruggiero, Dennis Gordon, Nicolas Bailly and 
+David Nicolson. Please read the draft discussion document &quot;Towards a management 
+hierarchy (classification) for the Catalogue of Life&quot; by Dennis Gordon, appended 
+to this edition of the Annual Checklist 
+(<a href="hierarchy">www.catalogueoflife.org/annual-checklist/2012/info/hierarchy</a>).
+</p>
+
+<p>
+This <i>CoL Taxonomic Classification Edition 2 Part A</i> re-arranges the Fungi 
+following the 10th edition of the Dictionary of the 
+Fungi (Kirk, Cannon, Minter & Stalper, 2008 - CABI). We are grateful to 
+Paul Kirk for his work with the CoL Hierarchy Panel.
+</p>
+
+<p>
+This <i>CoL Taxonomic Classification Edition 2 Part A</i> re-arranges the phyla
+ of Animalia in a new system, following the recommendations of the CoL Hierarchy Panel,
+ with a detailed arrangement carried out by Michael Ruggiero, Dennis Gordon and 
+Nicolas Bailly, with technical assistance from David Nicolson.
+</p>
+
+<p>Where available from the suppliers, infraspecific taxa such as
+subspecies and varieties have also been included but this coverage is
+variable between taxonomic sectors.</p>
+<p>Where possible, a web link back to the supplier's own database is
+provided at the bottom of each species detail page.</p>
+
+<p class="field_header">CoL Taxon Identifiers (Taxon LSIDs)</p>
+<p>The Catalogue of Life programme started to issue permanent CoL Taxon
+Identifiers in the 2008 Annual Checklist. Every taxon recognised in the
+Catalogue, including species and higher taxa, is given a globally unique
+identifier (GUID) using the Life Science Identifier (LSID) system (<a
+    href="http://sourceforge.net/projects/lsids" target="_blank">http://sourceforge.net/projects/lsids</a>).
+</p>
+<p>Where a taxon record remains unchanged in this <?php echo $this->app->edition; ?>
+ edition, it carries the same LSID as in 2009, except that the revision part changes
+from AC2009 to AC2010. New or changed taxa in the <?php echo $this->app->edition; ?>
+ edition receive completely new LSIDs. This will enable the introduction in the
+next few years of change tracking between editions, so that relationships to
+taxa in previous editions are recorded, and web-services to alert users to
+changes in name, classification, circumscription or data. Technical
+users are already able to inspect changes in the metadata provided by
+the CoL LSID Resolution Service, and to build their own services using
+them. For more information, see <a href="http://www.catalogueoflife.org/lsid" target="_blank">
+http://www.catalogueoflife.org/lsid</a>. LSIDs in the <?php echo $this->app->edition; ?>
+ Annual Checklist have been generated by Richard White, Cardiff University, UK.</p>
+<p>Our LSIDs are long strings of symbols intended only for computer
+usage. However, the user interface does show LSID buttons (click, and
+the LSID is displayed in full), and the LSID is shown at the base of
+each Species Details screen. This is done so that a user can copy and
+paste the LSIDs into other software or services: it is NOT intended for
+them to be read or typed.</p>
+<p class="field_header">Functionality of the Catalogue of Life</p>
+<p>&#8226; Species (and infraspecific taxa) can be located either by
+searching by name or by tracking down through the hierarchical
+classification.<br />
+&#8226; Searching by name can be done using accepted scientific name,
+synonym or common name. Automatic synonymic and common name indexing
+takes the user directly to the species under its accepted name. The
+search can use part names, or be restricted to complete words.<br />
+&#8226; Tracking down the tree or classification uses accepted names for
+taxa.<br />
+&#8226; On each species details page the relevant higher taxa are
+listed, and provide a link to the relevant node of the hierarchical
+classification.<br />
+&#8226; The species details pages link to the source database, usually
+showing further information.<br />
+&#8226; A full species list for each higher taxon in the classification can be accessed via option Browse Taxonomic Classification
+</p>
+
+
+<p>
+During the 4D4Life project (2009-2012), functionality of the Catalogue of Life interface has been enhanced (interface version 1.8):<br /><br />
+&#8226; Number of species for each taxon in the Catalogue can be found in the Taxonomic Tree. We are planning to add species estimation figures and display completeness of the checklists by taxa in next editions of the Catalogue.<br />
+&#8226; Names of supplier databases are visible with each taxon in the Taxonomic Tree.<br />
+&#8226; Users now can leave a feedback for data providers and editors with each taxon in the tree.<br />
+&#8226; Thumbnail images are shown with kingdoms and phyla in the Tree.<br />
+&#8226; Map of a species distribution is shown on the species page where distribution data are in an appropriate state.<br />
+&#8226; The operational menu of the Catalogue now can be shown in different languages. The list of available languages will be expanded in next editions.<br />
+&#8226; A standard bibliographic citation for each contributing database can be now copied and passed from <a
+    href="www.catalogueoflife.org/annual-checklist/info/cite" target="_blank">How To Cite page</a>
+</p>
+
+
+<p>The DVD contains the Annual Checklist dataset and the software
+identical to that used on the Web. The structure of the Annual Checklist
+database has been optimised for performance with the user interface but
+is not ideal for importing to other systems. The content may be copied
+subject to the copyright conditions given on the inside cover of this
+booklet.</p>
+
+</div>
+<?php
+echo $this->navigator_bottom;
+?>

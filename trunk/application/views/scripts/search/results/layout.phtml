@@ -1,0 +1,73 @@
+<?php
+/**
+ * Annual Checklist Interface
+ *
+ * layout.phtml
+ * Search results page layout
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  views/scripts
+ *
+ */
+?>
+<?php
+$paginator = $this->paginationControl(
+    $this->paginator,
+    'Sliding',
+    'search/pagination_control.phtml',
+    array('urlParams' => $this->urlParams)
+);
+?>
+<div class="page_header">
+<?php echo $this->searchString; ?>
+</div>
+<div class="results_header">
+<div class="results_counter" align="right">
+<?php echo $this->translate('Records_found'); ?>:
+<?php echo number_format($this->paginator->getTotalItemCount()); ?>
+<?php if ($this->fuzzy && (count($this->data) > 0)): ?>
+    &nbsp;&nbsp;-&nbsp;&nbsp;<?php echo $this->translate('Names_suggestions'); ?>
+<?php endif; ?>
+<?php if ($this->paginator instanceof Eti_Paginator) : ?>
+    <?php
+    echo ' (' . number_format($this->paginator->getCountColumn('species')) . ' ' .
+        $this->translate('species') . ', ' .
+        number_format($this->paginator->getCountColumn('infraspecies')) . ' ' .
+        ($this->paginator->getCountColumn('infraspecies') == 1 ?
+            $this->translate('infraspecies') . ')' :
+            $this->translate('infraspecific_taxa') . ')');
+    ?>
+<?php endif; ?>
+</div>
+<?php if ($this->paginator->getTotalItemCount() > 0): ?>
+<div class="results_form"><?php echo $this->form; ?></div>
+<?php endif; ?>
+<?php if ($this->paginator->getTotalItemCount() > 0 || $this->fuzzy): ?>
+</div>
+<div class="page_links">
+<?php if ($this->exportable): ?>
+<a href="<?php echo $this->baseUrl() . '/' . $this->controller . '/export';?>">
+    <?php echo $this->translate('Export_search_results'); ?>
+</a> |
+<?php endif;?>
+<?php if (count($this->data) > 0): ?>
+<a href="<?php echo $this->form->getAction(); ?>">
+    <?php echo $this->translate('New_search'); ?>
+</a>
+<?php endif;?>
+</div>
+<?php echo $paginator; ?>
+<?php echo $this->results; ?>
+<?php echo $paginator; ?>
+<?php else: echo '</div>'; endif; ?>
+<div class="page_links">
+<?php if ($this->exportable): ?>
+<a href="<?php echo $this->baseUrl() . '/' . $this->controller . '/export';?>">
+    <?php echo $this->translate('Export_search_results'); ?>
+</a> |
+<?php endif;?>
+<a href="<?php echo $this->form->getAction(); ?>">
+    <?php echo $this->translate('New_search'); ?>
+</a>
+</div>

@@ -1,0 +1,62 @@
+<?php
+/**
+ * Annual Checklist Interface
+ *
+ * reference.phtml
+ * Reference details view
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  views/scripts
+ *
+ */
+?>
+<div class="page_header">
+<?php printf($this->title) ?>
+</div>
+<?php
+if (is_array($this->references)):
+?>
+<p class="preface"><?php echo $this->preface; echo count($this->references) > 0 ? ':' : ''; ?></p>
+<?php foreach ($this->references as $ref): ?>
+<?php $rowClass = 'odd'; ?>
+<table class="details-table">
+<?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Author'); ?>:</th>
+        <td><?php echo ($ref['authors'] == '' ? '&#150;' : $ref['authors']); ?></td>
+    </tr>
+<?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Year'); ?>:</th>
+        <td><?php echo ($ref['year'] == '' ? '&#150;' : $ref['year']); ?></td>
+    </tr>
+<?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Title'); ?>:</th>
+        <td><?php echo ($ref['title'] == '' ? '&#150;' : $ref['title']); ?></td>
+    </tr>
+<?php if (isset($ref['text'])): ?>
+<?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Source'); ?>:</th>
+        <td><?php echo ($ref['text'] == '' ? '&#150;' : $ref['text']); ?></td>
+    </tr>
+<?php endif; ?>
+</table>
+<?php endforeach;
+else:
+?>
+<p><?php echo $this->translate('No_references_found'); ?></p>
+<?php
+endif;
+?>
+<br/>
+<div class="page_links">
+<a href="javascript:history.back()">
+    <?php echo $this->translate('Back_to_last_page'); ?>
+</a> |
+<a href="<?php echo $this->baseUrl() . '/' . $this->latestSearch; ?>">
+    <?php echo $this->translate('New_search'); ?>
+</a>
+</div>

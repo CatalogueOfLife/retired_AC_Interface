@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         syntaxCheck="true"           
+         stopOnFailure="false">
+    <testsuite name="AC_Interface Test Suite">
+        <directory>tests</directory>
+    </testsuite>
+    <filter>
+	    <whitelist>
+	        <directory suffix=".php">.</directory>      
+	        <exclude>
+	            <directory suffix=".php">library/Zend</directory>
+	            <directory suffix=".php">public/scripts</directory>
+	        </exclude>
+	  </whitelist>
+	</filter>
+</phpunit>

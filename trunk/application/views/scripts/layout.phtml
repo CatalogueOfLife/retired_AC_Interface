@@ -1,0 +1,353 @@
+<?php
+/**
+ * Annual Checklist Interface
+ *
+ * layout.phtml
+ * Defines the global layout
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  views/scripts
+ *
+ */
+?>
+<?php echo $this->doctype();?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language ?>" lang="<?php echo $this->language ?>">
+<head>
+    <?php
+    echo $this->headMeta();
+    echo $this->headTitle();
+    // styles
+    $this->headLink()->setStylesheet(
+        $this->baseUrl() . '/styles/style.css', 'all'
+    );
+    $this->headLink()->appendStylesheet(
+        $this->baseUrl() . '/styles/style-ie6.css', 'all', 'IE 6'
+    );
+    $this->headLink()->appendStylesheet(
+        $this->baseUrl() . '/styles/style-ie7.css', 'all', 'IE 7'
+    );
+    echo $this->headLink();
+    if ($this->dojo()->isEnabled()) {
+        $this->dojo()->setLocalPath(
+            $this->baseUrl() . JS_PATH . '/library/dojo/dojo/dojo.js'
+        )
+        // forcing the locale
+        ->setDjConfigOption('locale', 'en')
+        ->addStyleSheetModule('dijit.themes.tundra');
+   	    echo $this->dojo();
+    }
+    $this->headScript()->appendFile(
+        $this->baseUrl() . JS_PATH . '/main.js'
+    );
+    if ($this->imagesModuleAjaxEnabled) {
+        $this->headScript()->appendFile(
+            $this->baseUrl() . JS_PATH . '/ajax.js'
+        );
+    }
+    echo $this->headScript();
+    ?>
+
+<?php if($this->mapModuleEnabled == true || $this->mapInTreeModuleEnabled == true || $this->mapSearchModuleEnabled == true ): ?>
+<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js"
+        djConfig="parseOnLoad: true">
+dojo.require("dijit.form.Button");
+dojo.require("dijit.Menu");
+</script>
+        <script type="text/javascript">
+            dojo.require("dijit.form.Button");
+            dojo.require("dijit.Menu");
+            dojo.require("dijit.form.CheckBox");
+        </script>
+        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/tundra/tundra.css"
+        />
+<?php endif; ?>
+
+<script type="text/javascript">var cookieExpiration = <?php echo (round($this->cookieExpiration/86400)); ?></script>
+<?php if(($this->mapModuleEnabled == true || $this->mapInTreeModuleEnabled == true || $this->mapSearchModuleEnabled == true) &&
+	($this->controller == 'details' && $this->action == 'species') || ($this->controller == 'browse' && $this->action == 'tree')
+	|| ($this->controller == 'search' && $this->action == 'distribution')): ?>
+<script type="text/javascript">
+
+<?php if($this->controller == 'browse' && $this->action == 'tree'): ?>
+var mapInTaxonomicTree = <?php if($this->mapInTreeModuleEnabled == true) echo 1; else echo 0; ?>;
+<?php endif; ?>
+var regionStandard = 1;
+var region = Array();
+var polygonSet = Array();
+var baseUrl = "<?php echo $this->baseUrl(); ?>";
+function createPolygonsOnMap() {
+	resetPolygonsOnMap();
+	for (var i in region[regionStandard]) {
+		var polygon = createGeoJsonPolygon_nojquery(region[regionStandard][i],regionStandard,true,i,region[regionStandard][i].name);
+		polygon.setMap(map);
+		polygonSet[i] = polygon;
+	 	google.maps.event.addListener(polygon, 'mouseover', areaMouseOver);
+	 	google.maps.event.addListener(polygon, 'mouseout', areaMouseOut);
+	 	google.maps.event.addListener(polygon, 'click', areaClick);
+	}
+}
+
+function resetPolygonsOnMap() {
+	map.overlayMapTypes.unbindAll();
+	highligthedAreas = Array();
+}
+
+highligthedAreas = Array();
+function areaMouseOut() {
+	if(highligthedAreas[this.id] == null) {
+		this.fillOpacity = 0;
+		this.strokeOpacity = 0;
+		this.setMap(map);
+	}
+	var infoWindow = document.getElementById('infoWindow_'+this.id);
+	infoWindow.parentNode.removeChild(infoWindow);
+}
+
+function areaMouseOver() {
+	/*mapInfoWindow.setContent(this.name);
+	mapInfoWindow.setPosition(new google.maps.LatLng(0,0));
+	mapInfoWindow.open(map);*/
+	if(highligthedAreas[this.id] == null) {
+		this.fillOpacity = 0;
+		this.strokeOpacity = 1;
+		this.setMap(map);
+	}
+	var infoWindow = document.createElement('div');
+	infoWindow.className = 'infoWindow';
+	infoWindow.id = 'infoWindow_' + this.id;
+	infoWindow.innerHTML = this.name;
+	document.getElementById('map_canvas').appendChild(infoWindow);
+}
+
+function areaClick() {
+	highLightArea(this.id);
+}
+
+function getPolygonById(id) {
+	for(var i in polygonSet) {
+		if(polygonSet[i].id == id) {
+			return polygonSet[i];
+		}
+	}
+	return false;
+}
+
+function highLightArea(id) {
+	var polygon = getPolygonById(id);
+	if(highligthedAreas[id] != null) {
+		document.getElementById('region_'+id).checked = false;
+		polygon.fillOpacity = 0.0;
+		polygon.strokeOpacity = 0;
+		polygon.setMap(map);
+		highligthedAreas[id] = null;
+	} else {
+		document.getElementById('region_'+id).checked = true;
+		polygon.fillOpacity = 0.5;
+		polygon.strokeOpacity = 0;
+		polygon.setMap(map);
+		highligthedAreas[id] = true;
+	}
+	var hidden = document.getElementById('selectedRegions');
+	hidden.value = '';
+	var first = true;
+	for(var i in highligthedAreas) {
+		if(typeof(highligthedAreas[i]) != "undefined" && highligthedAreas[i] != null) {
+			if(first == false) {
+				hidden.value = hidden.value + ',' + i;
+			} else {
+				hidden.value = i;
+				first = false;
+			}
+		}
+	}
+}
+</script>
+<?php if(($this->mapSearchModuleEnabled == true) && 
+	$this->controller == 'search' && $this->action == 'distribution' ): ?>
+<script type="text/javascript" src="<?php echo $this->baseUrl('/scripts/library/ACI/polygons/iho_sea_areas.js');?>"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl('/scripts/library/ACI/polygons/tdwg_continents_level_1.js');?>"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl('/scripts/library/ACI/polygons/tdwg_regions_level_4.js');?>"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl('/scripts/library/ACI/polygons/world_exclusive_economic_zones.js');?>"></script>
+<?php endif; ?>
+<script type="text/javascript" src="<?php echo $this->baseUrl('/scripts/maps.js');?>"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+<script type="text/javascript">
+dojo.require("dijit.ProgressBar");
+dojo.require("dojo.parser");
+    var map;
+    var mapInfoWindow;
+    function initializeMap() {
+<?php if($this->mapModuleEnabled == true && $this->controller == 'details' &&
+	$this->action == 'species' && $this->regionsCount > 0): ?>
+    	createMap();
+        dojo.addOnLoad(showRegions);
+<?php elseif($this->mapSearchModuleEnabled == true && $this->controller == 'search' &&
+	$this->action == 'distribution'):?>
+		getRegionsInRegionSelect(regionStandard);
+		dojo.addOnLoad(createPolygonsOnMap);
+<?php endif; ?>
+		mapInfoWindow = new google.maps.InfoWindow();
+    }
+
+    function createMap() {
+        var newOptions = [ { stylers: [ { visibility: "off" }, { saturation: -100 }, { lightness: -50 } ] },{ featureType: "water", elementType: "geometry", stylers: [ { visibility: "on" }, { hue: "#0000ff" }, { lightness: 35 }, { gamma: 5.01 }, { saturation: 100 } ] },{ featureType: "administrative.country", elementType: "geometry", stylers: [ { visibility: "on" }, { invert_lightness: true } ] },{ featureType: "administrative.province", elementType: "geometry", stylers: [ { visibility: "on" }, { invert_lightness: true }, { lightness: 100 } ] } ];
+        var myOptions = {
+        	minZoom: 1,
+            //don't run out of borders
+            zoom: 1,
+            center: new google.maps.LatLng(27,0),
+            mapTypeControl: 0,
+            streetViewControl: 0,
+            mapTypeId: google.maps.MapTypeId.ROADMAP, //ROADMAP, SATELLITE, TERRAIN
+            zoomControlOptions: {
+                style: google.maps.ZoomControlStyle.SMALL
+            }
+        };
+        map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
+        map.setOptions({styles: newOptions});
+    }
+    google.maps.event.addDomListener(window, 'load', initializeMap);
+</script>
+<?php endif; ?>
+</head>
+<body class="tundra">
+    <?php if ('standalone' == APPLICATION_ENV): ?>
+    <div class="standalone-icon">
+        <img src="<?php echo $this->baseUrl(); ?>/images/dvd-icon.png"/>
+    </div>
+    <?php endif; ?>
+    <div id="header">
+        <h1 class="title"><?php printf($this->translate('title'), $this->app->edition); ?></h1>
+    </div>
+    <div id="languagebar">
+    <?php if(count($this->interfaceLanguages) > 1): ?>
+        <?php foreach ($this->interfaceLanguages as $iso => $language): ?> 
+            <span class="languagebarItem<?php echo $this->language == $iso ? ' selectedLanguagebarItem' : ''; ?>"><a
+            	href="javascript:changeLanguage('<?php echo $iso; ?>');" title="<?php echo $language['original_name']; ?>"><?php echo $language['english_name']; ?></a>
+            </span>
+        <?php endforeach; ?>
+    <?php endif; ?>
+    </div>
+    <div id="menu" class="view">
+        <span id="log"></span>
+        <ul id="nav">
+          <li class="<?php echo $this->controller == 'browse' ?
+                'menuselected' : ''; ?>">
+            <a href="<?php echo $this->baseUrl() ?>/browse/tree">
+            <img
+                src="<?php echo $this->baseUrl(); ?>/images/Icon_Browse.gif"
+                alt="<?php echo $this->translate('Browse');?>"/>
+            <span><?php echo $this->translate('Browse'); ?></span></a>
+            <ul>
+              <li class="<?php echo $this->action == 'tree' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/browse/tree">
+              <?php echo $this->translate('Taxonomic_tree'); ?></a></li>
+              <li class="<?php echo $this->action == 'classification' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/browse/classification">
+              <?php echo $this->translate('Taxonomic_classification'); ?></a></li>
+            </ul>
+          </li>
+          <li class="<?php echo $this->controller == 'search' ?
+                'menuselected' : ''; ?>">
+            <a href="<?php echo $this->baseUrl(); ?>/search/all">
+            <img src="<?php echo $this->baseUrl(); ?>/images/Icon_Search.gif"
+                 alt="<?php echo $this->translate('Search'); ?>"/>
+            <span><?php echo $this->translate('Search'); ?></span></a>
+            <ul>
+              <li class="<?php echo $this->action == 'all' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/all">
+              <?php echo $this->translate('Search_all_names'); ?></a></li>
+              <li class="<?php echo $this->action == 'scientific' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/scientific">
+              <?php echo $this->translate('Search_scientific_names'); ?></a></li>
+              <li class="<?php echo $this->action == 'common' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/common">
+              <?php echo $this->translate('Search_common_names'); ?></a></li>
+              <li class="<?php echo $this->action == 'distribution' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/distribution">
+              <?php echo $this->translate('Search_distribution'); ?></a></li>
+            </ul>
+          </li>
+          <li class="<?php echo $this->controller == 'info' ?
+                'menuselected' : ''; ?>">
+            <a href="<?php echo $this->baseUrl(); ?>/info/about">
+            <img src="<?php echo $this->baseUrl(); ?>/images/Icon_Info.gif"
+                 alt="<?php echo $this->translate('Info'); ?>"/>
+            <span><?php echo $this->translate('Info'); ?></span></a>
+            <ul>
+              <li class="<?php echo $this->action == 'about' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/about">
+                  <?php echo $this->translate('Info_about'); ?></a></li>
+              <li class="<?php echo $this->action == 'special' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/special">
+                  <?php printf($this->translate('Info_special_edition'),
+                      $this->app->edition); ?></a></li>
+              <li class="<?php echo $this->action == 'ac' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/ac">
+                  <?php printf($this->translate('Info_annual_checklist'),
+                      $this->app->edition); ?></a></li>
+              <li class="<?php echo $this->action == 'databases' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/databases">
+                  <?php echo $this->translate('Source_databases'); ?></a></li>
+<?php if ($this->statisticsModuleEnabled): ?>
+              <li class="<?php echo $this->action == 'total' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/totals">
+                  <?php echo $this->translate('Species_totals'); ?></a></li>
+<?php endif; ?>
+              <li class="<?php echo $this->action == 'hierarchy' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/hierarchy">
+                  <?php echo $this->translate('Management_hierarchy'); ?></a></li>
+              <li class="<?php echo $this->action == 'copyright' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/copyright">
+                <?php echo $this->translate('Copyright_reproduction_sale'); ?></a></li>
+              <li class="<?php echo $this->action == 'cite' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/cite">
+                <?php echo $this->translate('Cite_work'); ?></a></li>
+              <li class="<?php echo $this->action == 'websites' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/websites">
+                <?php echo $this->translate('Web_sites'); ?></a></li>
+              <li class="<?php echo $this->action == 'contact' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/contact">
+                <?php echo $this->translate('Contact_us'); ?></a></li>
+              <li class="<?php echo $this->action == 'acknowledgements' ?
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/info/acknowledgements">
+                <?php echo $this->translate('Acknowledgments'); ?></a></li>
+            </ul>
+          </li>
+<!--      <?php if(count($this->interfaceLanguages) > 1): ?>
+            <li class="">
+            <a href="javascript:void(0);">
+            <img
+                src="<?php echo $this->baseUrl(); ?>/images/Icon_Language.gif"
+                alt="<?php echo $this->translate('Language');?>"/>
+            <span><?php echo $this->translate('Language'); ?></span></a>
+            <ul>
+                 <?php foreach ($this->interfaceLanguages as $iso => $language): ?> 
+                      <li class="<?php echo $this->language == $iso ? 'menuselected' : ''; ?>">
+                      <a href="javascript:changeLanguage('<?php echo $iso; ?>');"><?php echo $language; ?></a></li>
+                 <?php endforeach; ?>
+            </ul>
+            </li>
+          <?php endif; ?> -->
+        </ul>
+    </div>
+    <div id="right-col">
+        <div id="content" class="view <?php echo isset($this->contentClass) ? $this->contentClass : ''; ?>">
+            <?php echo $this->layout()->content; ?>
+            <?php echo $this->inlineScript(); ?>
+        </div>
+        <div id="footer">
+            <?php echo '<span class="app-name">' . $this->app->name . '</span> ' .
+                '<span class="app-version">v' . $this->app->version .
+                ' r' . $this->app->revision . '</span> ' .
+                sprintf(
+                    $this->translate('developed_by'),
+                    '<a href="http://www.eti.uva.nl">ETI BioInformatics</a>'
+                );
+            ?>
+        </div>
+    </div>
+    <?php echo $this->googleAnalytics($this->googleAnalyticsTrackerId); ?>
+</body>
+</html>

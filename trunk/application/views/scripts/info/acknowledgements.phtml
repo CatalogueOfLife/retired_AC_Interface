@@ -1,0 +1,39 @@
+<?php
+/**
+ * Annual Checklist Interface
+ *
+ * acknowledgements.phtml
+ * Info - Acknowledgements page view
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  views/scripts
+ *
+ */
+?>
+<div class="page_header">
+<?php
+echo $this->translate('Acknowledgements')?>
+</div>
+<?php
+echo $this->navigator_top;
+?>
+<div class="info_content">
+<p>
+The Catalogue of Life Programme thanks all those organisations that have contributed to the funding. In particular it thanks the European Commission DG-INFSO for our own two e-Infrastructure Projects – 4D4Life (2009-2012) and i4Life (2010-2013) – as well as contributions via EC BHL-Europe and EC OpenUp! We further thank US Geological Survey, the Smithsonian Institution and EoL in the USA, University of Reading (Centre for Plant Diversity & Systematics) and Cardiff University in the UK, the SeaLifeBase Project and FIN in the Philippines, and ETI Bioinformatics in the Netherlands.
+</p>
+
+<p>
+The Catalogue of Life Programme thanks all of the 100 organisations that continue to contribute taxonomic expertise. We acknowledge all of the people from the GSD community who provided us with valuable support in data export and transformation this year: Dagmar Triebel, Adrian Hine, Bart Vanhoorne, Angel Anta, Michael Malicky, Heimo Rainer; as well as those acknowledged in the preceding years: Guy Baillargeon, Vanderlei Perez Canhos, Rosario Dioguardi, Richard Flood, Johannes Goll, Anton Güntsch, Sergey Jezniakowsky, Alexander Kroupa, Antonella Linguanti, Silvia Lusa, Lisa Walley and Markus Weiss.
+</p>
+
+<p>
+We thank Richard White and Francisco Quevedo Fernandez for their work on the LSID Resolver, and Rebecca Mann at the Secretariat for distributing DVD copies around the world and handling requests.
+</p>
+
+<div class="logobar">
+    <img src="<?php echo $this->baseUrl();?>/images/ac-logobar.png" alt="logos" usemap="#Map" />
+</div>
+
+</div>
+<?php echo $this->navigator_bottom; ?>

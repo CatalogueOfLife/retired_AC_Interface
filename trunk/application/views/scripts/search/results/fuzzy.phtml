@@ -1,0 +1,33 @@
+<?php
+/**
+ * Annual Checklist Interface
+ *
+ * fuzzy.phtml
+ * Search fuzzy results page view
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  views/scripts
+ *
+ */
+?>
+<table class="results">
+<?php $rowClass = "even"; ?>
+<?php $item = 1 ?>
+<?php for ($i = 0; $i < count($this->data); $i++): ?>
+    <?php if ($item == 1): ?>
+        <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+        <tr class="<?php echo $rowClass; ?>">
+    <?php endif; ?>    
+    <td <?php if (($item == 1) && ($i == (count($this->data) - 1))) echo 'colspan="3"'; ?>
+        <?php if (($item == 2) && ($i == (count($this->data) - 1))) echo 'colspan="2"'; ?>>
+        <a href="<?php echo $this->url(array_merge($this->urlParams, array('key' => $this->data[$i]['taxon']))); ?>">
+            <?php echo $this->data[$i]['taxon']; ?>
+        </a>
+    </td>
+    <?php if ($item == 3 || ($i == (count($this->data) - 1))): ?>
+        </tr>
+    <?php endif; ?>
+    <?php if ($item < 3) $item++; else $item = 1; ?>
+<?php endfor; ?>
+</table>

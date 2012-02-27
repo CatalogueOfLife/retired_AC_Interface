@@ -1,0 +1,348 @@
+<?php
+/**
+ * Annual Checklist Interface
+ *
+ * species.phtml
+ * Species details view
+ *
+ * @category    ACI
+ * @package     application
+ * @subpackage  views/scripts
+ *
+ */
+?>
+
+<script>
+var regions = [<?php echo $this->regions; ?>];
+<?php echo $this->jsTranslation; ?>
+</script>
+
+<div class="page_header">
+<?php printf($this->title, '"' . $this->key . '"') ?>
+</div>
+<?php
+if ($this->species instanceof ACI_Model_Table_Taxa):
+//print_r($this->species);
+?>
+<div class="wrapLogo"><a href="<?php echo $this->baseUrl() .
+    '/details/database/id/' . $this->species->dbId; ?>">
+    <img
+        src="<?php echo $this->baseUrl() . $this->species->dbImage; ?>"
+        alt="<?php echo $this->species->dbName; ?>"
+        title="<?php echo $this->species->dbName; ?>"
+/></a></div>
+<?php if ($this->species->preface): ?>
+<p class="preface"><?php echo $this->species->preface; ?></p>
+<?php endif; ?>
+<table class="details-table">
+<?php $rowClass = "even"?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Accepted_scientific_name'); ?>:</th>
+        <td>
+            <table>
+                <tr>
+                    <td><?php echo $this->species->name; ?></td>
+                    <td align="right">
+                    <?php if ($this->species->references): ?>
+                    <a href="<?php echo $this->baseUrl() .
+                        '/details/reference/species/' . $this->species->id; ?>"><img
+                        src="<?php echo $this->baseUrl() . '/images/book.gif'; ?>"
+                        alt="<?php echo $this->species->referencesLabel; ?>"
+                        title="<?php echo $this->species->referencesLabel; ?>"/>
+                    </a>
+                    <?php endif; ?>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd"); ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Synonyms'); ?>:</th>
+        <td>
+        <?php if (is_array($this->species->synonyms)): ?>
+            <table>
+                <?php foreach ($this->species->synonyms as $synonym): ?>
+                    <tr>
+                        <td><?php
+                        echo $synonym['name'] .
+                        ' (' . $this->translate($synonym['status']) . ')';
+                        ?>
+                        </td>
+                        <td align="right">
+                        <?php if ($synonym['num_references']): ?>
+                        <a href="<?php echo $this->baseUrl() .
+                              '/details/reference/synonym/' . $synonym['id']; ?>"><img
+                            src="<?php echo $this->baseUrl() . '/images/book.gif'; ?>"
+                            alt="<?php echo $synonym['referenceLabel']; ?>"
+                            title="<?php echo $synonym['referenceLabel'] ?>"/>
+                        </a>
+                        <?php endif; ?>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                    </table>
+                <?php
+                else: echo '-'; endif;
+                ?>
+        </td>
+    </tr>
+<?php if ($this->species->rank != ACI_Model_Table_Taxa::RANK_INFRASPECIES &&
+    $this->species->infraspecies): ?>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd"); ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Infraspecies'); ?>:</th>
+        <td><?php foreach ($this->species->infraspecies as $infraspecies):
+            echo '<a href="' . $this->baseUrl() . $infraspecies['url'] . '">' .
+            $infraspecies['name'] . '</a><br />';
+        endforeach;
+        ?></td>
+    </tr>
+<?php endif; ?>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Common_names'); ?>:</th>
+        <td><?php if (is_array($this->species->commonNames)): ?>
+            <table id="common-names">
+                <tr>
+                    <th class="common-name"><?php echo $this->translate('Common_name'); ?></th>
+                    <th class="language"><?php echo $this->translate('Language'); ?></th>
+                    <th class="country"><?php echo $this->translate('Country'); ?></th>
+                    <th class="trailing"></th>
+                </tr>
+            <?php $languageGroup = ($rowClass == "odd" ? "odd" : "even");
+                $previousLanguage = ''; ?>
+            <?php foreach ($this->species->commonNames as $common): ?>
+                <?php if ($previousLanguage != $common['language'])
+                {
+                    if ($languageGroup == "odd") $languageGroup = "even"; else $languageGroup = "odd"; } ?>
+                <tr class="language<?php echo $languageGroup; ?>">
+                    <td><?php echo $common['common_name']; ?></td>
+                    <td><?php echo $common['language'] ? $common['language'] : '-'; ?></td>
+                    <td><?php echo $common['country'] ? $common['country'] : '-'; ?></td>
+                    <td align="right">
+                        <?php if ($common['references']): ?>
+                        <a href="<?php echo $this->baseUrl() .
+                          '/details/reference/id/' . $common['references']; ?>">
+                        <img
+                        src="<?php echo $this->baseUrl() . '/images/book.gif'; ?>"
+                        alt="<?php echo $this->translate('Click_here_to_show_the_literature_reference'); ?>"
+                        title="<?php echo $common['referenceLabel']; ?>"/>
+                        </a>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <?php $previousLanguage = $common['language']; ?>
+            <?php endforeach; ?>
+            </table>
+        <?php else: echo $this->species->commonNames; endif; ?></td>
+    </tr>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Classification'); ?>:</th>
+        <td><?php if (is_array($this->species->hierarchy)): ?>
+            <table id="taxonomic-classification">
+                <?php
+                $latest = count($this->species->hierarchy) - 1;
+                $i = 0;
+                foreach ($this->species->hierarchy as $hierarchy):
+                if ($i != $latest):
+                ?>
+                <tr>
+                    <td class="rank"><?php echo $hierarchy['taxon'] == '' ?
+                        "" : $this->translate(strtoupper("RANK_" . $hierarchy['taxon'])); ?></td>
+                    <td class="taxon"><a href="<?php echo $this->baseUrl() . '/browse/tree/id/' .
+                      $hierarchy['record_id']; ?>">
+                        <?php echo in_array(strtolower($hierarchy['taxon']), array('species', 'genus')) ?
+                         '<i>'.(strtolower($hierarchy['taxon']) == 'genus' ? ucfirst($hierarchy['name']) : 
+                        		ucfirst($lastHierachy['name']) . ' ' . strtolower($hierarchy['name'])).
+                         '</i>' : ucfirst($hierarchy['name']); $lastHierachy = $hierarchy ?>
+                        </a></td>
+                    <?php if ($this->creditsModuleEnabled) : ?>
+                        <td class="rank">
+                        <?php if (!empty($hierarchy['sourceDbId'])) : 
+                            echo '<a href="'.$this->baseUrl(). '/details/database/id/' . 
+                            $hierarchy['sourceDbId'] . '">'.$hierarchy['sourceDb'].'</a>';
+                        else:
+                            echo $hierarchy['sourceDb'];
+                        endif; ?>
+                        </td>
+                    <?php endif; ?>
+                    <td>
+                        <div class="lsid-selector collapsed">
+                            <div class="lsid-selector-wrapper" onclick="javascript:switchLSIDSelector(this.parentNode)">
+                                <div class="lsid-selector-label"><?php echo $this->translate('LSID'); ?></div>
+                                <div class="lsid-selector-icon"></div>
+                            </div>
+                            <span class="lsid-uri"><?php echo $hierarchy['LSID']?></span>
+                        </div>
+                    </td>
+                </tr>
+                <?php
+                endif;
+                $i++;
+                endforeach; ?>
+            </table>
+         <?php endif; ?></td>
+     </tr>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Distribution'); ?>:</th>
+        <td><?php echo ($this->species->distributionString != '' ? $this->species->distributionString : '-'); ?>
+    </tr>
+   <?php if($this->mapModuleEnabled == true && $this->regionsCount > 0): ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"> </th>
+        <td><div id="map_canvas"></div></td>
+    </tr>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"> </th>
+        <td><div id="map_progress_bar"></div></td>
+    </tr>
+    <?php endif; ?>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Additional_data'); ?>:</th>
+        <td><?php echo $this->species->comment . '<br />';
+        ?></td>
+    </tr>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Source_database'); ?>:</th>
+        <td><a href="<?php echo $this->baseUrl() . '/details/database/id/' . $this->species->dbId; ?>"><?php
+          echo $this->species->dbName . '</a>, ' . $this->species->dbVersion;
+        ?></a>
+        <?php if ($this->indicatorsModuleEnabled) : ?>
+            <span id="database-qualifiers-span">
+                <?php if (!empty($this->species->dbCoverageIcon)): ?>
+                    <img src="<?php echo $this->baseUrl() .'/images/'. $this->species->dbCoverageIcon; ?>.png" 
+                    class="vertical-align" title="<?php echo $this->translate(ucfirst($this->species->dbCoverageIcon)) ?>" />&nbsp;
+                <?php endif; ?>
+                <?php if (!empty($this->species->dbCompleteness)): ?>
+                    <span title="<?php echo $this->translate('Completeness'); ?>" class="vertical-align">
+                        <?php echo $this->species->dbCompleteness; ?>%
+                    </span>
+                <?php endif; ?>
+                <?php if (!empty($this->species->dbConfidence)): ?>
+                    <span title="<?php echo $this->translate('db_confidence_'.$this->species->dbConfidence.'_star_title'); ?>">
+                        <?php foreach ($this->species->dbConfidenceIcons as $icon): ?>
+                            <img src="<?php echo $this->baseUrl() .'/images/'. $icon; ?>.png" alt="" class="vertical-align" />
+                        <?php endforeach; ?>
+                    </span>
+                <?php endif; ?>
+            </span>
+        <?php endif; ?>
+         </td>
+    </tr>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Latest_taxonomic_scrutiny'); ?>:</th>
+        <td><?php echo $this->species->latestScrutiny; ?></td>
+    </tr>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Online_resource'); ?>:</th>
+        <td><?php foreach ($this->species->urls as $url) : ?><a
+        href="<?php echo str_replace('#','',$url['url']);?>" target="_blank"><?php echo str_replace('#','',$url['url']);?></a>
+        <?php endforeach; ?>
+        </td>
+    </tr>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>" style="border-top: solid 1px;">
+        <th class="vertical"><?php echo $this->translate('CoL_taxon_LSID'); ?>:</th>
+        <td><span class="lsid"><?php echo $this->species->lsid;
+        ?></span></td>
+    </tr>
+
+    
+    <!-- Additional content -->
+    <tr class="<?php echo $rowClass; ?> divisor">
+        <td colspan="2 "/>
+    </tr>
+<?php 
+    // Images from third party source(s)
+    if ($this->imagesModuleDatabaseEnabled || $this->imagesModuleAjaxEnabled): ?>
+    <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Unvetted_images'); ?>:</th>
+        <td>
+        <?php 
+        // Retrieval of images from database
+        if ($this->imagesModuleDatabaseEnabled):
+            if (is_array($this->species->images)): ?>
+            <table id="thumbnails-table">
+                <tr>
+                <?php foreach ($this->species->images as $image): ?>
+                    <td class="thumbnail-image" style="width: <?php echo $image['width'] + 2; ?>px;">
+                        <a href="<?php echo $image['href']; ?>" target="_blank">
+                        <img class="thumbnail" 
+                        height="<?php echo $image['height'] ?>" 
+                        width="<?php echo $image['width'] ?>" 
+                        src="<?php echo $image['src'] ?>" 
+                        alt="<?php echo $image['caption'] ?>" 
+                        title ="<?php echo $image['caption'] ?>" />
+                        </a>
+                    </td>
+                <?php endforeach; ?>
+                </tr>
+                <tr>
+                <?php foreach ($this->species->images as $image): ?>
+                    <td class="thumbnail-caption" style="width: <?php echo $image['width'] + 2; ?>px;">
+                    <?php echo $image['source']; ?>
+                    </td>
+                <?php endforeach; ?>
+                </tr>
+            </table>
+            <?php else: echo $this->translate('No_images_found'); ?>
+            <?php endif; ?>
+        <?php 
+        // Retrieval of images from webservice(s)
+        elseif (!$this->imagesModuleDatabaseEnabled && $this->imagesModuleAjaxEnabled): ?>
+        <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+            <script type="text/javascript">
+                function getImages() { // 
+                    dojo.xhrGet( { // 
+                        url: "<?php echo $this->baseUrl() . $this->ajaxUri; ?>", 
+                        handleAs: "json",
+                        timeout: <?php echo $this->webserviceTimeoutInMs; ?>, 
+                        load: function(response, ioArgs) { 
+                            parseImageResponse(response, "<?php echo $this->translate('No_images_found') ?>");
+                        },
+                        error: function(response, ioArgs) {  
+                            console.error(response); 
+                            throwImageResponseError("<?php echo $this->translate('Failed_to_fetch_images') ?>");
+                        }
+                    });
+                }
+                dojo.addOnLoad(getImages);
+            </script>
+            <div id="thumbnails-placeholder">
+                <img src="<?php echo $this->baseUrl() . '/images/ajax-loader.gif'; ?>" 
+                     alt="<?php echo $this->translate('Loading_images') ?>..." 
+                     title="<?php echo $this->translate('Loading_images') ?>..." />&nbsp;
+                <?php echo $this->translate('Loading_images') ?>...
+            </div>
+        <?php endif; ?>
+        </td>
+    </tr>
+<?php endif; ?>
+</table>
+<?php
+else:
+?>
+<p><?php echo $this->translate('Species_not_found'); ?></p>
+<br/>
+<?php
+endif;
+?>
+<br/>
+<div class="page_links">
+<a href="<?php echo $this->source == 'tree' ?
+    $this->baseUrl() . '/browse/tree/species/' . $this->species->id :
+    'javascript:history.back()'; ?>">
+    <?php echo $this->translate('Back_to_last_page'); ?>
+</a> |
+<a href="<?php echo $this->baseUrl() . '/' . $this->latestSearch; ?>">
+    <?php echo $this->translate('New_search'); ?>
+</a>
+</div>
