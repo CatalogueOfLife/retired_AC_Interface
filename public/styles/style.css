@@ -214,7 +214,7 @@ img.thumbnail {
 }
 .form-container {
     clear: both;
-    width: 100%;
+/*    width: 100%;*/
 }
 .marker {
     font-style: normal;
@@ -610,6 +610,11 @@ input#key {
     width: 300px;
 }
 /* Search */
+
+#searchForm, .form-container, #form-box, .page_header, .centered-box, .view, #content {
+	width: 410px;
+}
+
 form div.search-form dd {
     clear: both;
     float: none;
