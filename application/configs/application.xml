@@ -5,10 +5,10 @@
         <eti>
             <application>
                 <name>Annual Checklist Interface</name>
-                <edition>@APP.EDITION@</edition>
-                <version>@APP.VERSION@</version>
-                <revision>@APP.REVISION@</revision>
-                <location>http://www.catalogueoflife.org/annual-checklist/@APP.EDITION@</location>
+                <edition>2012</edition>
+                <version>1.8-dvd</version>
+                <revision>1256</revision>
+                <location>http://www.catalogueoflife.org/annual-checklist/2011</location>
             </application>
         </eti>
         <phpSettings>
@@ -87,9 +87,9 @@
     <development zf:extends="production">
         <eti>
             <application>
-                <edition>2011</edition>
-                <version>1.7</version>
-                <revision>@APP.REVISION@</revision>
+                <edition>2012</edition>
+                <version>1.8-dvd</version>
+                <revision>1256</revision>
                 <location>http://www.catalogueoflife.org/annual-checklist/2011</location>
             </application>
         </eti>

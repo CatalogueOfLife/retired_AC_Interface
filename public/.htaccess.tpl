@@ -1,4 +1,4 @@
-SetEnv APPLICATION_ENV @ENVIRONMENT@
+SetEnv APPLICATION_ENV production
 php_value session.auto_start 0
 AddDefaultCharset UTF-8
 
