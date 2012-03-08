@@ -1404,7 +1404,7 @@ table.panelTable tr td,table.panelTable tr th {
 #languagebar {
 	position: relative;
 	top: -10px;
-	padding-left: 10px;
+	padding-left: 15px;
 	padding-bottom: 0;
 	max-width: 760px;
 }
