@@ -109,7 +109,7 @@ abstract class AController extends Zend_Controller_Action
         $translator = Zend_Registry::get('Zend_Translate');
         $jsArray = "var translations = new Array();\n";
         foreach ($jsTranslation as $v) {
-            $jsArray .= "\ttranslations['$v'] = '".$translator->translate($v)."';\n";
+            $jsArray .= "\ttranslations['$v'] = '".addslashes($translator->translate($v))."';\n";
         }
         return $jsArray;
     }
