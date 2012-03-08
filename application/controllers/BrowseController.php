@@ -320,7 +320,7 @@ class BrowseController extends AController
             $row['name'] = utf8_encode(
                 $row['name']);
             $image = $this->view->baseUrl() . '/images/tree_icons/' . strtolower($row['name']) . '.png'; 
-            if(@fopen('http://' . $_SERVER['SERVER_NAME'] . $image, "r")) {
+            if($row['name'] != 'not assigned' || @fopen('http://' . $_SERVER['SERVER_NAME'] . $image, "r")) {
             	$row['image'] = $image;
             } else {
             	$row['image'] = 0;
