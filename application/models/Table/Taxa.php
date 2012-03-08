@@ -119,6 +119,7 @@ class ACI_Model_Table_Taxa
     public $commonNames = array();
     public $distribution = array();
     public $references = array();
+    public $lifezones = array();
 
     // Added in 1.7
     public $pointOfAttachmentId;

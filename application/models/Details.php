@@ -211,6 +211,7 @@ class ACI_Model_Details extends AModel
             str_replace(' ','_',$species->dbName) . '.png';
         $species->hierarchy    = $this->getHierachyFromSpecies($species);
         $species->commonNames = $this->commonNames($species->id);
+        $species->lifezones = $this->lifezones($species->id);
         $species->references   = $this->getReferencesByTaxonId($species->id);
         $species->distribution = $this->distributions($species->id);
         $species->synonyms     = $this->synonyms($species->id, $species->kingdom);
@@ -1028,6 +1029,20 @@ class ACI_Model_Details extends AModel
         $select = new Zend_Db_Select($this->_db);
         $select->from('_image_resource');
         $select->where('taxon_id = ?', $taxon_id);
+        return $select->query()->fetchAll();
+    }
+    
+    public function lifezones($taxon_id) {
+        $select = new Zend_Db_Select($this->_db);
+        $select->from(
+            array('l' => 'lifezone'),
+            'l.lifezone'
+        )
+        ->joinLeft(
+            array('lttd' => 'lifezone_to_taxon_detail'),
+            'l.id = lttd.lifezone_id', array()
+        )
+        ->where('lttd.taxon_detail_id = ?', $taxon_id);
         return $select->query()->fetchAll();
     }
     

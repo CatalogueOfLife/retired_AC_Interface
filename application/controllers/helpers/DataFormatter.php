@@ -345,6 +345,14 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         if (!empty($speciesDetails->dbConfidence)) {
             $speciesDetails->dbConfidenceIcons = $this->_getDbConfidenceIcons($speciesDetails->dbConfidence);
         }
+        if (!empty($speciesDetails->lifezones)) {
+            foreach ($speciesDetails->lifezones as $r) {
+                $lz[] = $r['lifezone'];
+            }
+            $speciesDetails->lifezones = ucfirst(implode(',', $lz));
+        } else {
+            $speciesDetails->lifezones = $textDecorator->getEmptyField();
+        }
         return $speciesDetails;
     }
     
