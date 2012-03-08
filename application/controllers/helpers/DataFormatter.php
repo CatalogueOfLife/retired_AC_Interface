@@ -277,6 +277,12 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     $common['num_references'],
                     strip_tags($common['common_name'])
                 );
+                if (!empty($common['country']) && !empty($common['region'])) {
+                    $common['country'] = $common['country'] . '(' . $common['region'] . ')';
+                } else if (empty($common['country']) && !empty($common['region'])) {
+                    $common['country'] = $common['region'];
+                }
+                $common['transliteration'] = ucfirst($common['transliteration']);
             }
         } else {
             $speciesDetails->commonNames = $textDecorator->getEmptyField();
@@ -810,5 +816,20 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             }
         }
         return $source;
+    }
+
+    
+    protected function _addCnRegion ($speciesDetails)
+    {
+        $total = count($speciesDetails->commonNames);
+        for ($i = 0; $i < $total; $i++) {
+            $cn = $speciesDetails->commonNames[$i];
+            if (!empty($cn['country']) && !empty($cn['region'])) {
+                $speciesDetails->commonNames[$i]['country'] = $cn['country'] . '(' . $cn['region'] . ')';
+            } else if (empty($cn['country']) && !empty($cn['region'])) {
+                $speciesDetails->commonNames[$i]['country'] = $cn['region'];
+            }
+        }
+        return $speciesDetails;
     }
 }

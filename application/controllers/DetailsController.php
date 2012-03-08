@@ -133,7 +133,7 @@ class DetailsController extends AController
         
         $this->_logger->debug($speciesDetails);
         $this->view->jsTranslation = $this->_createJsTranslationArray($this->_jsTreeTranslation);
-        $this->view->species = $this->_addCnRegion($speciesDetails);
+        $this->view->species = $speciesDetails;
         $this->view->source = $source;
         $this->view->creditsModuleEnabled = $this->_moduleEnabled('credits');
         $this->view->indicatorsModuleEnabled = $this->_moduleEnabled('indicators');
@@ -179,19 +179,5 @@ class DetailsController extends AController
             }
         }
         return false;
-    }
-    
-    private function _addCnRegion ($speciesDetails)
-    {
-        $total = count($speciesDetails->commonNames);
-        for ($i = 0; $i < $total; $i++) {
-            $cn = $speciesDetails->commonNames[$i];
-            if (!empty($cn['country']) && !empty($cn['region'])) {
-                $speciesDetails->commonNames[$i]['country'] = $cn['country'] . '(' . $cn['region'] . ')';
-            } else if (empty($cn['country']) && !empty($cn['region'])) {
-                $speciesDetails->commonNames[$i]['country'] = $cn['region'];
-            }
-        }
-        return $speciesDetails;
     }
 }
