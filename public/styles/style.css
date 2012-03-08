@@ -1404,9 +1404,25 @@ table.panelTable tr td,table.panelTable tr th {
 #languagebar {
 	position: relative;
 	top: -10px;
-	padding-left: 15px;
+	padding-left: 10px;
 	padding-bottom: 0;
 	max-width: 760px;
+}
+
+.languagebarItem {
+	padding: 2px;
+	padding-left: 6px;
+	padding-right: 6px;
+}
+
+.languagebarItem,.languagebarItem a,.languagebarItem a:hover,.languagebarItem a:visited,.languagebarItem a:active,.languagebarItem a:focus
+	{
+	color: #000;
+	text-decoration: none;
+}
+
+.selectedLanguagebarItem,.languagebarItem a:hover,.languagebarItem a:focus {
+	font-weight: bold;
 }
 
 ul#horizontal-language {
@@ -1430,7 +1446,8 @@ ul#horizontal-language {
 	text-decoration: none;
 }
 
-#horizontal-language a:hover,#horizontal-language a#horizontal-language-selected {
+#horizontal-language a:hover,#horizontal-language a#horizontal-language-selected
+	{
 	color: #fff;
 	background-color: #437da3;
 	text-decoration: none;
