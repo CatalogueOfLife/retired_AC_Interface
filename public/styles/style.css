@@ -593,7 +593,7 @@ div.export-warning {
 }
 
 #header {
-	margin: 0 0 16px 0;
+	margin: 0;
 	background: transparent url(../images/Annual_Checklist_Top_Banner.gif)
 		no-repeat top left;
 	width: 760px;
@@ -1401,6 +1401,7 @@ table.panelTable tr td,table.panelTable tr th {
 	z-index: 9999;
 }
 
+/*
 #languagebar {
 	position: relative;
 	top: -10px;
@@ -1424,31 +1425,34 @@ table.panelTable tr td,table.panelTable tr th {
 .selectedLanguagebarItem,.languagebarItem a:hover,.languagebarItem a:focus {
 	font-weight: bold;
 }
+*/
+#languagebar {
+	margin: 1px 0 15px 3px;
+	width: 757px;
+    background-color: #eaf2f7;
+}
 
-ul#horizontal-language {
-	margin-left: 0;
+#languagebar ul {
 	padding-left: 0;
-	white-space: nowrap;
+	margin-left: 0;
+	color: #000;
+	width: 100%;
 }
 
-#horizontal-language li {
+#languagebar ul li {
 	display: inline;
-	list-style-type: none;
 }
 
-#horizontal-language a {
-	padding: 3px 10px;
+#languagebar ul li a {
+	padding: 3px 10px 5px 10px;
+	background-color: #eaf2f7;
+	color: #000;
+	text-decoration: none;
+	float: left;
+    border-right: 1px solid #fff;
 }
 
-#horizontal-language a:link,#horizontal-language a:visited {
-	color: #fff;
+#languagebar ul li a:hover, #languagebar ul li a#selected {
 	background-color: #254359;
-	text-decoration: none;
-}
-
-#horizontal-language a:hover,#horizontal-language a#horizontal-language-selected
-	{
 	color: #fff;
-	background-color: #437da3;
-	text-decoration: none;
 }
