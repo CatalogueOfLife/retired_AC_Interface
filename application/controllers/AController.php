@@ -173,6 +173,11 @@ abstract class AController extends Zend_Controller_Action
         }
         asort($selectedLanguages, SORT_LOCALE_STRING);
         return $selectedLanguages;*/
+
+        function cmp($a, $b) {
+            return strcmp($a['english_name'], $b['english_name']);
+        }
+        
     	$locale = new Zend_Locale($this->view->language);
         $allLanguages = Bootstrap::instance()->getOption('language');
         $selectedLanguages = array_flip(array_keys($allLanguages, 1));
@@ -189,12 +194,12 @@ abstract class AController extends Zend_Controller_Action
         	}
             // Append transliteration script(s) of this language does not match script(s) of current language
             // Strip off the potentially present locale first when checking for scripts!
-            $scripts = explode(' ', $languageScripts[substr($iso, 0, 2)]);
+            //$scripts = explode(' ', $languageScripts[substr($iso, 0, 2)]);
             $selectedLanguages[$iso]['english_name'] = ucfirst(
                 $locale->getTranslation($iso, 'language', 
                     'en'));
         }
-        asort($selectedLanguages, SORT_LOCALE_STRING);
+        uasort($selectedLanguages, 'cmp');
         return $selectedLanguages;
     }
 
