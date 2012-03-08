@@ -130,9 +130,10 @@ class DetailsController extends AController
         $title = $speciesDetails && $speciesDetails->infra_id != '' ? 'Infraspecies_details' : 'Species_details';
         $this->view->title = $this->view->translate($title);
         $this->view->headTitle($this->view->title, 'APPEND');
+        
         $this->_logger->debug($speciesDetails);
         $this->view->jsTranslation = $this->_createJsTranslationArray($this->_jsTreeTranslation);
-        $this->view->species = $speciesDetails;
+        $this->view->species = $this->_addCnRegion($speciesDetails);
         $this->view->source = $source;
         $this->view->creditsModuleEnabled = $this->_moduleEnabled('credits');
         $this->view->indicatorsModuleEnabled = $this->_moduleEnabled('indicators');
@@ -158,7 +159,7 @@ class DetailsController extends AController
 			        $regions[] = $dist['id'];
 	        }
 	    }
-	    $this->view->hasTransliterations = $this->_hasTransliterations($speciesDetails->commonNames);
+        $this->view->hasTransliterations = $this->_hasTransliterations($speciesDetails->commonNames);
         $this->view->regionsCount = count($regions);
         $this->view->regions = implode(',',$regions);
     }
@@ -178,5 +179,19 @@ class DetailsController extends AController
             }
         }
         return false;
+    }
+    
+    private function _addCnRegion ($speciesDetails)
+    {
+        $total = count($speciesDetails->commonNames);
+        for ($i = 0; $i < $total; $i++) {
+            $cn = $speciesDetails->commonNames[$i];
+            if (!empty($cn['country']) && !empty($cn['region'])) {
+                $speciesDetails->commonNames[$i]['country'] = $cn['country'] . '(' . $cn['region'] . ')';
+            } else if (empty($cn['country']) && !empty($cn['region'])) {
+                $speciesDetails->commonNames[$i]['country'] = $cn['region'];
+            }
+        }
+        return $speciesDetails;
     }
 }

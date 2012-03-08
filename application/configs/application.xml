@@ -87,10 +87,10 @@
     <development zf:extends="production">
         <eti>
             <application>
-                <edition>2011</edition>
-                <version>1.7</version>
+                <edition>2012</edition>
+                <version>1.8</version>
                 <revision>@APP.REVISION@</revision>
-                <location>http://www.catalogueoflife.org/annual-checklist/2011</location>
+                <location>http://www.catalogueoflife.org/annual-checklist/2012</location>
             </application>
         </eti>
         <phpSettings>

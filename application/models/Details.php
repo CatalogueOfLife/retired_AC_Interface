@@ -628,6 +628,7 @@ class ACI_Model_Details extends AModel
                 'language' => 'l.name',
                 'transliteration' => 'cne.transliteration',
                 'country' => 'c.name',
+                'region' => 'rft.free_text',
                 'num_references' => '(SELECT COUNT(*) FROM
                     reference_to_common_name WHERE common_name_id = cn.id)',
                 'references' => 'GROUP_CONCAT(r.reference_id)'
@@ -648,6 +649,10 @@ class ACI_Model_Details extends AModel
         )->joinLeft(
             array('c' => 'country'),
             'cn.country_iso = c.iso',
+            array()
+        )->joinLeft(
+            array('rft' => 'region_free_text'),
+            'rft.id = cn.region_free_text_id',
             array()
         )
         ->where('cn.taxon_id = ?', $taxon_id)

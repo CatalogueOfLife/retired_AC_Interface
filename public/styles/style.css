@@ -1429,7 +1429,7 @@ table.panelTable tr td,table.panelTable tr th {
 #languagebar {
 	margin: 1px 0 15px 3px;
 	width: 757px;
-    background-color: #eaf2f7;
+	background-color: #eaf2f7;
 }
 
 #languagebar ul {
@@ -1449,10 +1449,11 @@ table.panelTable tr td,table.panelTable tr th {
 	color: #000;
 	text-decoration: none;
 	float: left;
-    border-right: 1px solid #fff;
+	border-right: 1px solid #fff;
+	border-bottom: 1px solid #fff;
 }
 
-#languagebar ul li a:hover, #languagebar ul li a#selected {
+#languagebar ul li a:hover,#languagebar ul li a#selected {
 	background-color: #254359;
 	color: #fff;
 }
