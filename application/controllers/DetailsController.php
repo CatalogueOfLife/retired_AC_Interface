@@ -158,6 +158,7 @@ class DetailsController extends AController
 			        $regions[] = $dist['id'];
 	        }
 	    }
+	    $this->view->hasTransliterations = $this->_hasTransliterations($speciesDetails->commonNames);
         $this->view->regionsCount = count($regions);
         $this->view->regions = implode(',',$regions);
     }
@@ -165,5 +166,17 @@ class DetailsController extends AController
     public function __call ($name, $arguments)
     {
         $this->_forward('all', 'search');
+    }
+    
+    private function _hasTransliterations ($commonnames)
+    {
+        if (is_array($commonnames) && !empty($commonnames)) {
+            foreach ($commonnames as $cn) {
+                if (isset($cn['transliteration']) && !empty($cn['transliteration'])) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

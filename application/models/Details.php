@@ -626,6 +626,7 @@ class ACI_Model_Details extends AModel
                 'id' => 'cn.id',
                 'common_name' => 'cne.name',
                 'language' => 'l.name',
+                'transliteration' => 'cne.transliteration',
                 'country' => 'c.name',
                 'num_references' => '(SELECT COUNT(*) FROM
                     reference_to_common_name WHERE common_name_id = cn.id)',

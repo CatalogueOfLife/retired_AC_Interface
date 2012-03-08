@@ -106,6 +106,9 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
             <table id="common-names">
                 <tr>
                     <th class="common-name"><?php echo $this->translate('Common_name'); ?></th>
+                    <?php if ($this->hasTransliterations): ?>
+                        <th class="language"><?php echo $this->translate('Transliteration'); ?></th>
+                    <?php endif; ?>
                     <th class="language"><?php echo $this->translate('Language'); ?></th>
                     <th class="country"><?php echo $this->translate('Country'); ?></th>
                     <th class="trailing"></th>
@@ -118,6 +121,9 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                     if ($languageGroup == "odd") $languageGroup = "even"; else $languageGroup = "odd"; } ?>
                 <tr class="language<?php echo $languageGroup; ?>">
                     <td><?php echo $common['common_name']; ?></td>
+                    <?php if ($this->hasTransliterations): ?>
+                         <td><?php echo $common['transliteration'] ? $common['transliteration'] : '-'; ?></td>
+                    <?php endif; ?>
                     <td><?php echo $common['language'] ? $common['language'] : '-'; ?></td>
                     <td><?php echo $common['country'] ? $common['country'] : '-'; ?></td>
                     <td align="right">
