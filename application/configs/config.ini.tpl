@@ -14,8 +14,6 @@ view.googleAnalytics.trackerId =
 module.statistics = 1           ; Show credits and species estimates in taxonomic tree
 module.credits = 1              ; Show point of attachment in species details
 module.indicators = 1           ; Show indicators for data quality in species and database details
-; Display images in species details; if both are enabled images are retrieved from database
-module.images_database = 0      ; Retrieve images from database
 module.images_ajax = 1          ; Retrieve images from live web service(s)
 
 ; Interface languages (on = 1, off = 0)
@@ -31,7 +29,7 @@ language.pt_BR = 1              ; Portuguese (Brazil)
 language.es = 1                 ; Spanish
 language.th = 1                 ; Thai
 language.vi = 1                 ; Vietnamese
-language.fr = 1                 ; France
+language.fr = 1                 ; French
 
 ; Batch 2 modules (on = 1, off = 0)
 module.fuzzy_search = 0         ; Enable fuzzy search functionality

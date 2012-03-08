@@ -227,6 +227,19 @@ dojo.require("dojo.parser");
             	href="javascript:changeLanguage('<?php echo $iso; ?>');" title="<?php echo $language['original_name']; ?>"><?php echo $language['english_name']; ?></a>
             </span>
         <?php endforeach; ?>
+
+<!--
+        <ul id="horizontal-language">
+        <?php foreach ($this->interfaceLanguages as $iso => $language): ?> 
+            <li>
+            <a <?php echo $this->language == $iso ? 'id="horizontal-language-selected"' : ''; ?>
+            href="javascript:changeLanguage('<?php echo $iso; ?>');" title="<?php echo $language['original_name']; ?>">
+            <?php echo $language['english_name']; ?></a>
+            </li>
+        <?php endforeach; ?>
+        </ul>
+-->
+
     <?php endif; ?>
     </div>
     <div id="menu" class="view">
