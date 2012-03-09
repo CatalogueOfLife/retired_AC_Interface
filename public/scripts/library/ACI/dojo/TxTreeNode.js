@@ -1,12 +1,10 @@
-var showCommentFeedback;
-showCommentFeedback = true;
 dojo.provide('ACI.dojo.TxTreeNode');
 dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
     _onMouseEnter:function(evt){
     	if(dojo.byId("infoPanel_" + this.item.i.id)) {
     		dojo.style(dojo.byId("infoPanel_" + this.item.i.id), "display", "inline-block");
     	}
-    	if(dojo.byId("commentPanel_" + this.item.i.id)) {
+    	if(showCommentFeedback && dojo.byId("commentPanel_" + this.item.i.id)) {
     		dojo.style(dojo.byId("commentPanel_" + this.item.i.id), "display", "inline-block");
     	}
     	if(dojo.byId("mapPanel_" + this.item.i.id) &&
@@ -20,7 +18,7 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
     		!dojo.byId("infoPanel_" + this.item.i.id + "_dropdown")) {
     		dojo.style(dojo.byId("infoPanel_" + this.item.i.id), "display", "none");
     	}
-    	if (dojo.byId("commentPanel_" + this.item.i.id) && 
+    	if (showCommentFeedback && dojo.byId("commentPanel_" + this.item.i.id) && 
         		!dojo.byId("commentPanel_" + this.item.i.id + "_dropdown")) {
         		dojo.style(dojo.byId("commentPanel_" + this.item.i.id), "display", "none");
         	}

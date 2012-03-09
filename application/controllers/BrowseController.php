@@ -75,6 +75,7 @@ class BrowseController extends AController
             'dojox.data.QueryReadStore')->requireModule('ACI.dojo.TxStoreModel')->requireModule(
             'ACI.dojo.TxTree')->requireModule('ACI.dojo.TxTreeNode');
         
+		$this->view->feedbackModuleEnabled = ($this->_moduleEnabled('feedback'));
         $iconInTreeModuleEnabled = $this->_moduleEnabled(
             'icons_browse_tree');
         $this->view->iconsInTreeModuleEnabled = $iconInTreeModuleEnabled;
