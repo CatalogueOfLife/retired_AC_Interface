@@ -665,7 +665,7 @@ function sendComment() {
 		"/CommentType/" + form.commentType.value + 
 		"/UserName/" + form.name.value + 
 		"/UserMail/" + form.email.value +
-		"/TaxonString/" + form.commentTaxonString.value;
+		"/TaxonString/" + form.taxonString.value;
 	form.action = 'javascript:alert(\''+translate('Comment_being_processed')+'\');';
 	// The "xhrGet" method executing an HTTP GET
 	dojo.xhrGet({
