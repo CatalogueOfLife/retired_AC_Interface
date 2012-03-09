@@ -40,7 +40,8 @@ class BrowseController extends AController
 		'x_out_of_y_regions_retrieved',
     	'There_are_no_regions_to_show',
     	'failed_to_retrieve_regions',
-    	'failed_to_retrieve_region'
+    	'failed_to_retrieve_region',
+    	'All_fields_are_required'
     );
     
 
