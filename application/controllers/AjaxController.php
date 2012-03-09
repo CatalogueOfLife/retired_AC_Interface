@@ -86,27 +86,32 @@ class AjaxController extends AController
     public function feedbackAction ()
     {
         $config = Zend_Registry::get('config');
-        $config->eti->application->edition;
-        $config->module->feedbackUrl;
-        
-        
-       // print_r($config);
         $params = $this->_getAllParams();
-        $feedbackUrl = $config->module->feedbackUrl.'?';
+        $feedbackUrl = $config->module->feedbackUrl . '?';
         foreach (array(
             'ID', 
             'Comment', 
             'CommentType', 
             'UserName', 
-            'UserMail'
+            'UserMail',
+            'TaxonString'
         ) as $v) {
-            $feedbackUrl .= $v . '=' . $params[$v] . '&';
+            $feedbackUrl .= $v . '=' . urlencode($params[$v]) . '&';
         }
-        $feedbackUrl .= 'COLEdition=' .$config->eti->application->edition;
-        
-        
-        echo $feedbackUrl;
-    //echo 'henk';
+        $feedbackUrl .= 'COLEdition=' . $config->eti->application->edition;
+        $ctx = stream_context_create(array( 
+            'http' => array( 
+                'timeout' => 10 
+                ) 
+            ) 
+        ); 
+        $result = file_get_contents($feedbackUrl, 0, $ctx);
+        echo $this->translate('additional_information');
+        if ($result == '1') {
+            echo 'It works!';
+        } else {
+            echo 'Total failure';
+        }
     }
 
     public function regionAction ()
