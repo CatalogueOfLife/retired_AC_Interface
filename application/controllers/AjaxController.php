@@ -93,24 +93,24 @@ class AjaxController extends AController
             'Comment', 
             'CommentType', 
             'UserName', 
-            'UserMail',
+            'UserMail', 
             'TaxonString'
         ) as $v) {
             $feedbackUrl .= $v . '=' . urlencode($params[$v]) . '&';
         }
         $feedbackUrl .= 'COLEdition=' . $config->eti->application->edition;
-        $ctx = stream_context_create(array( 
-            'http' => array( 
-                'timeout' => 10 
-                ) 
-            ) 
-        ); 
-        $result = file_get_contents($feedbackUrl, 0, $ctx);
+        $ctx = stream_context_create(
+            array(
+                'http' => array(
+                    'timeout' => 10
+                )
+            ));
+        $result = @file_get_contents($feedbackUrl, 0, $ctx);
         if ($result == '1') {
             echo $this->view->translate('feedback_success');
-            exit;
+            exit();
         }
-        echo $this->view->translate('feedback_failure');;
+        echo $this->view->translate('feedback_failure');
     }
 
     public function regionAction ()
