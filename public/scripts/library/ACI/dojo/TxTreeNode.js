@@ -609,6 +609,7 @@ function createCommentPanelContents(treeNode) {
 	th4.appendChild(setLabel(translate('Comment')));
 	td4.appendChild(textArea);
 	form.appendChild(hiddenTaxaId);
+	form.appendChild(hiddenTaxonString);
 	td5.appendChild(sendButton);
 	
 	return form;
