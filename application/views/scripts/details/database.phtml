@@ -66,8 +66,8 @@ if (is_array($this->db)):
     <tr class="even">
         <th class="vertical"><?php echo $this->translate('Full_name'); ?>:</th>
         <td><?php echo $this->db['details_name']; ?>
-        <?php if ($this->db['is_new'] == true): ?>
-             <span class="new"><?php echo $this->translate('NEW')?></span>
+        <?php if (!empty($this->db['is_new'])): ?>
+             <span class="new"><?php echo $this->db['is_new']?></span>
         <?php endif; ?>
         </td>
     </tr>

@@ -419,8 +419,23 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         if (!empty($dbDetails['confidence'])) {
             $dbDetails['confidence_icons'] = $this->_getDbConfidenceIcons($dbDetails['confidence']);
         }
+        $dbDetails['is_new'] = $this->_decorateDbIsNew($dbDetails['is_new']);
         return $dbDetails;
     }
+    
+    private function _decorateDbIsNew ($isNew) 
+    {
+        $t = Zend_Registry::get('Zend_Translate');
+        if ($isNew == 0) {
+            return false;
+        }
+        if ($isNew == 1) {
+            return $t->translate('NEW');
+        }
+        if ($isNew == 2) {
+            return $t->translate('UPDATED');
+        }
+     }
     
     private function _getDbCoverageIcon($coverage = '') {
         if ($coverage == '') {
@@ -458,6 +473,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             str_replace(' ', '_', $dbDetails['label']) . '.gif';
         $dbDetails['database_name_displayed'] = $dbDetails['abbreviation'] .
             ': ' . $dbDetails['name'];
+        $dbDetails['is_new'] = $this->_decorateDbIsNew($dbDetails['is_new']);
         return $dbDetails;
     }
     
