@@ -556,10 +556,10 @@ function createCommentPanelContents(treeNode) {
 	type.className = 'commentPanelLabel';
 	type.appendChild(dojo.doc.createTextNode('type:'));*/
 	type.name = 'commentType';
-	addOption('error','Errors_to_be_corrected',type);
-	addOption('free_general_comment','Free_general_comment',type);
-	addOption('futher_knowledge','Futher_knowledge_to_be_added',type);
-	addOption('wrong_branche','Placed_in_the_wrong_branche',type);
+	addOption('general_comment',translate('general_comment'),type);
+	addOption('correction',translate('correction'),type);
+	addOption('additional_information',translate('additional_information'),type);
+	addOption('wrong_branch',translate('wrong_branch'),type);
 
 	/*var comment = dojo.doc.createElement('span');
 	comment.className = 'commentPanelLabel';
@@ -591,13 +591,13 @@ function createCommentPanelContents(treeNode) {
 	form.appendChild(title);
 	
 	form.appendChild(table);
-	th1.appendChild(setLabel('name'));
+	th1.appendChild(setLabel(translate('Name')));
 	td1.appendChild(name);
-	th2.appendChild(setLabel('e-mail'));
+	th2.appendChild(setLabel(translate('Email')));
 	td2.appendChild(email);
-	th3.appendChild(setLabel('type'));
+	th3.appendChild(setLabel(translate('Type')));
 	td3.appendChild(type);
-	th4.appendChild(setLabel('comment'));
+	th4.appendChild(setLabel(translate('Comment')));
 	td4.appendChild(textArea);
 	form.appendChild(hiddenTaxaId);
 	td5.appendChild(sendButton);
@@ -647,11 +647,16 @@ function hidePreviousCommentPanels(currentId) {
 
 function sendComment() {
 	var form = document.getElementById('commentForm');
-	form.action = 'javascript:alert(\''+translate('Comment_already_sending')+'\');';
+	var submitUrl = baseUrl + "/ajax/feedback/ID/" + form.taxaId.value + 
+		"/Comment/" + form.comment.value + 
+		"/CommentType/" + form.commentType.value + 
+		"/UserName/" + form.name.value + 
+		"/UserMail/" + form.email.value;
+	form.action = 'javascript:alert(\''+translate('Comment_being_processed')+'\');';
 	// The "xhrGet" method executing an HTTP GET
 	dojo.xhrGet({
 	    // The URL to request
-	    url: jsFeedbackUrl+"?id="+form.taxaId.value+"&comment="+form.comment.value+"&commentType="+form.commentType.value+"&name="+form.name.value+"&email="+form.email.value,
+	    url: submitUrl,
 	    // The method that handles the request's successful result
 	    // Handle the response any way you'd like!
 	    load: function(result) {

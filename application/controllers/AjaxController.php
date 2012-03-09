@@ -82,38 +82,64 @@ class AjaxController extends AController
         }
         $this->_response->setBody($this->_createJsonOutput());
     }
-    
+
+    public function feedbackAction ()
+    {
+        $config = Zend_Registry::get('config');
+        $config->eti->application->edition;
+        $config->module->feedbackUrl;
+        
+        
+       // print_r($config);
+        $params = $this->_getAllParams();
+        $feedbackUrl = $config->module->feedbackUrl.'?';
+        foreach (array(
+            'ID', 
+            'Comment', 
+            'CommentType', 
+            'UserName', 
+            'UserMail'
+        ) as $v) {
+            $feedbackUrl .= $v . '=' . $params[$v] . '&';
+        }
+        $feedbackUrl .= 'COLEdition=' .$config->eti->application->edition;
+        
+        
+        echo $feedbackUrl;
+    //echo 'henk';
+    }
+
     public function regionAction ()
     {
-    	$id = $this->_getParam('region');
-    	$regionModel = new ACI_Model_Table_Regions($this->_db);
-    	$region =  $regionModel->getRegion($id);
-    	echo json_encode($region);
+        $id = $this->_getParam('region');
+        $regionModel = new ACI_Model_Table_Regions($this->_db);
+        $region = $regionModel->getRegion($id);
+        echo json_encode($region);
     }
 
     public function regionsAction ()
     {
-    	$id = $this->_getParam('taxon');
-    	$rank = $this->_getParam('rank');
-    	$distributionModel = new ACI_Model_Table_Distributions($this->_db);
-    	$regionIds =  $distributionModel->getRegionsByTaxonId($id,$rank);
-/*    	$regionModel = new ACI_Model_Table_Regions($this->_db);
+        $id = $this->_getParam('taxon');
+        $rank = $this->_getParam('rank');
+        $distributionModel = new ACI_Model_Table_Distributions($this->_db);
+        $regionIds = $distributionModel->getRegionsByTaxonId($id, $rank);
+        /*    	$regionModel = new ACI_Model_Table_Regions($this->_db);
     	$regions = array(); 
     	foreach($regionIds as $id) {
     		$regions[] = $regionModel->getRegion($id);
     	}
     	die( json_encode($regions));*/
-    	echo json_encode($regionIds);
+        echo json_encode($regionIds);
     }
 
-    public function regionlistAction()
+    public function regionlistAction ()
     {
-    	$id = $this->_getParam('regionStandard');
-    	$regionModel = new ACI_Model_Table_Regions($this->_db);
-    	$region =  $regionModel->getRegions($id);
-    	echo json_encode($region);
+        $id = $this->_getParam('regionStandard');
+        $regionModel = new ACI_Model_Table_Regions($this->_db);
+        $region = $regionModel->getRegions($id);
+        echo json_encode($region);
     }
-    
+
     public function queryWebservices ($channels = array())
     {
         $mh = curl_multi_init();
@@ -180,8 +206,10 @@ class AjaxController extends AController
                 // Only a single result is required
                 $data = $data['ResultSet']['Result'][0];
                 $channelResult->source = 'Yahoo Images';
-                $href = $this->_imageChannels[$this->_getLinkKey('YahooImages')]['link'];
-                $channelResult->href = sprintf($href, urlencode($this->_species));
+                $href = $this->_imageChannels[$this->_getLinkKey(
+                    'YahooImages')]['link'];
+                $channelResult->href = sprintf($href, 
+                    urlencode($this->_species));
                 $channelResult->src = $data['Thumbnail']['Url'];
                 $channelResult->width = $data['Thumbnail']['Width'];
                 $channelResult->height = $data['Thumbnail']['Height'];
