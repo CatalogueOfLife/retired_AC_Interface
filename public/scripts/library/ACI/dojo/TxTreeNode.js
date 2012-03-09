@@ -566,14 +566,17 @@ function createCommentPanelContents(treeNode) {
 	comment.appendChild(dojo.doc.createTextNode('comment:'));*/
 
 	var name = dojo.doc.createElement('input');
+	name.id = 'commentName';
 	name.type = 'text';
 	name.name = 'name';
 	
 	var email = dojo.doc.createElement('input');
+	email.id = 'commentEmail';
 	email.type = 'text';
 	email.name = 'email';
 	
 	var textArea = dojo.doc.createElement('textarea');
+	textArea.id = 'commentText';
 	textArea.name = 'comment';
 	textArea.style.width = "300px";
 	textArea.style.height = "75px";
@@ -647,6 +650,10 @@ function hidePreviousCommentPanels(currentId) {
 
 function sendComment() {
 	var form = document.getElementById('commentForm');
+	if(form.commentName.value == "" || form.commentEmail.value == "" || form.commentText.value == "") {
+		alert(translate('All_fields_are_required'));
+		return;
+	}
 	var submitUrl = baseUrl + "/ajax/feedback/ID/" + form.taxaId.value + 
 		"/Comment/" + form.comment.value + 
 		"/CommentType/" + form.commentType.value + 
