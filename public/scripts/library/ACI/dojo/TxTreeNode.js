@@ -586,6 +586,12 @@ function createCommentPanelContents(treeNode) {
 	hiddenTaxaId.name = 'taxaId';
 	hiddenTaxaId.value = treeNode.i.id;
 	
+	var hiddenTaxonString = dojo.doc.createElement('input');
+	hiddenTaxonString.name = 'commentTaxonString';
+	hiddenTaxonString.type = 'hidden';
+	hiddenTaxonString.name = 'taxonString';
+	hiddenTaxonString.value = treeNode.i.name;
+	
 	var sendButton = dojo.doc.createElement('input');
 	sendButton.type = 'submit';
 	sendButton.value = translate('Send');
@@ -658,7 +664,8 @@ function sendComment() {
 		"/Comment/" + form.comment.value + 
 		"/CommentType/" + form.commentType.value + 
 		"/UserName/" + form.name.value + 
-		"/UserMail/" + form.email.value;
+		"/UserMail/" + form.email.value +
+		"/TaxonString/" + form.commentTaxonString.value;
 	form.action = 'javascript:alert(\''+translate('Comment_being_processed')+'\');';
 	// The "xhrGet" method executing an HTTP GET
 	dojo.xhrGet({
