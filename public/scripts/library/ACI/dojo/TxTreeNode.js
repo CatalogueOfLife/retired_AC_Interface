@@ -587,7 +587,7 @@ function createCommentPanelContents(treeNode) {
 	hiddenTaxaId.value = treeNode.i.id;
 	
 	var hiddenTaxonString = dojo.doc.createElement('input');
-	hiddenTaxonString.name = 'commentTaxonString';
+	hiddenTaxonString.id = 'commentTaxonString';
 	hiddenTaxonString.type = 'hidden';
 	hiddenTaxonString.name = 'taxonString';
 	hiddenTaxonString.value = treeNode.i.name;
