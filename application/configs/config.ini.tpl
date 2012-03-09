@@ -30,6 +30,7 @@ language.es = 1                 ; Spanish
 language.th = 1                 ; Thai
 language.vi = 1                 ; Vietnamese
 language.fr = 1                 ; French
+language.nl = 0                 ; Dutch
 
 ; Batch 2 modules (on = 1, off = 0)
 module.fuzzy_search = 0         ; Enable fuzzy search functionality
