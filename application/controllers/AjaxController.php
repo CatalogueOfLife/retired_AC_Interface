@@ -106,12 +106,11 @@ class AjaxController extends AController
             ) 
         ); 
         $result = file_get_contents($feedbackUrl, 0, $ctx);
-        echo $this->translate('additional_information');
         if ($result == '1') {
-            echo 'It works!';
-        } else {
-            echo 'Total failure';
+            echo $this->view->translate('feedback_success');
+            exit;
         }
+        echo $this->view->translate('feedback_failure');;
     }
 
     public function regionAction ()
