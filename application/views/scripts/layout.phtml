@@ -65,8 +65,8 @@ dojo.require("dijit.Menu");
 
 <script type="text/javascript">var cookieExpiration = <?php echo (round($this->cookieExpiration/86400)); ?></script>
 <?php if(($this->mapModuleEnabled == true || $this->mapInTreeModuleEnabled == true || $this->mapSearchModuleEnabled == true) &&
-	(($this->controller == 'details' && $this->action == 'species') || ($this->controller == 'browse' && $this->action == 'tree')
-	|| ($this->controller == 'search' && $this->action == 'distribution'))): ?>
+	($this->controller == 'details' && $this->action == 'species') || ($this->controller == 'browse' && $this->action == 'tree')
+	|| ($this->controller == 'search' && $this->action == 'distribution')): ?>
 <script type="text/javascript">
 
 <?php if($this->controller == 'browse' && $this->action == 'tree'): ?>
