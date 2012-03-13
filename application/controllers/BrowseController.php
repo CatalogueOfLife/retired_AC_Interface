@@ -43,7 +43,6 @@ class BrowseController extends AController
     	'failed_to_retrieve_region',
     	'All_fields_are_required'
     );
-    
 
     public function treeAction ()
     {

@@ -81,7 +81,7 @@ $rowClass = "odd";
             <a href="<?php echo $this->baseUrl() . $items['url']; ?>">
                 <?php echo $items['name']; ?>
             </a>
-            <?php if ($items['is_new']) : ?>
+            <?php if (!empty($items['is_new'])) : ?>
                 <span class="new_big"><?php echo $items['is_new']; ?></span>
             <?php endif; ?>
         </th>
