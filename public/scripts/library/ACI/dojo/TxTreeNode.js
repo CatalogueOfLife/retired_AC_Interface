@@ -1,4 +1,15 @@
 dojo.provide('ACI.dojo.TxTreeNode');
+
+function iconHider(panelType, treenode) {
+	if (dojo.byId(panelType + "Panel_" + treenode.item.i.id) && 
+    	!dojo.byId("infoPanel_" + treenode.item.i.id + "_dropdown") &&
+    	!dojo.byId("commentPanel_" + treenode.item.i.id + "_dropdown") &&
+    	!dojo.byId("mapPanel_" + treenode.item.i.id + "_dropdown")
+    ) {
+    	dojo.style(dojo.byId(panelType + "Panel_" + treenode.item.i.id), "display", "none");
+	}
+}
+
 dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
     _onMouseEnter:function(evt){
     	if(dojo.byId("infoPanel_" + this.item.i.id)) {
@@ -14,20 +25,9 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
     	}
     },
     _onMouseLeave:function(evt){
-    	if (dojo.byId("infoPanel_" + this.item.i.id) && 
-    		!dojo.byId("infoPanel_" + this.item.i.id + "_dropdown")) {
-    		dojo.style(dojo.byId("infoPanel_" + this.item.i.id), "display", "none");
-    	}
-    	if (showCommentFeedback && dojo.byId("commentPanel_" + this.item.i.id) && 
-        		!dojo.byId("commentPanel_" + this.item.i.id + "_dropdown")) {
-        		dojo.style(dojo.byId("commentPanel_" + this.item.i.id), "display", "none");
-        	}
-    	if (dojo.byId("mapPanel_" + this.item.i.id) && 
-        		!dojo.byId("mapPanel_" + this.item.i.id + "_dropdown") &&
-        		this.item.i.type != "" &&
-        		this.item.i.type != "phylum") {
-        		dojo.style(dojo.byId("mapPanel_" + this.item.i.id), "display", "none");
-        	}
+    	iconHider("info", this);
+    	iconHider("comment", this);
+    	iconHider("map", this);
     },
     setLabelNode : function(label) {
         if (this.item.root) {
@@ -259,7 +259,7 @@ function createMapPanel(treeNode) {
 }
 
 function showMap(treeNode){
-	hidePreviousInfoPanels(treeNode.i.id);
+	hidePanel(treeNode.i.id);
     dialog.attr("content", createMapPanelContents(treeNode));
     dijit.popup.open({ 
         popup: dialog, 
@@ -296,7 +296,7 @@ function createMapPanelContents(treeNode) {
 	
 	var closeButton = dojo.doc.createElement('span');
 	dojo.connect(closeButton, 'onclick', function(evt) {
-		closeMap(treeNode.i.id);
+		closePanel(treeNode.i.id);
     });
 	//closeButton.href = "javascript:closeInfo(" + treeNode.i.id + ")";
 	closeButton.title = translate('Close_window');
@@ -345,7 +345,7 @@ function createInfoPanel(treeNode) {
 }
 
 function showInfo(treeNode){
-	hidePreviousInfoPanels(treeNode.i.id);
+	hidePanel(treeNode.i.id);
     dialog.attr("content", createInfoPanelContents(treeNode));
     dijit.popup.open({ 
         popup: dialog, 
@@ -358,7 +358,7 @@ function createInfoPanelContents(treeNode) {
 	
 	var closeButton = dojo.doc.createElement('span');
 	dojo.connect(closeButton, 'onclick', function(evt) {
-    	closeInfo(treeNode.i.id);
+    	closePanel(treeNode.i.id);
     });
 	//closeButton.href = "javascript:closeInfo(" + treeNode.i.id + ")";
 	closeButton.title = translate('Close_window');
@@ -429,31 +429,24 @@ function createInfoPanelStatistics(treeNode) {
     return statistics;
 }
 
-function closeInfo(currentId){
-	//alert('blah');
-	//dijit.popup.close(dojo.byId('TooltipDialog_0'));
+function closePanel(currentId){
 	dijit.popup.close(dialog);
 	dojo.style(dojo.byId("infoPanel_" + currentId), "display", "none");
+	dojo.style(dojo.byId("commentPanel_" + currentId), "display", "none");
+	dojo.style(dojo.byId("mapPanel_" + currentId), "display", "none");
 	return false;
 }
 
-function hidePreviousInfoPanels(currentId) {
-	dojo.query("[id^='infoPanel_']").forEach(function(panel, i) {
-        if("infoPanel_" + currentId != panel.id) {
-        	panel.style.display = "none";
-        }
-    });
-}
-
-function openCommentWindow() {
-    alert('clickerdieclick');
-	var createCommentPanelContents;
-	createCommentsPanel = dojo.doc.createElement('span');
-    dialog.attr("content", createCommentPanelContents);
-    dijit.popup.open({ 
-        popup: dialog, 
-        around: dojo.byId("commentPanel") 
-    });
+function hidePanel(currentId) {
+	var panels = Array("info", "comment", "map");
+	dojo.forEach(panels, function(aap, mies) {
+		
+		dojo.query("[id^='" + aap + "Panel_']").forEach(function(panel, i) {
+	        if(aap + "Panel_" + currentId != panel.id) {
+	        	panel.style.display = "none";
+	        }
+	    });
+	});
 }
 
 /////////////////////////////////////////////////////////
@@ -474,7 +467,7 @@ function createCommentPanel(treeNode) {
 }
 
 function showComment(treeNode){
-	hidePreviousCommentPanels(treeNode.i.id);
+	hidePanel(treeNode.i.id);
     dialog.attr("content", createCommentPanelContents(treeNode));
     dijit.popup.open({ 
         popup: dialog, 
@@ -525,7 +518,7 @@ function createCommentPanelContents(treeNode) {
 	
 	var closeButton = dojo.doc.createElement('span');
 	dojo.connect(closeButton, 'onclick', function(evt) {
-    	closeComment(treeNode.i.id);
+    	closePanel(treeNode.i.id);
     });
 	//closeButton.href = "javascript:closeInfo(" + treeNode.i.id + ")";
 	closeButton.title = translate('Close_window');
@@ -629,30 +622,6 @@ function addCommentPanelSection(thisParent, thisLabel, thisValue) {
 	thisParent.appendChild(thisVar);
 }
 
-function closeComment(currentId){
-	//alert('blah');
-	//dijit.popup.close(dojo.byId('TooltipDialog_0'));
-	dijit.popup.close(dialog);
-	dojo.style(dojo.byId("commentPanel_" + currentId), "display", "none");
-	return false;
-}
-
-function closeMap(currentId){
-	//alert('blah');
-	//dijit.popup.close(dojo.byId('TooltipDialog_0'));
-	dijit.popup.close(dialog);
-	dojo.style(dojo.byId("mapPanel_" + currentId), "display", "none");
-	return false;
-}
-
-function hidePreviousCommentPanels(currentId) {
-	dojo.query("[id^='commentPanel_']").forEach(function(panel, i) {
-        if("commentPanel_" + currentId != panel.id) {
-        	panel.style.display = "none";
-        }
-    });
-}
-
 function sendComment() {
 	var form = document.getElementById('commentForm');
 	if(form.commentName.value == "" || form.commentEmail.value == "" || form.commentText.value == "") {
@@ -674,7 +643,7 @@ function sendComment() {
 	    // Handle the response any way you'd like!
 	    load: function(result) {
 	        alert(result);
-	        closeComment(form.taxaId.value);
+	        closePanel(form.taxaId.value);
 	    }
 	});
 }
