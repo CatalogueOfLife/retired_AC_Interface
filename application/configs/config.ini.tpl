@@ -24,13 +24,15 @@ module.images_ajax = 1          ; Retrieve images from live web service(s)
 ; If a language translation file in the browser language is not available, 
 ; the default language is set to English.
 language.en = 1                 ; English
+language.fr = 1                 ; French
+language.es = 1                 ; Spanish
 language.zh = 1                 ; Chinese
 language.pt_BR = 1              ; Portuguese (Brazil)
-language.es = 1                 ; Spanish
+language.nl = 1                 ; Dutch
 language.th = 1                 ; Thai
 language.vi = 1                 ; Vietnamese
-language.fr = 1                 ; French
-language.nl = 1                 ; Dutch
+; Sort languages (alphabetically = 1; maintain order as above = 0)
+language_menu.sort = 1          
 
 ; Batch 2 modules (on = 1, off = 0)
 module.fuzzy_search = 0         ; Enable fuzzy search functionality

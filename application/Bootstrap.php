@@ -172,7 +172,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 $options = $options[$chunk];
             }
             else {
-                throw new Exception('No such option: ' . $key);
+                return 0;
             }
         }
         return $options;

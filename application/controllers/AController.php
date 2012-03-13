@@ -196,7 +196,10 @@ abstract class AController extends Zend_Controller_Action
                 $locale->getTranslation($iso, 'language', 
                     'en'));
         }
-        uasort($selectedLanguages, 'cmp');
+        $sortMenu = Bootstrap::instance()->getOption('language_menu.sort');
+        if ($sortMenu == 1) {
+            uasort($selectedLanguages, 'cmp');
+        }
         return $selectedLanguages;
     }
 
