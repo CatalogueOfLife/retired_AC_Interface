@@ -1455,6 +1455,6 @@ table.panelTable tr td,table.panelTable tr th {
 }
 
 #languagebar ul li a:hover,#languagebar ul li a#selected {
-	background-color: #b41a1a;
+	background-color: #006699;
 	color: #fff;
 }
