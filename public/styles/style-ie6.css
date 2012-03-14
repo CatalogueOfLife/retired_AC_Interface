@@ -6,6 +6,6 @@ div.results_header div.results_form form {
 .infoPanel {
     width: 450px;
 }
-* html #database-qualifiers-table { 
-   width: expression( document.body.clientWidth < 276 ? "275px" : "auto" ); /* set min-width for IE */
+#database-qualifiers-table { 
+   width: 275px;
 }
