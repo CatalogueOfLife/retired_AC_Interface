@@ -1426,15 +1426,15 @@ table.panelTable tr td,table.panelTable tr th {
 }
 */
 #languagebar {
-	margin: -1px 0 20px 2px;
+	margin: -2px 0 20px 2px;
 	width: 758px;
 	background-color: #eaf2f7;
-    border-bottom: 3px solid #ce0d0b;
+    border-bottom: 2px solid #ce0d0b;
 }
 
 #languagebar ul {
 	padding-left: 0;
-	margin-left: 0;
+	margin-left: 1px;
 	color: #000;
 	width: 100%;
 }
