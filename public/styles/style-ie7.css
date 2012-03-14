@@ -24,3 +24,6 @@ form div.search-form dd fieldset#fieldset-matchGroup {
 form div.search-form dd fieldset#fieldset-submitGroup dl {
     padding-right: 50px;
 }
+* html #database-qualifiers-table { 
+   width: expression( document.body.clientWidth < 276 ? "275px" : "auto" ); /* set min-width for IE */
+}

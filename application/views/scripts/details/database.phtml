@@ -50,7 +50,7 @@ if (is_array($this->db)):
         <?php if (!empty($this->db['confidence_icons'])): ?>
             <span title="<?php echo $this->translate('db_confidence_'.$this->db['confidence'].'_star_title'); ?>">
             <?php foreach ($this->db['confidence_icons'] as $icon): ?>
-                <img src="<?php echo $this->baseUrl() .'/images/'. $icon; ?>.png" alt="" />
+                <img src="<?php echo $this->baseUrl() .'/images/'. $icon; ?>.png" alt="" width="17" height="16" />
             <?php endforeach; ?>
             </span>
         <?php else: ?>
