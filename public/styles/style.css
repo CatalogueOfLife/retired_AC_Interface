@@ -98,7 +98,7 @@ table {
 }
 
 #database-qualifiers-table {
-	width: 275px;
+	min-width: 275px;
 	float: right;
 }
 
