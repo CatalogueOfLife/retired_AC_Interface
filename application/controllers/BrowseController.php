@@ -320,11 +320,10 @@ class BrowseController extends AController
         foreach ($res as &$row) {
             // If not properly encoded, the names with diacritics are truncated
             // in the tree
-            $row['name'] = utf8_encode(
-                $row['name']);
-            $image = $this->view->baseUrl() . '/images/tree_icons/' . strtolower($row['name']) . '.png'; 
-            if($row['name'] != 'not assigned' || @fopen('http://' . $_SERVER['SERVER_NAME'] . $image, "r")) {
-            	$row['image'] = $image;
+            $row['name'] = utf8_encode($row['name']);
+            $image = strtolower($row['name']) . '.png';
+            if(file_exists(TREE_ICONS_PATH . '/' . $image)) {
+                $row['image'] = $this->view->baseUrl() . '/images/tree_icons/' . $image;
             } else {
             	$row['image'] = 0;
             }

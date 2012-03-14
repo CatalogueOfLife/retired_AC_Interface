@@ -56,6 +56,7 @@ catch(Zend_Config_Exception $e) {
         '] has been defined in the configuration file'
     );
 }
+define('TREE_ICONS_PATH', APPLICATION_PATH.'/../public/images/tree_icons');
 define('JS_PATH', $config->resources->view->scripts);
 // Init application
 $application = new Zend_Application(APPLICATION_ENV, $config);
