@@ -250,6 +250,7 @@ function createMapPanel(treeNode) {
     var panel = dojo.create("span", {
         id: "mapPanel" + '_' + treeNode.i.id,
         className: "mapIcon",
+        title: translate('map_icon_title'),
         style: "display: none;"
     });
     dojo.connect(panel, 'onclick', function(evt) {
@@ -336,6 +337,7 @@ function createInfoPanel(treeNode) {
     var panel = dojo.create("span", {
         id: "infoPanel" + '_' + treeNode.i.id,
         className: "infoIcon",
+        title: translate('info_icon_title'),
         style: "display: none;"
     });
     dojo.connect(panel, 'onclick', function(evt) {
@@ -458,6 +460,7 @@ function createCommentPanel(treeNode) {
     var panel = dojo.create("span", {
         id: "commentPanel" + '_' + treeNode.i.id,
         className: "commentIcon",
+        title: translate('feedback_icon_title'),
         style: "display: none;"
     });
     dojo.connect(panel, 'onclick', function(evt) {

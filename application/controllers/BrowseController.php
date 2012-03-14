@@ -41,7 +41,10 @@ class BrowseController extends AController
     	'There_are_no_regions_to_show',
     	'failed_to_retrieve_regions',
     	'failed_to_retrieve_region',
-    	'All_fields_are_required'
+    	'All_fields_are_required',
+    	'info_icon_title',
+		'feedback_icon_title',
+    	'map_icon_title'
     );
 
     public function treeAction ()
