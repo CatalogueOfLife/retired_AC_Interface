@@ -79,14 +79,14 @@ class BrowseController extends AController
             'icons_browse_tree');
         $this->view->iconsInTreeModuleEnabled = $iconInTreeModuleEnabled;
         if ($iconInTreeModuleEnabled) {
-            if (!isset($_COOKIE['treeIcons']) || $_COOKIE['treeIcons'] === false) {
-                setcookie('treeIcons', 0, 
+            if (!isset($_COOKIE['iconSpan']) || $_COOKIE['iconSpan'] === false) {
+                setcookie('iconSpan', 0, 
                     time() + $this->_cookieExpiration, '/', 
                     '');
                 $showIconsInTreeCheckbox = 0;
             }
             else {
-                $showIconsInTreeCheckbox = $_COOKIE['treeIcons'];
+                $showIconsInTreeCheckbox = $_COOKIE['iconSpan'];
             }
             $this->view->showIconsInTreeSelected = $showIconsInTreeCheckbox;
         }
