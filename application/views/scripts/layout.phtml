@@ -19,13 +19,13 @@
     echo $this->headTitle();
     // styles
     $this->headLink()->setStylesheet(
-        $this->baseUrl() . '/styles/style.css', 'all'
+        $this->baseUrl() . '/styles/style.css?' . $this->app->edition, 'all'
     );
     $this->headLink()->appendStylesheet(
-        $this->baseUrl() . '/styles/style-ie6.css', 'all', 'IE 6'
+        $this->baseUrl() . '/styles/style-ie6.css?' . $this->app->edition, 'all', 'IE 6'
     );
     $this->headLink()->appendStylesheet(
-        $this->baseUrl() . '/styles/style-ie7.css', 'all', 'IE 7'
+        $this->baseUrl() . '/styles/style-ie7.css?' . $this->app->edition, 'all', 'IE 7'
     );
     echo $this->headLink();
     if ($this->dojo()->isEnabled()) {
@@ -38,11 +38,11 @@
    	    echo $this->dojo();
     }
     $this->headScript()->appendFile(
-        $this->baseUrl() . JS_PATH . '/main.js'
+        $this->baseUrl() . JS_PATH . '/main.js?' . $this->app->edition
     );
     if ($this->imagesModuleAjaxEnabled) {
         $this->headScript()->appendFile(
-            $this->baseUrl() . JS_PATH . '/ajax.js'
+            $this->baseUrl() . JS_PATH . '/ajax.js?' . $this->app->edition
         );
     }
     echo $this->headScript();
@@ -225,8 +225,8 @@ dojo.require("dojo.parser");
     <div id="header">
         <h1 class="title"><?php printf($this->translate('title'), $this->app->edition); ?></h1>
     </div>
-    <div id="languagebar">
     <?php if(count($this->interfaceLanguages) > 1): ?>
+        <div id="languagebar">
         <ul>
         <?php foreach ($this->interfaceLanguages as $iso => $language): ?> 
             <li>
