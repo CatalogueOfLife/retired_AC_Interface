@@ -1400,31 +1400,6 @@ table.panelTable tr td,table.panelTable tr th {
 	z-index: 9999;
 }
 
-/*
-#languagebar {
-	position: relative;
-	top: -10px;
-	padding-left: 15px;
-	padding-bottom: 0;
-	max-width: 760px;
-}
-
-.languagebarItem {
-	padding: 2px;
-	padding-left: 6px;
-	padding-right: 6px;
-}
-
-.languagebarItem,.languagebarItem a,.languagebarItem a:hover,.languagebarItem a:visited,.languagebarItem a:active,.languagebarItem a:focus
-	{
-	color: #000;
-	text-decoration: none;
-}
-
-.selectedLanguagebarItem,.languagebarItem a:hover,.languagebarItem a:focus {
-	font-weight: bold;
-}
-*/
 #languagebar {
 	margin: -2px 0 20px 2px;
 	width: 758px;
