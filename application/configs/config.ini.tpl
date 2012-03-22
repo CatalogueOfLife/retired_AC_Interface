@@ -37,7 +37,7 @@ language_menu.sort = 1
 ; Batch 2 modules (on = 1, off = 0)
 module.fuzzy_search = 0         ; Enable fuzzy search functionality
 
-module.feedback = 1				; Enable feedbackservice
+module.feedback = 0				; Enable feedbackservice
 ; Fill in the location of the feedbackservice
 module.feedbackUrl = ""
 
