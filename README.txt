@@ -1,4 +1,4 @@
-@APP.VERSION@ Annual Checklist Interface
+@APP.EDITION@ Annual Checklist Interface
 by ETI BioInformatics
 
 RELEASE INFORMATION
@@ -8,7 +8,7 @@ Released on @TIMESTAMP@
 
 ABOUT THIS SOFTWARE
 ====================
-This web application provides an interface to the @APP.VERSION@ Annual Checklist 
+This web application provides an interface to the @APP.EDITION@ Annual Checklist 
 database. It is written in PHP 5, based on the following third-party open source 
 software: Zend Framework and Dojo Toolkit.
 

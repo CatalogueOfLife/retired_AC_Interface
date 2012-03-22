@@ -4,7 +4,7 @@ Please visit http://framework.zend.com for more information.
 SYSTEM REQUIREMENTS
 ====================
 PHP  
-  Required version: 5.2.10+
+  Required EDITION: 5.2.10+
 
   * Extensions:
     ctype   (http://www.php.net/manual/en/ref.ctype.php)
@@ -14,10 +14,10 @@ PHP
     session (http://www.php.net/manual/en/ref.session.php)
   
 MySQL
-  Required version: 5.0+
+  Required EDITION: 5.0+
 
 Apache
-  Required version: 2.0+
+  Required EDITION: 2.0+
 
   * Modules:
     mod_rewrite (http://httpd.apache.org/docs/2.0/mod/mod_rewrite.html)
@@ -27,13 +27,13 @@ INSTALLATION
 =============
 1. Setup the database by executing the following lines in the Terminal
 
-    $ mysql -u root -e 'CREATE DATABASE IF NOT EXISTS col@APP.VERSION@ac';
-    $ tar zxvf col@APP.VERSION@ac.sql.tar.gz
-    $ mysql -u root col@APP.VERSION@ac < col@APP.VERSION@ac.sql   
+    $ mysql -u root -e 'CREATE DATABASE IF NOT EXISTS col@APP.EDITION@ac';
+    $ tar zxvf col@APP.EDITION@ac.sql.tar.gz
+    $ mysql -u root col@APP.EDITION@ac < col@APP.EDITION@ac.sql   
 
     Use the following command to remove the uncompressed SQL file:
     
-    $ rm col@APP.VERSION@ac.sql
+    $ rm col@APP.EDITION@ac.sql
 
 2. Deploy the application
 
@@ -65,7 +65,7 @@ INSTALLATION
    database.params.host     = localhost
    database.params.username = here-your-MySQL-username
    database.params.password = here-your-MySQL-password
-   database.params.dbname   = here-the-name-of-the-db (col@APP.VERSION@ac in the example 
+   database.params.dbname   = here-the-name-of-the-db (col@APP.EDITION@ac in the example 
                               above)
 
 5. Configure Apache
