@@ -27,13 +27,13 @@ INSTALLATION
 =============
 1. Setup the database by executing the following lines in the Terminal
 
-    $ mysql -u root -e 'CREATE DATABASE IF NOT EXISTS col2010ac';
-    $ tar zxvf col2010ac.sql.tar.gz
-    $ mysql -u root col2010ac < col2010ac.sql   
+    $ mysql -u root -e 'CREATE DATABASE IF NOT EXISTS col@APP.VERSION@ac';
+    $ tar zxvf col@APP.VERSION@ac.sql.tar.gz
+    $ mysql -u root col@APP.VERSION@ac < col@APP.VERSION@ac.sql   
 
     Use the following command to remove the uncompressed SQL file:
     
-    $ rm col2010ac.sql
+    $ rm col@APP.VERSION@ac.sql
 
 2. Deploy the application
 
@@ -65,7 +65,7 @@ INSTALLATION
    database.params.host     = localhost
    database.params.username = here-your-MySQL-username
    database.params.password = here-your-MySQL-password
-   database.params.dbname   = here-the-name-of-the-db (col2010ac in the example 
+   database.params.dbname   = here-the-name-of-the-db (col@APP.VERSION@ac in the example 
                               above)
 
 5. Configure Apache
