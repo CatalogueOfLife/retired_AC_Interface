@@ -50,7 +50,7 @@ advanced.cookie_expiration = 1209600
 advanced.webservice_timeout = 5
 
 ; Batch 3 modules (on = 1, off =0)
-module.map_search = 1			; Enables searching by map instead of by text
-module.map_species_details = 1	; Enables map with distribution data on species details page
-module.map_browse_tree = 1		; Enables map with distribution data in the taxonomic tree
+module.map_search = 0			; Enables searching by map instead of by text
+module.map_species_details = 0	; Enables map with distribution data on species details page
+module.map_browse_tree = 0		; Enables map with distribution data in the taxonomic tree
 module.icons_browse_tree = 1	; Enables taxonomic rank icons in the taxonomic tree
