@@ -1,10 +1,10 @@
 [@ENVIRONMENT@]
 ; Database
-database.params.port     = @DB.PORT@
-database.params.host     = @DB.HOST@
-database.params.username = @DB.USERNAME@
-database.params.password = @DB.PASSWORD@
-database.params.dbname   = @DB.NAME@
+database.params.port     = 
+database.params.host     = 
+database.params.username = 
+database.params.password = 
+database.params.dbname   = 
 database.params.charset  = "utf8"
 
 ; Google Analytics Tracker Id
