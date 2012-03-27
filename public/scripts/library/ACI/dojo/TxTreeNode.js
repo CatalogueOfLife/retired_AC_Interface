@@ -433,9 +433,15 @@ function createInfoPanelStatistics(treeNode) {
 
 function closePanel(currentId){
 	dijit.popup.close(dialog);
-	dojo.style(dojo.byId("infoPanel_" + currentId), "display", "none");
-	dojo.style(dojo.byId("commentPanel_" + currentId), "display", "none");
-	dojo.style(dojo.byId("mapPanel_" + currentId), "display", "none");
+	if (dojo.byId("infoPanel_" + currentId)) {
+		dojo.style(dojo.byId("infoPanel_" + currentId), "display", "none");
+	}
+	if (dojo.byId("commentPanel_" + currentId)) {
+		dojo.style(dojo.byId("commentPanel_" + currentId), "display", "none");
+	}
+	if (dojo.byId("mapPanel_" + currentId)) {
+		dojo.style(dojo.byId("mapPanel_" + currentId), "display", "none");
+	}
 	return false;
 }
 
