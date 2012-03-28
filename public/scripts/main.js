@@ -171,11 +171,11 @@ function sendComment() {
 		return;
 	}
 	var submitUrl = baseUrl + "/ajax/feedback/ID/" + form.taxaId.value + 
-		"/Comment/" + form.comment.value + 
+		"/Comment/" + form.commentTaxonString.value + 
 		"/CommentType/" + form.commentType.value + 
-		"/UserName/" + form.name.value + 
-		"/UserMail/" + form.email.value +
-		"/TaxonString/" + form.taxonString.value;
+		"/UserName/" + form.commentName.value + 
+		"/UserMail/" + form.commentEmail.value +
+		"/TaxonString/" + form.commentTaxonString.value;
 	form.action = 'javascript:alert(\''+translate('Comment_being_processed')+'\');';
 	// The "xhrGet" method executing an HTTP GET
 	dojo.xhrGet({

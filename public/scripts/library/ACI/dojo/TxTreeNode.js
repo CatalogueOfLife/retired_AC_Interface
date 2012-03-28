@@ -560,6 +560,7 @@ function createCommentPanelContents(treeNode) {
 	type.className = 'commentPanelLabel';
 	type.appendChild(dojo.doc.createTextNode('type:'));*/
 	type.name = 'commentType';
+	type.id = 'commentType';
 	addOption('general_comment',translate('general_comment'),type);
 	addOption('correction',translate('correction'),type);
 	addOption('additional_information',translate('additional_information'),type);
@@ -586,6 +587,7 @@ function createCommentPanelContents(treeNode) {
 	textArea.style.height = "75px";
 	
 	var hiddenTaxaId = dojo.doc.createElement('input');
+	hiddenTaxaId.id = 'taxaId';
 	hiddenTaxaId.type = 'hidden';
 	hiddenTaxaId.name = 'taxaId';
 	hiddenTaxaId.value = treeNode.i.id;
