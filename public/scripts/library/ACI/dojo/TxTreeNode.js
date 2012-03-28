@@ -603,11 +603,6 @@ function createCommentPanelContents(treeNode) {
 	form.appendChild(closeButton);
 	form.appendChild(title);
 	
-	var p = dojo.doc.createElement('p');
-	p.id = 'testTextfield';
-	p.name = 'textfield';
-	
-	
 	form.appendChild(table);
 	th1.appendChild(setLabel(translate('Name')));
 	td1.appendChild(name);
