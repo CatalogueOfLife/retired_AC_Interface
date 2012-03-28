@@ -487,6 +487,10 @@ function showComment(treeNode){
 function createCommentPanelContents(treeNode) {
 	var table = dojo.doc.createElement('table');
 	table.className = 'panelTable';
+	
+	var tbody = dojo.doc.createElement('tbody');
+	table.appendChild(tbody);
+	
 	var tr1 = dojo.doc.createElement('tr');
 	var tr2 = dojo.doc.createElement('tr');
 	var tr3 = dojo.doc.createElement('tr');
@@ -504,11 +508,11 @@ function createCommentPanelContents(treeNode) {
 	td5.colSpan = 2;
 	td5.align = 'right';
 	
-	table.appendChild(tr1);
-	table.appendChild(tr2);
-	table.appendChild(tr3);
-	table.appendChild(tr4);
-	table.appendChild(tr5);
+	tbody.appendChild(tr1);
+	tbody.appendChild(tr2);
+	tbody.appendChild(tr3);
+	tbody.appendChild(tr4);
+	tbody.appendChild(tr5);
 	
 	tr1.appendChild(th1);
 	tr1.appendChild(td1);
