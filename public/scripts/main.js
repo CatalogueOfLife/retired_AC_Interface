@@ -163,3 +163,29 @@ function translate(str) {
 	}
 	return str;
 }
+
+function sendComment() {
+	var form = document.getElementById('commentForm');
+	if(form.commentName.value == "" || form.commentEmail.value == "" || form.commentText.value == "") {
+		alert(translate('All_fields_are_required'));
+		return;
+	}
+	var submitUrl = baseUrl + "/ajax/feedback/ID/" + form.taxaId.value + 
+		"/Comment/" + form.comment.value + 
+		"/CommentType/" + form.commentType.value + 
+		"/UserName/" + form.name.value + 
+		"/UserMail/" + form.email.value +
+		"/TaxonString/" + form.taxonString.value;
+	form.action = 'javascript:alert(\''+translate('Comment_being_processed')+'\');';
+	// The "xhrGet" method executing an HTTP GET
+	dojo.xhrGet({
+	    // The URL to request
+	    url: submitUrl,
+	    // The method that handles the request's successful result
+	    // Handle the response any way you'd like!
+	    load: function(result) {
+	        alert(result);
+	        closePanel(form.taxaId.value);
+	    }
+	});
+}
