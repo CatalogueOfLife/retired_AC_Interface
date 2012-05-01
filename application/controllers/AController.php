@@ -174,10 +174,6 @@ abstract class AController extends Zend_Controller_Action
         asort($selectedLanguages, SORT_LOCALE_STRING);
         return $selectedLanguages;*/
 
-        function cmp($a, $b) {
-            return strcmp($a['english_name'], $b['english_name']);
-        }
-        
     	$locale = new Zend_Locale($this->view->language);
         $allLanguages = Bootstrap::instance()->getOption('language');
         $selectedLanguages = array_flip(array_keys($allLanguages, 1));
@@ -198,7 +194,7 @@ abstract class AController extends Zend_Controller_Action
         }
         $sortMenu = Bootstrap::instance()->getOption('language_menu.sort');
         if ($sortMenu == 1) {
-            uasort($selectedLanguages, 'cmp');
+            uasort($selectedLanguages, array($this, 'cmp'));
         }
         return $selectedLanguages;
     }
@@ -207,6 +203,10 @@ abstract class AController extends Zend_Controller_Action
     {
         $config = Zend_Registry::get('config');
         return $config->advanced->cookie_expiration;
+    }
+    
+    static function cmp($a, $b) {
+        return strcmp($a['english_name'], $b['english_name']);
     }
 
     private function _setWebserviceTimeout ()
