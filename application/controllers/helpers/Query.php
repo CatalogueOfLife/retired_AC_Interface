@@ -151,7 +151,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
             case 'search/all':
             default:
                 $query = $select->all(
-                    $this->getRequest()->getParam('key'),
+                    trim($this->getRequest()->getParam('key')),
                     $this->getRequest()->getParam('match'),
                     $this->getRequest()->getParam('sort'),
                     $this->getRequest()->getParam('direction')
