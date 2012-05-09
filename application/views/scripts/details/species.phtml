@@ -275,10 +275,28 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>" style="border-top: solid 1px;">
         <th class="vertical"><?php echo 'External sources'; ?>:</th>
-        <td>
-        	Literature in BHL Europe: <a href="<?php echo $this->baseUrl() ;?>/bhl/index/">2 references</a> found
+        <td id="bhl-content">
+        	<img src="<?php echo $this->baseUrl('images/loader.gif'); ?>"/>
         </td>
     </tr>
+    
+    <script type="text/javascript">
+    	var url = baseUrl + '/bhl/synopsis';
+    	dojo.xhrGet({
+    	    // The URL to request
+    	    url: url,
+    	    // The method that handles the request's successful result
+    	    // Handle the response any way you'd like!
+    	    load: function(result) {
+        	    if(result == 1) {
+    	        	document.getElementById('bhl-content').innerHTML = 'BHL-Europe: ' + result + ' reference found.';
+        	    }
+        	    else {
+        	    	document.getElementById('bhl-content').innerHTML = 'BHL-Europe: ' + result + ' references found.';
+        	    }
+    	    }
+    	});
+	</script>
     
 <!-- END BHL Europe Reverse Lookup Service -->  
 <?php } ?>    

@@ -17,5 +17,14 @@ class BHLController extends AController {
 	 */
 	public function indexAction() {
 	}
+	
+	public function synopsisAction() {
+		$this->_helper->layout->disableLayout();
+		$this->_helper->viewRenderer->setNoRender();
+		$this->_response->setHeader('Content-Type', 'text/plain', true);
+		$this->_response->setBody('1');
+		$this->_response->sendResponse();
+		exit;
+	}
 
 }

@@ -41,7 +41,7 @@ module.feedback = 1				; Enable feedbackservice
 ; Fill in the location of the feedbackservice
 module.feedbackUrl = ""
 
-module.bhl = 1					; Enable BHL reverse lookup service
+module.bhl = 0					; Enable BHL reverse lookup service
 
 ; Advanced settings
 ; Cookies are used to store display preferences for the taxonomic tree and interface language. 
