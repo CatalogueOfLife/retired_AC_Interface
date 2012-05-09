@@ -41,6 +41,8 @@ module.feedback = 1				; Enable feedbackservice
 ; Fill in the location of the feedbackservice
 module.feedbackUrl = ""
 
+module.bhl = 1					; Enable BHL reverse lookup service
+
 ; Advanced settings
 ; Cookies are used to store display preferences for the taxonomic tree and interface language. 
 ; Set the cookie expiration time in seconds. The default expiration time is 14 days.

@@ -266,7 +266,25 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         ?></span></td>
     </tr>
 
+
     
+    
+<?php if(Bootstrap::instance()->getOption('module.bhl') == 1) { ?>
+<!-- BEGIN BHL Europe Reverse Lookup Service -->  
+   
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>" style="border-top: solid 1px;">
+        <th class="vertical"><?php echo 'External sources'; ?>:</th>
+        <td>
+        	Literature in BHL Europe: <a href="<?php echo $this->baseUrl() ;?>/bhl/index/">2 references</a> found
+        </td>
+    </tr>
+    
+<!-- END BHL Europe Reverse Lookup Service -->  
+<?php } ?>    
+
+
+
     <!-- Additional content -->
     <tr class="<?php echo $rowClass; ?> divisor">
         <td colspan="2 "/>

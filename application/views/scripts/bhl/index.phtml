@@ -1,0 +1,88 @@
+
+<div class="page_header">
+<?php echo 'External sources: BHL-Europe (unvetted)'; ?>
+</div>
+
+<p class="preface"><?php echo 'Scientific name references (1)';  ?></p>
+
+<?php $rowClass = 'odd'; ?>
+<table class="details-table">
+
+<?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical" style="width:20%;"><?php echo $this->translate('Author'); ?>:</th>
+        <td><?php echo 'Allen, G.R.'; ?></td>
+    </tr>
+    
+<?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Year'); ?>:</th>
+        <td><?php echo '1991'; ?></td>
+    </tr>
+    
+<?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Title'); ?>:</th>
+        <td><?php echo 'Field guide to fresh water fishes of New Guinea'; ?></td>
+    </tr>
+        
+<?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Source'); ?>:</th>
+        <td><?php echo 'Christensen Research Institute'; ?></td>
+    </tr>
+            
+<?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('URL'); ?>:</th>
+        <td><a href="<?php echo 'http://bhl-test.nhm.ac.uk/portal/search/bhle/bufo/?scientific_name=1'; ?>"><?php echo 'http://bhl-test.nhm.ac.uk/portal/search/bhle/bufo/?scientific_name=1'; ?></a></td>
+    </tr>
+            
+</table>
+
+
+<p class="preface"><?php echo 'Common name references (1)';  ?></p>
+
+<?php $rowClass = 'odd'; ?>
+<table class="details-table">
+
+<?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical" style="width:20%;"><?php echo $this->translate('Author'); ?>:</th>
+        <td><?php echo 'Allen, G.R.'; ?></td>
+    </tr>
+    
+<?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Year'); ?>:</th>
+        <td><?php echo '1991'; ?></td>
+    </tr>
+    
+<?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Title'); ?>:</th>
+        <td><?php echo 'Field guide to fresh water fishes of New Guinea'; ?></td>
+    </tr>
+        
+<?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Source'); ?>:</th>
+        <td><?php echo 'Christensen Research Institute'; ?></td>
+    </tr>
+            
+<?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('URL'); ?>:</th>
+        <td><a href="<?php echo 'http://bhl-test.nhm.ac.uk/portal/search/bhle/bufo/?scientific_name=1'; ?>"><?php echo 'http://bhl-test.nhm.ac.uk/portal/search/bhle/bufo/?scientific_name=1'; ?></a></td>
+    </tr>
+            
+</table>
+
+<div class="page_links">
+<a href="javascript:history.back()">
+    <?php echo $this->translate('Back_to_last_page'); ?>
+</a> |
+<a href="<?php echo $this->baseUrl() . '/' . $this->latestSearch; ?>">
+    <?php echo $this->translate('New_search'); ?>
+</a>
+</div>
