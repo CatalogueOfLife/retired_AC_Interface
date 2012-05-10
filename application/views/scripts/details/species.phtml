@@ -281,7 +281,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
     </tr>
     
     <script type="text/javascript">
-    	var url = baseUrl + '/bhl/synopsis';
+    	var url = '<?php echo $this->baseUrl("bhl/synopsis/genus/{$this->species->genus}/species/{$this->species->species}")?>';
     	dojo.xhrGet({
     	    // The URL to request
     	    url: url,

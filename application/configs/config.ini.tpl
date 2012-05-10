@@ -43,6 +43,8 @@ module.feedbackUrl = ""
 
 module.bhl = 0					; Enable BHL reverse lookup service
 
+bhl.urlpattern = "http://bhl-test.nhm.ac.uk/solr/core/select/?q=olef_scientific_name:%s"
+
 ; Advanced settings
 ; Cookies are used to store display preferences for the taxonomic tree and interface language. 
 ; Set the cookie expiration time in seconds. The default expiration time is 14 days.
