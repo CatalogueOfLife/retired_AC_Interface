@@ -43,7 +43,8 @@ module.feedbackUrl = ""
 
 module.bhl = 0					; Enable BHL reverse lookup service
 
-bhl.urlpattern = "http://bhl-test.nhm.ac.uk/solr/core/select/?q=olef_scientific_name:%s"
+bhl.solr_urlpattern = "http://bhl-test.nhm.ac.uk/solr/core/select/?q=olef_scientific_name:%s"
+bhl.portal_urlpattern = "http://bhl-test.nhm.ac.uk/portal/bhle-view/bhle:%s"
 
 ; Advanced settings
 ; Cookies are used to store display preferences for the taxonomic tree and interface language. 

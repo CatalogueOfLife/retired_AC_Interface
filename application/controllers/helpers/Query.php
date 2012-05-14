@@ -99,7 +99,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         switch ($search) {
             case 'search/common':
                 $query = $select->commonNames(
-                    $this->getRequest()->getParam('key'),
+                    trim($this->getRequest()->getParam('key')),
                     $this->getRequest()->getParam('match'),
                     $this->getRequest()->getParam('sort'),
                     $this->getRequest()->getParam('direction')
@@ -142,7 +142,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                 break;
             case 'search/distribution':
                 $query = $select->distributions(
-                    $this->getRequest()->getParam('key'),
+                    trim($this->getRequest()->getParam('key')),
                     $this->getRequest()->getParam('match'),
                     $this->getRequest()->getParam('sort'),
                     $this->getRequest()->getParam('direction'),
@@ -160,6 +160,12 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                 );
                 break;
         }
+        /*
+        echo '<pre>';
+        print_r((string)$query);
+        echo '</pre>';
+        die();
+        */
         return $query;
     }
     
