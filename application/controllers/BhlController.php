@@ -11,7 +11,7 @@ require_once 'AController.php';
  * @subpackage  controllers
  *
  */
-class BHLController extends AController {
+class BhlController extends AController {
 
 	public function indexAction() {
 		$genus = $this->_request->getParam('genus');
