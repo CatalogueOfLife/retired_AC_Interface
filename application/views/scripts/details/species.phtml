@@ -276,7 +276,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
     <tr class="<?php echo $rowClass; ?>" style="border-top: solid 1px;">
         <th class="vertical"><?php echo 'External sources'; ?>:</th>
         <td id="bhl-content">
-        	<a href="<?php echo $this->baseUrl("bhl/synopsis/genus/{$this->species->genus}/species/{$this->species->species}"); ?>">test me</a>
+        	<?php echo $this->baseUrl("bhl/synopsis/genus/{$this->species->genus}/species/{$this->species->species}"); ?>
         	<br/><img src="<?php echo $this->baseUrl('images/loader.gif'); ?>"/>
         </td>
     </tr>
