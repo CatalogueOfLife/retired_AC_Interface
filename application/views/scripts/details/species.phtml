@@ -285,6 +285,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
     	dojo.xhrGet({
     	    url: '<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $this->baseUrl() . "/bhl/synopsis/genus/{$this->species->genus}/species/{$this->species->species}"; ?>',
     	    load: function(result) {
+        	    alert('hi');
         	    if(result == 0) {
         	    	document.getElementById('bhl-content').innerHTML = 'No literature references found in BHL Europe';
         	    }
