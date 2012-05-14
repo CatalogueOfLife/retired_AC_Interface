@@ -283,14 +283,14 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
     
     <script type="text/javascript">
     	dojo.xhrGet({
-    	    url: '<?php echo $this->baseUrl() . "/bhl/synopsis/genus/{$this->species->genus}/species/{$this->species->species}"; ?>',
+    	    url: '<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $this->baseUrl() . "/bhl/synopsis/genus/{$this->species->genus}/species/{$this->species->species}"; ?>',
     	    load: function(result) {
         	    if(result == 0) {
         	    	document.getElementById('bhl-content').innerHTML = 'No literature references found in BHL Europe';
         	    }
         	    else {
             	    var content = (result == 1 ? ' literature reference' : ' literature references');
-            	    var url = '<?php echo $this->baseUrl() . "/bhl/index/genus/{$this->species->genus}/species/{$this->species->species}"; ?>';
+            	    var url = '<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $this->baseUrl() . "/bhl/index/genus/{$this->species->genus}/species/{$this->species->species}"; ?>';
             	    var anchor = '<a href="' + url + '">' + result + content + '</a>';
         	    	document.getElementById('bhl-content').innerHTML = 'BHL Europe: ' + anchor;
         	    }
