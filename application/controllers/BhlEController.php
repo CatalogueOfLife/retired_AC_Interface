@@ -86,7 +86,20 @@ class BhlEController extends AController {
 	}
 	
 	private static function _reduce($thusfar, SimpleXMLElement $sxe) {
-		$thusfar = $thusfar === null ? (string) $sxe : $thusfar . '; ' . $sxe;
+		$chunk = (string) $sxe;
+		
+		// hack
+		if(trim($chunk) === '0') {
+			$thusfar = '';
+		} 
+		
+		if($thusfar === null) {
+			$thusfar = $chunk;
+		}
+		else {
+			$thusfar .= '; ' . $chunk;
+		}
+		
 		return $thusfar;
 	}
 
