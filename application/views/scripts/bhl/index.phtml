@@ -56,13 +56,13 @@
 <?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('URL'); ?>:</th>
-        <td><a href="<?php echo $url; ?>" target="_new"><?php echo $url; ?></a></td>
+        <td><a href="<?php echo $url; ?>" target="_blank"><?php echo $url; ?></a></td>
     </tr>
 
 </table>
 
 <?php if($imgUrl !== null) { ?>
-<a href="<?php echo $url; ?>" target="_new">
+<a href="<?php echo $url; ?>" target="_blank">
 <img src="<?php echo $imgUrl; ?>" style="position:absolute;right:20px;top:25px;opacity:0.6;height:80px;border:1px solid #000;" />
 </a>
 </div>

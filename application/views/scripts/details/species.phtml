@@ -260,7 +260,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         </td>
     </tr>
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
-    <tr class="<?php echo $rowClass; ?>" style="border-top: solid 1px;">
+    <tr class="<?php echo $rowClass; ?>" style="border-top: solid 1px;border-bottom: solid 1px;">
         <th class="vertical"><?php echo $this->translate('CoL_taxon_LSID'); ?>:</th>
         <td><span class="lsid"><?php echo $this->species->lsid;
         ?></span></td>
@@ -273,7 +273,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
 <?php /* BEGIN BHL Europe Reverse Lookup Service */ if(Bootstrap::instance()->getOption('module.bhl') == 1) { ?>
    
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
-    <tr class="<?php echo $rowClass; ?>" style="border-top: solid 1px;">
+    <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo 'External sources'; ?>:</th>
         <td id="bhl-content">
         	<img src="<?php echo $this->baseUrl('images/loader.gif'); ?>"/>
@@ -309,10 +309,6 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
 
 
 
-    <!-- Additional content -->
-    <tr class="<?php echo $rowClass; ?> divisor">
-        <td colspan="2 "/>
-    </tr>
 <?php 
     // Images from third party source(s)
     if ($this->imagesModuleDatabaseEnabled || $this->imagesModuleAjaxEnabled): ?>
