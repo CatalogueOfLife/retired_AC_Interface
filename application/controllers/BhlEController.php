@@ -67,14 +67,7 @@ class BhlEController extends AController {
 			$reference->publisher = self::_xpathGet($doc->xpath("arr[@name='mods_publisher']/str"));
 			$reference->year = self::_xpathGet($doc->xpath("arr[@name='mods_date_issued']/str"));
 			$authorElements = $doc->xpath("arr[@name='mods_name']/str");
-			echo '<pre>';
-			print_r($authorElements);
-			echo '</pre>';
 			$author = array_reduce($authorElements, array('BHLEController', '_reduce'));
-			echo '<pre>';
-			print_r($author);
-			echo '</pre>';
-			die();
 			$reference->author = $author;
 			$references[] = $reference;
 		}
