@@ -259,14 +259,32 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         <?php endforeach; ?>
         </td>
     </tr>
+    
+    <!-- Additional content -->
+    <tr class="<?php echo $rowClass; ?> divisor">
+        <td colspan="2 "/>
+    </tr>
+    
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
-    <tr class="<?php echo $rowClass; ?>" style="border-top: solid 1px;border-bottom: solid 1px;">
+    <tr class="<?php echo $rowClass; ?>" style="border-top: solid 1px;">
         <th class="vertical"><?php echo $this->translate('CoL_taxon_LSID'); ?>:</th>
         <td><span class="lsid"><?php echo $this->species->lsid;
         ?></span></td>
     </tr>
 
+<?php
 
+	$moreToCome = (Bootstrap::instance()->getOption('module.bhl') == 1);
+	$moreToCome = ($moreToCome || ($this->imagesModuleDatabaseEnabled || $this->imagesModuleAjaxEnabled));
+	if($moreToCome) {
+?>
+    <tr class="<?php echo $rowClass; ?> divisor">
+        <td colspan="2 "/>
+    </tr>
+
+<?php
+	} 
+?>
     
     
   
