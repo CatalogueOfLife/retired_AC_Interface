@@ -281,6 +281,8 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         </td>
     </tr>
     
+    <script type="text/javascript" src="/ACI-dev/scripts/library/dojo/dojo/dojo.js"></script>
+    
     <script type="text/javascript">
     	dojo.xhrGet({
     	    url: '<?php echo $this->baseUrl() . "/bhl/synopsis/genus/{$this->species->genus}/species/{$this->species->species}"; ?>',
@@ -350,6 +352,9 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         // Retrieval of images from webservice(s)
         elseif (!$this->imagesModuleDatabaseEnabled && $this->imagesModuleAjaxEnabled): ?>
         <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+        
+        	<script type="text/javascript" src="/ACI-dev/scripts/library/dojo/dojo/dojo.js"></script>
+        
             <script type="text/javascript">
                 function getImages() { // 
                     dojo.xhrGet( { // 
