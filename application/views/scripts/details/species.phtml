@@ -285,13 +285,13 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
     <script type="text/javascript">
     	var bhlHome = '<a href="<?php echo $this->setting('bhl.home_url'); ?>" target="_new">BHL Europe</a>';
     	dojo.xhrGet({
-    	    url: '<?php echo $this->baseUrl() . "/bhl/synopsis/genus/{$this->species->genus}/species/{$this->species->species}"; ?>',
+    	    url: '<?php echo $this->baseUrl() . "/bhl-e/synopsis/genus/{$this->species->genus}/species/{$this->species->species}"; ?>',
     	    load: function(result) {
         	    if(result == 0) {
         	    	document.getElementById('bhl-content').innerHTML = ('No literature references found in ' + bhlHome);
         	    }
         	    else {
-            	    var url = '<?php echo $this->baseUrl() . "/bhl/index/genus/{$this->species->genus}/species/{$this->species->species}"; ?>';
+            	    var url = '<?php echo $this->baseUrl() . "/bhl-e/index/genus/{$this->species->genus}/species/{$this->species->species}"; ?>';
             	    var s = (result == 1 ? '' : 's');
             	    var html = ('<table><tr><td>' + result + ' literature reference' + s + ' found in ' + bhlHome + '</td>');
             	    html += ('<td align="right"><a href="' + url + '"><img src="<?php echo $this->baseUrl() . '/images/book.gif'; ?>" /></a></td></tr></table>');

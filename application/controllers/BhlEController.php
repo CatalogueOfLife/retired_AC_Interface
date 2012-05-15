@@ -11,7 +11,7 @@ require_once 'AController.php';
  * @subpackage  controllers
  *
  */
-class BhlController extends AController {
+class BhlEController extends AController {
 
 	public function indexAction() {
 		$genus = $this->_request->getParam('genus');
@@ -66,7 +66,7 @@ class BhlController extends AController {
 			$reference->title = self::_xpathGet($doc->xpath("arr[@name='mods_title']/str"));
 			$reference->publisher = self::_xpathGet($doc->xpath("arr[@name='mods_publisher']/str"));
 			$reference->year = self::_xpathGet($doc->xpath("arr[@name='mods_date_issued']/str"));
-			$author = array_reduce($doc->xpath("arr[@name='mods_name']/str"), array('BHLController', '_reduce'), null);
+			$author = array_reduce($doc->xpath("arr[@name='mods_name']/str"), array('BHLEController', '_reduce'), null);
 			$reference->author = $author;
 			$references[] = $reference;
 		}
