@@ -70,8 +70,11 @@ class BhlEController extends AController {
 			echo '<pre>';
 			print_r($authorElements);
 			echo '</pre>';
-			die();
 			$author = array_reduce($authorElements, array('BHLEController', '_reduce'), null);
+			echo '<pre>';
+			print_r($author);
+			echo '</pre>';
+			die();
 			$reference->author = $author;
 			$references[] = $reference;
 		}
