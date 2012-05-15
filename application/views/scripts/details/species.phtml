@@ -293,7 +293,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         	    else {
             	    var url = '<?php echo $this->baseUrl() . "/bhl-e/index/genus/{$this->species->genus}/species/{$this->species->species}"; ?>';
             	    var s = (result == 1 ? '' : 's');
-            	    var html = ('<table><tr><td>' + result + ' literature reference' + s + ' found in ' + bhlHome + '</td>');
+            	    var html = ('<table><tr><td>' + result + ' literature reference' + s + ' found in BHL Europe</td>');
             	    html += ('<td align="right"><a href="' + url + '"><img src="<?php echo $this->baseUrl() . '/images/book.gif'; ?>" /></a></td></tr></table>');
         	    	document.getElementById('bhl-content').innerHTML = html;
         	    }
