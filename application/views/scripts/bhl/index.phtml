@@ -8,8 +8,24 @@
 	$rowClass = 'odd';
 	foreach($this->bhl->references as $reference) {
 		$url = sprintf($this->portalUrlPattern, $reference->pid);
-			
+		$imgUrl = null;
+		$id = substr($reference->pid, (strpos($reference->pid, '-')+1));
+		if($id) {
+			$imgUrl = sprintf($this->imageUrlPattern, $id);
+			// make sure image exists
+			$h = fopen($imgUrl, 'r');
+			if(!$h) {
+				$imgUrl = null;
+			}
+			else {
+				fclose($h);
+			}
+		}
 ?>
+
+<?php if($imgUrl !== null) { ?>
+<div style="position:relative;padding:0;">
+<?php } ?>
 
 <table class="details-table">
 
@@ -44,6 +60,12 @@
     </tr>
 
 </table>
+
+<?php if($imgUrl !== null) { ?>
+<img src="<?php echo $imgUrl; ?>" style="position:absolute;right:20px;top:20px;opacity:0.6;height:80px;border:1px solid #000;" />
+</div>
+<?php } ?>
+
 
 <?php
 	}
