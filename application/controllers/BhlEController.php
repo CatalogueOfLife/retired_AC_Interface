@@ -46,7 +46,7 @@ class BhlEController extends AController {
 		$session = $this->getHelper('SessionHandler');
 		$previousSerchTerm = $session->get('BHL_SEARCH_TERM');
 		if($previousSerchTerm == $searchTerm) {
-			return unserialize($session->get('BHL_RESPONSE'));
+			//return unserialize($session->get('BHL_RESPONSE'));
 		}
 		
 		$session->set('BHL_SEARCH_TERM', $searchTerm);
@@ -66,7 +66,12 @@ class BhlEController extends AController {
 			$reference->title = self::_xpathGet($doc->xpath("arr[@name='mods_title']/str"));
 			$reference->publisher = self::_xpathGet($doc->xpath("arr[@name='mods_publisher']/str"));
 			$reference->year = self::_xpathGet($doc->xpath("arr[@name='mods_date_issued']/str"));
-			$author = array_reduce($doc->xpath("arr[@name='mods_name']/str"), array('BHLEController', '_reduce'), null);
+			$authorElements = $doc->xpath("arr[@name='mods_name']/str");
+			echo '<pre>';
+			print_r($authorElements);
+			echo '</pre>';
+			die();
+			$author = array_reduce($authorElements, array('BHLEController', '_reduce'), null);
 			$reference->author = $author;
 			$references[] = $reference;
 		}
