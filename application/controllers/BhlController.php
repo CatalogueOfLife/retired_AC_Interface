@@ -19,7 +19,8 @@ class BhlController extends AController {
 		$searchTerm = "{$genus}%20{$species}";
 		$this->view->searchTerm = $searchTerm;
 		$this->view->bhl = $this->_getBHLResponse($searchTerm);
-		$this->view->urlpattern = Bootstrap::instance()->getOption('bhl.portal_urlpattern');
+		$this->view->portalUrlPattern = Bootstrap::instance()->getOption('bhl.portal_urlpattern');
+		$this->view->imageUrlPattern = Bootstrap::instance()->getOption('bhl.image_urlpattern');
 	}
 	
 	public function synopsisAction() 

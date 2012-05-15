@@ -3,13 +3,15 @@
 <?php echo "Literature references in BHL-Europe: {$this->bhl->numFound} found (unvetted)"; ?>
 </div>
 
-<table class="details-table">
 
 <?php
 	$rowClass = 'odd';
 	foreach($this->bhl->references as $reference) {
-		$url = sprintf($this->urlpattern, $reference->pid);	
+		$url = sprintf($this->portalUrlPattern, $reference->pid);
+			
 ?>
+
+<table class="details-table">
 
 <?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
     <tr class="<?php echo $rowClass; ?>">
@@ -41,11 +43,12 @@
         <td><a href="<?php echo $url; ?>" target="_new"><?php echo $url; ?></a></td>
     </tr>
 
+</table>
+
 <?php
 	}
 ?>
 
-</table>
 
 
 
