@@ -45,7 +45,7 @@ module.bhl = 0					; Enable BHL reverse lookup service
 
 bhl.home_url = "http://bhl-test.nhm.ac.uk/portal"
 bhl.solr_urlpattern = "http://bhl-test.nhm.ac.uk/solr/core/select/?q=olef_scientific_name:%s"
-bhl.portal_urlpattern = "http://bhl-test.nhm.ac.uk/portal/bhle-view/bhle:%s"
+bhl.portal_urlpattern = "http://bhl-test.nhm.ac.uk/portal/bhle-view/%s"
 bhl.image_urlpattern = "http://bhl-test.nhm.ac.uk/static/%1$s/%1$s_thumbnail.jpg"
 
 ; Advanced settings
