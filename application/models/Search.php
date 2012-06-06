@@ -632,22 +632,30 @@ class ACI_Model_Search extends AModel
                 'tst.'.$column.' ' . (strstr($key, '%') ? 'LIKE' : '=') . ' ? ',
                 $key
             );
-        } elseif ($matchWholeWords && !strstr($searchKey, '%')) {
-            $name_elements = explode(' ',$searchKey);
-            $having = '';
-            foreach($name_elements as $name_element)
-            {
-                $key = ($matchWholeWords == 1 ? $name_element : $name_element . '%');
-                $select->orWhere(
-                    'tst.name_element ' . (strstr($key, '%') ? 'LIKE' : '=') . ' ?',
-                    $key
-                );
-                $having .= ' AND `name` LIKE "%' . $name_element . '%"';
-            }
         } else {
-            $select->where(
-                'tst.'.$column.' LIKE "%' . $searchKey . '%"'
-            );
+            $name_elements = explode(' ',$searchKey);
+            $shortString = false;
+            foreach($name_elements as $name_element) {
+            	if(strlen($name_element) < 4) {
+		            $shortString = true;
+            	}
+            }
+        	if ($matchWholeWords && !strstr($searchKey, '%') && $shortString === false) {
+	            $having = '';
+	            foreach($name_elements as $name_element)
+	            {
+	                $key = ($matchWholeWords == 1 ? $name_element : $name_element . '%');
+	                $select->orWhere(
+	                    'tst.name_element ' . (strstr($key, '%') ? 'LIKE' : '=') . ' ?',
+	                    $key
+	                );
+	                $having .= ' AND `name` LIKE "%' . $name_element . '%"';
+	            }
+	        } else {
+	            $select->where(
+	                'tst.'.$column.' LIKE "%' . $searchKey . '%"'
+	            );
+        	}
         }
            
         // Prevent multiple selection of the same taxon (cased by duplicated
