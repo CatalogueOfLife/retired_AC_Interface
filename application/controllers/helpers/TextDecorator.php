@@ -41,8 +41,11 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
             $suffix = '';
             $replace = '';
         }
-        $regexp = '/(' .
-            str_replace('*', $replace, $prefix . $needle . $suffix) . ')/i';
+        // /\b($words)\b/mi
+        // /(pinus)/i
+        $regexp = '/\b(' .
+            str_replace('*', $replace, $prefix . $needle . $suffix) . ')\b/mi';
+            //die(var_dump($regexp));
         return preg_replace(
             $regexp,
             "<span class=\"matchHighlight\">$1</span>",
