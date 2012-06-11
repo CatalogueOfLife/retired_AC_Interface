@@ -216,7 +216,7 @@ class ACI_Model_Webservice extends AModel
     protected function _processScientificName(array $row, /*bool*/$full)
     {
         // Higher taxon
-        if ($row['rank_id'] < ACI_Model_Table_Taxa::RANK_SPECIES) {
+        if (ACI_Model_Table_Taxa::isRankHigherThanSpecies($row['rank_id'])) {
             $sn = array(
                 'id' => $row['record_id'],
                 'name' => $row['name'],

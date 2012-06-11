@@ -183,7 +183,60 @@ class ACI_Model_Table_Taxa
         return $ranks;
     }
 
-    public function hasSynonyms ()
+	private static $_ranksDescending = array (
+			self::RANK_KINGDOM,
+			self::RANK_PHYLUM,
+			self::RANK_CLASS,
+			self::RANK_ORDER,
+			self::RANK_SUPERFAMILY,
+			self::RANK_FAMILY,
+			self::RANK_GENUS,
+			self::RANK_SPECIES 
+	);
+	
+	/**
+	 * Returns 0 if the specified ranks are equal; -1 if the first rank is
+	 * lower than the second; +1 if the first rank is higher than the second.
+	 * Infra-specific ranks are all considered equal.
+	 * 
+	 * @param int $rankId1 The ID of the 1st rank (e.g. 83 for species)
+	 * @param int $rankId2 The ID of the 2nd rank
+	 */
+	public static function compareRanks($rankId1, $rankId2) {
+		$rank1 = array_search($rankId1,self::$_ranksDescending);
+		$rank2 = array_search($rankId2,self::$_ranksDescending);
+		
+		if($rank1 === $rank2) {
+			return 0;
+		}
+		if($rank1 === false) {
+			// $rankdId1 not found in self::$_ranksDescending - must be some infra-specific rank
+			return -1;
+		}
+		if($rank1 === false) {
+			// $rankdId2 not found in self::$_ranksDescending - must be some infra-specific rank
+			return 1;
+		}
+		
+		// tricky: higher ranks come first in self::$_ranksDescending
+		return $rank1 < $rank2 ? 1 : -1;	
+	}
+	
+	// For the lazy
+	public static function isRank1HigherThanRank2($rankId1, $rankId2) {
+		return self::compareRanks($rankId1, $rankId2) === 1;
+	}
+	
+	// For the lazy
+	public static function isRank1LowerThanRank2($rankId1, $rankId2) {
+		return self::compareRanks($rankId1, $rankId2) === -1;
+	}
+	
+	public static function isRankHigherThanSpecies($rankId) {
+		return self::compareRanks($rankId, self::RANK_SPECIES) === 1;
+	}
+	
+	public function hasSynonyms ()
     {
         return (bool) count($this->synonyms);
     }
