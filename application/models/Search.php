@@ -318,9 +318,11 @@ class ACI_Model_Search extends AModel
             )
         )
         ->order(
+
             ($sort ?
                 ($sort == 'status' ?
                 	array_merge(
+                		self::_getSortRank($direction),
 			            array(
 		                    self::getRightColumnName($sort) . self::getRightSortDirection($direction),
 	                    	'name_status_suffix' . self::getRightSortDirection($direction),
@@ -329,6 +331,7 @@ class ACI_Model_Search extends AModel
 	                    self::_getSortParams('all',$direction)
                     ) :
 	                array_merge(
+	                	self::_getSortRank($direction),
 	                	array(
 		                    self::getRightColumnName($sort) . self::getRightSortDirection($direction)
 	                	),
