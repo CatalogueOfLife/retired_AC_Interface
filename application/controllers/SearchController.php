@@ -144,7 +144,6 @@ class SearchController extends AController
             $this->_setSessionFromParams($form->getInputElements());
             $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage($form->getInputElements());
-            
         } else {
             if (!$this->_hasParam('key')) {
                 $this->_setParamsFromSession($form->getInputElements());
