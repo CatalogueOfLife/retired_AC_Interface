@@ -318,7 +318,22 @@ class ACI_Model_Webservice extends AModel
     {
         $dm = $this->_getDetailsModel();
         $distributions = $dm->distributions($id);
-        return implode('; ', $distributions);
+        if(!is_array($distributions)) {
+        	return (string) $distributions;
+        }
+        $result = '';
+        foreach($distributions as $i => $d) {
+        	if($i !== 0) {
+        		$result .= '; ';
+        	}
+        	if(is_array($d)) {
+        		$result .= implode(' ', $d);
+        	}
+        	else {
+        		$result .= $d;
+           	}
+        }
+        return $result;
     }
     
     protected function _getTaxaFromSpeciesId($snId)
