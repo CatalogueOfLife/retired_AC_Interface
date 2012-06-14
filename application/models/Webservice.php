@@ -354,7 +354,7 @@ class ACI_Model_Webservice extends AModel
             $syn['rank'] = $this->_getRankNameById($syn['rank_id']);
             $syn['name_status'] = $this->_getNameStatusById($syn['status']);
             $syn['url'] = self::getTaxaUrl(
-                $syn['id'], $syn['rank_id'], $syn['status'], $syn['id']
+                $syn['id'], $syn['rank_id'], $syn['status'], $id
             );
             $syn['references'] = $this->_getReferences($syn['id']);
             unset($syn['rank_id'], $syn['status'], $syn['source_database_id'],
