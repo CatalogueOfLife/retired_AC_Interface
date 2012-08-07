@@ -34,7 +34,7 @@ class ACI_Model_Table_Regions extends Zend_Db_Table_Abstract
         $select->from(
             $this,
             array('id', 'region_standard_id', 'name')
-        )->where('region.region_standard_id = ?', $regionStandardId)
+        )->where('region.region_standard_id = ? AND polygon != ""', $regionStandardId)
         ->order('region.name');
 
         $stmt = $this->_db->query($select);
