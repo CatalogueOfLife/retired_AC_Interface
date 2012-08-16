@@ -1,6 +1,6 @@
 @APP.VERSION@ Annual Checklist Interface
 by ETI BioInformatics
-
+   
 RELEASE INFORMATION
 ====================
 Annual Checklist Interface v@APP.VERSION@ r@APP.REVISION@
