@@ -127,7 +127,10 @@ class DetailsController extends AController
                         $fromId));
             }
         }
-        $title = $speciesDetails && $speciesDetails->infra_id != '' ? 'Infraspecies_details' : 'Species_details';
+		$this->view->mapInSpeciesDetailEnabled = $this->_moduleEnabled(
+            'map_species_details');
+        
+		$title = $speciesDetails && $speciesDetails->infra_id != '' ? 'Infraspecies_details' : 'Species_details';
         $this->view->title = $this->view->translate($title);
         $this->view->headTitle($this->view->title, 'APPEND');
         

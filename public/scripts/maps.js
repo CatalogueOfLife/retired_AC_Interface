@@ -47,12 +47,66 @@ function showRegions() {
 	var numberOfRegions = regions.length;
 	for (var i = 0; i < numberOfRegions; i++)
 	{
-		var region = getRegion(regions[i]);
+		//getRegion retrieves very fine regions via ajax (slow)
+//		var region = getRegion(regions[i]);
+		//showRegion retrieves rough regions that are already localy send (very fast)
+		var region = showRegion(regions[i]);
 	}
 }
 
-function showRegion(region) {
-	var polygon = createGeoJsonPolygon_nojquery(eval('('+region.polygon+')'),region.region_standard_id,false,region.id,region.name);
+function getRegionById(id) {
+	if (typeof region[1][id] != 'undefined') {
+		return region[1][id];
+	}
+	if (typeof region[2][id] != 'undefined') {
+		return region[2][id];
+	}
+	if (typeof region[3][id] != 'undefined') {
+		return region[3][id];
+	}
+	if (typeof region[4][id] != 'undefined') {
+		return region[4][id];
+	}
+	alert('region does not exsist.');
+	return false;
+}
+
+function getRegionStandardIdById(id) {
+	if (typeof region[1][id] != 'undefined') {
+		return 1;
+	}
+	if (typeof region[2][id] != 'undefined') {
+		return 2;
+	}
+	if (typeof region[3][id] != 'undefined') {
+		return 3;
+	}
+	if (typeof region[4][id] != 'undefined') {
+		return 4;
+	}
+	alert('region does not exsist.');
+	return false;	
+}
+
+function showRegion(regionId) {
+	var area = getRegionById(regionId);
+
+	var regionStandardId = getRegionStandardIdById(regionId);
+	var polygon = createGeoJsonPolygon_nojquery(area,regionStandardId,false,regionId,area.name);
+
+	polygon.setMap(map);
+	highligthedAreas[regionId] = true;
+ 	google.maps.event.addListener(polygon, 'mouseover', areaMouseOver);
+ 	google.maps.event.addListener(polygon, 'mouseout', areaMouseOut);
+	progressBar();
+}
+
+//This is called by ajax but is stopped using because it was slow.
+function showRegionOld(region) {
+	var area = eval('('+region.polygon+')');
+
+	var polygon = createGeoJsonPolygon_nojquery(area,region.region_standard_id,false,region.id,region.name);
+	
 	polygon.setMap(map);
 	highligthedAreas[region.id] = true;
  	google.maps.event.addListener(polygon, 'mouseover', areaMouseOver);
@@ -81,7 +135,7 @@ function getRegion(region_id) { //
         handleAs: "json",
         timeout: 10000, 
         load: function(response, ioArgs) { 
-    		showRegion(response);
+        	showRegionOld(response);
         },
         error: function(response, ioArgs) {  
             console.error(response); 
@@ -99,7 +153,7 @@ function getRegions(taxon_id,rank) { //
         },
         error: function(response, ioArgs) {  
             console.error(response); 
-            failedToRetrieveAjax("failed_to_retrieve_regions");
+            //failedToRetrieveAjax("failed_to_retrieve_regions");
         }
     });
 }
@@ -112,6 +166,7 @@ function storeRegions(region_ids){
 	regions = Array();
 	for(var i = 0; i < region_ids.length; i++) {
 		regions[i] = region_ids[i].region_id;
+//		highLightingArea(region_ids[i].region_id,0.5,0);
 	}
 	showRegions();
 }
@@ -245,19 +300,28 @@ function getPolygonById(id) {
 	return false;
 }
 
-function highLightArea(id) {
+function highLightingArea(id,fillOpacity,strokeOpacity) {
 	var polygon = getPolygonById(id);
+	polygon.fillOpacity = fillOpacity;
+	polygon.strokeOpacity = strokeOpacity;
+	polygon.setMap(map);
+}
+
+function highLightArea(id) {
+//	var polygon = getPolygonById(id);
 	if(highligthedAreas[id] != null) {
 		document.getElementById('region_'+id).checked = false;
-		polygon.fillOpacity = 0.0;
+		highLightingArea(id,0,0);
+/*		polygon.fillOpacity = 0.0;
 		polygon.strokeOpacity = 0;
-		polygon.setMap(map);
+		polygon.setMap(map);*/
 		highligthedAreas[id] = null;
 	} else {
 		document.getElementById('region_'+id).checked = true;
-		polygon.fillOpacity = 0.5;
+		highLightingArea(id,0.5,0);
+/*		polygon.fillOpacity = 0.5;
 		polygon.strokeOpacity = 0;
-		polygon.setMap(map);
+		polygon.setMap(map);*/
 		highligthedAreas[id] = true;
 	}
 	var hidden = document.getElementById('selectedRegions');

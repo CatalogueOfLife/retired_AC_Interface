@@ -96,8 +96,12 @@ var region = Array();
 var polygonSet = Array();
 var baseUrl = "<?php echo $this->baseUrl(); ?>";
 </script>
-<?php if(($this->mapSearchModuleEnabled == true) && 
-	$this->controller == 'search' && $this->action == 'distribution' ): ?>
+<?php if((($this->mapSearchModuleEnabled == true) && 
+	$this->controller == 'search' && $this->action == 'distribution' ) ||
+	(($this->mapInTreeModuleEnabled == true) && 
+	$this->controller == 'browse' && $this->action == 'tree' ) ||
+	(($this->mapInSpeciesDetailEnabled== true) && 
+	$this->controller == 'details' && $this->action == 'species' )): ?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('/scripts/library/ACI/polygons/iho_sea_areas.js');?>"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl('/scripts/library/ACI/polygons/tdwg_continents_level_1.js');?>"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl('/scripts/library/ACI/polygons/tdwg_regions_level_4.js');?>"></script>

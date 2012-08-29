@@ -94,7 +94,7 @@ class BrowseController extends AController
             $this->view->showIconsInTreeSelected = $showIconsInTreeCheckbox;
         }
         
-		$this->view->mapInTreeModuleEnabled = $this->_moduleEnabled(
+        $this->view->mapInTreeModuleEnabled = $this->_moduleEnabled(
             'map_browse_tree');
 		//Checks if the module statistics is enabled
         $statisticsModuleEnabled = $this->_moduleEnabled(
