@@ -48,7 +48,6 @@
     echo $this->headScript();
     ?>
 
-<?php /*
 <?php if($this->mapModuleEnabled == true || $this->mapInTreeModuleEnabled == true || $this->mapSearchModuleEnabled == true ): ?>
 <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js"
         djConfig="parseOnLoad: true">
@@ -63,15 +62,16 @@ dojo.require("dijit.Menu");
         <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/tundra/tundra.css"
         />
 <?php endif; ?>
-*/ ?>
+<?php /*
 
 <?php if($this->mapModuleEnabled == true || $this->mapInTreeModuleEnabled == true || $this->mapSearchModuleEnabled == true ): ?>
-<script type="text/javascript" src="<?php echo $this->baseUrl() . JS_PATH . '/dijit/form/Button.js'; ?>"></script>
-<script type="text/javascript" src="<?php echo $this->baseUrl() . JS_PATH . '/dijit/Menu.js'; ?>"></script>
-<script type="text/javascript" src="<?php echo $this->baseUrl() . JS_PATH . '/dijit/form/CheckBox.js'; ?>"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl() . JS_PATH . '/library/dojo/dijit/form/Button.js'; ?>"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl() . JS_PATH . '/library/dojo/dijit/Menu.js'; ?>"></script>
+<script type="text/javascript" src="<?php echo $this->baseUrl() . JS_PATH . '/library/dojo/dijit/form/CheckBox.js'; ?>"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js" djConfig="parseOnLoad: true"></script>
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/tundra/tundra.css" />
 <?php endif; ?>
+*/ ?>
 
     
 
