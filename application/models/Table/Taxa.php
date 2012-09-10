@@ -177,7 +177,8 @@ class ACI_Model_Table_Taxa
             self::RANK_SUPERFAMILY => 'RANK_SUPERFAMILY', 
             self::RANK_FAMILY => 'RANK_FAMILY', 
             self::RANK_GENUS => 'RANK_GENUS', 
-            self::RANK_SPECIES => 'RANK_SPECIES', 
+            self::RANK_SUBGENUS => 'RANK_SUBGENUS', 
+        	self::RANK_SPECIES => 'RANK_SPECIES', 
             self::RANK_INFRASPECIES => 'RANK_INFRASPECIES'
         );
         return $ranks;
@@ -191,6 +192,7 @@ class ACI_Model_Table_Taxa
 			self::RANK_SUPERFAMILY,
 			self::RANK_FAMILY,
 			self::RANK_GENUS,
+			self::RANK_SUBGENUS,
 			self::RANK_SPECIES 
 	);
 	

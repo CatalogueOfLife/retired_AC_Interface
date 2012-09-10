@@ -165,6 +165,21 @@ class DetailsController extends AController
         $this->view->hasTransliterations = $this->_hasTransliterations($speciesDetails->commonNames);
         $this->view->regionsCount = count($regions);
         $this->view->regions = implode(',',$regions);
+        $translator = Zend_Registry::get('Zend_Translate');
+        
+        switch ($speciesDetails->status) {
+        		case ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME:
+        			$name_status_written = $translator->translate(
+        				'accepted_name'
+        			);
+        			break;
+                case ACI_Model_Table_Taxa::STATUS_PROVISIONALLY_ACCEPTED_NAME:
+        			$name_status_written = $translator->translate(
+        				'provisionally_accepted_name'
+        			);
+        			break;
+        }
+        $this->view->name_status_written = ' ('.$name_status_written.')';
     }
 
     public function __call ($name, $arguments)

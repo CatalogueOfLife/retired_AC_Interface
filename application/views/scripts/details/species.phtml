@@ -41,7 +41,15 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         <td>
             <table>
                 <tr>
-                    <td><?php echo $this->species->name; ?></td>
+                    <td><i>
+                    <?php echo $this->species->genus .
+                    	(isset($this->species->subgenus) ? ' ('.$this->species->subgenus.')' : '') .
+                    	' ' . $this->species->species .
+                    	(isset($this->species->subspecies) ? ' '.$this->species->subspecies : '');
+                    ?>
+                    </i>
+                    <?php echo $this->species->author . $this->name_status_written;?>
+                    <?php //echo $this->species->name; ?></td>
                     <td align="right">
                     <?php if ($this->species->references): ?>
                     <a href="<?php echo $this->baseUrl() .
@@ -159,7 +167,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                         "" : $this->translate(strtoupper("RANK_" . $hierarchy['taxon'])); ?></td>
                     <td class="taxon"><a href="<?php echo $this->baseUrl() . '/browse/tree/id/' .
                       $hierarchy['record_id']; ?>">
-                        <?php echo in_array(strtolower($hierarchy['taxon']), array('species', 'genus')) ?
+                        <?php echo in_array(strtolower($hierarchy['taxon']), array('species', 'subgenus', 'genus')) ?
                          '<i>'.(strtolower($hierarchy['taxon']) == 'genus' ? ucfirst($hierarchy['name']) : 
                         		ucfirst($lastHierachy['name']) . ' ' . strtolower($hierarchy['name'])).
                          '</i>' : ucfirst($hierarchy['name']); $lastHierachy = $hierarchy ?>

@@ -466,6 +466,8 @@ class ACI_Model_Webservice extends AModel
                 return 'Family';
             case ACI_Model_Table_Taxa::RANK_GENUS:
                 return 'Genus';
+            case ACI_Model_Table_Taxa::RANK_SUBGENUS:
+                return 'Subgenus';
         }
         return 'unknown';
     }

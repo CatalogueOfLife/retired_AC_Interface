@@ -586,7 +586,9 @@ class ACI_Model_Search extends AModel
                 ACI_Model_Table_Taxa::RANK_FAMILY . ' ' .
             'WHEN "genus" THEN ' .
                 ACI_Model_Table_Taxa::RANK_GENUS . ' ' .
-            'WHEN "species" THEN ' .
+            'WHEN "subgenus" THEN ' .
+                ACI_Model_Table_Taxa::RANK_SUBGENUS . ' ' .
+        	'WHEN "species" THEN ' .
                 ACI_Model_Table_Taxa::RANK_SPECIES . ' ' .
             'ELSE ' .
                 ACI_Model_Table_Taxa::RANK_INFRASPECIES . ' ' .
@@ -1005,7 +1007,7 @@ class ACI_Model_Search extends AModel
     public function stringRefersToHigherTaxa($rank)
     {
         return $this->getRankIdFromString($rank) <
-            ACI_Model_Table_Taxa::RANK_GENUS;
+            ACI_Model_Table_Taxa::RANK_SUBGENUS;
     }
     
     public function getRankIdFromString($rank) {
