@@ -39,6 +39,7 @@ class SearchController extends AController
         $reset = $this->_getParam('reset', false);
         if($reset) {
             $this->getHelper('SessionHandler')->clear('genus');
+            $this->getHelper('SessionHandler')->clear('subgenus');
             $this->getHelper('SessionHandler')->clear('species');
             $this->getHelper('SessionHandler')->clear('infraspecies');
             $this->getHelper('SessionHandler')->clear('match');

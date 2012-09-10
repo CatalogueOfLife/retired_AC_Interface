@@ -93,7 +93,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
      */
     public function getSearchQuery($controller, $action)
     {
-        $select = new ACI_Model_Search(Zend_Registry::get('db'));
+    	$select = new ACI_Model_Search(Zend_Registry::get('db'));
         $search = $controller . '/' . $action;
         
         switch ($search) {
@@ -109,6 +109,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                 $query = $select->scientificNames(
                     array(
                         'genus' => $this->getRequest()->getParam('genus'),
+                        'subgenus' => $this->getRequest()->getParam('subgenus'),
                         'species' => $this->getRequest()->getParam('species'),
                         'infraspecies' =>
                             $this->getRequest()->getParam('infraspecies')
@@ -130,6 +131,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                             $this->getRequest()->getParam('superfamily'),
                         'family' => $this->getRequest()->getParam('family'),
                         'genus' => $this->getRequest()->getParam('genus'),
+                        'subgenus' => $this->getRequest()->getParam('subgenus'),
                         'species' => $this->getRequest()->getParam('species'),
                         'infraspecies' =>
                             $this->getRequest()->getParam('infraspecies')

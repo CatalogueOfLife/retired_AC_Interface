@@ -43,7 +43,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                 <tr>
                     <td><i>
                     <?php echo $this->species->genus .
-                    	(isset($this->species->subgenus) ? ' ('.$this->species->subgenus.')' : '') .
+                    	(isset($this->species->subgenus) ? ' ('.strtolower($this->species->subgenus).')' : '') .
                     	' ' . $this->species->species .
                     	(isset($this->species->subspecies) ? ' '.$this->species->subspecies : '');
                     ?>

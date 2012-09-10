@@ -91,7 +91,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                             explode(' ',$this->getRequest()->getParam('key')) :
                             array(
                                 $this->getRequest()->getParam('genus'),
-                                $this->getRequest()->getParam('species'),
+                                $this->getRequest()->getParam('subgenus'),
+                            	$this->getRequest()->getParam('species'),
                                 $this->getRequest()->getParam('infraspecies')
                             ),
                             (bool)$this->getRequest()->getParam('match')
