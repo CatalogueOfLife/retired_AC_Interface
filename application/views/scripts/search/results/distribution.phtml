@@ -14,17 +14,17 @@
 <table class="results">
 <?php $rowClass = "odd"; ?>
     <tr class="even">
-        <th class="horizontal<?php echo ($this->sort == 'distribution' ? ' current' : '');?>">
-            <a href="<?php echo $this->url(array_merge($this->urlParams, array(
-              'sort' => 'distribution', 'direction' => $this->sortDesc == 'distribution' ? 'desc' : 'asc'))); ?>">
-              <?php echo $this->translate('Distribution'); ?></a>
-            <span class="sort-arrow"><?php echo ($this->sort == 'distribution' ? $this->sortArrow : '');?></span>
-        </th>
         <th class="horizontal<?php echo ($this->sort == 'name' ? ' current' : '');?>">
             <a href="<?php echo $this->url(array_merge($this->urlParams, array(
               'sort' => 'name', 'direction' => $this->sortDesc == 'name' ? 'desc' : 'asc'))); ?>">
               <?php echo $this->translate('Name'); ?></a>
             <span class="sort-arrow"><?php echo ($this->sort == 'name' ? $this->sortArrow : '');?></span>
+        </th>
+        <th class="horizontal<?php echo ($this->sort == 'distribution' ? ' current' : '');?>">
+            <a href="<?php echo $this->url(array_merge($this->urlParams, array(
+              'sort' => 'distribution', 'direction' => $this->sortDesc == 'distribution' ? 'desc' : 'asc'))); ?>">
+              <?php echo $this->translate('Distribution'); ?></a>
+            <span class="sort-arrow"><?php echo ($this->sort == 'distribution' ? $this->sortArrow : '');?></span>
         </th>
         <th class="horizontal<?php echo ($this->sort == 'group' ? ' current' : '');?>">
             <a href="<?php echo $this->url(array_merge($this->urlParams, array(
@@ -43,12 +43,12 @@
     <tr class="<?php echo $rowClass; ?>">
         <td class="field_header_black">
             <a href="<?php echo $this->baseUrl() . $row['url']; ?>">
-                <?php echo $row['distribution']; ?>
+                <?php echo $row['name']; ?>
             </a>
         </td>
         <td class="field_header_black">
             <a href="<?php echo $this->baseUrl() . $row['url']; ?>">
-                <?php echo $row['name']; ?>
+                <?php echo $row['distribution']; ?>
             </a>
         </td>
         <td><?php echo $row['group']; ?></td>
