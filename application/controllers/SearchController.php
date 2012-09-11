@@ -141,6 +141,7 @@ class SearchController extends AController
         
         if ($form->isValid($this->_getAllParams()) &&
             $this->_hasParam('key') && $this->_getParam('submit', 1)) {
+        	$this->_setParam('key', $this->_cleanSearchString($this->_getParam('key')));
                 
             $this->_setSessionFromParams($form->getInputElements());
             $this->getHelper('Query')->tagLatestQuery();
@@ -168,4 +169,15 @@ class SearchController extends AController
     {
         $this->_forward('all');
     }
+
+    private function _cleanSearchString($str) {
+    	$find = array(
+    		'(',
+    		')',
+    		'"',
+    		"'"
+    	);
+    	return str_replace($find, '', $str);
+    }
+    
 }
