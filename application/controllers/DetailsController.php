@@ -170,12 +170,12 @@ class DetailsController extends AController
         switch ($speciesDetails->status) {
         		case ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME:
         			$name_status_written = $translator->translate(
-        				'accepted_name'
+        				'STATUS_ACCEPTED_NAME'
         			);
         			break;
                 case ACI_Model_Table_Taxa::STATUS_PROVISIONALLY_ACCEPTED_NAME:
         			$name_status_written = $translator->translate(
-        				'provisionally_accepted_name'
+        				'STATUS_PROVISIONALLY_ACCEPTED_NAME'
         			);
         			break;
         }
