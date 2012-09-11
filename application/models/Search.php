@@ -793,7 +793,9 @@ class ACI_Model_Search extends AModel
         $select->from(
             array('dss' => '_search_scientific'),
             array('*',
-                'name' => 'CONCAT_WS(" ",genus,IF(subgenus != "", CONCAT("(",subgenus,")"),""),species,infraspecific_marker,infraspecies)',
+                'name' => 'IF(subgenus != "" AND species = "",subgenus,
+            		CONCAT_WS(" ",genus,IF(subgenus != "", CONCAT("(",subgenus,")"),""),species,infraspecific_marker,infraspecies)
+            	)',
                 'name_status' => 'status'
             )
         );
