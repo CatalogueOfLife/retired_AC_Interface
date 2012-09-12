@@ -31,6 +31,7 @@ class WebserviceController extends AController
                 '/webservice';
             $this->view->version = $config->eti->application->version.' rev '.
                 $config->eti->application->revision;
+            $this->view->edition = $config->eti->application->edition;
             $this->view->layout()->disableLayout();
         }
     }
