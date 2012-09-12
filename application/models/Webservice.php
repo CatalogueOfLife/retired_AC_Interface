@@ -43,7 +43,7 @@ class ACI_Model_Webservice extends AModel
         'genus',
         'subgenus',
         'species',
-    'infraspecies'
+   		'infraspecies'
     );
     
     public function query(Zend_Controller_Request_Abstract $request)
@@ -215,7 +215,7 @@ class ACI_Model_Webservice extends AModel
     
     protected function _processScientificName(array $row, /*bool*/$full)
     {
-        // Higher taxon
+    	// Higher taxon
         if (ACI_Model_Table_Taxa::isRankHigherThanSpecies($row['rank_id'])) {
             $sn = array(
                 'id' => $row['record_id'],
@@ -239,7 +239,7 @@ class ACI_Model_Webservice extends AModel
         $sn = $this->_getScientificName($row['record_id'], $full, false);
         if (!ACI_Model_Table_Taxa::isAcceptedName($row['status'])) {
             $sn['accepted_name'] = $this->_getScientificName(
-                $sn['id'], $full, true
+                $row['sn_id'], $full, true
             );
         }
         return $sn;
@@ -268,7 +268,7 @@ class ACI_Model_Webservice extends AModel
             $an['id'], $an['rank_id'], $an['status'], $an['sn_id']
         );
         $status = $an['status'];
-        unset($an['rank_id'], $an['status'], $an['source_database_id']);
+        unset($an['rank_id'], $an['status'], $an['source_database_id'], $an['sn_id']);
         
         if (!$full) {
             $this->_arrayFilterKeys(
@@ -287,7 +287,6 @@ class ACI_Model_Webservice extends AModel
             $an['synonyms'] = $this->_getSynonyms($an['id']);
             $an['common_names'] = $this->_getCommonNames($an['id']);
         }
-        
         return $an;
     }
     

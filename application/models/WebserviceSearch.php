@@ -117,7 +117,6 @@ class ACI_Model_WebserviceSearch extends AModel
         }
         $res = $select->query()->fetchAll();
         return $res ? $res[0] : false;
-        
     }
 
     public function synonyms($id)
