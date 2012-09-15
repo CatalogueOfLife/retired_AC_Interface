@@ -82,8 +82,13 @@ class ACI_Model_Webservice extends AModel
     protected function _validate(Zend_Controller_Request_Abstract $request)
     {
         $this->_response['id'] = $request->getParam('id', '');
+        
         $this->_response['name'] =
             str_replace('%', '*' , (string)$request->getParam('name', ''));
+        // Ruud 15-09-12: wildcards are not allowed, they congest the server
+        if (strpos($this->_response['name'], '*') !== false) {
+        	throw new ACI_Model_Webservice_Exception('Wildcard search is not allowed.');
+        }
         $this->_response['start'] = (int)$request->getParam('start');
         $this->_response['version'] = $this->_setVersion();
         
@@ -107,8 +112,7 @@ class ACI_Model_Webservice extends AModel
         if ($this->_response['name'] && $tooShortName) {
             throw new ACI_Model_Webservice_Exception(
                 'Invalid name given. The name given must consist of at least ' .
-                self::REQUEST_NAME_MIN_STRLEN . ' characters, not counting ' .
-                'wildcards (*)'
+                self::REQUEST_NAME_MIN_STRLEN . ' characters'
             );
         }
         // id must be a valid positive integer
