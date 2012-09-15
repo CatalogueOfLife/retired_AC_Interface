@@ -85,9 +85,11 @@ class ACI_Model_Webservice extends AModel
         
         $this->_response['name'] =
             str_replace('%', '*' , (string)$request->getParam('name', ''));
-        // Ruud 15-09-12: wildcards are not allowed, they congest the server
-        if (strpos($this->_response['name'], '*') !== false) {
-        	throw new ACI_Model_Webservice_Exception('Wildcard search is not allowed.');
+        // Ruud 15-09-12: wildcards are limited to the end of the name only
+        if (substr_count($this->_response['name'], '*') > 1 || 
+        	strpos($this->_response['name'], '*') !== false &&
+         	strpos($this->_response['name'], '*') !== strlen($this->_response['name']) - 1) {
+        	throw new ACI_Model_Webservice_Exception('Wildcards are allowed only at the end of the name ("name*").');
         }
         $this->_response['start'] = (int)$request->getParam('start');
         $this->_response['version'] = $this->_setVersion();
