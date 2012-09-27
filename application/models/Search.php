@@ -815,21 +815,9 @@ class ACI_Model_Search extends AModel
     public function fetchTaxaByRank($rank, $query, array $key)
     {
         $cleanStr = trim(str_replace('*', '', $query));
-        //cache = Zend_Registry::get('cache');
         $cacheKey = $rank . '_' . $cleanStr . '_' . implode('_', $key);
         $res = $this->_fetchFromCache($cacheKey);
-/*      $res = false;
-        if ($cache) {
-            // Try to load cached results
-            try {
-                $res = $cache->load($cacheKey);
-            } catch(Zend_Cache_Exception $zce) {
-                // An exception may be thrown if the cache key is not valid
-                // In that case, the cache is not used
-                $cache = false;
-            }
-        }
-*/      if (!$res) {
+        if (!$res) {
             if (strlen($cleanStr) < $this->_getMinStrLen($rank, $key)) {
                 if(!in_array($rank,array('kingdom','phylum','class','order',
                   'superfamily','family')))
@@ -1009,7 +997,7 @@ class ACI_Model_Search extends AModel
     public function stringRefersToHigherTaxa($rank)
     {
         return $this->getRankIdFromString($rank) <
-            ACI_Model_Table_Taxa::RANK_SUBGENUS;
+            ACI_Model_Table_Taxa::RANK_GENUS;
     }
     
     public function getRankIdFromString($rank) {
@@ -1029,7 +1017,7 @@ class ACI_Model_Search extends AModel
      */
     protected function _getMinStrLen($rank, array $key)
     {
-        // No limit for higher taxa
+    	// No limit for higher taxa
         if ($this->stringRefersToHigherTaxa($rank)) {
             return 0;
         } else if (empty($key)) { // if no other keys exist, require 2 chars min
