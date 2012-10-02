@@ -258,10 +258,9 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
             $this->decodeKey($params), $rank
         );
         $query = str_replace('\\', '', $query);
-        $cleanQuery = substr($query, 1, -1);
         $search = new ACI_Model_Search(Zend_Registry::get('db'));
         $res = $this->parseFetchedResults(
-            $search->fetchTaxaByRank($rank, $query, $params), $cleanQuery
+            $search->fetchTaxaByRank($rank, $query, $params), $query
         );
         return new Eti_Dojo_Data('name', $res, $rank);
     }
