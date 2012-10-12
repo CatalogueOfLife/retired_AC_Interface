@@ -992,7 +992,7 @@ form div.items-form dd#update-element {
 	color: #666;
 }
 
-.node-Genus .node-subgenus {
+.node-Genus {
 	font-style: italic;
 }
 
@@ -1133,7 +1133,7 @@ li:hover ul,li.over ul {
 	color: #006;
 }
 
-.node-genus {
+.node-genus .node-subgenus {
 	font-style: italic;
 }
 
