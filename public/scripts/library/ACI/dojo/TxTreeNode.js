@@ -408,7 +408,7 @@ function setLabel(str) {
 }
 
 function addInfoPanelSection(thisParent, thisLabel, thisValue) {
-	var thisVar = dojo.doc.createElement('span')
+	var thisVar = dojo.doc.createElement('span');
 	thisVar.className = 'infoPanelSection';
 	thisVar.appendChild(setLabel(thisLabel));
 	thisVar.appendChild(dojo.doc.createTextNode(thisValue));
@@ -629,7 +629,7 @@ function addOption(value, innerHTML, select) {
 }
 
 function addCommentPanelSection(thisParent, thisLabel, thisValue) {
-	var thisVar = dojo.doc.createElement('span')
+	var thisVar = dojo.doc.createElement('span');
 	thisVar.className = 'commentPanelSection';
 	thisVar.appendChild(setLabel(thisLabel));
 	thisVar.appendChild(dojo.doc.createTextNode(thisValue));

@@ -64,8 +64,40 @@ class SearchController extends AController
         // Results page
         if ($this->_hasParam('match') && $this->_getParam('submit', 1) &&
             $formIsValid) {
+                	$searchString = array();
+            if($this->_getParam('kingdom') !== null) {
+        		$searchString['kingdom'] = $this->_getParam('kingdom');
+        	}
+            if($this->_getParam('phylum') !== null) {
+        		$searchString['phylum'] = $this->_getParam('phylum');
+        	}
+            if($this->_getParam('order') !== null) {
+        		$searchString['order'] = $this->_getParam('order');
+        	}
+            if($this->_getParam('class') !== null) {
+        		$searchString['class'] = $this->_getParam('class');
+        	}
+            if($this->_getParam('superfamily') !== null) {
+        		$searchString['superfamily'] = $this->_getParam('superfamily');
+        	}
+            if($this->_getParam('family') !== null) {
+        		$searchString['family'] = $this->_getParam('family');
+        	}
+            if($this->_getParam('genus') !== null) {
+        		$searchString['genus'] = $this->_getParam('genus');
+        	}
+            if($this->_getParam('subgenus') !== null) {
+        		$searchString['subgenus'] = $this->_getParam('subgenus');
+        	}
+            if($this->_getParam('species') !== null) {
+        		$searchString['species'] = $this->_getParam('species');
+        	}
+            if($this->_getParam('infraspecies') !== null) {
+        		$searchString['infraspecies'] = $this->_getParam('infraspecies');
+        	}
             $this->_setSessionFromParams($form->getInputElements());
             $this->view->searchString = 'Search_results_for_scientific_names';
+            $this->view->searchParams = $searchString;
             $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage($form->getInputElements());
         // Form page

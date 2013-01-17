@@ -225,11 +225,13 @@ class BrowseController extends AController
             if($this->_getParam('species') !== null) {
         		$searchString['species'] = $this->_getParam('species');
         	}
-            if($this->_getParam('infaspecies') !== null) {
-        		$searchString['infaspecies'] = $this->_getParam('infaspecies');
+            if($this->_getParam('infraspecies') !== null) {
+        		$searchString['infraspecies'] = $this->_getParam('infraspecies');
         	}
         	$this->_setSessionFromParams($form->getInputElements());
+        	
             $this->view->searchString = 'Search_results_for_taxonomic_classification';
+            $this->view->searchParams = $searchString;
             $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage($form->getInputElements());
             // Form page

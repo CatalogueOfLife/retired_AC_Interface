@@ -57,6 +57,8 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
         if (isset($this->_ac->view->searchString)) {
             $this->_ac->view->searchString =
                 $this->_ac->view->translate($this->_ac->view->searchString);
+            $this->_ac->view->searchString .= isset($this->_ac->view->searchParams) ? 
+                $this->_formatSearchStringAppendix($this->_ac->view->searchParams) : '';
         } else {
             $this->_ac->view->searchString = $this->_ac->view->title . ' - ' .
                 sprintf(
@@ -131,6 +133,29 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
         // Render the results layout
         $this->_ac->renderScript('search/results/layout.phtml');
     }
+    
+    protected function _formatSearchStringAppendix ($p)
+    {
+        $output = count($p) > 2 ? '<br>(' : ' (';
+        foreach ($p as $rank => $taxon) {
+            $formattedRank = (
+                $rank == 'kingdom' ? strtolower($this->_ac->view->translate('Top_level_group')) : 
+                    strtolower($this->_ac->view->translate('RANK_' . strtoupper($rank)))
+            );
+            $taxon = stripslashes($this->escape($taxon));
+            if (in_array($rank, array(
+                'genus', 
+                'subgenus', 
+                'species', 
+                'infraspecies'
+            ))) {
+                $taxon = "<i>$taxon</i>";
+            }
+            $output .= "$formattedRank: $taxon, ";
+        }
+        return substr($output, 0, -2) . ')';
+    }
+    
     
     /**
      * Builds the paginator
