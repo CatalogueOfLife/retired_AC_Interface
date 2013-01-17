@@ -171,7 +171,7 @@ function sendComment() {
 		return;
 	}
 	var submitUrl = baseUrl + "/ajax/feedback/ID/" + form.taxaId.value + 
-		"/Comment/" + form.commentTaxonString.value + 
+		"/Comment/" + form.commentText.value + 
 		"/CommentType/" + form.commentType.value + 
 		"/UserName/" + form.commentName.value + 
 		"/UserMail/" + form.commentEmail.value +
