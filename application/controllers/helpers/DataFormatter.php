@@ -296,7 +296,9 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         } else {
         	$temp = array();
         	foreach($speciesDetails->distribution as $dist) {
-        		$temp[] = $dist['distribution'];
+        		if (!in_array($dist['distribution'], $temp)) {
+        		    $temp[] = $dist['distribution'];
+        		}
         	}
             $speciesDetails->distributionString = implode(
                 '; ', $temp
