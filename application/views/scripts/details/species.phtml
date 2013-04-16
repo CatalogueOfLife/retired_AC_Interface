@@ -45,7 +45,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                     <?php echo $this->species->genus .
                     	(isset($this->species->subgenus) && !empty($this->species->subgenus) ? ' ('.ucfirst($this->species->subgenus).')' : '') .
                     	' ' . $this->species->species .
-                    	(isset($this->species->subspecies) ? ' '.$this->species->subspecies : '');
+                    	(isset($this->species->infra) ? ' '.$this->species->infra : '');
                     ?>
                     </i>
                     <?php echo $this->species->author . $this->name_status_written;?>
