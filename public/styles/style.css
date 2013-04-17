@@ -1433,3 +1433,17 @@ table.panelTable tr td,table.panelTable tr th {
 	background-color: #006699;
 	color: #fff;
 }
+
+.bhl-indent {
+	width: 90px;
+	text-align: right;
+	vertical-align: top;
+}
+
+.bhl-thumb {
+	opacity: 0.6;
+	max-width: 80px;
+	max-height: 80px;
+	border: 1px solid #000;
+	margin: 5px;
+}

@@ -51,6 +51,8 @@ class BhlEController extends AController {
         
         $session->set('BHL_SEARCH_TERM', $searchTerm);
         
+        $imageUrlPattern = Bootstrap::instance()->getOption('bhl.image_urlpattern');
+        $portalUrlPattern = Bootstrap::instance()->getOption('bhl.portal_urlpattern');
         $urlPattern = Bootstrap::instance()->getOption('bhl.solr_urlpattern');
         $url = sprintf($urlPattern, $searchTerm);
             
@@ -69,6 +71,22 @@ class BhlEController extends AController {
             $authorElements = $doc->xpath("arr[@name='mods_name']/str");
             $author = array_reduce($authorElements, array('BHLEController', '_reduce'));
             $reference->author = $author;
+
+	        // Ruud 17-04-13: transferred from view
+	        $reference->url = sprintf($portalUrlPattern, $reference->pid);
+            $id = substr($reference->pid, (strpos($reference->pid, '-')+1));
+        	if ($id) {
+        		$reference->imgUrl = sprintf($imageUrlPattern, $id);
+        		// make sure image exists
+     			$h = @fopen($reference->imgUrl, 'r');
+        		if(!$h) {
+        			$reference->imgUrl = null;
+        		}
+        		else {
+        			@fclose($h);
+        		}
+        	}
+            
             $references[] = $reference;
         }
         
