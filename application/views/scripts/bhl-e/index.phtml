@@ -62,7 +62,7 @@ foreach($this->bhl->references as $reference) {
 <?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('URL'); ?>:</th>
-        <td><a href="<?php echo $url; ?>" target="_blank"><?php echo $reference->url; ?></a></td>
+        <td><a href="<?php echo $reference->url; ?>" target="_blank"><?php echo $reference->url; ?></a></td>
         </tr>
 </table>
 <?php

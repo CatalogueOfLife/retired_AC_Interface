@@ -37,7 +37,7 @@ abstract class AModel
         if ($cache) {
             // Try to load cached results
             try {
-                $res = $cache->load($cacheKey);
+                $res = $cache->load($this->_sanitizeCacheKey($cacheKey));
             } catch (Zend_Cache_Exception $zce) {
                 // An exception may be thrown if the cache key is not valid
                 // In that case, the cache is not used
@@ -51,7 +51,11 @@ abstract class AModel
     protected function _storeInCache($res, $cacheKey) {
         $cache = Zend_Registry::get('cache');
         if ($cache) {
-            $cache->save($res, $cacheKey);
+            $cache->save($res, $this->_sanitizeCacheKey($cacheKey));
         }
-     }
+    }
+    
+    private function _sanitizeCacheKey($key) {
+        return preg_replace('/[^a-zA-Z0-9_]/', '', str_replace(' ', "_", $key));
+    }
 }
