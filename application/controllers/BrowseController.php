@@ -57,7 +57,8 @@ class BrowseController extends AController
         $id = false;
         $species = $this->_getParam('species', false);
         if ($species) {
-            $id = $this->_getTaxaFromSpeciesId($species);
+            //$id = $this->_getTaxaFromSpeciesId($species);
+            $id = $species;
         }
         else {
             $id = $this->_getParam('id', false);
