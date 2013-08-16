@@ -745,6 +745,10 @@ form div.search-form dd fieldset#fieldset-matchGroup {
 	margin-left: 101px;
 }
 
+form div.search-form dd fieldset#fieldset-fossilGroup {
+	margin-left: 96px;
+}
+
 form div.search-form dt#submitGroup-label {
 	display: none;
 }

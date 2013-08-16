@@ -49,6 +49,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                     ?>
                     </i>
                     <?php echo $this->species->author . $this->name_status_written;?>
+                    <?php if ($this->species->is_extinct) echo " &dagger;"; ?>
                     <?php //echo $this->species->name; ?></td>
                     <td align="right">
                     <?php if ($this->species->references): ?>

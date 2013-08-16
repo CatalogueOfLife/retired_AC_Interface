@@ -158,16 +158,18 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                     trim($this->getRequest()->getParam('key')),
                     $this->getRequest()->getParam('match'),
                     $this->getRequest()->getParam('sort'),
-                    $this->getRequest()->getParam('direction')
+                    $this->getRequest()->getParam('direction'),
+                    $this->getRequest()->getParam('fossil')
                 );
                 break;
         }
-        /*
-        echo '<pre>';
-        print_r((string)$query);
-        echo '</pre>';
-        die();
-        */
+
+/*
+echo '<pre>';
+print_r((string)$query);
+echo '</pre>';
+die();
+*/  
         return $query;
     }
     

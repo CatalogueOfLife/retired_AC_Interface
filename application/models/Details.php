@@ -71,7 +71,8 @@ class ACI_Model_Details extends AModel
                 'dbVersion' => 'source_database_release_date',
                 'scrutinyDate' => 'scrutiny_date',
                 'specialistName' => 'specialist',
-                'pointOfAttachmentId' => 'point_of_attachment_id'
+                'pointOfAttachmentId' => 'point_of_attachment_id',
+                'is_extinct' => 'is_extinct'
             );
             
         switch ($fromType) {
@@ -439,7 +440,8 @@ class ACI_Model_Details extends AModel
                     'parent_id' => 'tree.parent_id',
                     'name' => 'tree.name',
                     'taxon' => 'tree.rank',
-                    'LSID' => 'tree.lsid'
+                    'LSID' => 'tree.lsid',
+                    'is_extinct' => 'tree.is_extinct'
                 )
             )->where('tree.taxon_id = ?');
                 

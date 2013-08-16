@@ -40,12 +40,13 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
         
         $match = $this->createElement('CheckBox', 'match')->setValue(1)
             ->setLabel('Match_whole_words_only');
-/*        $match = $this->createElement('radio','match')->setValue(2)
+/*      $match = $this->createElement('radio','match')->setValue(2)
           ->addMultiOption(2,'Match_starts_with')
           ->addMultiOption(1,'Match_whole_words_only')
           ->addMultiOption(0,'Match_all');*/
-        
         $match->getDecorator('label')->setOption('placement', 'append');
+        
+             
         $submit = $this->createElement('SubmitButton', 'search')
             ->setLabel($translator->translate('Search'));
             
@@ -61,6 +62,21 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
         
         $this->addDisplayGroup(array('key'), 'keyGroup');
         $this->addDisplayGroup(array('match', 'fuzzy'), 'matchGroup');
+        if ($this->_action == "all" && $this->_moduleEnabled("fossil"))
+        {
+            $fossil = $this->createElement('FilteringSelect', 'fossil',
+                array(
+                    'autocomplete' => false,
+                    'multiOptions' => array(
+                        1 => $translator->translate('All_taxa'),
+                        3 => $translator->translate('Modern_taxa_only'),
+                        4 => $translator->translate('Fossil_taxa_only')
+                    )
+                )
+            );
+            $this->addElement($fossil);
+            $this->addDisplayGroup(array('fossil'), 'fossilGroup');
+        }
         $this->addDisplayGroup(array('search'), 'submitGroup');
 
         $this->setDecorators(
@@ -91,7 +107,7 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
     
     public function getInputElements()
     {
-        return ($this->_action == "all") ? array('key', 'match', 'fuzzy') : array('key', 'match');
+        return ($this->_action == "all") ? array('key', 'match', 'fuzzy', 'fossil') : array('key', 'match', 'fossil');
     }
     
     /**

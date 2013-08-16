@@ -76,29 +76,13 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
 	        var commentPanel = createCommentPanel(this.item);
         }
         var mapPanel = createMapPanel(this.item);
-        
-/*        var commentSpan;
-        commentSpan = dojo.doc.createElement('span');
-        if(showCommentFeedback == true) {
-        	var commentLink;
-        	commentLink = dojo.doc.createElement('a');
-        	commentLink.href = "javascript:openCommentWindow();";
-        	var commentIcon;
-        	commentIcon = dojo.doc.createElement('img');
-        	dojo.attr(commentIcon, {
-        	    src: "../images/comment.jpg",
-        	    alt: "Comment"
-        	});
-        	commentLink.appendChild(commentIcon);
-        	commentSpan.appendChild(commentLink);
-        }*/
         if (document.getElementById('showIconsCheckbox') != null && this.item.i.image != 0) {
 	        var iconSpan = document.createElement('span');
 	        iconSpan.className = 'iconSpan';
 	        this.labelNode.appendChild(iconSpan);
 	        var icon = document.createElement('img');
 	        icon.src = this.item.i.image;
-	        icon.className = 'treeIcon'
+	        icon.className = 'treeIcon';
 	    	if(document.getElementById('showIconsCheckbox').checked == true) {
 	    		iconSpan.style.display = "inline-block";
 	    	} else {
@@ -156,10 +140,13 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
             }
             else {
                 a.appendChild(dojo.doc.createTextNode(label));
-            }            
+            }
             leaf.appendChild(a);
+            if (this.tree.model.store.getValue(this.item, 'is_extinct') == 1) {
+            	leaf.appendChild(dojo.doc.createTextNode(" \u2020"));
+            }
             this.labelNode.innerHTML = '';
-            //Checks if the checkbox exists (the checbox is enabled by the module)
+            //Checks if the checkbox exists (the checkbox is enabled by the module)
             if(dojo.byId('showGSDCheckbox')) {
             	leaf.appendChild(source_database);
             }

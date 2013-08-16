@@ -302,7 +302,7 @@ class ACI_Model_Search extends AModel
      * @return Zend_Db_Select
      */
     public function all($searchKey, $matchWholeWords, $sort = null,
-        $direction = null)
+        $direction = null, $fossil = null)
     {
         $matchWholeWords = $this->getTrueMatchWholeWords($matchWholeWords, $searchKey);
         $this->_logger->debug(__METHOD__);
@@ -310,7 +310,7 @@ class ACI_Model_Search extends AModel
         return $this->_db->select()->union(
             array(
                 $this->_selectTaxa(
-                    $searchKey, $matchWholeWords
+                    $searchKey, $matchWholeWords, $fossil
                 )->reset('order')/*,
                 $this->_selectCommonNames(
                     $searchKey, $matchWholeWords
@@ -603,7 +603,7 @@ class ACI_Model_Search extends AModel
      * @param boolean $matchWholeWords
      * @return Zend_Db_Select
      */
-    protected function _selectTaxa($searchKey, $matchWholeWords)
+    protected function _selectTaxa($searchKey, $matchWholeWords, $fossil = null)
     {
         $searchKey = self::wildcardHandling($searchKey);
         $select = new Zend_Db_Select($this->_db);
@@ -661,6 +661,25 @@ class ACI_Model_Search extends AModel
 	                'tst.'.$column.' LIKE "%' . $searchKey . '%"'
 	            );
         	}
+        }
+        
+        // Ruud 14-08-13: append fossil search
+        if (!empty($fossil)) {
+            // 1 = all taxa; 2 = exclude fossil; 3 = modern only; 4 = fossil only
+            switch ($fossil) {
+            case 1:
+                // No action required
+                break;
+            case 2:
+                $select->where('tst.has_modern = 1 OR tst.has_modern = ""');
+                break;
+            case 3:
+                $select->where('tst.has_modern = 1');
+                break;
+            case 4:
+                $select->where('tst.has_preholocene = 1');
+                break;
+            }            
         }
            
         // Prevent multiple selection of the same taxon (cased by duplicated
@@ -1068,7 +1087,8 @@ class ACI_Model_Search extends AModel
                 'numChildren' => 'ttt.number_of_children',
             	'estimation' => 'ttt.total_species_estimation',
             	'total' => 'ttt.total_species',
-                'estimate_source' => 'ttt.estimate_source'
+                'estimate_source' => 'ttt.estimate_source',
+                'is_extinct' => 'ttt.is_extinct'
             )
         )
         ->where('ttt.parent_id = ?', $parentId)
