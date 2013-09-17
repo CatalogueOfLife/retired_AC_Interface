@@ -626,7 +626,8 @@ class ACI_Model_Search extends AModel
                 'db_thumb' =>
                     'CONCAT(REPLACE(tst.source_database_name, " ", "_"), ".gif")',
                 'kingdom' => 'tst.group',
-                'status' => 'tst.name_status'
+                'status' => 'tst.name_status',
+                'fossil' => 'tst.has_preholocene'
             )
         );
         

@@ -45,12 +45,12 @@
             <span class="sort-arrow"><?php echo ($this->sort == 'db' ? $this->sortArrow : '');?></span>
         </th>
     </tr>
-<?php foreach ($this->data as $row): ?>
+<?php foreach ($this->data as $row): print_r($row);?>
+
     <tr class="<?php echo $rowClass; ?>">
         <td class="field_header_black">
-            <a href="<?php echo $this->baseUrl() . $row['url']; ?>">
-                <?php echo $row['name']; ?>
-            </a>
+            <a href="<?php echo $this->baseUrl() . $row['url']; ?>"><?php echo $row['name']; ?></a>
+            <?php if ($row['fossil'] == 1) echo " &dagger;"; ?>
         </td>
         <td class="field_header_black">
             <a href="<?php echo $this->baseUrl() . $row['url']; ?>">
