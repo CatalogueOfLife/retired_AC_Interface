@@ -30,7 +30,7 @@ class ACI_Form_Dojo_BrowseClassification extends ACI_Form_Dojo_AMultiCombo
             'superfamily' => 'Superfamily',
             'family' => 'Family',
             'genus' => 'Genus',
-        	'subgenus' => 'Subgenus',
+        	//'subgenus' => 'Subgenus',
             'species' => 'Species',
             'infraspecies' => 'Infraspecies'
         );
