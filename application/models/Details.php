@@ -328,6 +328,7 @@ class ACI_Model_Details extends AModel
                 'sourceDbId' => $species->pointOfAttachmentLinkId
             );
         }
+        /*
         if($species->subgenus)
         {
             $this->_setPointOfAttachment($species->subgenus_id, $species);
@@ -341,6 +342,7 @@ class ACI_Model_Details extends AModel
                 'sourceDbId' => $species->pointOfAttachmentLinkId
             );
         }
+        */
         if($species->species)
         {
             $this->_setPointOfAttachment($species->species_id, $species);
