@@ -19,20 +19,25 @@ module.images_ajax = 1          ; Retrieve images from live web service(s)
 ; Interface languages (on = 1, off = 0)
 ; If a localized version should be used, append the region with _XX (extension in capitals)
 ; If a single language is selected, the language menu will be hidden.
-; To disable the multi-lingual interface, set all languages to 0; 
+; To disable the multi-lingual interface, set all languages to 0;
 ; in this case the interface will default to the browser language.
-; If a language translation file in the browser language is not available, 
+; If a language translation file in the browser language is not available,
 ; the default language is set to English.
 language.en = 1                 ; English
 language.fr = 1                 ; French
 language.es = 1                 ; Spanish
 language.zh = 1                 ; Chinese
+language.ru = 1                 ; Russian
 language.pt = 1                 ; Portuguese
 language.nl = 1                 ; Dutch
+language.de = 1                 ; German
+language.pl = 1                 ; Polish
+language.lt = 1                 ; Lithuanian
 language.th = 1                 ; Thai
 language.vi = 1                 ; Vietnamese
+
 ; Sort languages (alphabetically = 1; maintain order as above = 0)
-language_menu.sort = 1          
+language_menu.sort = 1
 
 ; Batch 2 modules (on = 1, off = 0)
 module.fuzzy_search = 0         ; Enable fuzzy search functionality
@@ -49,7 +54,7 @@ bhl.portal_urlpattern = "http://bhl.nhm.ac.uk/portal/bhle-view/%s"
 bhl.image_urlpattern = "http://bhl.nhm.ac.uk/static/%1$s/%1$s_thumbnail.jpg"
 
 ; Advanced settings
-; Cookies are used to store display preferences for the taxonomic tree and interface language. 
+; Cookies are used to store display preferences for the taxonomic tree and interface language.
 ; Set the cookie expiration time in seconds. The default expiration time is 14 days.
 advanced.cookie_expiration = 1209600
 ; Web services are used to retrieve species images. Set the maximum time in seconds after which
