@@ -5,3 +5,7 @@ French: David Ouvrard, ouvrard@mnhn.fr
 Spanish: Francisco Quevedo, F.Quevedo.Fernandez@cs.cardiff.ac.uk
 Portugese: Dora Ann Langes Canhos, dora@cria.org.br
 Dutch: Wouter Addink, waddink@eti.uva.nl
+Russian: Yuri Roskov, y.roskov@reading.ac.uk
+Lithuanian: Viktoras Didziulis, v.didziulis@reading.ac.uk
+Polish: Magda Sitko
+German: Thomas Kunze
