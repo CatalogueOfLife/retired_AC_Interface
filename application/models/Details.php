@@ -22,13 +22,13 @@ class ACI_Model_Details extends AModel
      * @param int $fromId id of the common name or taxa of reference
      * @return ACI_Model_Table_Taxa
      */
-    
+
     public function species($id, $fromType = null, $fromId = null)
     {
         $select = new Zend_Db_Select($this->_db);
-        
+
         $this->_logger->debug(__METHOD__ . " $id, $fromType, $fromId");
-        
+
         $fields =
             array(
                 'id' => 'taxon_id',
@@ -73,7 +73,7 @@ class ACI_Model_Details extends AModel
                 'specialistName' => 'specialist',
                 'pointOfAttachmentId' => 'point_of_attachment_id'
             );
-            
+
         switch ($fromType) {
             case 'common':
                 $extraFields = array(
@@ -187,26 +187,26 @@ class ACI_Model_Details extends AModel
                 $extraFields = $joinLeft = array();
                 break;
         }
-        
+
         $select->from(
             array('dsd' => '_species_details'),
             array_merge($fields, $extraFields)
         )
         ->where('dsd.taxon_id = ?', (int)$id);
-        
+
         foreach ($joinLeft as $jl) {
             $select->joinLeft($jl['name'], $jl['cond'], $jl['columns']);
         }
-        
+
         $species = $select->query()->fetchObject('ACI_Model_Table_Taxa');
-        
+
         if (!$species instanceof ACI_Model_Table_Taxa) {
             return false;
         }
         $species->lsid      = ($species->id == $species->species_id ?
             $species->species_lsid : $species->infra_lsid);
         $species->urls      = $this->getUrls($species->id);
-        
+
         $species->dbImage      = '/images/databases/' .
             str_replace(' ','_',$species->dbName) . '.png';
         $species->hierarchy    = $this->getHierachyFromSpecies($species);
@@ -227,21 +227,21 @@ class ACI_Model_Details extends AModel
         }
         return $species;
     }
-    
+
     private function _setPointOfAttachment($currentRecordId, $species) {
         if ($species->pointOfAttachmentId == $currentRecordId) {
             $species->pointOfAttachment = $species->dbName;
             $species->pointOfAttachmentLinkId = $species->dbId;
         }
     }
-    
+
     public function getHierachyFromSpecies($species)
     {
         if($species->kingdom)
         {
             $this->_setPointOfAttachment($species->kingdom_id, $species);
             $res[] = array(
-                'record_id' => $species->kingdom_id,
+                'record_id' => $this->idToNaturalKey($species->kingdom_id),
                 'parent_id' => '',
                 'name' => $species->kingdom,
                 'taxon' => '',
@@ -254,7 +254,7 @@ class ACI_Model_Details extends AModel
         {
             $this->_setPointOfAttachment($species->phylum_id, $species);
             $res[] = array(
-                'record_id' => $species->phylum_id,
+                'record_id' => $this->idToNaturalKey($species->phylum_id),
                 'parent_id' => '',
                 'name' => $species->phylum,
                 'taxon' => 'phylum',
@@ -267,7 +267,7 @@ class ACI_Model_Details extends AModel
         {
             $this->_setPointOfAttachment($species->class_id, $species);
             $res[] = array(
-                'record_id' => $species->class_id,
+                'record_id' => $this->idToNaturalKey($species->class_id),
                 'parent_id' => '',
                 'name' => $species->class,
                 'taxon' => 'class',
@@ -280,7 +280,7 @@ class ACI_Model_Details extends AModel
         {
             $this->_setPointOfAttachment($species->order_id, $species);
             $res[] = array(
-                'record_id' => $species->order_id,
+                'record_id' => $this->idToNaturalKey($species->order_id),
                 'parent_id' => '',
                 'name' => $species->order,
                 'taxon' => 'order',
@@ -293,7 +293,7 @@ class ACI_Model_Details extends AModel
         {
             $this->_setPointOfAttachment($species->superfamily_id, $species);
             $res[] = array(
-                'record_id' => $species->superfamily_id,
+                'record_id' => $this->idToNaturalKey($species->superfamily_id),
                 'parent_id' => '',
                 'name' => $species->superfamily,
                 'taxon' => 'superfamily',
@@ -306,7 +306,7 @@ class ACI_Model_Details extends AModel
         {
             $this->_setPointOfAttachment($species->family_id, $species);
             $res[] = array(
-                'record_id' => $species->family_id,
+                'record_id' => $this->idToNaturalKey($species->family_id),
                 'parent_id' => '',
                 'name' => $species->family,
                 'taxon' => 'family',
@@ -319,7 +319,7 @@ class ACI_Model_Details extends AModel
         {
             $this->_setPointOfAttachment($species->genus_id, $species);
             $res[] = array(
-                'record_id' => $species->genus_id,
+                'record_id' => $this->idToNaturalKey($species->genus_id),
                 'parent_id' => '',
                 'name' => $species->genus,
                 'taxon' => 'genus',
@@ -328,26 +328,11 @@ class ACI_Model_Details extends AModel
                 'sourceDbId' => $species->pointOfAttachmentLinkId
             );
         }
-        /*
-        if($species->subgenus)
-        {
-            $this->_setPointOfAttachment($species->subgenus_id, $species);
-            $res[] = array(
-                'record_id' => $species->subgenus_id,
-                'parent_id' => '',
-                'name' => $species->subgenus,
-                'taxon' => 'subgenus',
-                'LSID' => $species->subgenus_lsid,
-                'sourceDb' => $species->pointOfAttachment,
-                'sourceDbId' => $species->pointOfAttachmentLinkId
-            );
-        }
-        */
         if($species->species)
         {
             $this->_setPointOfAttachment($species->species_id, $species);
             $res[] = array(
-                'record_id' => $species->species_id,
+                'record_id' => $this->idToNaturalKey($species->species_id),
                 'parent_id' => '',
                 'name' => $species->species,
                 'taxon' => 'species',
@@ -360,7 +345,7 @@ class ACI_Model_Details extends AModel
         {
             $this->_setPointOfAttachment($species->infra_id, $species);
             $res[] = array(
-                'record_id' => $species->infra_id,
+                'record_id' => $this->idToNaturalKey($species->infra_id),
                 'parent_id' => '',
                 'name' => $species->infra,
                 'taxon' => 'infraspecies',
@@ -371,7 +356,7 @@ class ACI_Model_Details extends AModel
         }
         return $res;
     }
-    
+
     /**
      * Returns the status of a scientific name
      *
@@ -387,7 +372,7 @@ class ACI_Model_Details extends AModel
         )->where('td.taxon_id = ?', (int)$id);
         return (int)$select->query()->fetchColumn(0);
     }
-    
+
     /**
      * Returns the accepted name id and the taxa id for synonyms
      *
@@ -416,7 +401,7 @@ class ACI_Model_Details extends AModel
         }
         return array($id, null);
     }
-    
+
     /**
      * Gets the species hierarchy by iterating the taxa table through
      * parent ids
@@ -444,9 +429,9 @@ class ACI_Model_Details extends AModel
                     'LSID' => 'tree.lsid'
                 )
             )->where('tree.taxon_id = ?');
-                
+
             $hierarchy = array();
-            
+
             do {
                 $select->bind(array($id));
                 $res = $select->query()->fetchAll();
@@ -467,7 +452,7 @@ class ACI_Model_Details extends AModel
         }
         return $res;
     }
-    
+
     /**
      * Gets the list of synonyms of a species and their details
      *
@@ -548,11 +533,11 @@ class ACI_Model_Details extends AModel
         )
         ->group('sn.id')
         ->order(array('genus', 'species', 'infraspecies', 'author'));
-        
+
         $select->bind(array($taxon_id));
-        
+
         $synonyms = $select->query()->fetchAll();
-        
+
         foreach ($synonyms as &$synonym) {
             $synonym['name'] =
                 ACI_Model_Table_Taxa::getAcceptedScientificName(
@@ -569,7 +554,7 @@ class ACI_Model_Details extends AModel
                     $synonym['status'], false
                 );
         }
-        
+
         return $synonyms;
     }
 
@@ -590,28 +575,28 @@ class ACI_Model_Details extends AModel
                 'rank' => 'sa.rank'
             )
         )->where(
-            'sa.accepted_taxon_id = ?AND 
+            'sa.accepted_taxon_id = ?AND
             sa.name_status != '.ACI_Model_Table_Taxa::STATUS_COMMON_NAME
          )
         ->group('sa.id')
         ->order(array('name'));
-        
+
         $select->bind(array($taxon_id));
-        
+
         $synonyms = $select->query()->fetchAll();
-        
+
         foreach ($synonyms as &$synonym) {
-            $synonym['name'] = ACI_Model_Table_Taxa::getTaxaFullName($synonym['name'], 
+            $synonym['name'] = ACI_Model_Table_Taxa::getTaxaFullName($synonym['name'],
                     $synonym['status'], $synonym['author'], '');
             $synonym['status'] =
                 ACI_Model_Table_Taxa::getStatusString(
                     $synonym['status'], false
                 );
         }
-        
+
         return $synonyms;
     }
-*/    
+*/
     /**
      * Gets the list of common names of a species and their details
      *
@@ -621,7 +606,7 @@ class ACI_Model_Details extends AModel
     public function commonNames ($taxon_id)
     {
         $select = new Zend_Db_Select($this->_db);
-        
+
         $select->distinct()
         ->from(
             array('cn' => 'common_name'),
@@ -661,14 +646,14 @@ class ACI_Model_Details extends AModel
         ->where('cn.taxon_id = ?', $taxon_id)
         ->group(array('common_name', 'language', 'country'))
         ->order(array('language', 'common_name', 'country'));
-        
+
         return $select->query()->fetchAll();
     }
-    
+
     public function infraspecies($taxon_id, $kingdom = '')
     {
         $select = new Zend_Db_Select($this->_db);
-        
+
         $select
         ->from(
             array('tne_s' => 'taxon_name_element'),
@@ -682,7 +667,7 @@ class ACI_Model_Details extends AModel
                 'name' =>
                     "CONCAT_WS(\" \",sne_g.name_element,sne_s.name_element,sne_i.name_element)",
                 'rank' => 't.taxonomic_rank_id'
-            
+
             )
         )
         ->joinLeft(
@@ -724,11 +709,11 @@ class ACI_Model_Details extends AModel
         )
         ->where('tne_s.taxon_id = ? AND t.taxonomic_rank_id != 83')
         ->order(array('infraspecies', 'infraspecific_marker'));
-        
+
         $select->bind(array($taxon_id));
-        
+
         $rowSet = $select->query()->fetchAll();
-        
+
         $infraspecies = array();
         $i = 0;
         foreach ($rowSet as $row) {
@@ -747,7 +732,7 @@ class ACI_Model_Details extends AModel
 /*    public function infraspecies($taxon_id)
     {
         $select = new Zend_Db_Select($this->_db);
-        
+
         $select
         ->from(
             array('tt' => '_taxon_tree'),
@@ -767,11 +752,11 @@ class ACI_Model_Details extends AModel
         )
         ->where('tt.parent_id = ?')
         ->order(array('name'));
-        
+
         $select->bind(array($taxon_id));
-        
+
         $rowSet = $select->query()->fetchAll();
-        
+
         $infraspecies = array();
         $i = 0;
         foreach ($rowSet as $row) {
@@ -782,7 +767,7 @@ class ACI_Model_Details extends AModel
         }
         return $infraspecies;
     }
-*/   
+*/
     /**
      * Gets all the ditributions of a particular name code
      *
@@ -794,7 +779,7 @@ class ACI_Model_Details extends AModel
         $distribtion = new Zend_Db_Select($this->_db);
         $distribution_free_text = new Zend_Db_Select($this->_db);
         $select = new Zend_Db_Select($this->_db);
-        
+
         $distribtion
         ->from(
             array('d' => 'distribution'),
@@ -810,7 +795,7 @@ class ACI_Model_Details extends AModel
             array()
         )
         ->where('d.taxon_detail_id = ?', $taxon_id);
-        
+
         $distribution_free_text
         ->from(
             array('d' => 'distribution_free_text'),
@@ -826,12 +811,12 @@ class ACI_Model_Details extends AModel
             array()
         )
         ->where('d.taxon_detail_id = ?', $taxon_id);
-        
+
         $select->union(array($distribtion,$distribution_free_text))
         ->order('distribution');
-        
+
         $rowSet = $select->query()->fetchAll();
-        
+
         $dist = array();
         foreach ($rowSet as $row) {
             $dist[] = array(
@@ -842,7 +827,7 @@ class ACI_Model_Details extends AModel
         }
         return $dist;
     }
-    
+
     /**
      * Alias of getReferencesByNameCode
      * @param $nameCode
@@ -852,25 +837,25 @@ class ACI_Model_Details extends AModel
     {
         //return $this->getReferencesByNameCode($nameCode);
     }
-    
+
     public function getReferenceById($id)
     {
         $modelRef = new ACI_Model_Table_References();
         return $modelRef->get($id);
     }
-    
+
     public function getReferencesByTaxonId($taxon_id)
     {
         $modelRef = new ACI_Model_Table_References();
         return $modelRef->getByTaxonId($taxon_id);
     }
-        
+
     public function getReferencesBySynonymId($synonym_id)
     {
         $modelRef = new ACI_Model_Table_References();
         return $modelRef->getBySynonymId($synonym_id);
     }
-    
+
     public function getScientificName($id)
     {
         $select = new Zend_Db_Select($this->_db);
@@ -1026,14 +1011,14 @@ class ACI_Model_Details extends AModel
         $species = $select->query()->fetchAll();
         return $species;
     }
-    
+
     public function getImages($taxon_id) {
         $select = new Zend_Db_Select($this->_db);
         $select->from('_image_resource');
         $select->where('taxon_id = ?', $taxon_id);
         return $select->query()->fetchAll();
     }
-    
+
     public function lifezones($taxon_id) {
         $select = new Zend_Db_Select($this->_db);
         $select->from(
@@ -1047,7 +1032,7 @@ class ACI_Model_Details extends AModel
         ->where('lttd.taxon_detail_id = ?', $taxon_id);
         return $select->query()->fetchAll();
     }
-    
+
     public function getSourceDatabaseQualifiers($source_database_id) {
         $select = new Zend_Db_Select($this->_db);
         $select->from('_source_database_details',

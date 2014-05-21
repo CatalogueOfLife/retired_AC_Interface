@@ -48,27 +48,29 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             ))) {
                 $res[$i]['link'] = $translator->translate('Show_details');
                 if (ACI_Model_Table_Taxa::isSynonym($row['status'])) {
-                    $res[$i]['url'] = '/details/species/id/' . $row['accepted_species_id'];
+                    $res[$i]['url'] = '/details/species/id/' .
+                    $this->idToNaturalKey($row['accepted_species_id']);
                 } else {
                 $res[$i]['url'] =
                     '/details/species/id/' . ($row['status'] != 6 ?
-                        $row['id'] : '');
+                    $this->idToNaturalKey($row['id']) : '');
                 }
                 if ($row['status'] == 6) {
-                        $res[$i]['url'] .= $row['taxa_id'] .'/common/' . $row['id'];
+                    $res[$i]['url'] .= $this->idToNaturalKey($row['taxa_id']) .'/common/' .
+                    $this->idToNaturalKey($row['id']);
                 } elseif (ACI_Model_Table_Taxa::isSynonym($row['status'])) {
-                    $res[$i]['url'] .= '/synonym/'.$row['id'];
+                    $res[$i]['url'] .= '/synonym/' . $this->idToNaturalKey($row['id']);
                 }
             } else {
                 $res[$i]['link'] = $translator->translate('Show_tree');
-                $res[$i]['url'] = '/browse/tree/id/' . $row['id'];
+                $res[$i]['url'] = '/browse/tree/id/' . $this->idToNaturalKey($row['id']);
             }
             if(!isset($row['name']))
             {
                 if(isset($row['taxon_name'])) {
                     $row['name'] = $row['taxon_name'];
                 } else {
-                    $row['name'] = 
+                    $row['name'] =
                     ($row['genus'] ? $row['genus'] .
                         ($row['subgenus'] ? ' ('.$row['subgenus'].')' : '') .
                         ($row['species'] ? ' '.$row['species'] : '') .
@@ -112,9 +114,9 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $res[$i]['status'] = $translator->translate(
                 ACI_Model_Table_Taxa::getStatusString($row['status'])
             );
-            
+
             $res[$i]['group'] = ucfirst($row['kingdom']);
-            
+
             // Status + accepted name
             if ((isset($row['is_accepted_name']) && !$row['is_accepted_name']) ||
                 (isset($row['accepted_species_id']) && $row['accepted_species_id'])) {
@@ -155,7 +157,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         }
         return $res;
     }
-    
+
     private function _getRank($row)
     {
         if(isset($row['infraspecies']) && $row['infraspecies'])
@@ -179,7 +181,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         elseif(isset($row['kingdom']) && $row['kingdom'])
             return ACI_Model_Table_Taxa::RANK_KINGDOM;
     }
-    
+
     public function formatPlainRow(array $row)
     {
         $translator = Zend_Registry::get('Zend_Translate');
@@ -206,7 +208,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         }
         return $row;
     }
-    
+
     /**
      * Formats the species details information
      *
@@ -217,7 +219,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     {
         $preface = '';
         $translator = Zend_Registry::get('Zend_Translate');
-        
+
         if ($speciesDetails->taxaStatus) {
             $preface =
                 sprintf(
@@ -258,10 +260,10 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $translator->translate(
                 ACI_Model_Table_Taxa::getStatusString($speciesDetails->status)
             ) . ')';
-            
+
         $textDecorator = $this->getActionController()
             ->getHelper('TextDecorator');
-            
+
         if (!empty($speciesDetails->synonyms)) {
             foreach ($speciesDetails->synonyms as &$synonym) {
                 $synonym['referenceLabel'] = $this->getReferencesLabel(
@@ -334,9 +336,9 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         }
         $speciesDetails->webSite =
             $textDecorator->createLink($speciesDetails->webSite, '_blank');
-            
+
         $speciesDetails->preface = $preface;
-        
+
         if (!empty($speciesDetails->images)) {
             $this->resizeThumbnails($speciesDetails);
         } else {
@@ -358,7 +360,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         }
         return $speciesDetails;
     }
-    
+
     // Resize images to the thumbnail with the smallest height
     public function resizeThumbnails(ACI_Model_Table_Taxa $speciesDetails) {
         $minHeight = 250;
@@ -378,7 +380,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             }
         }
     }
-    
+
     public function formatDate($date)
     {
         if($date == '0000-00-00') {
@@ -387,7 +389,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         //changes yyyy-mm-dd into dd mon yyyy
         return date('d M Y', strtotime($date));
     }
-    
+
     public function formatDatabaseDetails(array $dbDetails)
     {
         $dbDetails['label'] = $dbDetails['short_name'];
@@ -425,8 +427,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         $dbDetails['is_new'] = $this->decorateDbIsNew($dbDetails['is_new']);
         return $dbDetails;
     }
-    
-    public function decorateDbIsNew ($isNew) 
+
+    public function decorateDbIsNew ($isNew)
     {
         $t = Zend_Registry::get('Zend_Translate');
         if ($isNew == 0) {
@@ -439,7 +441,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             return $t->translate('UPDATED');
         }
      }
-    
+
     private function _getDbCoverageIcon($coverage = '') {
         if ($coverage == '') {
             return false;
@@ -450,7 +452,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         }
         return $icon;
     }
-    
+
     private function _getDbConfidenceIcons($confidence = 0) {
         if ($confidence == 0){
             return array();
@@ -464,7 +466,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         }
         return $confidence_icons;
     }
-    
+
     public function formatDatabaseResultPage(array $dbDetails)
     {
         $dbDetails['name'];
@@ -479,7 +481,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         $dbDetails['is_new'] = $this->decorateDbIsNew($dbDetails['is_new']);
         return $dbDetails;
     }
-    
+
     public function formatSpeciesTotals(array $input)
     {
         $previous = false;
@@ -491,7 +493,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 if ($previous) {
                     $phyla[$previous] = $$previous;
                     $totals[$previous] = array(
-                        'actual' => number_format(array_sum($c2)), 
+                        'actual' => number_format(array_sum($c2)),
                         'estimate' => in_array(0, $c1) ? 'Not available' : number_format(array_sum($c1)),
                         'coverage' => $this->getCoverage($c2, $c1)
                     );
@@ -516,7 +518,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             if ($i == $total - 1) {
                 $phyla[$current] = $$current;
                 $totals[$current] = array(
-                    'actual' => number_format(array_sum($c2)), 
+                    'actual' => number_format(array_sum($c2)),
                     'estimate' => in_array(0, $c1) ? 'Not available' : number_format(array_sum($c1)),
                     'coverage' => $this->getCoverage($c2, $c1)
                 );
@@ -524,11 +526,11 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $previous = $current;
         }
         return array(
-            'phyla' => $phyla, 
+            'phyla' => $phyla,
             'totals' => $totals
         );
     }
-    
+
     private function _formatSourceImage($reference) {
         if (empty($reference)) {
             return false;
@@ -538,12 +540,12 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         $img = '<img src="'.$src.'" alt="'.$reference.'" title="'.$reference.'" />';
         return $img;
     }
-    
+
     public function getCoverage($actual, $estimate) {
         is_array($actual) ? $_actual = array_sum($actual) : $_actual = $actual;
         is_array($estimate) ? $_estimate = array_sum($estimate) : $_estimate = $estimate;
         $coverage = 'Not available';
-        if ((is_array($estimate) && !in_array(0, $estimate)) || 
+        if ((is_array($estimate) && !in_array(0, $estimate)) ||
              (!is_array($estimate) && $_actual != 0 && $_estimate != 0)) {
              $coverage = round(($_actual/$_estimate)*100);
              if ($coverage > 100) {
@@ -554,7 +556,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         }
         return $coverage;
     }
-    
+
     /**
      * Returns the references label based on the number of references and
      * the name of the species
@@ -611,7 +613,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             'NA', // Not Available, it shouldn't show a link
             'pro parte'
         );
-        
+
         $firstKingdom = true;
         $output = '';
         $splitByKingdom = explode(';', $taxonCoverage);
@@ -624,7 +626,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 // break line after each hierarchy
                 $output .= '<br />';
             }
-            
+
             $splitByRank = explode('-', $kingdom);
             // iterate each definition in the hierarchy
             foreach ($splitByRank as $rank) {
@@ -634,7 +636,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     // dash separator for each definition
                     $output .= ' - ';
                 }
-                
+
                 $firstSameRank = true;
                 $splitBySameRank = preg_split('#[,&]#', $rank);
                 // iterate each string splitted by comma and ampersand
@@ -649,7 +651,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     $prefix = '';
                     $suffix = '';
                     $foundItem[0] = '';
-                    
+
                     // iterate ignored items
                     foreach ($ignoreItems as $item) {
                         if (preg_match('#' . $item . '#', $trimmedRank) == true) {
@@ -664,13 +666,13 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                             '#' . $item . '#', '', $trimmedRank
                         );
                     }
-                    
+
                     $t = Zend_Registry::get('Zend_Translate');
                     $new = ' <span class="new">' . $t->translate('NEW') .
                         '</span> ';
                     $updated = ' <span class="new">' .
                         $t->translate('UPDATED') . '</span> ';
-                        
+
                     $prefix = strcasecmp('(NEW!) ', $prefix) === 0 ? $new : (
                         strcasecmp('(UPDATED!) ', $prefix) === 0 ?
                         $updated : $prefix
@@ -679,9 +681,9 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                         strcasecmp(' (UPDATED!)', $suffix) === 0 ?
                         $updated : $suffix
                     );
-                    
+
                     $trimmedRank = trim($trimmedRank);
-                    
+
                     if (strstr($trimmedRank, ' ')) {
                         $output .= $trimmedRank;
                     } else {
@@ -696,7 +698,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         }
         return $output;
     }
-    
+
 /*    public function getTaxonLinksInDatabaseDetailsPage($taxonCoverage)
     {
         $ignoreItems = array (
@@ -710,13 +712,13 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             'NA', // Not Available, it shouldn't show a link
             'pro parte'
         );
-        
+
         $firstKingdom = true;
         $output = '';
         $output = $this->_formatTaxonCoverage($taxonCoverage);
         return $output;
     }*/
-    
+
     public function splitByMarkers($name)
     {
         $nameArray = explode(' ', $name);
@@ -725,7 +727,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         }
         return $nameArray;
     }
-    
+
     protected function _formatTaxonCoverage($taxonCoverage)
     {
         $kingdom = $phylum = $class = $order= $output = '';
@@ -741,12 +743,12 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             }
             if($class != $taxa['class_id'])
             {
-                $output .= 
+                $output .=
                     $this->_getLinkToClassification($taxa['kingdom_id'],$taxa['kingdom']) .
-                    $this->_getRankStatus($taxa['kingdom_status']) . 
+                    $this->_getRankStatus($taxa['kingdom_status']) .
                     $seperatorDifferentRank .
                     $this->_getLinkToClassification($taxa['phylum_id'],$taxa['phylum']) .
-                    $this->_getRankStatus($taxa['phylum_status']) . 
+                    $this->_getRankStatus($taxa['phylum_status']) .
                     $seperatorDifferentRank .
                     $this->_getLinkToClassification($taxa['class_id'],$taxa['class']) .
                     $this->_getRankStatus($taxa['class_status']);
@@ -764,7 +766,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         }
         return $output;
     }
-    
+
     protected function _getRankStatus($status)
     {
         if($status == 1) {
@@ -774,21 +776,21 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         }
         return '';
     }
-    
+
     protected function _getLinkToClassification($id,$name)
     {
         $link = $this->getFrontController()->getBaseUrl() .
             '/browse/t/id/' . $id;
         return '<a href="'.$link.'">'.$name.'</a>';
     }
-    
+
     protected function _getLinkToTree($id,$name)
     {
         $link = $this->getFrontController()->getBaseUrl() .
             '/browse/tree/id/' . $id;
         return '<a href="'.$link.'">'.$name.'</a>';
     }
-    
+
     protected function _formatInfraspeciesName($name)
     {
         $nameArray = $this->splitByMarkers($name);
@@ -800,7 +802,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         }
         return trim($name);
     }
-    
+
     protected function _addAcceptedName(array &$row)
     {
         if ((!isset($row['accepted_species_id']) || (
@@ -817,7 +819,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $row['id'] = $row['accepted_species_id'];
         }
     }
-    
+
     protected function _appendTaxaSuffix($source, $status, $suffix)
     {
         if ($suffix) {
@@ -846,7 +848,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         return $source;
     }
 
-    
+
     protected function _addCnRegion ($speciesDetails)
     {
         $total = count($speciesDetails->commonNames);
@@ -859,5 +861,17 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             }
         }
         return $speciesDetails;
+    }
+
+    public function idToNaturalKey ($id)
+    {
+       $search = new ACI_Model_Search(Zend_Registry::get('db'));
+       return $search->idToNaturalKey($id);
+    }
+
+    public function naturalKeyToId ($hash)
+    {
+       $search = new ACI_Model_Search(Zend_Registry::get('db'));
+       return $search->naturalKeyToId($hash);
     }
 }

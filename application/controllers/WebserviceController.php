@@ -19,7 +19,7 @@ class WebserviceController extends AController
         $contextSwitch = $this->_helper->getHelper('contextSwitch');
         $contextSwitch->addActionContext('query', 'xml');
     }
-    
+
     public function indexAction ()
     {
         // if no webservice-specific parameters are set, show the documentation
@@ -35,7 +35,7 @@ class WebserviceController extends AController
             $this->view->layout()->disableLayout();
         }
     }
-    
+
     public function queryAction ()
     {
         switch ($this->_getParam('format')) {
@@ -62,13 +62,13 @@ class WebserviceController extends AController
                     )
                 );
         }
-        
+
         $wsModel = new ACI_Model_Webservice($this->_db);
         $wsModel->setFilter($filter);
         $res = $wsModel->query($this->getRequest());
         $this->view->response = $res;
     }
-    
+
     public function __call ($name, $arguments)
     {
         $this->_forward('index');

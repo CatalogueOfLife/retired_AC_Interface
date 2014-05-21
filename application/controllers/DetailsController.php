@@ -20,7 +20,7 @@ class DetailsController extends AController
     	'There_are_no_regions_to_show',
     	'failed_to_retrieve_region'
     );
-    
+
     public function init ()
     {
         parent::init();
@@ -37,14 +37,14 @@ class DetailsController extends AController
      */
     public function referenceAction ()
     {
-        $speciesId = (int) $this->_getParam('species');
-        $synonymId = (int) $this->_getParam('synonym');
+        $speciesId = (int) $this->getHelper('DataFormatter')->naturalKeyToId($this->_getParam('species'));
+        $synonymId = (int) $this->getHelper('DataFormatter')->naturalKeyToId($this->_getParam('synonym'));
         $referenceId = $this->_getParam('id');
         $references = false;
         $sn = false;
-        
+
         $detailsModel = new ACI_Model_Details($this->_db);
-        
+
         if ($referenceId) {
             $ids = explode(',', $referenceId);
             foreach ($ids as $id) {
@@ -96,12 +96,12 @@ class DetailsController extends AController
 
     public function speciesAction ()
     {
-        $id = $this->_getParam('id');
+        $id = (int) $this->getHelper('DataFormatter')->naturalKeyToId($this->_getParam('id'));
         $source = $this->_getParam('source', '');
-        $commonNameId = $this->_getParam('common');
-        $synonymId = $this->_getParam('synonym');
+        $commonNameId = (int) $this->getHelper('DataFormatter')->naturalKeyToId($this->_getParam('common'));
+        $synonymId = (int) $this->getHelper('DataFormatter')->naturalKeyToId($this->_getParam('synonym'));
         $speciesDetails = false;
-        
+
         if ($commonNameId) {
             $fromType = 'common';
             $fromId = $commonNameId;
@@ -123,17 +123,17 @@ class DetailsController extends AController
             }
             if ($detailsModel->species($id, $fromType, $fromId)) {
                 $speciesDetails = $this->getHelper('DataFormatter')->formatSpeciesDetails(
-                    $detailsModel->species($id, $fromType, 
+                    $detailsModel->species($id, $fromType,
                         $fromId));
             }
         }
 		$this->view->mapInSpeciesDetailEnabled = $this->_moduleEnabled(
             'map_species_details');
-        
+
 		$title = $speciesDetails && $speciesDetails->infra_id != '' ? 'Infraspecies_details' : 'Species_details';
         $this->view->title = $this->view->translate($title);
         $this->view->headTitle($this->view->title, 'APPEND');
-        
+
         $this->_logger->debug($speciesDetails);
         $this->view->jsTranslation = $this->_createJsTranslationArray($this->_jsTreeTranslation);
         $this->view->species = $speciesDetails;
@@ -166,7 +166,7 @@ class DetailsController extends AController
         $this->view->regionsCount = count($regions);
         $this->view->regions = implode(',',$regions);
         $translator = Zend_Registry::get('Zend_Translate');
-        
+
         switch ($speciesDetails->status) {
         		case ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME:
         			$name_status_written = $translator->translate(
@@ -186,7 +186,7 @@ class DetailsController extends AController
     {
         $this->_forward('all', 'search');
     }
-    
+
     private function _hasTransliterations ($commonnames)
     {
         if (is_array($commonnames) && !empty($commonnames)) {

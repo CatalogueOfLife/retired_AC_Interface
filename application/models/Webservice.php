@@ -14,13 +14,14 @@ require_once 'AModel.php';
 class ACI_Model_Webservice extends AModel
 {
     const REQUEST_NAME_MIN_STRLEN = 3;
-    
+
     // allowed parameters
     protected static $_params = array(
         'id', 'name', 'start', 'response', 'format'
     );
     protected $_responseLimits = array('terse' => 500, 'full' => 50);
     protected $_filter;
+    protected $_naturalKey;
     protected $_response = array(
         'id' => '',
         'name' => '',
@@ -32,7 +33,7 @@ class ACI_Model_Webservice extends AModel
     );
     protected $_model;
     protected $_detailsModel;
-    
+
     public static $classificationRanks = array(
         'kingdom',
         'phylum',
@@ -45,7 +46,7 @@ class ACI_Model_Webservice extends AModel
         'species',
    		'infraspecies'
     );
-    
+
     public function query(Zend_Controller_Request_Abstract $request)
     {
         if (is_null($this->_filter)) {
@@ -61,9 +62,10 @@ class ACI_Model_Webservice extends AModel
         } catch (ACI_Model_Webservice_Exception $e) {
             $this->_setError($e->getMessage());
         }
+// print_r($this->_response); die();
         return $this->_filter->filter($this->_response);
     }
-    
+
     protected function _getDetailsModel()
     {
         if(is_null($this->_detailsModel)) {
@@ -71,7 +73,7 @@ class ACI_Model_Webservice extends AModel
         }
         return $this->_detailsModel;
     }
-    
+
     /**
      * Validates the request parameters
      *
@@ -81,23 +83,23 @@ class ACI_Model_Webservice extends AModel
      */
     protected function _validate(Zend_Controller_Request_Abstract $request)
     {
-        $this->_response['id'] = $request->getParam('id', '');
-        
+        $this->_naturalKey = $request->getParam('id', '');
+        $this->_response['id'] = $this->naturalKeyToId($this->_naturalKey);
         $this->_response['name'] =
             str_replace('%', '*' , (string)$request->getParam('name', ''));
         // Ruud 15-09-12: wildcards are limited to the end of the name only
-        if (substr_count($this->_response['name'], '*') > 1 || 
+        if (substr_count($this->_response['name'], '*') > 1 ||
         	strpos($this->_response['name'], '*') !== false &&
          	strpos($this->_response['name'], '*') !== strlen($this->_response['name']) - 1) {
         	throw new ACI_Model_Webservice_Exception('Wildcards are allowed only at the end of the name ("name*").');
         }
         $this->_response['start'] = (int)$request->getParam('start');
         $this->_response['version'] = $this->_setVersion();
-        
+
         $responseFormat = $request->getParam(
             'response', current(array_keys($this->_responseLimits))
         );
-         
+
         // providing with *either* id or name params is required
         if ($this->_response['id'] == '' && $this->_response['name'] == '') {
             throw new ACI_Model_Webservice_Exception('No name or ID given');
@@ -132,7 +134,7 @@ class ACI_Model_Webservice extends AModel
                 'Unknown response format: ' . $responseFormat
             );
         }
-        
+
         // reset validated params
         $request->setParam('id', $this->_response['id']);
         $request->setParam('name', $this->_response['name']);
@@ -141,7 +143,7 @@ class ACI_Model_Webservice extends AModel
 
         return $request;
     }
-    
+
     public static function paramsExist(array $requestParams)
     {
         $intersect = array_intersect(
@@ -149,7 +151,7 @@ class ACI_Model_Webservice extends AModel
         );
         return !empty($intersect);
     }
-    
+
     protected function _process(Zend_Controller_Request_Abstract $request)
     {
         $res = $this->_model->taxa(
@@ -169,8 +171,12 @@ class ACI_Model_Webservice extends AModel
             $res, $request->getParam('response') == 'full' ? true : false
         );
         $this->_response['results'] = $names;
+        // Ruud 20-05-14: set id back to natural key if this has been searched for
+        if (!empty($this->_naturalKey)) {
+            $this->_response['id'] = $this->_naturalKey;
+        }
     }
-    
+
     protected function _processResults(array $res, /*bool*/$full)
     {
         $results = array();
@@ -183,11 +189,23 @@ class ACI_Model_Webservice extends AModel
                     $item = $this->_processScientificName($row, $full);
                 break;
             }
-            $results[] = $item;
+            $results[] = $this->_setNaturalKeys($item);
         }
         return $results;
     }
-    
+
+    private function _setNaturalKeys ($d)
+    {
+        foreach ($d as $k => $v) {
+            if (is_array($v)) {
+                $d[$k] = $this->_setNaturalKeys($v);
+            } else if ($k == 'id') {
+                $d[$k] = $this->idToNaturalKey($v);
+            }
+        }
+        return $d;
+   }
+
     protected function _processCommonName(array $row, /*bool*/$full)
     {
         $languageAndCountry = $this->_model->getLanguageAndCountry($row['record_id']);
@@ -207,18 +225,18 @@ class ACI_Model_Webservice extends AModel
                 $row['sn_id'], $full, true
             )
         );
-        
+
         if (!$full) {
             return $item;
         }
-        
+
         // full response =+ references
         $item['references'] =
             $this->_getReferences($row['record_id']);
-        
+
         return $item;
     }
-    
+
     protected function _processScientificName(array $row, /*bool*/$full)
     {
     	// Higher taxon
@@ -250,7 +268,7 @@ class ACI_Model_Webservice extends AModel
         }
         return $sn;
     }
-    
+
     protected function _getScientificName($id, /*bool*/ $full,
         /*bool*/ $acceptedName)
     {
@@ -275,7 +293,7 @@ class ACI_Model_Webservice extends AModel
         );
         $status = $an['status'];
         unset($an['rank_id'], $an['status'], $an['source_database_id'], $an['sn_id']);
-        
+
         if (!$full) {
             $this->_arrayFilterKeys(
                 $an, array('id', 'name', 'rank', 'name_status', 'name_html',
@@ -295,11 +313,11 @@ class ACI_Model_Webservice extends AModel
         }
         return $an;
     }
-    
+
     protected function _getReferences(/*mixed*/ $rCode)
     {
         $dm = $this->_getDetailsModel();
-        
+
         if (is_array($rCode)) {
             $refs = array();
             foreach ($rCode as $refId) {
@@ -318,7 +336,7 @@ class ACI_Model_Webservice extends AModel
         );
         return $refs;
     }
-    
+
     protected function _getDistribution($id)
     {
         $dm = $this->_getDetailsModel();
@@ -340,18 +358,18 @@ class ACI_Model_Webservice extends AModel
         }
         return $result;
     }
-    
+
     protected function _getTaxaFromSpeciesId($snId)
     {
         $searchModel = new ACI_Model_Search($this->_db);
         return $searchModel->getTaxaFromSpeciesId($snId);
     }
-    
+
     protected function _getSynonyms($id)
     {
         $synonyms = $this->_model->synonyms($id);
         foreach ($synonyms as &$syn) {
-            $syn['name_html'] = 
+            $syn['name_html'] =
                 ACI_Model_Table_Taxa::getAcceptedScientificName(
                 $syn['genus'], $syn['species'], $syn['infraspecies'],
                 $syn['infraspecies_marker'], $syn['author']
@@ -367,7 +385,7 @@ class ACI_Model_Webservice extends AModel
         }
         return $synonyms;
     }
-    
+
     protected function _getCommonNames($id)
     {
         $dm = $this->_getDetailsModel();
@@ -396,7 +414,7 @@ class ACI_Model_Webservice extends AModel
         }
         return $commonNames;
     }
-    
+
     protected function _arrayFilterKeys(array &$array, array $whitelist)
     {
         foreach ($array as $k => &$v) {
@@ -407,30 +425,33 @@ class ACI_Model_Webservice extends AModel
             }
         }
     }
-    
+
     public static function getTaxaUrl($taxaId, $rankId, $statusId, $snId = null)
     {
+        $ws = new ACI_Model_Webservice(Zend_Registry::get('db'));
         $config = Zend_Registry::get('config');
         $url = $config->eti->application->location . '/';
         if ($statusId == ACI_Model_Table_Taxa::STATUS_COMMON_NAME) {
-            $url .= 'details/species/id/' . $snId . '/common/' . $taxaId;
-        } else if (!in_array($statusId, 
+            $url .= 'details/species/id/' . $ws->idToNaturalKey($snId) . '/common/' .
+                $ws->idToNaturalKey($taxaId);
+        } else if (!in_array($statusId,
             array(
-                ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME, 
+                ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME,
                 ACI_Model_Table_Taxa::STATUS_PROVISIONALLY_ACCEPTED_NAME
             ))) {
-            $url .= 'details/species/id/' . $snId . '/synonym/' . $taxaId;
+            $url .= 'details/species/id/' . $ws->idToNaturalKey($snId) . '/synonym/' .
+                $ws->idToNaturalKey($taxaId);
         } else {
             // species or infraspecies
             if ($rankId >= ACI_Model_Table_Taxa::RANK_SPECIES) {
-                $url .= 'details/species/id/' . $taxaId;
+                $url .= 'details/species/id/' . $ws->idToNaturalKey($taxaId);
             } else  { // higher taxa
-                $url .= 'browse/tree/id/' . $taxaId;
+                $url .= 'browse/tree/id/' . $ws->idToNaturalKey($taxaId);
             }
         }
         return $url;
     }
-    
+
     protected function _getNameStatusById($id)
     {
         switch ($id) {
@@ -449,7 +470,7 @@ class ACI_Model_Webservice extends AModel
         }
         return 'unknown';
     }
-    
+
     protected function _getRankNameById($id)
     {
         switch ($id) {
@@ -476,12 +497,12 @@ class ACI_Model_Webservice extends AModel
         }
         return 'unknown';
     }
-    
+
     protected function _getSourceDatabase($id) {
        $db = new ACI_Model_Table_Databases($this->_db);
        return $db->get($id);
     }
-    
+
     protected function _getOnlineResource($id) {
        $resources = array();
        $details = new ACI_Model_Details($this->_db);
@@ -491,7 +512,7 @@ class ACI_Model_Webservice extends AModel
        };
        return implode('; ', $resources);
     }
-    
+
     // Reset array keys to the original values
     private function _resetReferences($refs) {
         $parsedRefs = array();
@@ -505,7 +526,7 @@ class ACI_Model_Webservice extends AModel
         }
         return $parsedRefs;
     }
-    
+
     // Simplify rank to infraspecies if necessary and set first character to uppercase
     public static function checkRank($rank) {
         if (!in_array($rank, self::$classificationRanks)) {
@@ -513,18 +534,18 @@ class ACI_Model_Webservice extends AModel
         }
         return ucfirst($rank);
     }
-    
+
     public function setFilter(Zend_Filter_Interface $filter)
     {
         $this->_filter = $filter;
     }
-    
+
     protected function _setError($message)
     {
         $this->_response['error_message'] = $message;
     }
-    
-    protected function _setVersion() 
+
+    protected function _setVersion()
     {
         $config = Zend_Registry::get('config');
         return $config->eti->application->version.' rev '.$config->eti->application->revision;

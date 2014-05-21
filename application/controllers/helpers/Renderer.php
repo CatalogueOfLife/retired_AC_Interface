@@ -13,13 +13,13 @@
 class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
 {
     protected $_ac;
-    
+
     public function init()
     {
         $this->_ac =  $this->getActionController();
         $this->_logger = Zend_Registry::get('logger');
     }
-    
+
     public function renderFormPage($header, $form)
     {
         $elements = $form->getInputElements();
@@ -38,11 +38,11 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
         $this->_ac->view->form = $form;
         $this->_ac->renderScript('search/form.phtml');
     }
-    
+
     public function renderResultsPage(array $elements = array())
     {
         $items = $this->_getItemsPerPage();
-        
+
         $sortParam = $this->_ac->view->escape(
             $this->getRequest()->getParam(
                 'sort',
@@ -51,13 +51,13 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
                 )
             )
         );
-        
+
         $directionParam = $this->getRequest()->getParam('direction', 'asc');
-        
+
         if (isset($this->_ac->view->searchString)) {
             $this->_ac->view->searchString =
                 $this->_ac->view->translate($this->_ac->view->searchString);
-            $this->_ac->view->searchString .= isset($this->_ac->view->searchParams) ? 
+            $this->_ac->view->searchString .= isset($this->_ac->view->searchParams) ?
                 $this->_formatSearchStringAppendix($this->_ac->view->searchParams) : '';
         } else {
             $this->_ac->view->searchString = $this->_ac->view->title . ' - ' .
@@ -112,41 +112,41 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
         $this->_ac->view->sort = $sortParam;
         $this->_ac->view->form = $this->_ac->getHelper('FormLoader')
             ->getItemsForm($elements, $items);
-        
+
         // Results table differs depending on the action
         $this->_ac->view->results = $this->_ac->view->render(
             'search/results/' .
             $this->getRequest()->getParam('action') .
             '.phtml'
         );
-        
+
         // Fuzzy (new view results)
         $fuzzy = $this->getRequest()->getParam('fuzzy', '0') == '1' && $this->getRequest()->getParam('action') == 'all' && $paginator->getTotalItemCount() == 0;
         $this->_ac->view->fuzzy = $fuzzy;
-        
+
         if ($fuzzy)
         {
             $this->_ac->view->data = $this->_ac->getHelper('Fuzzy')->getMatches($this->escape($this->getRequest()->getParam('key')));
             $this->_ac->view->results = $this->_ac->view->render('search/results/fuzzy.phtml');
         }
-        
+
         // Render the results layout
         $this->_ac->renderScript('search/results/layout.phtml');
     }
-    
+
     protected function _formatSearchStringAppendix ($p)
     {
         $output = count($p) > 2 ? '<br>(' : ' (';
         foreach ($p as $rank => $taxon) {
             $formattedRank = (
-                $rank == 'kingdom' ? strtolower($this->_ac->view->translate('Top_level_group')) : 
+                $rank == 'kingdom' ? strtolower($this->_ac->view->translate('Top_level_group')) :
                     strtolower($this->_ac->view->translate('RANK_' . strtoupper($rank)))
             );
             $taxon = stripslashes($this->escape($taxon));
             if (in_array($rank, array(
-                'genus', 
-                'subgenus', 
-                'species', 
+                'genus',
+                'subgenus',
+                'species',
                 'infraspecies'
             ))) {
                 $taxon = "<i>$taxon</i>";
@@ -155,8 +155,8 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
         }
         return substr($output, 0, -2) . ')';
     }
-    
-    
+
+
     /**
      * Builds the paginator
      *
@@ -184,10 +184,10 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
         }
         $paginator->setItemCountPerPage((int)$items);
         $paginator->setCurrentPageNumber((int)$page);
-        
+
         return $paginator;
     }
-    
+
     public function getInfoNavigator($pos = '')
     {
         $selId = 'page_' . $pos;
@@ -244,7 +244,7 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
             $nav->getElement('previous')->setAttrib('class','hidden') : '');
         return '<div class="navigator">' . $nav . '</div>';
     }
-        
+
     protected function _getItemsPerPage()
     {
         $items = (int)$this->getRequest()->getParam('items', null);
@@ -260,7 +260,7 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
         $this->getRequest()->setParam('items', $items);
         return $items;
     }
-    
+
     public function escape($str)
     {
         $config = Zend_Registry::get('config');
@@ -268,7 +268,7 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
             $str, ENT_NOQUOTES, $config->resources->view->encoding, false
         );
     }
-    
+
     // Insert item into array after specified key
     // $arr2 is key => value of item to insert
     public function insertIntoArray(&$arr1, $key, $arr2) {
@@ -279,7 +279,7 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
         $end = array_splice($arr1, $index++);
         $arr1 = array_merge($arr1, $arr2, $end);
     }
-    
+
     protected function _moduleEnabled ($module)
     {
         return Bootstrap::instance()->getOption('module.' . $module);

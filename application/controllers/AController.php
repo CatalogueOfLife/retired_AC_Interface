@@ -57,7 +57,7 @@ abstract class AController extends Zend_Controller_Action
     protected function _renderFormPage ($header, $form)
     {
         if ($form instanceof ACI_Form_Dojo_AMultiCombo) {
-            $this->view->dojo()->registerModulePath('ACI', 
+            $this->view->dojo()->registerModulePath('ACI',
                 $this->view->baseUrl() . JS_PATH . '/library/ACI')->requireModule(
                 'ACI.dojo.TxReadStore');
             // ComboBox (v1.3.2) custom extension
@@ -103,7 +103,7 @@ abstract class AController extends Zend_Controller_Action
             }
         }
     }
-    
+
     protected function _createJsTranslationArray (array $jsTranslation)
     {
         $translator = Zend_Registry::get('Zend_Translate');
@@ -124,11 +124,11 @@ abstract class AController extends Zend_Controller_Action
             $params = array();
             // Remove unneeded parameters
             $exclude = array(
-                'action', 
-                'controller', 
-                'module', 
-                'search', 
-                'update', 
+                'action',
+                'controller',
+                'module',
+                'search',
+                'update',
                 'clear'
             );
             foreach ($this->getRequest()->getParams() as $k => $v) {
@@ -137,8 +137,8 @@ abstract class AController extends Zend_Controller_Action
                 }
             }
             $redirector = Zend_Controller_Action_HelperBroker::getStaticHelper('redirector');
-            $redirector->setGotoSimple($this->getRequest()->getParam('action'), 
-                $this->getRequest()->getParam('controller'), 
+            $redirector->setGotoSimple($this->getRequest()->getParam('action'),
+                $this->getRequest()->getParam('controller'),
                 $this->getRequest()->getParam('module'), $params);
         }
     }
@@ -167,7 +167,7 @@ abstract class AController extends Zend_Controller_Action
             $scripts = explode(' ', $languageScripts[substr($iso, 0, 2)]);
             if (count(array_intersect($currentLanguageScripts, $scripts)) == 0) {
                 $selectedLanguages[$iso] .= ' (' . ucfirst(
-                    $locale->getTranslation($iso, 'language', 
+                    $locale->getTranslation($iso, 'language',
                         $this->view->language)) . ')';
             }
         }
@@ -189,7 +189,7 @@ abstract class AController extends Zend_Controller_Action
         		$selectedLanguages[$iso]['original_name'] = '';
         	}
             $selectedLanguages[$iso]['english_name'] = ucfirst(
-                $locale->getTranslation($iso, 'language', 
+                $locale->getTranslation($iso, 'language',
                     'en'));
         }
         $sortMenu = Bootstrap::instance()->getOption('language_menu.sort');
@@ -204,7 +204,7 @@ abstract class AController extends Zend_Controller_Action
         $config = Zend_Registry::get('config');
         return $config->advanced->cookie_expiration;
     }
-    
+
     static function cmp($a, $b) {
         return strcmp($a['english_name'], $b['english_name']);
     }
@@ -218,5 +218,19 @@ abstract class AController extends Zend_Controller_Action
             $timeout = 10;
         }
         return $timeout;
+    }
+
+    public function idToNaturalKey ($id)
+    {
+        if (empty($id)) {
+            return false;
+        }
+        $select = new Eti_Db_Select($this->_db);
+        $select->from(
+            array('_natural_keys',
+                array('hash')))
+        ->where('id =', (int)$id);
+        $res = $select->query()->fetchColumn(0);
+        return empty($res) ? $id : $res;
     }
 }

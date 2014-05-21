@@ -66,3 +66,6 @@ module.map_search = 1           ; Enables searching by map instead of by text
 module.map_species_details = 1  ; Enables map with distribution data on species details page
 module.map_browse_tree = 1      ; Enables map with distribution data in the taxonomic tree
 module.icons_browse_tree = 1    ; Enables taxonomic rank icons in the taxonomic tree
+
+; Use natural keys (natural keys = 1, internal, ever-changing ids = 0)
+module.natural_keys = 1;

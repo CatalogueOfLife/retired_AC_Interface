@@ -16,13 +16,13 @@ class BrowseController extends AController
     // Tree persistance
     protected $_persistTree = false;
     private $_jsTreeTranslation = array(
-        'est', 
-        'Number_of_species', 
-        'Estimated_number', 
-        'Percentage_covered', 
-        'Estimation_source', 
-        'Source_database', 
-        'Source_databases', 
+        'est',
+        'Number_of_species',
+        'Estimated_number',
+        'Percentage_covered',
+        'Estimation_source',
+        'Source_database',
+        'Source_databases',
         'Multiple_providers',
         'Close_window',
         'Name',
@@ -61,10 +61,10 @@ class BrowseController extends AController
             $id = $species;
         }
         else {
-            $id = $this->_getParam('id', false);
+            $id = (int)$this->getHelper('DataFormatter')->naturalKeyToId($this->_getParam('id', false));
         }
         $this->_persistTree($id);
-        
+
         $hierarchy = array();
         if ($id !== false) {
             $hierarchy = $this->_getHierarchy($id);
@@ -73,19 +73,19 @@ class BrowseController extends AController
         $this->view->hierarchy = implode(',', $hierarchy);
         $this->view->title = $this->view->translate('Taxonomic_tree');
         $this->view->headTitle($this->view->title, 'APPEND');
-        $this->view->dojo()->enable()->registerModulePath('ACI', 
+        $this->view->dojo()->enable()->registerModulePath('ACI',
             $this->view->baseUrl() . JS_PATH . '/library/ACI')->requireModule('dojo.parser')->requireModule(
             'dojox.data.QueryReadStore')->requireModule('ACI.dojo.TxStoreModel')->requireModule(
             'ACI.dojo.TxTree')->requireModule('ACI.dojo.TxTreeNode');
-        
+
 		$this->view->feedbackModuleEnabled = ($this->_moduleEnabled('feedback'));
         $iconInTreeModuleEnabled = $this->_moduleEnabled(
             'icons_browse_tree');
         $this->view->iconsInTreeModuleEnabled = $iconInTreeModuleEnabled;
         if ($iconInTreeModuleEnabled) {
             if (!isset($_COOKIE['iconSpan']) || $_COOKIE['iconSpan'] === false) {
-                setcookie('iconSpan', 0, 
-                    time() + $this->_cookieExpiration, '/', 
+                setcookie('iconSpan', 0,
+                    time() + $this->_cookieExpiration, '/',
                     '');
                 $showIconsInTreeCheckbox = 0;
             }
@@ -94,7 +94,7 @@ class BrowseController extends AController
             }
             $this->view->showIconsInTreeSelected = $showIconsInTreeCheckbox;
         }
-        
+
         $this->view->mapInTreeModuleEnabled = $this->_moduleEnabled(
             'map_browse_tree');
 		//Checks if the module statistics is enabled
@@ -103,8 +103,8 @@ class BrowseController extends AController
         $this->view->statisticsModuleEnabled = $statisticsModuleEnabled;
         if ($statisticsModuleEnabled) {
             if (!isset($_COOKIE['treeSourceDatabase']) || $_COOKIE['treeSourceDatabase'] === false) {
-                setcookie('treeSourceDatabase', 0, 
-                    time() + $this->_cookieExpiration, '/', 
+                setcookie('treeSourceDatabase', 0,
+                    time() + $this->_cookieExpiration, '/',
                     '');
                 $showSourceDatabasesCheckbox = 0;
             }
@@ -112,10 +112,10 @@ class BrowseController extends AController
                 $showSourceDatabasesCheckbox = $_COOKIE['treeSourceDatabase'];
             }
             $this->view->showSourceDatabaseCheckboxSelected = $showSourceDatabasesCheckbox;
-            
+
             if (!isset($_COOKIE['treeStatistics']) || $_COOKIE['treeStatistics'] === false) {
-                setcookie('treeStatistics', 0, 
-                    time() + $this->_cookieExpiration, '/', 
+                setcookie('treeStatistics', 0,
+                    time() + $this->_cookieExpiration, '/',
                     '');
                 $showEstimationsCheckbox = 0;
             }
@@ -181,8 +181,8 @@ class BrowseController extends AController
         if ($fetch) {
             $this->view->layout()->disableLayout();
             exit(
-                $this->getHelper('Query')->fetchTaxaByRank($fetch, 
-                    $this->_getParam('q'), 
+                $this->getHelper('Query')->fetchTaxaByRank($fetch,
+                    $this->_getParam('q'),
                     $this->_getParam('p')));
         }
         // Prefill form fields from request
@@ -192,11 +192,11 @@ class BrowseController extends AController
         }
         $this->view->title = $this->view->translate('Browse_taxonomic_classification');
         $this->view->headTitle($this->view->title, 'APPEND');
-        
+
         $form = $this->_getSearchForm();
         $formIsValid = $form->isValid($this->_getAllParams());
         // Results page
-        if ($this->_hasParam('match') && $this->_getParam('submit', 
+        if ($this->_hasParam('match') && $this->_getParam('submit',
             1) && $formIsValid) {
         	$searchString = array();
             if($this->_getParam('kingdom') !== null) {
@@ -230,7 +230,7 @@ class BrowseController extends AController
         		$searchString['infraspecies'] = $this->_getParam('infraspecies');
         	}
         	$this->_setSessionFromParams($form->getInputElements());
-        	
+
             $this->view->searchString = 'Search_results_for_taxonomic_classification';
             $this->view->searchParams = $searchString;
             $this->getHelper('Query')->tagLatestQuery();
@@ -272,7 +272,7 @@ class BrowseController extends AController
     {
         $select = new ACI_Model_Search($this->_db);
 //        $taxaRecords = $select->getRecordIdFromName($name);
-       
+
         $hierarchy = $this->_getHierarchy($id);
         if (is_array($hierarchy)) {
             // prefill the form with the hierarchy values
@@ -286,12 +286,12 @@ class BrowseController extends AController
             }
         }
     }*/
-    
+
     protected function _setParamForTaxa ($name)
     {
         $select = new ACI_Model_Search($this->_db);
         $taxaRecords = $select->getRecordIdFromName($name);
-        
+
         if (!empty($taxaRecords)) {
             $hierarchy = $this->_getHierarchy($taxaRecords[0]['id']);
             if (is_array($hierarchy)) {
@@ -302,7 +302,7 @@ class BrowseController extends AController
                             $rank);
                         $this->_setParam(
                             strtolower(
-                                $temp[0]['rank']), 
+                                $temp[0]['rank']),
                             $temp[0]['name']);
                     }
                 }
@@ -323,7 +323,7 @@ class BrowseController extends AController
         $search = new ACI_Model_Search($this->_db);
         $res = $search->getRankEntries($rank, $this->_getParam('name'));
         foreach ($res as &$row) {
-            $row['label'] = $this->getHelper('TextDecorator')->highlightMatch($row['name'], 
+            $row['label'] = $this->getHelper('TextDecorator')->highlightMatch($row['name'],
                 $substr, false);
         }
         $this->_logger->debug($res);
@@ -344,13 +344,13 @@ class BrowseController extends AController
         $res = $search->getTaxonChildren($parentId);
         $this->_logger->debug($res);
         $higher_taxon = array(
-            '', 
-            'phylum', 
-            'class', 
-            'order', 
-            'superfamily', 
-            'family', 
-            'genus', 
+            '',
+            'phylum',
+            'class',
+            'order',
+            'superfamily',
+            'family',
+            'genus',
             'subgenus'
         );
         $translator = Zend_Registry::get('Zend_Translate');
@@ -365,13 +365,13 @@ class BrowseController extends AController
             	$row['image'] = 0;
             }
             $row['type'] = $row['type'] == "kingdom" ? '' : $row['type'];
-            
+
             $row['rank'] = $row['type'] == "" ? '' : $translator->translate(
                 strtoupper('RANK_' . $row['type']));
             $row['url'] = !in_array($row['type'], $higher_taxon) ? $this->view->baseUrl() . '/details/species/id/' .
-                 $row['id'] . '/source/tree' : null;
+                 $this->getHelper('DataFormatter')->idToNaturalKey($row['id']) . '/source/tree' : null;
             //TODO: Get infraspecies marker in between
-            /*            if (!in_array($row['type'],array_merge($higher_taxon,array('species')))) {
+            /* if (!in_array($row['type'],array_merge($higher_taxon,array('species')))) {
                 $row['name'] = $this->getHelper('DataFormatter')
                     ->splitByMarkers($row['name']);
             }*/
@@ -388,6 +388,7 @@ class BrowseController extends AController
             } else {
                 $row['percentage'] = "?";
             }
+
             //Checks if the module statistics is enabled
             $statisticsModuleEnabled = Bootstrap::instance()->getOption(
                 'module.statistics');
@@ -399,7 +400,7 @@ class BrowseController extends AController
                 $row['source_databases'] = $gsds;
             }
         }
-        
+
         $data = new Zend_Dojo_Data('id', $res, $parentId);
         $data->setLabel('name');
         return $data;
