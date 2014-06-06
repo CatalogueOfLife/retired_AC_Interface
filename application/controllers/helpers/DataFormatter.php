@@ -540,7 +540,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         $img = '<img src="'.$src.'" alt="'.$reference.'" title="'.$reference.'" />';
         return $img;
     }
-
+/*
     public function getCoverage($actual, $estimate) {
         is_array($actual) ? $_actual = array_sum($actual) : $_actual = $actual;
         is_array($estimate) ? $_estimate = array_sum($estimate) : $_estimate = $estimate;
@@ -555,6 +555,27 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
              }
         }
         return $coverage;
+    }
+*/
+    public function getCoverage ($actual, $estimate)
+    {
+        $coverage = 'Not available';
+        if (empty($estimate) || empty($actual)) {
+            return $coverage;
+        }
+        $actual = is_array($actual) ? array_sum($actual) : $actual;
+        $estimate = is_array($estimate) ? array_sum($estimate) : $estimate;
+        $coverage = $estimate / $actual * 100;
+        if ($coverage > 100) {
+            $coverage = '100';
+        } else if ($coverage > 99 && $coverage < 100) {
+            $coverage = '>99';
+        } else if ($coverage > 0 && $coverage < 1) {
+            $coverage = '<1';
+        } else {
+            $coverage = round($coverage);
+        }
+        return $coverage . '%';
     }
 
     /**
