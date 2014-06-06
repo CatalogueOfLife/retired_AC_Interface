@@ -559,12 +559,11 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
 */
     public function getCoverage ($actual, $estimate)
     {
-        $coverage = 'Not available';
-        if (empty($estimate) || empty($actual)) {
-            return $coverage;
-        }
         $actual = is_array($actual) ? array_sum($actual) : $actual;
         $estimate = is_array($estimate) ? array_sum($estimate) : $estimate;
+        if (empty($estimate) || empty($actual)) {
+            return 'Not available';
+        }
         $coverage = $estimate / $actual * 100;
         if ($coverage > 100) {
             $coverage = '100';
