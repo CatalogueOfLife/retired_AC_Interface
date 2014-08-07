@@ -837,10 +837,7 @@ class ACI_Model_Search extends AModel
                     $rank, $qSubstr, $orderSubstr, $key
                 );
             $res = $select->query()->fetchAll();
-/*          if ($cache) {
-                $cache->save($res, $cacheKey);
-            }
-*/          $this->_storeInCache($res, $cacheKey);
+            $this->_storeInCache($res, $cacheKey);
         }
         return array_merge(array('error' => false), $res);
     }

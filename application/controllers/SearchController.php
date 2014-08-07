@@ -17,10 +17,10 @@ class SearchController extends AController
     {
         $this->view->title = $this->view->translate('Search_common_names');
         $this->view->headTitle($this->view->title, 'APPEND');
-        
+
         $form = $this->_getSearchForm();
         $formIsValid = $form->isValid($this->_getAllParams());
-        
+
         if ($this->_hasParam('key') && $this->_getParam('submit', 1) &&
             $formIsValid) {
             $this->_setSessionFromParams($form->getInputElements());
@@ -33,13 +33,12 @@ class SearchController extends AController
             $this->_renderFormPage($this->view->title, $form);
         }
     }
-    
+
     public function scientificAction()
     {
         $reset = $this->_getParam('reset', false);
         if($reset) {
             $this->getHelper('SessionHandler')->clear('genus');
-            $this->getHelper('SessionHandler')->clear('subgenus');
             $this->getHelper('SessionHandler')->clear('species');
             $this->getHelper('SessionHandler')->clear('infraspecies');
             $this->getHelper('SessionHandler')->clear('match');
@@ -58,7 +57,7 @@ class SearchController extends AController
         }
         $this->view->title = $this->view->translate('Search_scientific_names');
         $this->view->headTitle($this->view->title, 'APPEND');
-        
+
         $form = $this->_getSearchForm();
         $formIsValid = $form->isValid($this->_getAllParams());
         // Results page
@@ -111,12 +110,12 @@ class SearchController extends AController
             $this->_renderFormPage($this->view->title, $form);
         }
     }
-    
+
     public function distributionAction()
     {
         $this->view->title = $this->view->translate('Search_distribution');
         $this->view->headTitle($this->view->title, 'APPEND');
-        
+
         $form = $this->_getSearchForm();
         if ($form->isValid($this->_getAllParams()) &&
             $this->_hasParam('key') && $this->_getParam('submit', 1)) {
@@ -124,7 +123,7 @@ class SearchController extends AController
             $this->_setSessionFromParams($form->getInputElements());
             $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage($form->getInputElements());
-            
+
         } elseif ($form->isValid($this->_getAllParams()) &&
             $this->_hasParam('regions') && $this->_getParam('submit', 1)) {
             //Search by map
@@ -133,7 +132,7 @@ class SearchController extends AController
     		$regions = array();
             foreach($regionIds as $regionId) {
             	$temp = $regionModel->getRegion($regionId);
-            	$regions[] = $temp['name']; 
+            	$regions[] = $temp['name'];
             }
             if(count($regions) > 5) {
             	$regions = $regions[0].', '.$regions[1].', '.$regions[2].', '.$regions[3].' '.
@@ -142,11 +141,11 @@ class SearchController extends AController
 	            $regions = implode(', ',$regions);
             }
             $this->view->searchString = $this->view->translate('Search_distribution') . ' - ' . str_replace('%s','"'.$regions.'"',$this->view->translate('Search_results_for'));
-            
+
             $this->_setSessionFromParams(array('regions'));
             $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage(array('regions'));
-            
+
         } else {
         	//No search
         	$this->view->mapSearchModuleEnabled = $this->_moduleEnabled(
@@ -157,7 +156,7 @@ class SearchController extends AController
             $this->_renderFormPage($this->view->title, $form);
         }
     }
-    
+
     public function allAction()
     {
         $this->view->title = $this->view->translate('Search_all_names');
@@ -168,13 +167,13 @@ class SearchController extends AController
                 '<span class="red">' .
                 $this->view->translate('Annual_Checklist') . '</span>'
             );
-        
+
         $form = $this->_getSearchForm();
-        
+
         if ($form->isValid($this->_getAllParams()) &&
             $this->_hasParam('key') && $this->_getParam('submit', 1)) {
         	$this->_setParam('key', $this->_cleanSearchString($this->_getParam('key')));
-                
+
             $this->_setSessionFromParams($form->getInputElements());
             $this->getHelper('Query')->tagLatestQuery();
             $this->_renderResultsPage($form->getInputElements());
@@ -185,7 +184,7 @@ class SearchController extends AController
             $this->_renderFormPage($formHeader, $form);
         }
     }
-    
+
     public function exportAction()
     {
         if ($this->_hasParam('export') &&
@@ -196,7 +195,7 @@ class SearchController extends AController
         $this->view->export_limit =
             $this->getHelper('Export')->getNumRowsLimit();
     }
-    
+
     public function __call($name, $arguments)
     {
         $this->_forward('all');
@@ -211,5 +210,5 @@ class SearchController extends AController
     	);
     	return str_replace($find, '', $str);
     }
-    
+
 }

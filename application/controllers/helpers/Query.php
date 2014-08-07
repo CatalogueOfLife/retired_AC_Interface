@@ -31,7 +31,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         $select = $this->getSelect($controller, $action, $params);
         return $select;
     }
-    
+
     /**
      * Gets the select associated to the given controller, action using
      * the parameters $params
@@ -45,7 +45,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
     {
         $select = null;
         $model = new ACI_Model_Search(Zend_Registry::get('db'));
-        
+
         switch ($controller) {
             case 'search':
                 switch ($action) {
@@ -85,7 +85,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         }
         return $select;
     }
-    
+
     /**
      * Returns the corresponding search query based on the requested action
      *
@@ -95,7 +95,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
     {
     	$select = new ACI_Model_Search(Zend_Registry::get('db'));
         $search = $controller . '/' . $action;
-        
+
         switch ($search) {
             case 'search/common':
                 $query = $select->commonNames(
@@ -170,7 +170,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         */
         return $query;
     }
-    
+
     /**
      * Returns a custom row count query based on a group statement in case
      * the instance of $query is Eti_Db_Select
@@ -201,7 +201,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         );
         return $rowCount;
     }
-    
+
     public function tagLatestQuery()
     {
         $this->getActionController()->getHelper('SessionHandler')->set(
@@ -211,7 +211,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
             false
         );
     }
-    
+
     public function getLatestQueryController()
     {
         $latestQuery = $this->getLatestQuery();
@@ -220,7 +220,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         }
         return $controller;
     }
-    
+
     public function getLatestQueryAction()
     {
         $latestQuery = $this->getLatestQuery();
@@ -229,13 +229,13 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         }
         return $action;
     }
-    
+
     public function getLatestQuery()
     {
         return $this->getActionController()->getHelper('SessionHandler')
                     ->get('latest_query', false);
     }
-    
+
     public function getAcceptedSpecies($nameCode)
     {
         if (is_null($nameCode)) {
@@ -245,7 +245,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         $species = $search->getAcceptedSpeciesByNameCode($nameCode);
         return is_array($species) ? $species : array();
     }
-    
+
     /**
      * Returns an array with all taxa names by rank on a dojo-suitable format
      * Used to populate the scientific search combo boxes
@@ -257,14 +257,18 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         $params = $this->_filterRankParams(
             $this->decodeKey($params), $rank
         );
-        $query = str_replace('\\', '', $query);
+        // Ruud 06-06-14: trim leading and trailing spaces from string;
+        // slightly more complicated than just trim() because q always seems to end with *...
+        //$query = str_replace('\\', '', $query);
+        $query = str_replace('\\', '', trim(substr($query, 0, -1))) . substr($query, -1);
+
         $search = new ACI_Model_Search(Zend_Registry::get('db'));
         $res = $this->parseFetchedResults(
             $search->fetchTaxaByRank($rank, $query, $params), $query
         );
         return new Eti_Dojo_Data('name', $res, $rank);
     }
-    
+
     /**
      * It takes the results of the search hint query, decorates the labels and
      * adds custom messages depending on their output:
@@ -280,7 +284,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
     {
         $error = $res['error'];
         unset($res['error']);
-        
+
         // No results
         if (empty($res)) {
             $errStr = $error ?
@@ -315,10 +319,10 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                 $i++;
             }
         }
-        
+
         return $res;
     }
-    
+
     /**
      * It takes a key -> value array with the submitted rank -> string pairs
      * and removes those that are not relevant for the filtering of the main
@@ -348,7 +352,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         }
         return $params;
     }
-    
+
     /**
      * Converts a JSON string to array or object, although it always returns
      * an array

@@ -29,7 +29,7 @@ class ACI_Model_Info extends AModel
         return isset($columMap[$columName]) ?
             $columMap[$columName] : null;
     }
-    
+
     public function getSourceDatabases($order =  'source', $direction = 'asc')
     {
         $select = new Zend_Db_Select($this->_db);
@@ -55,7 +55,7 @@ class ACI_Model_Info extends AModel
         $this->_logger->debug("$total source databases");
         return $res;
     }
-    
+
     /**
      * Returns the totals used as statistics in the info pages either from the
      * database or from the cache
@@ -72,7 +72,7 @@ class ACI_Model_Info extends AModel
         }
         return $res;
     }
-    
+
     /**
      * Queries the database to collect the following statistics:
      * databases => Total count of source databases
@@ -86,7 +86,7 @@ class ACI_Model_Info extends AModel
     protected function _calculateStatistics()
     {
         $stats = array();
-        
+
         //Totals
         $totals = new ACI_Model_Table_Totals();
         $totals->countTotals();
@@ -99,14 +99,14 @@ class ACI_Model_Info extends AModel
         // Number of synonyms
         $stats['synonyms'] = number_format($totals->getNumSynonyms());
         // Number of infraspecific taxa
-        $stats['infraspecific_taxa'] = 
+        $stats['infraspecific_taxa'] =
             number_format($totals->getNumInfraspecificTaxa());
         // Number of accepted names
         $stats['species'] = number_format($totals->getNumSpecies());
-            
+
         return $stats;
     }
-    
+
     public function getSpeciesTotals() {
         $cacheKey = 'totals';
         $res = false;
