@@ -129,7 +129,6 @@ class DetailsController extends AController
         }
 		$this->view->mapInSpeciesDetailEnabled = $this->_moduleEnabled(
             'map_species_details');
-
 		$title = $speciesDetails && $speciesDetails->infra_id != '' ? 'Infraspecies_details' : 'Species_details';
         $this->view->title = $this->view->translate($title);
         $this->view->headTitle($this->view->title, 'APPEND');
@@ -162,24 +161,27 @@ class DetailsController extends AController
 			        $regions[] = $dist['id'];
 	        }
 	    }
-        $this->view->hasTransliterations = $this->_hasTransliterations($speciesDetails->commonNames);
-        $this->view->regionsCount = count($regions);
+	    if (isset($speciesDetails->commonNames) && !empty($speciesDetails->commonNames)) {
+            $this->view->hasTransliterations = $this->_hasTransliterations($speciesDetails->commonNames);
+	    }
+	    $this->view->regionsCount = count($regions);
         $this->view->regions = implode(',',$regions);
         $translator = Zend_Registry::get('Zend_Translate');
-
-        switch ($speciesDetails->status) {
-        		case ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME:
-        			$name_status_written = $translator->translate(
-        				'STATUS_ACCEPTED_NAME'
-        			);
-        			break;
-                case ACI_Model_Table_Taxa::STATUS_PROVISIONALLY_ACCEPTED_NAME:
-        			$name_status_written = $translator->translate(
-        				'STATUS_PROVISIONALLY_ACCEPTED_NAME'
-        			);
-        			break;
+        if (isset($speciesDetails->status) && !empty($speciesDetails->status)) {
+            switch ($speciesDetails->status) {
+            		case ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME:
+            			$name_status_written = $translator->translate(
+            				'STATUS_ACCEPTED_NAME'
+            			);
+            			break;
+                    case ACI_Model_Table_Taxa::STATUS_PROVISIONALLY_ACCEPTED_NAME:
+            			$name_status_written = $translator->translate(
+            				'STATUS_PROVISIONALLY_ACCEPTED_NAME'
+            			);
+            			break;
+            }
+            $this->view->name_status_written = ' ('.$name_status_written.')';
         }
-        $this->view->name_status_written = ' ('.$name_status_written.')';
     }
 
     public function __call ($name, $arguments)
