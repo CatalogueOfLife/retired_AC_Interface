@@ -484,6 +484,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
 
     public function formatSpeciesTotals(array $input)
     {
+        $translator = Zend_Registry::get('Zend_Translate');
         $previous = false;
         $total = count($input);
         $phyla = $totals = $c1 = $c2 = array();
@@ -494,7 +495,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     $phyla[$previous] = $$previous;
                     $totals[$previous] = array(
                         'actual' => number_format(array_sum($c2)),
-                        'estimate' => in_array(0, $c1) ? 'Not available' : number_format(array_sum($c1)),
+                        'estimate' => in_array(0, $c1) ? $translator->translate('Not available') :
+                            number_format(array_sum($c1)),
                         'coverage' => $this->getCoverage($c2, $c1)
                     );
                     $c1 = $c2 = array();
@@ -509,7 +511,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $c2[] = $actual;
             $output = array (
                 'name' => $this->_getLinkToTree($input[$i]['taxon_id'], $input[$i]['name']),
-                'estimate' => $estimate == 0 ? 'Not available' : number_format($estimate),
+                'estimate' => $estimate == 0 ? $translator->translate('Not available') :
+                    number_format($estimate),
                 'actual' => number_format($actual),
                 'coverage' => $this->getCoverage($actual, $estimate),
                 'source' => $this->_formatSourceImage($input[$i]['source'])
@@ -519,7 +522,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 $phyla[$current] = $$current;
                 $totals[$current] = array(
                     'actual' => number_format(array_sum($c2)),
-                    'estimate' => in_array(0, $c1) ? 'Not available' : number_format(array_sum($c1)),
+                    'estimate' => in_array(0, $c1) ? $translator->translate('Not available') :
+                        number_format(array_sum($c1)),
                     'coverage' => $this->getCoverage($c2, $c1)
                 );
             }
@@ -540,31 +544,16 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         $img = '<img src="'.$src.'" alt="'.$reference.'" title="'.$reference.'" />';
         return $img;
     }
-/*
-    public function getCoverage($actual, $estimate) {
-        is_array($actual) ? $_actual = array_sum($actual) : $_actual = $actual;
-        is_array($estimate) ? $_estimate = array_sum($estimate) : $_estimate = $estimate;
-        $coverage = 'Not available';
-        if ((is_array($estimate) && !in_array(0, $estimate)) ||
-             (!is_array($estimate) && $_actual != 0 && $_estimate != 0)) {
-             $coverage = round(($_actual/$_estimate)*100);
-             if ($coverage > 100) {
-                 $coverage = '(100%)';
-             } else {
-                 $coverage .= '%';
-             }
-        }
-        return $coverage;
-    }
-*/
+
     public function getCoverage ($actual, $estimate)
     {
+        $translator = Zend_Registry::get('Zend_Translate');
         $actual = is_array($actual) ? array_sum($actual) : $actual;
         $estimate = is_array($estimate) ? array_sum($estimate) : $estimate;
         if (empty($estimate) || empty($actual)) {
-            return 'Not available';
+            return $translator->translate('Not available');
         }
-        $coverage = $estimate / $actual * 100;
+        $coverage = $actual / $estimate * 100;
         if ($coverage > 100) {
             $coverage = '100';
         } else if ($coverage > 99 && $coverage < 100) {
@@ -800,14 +789,14 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     protected function _getLinkToClassification($id,$name)
     {
         $link = $this->getFrontController()->getBaseUrl() .
-            '/browse/t/id/' . $id;
+            '/browse/t/id/' . $this->idToNaturalKey($id);
         return '<a href="'.$link.'">'.$name.'</a>';
     }
 
     protected function _getLinkToTree($id,$name)
     {
         $link = $this->getFrontController()->getBaseUrl() .
-            '/browse/tree/id/' . $id;
+            '/browse/tree/id/' . $this->idToNaturalKey($id);
         return '<a href="'.$link.'">'.$name.'</a>';
     }
 
