@@ -44,8 +44,8 @@
             </frontController>
             <view>
                 <encoding>UTF-8</encoding>
-                <scripts>/scripts</scripts>      
-            </view>            
+                <scripts>/scripts</scripts>
+            </view>
         </resources>
         <view>
             <!-- overridden by config.ini -->
@@ -62,6 +62,7 @@
         <cache enabled="1">
             <directory><zf:const zf:name="APPLICATION_PATH"/>/cache</directory>
             <prefix>aci_cache</prefix>
+			<lifetime></lifetime>
         </cache>
     </production>
     <!-- CD Environment -->
