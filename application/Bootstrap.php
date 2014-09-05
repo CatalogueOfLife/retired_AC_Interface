@@ -14,7 +14,7 @@
  */
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
-    
+
     /**
      * @var Bootstrap
      */
@@ -24,15 +24,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     public function _initAutoload ()
     {
-        // Set default timezone to suppress strict error 
+        // Set default timezone to suppress strict error
         date_default_timezone_set(@date_default_timezone_get());
-        
+
         $resourceLoader = new Zend_Loader_Autoloader_Resource(
             array(
-                'basePath' => APPLICATION_PATH, 
+                'basePath' => APPLICATION_PATH,
                 'namespace' => 'ACI'
             ));
-        $resourceLoader->addResourceType('model', 'models/', 'Model')->addResourceType('form', 'forms/', 
+        $resourceLoader->addResourceType('model', 'models/', 'Model')->addResourceType('form', 'forms/',
             'Form');
         $autoloader = Zend_Loader_Autoloader::getInstance();
         $autoloader->registerNamespace('Eti_');
@@ -64,7 +64,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     public function _initTranslate ()
     {
         $this->currentLanguage = $this->_getCurrentLanguage();
-        $translator = new Zend_Translate('Ini', 
+        $translator = new Zend_Translate('Ini',
             APPLICATION_PATH . '/data/languages/lang.' . $this->currentLanguage . '.ini');
         Zend_Registry::set('Zend_Translate', $translator);
     }
@@ -86,7 +86,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $view->headTitle()->setSeparator(' :: ');
         // Also pass currentLanguage to viewer
         $view->language = $this->_getCurrentLanguage();
-        // Add custom view helpers path        
+        // Add custom view helpers path
         $view->addHelperPath('Eti/View/Helper/', 'Eti_View_Helper_');
         // View renderer
         $viewRenderer = new Zend_Controller_Action_Helper_ViewRenderer();
@@ -124,21 +124,21 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $config = Zend_Registry::get('config');
         $cache = null;
-        
+
         if ($config->cache->enabled) {
             $frontendOptions = array(
-                'lifetime' => null, 
+                'lifetime' => isset($config->cache->prefix) ? $config->cache->prefix : null,
                 'automatic_serialization' => true
             );
             $backendOptions = array(
-                'cache_dir' => $config->cache->directory, 
+                'cache_dir' => $config->cache->directory,
                 'hashed_directory_level' => 1
             );
             if ($config->cache->prefix) {
                 $backendOptions['file_name_prefix'] = $config->cache->prefix;
             }
             try {
-                $cache = Zend_Cache::factory('Core', 'File', 
+                $cache = Zend_Cache::factory('Core', 'File',
                     $frontendOptions, $backendOptions);
             }
             catch (Zend_Cache_Exception $e) {}
@@ -149,7 +149,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     /**
      * Convenience method to get a reference to The Bootstrap
      * singleton when not in an action.
-     * 
+     *
      * @return Bootstrap
      */
     public static function instance ()
@@ -201,9 +201,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         if ($browserLanguage = $this->_setLanguageBasedOnBrowser()) {
             $currentLanguage = $browserLanguage;
         }
-        setcookie('aci_language', $currentLanguage, time() + $cookieExpiration, 
+        setcookie('aci_language', $currentLanguage, time() + $cookieExpiration,
             '/', '');
-        
+
         return $currentLanguage;
     }
 
@@ -216,7 +216,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         // Translation file in browser language is available and language is enabled in config.ini
         // First try if localized translation file is available; if not test for just the language
         $translationFiles = array(
-            $browserLanguage . '_' . strtoupper($browserRegion), 
+            $browserLanguage . '_' . strtoupper($browserRegion),
             $browserLanguage
         );
         foreach ($translationFiles as $language) {
