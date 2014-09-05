@@ -723,7 +723,8 @@ class ACI_Model_Details extends AModel
                     $row['genus'], $row['species'], $row['infraspecies'],
                     $row['rank'], $row['author'], $row['infraspecific_marker'], $kingdom
                 );
-            $infraspecies[$i]['url'] = '/details/species/id/' . $row['id'];
+            $infraspecies[$i]['url'] = '/details/species/id/' .
+                $this->idToNaturalKey($row['id']);
             $i++;
         }
         return $infraspecies;
