@@ -69,3 +69,6 @@ module.icons_browse_tree = 1    ; Enables taxonomic rank icons in the taxonomic 
 
 ; Use natural keys (natural keys = 1, internal, ever-changing ids = 0)
 module.natural_keys = 1;
+
+; Fossils
+module.fossils = 1;             ; Enables inclusion of fossil data

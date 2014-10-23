@@ -14,14 +14,14 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
 {
     protected $_combos;
     protected $_fetchUrl;
-   
+
     public function init()
     {
 		$translator = Zend_Registry::get('Zend_Translate');
     	$this->addAttribs(array('class' => 'multi-search'));
-        
+
         foreach ($this->_combos as $comboId => $comboLabel) {
-             
+
             $comboBox = $this->createElement(
                 'ComboBox',
                 $comboId,
@@ -48,9 +48,9 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
                     'style' => 'width: 300px'
                 )
             )->setLabel($translator->translate($comboLabel == 'Top_level_group' ? $comboLabel : 'RANK_' . strtoupper($comboLabel)));
-            
+
             $comboBox->removeValidator('NotEmpty');
-            
+
             $this->addElement($comboBox);
             $this->addDisplayGroup(
                 array($comboId),
@@ -58,7 +58,7 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
                 array('class' => 'searchGroup')
             );
         }
-        
+
         $this->addElement(
             $this->createElement('hidden', 'key')->setValue(
                 Zend_Json::encode(
@@ -66,7 +66,15 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
                 )
             )
         );
-        
+
+        if ($this->_moduleEnabled("fossils"))
+        {
+            $fossil = $this->createElement('CheckBox', 'fossil')->setValue(0)
+                ->setLabel('Include_extinct_taxa');
+            $fossil->getDecorator('label')->setOption('placement', 'append');
+            $this->addElement($fossil);
+        }
+
         $match = $this->createElement('CheckBox', 'match')->setValue(1)
             ->setLabel('Match_whole_words_only');
 /*        $match = $this->createElement('radio','match')->setValue(2)
@@ -74,25 +82,28 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
           ->addMultiOption(1,'Match_whole_words_only')
           ->addMultiOption(0,'Match_all');*/
         $match->getDecorator('label')->setOption('placement', 'append');
-        
+
         $translator = Zend_Registry::get('Zend_Translate');
-        
+
         $clear = $this->createElement('Button', 'clear')
             ->setOptions(array('onclick' => 'clearForm()'))
             ->setLabel('Clear_form');
-        
+
         $submit = $this->createElement('SubmitButton', 'search')
             ->setLabel($translator->translate('Search'));
-        
+
         $this->addElement($match)
              ->addElement($clear)
              ->addElement($submit);
-        
+
+        if ($this->_moduleEnabled("fossils")) {
+            $this->addDisplayGroup(array('fossil'), 'fossilGroup');
+        }
         $this->addDisplayGroup(array('match'), 'matchGroup');
         $this->addDisplayGroup(array('clear', 'search'), 'submitGroup');
-        
+
         $this->addErrorMessage($translator->translate('Error_empty_key'));
-        
+
         $this->setDecorators(
             array(
                 'FormElements',
@@ -102,15 +113,15 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
                     'Form'
             )
         );
-        
+
         $this->setAttrib('onsubmit', 'submitMultiSearchForm');
     }
-    
+
     public function getInputElements()
     {
-        return array_merge(array('match'), array_keys($this->_combos));
+        return array_merge(array('match', 'fossil'), array_keys($this->_combos));
     }
-    
+
     /**
      * Validates the form, making input mandatory in at least one of the
      * combo boxes
@@ -136,12 +147,17 @@ abstract class ACI_Form_Dojo_AMultiCombo extends Zend_Dojo_Form
         }
         return true;
     }
-    
+
     public function getErrorMessage()
     {
         $em = $this->getErrorMessages();
         return $em ?
             Zend_Registry::get('Zend_Translate')->translate(current($em)) :
             null;
+    }
+
+    protected function _moduleEnabled ($module)
+    {
+        return Bootstrap::instance()->getOption('module.' . $module);
     }
 }

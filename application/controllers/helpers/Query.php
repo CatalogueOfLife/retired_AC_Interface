@@ -44,29 +44,31 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
     public function getSelect($controller, $action, $params)
     {
         $select = null;
+        $params['fossil'] = isset($params['fossil']) && $this->_moduleEnabled('fossils') ?
+            $params['fossil'] : 0;
         $model = new ACI_Model_Search(Zend_Registry::get('db'));
-
         switch ($controller) {
             case 'search':
                 switch ($action) {
                     case 'all':
-                        $select = $model->all($params['key'], $params['match']);
+                        $select = $model->all($params['key'], $params['match'], null, null, $params['fossil']);
                         break;
                     case 'scientific':
                         $match = $params['match'];
-                        unset($params['match']);
+                        $fossil = $params['fossil'];
+                        unset($params['match'], $params['fossil']);
                         $select = $model->scientificNames(
-                            $params, $match, null, null, $action
+                            $params, $match, null, null, $action, $fossil
                         );
                         break;
                     case 'common':
                         $select = $model->commonNames(
-                            $params['key'], $params['match']
+                            $params['key'], $params['match'], null, null, $params['fossil']
                         );
                         break;
                     case 'distribution':
                         $select = $model->distributions(
-                            $params['key'], $params['match']
+                            $params['key'], $params['match'], null, null, null, null, $params['fossil']
                         );
                         break;
                 }
@@ -77,7 +79,7 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                         $match = $params['match'];
                         unset($params['match']);
                         $select = $model->scientificNames(
-                            $params, $match, null, null, $action
+                            $params, $match, null, null, $action, $params['fossil']
                         );
                         break;
                 }
@@ -102,7 +104,8 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                     trim($this->getRequest()->getParam('key')),
                     $this->getRequest()->getParam('match'),
                     $this->getRequest()->getParam('sort'),
-                    $this->getRequest()->getParam('direction')
+                    $this->getRequest()->getParam('direction'),
+                    $this->getRequest()->getParam('fossil')
                 );
                 break;
             case 'search/scientific':
@@ -117,7 +120,8 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                     $this->getRequest()->getParam('match'),
                     $this->getRequest()->getParam('sort'),
                     $this->getRequest()->getParam('direction'),
-                    $action
+                    $action,
+                    $this->getRequest()->getParam('fossil')
                 );
                 break;
             case 'browse/classification':
@@ -139,7 +143,8 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                     $this->getRequest()->getParam('match'),
                     $this->getRequest()->getParam('sort'),
                     $this->getRequest()->getParam('direction'),
-                    $action
+                    $action,
+                    $this->getRequest()->getParam('fossil')
                 );
                 break;
             case 'search/distribution':
@@ -149,7 +154,8 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                     $this->getRequest()->getParam('sort'),
                     $this->getRequest()->getParam('direction'),
                     $this->getRequest()->getParam('regions'),
-                    $this->getRequest()->getParam('regionStandard')
+                    $this->getRequest()->getParam('regionStandard'),
+                    $this->getRequest()->getParam('fossil')
                 );
 	            break;
             case 'search/all':
@@ -158,7 +164,8 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                     trim($this->getRequest()->getParam('key')),
                     $this->getRequest()->getParam('match'),
                     $this->getRequest()->getParam('sort'),
-                    $this->getRequest()->getParam('direction')
+                    $this->getRequest()->getParam('direction'),
+                    $this->getRequest()->getParam('fossil')
                 );
                 break;
         }
@@ -196,6 +203,13 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                 ),
                 'infraspecies' => new Zend_Db_Expr(
                     'SUM(IF(LENGTH(TRIM(dss.infraspecies)) > 0, 1, 0))'
+                ),
+                'fossil_infraspecies' => new Zend_Db_Expr(
+                    'SUM(IF((LENGTH(TRIM(dss.infraspecies)) > 0 AND dss.is_extinct = 1), 1, 0))'
+
+                ),
+                'fossil_total' => new Zend_Db_Expr(
+                    'SUM(IF(dss.is_extinct = 1, 1, 0))'
                 )
             )
         );
@@ -368,4 +382,9 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
         }
         return $res;
     }
+
+    protected function _moduleEnabled($module) {
+        return Bootstrap::instance()->getOption('module.'.$module);
+    }
+
 }

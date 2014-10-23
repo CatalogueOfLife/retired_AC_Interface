@@ -22,16 +22,11 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         $it = $paginator->getIterator();
         unset($paginator);
         foreach ($it as $row) {
-            if(!isset($row['rank']))
-            {
+            if(!isset($row['rank'])) {
                 $row['rank'] = $this->_getRank($row);
             }
-            if(!is_int($row['status']))
-            {
-                if($row['status'] == 'common name')
-                {
-                    $row['status'] = 6;
-                }
+            if(!is_int($row['status']) && $row['status'] == 'common name') {
+                $row['status'] = 6;
             }
             // get accepted species data if yet not there
             $this->_addAcceptedName($row);
@@ -84,29 +79,31 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     );
                 }
             }
-            $res[$i]['name'] = $this->_appendTaxaSuffix(
-                $this->_wrapTaxaName(
-                    (!isset($row['distribution']) ?
-                        $textDecorator->highlightMatch(
-                            ucfirst(trim($row['name'])),
-                            $this->getRequest()->getParam('key', false) ?
-                            explode(' ',$this->getRequest()->getParam('key')) :
-                            array(
-                                $this->getRequest()->getParam('genus'),
-                                $this->getRequest()->getParam('subgenus'),
-                            	$this->getRequest()->getParam('species'),
-                                $this->getRequest()->getParam('infraspecies')
-                            ),
-                            (bool)$this->getRequest()->getParam('match')
-                        ) : ucfirst(trim($row['name']))
+            $res[$i]['name'] = $this->setFossilMarker(
+                $this->_appendTaxaSuffix(
+                    $this->_wrapTaxaName(
+                        (!isset($row['distribution']) ?
+                            $textDecorator->highlightMatch(
+                                ucfirst(trim($row['name'])),
+                                $this->getRequest()->getParam('key', false) ?
+                                explode(' ',$this->getRequest()->getParam('key')) :
+                                array(
+                                    $this->getRequest()->getParam('genus'),
+                                    $this->getRequest()->getParam('subgenus'),
+                                	$this->getRequest()->getParam('species'),
+                                    $this->getRequest()->getParam('infraspecies')
+                                ),
+                                (bool)$this->getRequest()->getParam('match')
+                            ) : ucfirst(trim($row['name']))
+                        ),
+                        $row['status'],
+                        $row['rank']
                     ),
                     $row['status'],
-                    $row['rank']
+                    $row['status'] == 6 && $row['author'] != '' ?
+                    '(' . $row['author'] . ')' : $row['author']
                 ),
-                $row['status'],
-                $row['status'] == 6 && $row['author'] != '' ?
-                '(' . $row['author'] . ')' : $row['author']
-            );
+            $row);
             $res[$i]['rank'] = $translator->translate(
                 ACI_Model_Table_Taxa::getRankString($row['rank'])
             );
@@ -154,7 +151,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 );
             }
             $i++;
-        }
+         }
         return $res;
     }
 
@@ -182,15 +179,26 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             return ACI_Model_Table_Taxa::RANK_KINGDOM;
     }
 
+    public function setFossilMarker ($s, array $row)
+    {
+        if (isset($row['is_extinct']) && $row['is_extinct'] == 1 ||
+            isset($row['fossil']) && $row['fossil'] == 1) {
+            return "<span class='extinct'>† $s</span>";
+        }
+        return $s;
+    }
+
     public function formatPlainRow(array $row)
     {
         $translator = Zend_Registry::get('Zend_Translate');
         $this->_addAcceptedName($row);
-        $row['name'] = $this->_appendTaxaSuffix(
-            $row['name'], $row['status'],
-            $row['status'] == ACI_Model_Table_Taxa::STATUS_COMMON_NAME ?
-            $row['language'] : $row['author']
-        );
+        $row['name'] = $this->setFossilMarker(
+            $this->_appendTaxaSuffix(
+                $row['name'], $row['status'],
+                $row['status'] == ACI_Model_Table_Taxa::STATUS_COMMON_NAME && isset($row['language']) ?
+                $row['language'] : $row['author']
+            ),
+        $row);
         $row['rank'] = $translator->translate(
             ACI_Model_Table_Taxa::getRankString($row['rank'])
         );
@@ -217,8 +225,18 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
      */
     public function formatSpeciesDetails(ACI_Model_Table_Taxa $speciesDetails)
     {
+//print_r((array) $speciesDetails);
         $preface = '';
         $translator = Zend_Registry::get('Zend_Translate');
+
+        $speciesDetails->name = $this->setFossilMarker(
+            '<i>' . $speciesDetails->genus .
+            (isset($speciesDetails->subgenus) && !empty($speciesDetails->subgenus) ?
+                ' ('.ucfirst($speciesDetails->subgenus).')' : '') .  ' ' .
+            $speciesDetails->species .
+            (isset($speciesDetails->infra) ? ' '. $speciesDetails->infra : '') . '</i> ' .
+            $speciesDetails->author
+        , (array) $speciesDetails);
 
         if ($speciesDetails->taxaStatus) {
             $preface =
@@ -256,10 +274,11 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $this->getReferencesLabel(
                 $numRefs, strip_tags($speciesDetails->name)
             ) : null;
-        $speciesDetails->name .= ' (' .
+        /* $speciesDetails->name .= ' (' .
             $translator->translate(
                 ACI_Model_Table_Taxa::getStatusString($speciesDetails->status)
             ) . ')';
+        */
 
         $textDecorator = $this->getActionController()
             ->getHelper('TextDecorator');
@@ -358,6 +377,23 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         } else {
             $speciesDetails->lifezones = $textDecorator->getEmptyField();
         }
+
+        if ($speciesDetails->is_extinct == 1) {
+            if ($speciesDetails->has_preholocene == 1 || $speciesDetails->has_modern == 1) {
+                $fossil = $translator->translate('This_extinct_species_is_known_to exist_during_the') . ' ';
+                if ($speciesDetails->has_preholocene == 1) {
+                    $fossil .= 'pre-Holocene (< 11.700 BC)';
+                }
+                if ($speciesDetails->has_preholocene == 1 && $speciesDetails->has_modern == 1) {
+                    $fossil .= ' ' . $translator->translate('and');
+                }
+                if ($speciesDetails->has_modern == 1) {
+                    $fossil .= ' ' . $translator->translate('at_least_part_of_the_Modern_era') . ' (> 11.700 BC)';
+                }
+            }
+            $speciesDetails->fossil = $fossil;
+        }
+
         return $speciesDetails;
     }
 
@@ -834,7 +870,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         if ($suffix) {
             switch($status) {
                 case 'common name':
-                    $source .= ' (' . $suffix . ')';
+                     $source .= ' (' . $suffix . ')';
                     break;
                 default:
                     $source .= '  ' . $suffix;

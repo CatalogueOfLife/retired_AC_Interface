@@ -162,12 +162,12 @@ class ACI_Model_Search extends AModel
      * @return Zend_Db_Select
      */
     public function commonNames($searchKey, $matchWholeWords, $sort = null,
-        $direction = null)
+        $direction = null, $fossil = null)
     {
         $matchWholeWords = $this->getTrueMatchWholeWords($matchWholeWords, $searchKey);
         $this->_logger->debug(__METHOD__);
         $this->_logger->debug(func_get_args());
-        return $this->_selectCommonNames($searchKey, $matchWholeWords)
+        return $this->_selectCommonNames($searchKey, $matchWholeWords, $fossil)
         ->reset('order')
         ->order(
             ($sort ?
@@ -214,12 +214,12 @@ class ACI_Model_Search extends AModel
      * @return Zend_Db_Select
      */
     public function scientificNames(array $key, $matchWholeWords, $sort = null,
-        $direction = null, $action)
+        $direction = null, $action, $fossil = null)
     {
         $matchWholeWords = $this->getTrueMatchWholeWords($matchWholeWords, $key);
     	$this->_logger->debug(__METHOD__);
         $this->_logger->debug(func_get_args());
-        return $this->_selectScientificNames($key, $matchWholeWords, $action)
+        return $this->_selectScientificNames($key, $matchWholeWords, $action, $fossil)
         ->order(
 	        ($sort ?
 	        	($sort == 'status' ?
@@ -254,7 +254,7 @@ class ACI_Model_Search extends AModel
      * @return Zend_Db_Select
      */
     public function distributions($searchKey, $matchWholeWords, $sort = null,
-        $direction = null, $regions = null, $regionStandard = null)
+        $direction = null, $regions = null, $regionStandard = null, $fossil = null)
     {
         $matchWholeWords = $this->getTrueMatchWholeWords($matchWholeWords, $searchKey);
         $this->_logger->debug(__METHOD__);
@@ -263,7 +263,7 @@ class ACI_Model_Search extends AModel
         if($regions != "") {
 	        $distributions = $this->_selectDistributionsByIds($regions, $regionStandard);
         } else {
-	        $distributions = $this->_selectDistributions($searchKey, $matchWholeWords);
+	        $distributions = $this->_selectDistributions($searchKey, $matchWholeWords, $fossil);
         }
         //return $distributions->order(array('name'));
         return $distributions->order(
@@ -302,7 +302,7 @@ class ACI_Model_Search extends AModel
      * @return Zend_Db_Select
      */
     public function all($searchKey, $matchWholeWords, $sort = null,
-        $direction = null)
+        $direction = null, $fossil = null)
     {
         $matchWholeWords = $this->getTrueMatchWholeWords($matchWholeWords, $searchKey);
         $this->_logger->debug(__METHOD__);
@@ -310,7 +310,7 @@ class ACI_Model_Search extends AModel
         return $this->_db->select()->union(
             array(
                 $this->_selectTaxa(
-                    $searchKey, $matchWholeWords
+                    $searchKey, $matchWholeWords, $fossil
                 )->reset('order')/*,
                 $this->_selectCommonNames(
                     $searchKey, $matchWholeWords
@@ -390,7 +390,7 @@ class ACI_Model_Search extends AModel
      * @param boolean $matchWholeWords
      * @return Zend_Db_Select
      */
-    protected function _selectDistributions($searchKey, $matchWholeWords)
+    protected function _selectDistributions($searchKey, $matchWholeWords, $fossil)
     {
         $select = new Zend_Db_Select($this->_db);
 
@@ -402,13 +402,7 @@ class ACI_Model_Search extends AModel
                     'id' => 'dsd.accepted_species_id'
                 )
         );
-/*        ->where('dsd.distribution LIKE ?', '%' . $searchKey . '%');
-
-        $replacedSearchKey = self::wildcardHandlingInRegExp(
-            $searchKey, $matchWholeWords
-        );*/
-        if($matchWholeWords == 0)
-        {
+        if($matchWholeWords == 0) {
             $select->where(
                 'dsd.distribution LIKE "%'.$searchKey.'%"'
             );
@@ -417,6 +411,13 @@ class ACI_Model_Search extends AModel
                 'MATCH (dsd.distribution) AGAINST ("'.$searchKey.($matchWholeWords == 1 ? '"' : '*" IN BOOLEAN MODE').')'
             );
         }
+
+        // Disable fossil search if module is switched off
+        $fossil = $this->_moduleEnabled('fossils') ? $fossil : 0;
+        if ($fossil == 0) {
+            $select->where('dsd.is_extinct = 0');
+        }
+
         return $select;
     }
 
@@ -603,7 +604,7 @@ class ACI_Model_Search extends AModel
      * @param boolean $matchWholeWords
      * @return Zend_Db_Select
      */
-    protected function _selectTaxa($searchKey, $matchWholeWords)
+    protected function _selectTaxa($searchKey, $matchWholeWords, $fossil = null)
     {
         $searchKey = self::wildcardHandling($searchKey);
         $select = new Zend_Db_Select($this->_db);
@@ -626,7 +627,10 @@ class ACI_Model_Search extends AModel
                 'db_thumb' =>
                     'CONCAT(REPLACE(tst.source_database_name, " ", "_"), ".gif")',
                 'kingdom' => 'tst.group',
-                'status' => 'tst.name_status'
+                'status' => 'tst.name_status',
+                'has_preholocene' => 'tst.has_preholocene',
+                'has_modern' => 'tst.has_modern',
+                'is_extinct' => 'tst.is_extinct'
             )
         );
 
@@ -663,6 +667,12 @@ class ACI_Model_Search extends AModel
         	}
         }
 
+        // Disable fossil search if module is switched off
+        $fossil = $this->_moduleEnabled('fossils') ? $fossil : 0;
+        if ($fossil == 0) {
+            $select->where('tst.is_extinct = 0');
+        }
+
         // Prevent multiple selection of the same taxon (cased by duplicated
         // name codes)
         $select->group(array('tst.id'));
@@ -685,7 +695,7 @@ class ACI_Model_Search extends AModel
      * @param boolean $matchWholeWords
      * @return Zend_Db_Select
      */
-    protected function _selectCommonNames($searchKey, $matchWholeWords)
+    protected function _selectCommonNames($searchKey, $matchWholeWords, $fossil = null)
     {
         $searchKey = self::wildcardHandling($searchKey);
         $select = new Zend_Db_Select($this->_db);
@@ -708,7 +718,8 @@ class ACI_Model_Search extends AModel
                 'db_thumb' =>
                     'CONCAT(REPLACE(tst.source_database_name, " ", "_"), ".gif")',
                 'kingdom' => 'tst.group',
-                'status' => 'tst.name_status'
+                'status' => 'tst.name_status',
+                'fossil' => 'tst.is_extinct'
             )
         );
         $select->where(
@@ -747,6 +758,12 @@ class ACI_Model_Search extends AModel
             );
         }
 
+        // Disable fossil search if module is switched off
+        $fossil = $this->_moduleEnabled('fossils') ? $fossil : 0;
+        if ($fossil == 0) {
+            $select->where('tst.is_extinct = 0');
+        }
+
         // Prevent multiple selection of the same taxon (cased by duplicated
         // name codes)
         $select->group(array('tst.id'));
@@ -767,7 +784,7 @@ class ACI_Model_Search extends AModel
      * @param boolean $matchWholeWords
      * @return Eti_Db_Select
      */
-    protected function _selectScientificNames(array $key, $matchWholeWords, $action='scientific')
+    protected function _selectScientificNames(array $key, $matchWholeWords, $action='scientific', $fossil = null)
     {
         $select = new Eti_Db_Select($this->_db);
 
@@ -790,6 +807,7 @@ class ACI_Model_Search extends AModel
                 }
             }
         }
+
         $select->from(
             array('dss' => '_search_scientific'),
             array('*',
@@ -799,6 +817,13 @@ class ACI_Model_Search extends AModel
                 'name_status' => 'status'
             )
         );
+
+        // Disable fossil search if module is switched off
+        $fossil = $this->_moduleEnabled('fossils') ? $fossil : 0;
+        if ($fossil == 0) {
+            $select->where('dss.is_extinct = 0');
+        }
+
         return $select;
     }
 
@@ -1047,11 +1072,12 @@ class ACI_Model_Search extends AModel
     /**
      * Gets the children of a given taxon
      * Used to unfold the browse tree branches
+     * $extinctInTree added to filter extinct taxa (0 no, 1 yes)
      *
-     * @param int $parentId
+     * @param int $parentId, bool $extinctInTree
      * @return array
      */
-    public function getTaxonChildren($parentId)
+    public function getTaxonChildren($parentId, $extinctInTree = 0)
     {
         $select = new Zend_Db_Select($this->_db);
         $select->from(
@@ -1065,7 +1091,8 @@ class ACI_Model_Search extends AModel
                 'numChildren' => 'ttt.number_of_children',
             	'estimation' => 'ttt.total_species_estimation',
             	'total' => 'ttt.total_species',
-                'estimate_source' => 'ttt.estimate_source'
+                'estimate_source' => 'ttt.estimate_source',
+                'is_extinct' => 'ttt.is_extinct'
             )
         )
         ->where('ttt.parent_id = ?', $parentId)
@@ -1077,6 +1104,9 @@ class ACI_Model_Search extends AModel
                 'ttt.name'
             )
         );
+        if ($extinctInTree == 0) {
+            $select->where('ttt.is_extinct = 0');
+        }
         $res = $select->query()->fetchAll();
         $total = count($res);
         $this->_logger->debug("$total children of $parentId");

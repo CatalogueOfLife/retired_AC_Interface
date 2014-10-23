@@ -10,16 +10,16 @@
  * @subpackage  forms
  *
  */
-class ACI_Form_Dojo_Search extends Zend_Dojo_Form
+class ACI_Form_Dojo_Search extends ACI_Form_Dojo_Abstract
 {
     protected $_action;
-    
+
     public function __construct($action)
     {
         $this->_action = (string)$action;
         parent::__construct();
     }
-    
+
     public function init ()
     {
         $this->setAttribs(
@@ -30,27 +30,35 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
         );
         $this->setMethod(Zend_Form::METHOD_POST);
         $translator = Zend_Registry::get('Zend_Translate');
-        
+
         $key = $this->createElement('TextBox', 'key');
-                
+
         $key->setLabel($translator->translate('Search_for') . ':')
             ->addErrorMessage(null);
-            
+
         $this->addErrorMessage('Error_key_too_short');
-        
+
+        if ($this->_moduleEnabled("fossils"))
+        {
+            $fossil = $this->createElement('CheckBox', 'fossil')->setValue(0)
+                ->setLabel('Include_extinct_taxa');
+            $fossil->getDecorator('label')->setOption('placement', 'append');
+            $this->addElement($fossil);
+        }
+
         $match = $this->createElement('CheckBox', 'match')->setValue(1)
             ->setLabel('Match_whole_words_only');
 /*        $match = $this->createElement('radio','match')->setValue(2)
           ->addMultiOption(2,'Match_starts_with')
           ->addMultiOption(1,'Match_whole_words_only')
           ->addMultiOption(0,'Match_all');*/
-        
+
         $match->getDecorator('label')->setOption('placement', 'append');
         $submit = $this->createElement('SubmitButton', 'search')
             ->setLabel($translator->translate('Search'));
-            
+
         $this->addElement($key)->addElement($match)->addElement($submit);
-    
+
         if ($this->_action == "all" && $this->_moduleEnabled("fuzzy_search"))
         {
             $fuzzy = $this->createElement('CheckBox', 'fuzzy')->setValue(0)
@@ -58,8 +66,11 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
             $fuzzy->getDecorator('label')->setOption('placement', 'append');
             $this->addElement($fuzzy);
         }
-        
+
         $this->addDisplayGroup(array('key'), 'keyGroup');
+        if ($this->_moduleEnabled("fossils")) {
+            $this->addDisplayGroup(array('fossil'), 'fossilGroup');
+        }
         $this->addDisplayGroup(array('match', 'fuzzy'), 'matchGroup');
         $this->addDisplayGroup(array('search'), 'submitGroup');
 
@@ -72,28 +83,15 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
                     'Form'
             )
         );
-        
-        /*$this->setDecorators(
-        	array(
-        		'FormElements',
-                array(
-                	'HtmlTag',
-        			array(
-        				'tag' => 'div', 'id' => 'map_canvas'
-        			),
-        			'Form'
-        		)
-        	)
-        );*/
-        
+
         $this->setAttrib('onsubmit', 'submitSearchForm');
     }
-    
+
     public function getInputElements()
     {
-        return ($this->_action == "all") ? array('key', 'match', 'fuzzy') : array('key', 'match');
+        return ($this->_action == "all") ? array('key', 'match', 'fuzzy', 'fossil') : array('key', 'match', 'fossil');
     }
-    
+
     /**
      * Validates the form
      * @see library/Zend/Zend_Form#isValid($data)
@@ -118,7 +116,7 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
         }
         return true;
     }
-    
+
     public function render(Zend_View_Interface $view = null)
     {
         if (null === $view) {
@@ -130,17 +128,12 @@ class ACI_Form_Dojo_Search extends Zend_Dojo_Form
         }
         return parent::render($view);
     }
-    
+
     public function getErrorMessage()
     {
         $em = $this->getErrorMessages();
         return $em ?
             Zend_Registry::get('Zend_Translate')->translate(current($em)) :
             null;
-    }
-
-    protected function _moduleEnabled ($module)
-    {
-        return Bootstrap::instance()->getOption('module.' . $module);
     }
 }

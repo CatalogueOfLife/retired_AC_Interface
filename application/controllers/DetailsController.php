@@ -92,6 +92,7 @@ class DetailsController extends AController
         $this->_logger->debug($dbDetails);
         $this->view->db = $dbDetails;
         $this->view->indicatorsModuleEnabled = $this->_moduleEnabled('indicators');
+        $this->view->fossilsModuleEnabled = $this->_moduleEnabled('fossils');
     }
 
     public function speciesAction ()
@@ -127,8 +128,7 @@ class DetailsController extends AController
                         $fromId));
             }
         }
-		$this->view->mapInSpeciesDetailEnabled = $this->_moduleEnabled(
-            'map_species_details');
+		$this->view->mapInSpeciesDetailEnabled = $this->_moduleEnabled('map_species_details');
 		$title = $speciesDetails && $speciesDetails->infra_id != '' ? 'Infraspecies_details' : 'Species_details';
         $this->view->title = $this->view->translate($title);
         $this->view->headTitle($this->view->title, 'APPEND');
@@ -182,6 +182,7 @@ class DetailsController extends AController
             }
             $this->view->name_status_written = ' ('.$name_status_written.')';
         }
+        $this->view->fossilsModuleEnabled = $this->_moduleEnabled('fossils');
     }
 
     public function __call ($name, $arguments)

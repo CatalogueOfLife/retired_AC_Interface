@@ -1,7 +1,7 @@
 dojo.provide('ACI.dojo.TxTreeNode');
 
 function iconHider(panelType, treenode) {
-	if (dojo.byId(panelType + "Panel_" + treenode.item.i.id) && 
+	if (dojo.byId(panelType + "Panel_" + treenode.item.i.id) &&
     	!dojo.byId("infoPanel_" + treenode.item.i.id + "_dropdown") &&
     	!dojo.byId("commentPanel_" + treenode.item.i.id + "_dropdown") &&
     	!dojo.byId("mapPanel_" + treenode.item.i.id + "_dropdown")
@@ -76,22 +76,7 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
 	        var commentPanel = createCommentPanel(this.item);
         }
         var mapPanel = createMapPanel(this.item);
-        
-/*        var commentSpan;
-        commentSpan = dojo.doc.createElement('span');
-        if(showCommentFeedback == true) {
-        	var commentLink;
-        	commentLink = dojo.doc.createElement('a');
-        	commentLink.href = "javascript:openCommentWindow();";
-        	var commentIcon;
-        	commentIcon = dojo.doc.createElement('img');
-        	dojo.attr(commentIcon, {
-        	    src: "../images/comment.jpg",
-        	    alt: "Comment"
-        	});
-        	commentLink.appendChild(commentIcon);
-        	commentSpan.appendChild(commentLink);
-        }*/
+
         if (document.getElementById('showIconsCheckbox') != null && this.item.i.image != 0) {
 	        var iconSpan = document.createElement('span');
 	        iconSpan.className = 'iconSpan';
@@ -106,23 +91,24 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
 	    	}
 	        iconSpan.appendChild(icon);
         }
-        
-        if (this.tree.model.store
-                .getValue(this.item, 'url') == null) {  
-            var rank = dojo.doc.createElement('span');            
+
+        if (this.tree.model.store.getValue(this.item, 'url') == null) {
+            var rank = dojo.doc.createElement('span');
             rank.className = 'rank';
             rank.id = 'sn-' + this.tree.model.store.getValue(this.item, 'id');
-            rank.appendChild(dojo.doc
-                    .createTextNode(rankName));
+            rank.appendChild(dojo.doc.createTextNode(rankName));
+            if (this.tree.model.store.getValue(this.item, 'is_extinct') == 1) {
+            	this.labelNode.appendChild(dojo.doc.createTextNode("\u2020 "));
+            }
             this.labelNode.appendChild(rank);
             var taxon = dojo.doc.createElement('span');
             taxon.className = 'nodeLabel node-' + type;
-            taxon.appendChild(dojo.doc
-                    .createTextNode(' ' + label));
+            taxon.appendChild(dojo.doc.createTextNode(' ' + label));
             this.labelNode.appendChild(taxon);
             //Checks if the checkbox exists (the checkbox is enabled by the module)
             if(dojo.byId('showGSDCheckbox')) {
-            	if(this.tree.model.store.getValue(this.item, 'estimation') != 0 || this.tree.model.store.getValue(this.item, 'total') != 0) {
+            	if (this.tree.model.store.getValue(this.item, 'estimation') != 0 ||
+            			this.tree.model.store.getValue(this.item, 'total') != 0) {
             		this.labelNode.appendChild(statistics);
             	}
             }
@@ -130,9 +116,12 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
             if(dojo.byId('showGSDCheckbox')) {
             	this.labelNode.appendChild(source_database);
             }
-            
+
         } else {
             var leaf = dojo.doc.createElement('span');
+            if (this.tree.model.store.getValue(this.item, 'is_extinct') == 1) {
+            	leaf.appendChild(dojo.doc.createTextNode("\u2020"));
+            }
             leaf.className = 'leaf';
             leaf.id = 'sn-' + this.tree.model.store.getValue(this.item, 'id');
             var a = dojo.doc.createElement('a');
@@ -156,7 +145,7 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
             }
             else {
                 a.appendChild(dojo.doc.createTextNode(label));
-            }            
+            }
             leaf.appendChild(a);
             this.labelNode.innerHTML = '';
             //Checks if the checkbox exists (the checbox is enabled by the module)
@@ -169,7 +158,7 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
         this.labelNode.appendChild(panel);
         this.labelNode.appendChild(commentPanel);
         this.labelNode.appendChild(mapPanel);
-    },    
+    },
     expand : function() {
         this.inherited(arguments);
         if(!hierarchy.length) {
@@ -262,9 +251,9 @@ function createMapPanel(treeNode) {
 function showMap(treeNode){
 	hidePanel(treeNode.i.id);
     dialog.attr("content", createMapPanelContents(treeNode));
-    dijit.popup.open({ 
-        popup: dialog, 
-        around: dojo.byId("mapPanel_" + treeNode.i.id) 
+    dijit.popup.open({
+        popup: dialog,
+        around: dojo.byId("mapPanel_" + treeNode.i.id)
     });
     var dijitToolContainer = document.getElementById("mapPanel_" + treeNode.i.id + '_dropdown').firstElementChild.firstElementChild;
     dijitToolContainer.className = dijitToolContainer.className + ' dijitMapContainer';
@@ -279,22 +268,22 @@ function createMapPanelContents(treeNode) {
 	var tr2 = dojo.doc.createElement('tr');
 	var td1 = dojo.doc.createElement('td');
 	var td2 = dojo.doc.createElement('td');
-	
+
 	tr1.appendChild(td1);
 	tr2.appendChild(td2);
 	table.appendChild(tr1);
 	table.appendChild(tr2);
-	
+
 	var div = dojo.doc.createElement('div');
 	div.id = 'mapPanel';
-	
+
 	var divMapProgressBar = dojo.doc.createElement('div');
 	divMapProgressBar.id = 'map_progress_bar';
 	divMapProgressBar.appendChild(dojo.doc.createTextNode(translate('Searching_for_the_regions_please_wait')))
-	
+
 	var divMap = dojo.doc.createElement('div');
 	divMap.id = 'map_canvas';
-	
+
 	var closeButton = dojo.doc.createElement('span');
 	dojo.connect(closeButton, 'onclick', function(evt) {
 		closePanel(treeNode.i.id);
@@ -308,20 +297,20 @@ function createMapPanelContents(treeNode) {
 	if(treeNode.i.rank) {
 		rankName = treeNode.i.rank + ' ';
 	}
-	
+
 	var rank = dojo.doc.createElement('span');
 	rank.appendChild(dojo.doc.createTextNode(rankName));
-	
+
 	var scientificName = dojo.doc.createElement('span');
 	scientificName.appendChild(dojo.doc.createTextNode(treeNode.i.name));
 	scientificName.className = 'node-' + treeNode.i.rank;
-	
+
 	var title = dojo.doc.createElement('span');
 	title.appendChild(rank);
 	title.appendChild(scientificName);
 	title.className = 'commentPanelSection commentPanelTitle';
-	
-	
+
+
 	div.appendChild(closeButton);
 	div.appendChild(title);
 	td1.appendChild(divMap);
@@ -349,15 +338,15 @@ function createInfoPanel(treeNode) {
 function showInfo(treeNode){
 	hidePanel(treeNode.i.id);
     dialog.attr("content", createInfoPanelContents(treeNode));
-    dijit.popup.open({ 
-        popup: dialog, 
-        around: dojo.byId("infoPanel_" + treeNode.i.id) 
+    dijit.popup.open({
+        popup: dialog,
+        around: dojo.byId("infoPanel_" + treeNode.i.id)
     });
-} 
+}
 
 function createInfoPanelContents(treeNode) {
 	var p = dojo.doc.createElement('p');
-	
+
 	var closeButton = dojo.doc.createElement('span');
 	dojo.connect(closeButton, 'onclick', function(evt) {
     	closePanel(treeNode.i.id);
@@ -371,30 +360,30 @@ function createInfoPanelContents(treeNode) {
 	if(treeNode.i.rank) {
 		rankName = treeNode.i.rank + ' ';
 	}
-	
+
 	var rank = dojo.doc.createElement('span');
 	rank.appendChild(dojo.doc.createTextNode(rankName));
-	
+
 	var scientificName = dojo.doc.createElement('span');
 	scientificName.appendChild(dojo.doc.createTextNode(treeNode.i.name));
 	scientificName.className = 'node-' + treeNode.i.rank;
-	
+
 	var title = dojo.doc.createElement('span');
 	title.appendChild(rank);
 	title.appendChild(scientificName);
 	title.className = 'infoPanelSection infoPanelTitle';
-	
+
 	var dbLabel = (treeNode.i.source_databases.length == 1) ? 'Source_database' : 'Source_databases';
 	var databaseLinks = dojo.doc.createElement('span');
 	databaseLinks.appendChild(setLabel(dbLabel));
 	databaseLinks.appendChild(createDatabaseLinks(treeNode));
 	databaseLinks.className = 'infoPanelSection';
-	
+
 	p.appendChild(closeButton);
 	p.appendChild(title);
 	p.appendChild(databaseLinks);
 	p.appendChild(createInfoPanelStatistics(treeNode));
-	
+
 	return p;
 }
 
@@ -448,7 +437,7 @@ function closePanel(currentId){
 function hidePanel(currentId) {
 	var panels = Array("info", "comment", "map");
 	dojo.forEach(panels, function(aap, mies) {
-		
+
 		dojo.query("[id^='" + aap + "Panel_']").forEach(function(panel, i) {
 	        if(aap + "Panel_" + currentId != panel.id) {
 	        	panel.style.display = "none";
@@ -478,19 +467,19 @@ function createCommentPanel(treeNode) {
 function showComment(treeNode){
 	hidePanel(treeNode.i.id);
     dialog.attr("content", createCommentPanelContents(treeNode));
-    dijit.popup.open({ 
-        popup: dialog, 
-        around: dojo.byId("commentPanel_" + treeNode.i.id) 
+    dijit.popup.open({
+        popup: dialog,
+        around: dojo.byId("commentPanel_" + treeNode.i.id)
     });
-} 
+}
 
 function createCommentPanelContents(treeNode) {
 	var table = dojo.doc.createElement('table');
 	table.className = 'panelTable';
-	
+
 	var tbody = dojo.doc.createElement('tbody');
 	table.appendChild(tbody);
-	
+
 	var tr1 = dojo.doc.createElement('tr');
 	var tr2 = dojo.doc.createElement('tr');
 	var tr3 = dojo.doc.createElement('tr');
@@ -507,13 +496,13 @@ function createCommentPanelContents(treeNode) {
 	var td5 = dojo.doc.createElement('td');
 	td5.colSpan = 2;
 	td5.align = 'right';
-	
+
 	tbody.appendChild(tr1);
 	tbody.appendChild(tr2);
 	tbody.appendChild(tr3);
 	tbody.appendChild(tr4);
 	tbody.appendChild(tr5);
-	
+
 	tr1.appendChild(th1);
 	tr1.appendChild(td1);
 	tr2.appendChild(th2);
@@ -523,12 +512,12 @@ function createCommentPanelContents(treeNode) {
 	tr4.appendChild(th4);
 	tr4.appendChild(td4);
 	tr5.appendChild(td5);
-	
+
 	var form = dojo.doc.createElement('form');
 	form.method = 'get';
 	form.id = 'commentForm';
 	form.action = 'javascript:sendComment();';
-	
+
 	var closeButton = dojo.doc.createElement('span');
 	dojo.connect(closeButton, 'onclick', function(evt) {
     	closePanel(treeNode.i.id);
@@ -542,19 +531,19 @@ function createCommentPanelContents(treeNode) {
 	if(treeNode.i.rank) {
 		rankName = treeNode.i.rank + ' ';
 	}
-	
+
 	var rank = dojo.doc.createElement('span');
 	rank.appendChild(dojo.doc.createTextNode(rankName));
-	
+
 	var scientificName = dojo.doc.createElement('span');
 	scientificName.appendChild(dojo.doc.createTextNode(treeNode.i.name));
 	scientificName.className = 'node-' + treeNode.i.rank;
-	
+
 	var title = dojo.doc.createElement('span');
 	title.appendChild(rank);
 	title.appendChild(scientificName);
 	title.className = 'commentPanelSection commentPanelTitle';
-	
+
 	var type = dojo.doc.createElement('select');
 	/*var type = dojo.doc.createElement('span');
 	type.className = 'commentPanelLabel';
@@ -574,37 +563,37 @@ function createCommentPanelContents(treeNode) {
 	name.id = 'commentName';
 	name.type = 'text';
 	name.name = 'name';
-	
+
 	var email = dojo.doc.createElement('input');
 	email.id = 'commentEmail';
 	email.type = 'text';
 	email.name = 'email';
-	
+
 	var textArea = dojo.doc.createElement('textarea');
 	textArea.id = 'commentText';
 	textArea.name = 'comment';
 	textArea.style.width = "300px";
 	textArea.style.height = "75px";
-	
+
 	var hiddenTaxaId = dojo.doc.createElement('input');
 	hiddenTaxaId.id = 'taxaId';
 	hiddenTaxaId.type = 'hidden';
 	hiddenTaxaId.name = 'taxaId';
 	hiddenTaxaId.value = treeNode.i.id;
-	
+
 	var hiddenTaxonString = dojo.doc.createElement('input');
 	hiddenTaxonString.id = 'commentTaxonString';
 	hiddenTaxonString.type = 'hidden';
 	hiddenTaxonString.name = 'taxonString';
 	hiddenTaxonString.value = treeNode.i.name;
-	
+
 	var sendButton = dojo.doc.createElement('input');
 	sendButton.type = 'submit';
 	sendButton.value = translate('Send');
-	
+
 	form.appendChild(closeButton);
 	form.appendChild(title);
-	
+
 	form.appendChild(table);
 	th1.appendChild(setLabel(translate('Name')));
 	td1.appendChild(name);
@@ -617,7 +606,7 @@ function createCommentPanelContents(treeNode) {
 	form.appendChild(hiddenTaxaId);
 	form.appendChild(hiddenTaxonString);
 	td5.appendChild(sendButton);
-	
+
 	return form;
 }
 

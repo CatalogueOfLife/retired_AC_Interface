@@ -17,18 +17,18 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
     protected static $_numDatabases;
     protected static $_numDatabasesNew;
     protected static $_numDatabasesWithAcceptedNames;
-    
+
     public function get($id)
     {
         $dbDetails = $this->find((int)$id);
-        
+
         $res = $dbDetails->current();
         if (!$res) {
             return false;
         }
         return $this->_decorate($res->toArray());
     }
-    
+
     public function getAll($order = null)
     {
         $rowset = $this->fetchAll(null, $order);
@@ -42,7 +42,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
         unset($rowset);
         return $results;
     }
-    
+
     public function countWithAcceptedNames()
     {
         if (is_null(self::$_numDatabasesWithAcceptedNames)) {
@@ -58,7 +58,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
         }
         return self::$_numDatabasesWithAcceptedNames;
     }
-    
+
     protected function _countAcceptedSpecies($id)
     {
         $select = $this->select();
@@ -76,7 +76,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
         $rows = $this->fetchAll($select);
         return $rows[0]->total;
     }
-    
+
     protected function _countAcceptedInfraSpecies($id)
     {
         $select = $this->select();
@@ -102,7 +102,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
         $rows = $this->fetchAll($select);
         return $rows[0]->total;
     }
-    
+
     protected function _countCommonNames($id)
     {
         $select = $this->select();
@@ -123,7 +123,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
         $rows = $this->fetchAll($select);
         return $rows[0]->total;
     }
-    
+
     protected function _countSpeciesSynonyms($id)
     {
         $select = $this->select();
@@ -145,7 +145,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
         $rows = $this->fetchAll($select);
         return $rows[0]->total;
     }
-    
+
     protected function _countInfraSpeciesSynonyms($id)
     {
         $select = $this->select();
@@ -167,7 +167,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
         $rows = $this->fetchAll($select);
         return $rows[0]->total;
     }
-    
+
     protected function _getTaxonomicCoverage($id)
     {
         $select = $this->select()->setIntegrityCheck(false);
@@ -214,7 +214,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
         }
         return $temp;
     }
-    
+
     protected function _getWebsites($id)
     {
         $select = $this->select()->setIntegrityCheck(false);
@@ -241,7 +241,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
         }
         return implode(';',$temp);
     }
-    
+
     protected function _getImageFromName($imageName)
     {
         return '/images/databases/' .
@@ -263,14 +263,18 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
     {
         return str_replace(' ', '_', $imageName);
     }
-    
+
     protected function _decorate(array $row)
     {
         $row['image'] = $this->_getImageFromName($row['short_name']);
         $row['thumb'] = $this->_getThumbFromName($row['short_name']);
         $row['url'] = $this->_getUrlFromId($row['id']);
-        $row['accepted_species_names'] = $row['number_of_species'];
-        $row['accepted_infraspecies_names'] = $row['number_of_infraspecific_taxon'];
+        $row['accepted_extinct_species_names'] = $row['number_of_extinct_species'];
+        $row['accepted_extinct_infraspecies_names'] = $row['number_of_extinct_infraspecific_taxon'];
+        $row['accepted_species_names'] = $row['number_of_species'] -
+            $row['accepted_extinct_species_names'];
+        $row['accepted_infraspecies_names'] = $row['number_of_infraspecific_taxon'] -
+            $row['number_of_extinct_infraspecific_taxon'];
         $row['common_names'] = $row['number_of_common_names'];
         $row['synonyms'] = $row['number_of_synonyms'];
         $row['total_names'] = $row['total_number'];

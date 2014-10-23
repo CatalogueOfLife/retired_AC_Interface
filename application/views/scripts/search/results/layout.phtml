@@ -29,16 +29,7 @@ $paginator = $this->paginationControl(
 <?php if ($this->fuzzy && (count($this->data) > 0)): ?>
     &nbsp;&nbsp;-&nbsp;&nbsp;<?php echo $this->translate('Names_suggestions'); ?>
 <?php endif; ?>
-<?php if ($this->paginator instanceof Eti_Paginator) : ?>
-    <?php
-    echo ' (' . number_format($this->paginator->getCountColumn('species')) . ' ' .
-        $this->translate('species') . ', ' .
-        number_format($this->paginator->getCountColumn('infraspecies')) . ' ' .
-        ($this->paginator->getCountColumn('infraspecies') == 1 ?
-            $this->translate('infraspecies') . ')' :
-            $this->translate('infraspecific_taxa') . ')');
-    ?>
-<?php endif; ?>
+<?php echo $this->resultDetails; ?>
 </div>
 <?php if ($this->paginator->getTotalItemCount() > 0): ?>
 <div class="results_form"><?php echo $this->form; ?></div>

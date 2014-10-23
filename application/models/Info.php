@@ -91,20 +91,26 @@ class ACI_Model_Info extends AModel
         $totals = new ACI_Model_Table_Totals();
         $totals->countTotals();
         // Number of databases
-        $stats['databases'] = number_format($totals->getNumSourceDatabases());
+        $stats['databases'] = $totals->getNumSourceDatabases();
         // Number of new databases
-        $stats['new_databases'] = number_format($totals->getNumNewSourceDatabases());
+        $stats['new_databases'] = $totals->getNumNewSourceDatabases();
         // Number of common names
-        $stats['common_names'] = number_format($totals->getNumCommonNames());
+        $stats['common_names'] = $totals->getNumCommonNames();
         // Number of synonyms
-        $stats['synonyms'] = number_format($totals->getNumSynonyms());
+        $stats['synonyms'] = $totals->getNumSynonyms();
         // Number of infraspecific taxa
-        $stats['infraspecific_taxa'] =
-            number_format($totals->getNumInfraspecificTaxa());
+        $stats['infraspecific_taxa'] = $totals->getNumInfraspecificTaxa();
         // Number of accepted names
-        $stats['species'] = number_format($totals->getNumSpecies());
+        $stats['species'] = $totals->getNumSpecies();
 
-        return $stats;
+        // Fossils
+        $stats['extinct_infraspecific_taxa'] = $totals->getNumExtinctInfraspecificTaxa();
+        $stats['extinct_species'] = $totals->getNumExtinctSpecies();
+        $stats['living_species'] = $stats['species'] - $stats['extinct_species'];
+        $stats['living_infraspecific_taxa'] = $stats['infraspecific_taxa'] -
+            $stats['extinct_infraspecific_taxa'];
+
+        return array_map('number_format', $stats);
     }
 
     public function getSpeciesTotals() {

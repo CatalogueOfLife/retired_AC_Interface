@@ -19,6 +19,16 @@ class InfoController extends AController
         parent::init();
         $info = new ACI_Model_Info($this->_db);
         $this->view->stats = $info->getStatistics();
+        if ($this->_moduleEnabled('fossils')) {
+            $this->view->stats['species'] = $this->view->stats['living_species'] .
+                '</b> living and <b>' . $this->view->stats['extinct_species'] . '</b> extinct';
+            $this->view->stats['infraspecific_taxa'] = $this->view->stats['living_infraspecific_taxa'] .
+                '</b> living and <b>' . $this->view->stats['extinct_infraspecific_taxa'] . '</b> extinct';
+        } else {
+            $this->view->stats['species'] = $this->view->stats['living_species'];
+            $this->view->stats['infraspecific_taxa'] = $this->view->stats['living_infraspecific_taxa'];
+        }
+
     }
 
     public function aboutAction ()
@@ -30,7 +40,7 @@ class InfoController extends AController
 
     public function specialAction ()
     {
-        $this->view->title = sprintf($this->view->translate('Info_special_edition'), 
+        $this->view->title = sprintf($this->view->translate('Info_special_edition'),
             $this->view->app->edition);
         $this->view->headTitle($this->view->title, 'APPEND');
         $this->_setNavigator();
@@ -38,7 +48,7 @@ class InfoController extends AController
 
     public function acAction ()
     {
-        $this->view->title = sprintf($this->view->translate('Info_annual_checklist'), 
+        $this->view->title = sprintf($this->view->translate('Info_annual_checklist'),
             $this->view->app->edition);
         $this->view->headTitle($this->view->title, 'APPEND');
         $this->_setNavigator();
@@ -48,24 +58,24 @@ class InfoController extends AController
     {
         $this->view->title = $this->view->translate('Source_databases');
         $this->view->headTitle($this->view->title, 'APPEND');
-        
+
         $defaultSortCol = 'source';
-        
+
         $sortCol = $this->_getParam('sort', $defaultSortCol);
         $direction = $this->_getParam('direction', 'asc');
-        
+
         $this->view->urlParams = array(
-            'sort' => $sortCol, 
+            'sort' => $sortCol,
             'direction' => $direction
         );
-        
+
         $this->view->sortArrow = '<img src="' . $this->view->baseUrl() . '/images/' . ($direction == 'asc' ? 'Arrow_up.gif" alt="' .
              $this->view->translate('ascending') : 'Arrow_down.gif" alt="' . $this->view->translate(
                 'descending')) . '" />';
         $this->view->sortDesc = $direction == 'asc' ? $sortCol : null;
-        
+
         $this->view->sort = $sortCol;
-        
+
         $info = new ACI_Model_Info($this->_db);
         $rowset = $info->getSourceDatabases($sortCol, $direction);
         /*        $rowset =

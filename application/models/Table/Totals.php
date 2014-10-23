@@ -22,7 +22,9 @@ class ACI_Model_Table_Totals extends Zend_Db_Table_Abstract
     protected static $_numSynonyms;
     protected static $_numSourceDatabases;
     protected static $_numNewSourceDatabases;
-    
+    protected static $_numExtinctSpecies;
+    protected static $_numExtinctInfraspecificTaxa;
+
     public function countTotals()
     {
         if (is_null(self::$_numCommonNames)) {
@@ -55,11 +57,17 @@ class ACI_Model_Table_Totals extends Zend_Db_Table_Abstract
                     case "new_source_databases":
                         self::$_numNewSourceDatabases = $row->total;
                         break;
+                    case "extinct_species":
+                        self::$_numExtinctSpecies = $row->total;
+                        break;
+                    case "extinct_infraspecies":
+                        self::$_numExtinctInfraspecificTaxa = $row->total;
+                        break;
                 }
             }
         }
     }
-    
+
     public function getNumCommonNames()
     {
         if (is_null(self::$_numCommonNames)) {
@@ -122,5 +130,21 @@ class ACI_Model_Table_Totals extends Zend_Db_Table_Abstract
             $this->countTotals();
         }
         return self::$_numNewSourceDatabases;
+    }
+
+    public function getNumExtinctSpecies()
+    {
+        if (is_null(self::$_numCommonNames)) {
+            $this->countTotals();
+        }
+        return self::$_numExtinctSpecies;
+    }
+
+    public function getNumExtinctInfraspecificTaxa()
+    {
+        if (is_null(self::$_numCommonNames)) {
+            $this->countTotals();
+        }
+        return self::$_numExtinctInfraspecificTaxa;
     }
 }

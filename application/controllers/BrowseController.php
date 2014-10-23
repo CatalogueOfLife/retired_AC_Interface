@@ -13,8 +13,8 @@ require_once 'AController.php';
  */
 class BrowseController extends AController
 {
-    // Tree persistance
     protected $_persistTree = false;
+    protected $_extinctInTree = false;
     private $_jsTreeTranslation = array(
         'est',
         'Number_of_species',
@@ -49,6 +49,28 @@ class BrowseController extends AController
 
     public function treeAction ()
     {
+        // Check if extinct taxa should be included in tree
+        $this->view->fossilsModuleEnabled = $this->_moduleEnabled('fossils');
+        if ($this->_moduleEnabled('fossils')) {
+            $this->view->showExtinctInTreeSelected = $this->_extinctInTree =
+                $this->_getOrSetCookie('treeExtinct');
+        }
+        // Check if thumbnails should be displayed
+        $iconInTreeModuleEnabled = $this->_moduleEnabled('icons_browse_tree');
+        $this->view->iconsInTreeModuleEnabled = $iconInTreeModuleEnabled;
+        if ($iconInTreeModuleEnabled) {
+            $this->view->showIconsInTreeSelected = $this->_getOrSetCookie('iconSpan');
+        }
+        // Check if map data should be displayed
+        $this->view->mapInTreeModuleEnabled = $this->_moduleEnabled('map_browse_tree');
+		// Check if statistics and estimations should be displayed
+        $statisticsModuleEnabled = $this->_moduleEnabled('statistics');
+        $this->view->statisticsModuleEnabled = $statisticsModuleEnabled;
+        if ($statisticsModuleEnabled) {
+            $this->view->showSourceDatabaseCheckboxSelected = $this->_getOrSetCookie('treeSourceDatabase');
+            $this->view->showEstimationCheckboxSelected = $this->_getOrSetCookie('treeStatistics');
+        }
+
         $fetch = $this->_getParam('fetch', false);
         if ($fetch !== false) {
             $this->view->layout()->disableLayout();
@@ -78,54 +100,11 @@ class BrowseController extends AController
             'dojox.data.QueryReadStore')->requireModule('ACI.dojo.TxStoreModel')->requireModule(
             'ACI.dojo.TxTree')->requireModule('ACI.dojo.TxTreeNode');
 
-		$this->view->feedbackModuleEnabled = ($this->_moduleEnabled('feedback'));
-        $iconInTreeModuleEnabled = $this->_moduleEnabled(
-            'icons_browse_tree');
-        $this->view->iconsInTreeModuleEnabled = $iconInTreeModuleEnabled;
-        if ($iconInTreeModuleEnabled) {
-            if (!isset($_COOKIE['iconSpan']) || $_COOKIE['iconSpan'] === false) {
-                setcookie('iconSpan', 0,
-                    time() + $this->_cookieExpiration, '/',
-                    '');
-                $showIconsInTreeCheckbox = 0;
-            }
-            else {
-                $showIconsInTreeCheckbox = $_COOKIE['iconSpan'];
-            }
-            $this->view->showIconsInTreeSelected = $showIconsInTreeCheckbox;
-        }
+		$this->view->feedbackModuleEnabled = $this->_moduleEnabled('feedback');
 
-        $this->view->mapInTreeModuleEnabled = $this->_moduleEnabled(
-            'map_browse_tree');
-		//Checks if the module statistics is enabled
-        $statisticsModuleEnabled = $this->_moduleEnabled(
-            'statistics');
-        $this->view->statisticsModuleEnabled = $statisticsModuleEnabled;
-        if ($statisticsModuleEnabled) {
-            if (!isset($_COOKIE['treeSourceDatabase']) || $_COOKIE['treeSourceDatabase'] === false) {
-                setcookie('treeSourceDatabase', 0,
-                    time() + $this->_cookieExpiration, '/',
-                    '');
-                $showSourceDatabasesCheckbox = 0;
-            }
-            else {
-                $showSourceDatabasesCheckbox = $_COOKIE['treeSourceDatabase'];
-            }
-            $this->view->showSourceDatabaseCheckboxSelected = $showSourceDatabasesCheckbox;
-
-            if (!isset($_COOKIE['treeStatistics']) || $_COOKIE['treeStatistics'] === false) {
-                setcookie('treeStatistics', 0,
-                    time() + $this->_cookieExpiration, '/',
-                    '');
-                $showEstimationsCheckbox = 0;
-            }
-            else {
-                $showEstimationsCheckbox = $_COOKIE['treeStatistics'];
-            }
-            $this->view->showEstimationCheckboxSelected = $showEstimationsCheckbox;
-        }
         $translator = Zend_Registry::get('Zend_Translate');
         $this->view->textShowSourceDatabases = $translator->translate('Show_providers');
+        $this->view->textShowExtinct = $translator->translate('Include_extinct_taxa') . ' (&dagger;)';
         $this->view->textShowStatistics = $translator->translate('Show_statistics');
         $this->view->textShowIcons = $translator->translate('Show_thumbnail_images');
         $this->view->jsTranslation = $this->_createJsTranslationArray($this->_jsTreeTranslation);
@@ -341,7 +320,7 @@ class BrowseController extends AController
     {
         $this->_logger->debug($parentId);
         $search = new ACI_Model_Search($this->_db);
-        $res = $search->getTaxonChildren($parentId);
+        $res = $search->getTaxonChildren($parentId, $this->_extinctInTree);
         $this->_logger->debug($res);
         $higher_taxon = array(
             '',

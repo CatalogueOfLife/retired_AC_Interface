@@ -71,7 +71,10 @@ class ACI_Model_Details extends AModel
                 'dbVersion' => 'source_database_release_date',
                 'scrutinyDate' => 'scrutiny_date',
                 'specialistName' => 'specialist',
-                'pointOfAttachmentId' => 'point_of_attachment_id'
+                'pointOfAttachmentId' => 'point_of_attachment_id',
+                'has_preholocene' => 'has_preholocene',
+                'has_modern' => 'has_modern',
+                'is_extinct' => 'is_extinct'
             );
 
         switch ($fromType) {
@@ -413,9 +416,6 @@ class ACI_Model_Details extends AModel
     public function speciesHierarchy($id)
     {
         $cacheKey = $id . '_hierarchy';
-        // $cache = Zend_Registry::get('cache');
-        // Try to load cached results
-        // $res = $cache ? $cache->load($cacheKey) : false;
         $res = $this->_fetchFromCache($cacheKey);
         if (!$res) {
             $select = new Zend_Db_Select($this->_db);
@@ -426,7 +426,8 @@ class ACI_Model_Details extends AModel
                     'parent_id' => 'tree.parent_id',
                     'name' => 'tree.name',
                     'taxon' => 'tree.rank',
-                    'LSID' => 'tree.lsid'
+                    'LSID' => 'tree.lsid',
+                    'is_extinct' => 'tree.is_extinct'
                 )
             )->where('tree.taxon_id = ?');
 
@@ -445,10 +446,7 @@ class ACI_Model_Details extends AModel
             } while ($id > 0);
 
             $res = array_reverse($hierarchy);
-/*          if ($cache) {
-                $cache->save($res, $cacheKey);
-            }
-*/          $this->_storeInCache($res, $cacheKey);
+            $this->_storeInCache($res, $cacheKey);
         }
         return $res;
     }

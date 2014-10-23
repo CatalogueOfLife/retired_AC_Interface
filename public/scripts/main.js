@@ -140,6 +140,10 @@ function showOrHide(className) {
 	}
 	setCookie(className, value, cookieExpiration);
 }
+function showOrHideExtinct() {
+	setCookie('treeExtinct', (readCookie('treeExtinct') == 0 ? 1 : 0), cookieExpiration);
+	window.location.reload();
+}
 
 function setCookie(c_name, value, exdays) {
 	if (typeof exdays == 'undefined') {
@@ -150,6 +154,16 @@ function setCookie(c_name, value, exdays) {
 	var c_value = escape(value)
 			+ ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
 	document.cookie = c_name + "=" + c_value + ";path=/";
+}
+
+function readCookie(name) {
+    var nameEQ = name + "=", ca = document.cookie.split(';'), i = 0, c;
+    for(;i < ca.length;i++) {
+        c = ca[i];
+        while (c[0]==' ') c = c.substring(1);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length);
+    }
+    return null;
 }
 
 function changeLanguage(language) {
@@ -170,10 +184,10 @@ function sendComment() {
 		alert(translate('All_fields_are_required'));
 		return;
 	}
-	var submitUrl = baseUrl + "/ajax/feedback/ID/" + form.taxaId.value + 
-		"/Comment/" + form.commentText.value + 
-		"/CommentType/" + form.commentType.value + 
-		"/UserName/" + form.commentName.value + 
+	var submitUrl = baseUrl + "/ajax/feedback/ID/" + form.taxaId.value +
+		"/Comment/" + form.commentText.value +
+		"/CommentType/" + form.commentType.value +
+		"/UserName/" + form.commentName.value +
 		"/UserMail/" + form.commentEmail.value +
 		"/TaxonString/" + form.commentTaxonString.value;
 	form.action = 'javascript:alert(\''+translate('Comment_being_processed')+'\');';

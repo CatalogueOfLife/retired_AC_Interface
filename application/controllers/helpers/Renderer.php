@@ -113,6 +113,38 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
         $this->_ac->view->form = $this->_ac->getHelper('FormLoader')
             ->getItemsForm($elements, $items);
 
+        // Result details (moved here from view)
+        $this->_ac->view->resultDetails = '';
+        if ($paginator instanceof Eti_Paginator) {
+            $allSpecies = $paginator->getCountColumn('species');
+            $allInfraspecies = $paginator->getCountColumn('infraspecies');
+            $fossilInfraspecies = $paginator->getCountColumn('fossil_infraspecies');
+            $allFossils = $paginator->getCountColumn('fossil_total');
+            $fossilSpecies = $allFossils - $fossilInfraspecies;
+            $livingSpecies = $allSpecies - $fossilSpecies;
+            $livingInfraspecies = $allInfraspecies - $fossilInfraspecies;
+
+            $this->_ac->view->resultDetails =
+                ' (' . number_format($livingSpecies) . ' ' .
+                ($fossilSpecies > 0 ? $this->_ac->view->translate('living') . ' ' : '') .
+                $this->_ac->view->translate('species') . ', ' .
+                number_format($livingInfraspecies) . ' ' .
+                ($fossilInfraspecies > 0 ? $this->_ac->view->translate('living') . ' ' : '') .
+                ($livingInfraspecies == 1 ?
+                    $this->_ac->view->translate('infraspecies') . ')' :
+                    $this->_ac->view->translate('infraspecific_taxa'));
+           if ($allFossils > 0) {
+                $this->_ac->view->resultDetails .=
+                    ', ' . number_format($fossilSpecies) . ' ' . $this->_ac->view->translate('fossil') .
+                    ' ' .$this->_ac->view->translate('species') . ', ' .
+                    number_format($fossilInfraspecies) . ' ' . $this->_ac->view->translate('fossil') . ' ' .
+                    ($fossilInfraspecies == 1 ?
+                        $this->_ac->view->translate('infraspecies') . ')' :
+                        $this->_ac->view->translate('infraspecific_taxa'));
+           }
+           $this->_ac->view->resultDetails .= ')';
+        }
+
         // Results table differs depending on the action
         $this->_ac->view->results = $this->_ac->view->render(
             'search/results/' .
@@ -124,8 +156,7 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
         $fuzzy = $this->getRequest()->getParam('fuzzy', '0') == '1' && $this->getRequest()->getParam('action') == 'all' && $paginator->getTotalItemCount() == 0;
         $this->_ac->view->fuzzy = $fuzzy;
 
-        if ($fuzzy)
-        {
+        if ($fuzzy) {
             $this->_ac->view->data = $this->_ac->getHelper('Fuzzy')->getMatches($this->escape($this->getRequest()->getParam('key')));
             $this->_ac->view->results = $this->_ac->view->render('search/results/fuzzy.phtml');
         }

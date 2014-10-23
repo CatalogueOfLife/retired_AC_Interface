@@ -16,21 +16,24 @@
 
 
 <script type="text/javascript">
-var showCommentFeedback;
-showCommentFeedback = <?php echo ($this->feedbackModuleEnabled ? 1 : 0) ?>;
+var showCommentFeedback = <?php echo ($this->feedbackModuleEnabled ? 1 : 0) ?>;
 </script>
 
-<?php if($this->statisticsModuleEnabled || $this->iconsInTreeModuleEnabled): ?>
+<?php if($this->statisticsModuleEnabled || $this->iconsInTreeModuleEnabled || $this->fossilsInTreeModuleEnabled): ?>
 <div id="tree-checkboxes">
 <?php if($this->statisticsModuleEnabled): ?>
-    <input <?php if($this->showEstimationCheckboxSelected != false) echo 'checked'; ?> id="showStatisticsCheckbox" type="checkbox" name="showEstimates" value="0" onclick="javascript:showOrHide('treeStatistics')" /> 
+    <input <?php if($this->showEstimationCheckboxSelected != false) echo 'checked'; ?> id="showStatisticsCheckbox" type="checkbox" name="showEstimates" value="0" onclick="showOrHide('treeStatistics')" />
     <label for="showStatisticsCheckbox"><?php echo $this->textShowStatistics; ?></label>
-    <input <?php if($this->showSourceDatabaseCheckboxSelected != false) echo 'checked'; ?> id="showGSDCheckbox" type="checkbox" name="showGSD" value="0" onclick="javascript:showOrHide('treeSourceDatabase')" /> 
+    <input <?php if($this->showSourceDatabaseCheckboxSelected != false) echo 'checked'; ?> id="showGSDCheckbox" type="checkbox" name="showGSD" value="0" onclick="showOrHide('treeSourceDatabase')" />
     <label for="showGSDCheckbox"><?php echo $this->textShowSourceDatabases; ?></label>
 <?php endif; ?>
 <?php if($this->iconsInTreeModuleEnabled): ?>
-    <input <?php if($this->showIconsInTreeSelected != false) echo 'checked'; ?> id="showIconsCheckbox" type="checkbox" name="showIcons" value="0" onclick="javascript:showOrHide('iconSpan')" />
+    <input <?php if($this->showIconsInTreeSelected != false) echo 'checked'; ?> id="showIconsCheckbox" type="checkbox" name="showIcons" value="0" onclick="showOrHide('iconSpan')" />
     <label for="showIconsCheckbox"><?php echo $this->textShowIcons; ?></label>
+<?php endif; ?>
+<?php if($this->fossilsModuleEnabled): ?>
+    <input <?php if($this->showExtinctInTreeSelected != false) echo 'checked'; ?> id="showExtinctCheckbox" type="checkbox" name="showExtinct" value="0" onclick="showOrHideExtinct()" />
+    <label for="showExtinctCheckbox"><?php echo $this->textShowExtinct; ?></label>
 <?php endif; ?>
 </div>
 <?php endif; ?>
@@ -60,7 +63,7 @@ initTree = function() {
 };
 
 initInfoPanel = function() {
-    dialog = new dijit.TooltipDialog({ 
+    dialog = new dijit.TooltipDialog({
     	"class": "infoPanel"
     });
 };

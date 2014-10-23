@@ -233,4 +233,15 @@ abstract class AController extends Zend_Controller_Action
         $res = $select->query()->fetchColumn(0);
         return empty($res) ? $id : $res;
     }
+
+    protected function _getOrSetCookie ($name, $default = 0)
+    {
+        if (!isset($_COOKIE[$name]) || $_COOKIE[$name] === false) {
+            setcookie($name, $default, time() + $this->_cookieExpiration, '/', '');
+            return $default;
+        }
+        return $_COOKIE[$name];
+    }
+
+
 }
