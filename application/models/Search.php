@@ -100,8 +100,8 @@ class ACI_Model_Search extends AModel
                     $searchKey['infraspecies'] : '')
                 );
         }
-        $regexpSearchKey = strtolower(str_replace('*', '.*', $searchKey));
-        $mysqlSearchKey = strtolower(str_replace('*', '%', $searchKey));
+        $regexpSearchKey = strtolower(str_replace('*', '.*', stripslashes($searchKey)));
+        $mysqlSearchKey = strtolower(str_replace('*', '%', stripslashes($searchKey)));
 
         return array(
         new Zend_Db_Expr(
@@ -1214,7 +1214,7 @@ class ACI_Model_Search extends AModel
 
     public static function wildcardHandling($searchString)
     {
-        return str_replace(array('%', '*'), array('', '%'), $searchString);
+        return str_replace(array('%', '*', '\\'), array('', '%', ''), $searchString);
     }
 
     public static function wildcardHandlingInRegExp($searchString,
