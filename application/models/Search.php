@@ -22,6 +22,7 @@ class ACI_Model_Search extends AModel
     	switch ($action) {
     		case 'scientific':
     			return array(
+		        	'',
 		        	'name',
 		            'author'.self::getRightSortDirection($direction),
 		            'name_status'.self::getRightSortDirection($direction),
@@ -38,6 +39,7 @@ class ACI_Model_Search extends AModel
     		case 'common':
     		default:
 				return array(
+				    '',
 		    		'name',
 		            'name_suffix'.self::getRightSortDirection($direction),
 		            'name_status'.self::getRightSortDirection($direction),
