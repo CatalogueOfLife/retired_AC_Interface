@@ -32,6 +32,7 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
         if (trim($needle) == '') {
             return $haystack;
         }
+        $needle = stripslashes($needle);
         if ($wrapWords == true && !preg_match('#&\#[0-9]{1,5};#', $needle)) {
             $prefix = '\b';
             $suffix = '\b';
@@ -51,13 +52,13 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
             "<span class=\"matchHighlight\">$1</span>",
             $haystack
         );
-    }  
-    
+    }
+
     public function getEmptyField()
     {
         return self::EMPTY_FIELD;
     }
-    
+
     public function decorateComboLabel($label, $value = null)
     {
         $translator = Zend_Registry::get('Zend_Translate');
@@ -66,7 +67,7 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
             sprintf($translator->translate($label), $value);
         return "<span class=\"disabledLabel\">" . $label . "</span>";
     }
-    
+
     public function createLink($linkText, $target = '_self')
     {
         if (!$linkText) {
