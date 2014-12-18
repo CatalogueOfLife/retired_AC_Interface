@@ -83,12 +83,12 @@ class DetailsController extends AController
     public function databaseAction ()
     {
         $this->view->title = $this->view->translate('Database_details');
-        $this->view->headTitle($this->view->title, 'APPEND');
         $dbTable = new ACI_Model_Table_Databases();
         $dbDetails = $dbTable->get($this->_getParam('id'));
         if ($dbDetails) {
             $dbDetails = $this->getHelper('DataFormatter')->formatDatabaseDetails($dbDetails);
         }
+        $this->view->headTitle('Catalogue of Life :: ' . $dbDetails['short_name'], 'SET');
         $this->_logger->debug($dbDetails);
         $this->view->db = $dbDetails;
         $this->view->indicatorsModuleEnabled = $this->_moduleEnabled('indicators');
@@ -128,10 +128,11 @@ class DetailsController extends AController
                         $fromId));
             }
         }
-		$this->view->mapInSpeciesDetailEnabled = $this->_moduleEnabled('map_species_details');
 		$title = $speciesDetails && $speciesDetails->infra_id != '' ? 'Infraspecies_details' : 'Species_details';
         $this->view->title = $this->view->translate($title);
-        $this->view->headTitle($this->view->title, 'APPEND');
+        $this->view->headTitle('Catalogue of Life :: ' . strip_tags($speciesDetails->name), 'SET');
+
+        $this->view->mapInSpeciesDetailEnabled = $this->_moduleEnabled('map_species_details');
 
         $this->_logger->debug($speciesDetails);
         $this->view->jsTranslation = $this->_createJsTranslationArray($this->_jsTreeTranslation);

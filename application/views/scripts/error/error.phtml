@@ -12,9 +12,9 @@
  */
 ?>
 <?php if ('development' != APPLICATION_ENV): ?>
-<div class="page_header">
+<h1 class="page_header">
 <?php echo $this->translate('An_error_occured') ?>
-</div>
+</h1>
 <br/>
 
 <p><?php echo $this->translate('Error_notice') ?></p>
@@ -35,7 +35,7 @@
 <body>
   <h1><?php echo $this->translate('An_error_occured'); ?></h1>
   <h2><?php echo $this->translate('Application_error'); ?></h2>
-      
+
   <h3>Exception information:</h3>
   <p>
       <b>Type:</b> <?php echo get_class($this->exception); ?><br/>

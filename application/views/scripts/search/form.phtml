@@ -11,9 +11,9 @@
  *
  */
 ?>
-<div class="page_header">
+<h1 class="page_header">
 <?php echo $this->formHeader; ?>
-</div>
+</h1>
 <div id="form-box">
 <?php if ($this->form->isErrors()): ?>
     <div class="errors">
@@ -24,7 +24,7 @@
 <?php endif; ?>
 <div class="form-container">
 <form id="clear_form" name="clear_form" action="<?php echo $this->baseUrl($this->controller.'/'.$this->action); ?>" method="post"><input type="hidden" name="reset" value="1" /></form>
-<?php 
+<?php
 if($this->mapSearchModuleEnabled == true && $this->controller == 'search' && $this->action == 'distribution'): ?>
         <script type="text/javascript">
             dojo.addOnLoad(function() {
@@ -79,7 +79,7 @@ if($this->mapSearchModuleEnabled == true && $this->controller == 'search' && $th
                     }
                 },
                 "clear");
-                
+
                 var button = new dijit.form.Button({
                     label: "<?php echo $this->translate('Search');?>",
                     onClick: function() {

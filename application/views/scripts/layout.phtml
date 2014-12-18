@@ -86,11 +86,11 @@ var region = Array();
 var polygonSet = Array();
 var baseUrl = "<?php echo $this->baseUrl(); ?>";
 </script>
-<?php if((($this->mapSearchModuleEnabled == true) && 
+<?php if((($this->mapSearchModuleEnabled == true) &&
 	$this->controller == 'search' && $this->action == 'distribution' ) ||
-	(($this->mapInTreeModuleEnabled == true) && 
+	(($this->mapInTreeModuleEnabled == true) &&
 	$this->controller == 'browse' && $this->action == 'tree' ) ||
-	(($this->mapInSpeciesDetailEnabled== true) && 
+	(($this->mapInSpeciesDetailEnabled== true) &&
 	$this->controller == 'details' && $this->action == 'species' )): ?>
 <script type="text/javascript" src="<?php echo $this->baseUrl('/scripts/library/ACI/polygons/iho_sea_areas.js');?>"></script>
 <script type="text/javascript" src="<?php echo $this->baseUrl('/scripts/library/ACI/polygons/tdwg_continents_level_1.js');?>"></script>
@@ -128,12 +128,12 @@ dojo.require("dojo.parser");
     </div>
     <?php endif; ?>
     <div id="header">
-        <h1 class="title"><?php printf($this->translate('title'), $this->app->edition); ?></h1>
+        <span class="title"><?php printf($this->translate('title'), $this->app->edition); ?></span>
     </div>
     <?php if(count($this->interfaceLanguages) > 1): ?>
         <div id="languagebar">
         <ul>
-        <?php foreach ($this->interfaceLanguages as $iso => $language): ?> 
+        <?php foreach ($this->interfaceLanguages as $iso => $language): ?>
             <li>
             <a <?php echo $this->language == $iso ? 'id="selected"' : ''; ?>
             href="javascript:changeLanguage('<?php echo $iso; ?>');" title="<?php echo $language['original_name']; ?>">
@@ -244,7 +244,7 @@ dojo.require("dojo.parser");
                 ' r' . $this->app->revision . '</span> ' .
                 sprintf(
                     $this->translate('developed_by'),
-                    '<a href="http://www.eti.uva.nl">ETI BioInformatics</a>'
+                    '<a href="http://www.naturalis.nl">Naturalis Biodiversity Center</a>'
                 );
             ?>
         </div>

@@ -15,6 +15,10 @@ body,table,p,div,ul {
 	color: #000;
 }
 
+h1 {
+	font-weight: normal;
+}
+
 table tr td,table tr th {
 	vertical-align: middle;
 	padding: 6px;
