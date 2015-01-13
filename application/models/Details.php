@@ -468,6 +468,7 @@ class ACI_Model_Details extends AModel
                 'name_code' => 'sn.id',
                 'status' => 'sn.scientific_name_status_id',
                 'genus' => 'snen_g.name_element',
+                'subgenus' => 'snen_sg.name_element',
                 'species' => 'snen_s.name_element',
                 'infraspecies' => 'snen_i.name_element',
                 'infraspecific_marker' => 'tr.marker_displayed',
@@ -530,7 +531,7 @@ class ACI_Model_Details extends AModel
             'sn.taxon_id = ?'
         )
         ->group('sn.id')
-        ->order(array('genus', 'species', 'infraspecies', 'author'));
+        ->order(array('genus', 'subgenus', 'species', 'infraspecies', 'author'));
 
         $select->bind(array($taxon_id));
 
@@ -540,6 +541,7 @@ class ACI_Model_Details extends AModel
             $synonym['name'] =
                 ACI_Model_Table_Taxa::getAcceptedScientificName(
                     $synonym['genus'],
+                    $synonym['subgenus'], // @TODO subgenus
                     $synonym['species'],
                     $synonym['infraspecies'],
                     $synonym['rank'],
@@ -718,8 +720,14 @@ class ACI_Model_Details extends AModel
             $infraspecies[$i]['id'] = $row['id'];
             $infraspecies[$i]['name'] =
                 ACI_Model_Table_Taxa::getAcceptedScientificName(
-                    $row['genus'], $row['species'], $row['infraspecies'],
-                    $row['rank'], $row['author'], $row['infraspecific_marker'], $kingdom
+                    $row['genus'],
+                    null, // @TODO subgenus
+                    $row['species'],
+                    $row['infraspecies'],
+                    $row['rank'],
+                    $row['author'],
+                    $row['infraspecific_marker'],
+                    $kingdom
                 );
             $infraspecies[$i]['url'] = '/details/species/id/' .
                 $this->idToNaturalKey($row['id']);

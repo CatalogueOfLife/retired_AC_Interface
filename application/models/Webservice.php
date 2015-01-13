@@ -283,8 +283,12 @@ class ACI_Model_Webservice extends AModel
         $an['record_scrutiny_date'] = $this->_model->getScrutinyDate($an['id']);
         $an['name_html'] =
             ACI_Model_Table_Taxa::getAcceptedScientificName(
-                $an['genus'], $an['species'], $an['infraspecies'],
-                $an['infraspecies_marker'], $an['author']
+                $an['genus'],
+                null, // @TODO subgenus
+                $an['species'],
+                $an['infraspecies'],
+                $an['infraspecies_marker'],
+                $an['author']
             );
         $an['rank'] = $this->_getRankNameById($an['rank_id']);
         $an['name_status'] = $this->_getNameStatusById($an['status']);
@@ -371,9 +375,13 @@ class ACI_Model_Webservice extends AModel
         foreach ($synonyms as &$syn) {
             $syn['name_html'] =
                 ACI_Model_Table_Taxa::getAcceptedScientificName(
-                $syn['genus'], $syn['species'], $syn['infraspecies'],
-                $syn['infraspecies_marker'], $syn['author']
-            );
+                    $syn['genus'],
+                    null, // @TODO subgenus
+                    $syn['species'],
+                    $syn['infraspecies'],
+                    $syn['infraspecies_marker'],
+                    $syn['author']
+                );
             $syn['rank'] = $this->_getRankNameById($syn['rank_id']);
             $syn['name_status'] = $this->_getNameStatusById($syn['status']);
             $syn['url'] = self::getTaxaUrl(

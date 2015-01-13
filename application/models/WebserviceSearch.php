@@ -17,7 +17,7 @@ class ACI_Model_WebserviceSearch extends AModel
     public function taxa($id, $name, $limit, $offset)
     {
         $select = new Eti_Db_Select($this->_db);
-        
+
         $select->distinct()->sqlCalcFoundRows()->from(
             array('tst' => '_search_all'),
             array(
@@ -25,12 +25,12 @@ class ACI_Model_WebserviceSearch extends AModel
                 'record_id' => 'tst.id',
                 'parent_id' => new Zend_Db_Expr('""'),
                 'name' => 'tst.name',
-                'name_html' => 
+                'name_html' =>
                     'IF(
-                        tst.name_status != '.ACI_Model_Table_Taxa::STATUS_COMMON_NAME.', '. 
+                        tst.name_status != '.ACI_Model_Table_Taxa::STATUS_COMMON_NAME.', '.
                         'IF(
-                            tst.rank = "genus", 
-                            CONCAT("<i>", tst.name, "</i>"), 
+                            tst.rank = "genus",
+                            CONCAT("<i>", tst.name, "</i>"),
                             tst.name
                         ), '.
                         new Zend_Db_Expr('""').
@@ -75,7 +75,7 @@ class ACI_Model_WebserviceSearch extends AModel
         )->limit($limit, $offset);
         return $select->query()->fetchAll();
     }
-    
+
     public function _selectScientificName()
     {
         $select = new Zend_Db_Select($this->_db);
@@ -109,7 +109,7 @@ class ACI_Model_WebserviceSearch extends AModel
     }
 
     public function scientificName($id, /*bool*/$acceptedName) {
-        
+
         $select = $this->_selectScientificName();
         $select->where('ss.id = ?', $id);
         if ($acceptedName) {
@@ -127,7 +127,7 @@ class ACI_Model_WebserviceSearch extends AModel
         )
         ->group('ss.id')
         ->order(array('genus', 'species', 'infraspecies', 'author'));
-        
+
         $res = $select->query()->fetchAll();
         return $res;
     }
@@ -136,7 +136,7 @@ class ACI_Model_WebserviceSearch extends AModel
         $select = new Zend_Db_Select($this->_db);
         $select->from('_species_details')->where('taxon_id = ?', $id);
         $res = $select->query()->fetchAll();
-        
+
         $classification = array();
         // Taxa used for classification are specified in Webservice model
         // already ordered from top to bottom
@@ -150,11 +150,12 @@ class ACI_Model_WebserviceSearch extends AModel
                         $rank == 'genus'
                             ?
                             '<i>' . $res[0]["{$rank}_name"] . '</i>' :
-                        (strstr($rank, 'species') === false 
+                        (strstr($rank, 'species') === false
                             ?
                             $res[0]["{$rank}_name"] :
                             ACI_Model_Table_Taxa::getAcceptedScientificName(
                                 $res[0]['genus_name'],
+                                null, // @TODO subgenus
                                 $res[0]['species_name'],
                                 $res[0]['infraspecies_name'],
                                 $res[0]['infraspecific_marker'],
@@ -162,12 +163,12 @@ class ACI_Model_WebserviceSearch extends AModel
                             )
                         ),
                     'url' => ACI_Model_Webservice::getTaxaUrl(
-                        $res[0]["{$rank}_id"], 
-                        (strstr($rank, 'species') === false 
-                            ? 
-                            0 : 
+                        $res[0]["{$rank}_id"],
+                        (strstr($rank, 'species') === false
+                            ?
+                            0 :
                             ACI_Model_Table_Taxa::RANK_SPECIES
-                        ), 
+                        ),
                         $res[0]['status']
                     )
                 );
@@ -177,7 +178,7 @@ class ACI_Model_WebserviceSearch extends AModel
         array_pop($classification);
         return $classification;
     }
-    
+
     public function getHigherTaxonClassification ($id) {
         $select = new Zend_Db_Select($this->_db);
         $select->from('_taxon_tree')->where('taxon_id = ?');
@@ -203,7 +204,7 @@ class ACI_Model_WebserviceSearch extends AModel
             $id = $res[0]['parent_id'];
             unset($res);
         } while ($id > 0);
-        
+
         // remove the taxon itself
         unset($classification[0]);
         // return top to bottom hierarchy
@@ -236,10 +237,10 @@ class ACI_Model_WebserviceSearch extends AModel
             'tt.name'
         );
         $res = $select->query()->fetchAll();
-        
+
         $childTaxa = array();
         foreach($res as $taxon) {
-            // Need to check rank first to catch infraspecies, 
+            // Need to check rank first to catch infraspecies,
             // which are stored as infraspecific markers in_taxon_tree
             $rank = ACI_Model_Webservice::checkRank($taxon['rank']);
             $childTaxa[] = array(
@@ -252,9 +253,10 @@ class ACI_Model_WebserviceSearch extends AModel
                         '<i>' . $taxon['name'] . '</i>' :
                     (strstr($rank, 'species') === false
                         ?
-                        $taxon['name'] : 
+                        $taxon['name'] :
                         ACI_Model_Table_Taxa::getAcceptedScientificName(
                             $taxon['genus'],
+                            null, // @TODO subgenus
                             $taxon['species'],
                             $taxon['infraspecies'],
                             $taxon['infraspecies_marker'],
@@ -262,12 +264,12 @@ class ACI_Model_WebserviceSearch extends AModel
                         )
                     ),
                 'url' => ACI_Model_Webservice::getTaxaUrl(
-                    $taxon['id'], 
-                    (strstr($rank, 'species') === false 
-                        ? 
-                        0 : 
+                    $taxon['id'],
+                    (strstr($rank, 'species') === false
+                        ?
+                        0 :
                         ACI_Model_Table_Taxa::RANK_SPECIES
-                    ), 
+                    ),
                     (strstr($rank, 'species') === false
                         ?
                         ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME :
@@ -279,7 +281,7 @@ class ACI_Model_WebserviceSearch extends AModel
         unset($res);
         return $childTaxa;
     }
-     
+
     public function getLanguageAndCountry($id) {
         $select = new Zend_Db_Select($this->_db);
         $select->from(
@@ -297,7 +299,7 @@ class ACI_Model_WebserviceSearch extends AModel
         $res = $select->query()->fetchAll();
         return $res ? $res[0] : array('language' => '', 'country' => '');
     }
-    
+
     public function getScrutinyDate($id) {
         $select = new Zend_Db_Select($this->_db);
         $select->from(

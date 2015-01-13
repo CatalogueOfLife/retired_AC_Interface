@@ -225,18 +225,16 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
      */
     public function formatSpeciesDetails(ACI_Model_Table_Taxa $speciesDetails)
     {
-//print_r((array) $speciesDetails);
         $preface = '';
         $translator = Zend_Registry::get('Zend_Translate');
 
-        $speciesDetails->name = $this->setFossilMarker(
-            '<i>' . $speciesDetails->genus .
+        $name = $speciesDetails->genus .
             (isset($speciesDetails->subgenus) && !empty($speciesDetails->subgenus) ?
                 ' ('.ucfirst($speciesDetails->subgenus).')' : '') .  ' ' .
             $speciesDetails->species .
-            (isset($speciesDetails->infra) ? ' '. $speciesDetails->infra : '') . '</i> ' .
-            $speciesDetails->author
-        , (array) $speciesDetails);
+            (isset($speciesDetails->infra) ? ' '. $speciesDetails->infra : '');
+        $speciesDetails->name = $this->setFossilMarker(
+            '<i>' . $name . '</i> ' .  $speciesDetails->author, (array) $speciesDetails);
 
         if ($speciesDetails->taxaStatus) {
             $preface =
@@ -269,6 +267,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     break;
             }
         }
+        $speciesDetails->headTitle = $speciesDetails->taxaStatus ?
+            strip_tags($speciesDetails->taxaFullName) : $name . ' ' . $speciesDetails->author;
         $numRefs = count($speciesDetails->references);
         $speciesDetails->referencesLabel = $numRefs ?
             $this->getReferencesLabel(
@@ -333,6 +333,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $speciesDetails->dbName = $textDecorator->getEmptyField();
         }
         $speciesDetails->dbVersion = $speciesDetails->dbVersion;
+
+        /*
         if (!$speciesDetails->scrutinyDate &&
         	$speciesDetails->scrutinyDate == '' &&
             !$speciesDetails->specialistName) {
@@ -350,6 +352,17 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 ), ',')
             );
         }
+        */
+
+        if (empty($speciesDetails->scrutinyDate) && empty($speciesDetails->specialistName)) {
+            $speciesDetails->latestScrutiny = $textDecorator->getEmptyField();
+            $speciesDetails->latestScrutiny = 'henk';
+        } else {
+            $speciesDetails->latestScrutiny = !empty($speciesDetails->specialistName) ?
+                $speciesDetails->specialistName . ', ' : '' . $speciesDetails->scrutinyDate;
+        }
+
+
         if (!$speciesDetails->lsid) {
             $speciesDetails->lsid = $textDecorator->getEmptyField();
         }

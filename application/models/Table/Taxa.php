@@ -257,10 +257,15 @@ class ACI_Model_Table_Taxa
     {
         switch ($name) {
             case 'name':
-                $this->name = self::getAcceptedScientificName($this->genus,
-                    $this->species, $this->infra,
-                    $this->rank, $this->author,
-                    $this->infraspecific_marker);
+                $this->name = self::getAcceptedScientificName(
+                    $this->genus,
+                    null, // @TODO subgenus
+                    $this->species,
+                    $this->infra,
+                    $this->rank,
+                    $this->author,
+                    $this->infraspecific_marker
+                );
                 return $this->name;
                 break;
             case 'taxaFullName':
@@ -316,10 +321,12 @@ class ACI_Model_Table_Taxa
         return in_array($status, $anStatuses);
     }
 
-    public static function getAcceptedScientificName ($genus, $species, $infraspecies, $rank, $author, $marker = '',
-        $kingdom = '')
+    public static function getAcceptedScientificName ($genus, $subgenus, $species,
+        $infraspecies, $rank, $author, $marker = '', $kingdom = '')
     {
-        $name = "<i>" . ucfirst($genus) . " $species";
+        $name = "<i>" . ucfirst($genus) . ' ' .
+            (!empty($subgenus) ? '(' . ucfirst($subgenus) . ') ' : '') .
+            $species;
         if ($infraspecies) {
             if ($marker && strtolower($kingdom) != 'animalia') {
                 $name .= "</i> " . $marker . " <i>$infraspecies";
