@@ -240,7 +240,7 @@ class ACI_Model_Details extends AModel
 
     public function getHierachyFromSpecies($species)
     {
-        if($species->kingdom)
+        if ($species->kingdom)
         {
             $this->_setPointOfAttachment($species->kingdom_id, $species);
             $res[] = array(
@@ -253,7 +253,7 @@ class ACI_Model_Details extends AModel
                 'sourceDbId' => $species->pointOfAttachmentLinkId
             );
         }
-        if($species->phylum)
+        if ($species->phylum)
         {
             $this->_setPointOfAttachment($species->phylum_id, $species);
             $res[] = array(
@@ -266,7 +266,7 @@ class ACI_Model_Details extends AModel
                 'sourceDbId' => $species->pointOfAttachmentLinkId
             );
         }
-        if($species->class)
+        if ($species->class)
         {
             $this->_setPointOfAttachment($species->class_id, $species);
             $res[] = array(
@@ -279,7 +279,7 @@ class ACI_Model_Details extends AModel
                 'sourceDbId' => $species->pointOfAttachmentLinkId
             );
         }
-        if($species->order)
+        if ($species->order)
         {
             $this->_setPointOfAttachment($species->order_id, $species);
             $res[] = array(
@@ -292,7 +292,7 @@ class ACI_Model_Details extends AModel
                 'sourceDbId' => $species->pointOfAttachmentLinkId
             );
         }
-        if($species->superfamily)
+        if ($species->superfamily)
         {
             $this->_setPointOfAttachment($species->superfamily_id, $species);
             $res[] = array(
@@ -305,7 +305,7 @@ class ACI_Model_Details extends AModel
                 'sourceDbId' => $species->pointOfAttachmentLinkId
             );
         }
-        if($species->family)
+        if ($species->family)
         {
             $this->_setPointOfAttachment($species->family_id, $species);
             $res[] = array(
@@ -318,39 +318,42 @@ class ACI_Model_Details extends AModel
                 'sourceDbId' => $species->pointOfAttachmentLinkId
             );
         }
-        if($species->genus)
+        if ($species->genus)
         {
             $this->_setPointOfAttachment($species->genus_id, $species);
             $res[] = array(
                 'record_id' => $this->idToNaturalKey($species->genus_id),
                 'parent_id' => '',
-                'name' => $species->genus,
+                'name' => '<i>' . $species->genus . '</i>',
                 'taxon' => 'genus',
                 'LSID' => $species->genus_lsid,
                 'sourceDb' => $species->pointOfAttachment,
                 'sourceDbId' => $species->pointOfAttachmentLinkId
             );
         }
-        if($species->species)
+        if ($species->species)
         {
             $this->_setPointOfAttachment($species->species_id, $species);
             $res[] = array(
                 'record_id' => $this->idToNaturalKey($species->species_id),
                 'parent_id' => '',
-                'name' => $species->species,
+                'name' => '<i>' . $species->genus . ' ' . (!empty($species->subgenus) ?
+                    '(' . $species->subgenus . ') ' : '')  . $species->species . '</i>',
                 'taxon' => 'species',
                 'LSID' => $species->species_lsid,
                 'sourceDb' => $species->pointOfAttachment,
                 'sourceDbId' => $species->pointOfAttachmentLinkId
             );
         }
-        if($species->infra)
+        if ($species->infra)
         {
             $this->_setPointOfAttachment($species->infra_id, $species);
             $res[] = array(
                 'record_id' => $this->idToNaturalKey($species->infra_id),
                 'parent_id' => '',
-                'name' => $species->infra,
+                'name' => '<i>' . $species->genus . ' ' . (!empty($species->subgenus) ?
+                    '(' .$species->subgenus . ') ' : '')  . $species->species . ' ' .
+                    $species->infra . '</i>',
                 'taxon' => 'infraspecies',
                 'LSID' => $species->infa_lsid,
                 'sourceDb' => $species->pointOfAttachment,
@@ -541,7 +544,7 @@ class ACI_Model_Details extends AModel
             $synonym['name'] =
                 ACI_Model_Table_Taxa::getAcceptedScientificName(
                     $synonym['genus'],
-                    $synonym['subgenus'], // @TODO subgenus
+                    $synonym['subgenus'],
                     $synonym['species'],
                     $synonym['infraspecies'],
                     $synonym['rank'],
@@ -745,45 +748,7 @@ class ACI_Model_Details extends AModel
         return $infraspecies;
     }
 
-/*    public function infraspecies($taxon_id)
-    {
-        $select = new Zend_Db_Select($this->_db);
 
-        $select
-        ->from(
-            array('tt' => '_taxon_tree'),
-            array(
-                'id' => 'tt.taxon_id',
-                'name' => 'tt.name',
-                'author' => 'aus.string'
-            )
-        )->joinLeft(
-            array('td' => 'taxon_detail'),
-            'tt.taxon_id = td.taxon_id',
-            array()
-        )->joinLeft(
-            array('aus' => 'author_string'),
-            'td.author_string_id = aus.id',
-            array()
-        )
-        ->where('tt.parent_id = ?')
-        ->order(array('name'));
-
-        $select->bind(array($taxon_id));
-
-        $rowSet = $select->query()->fetchAll();
-
-        $infraspecies = array();
-        $i = 0;
-        foreach ($rowSet as $row) {
-            $infraspecies[$i]['id'] = $row['id'];
-            $infraspecies[$i]['name'] = ACI_Model_Table_Taxa::italicizeName($row['name']) . ' ' . $row['author'];
-            $infraspecies[$i]['url'] = '/details/species/id/' . $row['id'];
-            $i++;
-        }
-        return $infraspecies;
-    }
-*/
     /**
      * Gets all the ditributions of a particular name code
      *

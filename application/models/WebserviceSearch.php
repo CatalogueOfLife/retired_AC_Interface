@@ -96,6 +96,7 @@ class ACI_Model_WebserviceSearch extends AModel
                 'status' => 'ss.status',
                 'sn_id' => 'ss.accepted_species_id',
                 'genus' => 'ss.genus',
+                'subgenus' => 'ss.subgenus',
                 'species' => 'ss.species',
                 'infraspecies_marker' => 'ss.infraspecific_marker',
                 'infraspecies' => 'ss.infraspecies',
@@ -155,7 +156,7 @@ class ACI_Model_WebserviceSearch extends AModel
                             $res[0]["{$rank}_name"] :
                             ACI_Model_Table_Taxa::getAcceptedScientificName(
                                 $res[0]['genus_name'],
-                                null, // @TODO subgenus
+                                $res[0]['subgenus_name'],
                                 $res[0]['species_name'],
                                 $res[0]['infraspecies_name'],
                                 $res[0]['infraspecific_marker'],
@@ -222,6 +223,7 @@ class ACI_Model_WebserviceSearch extends AModel
                 'rank' => 'tt.rank',
                 'status' => 'sd.status',
                 'genus' => 'sd.genus_name',
+                'subgenus' => 'sd.subgenus_name',
                 'species' => 'sd.species_name',
                 'infraspecies_marker' => 'sd.infraspecific_marker',
                 'infraspecies' => 'sd.infraspecies_name',
@@ -256,7 +258,7 @@ class ACI_Model_WebserviceSearch extends AModel
                         $taxon['name'] :
                         ACI_Model_Table_Taxa::getAcceptedScientificName(
                             $taxon['genus'],
-                            null, // @TODO subgenus
+                            $taxon['subgenus'],
                             $taxon['species'],
                             $taxon['infraspecies'],
                             $taxon['infraspecies_marker'],

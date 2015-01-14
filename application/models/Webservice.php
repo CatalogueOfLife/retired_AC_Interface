@@ -284,7 +284,7 @@ class ACI_Model_Webservice extends AModel
         $an['name_html'] =
             ACI_Model_Table_Taxa::getAcceptedScientificName(
                 $an['genus'],
-                null, // @TODO subgenus
+                isset($an['subgenus']) ? $an['subgenus'] : null, // @TODO subgenus
                 $an['species'],
                 $an['infraspecies'],
                 $an['infraspecies_marker'],
@@ -376,7 +376,7 @@ class ACI_Model_Webservice extends AModel
             $syn['name_html'] =
                 ACI_Model_Table_Taxa::getAcceptedScientificName(
                     $syn['genus'],
-                    null, // @TODO subgenus
+                    isset($syn['subgenus']) ? $syn['subgenus'] : null,
                     $syn['species'],
                     $syn['infraspecies'],
                     $syn['infraspecies_marker'],

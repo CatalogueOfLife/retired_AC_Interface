@@ -259,7 +259,7 @@ class ACI_Model_Table_Taxa
             case 'name':
                 $this->name = self::getAcceptedScientificName(
                     $this->genus,
-                    null, // @TODO subgenus
+                    isset($this->subgenus) ? $this->subgenus : null,
                     $this->species,
                     $this->infra,
                     $this->rank,
