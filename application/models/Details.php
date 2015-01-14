@@ -660,6 +660,7 @@ class ACI_Model_Details extends AModel
             array(
                 'id' => 'tne_i.taxon_id',
                 'genus' => 'sne_g.name_element',
+                'subgenus' => 'sne_sg.name_element',
                 'species' => 'sne_s.name_element',
                 'infraspecies' => 'sne_i.name_element',
                 'infraspecific_marker' => 'tr.marker_displayed',
@@ -675,12 +676,20 @@ class ACI_Model_Details extends AModel
             'tne_s.taxon_id = tne_i.parent_id',
             array()
         )->joinLeft(
+            array('tne_sg' => 'taxon_name_element'),
+            'tne_sg.taxon_id = tne_s.parent_id',
+            array()
+        )->joinLeft(
             array('tne_g' => 'taxon_name_element'),
-            'tne_g.taxon_id = tne_s.parent_id',
+            'tne_g.taxon_id = tne_sg.parent_id',
             array()
         )->joinLeft(
             array('sne_g' => 'scientific_name_element'),
             'tne_g.scientific_name_element_id = sne_g.id',
+            array()
+        )->joinLeft(
+            array('sne_sg' => 'scientific_name_element'),
+            'tne_sg.scientific_name_element_id = sne_sg.id',
             array()
         )->joinLeft(
             array('sne_s' => 'scientific_name_element'),
@@ -721,7 +730,7 @@ class ACI_Model_Details extends AModel
             $infraspecies[$i]['name'] =
                 ACI_Model_Table_Taxa::getAcceptedScientificName(
                     $row['genus'],
-                    null, // @TODO subgenus
+                    $row['subgenus'],
                     $row['species'],
                     $row['infraspecies'],
                     $row['rank'],
