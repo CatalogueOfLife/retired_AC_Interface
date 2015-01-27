@@ -140,6 +140,7 @@ function showOrHide(className) {
 	}
 	setCookie(className, value, cookieExpiration);
 }
+
 function showOrHideExtinct() {
 	setCookie('treeExtinct', (readCookie('treeExtinct') == 0 ? 1 : 0), cookieExpiration);
 	window.location.reload();

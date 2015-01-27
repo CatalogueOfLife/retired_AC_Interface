@@ -132,7 +132,7 @@ class ACI_Model_Search extends AModel
         if($matchWholeWords == 1)
         {
             return 1;
-        } elseif ($this->_strposInarray('*',$searchWord))
+        } elseif ($this->_strposInarray('*', $searchWord))
         {
             return 2;
         } else {
@@ -310,42 +310,41 @@ class ACI_Model_Search extends AModel
         $this->_logger->debug(__METHOD__);
         $this->_logger->debug(func_get_args());
         return $this->_db->select()->union(
-            array(
-                $this->_selectTaxa(
-                    $searchKey, $matchWholeWords, $fossil
-                )->reset('order')/*,
-                $this->_selectCommonNames(
-                    $searchKey, $matchWholeWords
-                )->reset('order')*/
+                array(
+                    $this->_selectTaxa(
+                        $searchKey, $matchWholeWords, $fossil
+                    )->reset('order')/*,
+                    $this->_selectCommonNames(
+                        $searchKey, $matchWholeWords
+                    )->reset('order')*/
+                )
             )
-        )
-        ->order(
-
-            ($sort ?
-                ($sort == 'status' ?
-                	array_merge(
-                		self::_getSortRank($direction),
-			            array(
-		                    self::getRightColumnName($sort) . self::getRightSortDirection($direction),
-	                    	'name_status_suffix' . self::getRightSortDirection($direction),
-	                    	'name_status_suffix_suffix' . self::getRightSortDirection($direction),
-	                    ),
-	                    self::_getSortParams('all',$direction)
-                    ) :
-	                array_merge(
-	                	self::_getSortRank($direction),
-	                	array(
-		                    self::getRightColumnName($sort) . self::getRightSortDirection($direction)
-	                	),
-	                    self::_getSortParams('all',$direction)
+            ->order(
+                ($sort ?
+                    ($sort == 'status' ?
+                    	array_merge(
+                    		self::_getSortRank($direction),
+    			            array(
+    		                    self::getRightColumnName($sort) . self::getRightSortDirection($direction),
+    	                    	'name_status_suffix' . self::getRightSortDirection($direction),
+    	                    	'name_status_suffix_suffix' . self::getRightSortDirection($direction),
+    	                    ),
+    	                    self::_getSortParams('all',$direction)
+                        ) :
+    	                array_merge(
+    	                	self::_getSortRank($direction),
+    	                	array(
+    		                    self::getRightColumnName($sort) . self::getRightSortDirection($direction)
+    	                	),
+    	                    self::_getSortParams('all',$direction)
+                    	)
+                    ) : array_merge(
+                        self::_getSortRank($direction),
+                        $this->_getDefaultSortExpression($searchKey, $matchWholeWords),
+                        self::_getSortParams('all',$direction)
                 	)
-                ) : array_merge(
-                    self::_getSortRank($direction),
-                    $this->_getDefaultSortExpression($searchKey, $matchWholeWords),
-                    self::_getSortParams('all',$direction)
-            	)
-            )
-        );
+                )
+            );
    }
 
     /**
@@ -647,11 +646,11 @@ class ACI_Model_Search extends AModel
             $name_elements = explode(' ',$searchKey);
             $shortString = false;
             foreach($name_elements as $name_element) {
-            	if(strlen($name_element) < 4) {
+            	if(strlen($name_element) < 3) {
 		            $shortString = true;
             	}
             }
-        	if ($matchWholeWords && !strstr($searchKey, '%') && $shortString === false) {
+        	if ($matchWholeWords && !strstr($searchKey, '%') && !$shortString) {
 	            $having = '';
 	            foreach($name_elements as $name_element)
 	            {
@@ -662,6 +661,10 @@ class ACI_Model_Search extends AModel
 	                );
 	                $having .= ' AND `name` LIKE "%' . $name_element . '%"';
 	            }
+        	} else if ($matchWholeWords && !strstr($searchKey, '%') && $shortString) {
+                $select->where(
+	                'tst.'.$column.' = "' . $searchKey . '"'
+	            );
 	        } else {
 	            $select->where(
 	                'tst.'.$column.' LIKE "%' . $searchKey . '%"'
