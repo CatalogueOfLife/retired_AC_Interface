@@ -253,7 +253,7 @@ class ACI_Model_WebserviceSearch extends AModel
                     strtolower($rank) == 'genus'
                         ?
                         '<i>' . $taxon['name'] . '</i>' :
-                    (strstr($rank, 'species') === false
+                    (strstr(strtolower($rank), 'species') === false
                         ?
                         $taxon['name'] :
                         ACI_Model_Table_Taxa::getAcceptedScientificName(
@@ -267,7 +267,7 @@ class ACI_Model_WebserviceSearch extends AModel
                     ),
                 'url' => ACI_Model_Webservice::getTaxaUrl(
                     $taxon['id'],
-                    (strstr($rank, 'species') === false
+                    (strstr(strtolower($rank), 'species') === false
                         ?
                         0 :
                         ACI_Model_Table_Taxa::RANK_SPECIES

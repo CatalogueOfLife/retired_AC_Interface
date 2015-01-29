@@ -199,12 +199,6 @@ abstract class AController extends Zend_Controller_Action
         return $selectedLanguages;
     }
 
-    private function _setCookieExpiration ()
-    {
-        $config = Zend_Registry::get('config');
-        return $config->advanced->cookie_expiration;
-    }
-
     static function cmp($a, $b) {
         return strcmp($a['english_name'], $b['english_name']);
     }
@@ -232,6 +226,12 @@ abstract class AController extends Zend_Controller_Action
         ->where('id =', (int)$id);
         $res = $select->query()->fetchColumn(0);
         return empty($res) ? $id : $res;
+    }
+
+    private function _setCookieExpiration ()
+    {
+        $config = Zend_Registry::get('config');
+        return $config->advanced->cookie_expiration;
     }
 
     protected function _getOrSetCookie ($name, $default = 0)

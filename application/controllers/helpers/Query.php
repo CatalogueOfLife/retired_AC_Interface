@@ -316,9 +316,8 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
             $i = 0;
             foreach ($res as &$row) {
                 $row['label'] = $this->getActionController()
-                    ->getHelper('TextDecorator')->highlightMatch(
-                        $row['name'], $query
-                    );
+                    ->getHelper('TextDecorator')
+                    ->highlightMatch($row['name'], $query);
                 if ($i == ACI_Model_Search::API_ROWSET_LIMIT) {
                     $errStr = 'More_matching_results';
                     $row = array(

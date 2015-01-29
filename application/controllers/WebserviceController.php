@@ -62,7 +62,6 @@ class WebserviceController extends AController
                     )
                 );
         }
-
         $wsModel = new ACI_Model_Webservice($this->_db);
         $wsModel->setFilter($filter);
         $res = $wsModel->query($this->getRequest());
