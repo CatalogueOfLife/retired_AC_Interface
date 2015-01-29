@@ -123,7 +123,7 @@ init = function() {
 window.onload = init;
 window.onscroll = moveMenu;
 
-function showOrHide(className) {
+function showOrHide (className) {
 	dijit.popup.close(dialog);
 	var spans = dojo.query('.' + className);
 	var span;
@@ -141,12 +141,20 @@ function showOrHide(className) {
 	setCookie(className, value, cookieExpiration);
 }
 
-function showOrHideExtinct() {
-	setCookie('treeExtinct', (readCookie('treeExtinct') == 0 ? 1 : 0), cookieExpiration);
-	window.location.reload();
+function showOrHideExtinct (reload) {
+	if (typeof reload == 'undefined') {
+		reload = true;
+	}
+	var newValue = readCookie('treeExtinct') == '0' ? '1' : '0';
+	setCookie('treeExtinct', newValue, cookieExpiration);
+// alert(readCookie('treeExtinct'));
+	if (reload) {
+		window.location.reload();
+	}
 }
 
-function setCookie(c_name, value, exdays) {
+
+function setCookie (c_name, value, exdays) {
 	if (typeof exdays == 'undefined') {
 		exdays = 14;
 	}
@@ -157,7 +165,7 @@ function setCookie(c_name, value, exdays) {
 	document.cookie = c_name + "=" + c_value + ";path=/";
 }
 
-function readCookie(name) {
+function readCookie (name) {
     var nameEQ = name + "=", ca = document.cookie.split(';'), i = 0, c;
     for(;i < ca.length;i++) {
         c = ca[i];
@@ -167,7 +175,7 @@ function readCookie(name) {
     return null;
 }
 
-function changeLanguage(language) {
+function changeLanguage (language) {
 	setCookie('aci_language', language, cookieExpiration);
 	window.location.reload();
 }
