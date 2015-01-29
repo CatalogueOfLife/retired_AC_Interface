@@ -40,8 +40,20 @@ class ACI_Form_Dojo_Search extends ACI_Form_Dojo_Abstract
 
         if ($this->_moduleEnabled("fossils"))
         {
-            $fossil = $this->createElement('CheckBox', 'fossil')->setValue(0)
+            /*
+             $fossil = $this->createElement('CheckBox', 'fossil')
+                ->setValue(0)
                 ->setLabel('Include_extinct_taxa');
+            */
+
+            // Tried to solve ACI-612 but didn't really work yet
+            // Cookie isn't read properly; initialisation problem?
+            $fossil = $this->createElement('CheckBox', 'fossil')
+                ->setChecked($this->_getCookie('treeExtinct'))
+                ->setLabel('Include_extinct_taxa')
+                ->setAttribs(array(
+                    'onClick' => 'showOrHideExtinct(false)')
+                );
             $fossil->getDecorator('label')->setOption('placement', 'append');
             $this->addElement($fossil);
         }

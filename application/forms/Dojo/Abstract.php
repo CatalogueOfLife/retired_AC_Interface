@@ -17,4 +17,10 @@ abstract class ACI_Form_Dojo_Abstract extends Zend_Dojo_Form
     {
         return Bootstrap::instance()->getOption('module.' . $module);
     }
+
+    protected function _getCookie ($name, $default = 0)
+    {
+        return isset($_COOKIE[$name]) ? $_COOKIE[$name] : $default;
+    }
+
 }
