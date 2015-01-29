@@ -101,7 +101,8 @@ class ACI_Form_Dojo_Search extends ACI_Form_Dojo_Abstract
 
     public function getInputElements()
     {
-        return ($this->_action == "all") ? array('key', 'match', 'fuzzy', 'fossil') : array('key', 'match', 'fossil');
+        return ($this->_action == "all") ? array('key', 'match', 'fuzzy', 'fossil') :
+            array('key', 'match', 'fossil');
     }
 
     /**
