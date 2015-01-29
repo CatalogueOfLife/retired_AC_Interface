@@ -42,11 +42,12 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
             $suffix = '';
             $replace = '';
         }
-        // /\b($words)\b/mi
-        // /(pinus)/i
+        /* Pre ACI-620 situation, explicitly uses word boundary
         $regexp = '/\b(' .
             str_replace('*', $replace, $prefix . $needle . $suffix) . ')\b/mi';
-            //die(var_dump($regexp));
+        */
+        $regexp = '/(' .
+            str_replace('*', $replace, $prefix . $needle . $suffix) . ')/mi';
         return preg_replace(
             $regexp,
             "<span class=\"matchHighlight\">$1</span>",
