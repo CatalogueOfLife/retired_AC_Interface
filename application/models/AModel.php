@@ -81,4 +81,12 @@ abstract class AModel
         $res = $select->query()->fetchColumn(0);
         return empty($res) ? $hash : $res;
     }
+
+    protected function _prepend ($s, $a) {
+        return $a . implode(" $a", explode(" ", $s));
+    }
+
+    protected function _append ($s, $a) {
+        return implode("$a ", explode(" ", $s)) . "$a";
+    }
 }

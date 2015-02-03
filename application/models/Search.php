@@ -155,6 +155,8 @@ class ACI_Model_Search extends AModel
 		return false;
     }
 
+
+
     /**
      * Returns the final query (sorted) to search for common names
      *
@@ -394,7 +396,6 @@ class ACI_Model_Search extends AModel
     protected function _selectDistributions($searchKey, $matchWholeWords, $fossil)
     {
         $select = new Zend_Db_Select($this->_db);
-
         $select->from(
             array('dsd' => '_search_distribution'),
                 array(
@@ -403,7 +404,15 @@ class ACI_Model_Search extends AModel
                     'id' => 'dsd.accepted_species_id'
                 )
         );
-        if($matchWholeWords == 0) {
+/*
+        Ruud 03-02-15: what Dennis intended with getTrueMatchWords isn't clear to me:
+        match = 1, no match = 2, so $matchWholeWords == 0 as originally featured in this
+        function never worked.
+
+        I have reworked the where statement so match whole words no should work as advertised
+        A %term% is never necessary!
+
+        if ($matchWholeWords == 0) {
             $select->where(
                 'dsd.distribution LIKE "%'.$searchKey.'%"'
             );
@@ -412,13 +421,22 @@ class ACI_Model_Search extends AModel
                 'MATCH (dsd.distribution) AGAINST ("'.$searchKey.($matchWholeWords == 1 ? '"' : '*" IN BOOLEAN MODE').')'
             );
         }
+ */
+
+        // Change to +term and/or term*
+        $searchKey = $this->_prepend($searchKey, '+');
+        if ($matchWholeWords != 1) {
+            $searchKey = $this->_append($searchKey, '*');
+        }
+        $select->where(
+            'MATCH (dsd.distribution) AGAINST ("' . $searchKey . '" IN BOOLEAN MODE)'
+        );
 
         // Disable fossil search if module is switched off
         $fossil = $this->_moduleEnabled('fossils') ? $fossil : 0;
         if ($fossil == 0) {
             $select->where('dsd.is_extinct = 0');
         }
-
         return $select;
     }
 
@@ -792,7 +810,6 @@ class ACI_Model_Search extends AModel
     protected function _selectScientificNames(array $key, $matchWholeWords, $action='scientific', $fossil = null)
     {
         $select = new Eti_Db_Select($this->_db);
-
         foreach ($key as $rank => $name) {
             $matchWholeWords = $this->getTrueMatchWholeWords($matchWholeWords, $name);
             if (trim($name) != '') {
@@ -828,7 +845,6 @@ class ACI_Model_Search extends AModel
         if ($fossil == 0) {
             $select->where('dss.is_extinct = 0');
         }
-
         return $select;
     }
 
@@ -1219,7 +1235,7 @@ class ACI_Model_Search extends AModel
 
     public static function wildcardHandling($searchString)
     {
-        return str_replace(array('%', '*', '\\'), array('', '%', ''), $searchString);
+        return str_replace(array('%', '*', '\\', '"'), array('', '%', '', ''), $searchString);
     }
 
     public static function wildcardHandlingInRegExp($searchString,

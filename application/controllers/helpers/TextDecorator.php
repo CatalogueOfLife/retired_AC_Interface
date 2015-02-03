@@ -32,7 +32,7 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
         if (trim($needle) == '') {
             return $haystack;
         }
-        $needle = stripslashes($needle);
+        $needle = $this->_stripSearchParams($needle);
         if ($wrapWords == true && !preg_match('#&\#[0-9]{1,5};#', $needle)) {
             $prefix = '\b';
             $suffix = '\b';
@@ -78,5 +78,10 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
         $replacement ='<a href="$1" target="' . $target . '">$1</a>$2';
         $link = preg_replace($pattern, $replacement, trim($linkText, "#"));
         return $link;
+    }
+
+    private function _stripSearchParams ($s) {
+        $p = array('%', '*', '/', '"');
+        return str_replace($p, '', stripslashes($s));
     }
 }
