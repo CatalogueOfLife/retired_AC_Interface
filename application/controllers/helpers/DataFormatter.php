@@ -393,18 +393,19 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
 
         if ($speciesDetails->is_extinct == 1) {
             if ($speciesDetails->has_preholocene == 1 || $speciesDetails->has_modern == 1) {
-                $fossil = $translator->translate('This_extinct_species_is_known_to exist_during_the') . ' ';
+                $speciesDetails->fossil = $translator->translate('This_extinct_species_is_known_to exist_during_the') . ' ';
                 if ($speciesDetails->has_preholocene == 1) {
-                    $fossil .= 'pre-Holocene (< 11.700 BC)';
+                    $speciesDetails->fossil .= 'pre-Holocene (< 11.700 BC)';
                 }
                 if ($speciesDetails->has_preholocene == 1 && $speciesDetails->has_modern == 1) {
-                    $fossil .= ' ' . $translator->translate('and');
+                    $speciesDetails->fossil .= ' ' . $translator->translate('and');
                 }
                 if ($speciesDetails->has_modern == 1) {
-                    $fossil .= ' ' . $translator->translate('at_least_part_of_the_Modern_era') . ' (> 11.700 BC)';
+                    $speciesDetails->fossil .= ' ' . $translator->translate('at_least_part_of_the_Modern_era') . ' (> 11.700 BC)';
                 }
+            } else {
+                $speciesDetails->fossil = $translator->translate('This_is_an_extinct_species');
             }
-            $speciesDetails->fossil = $fossil;
         }
 
         return $speciesDetails;
