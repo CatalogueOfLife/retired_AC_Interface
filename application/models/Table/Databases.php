@@ -278,6 +278,8 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
         $row['common_names'] = $row['number_of_common_names'];
         $row['synonyms'] = $row['number_of_synonyms'];
         $row['total_names'] = $row['total_number'];
+        $row['total_extant_names'] = $row['total_names'] - $row['number_of_extinct_species'] -
+            $row['number_of_infraspecific_taxon'];
         $row['taxonomic_coverage'] = $row['taxonomic_coverage'];
         $row['database_full_name'] = $row['full_name'];
         $row['database_name'] = $row['short_name'];

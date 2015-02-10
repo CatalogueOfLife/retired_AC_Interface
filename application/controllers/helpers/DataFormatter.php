@@ -183,7 +183,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     {
         if (isset($row['is_extinct']) && $row['is_extinct'] == 1 ||
             isset($row['fossil']) && $row['fossil'] == 1) {
-            return "<span class='extinct'>† $s</span>";
+            return "<span class='dagger'>†</span>$s";
         }
         return $s;
     }
@@ -455,6 +455,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             number_format($dbDetails['total_names']);
         $dbDetails['total_synonyms'] =
         	number_format($dbDetails['synonyms']);
+        $dbDetails['total_extant_names'] =
+        	number_format($dbDetails['total_extant_names']);
         $dbDetails['taxonomic_coverage'] =
             $this->getTaxonLinksInDatabaseDetailsPage(
                 $dbDetails['taxonomic_coverage']

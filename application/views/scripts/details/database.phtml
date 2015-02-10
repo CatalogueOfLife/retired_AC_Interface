@@ -149,7 +149,13 @@ if (is_array($this->db)):
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd"); ?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Total_number_of_names'); ?>:</th>
-        <td><?php echo $this->db['total_names']; ?></td>
+        <td>
+        <?php if ($this->fossilsModuleEnabled): ?>
+            <?php echo $this->db['total_names']; ?>
+        <?php else: ?>
+            <?php echo $this->db['total_extant_names']; ?>
+        <?php endif; ?>
+        </td>
     </tr>
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd"); ?>
     <tr class="<?php echo $rowClass; ?>">
@@ -175,9 +181,7 @@ if (is_array($this->db)):
 <?php else: ?>
 <p><?php echo $this->translate('Database_not_found'); ?></p>
 <br/>
-<?php
-endif;
-?>
+<?php endif; ?>
 <br/>
 <div class="page_links">
 <a href="javascript:history.back()">

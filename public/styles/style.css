@@ -957,7 +957,6 @@ form div.items-form dd#update-element {
 }
 
 .tundra .dijitTreeRow a {
-	margin-left: 5px;
 	font-style: italic;
 }
 
@@ -1459,4 +1458,9 @@ table.panelTable tr td,table.panelTable tr th {
 	max-height: 80px;
 	border: 1px solid #000;
 	margin: 5px;
+}
+
+.dagger {
+	margin-right: 5px;
+	font-size: 14px;
 }

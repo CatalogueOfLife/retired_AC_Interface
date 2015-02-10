@@ -93,13 +93,16 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
         }
 
         if (this.tree.model.store.getValue(this.item, 'url') == null) {
+            if (this.tree.model.store.getValue(this.item, 'is_extinct') == 1) {
+            	var dagger = dojo.doc.createElement('span');
+            	dagger.className = 'dagger';
+            	dagger.appendChild(dojo.doc.createTextNode("\u2020"));
+            	this.labelNode.appendChild(dagger);
+            }
             var rank = dojo.doc.createElement('span');
             rank.className = 'rank';
             rank.id = 'sn-' + this.tree.model.store.getValue(this.item, 'id');
             rank.appendChild(dojo.doc.createTextNode(rankName));
-            if (this.tree.model.store.getValue(this.item, 'is_extinct') == 1) {
-            	this.labelNode.appendChild(dojo.doc.createTextNode("\u2020 "));
-            }
             this.labelNode.appendChild(rank);
             var taxon = dojo.doc.createElement('span');
             taxon.className = 'nodeLabel node-' + type;
@@ -120,7 +123,11 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
         } else {
             var leaf = dojo.doc.createElement('span');
             if (this.tree.model.store.getValue(this.item, 'is_extinct') == 1) {
-            	leaf.appendChild(dojo.doc.createTextNode("\u2020"));
+            	//this.labelNode.appendChild(dojo.doc.createTextNode("\u2020 "));
+            	var dagger = dojo.doc.createElement('span');
+            	dagger.className = 'dagger';
+            	dagger.appendChild(dojo.doc.createTextNode("\u2020"));
+            	leaf.appendChild(dagger);
             }
             leaf.className = 'leaf';
             leaf.id = 'sn-' + this.tree.model.store.getValue(this.item, 'id');
