@@ -23,4 +23,19 @@ abstract class ACI_Form_Dojo_Abstract extends Zend_Dojo_Form
         return isset($_COOKIE[$name]) ? $_COOKIE[$name] : $default;
     }
 
+    protected function _getOrSetCookie ($name, $default = 0)
+    {
+        $config = Zend_Registry::get('config');
+        if (!isset($_COOKIE[$name]) || $_COOKIE[$name] === false) {
+            setcookie(
+                $name,
+                $config->default->fossils,
+                time() + $config->advanced->cookie_expiration,
+                '/',
+                ''
+            );
+            return $config->default->fossils;
+        }
+        return $_COOKIE[$name];
+    }
 }

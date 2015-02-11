@@ -17,6 +17,7 @@ abstract class ACI_Form_Dojo_AMultiCombo extends ACI_Form_Dojo_Abstract
 
     public function init()
     {
+		$config = Zend_Registry::get('config');
 		$translator = Zend_Registry::get('Zend_Translate');
     	$this->addAttribs(array('class' => 'multi-search'));
 
@@ -47,7 +48,9 @@ abstract class ACI_Form_Dojo_AMultiCombo extends ACI_Form_Dojo_Abstract
                     ),
                     'style' => 'width: 300px'
                 )
-            )->setLabel($translator->translate($comboLabel == 'Top_level_group' ? $comboLabel : 'RANK_' . strtoupper($comboLabel)));
+            )->setLabel($translator->translate(
+                $comboLabel == 'Top_level_group' ? $comboLabel : 'RANK_' . strtoupper($comboLabel))
+            );
 
             $comboBox->removeValidator('NotEmpty');
 
@@ -78,7 +81,7 @@ abstract class ACI_Form_Dojo_AMultiCombo extends ACI_Form_Dojo_Abstract
             // Tried to solve ACI-612 but didn't really work yet
             // Cookie isn't read properly; initialisation problem?
             $fossil = $this->createElement('CheckBox', 'fossil')
-                ->setChecked($this->_getCookie('treeExtinct'))
+                ->setChecked($this->_getOrSetCookie('treeExtinct', $config->default->fossils))
                 ->setLabel('Include_extinct_taxa')
                 ->setAttribs(array(
                     'onClick' => 'showOrHideExtinct(false)')

@@ -42,7 +42,7 @@ var baseUrl = "<?php echo $this->baseUrl(); ?>";
 var hierarchy = new Array(<?php echo $this->hierarchy; ?>);
 <?php echo $this->jsTranslation; ?>
 var jsFeedbackUrl = "<?php echo $this->jsFeedbackUrl; ?>";
-var treeHash = "<?php echo md5(time()); ?>";
+var treeHash = "<?php echo $this->hash; ?>";
 </script>
 <script type="text/javascript">
 dojo.require("dijit.TooltipDialog");

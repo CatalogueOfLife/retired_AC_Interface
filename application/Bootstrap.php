@@ -86,6 +86,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $view->headTitle()->setSeparator(' : ');
         // Also pass currentLanguage to viewer
         $view->language = $this->_getCurrentLanguage();
+        $view->hash = md5(time());
         // Add custom view helpers path
         $view->addHelperPath('Eti/View/Helper/', 'Eti_View_Helper_');
         // View renderer

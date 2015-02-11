@@ -157,10 +157,10 @@ dojo.require("dojo.parser");
             <span><?php echo $this->translate('Browse'); ?></span></a>
             <ul>
               <li class="<?php echo $this->action == 'tree' ?
-                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/browse/tree">
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/browse/tree?<?php echo $this->hash; ?>">
               <?php echo $this->translate('Taxonomic_tree'); ?></a></li>
               <li class="<?php echo $this->action == 'classification' ?
-                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/browse/classification">
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/browse/classification?<?php echo $this->hash; ?>">
               <?php echo $this->translate('Taxonomic_classification'); ?></a></li>
             </ul>
           </li>
@@ -172,16 +172,16 @@ dojo.require("dojo.parser");
             <span><?php echo $this->translate('Search'); ?></span></a>
             <ul>
               <li class="<?php echo $this->action == 'all' ?
-                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/all">
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/all?<?php echo $this->hash; ?>">
               <?php echo $this->translate('Search_all_names'); ?></a></li>
               <li class="<?php echo $this->action == 'scientific' ?
-                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/scientific">
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/scientific?<?php echo $this->hash; ?>">
               <?php echo $this->translate('Search_scientific_names'); ?></a></li>
               <li class="<?php echo $this->action == 'common' ?
-                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/common">
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/common?<?php echo $this->hash; ?>">
               <?php echo $this->translate('Search_common_names'); ?></a></li>
               <li class="<?php echo $this->action == 'distribution' ?
-                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/distribution">
+                'menuselected' : ''; ?>"><a href="<?php echo $this->baseUrl(); ?>/search/distribution?<?php echo $this->hash; ?>">
               <?php echo $this->translate('Search_distribution'); ?></a></li>
             </ul>
           </li>

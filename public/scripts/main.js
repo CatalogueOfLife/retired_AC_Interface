@@ -145,7 +145,9 @@ function showOrHideExtinct (reload) {
 	if (typeof reload == 'undefined') {
 		reload = true;
 	}
+//alert(readCookie('treeExtinct'));
 	var newValue = readCookie('treeExtinct') == '0' ? '1' : '0';
+//alert(newValue);
 	setCookie('treeExtinct', newValue, cookieExpiration);
 
 	if (reload) {

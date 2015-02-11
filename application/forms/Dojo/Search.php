@@ -30,6 +30,7 @@ class ACI_Form_Dojo_Search extends ACI_Form_Dojo_Abstract
         );
         $this->setMethod(Zend_Form::METHOD_POST);
         $translator = Zend_Registry::get('Zend_Translate');
+		$config = Zend_Registry::get('config');
 
         $key = $this->createElement('TextBox', 'key');
 
@@ -49,7 +50,7 @@ class ACI_Form_Dojo_Search extends ACI_Form_Dojo_Abstract
             // Tried to solve ACI-612 but didn't really work yet
             // Cookie isn't read properly; initialisation problem?
             $fossil = $this->createElement('CheckBox', 'fossil')
-                ->setChecked($this->_getCookie('treeExtinct'))
+                ->setChecked($this->_getOrSetCookie('treeExtinct', $config->default->fossils))
                 ->setLabel('Include_extinct_taxa')
                 ->setAttribs(array(
                     'onClick' => 'showOrHideExtinct(false)')
