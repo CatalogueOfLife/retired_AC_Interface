@@ -88,7 +88,7 @@ class DetailsController extends AController
         if ($dbDetails) {
             $dbDetails = $this->getHelper('DataFormatter')->formatDatabaseDetails($dbDetails);
         }
-        $this->view->headTitle('Catalogue of Life :: ' . $dbDetails['short_name'], 'SET');
+        $this->view->headTitle('Catalogue of Life : ' . $dbDetails['short_name'], 'SET');
         $this->_logger->debug($dbDetails);
         $this->view->db = $dbDetails;
         $this->view->indicatorsModuleEnabled = $this->_moduleEnabled('indicators');
@@ -130,7 +130,7 @@ class DetailsController extends AController
         }
 		$title = $speciesDetails && $speciesDetails->infra_id != '' ? 'Infraspecies_details' : 'Species_details';
         $this->view->title = $this->view->translate($title);
-        $this->view->headTitle('Catalogue of Life :: ' . $speciesDetails->headTitle, 'SET');
+        $this->view->headTitle('Catalogue of Life : ' . $speciesDetails->headTitle, 'SET');
         $this->view->mapInSpeciesDetailEnabled = $this->_moduleEnabled('map_species_details');
 
         $this->_logger->debug($speciesDetails);
