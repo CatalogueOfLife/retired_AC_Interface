@@ -71,4 +71,5 @@ module.icons_browse_tree = 1    ; Enables taxonomic rank icons in the taxonomic 
 module.natural_keys = 1;
 
 ; Fossils
-module.fossils = 1;             ; Enables inclusion of fossil data
+module.fossils = 1;             ; Enables inclusion of fossil datamodule.fossils = 1
+default.fossils = 0             ; Include extinct taxa by default (0 = off, 1 = on)

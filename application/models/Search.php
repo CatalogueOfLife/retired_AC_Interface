@@ -1098,9 +1098,13 @@ class ACI_Model_Search extends AModel
      * @param int $parentId, bool $extinctInTree
      * @return array
      */
-    public function getTaxonChildren($parentId, $extinctInTree = 0)
+    public function getTaxonChildren($parentId)
     {
         $select = new Zend_Db_Select($this->_db);
+        $where = 'ttt.parent_id = ?';
+        if ($this->_includeExtinct == 0) {
+           $where .= ' AND ttt.is_extinct = 0';
+        }
         $select->from(
             array('ttt' => '_taxon_tree'),
             array(
@@ -1116,7 +1120,7 @@ class ACI_Model_Search extends AModel
                 'is_extinct' => 'ttt.is_extinct'
             )
         )
-        ->where('ttt.parent_id = ?', $parentId)
+        ->where($where, $parentId)
         ->group(array('ttt.parent_id', 'ttt.name'))
         ->order(
             array(
@@ -1125,9 +1129,6 @@ class ACI_Model_Search extends AModel
                 'ttt.name'
             )
         );
-        if ($extinctInTree == 0) {
-            $select->where('ttt.is_extinct = 0');
-        }
         $res = $select->query()->fetchAll();
         $total = count($res);
         $this->_logger->debug("$total children of $parentId");

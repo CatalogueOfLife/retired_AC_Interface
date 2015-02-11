@@ -127,13 +127,11 @@ class BrowseController extends AController
         // If no id or species was passed
         if (!$id) {
             // get the id from persistance (session)
-            $id = $this->getHelper(
-                'SessionHandler')->get('tree_id', false);
+            $id = $this->getHelper('SessionHandler')->get('tree_id', false);
         }
         else {
             // persist current id in session
-            $this->getHelper(
-                'SessionHandler')->set('tree_id', $id, false);
+            $this->getHelper('SessionHandler')->set('tree_id', $id, false);
         }
         return true;
     }
@@ -320,7 +318,7 @@ class BrowseController extends AController
     {
         $this->_logger->debug($parentId);
         $search = new ACI_Model_Search($this->_db);
-        $res = $search->getTaxonChildren($parentId, $this->_extinctInTree);
+        $res = $search->getTaxonChildren($parentId);
         $this->_logger->debug($res);
         $higher_taxon = array(
             '',

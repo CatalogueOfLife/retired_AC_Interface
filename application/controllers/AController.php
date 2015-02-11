@@ -242,6 +242,4 @@ abstract class AController extends Zend_Controller_Action
         }
         return $_COOKIE[$name];
     }
-
-
 }

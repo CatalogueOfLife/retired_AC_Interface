@@ -32,7 +32,7 @@ var showCommentFeedback = <?php echo ($this->feedbackModuleEnabled ? 1 : 0) ?>;
     <label for="showIconsCheckbox"><?php echo $this->textShowIcons; ?></label>
 <?php endif; ?>
 <?php if($this->fossilsModuleEnabled): ?>
-    <input <?php if($this->showExtinctInTreeSelected != false) echo 'checked'; ?> id="showExtinctCheckbox" type="checkbox" name="showExtinct" value="0" onclick="showOrHideExtinct()" />
+    <input <?php if($this->showExtinctInTreeSelected == 1) echo 'checked'; ?> id="showExtinctCheckbox" type="checkbox" name="showExtinct" value="0" onclick="showOrHideExtinct()" />
     <label for="showExtinctCheckbox"><?php echo $this->textShowExtinct; ?></label>
 <?php endif; ?>
 </div>
@@ -42,6 +42,7 @@ var baseUrl = "<?php echo $this->baseUrl(); ?>";
 var hierarchy = new Array(<?php echo $this->hierarchy; ?>);
 <?php echo $this->jsTranslation; ?>
 var jsFeedbackUrl = "<?php echo $this->jsFeedbackUrl; ?>";
+var treeHash = "<?php echo md5(time()); ?>";
 </script>
 <script type="text/javascript">
 dojo.require("dijit.TooltipDialog");

@@ -14,11 +14,13 @@ abstract class AModel
 {
     protected $_db;
     protected $_logger;
+    protected $_includeExtinct;
 
     public function __construct(Zend_Db_Adapter_Abstract $dbAdapter)
     {
         $this->_db = $dbAdapter;
         $this->_logger = Zend_Registry::get('logger');
+        $this->_includeExtinct = $this->_setIncludeExtinct();
     }
 
     public function getFoundRows()
@@ -48,14 +50,14 @@ abstract class AModel
         return false;
     }
 
-    protected function _storeInCache($res, $cacheKey) {
+    protected function _storeInCache ($res, $cacheKey) {
         $cache = Zend_Registry::get('cache');
         if ($cache) {
             $cache->save($res, $this->_sanitizeCacheKey($cacheKey));
         }
     }
 
-    private function _sanitizeCacheKey($key) {
+    private function _sanitizeCacheKey ($key) {
         return preg_replace('/[^a-zA-Z0-9_]/', '', str_replace(' ', "_", $key));
     }
 
@@ -82,11 +84,28 @@ abstract class AModel
         return empty($res) ? $hash : $res;
     }
 
-    protected function _prepend ($s, $a) {
+    protected function _prepend ($s, $a)
+    {
         return $a . implode(" $a", explode(" ", $s));
     }
 
-    protected function _append ($s, $a) {
+    protected function _append ($s, $a)
+    {
         return implode("$a ", explode(" ", $s)) . "$a";
+    }
+
+    protected function _setIncludeExtinct ()
+    {
+        $config = Zend_Registry::get('config');
+        if (!isset($_COOKIE['treeExtinct']) || $_COOKIE['treeExtinct'] === false) {
+            setcookie(
+                'treeExtinct',
+                $config->default->fossils, time() + $config->advanced->cookie_expiration,
+                '/',
+                ''
+            );
+            return $config->default->fossils;
+        }
+        return $_COOKIE['treeExtinct'];
     }
 }

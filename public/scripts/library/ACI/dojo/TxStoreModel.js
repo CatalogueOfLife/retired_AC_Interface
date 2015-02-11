@@ -11,7 +11,8 @@ dojo.declare('ACI.dojo.TxStoreModel', dijit.tree.ForestStoreModel, {
         }
         this.store.fetch( {
             query : {
-                id : parentId
+                id : parentId,
+                hash: treeHash
             },
             onComplete : complete_cb,
             onError : error_cb
