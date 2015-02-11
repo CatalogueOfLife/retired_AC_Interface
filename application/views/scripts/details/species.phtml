@@ -18,7 +18,7 @@ var regions = [<?php echo $this->regions; ?>];
 </script>
 
 <h1 class="page_header">
-<?php printf($this->title . ' :: ' . $this->species->name, '"' . $this->key . '"') ?>
+<?php printf($this->title . ' : ' . $this->species->name, '"' . $this->key . '"') ?>
 </h1>
 <?php
 if ($this->species instanceof ACI_Model_Table_Taxa):
