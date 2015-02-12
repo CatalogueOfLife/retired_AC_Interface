@@ -242,4 +242,23 @@ abstract class AController extends Zend_Controller_Action
         }
         return $_COOKIE[$name];
     }
+
+    protected function _getTreeExtinct ()
+    {
+        if (isset($_SESSION['treeExtinct'])) {
+            return $_SESSION['treeExtinct'];
+        } else if (isset($_COOKIE['treeExtinct'])) {
+            return $_COOKIE['treeExtinct'];
+        }
+        $config = Zend_Registry::get('config');
+        return $config->default->fossils;
+    }
+
+    protected function _switchTreeExtinct ()
+    {
+        $newValue = $this->_getTreeExtinct() == 0 ? 1 : 0;
+        $_SESSION['treeExtinct'] = $newValue;
+        setcookie('treeExtinct', $newValue, time() + $this->_cookieExpiration, '/', '');
+        return $newValue;
+    }
 }

@@ -145,16 +145,11 @@ function showOrHideExtinct (reload) {
 	if (typeof reload == 'undefined') {
 		reload = true;
 	}
-//alert(readCookie('treeExtinct'));
-	var newValue = readCookie('treeExtinct') == '0' ? '1' : '0';
-//alert(newValue);
-	setCookie('treeExtinct', newValue, cookieExpiration);
-
+	switchTreeExtinct();
 	if (reload) {
 		window.location.reload();
 	}
 }
-
 
 function setCookie (c_name, value, exdays) {
 	if (typeof exdays == 'undefined') {
@@ -211,6 +206,18 @@ function sendComment() {
 	    load: function(result) {
 	        alert(result);
 	        closePanel(form.taxaId.value);
+	    }
+	});
+}
+
+function switchTreeExtinct () {
+	dojo.xhrGet({
+	    url: baseUrl + "/ajax/session/name/treeExtinct/",
+	    preventCache: true,
+	    handleAs: "json",
+	    load: function(response) {
+	    	//alert(response);
+	    	treeExtinct = response;
 	    }
 	});
 }

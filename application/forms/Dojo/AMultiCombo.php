@@ -81,7 +81,7 @@ abstract class ACI_Form_Dojo_AMultiCombo extends ACI_Form_Dojo_Abstract
             // Tried to solve ACI-612 but didn't really work yet
             // Cookie isn't read properly; initialisation problem?
             $fossil = $this->createElement('CheckBox', 'fossil')
-                ->setChecked($this->_getOrSetCookie('treeExtinct', $config->default->fossils))
+                ->setChecked($this->_getTreeExtinct())
                 ->setLabel('Include_extinct_taxa')
                 ->setAttribs(array(
                     'onClick' => 'showOrHideExtinct(false)')

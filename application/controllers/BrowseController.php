@@ -52,8 +52,7 @@ class BrowseController extends AController
         // Check if extinct taxa should be included in tree
         $this->view->fossilsModuleEnabled = $this->_moduleEnabled('fossils');
         if ($this->_moduleEnabled('fossils')) {
-            $this->view->showExtinctInTreeSelected = $this->_extinctInTree =
-                $this->_getOrSetCookie('treeExtinct');
+            $this->view->showExtinctInTreeSelected = $this->_getTreeExtinct();
         }
         // Check if thumbnails should be displayed
         $iconInTreeModuleEnabled = $this->_moduleEnabled('icons_browse_tree');

@@ -17,7 +17,7 @@ abstract class ACI_Form_Dojo_Abstract extends Zend_Dojo_Form
     {
         return Bootstrap::instance()->getOption('module.' . $module);
     }
-
+/*
     protected function _getCookie ($name, $default = 0)
     {
         return isset($_COOKIE[$name]) ? $_COOKIE[$name] : $default;
@@ -37,5 +37,16 @@ abstract class ACI_Form_Dojo_Abstract extends Zend_Dojo_Form
             return $config->default->fossils;
         }
         return $_COOKIE[$name];
+    }
+*/
+    protected function _getTreeExtinct ()
+    {
+        if (isset($_SESSION['treeExtinct'])) {
+            return $_SESSION['treeExtinct'];
+        } else if (isset($_COOKIE['treeExtinct'])) {
+            return $_COOKIE['treeExtinct'];
+        }
+        $config = Zend_Registry::get('config');
+        return $config->default->fossils;
     }
 }

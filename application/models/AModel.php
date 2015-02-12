@@ -20,7 +20,7 @@ abstract class AModel
     {
         $this->_db = $dbAdapter;
         $this->_logger = Zend_Registry::get('logger');
-        $this->_includeExtinct = $this->_setIncludeExtinct();
+        $this->_includeExtinct = $this->_getTreeExtinct();
     }
 
     public function getFoundRows()
@@ -94,18 +94,14 @@ abstract class AModel
         return implode("$a ", explode(" ", $s)) . "$a";
     }
 
-    protected function _setIncludeExtinct ()
+    protected function _getTreeExtinct ()
     {
-        $config = Zend_Registry::get('config');
-        if (!isset($_COOKIE['treeExtinct']) || $_COOKIE['treeExtinct'] === false) {
-            setcookie(
-                'treeExtinct',
-                $config->default->fossils, time() + $config->advanced->cookie_expiration,
-                '/',
-                ''
-            );
-            return $config->default->fossils;
+        if (isset($_SESSION['treeExtinct'])) {
+            return $_SESSION['treeExtinct'];
+        } else if (isset($_COOKIE['treeExtinct'])) {
+            return $_COOKIE['treeExtinct'];
         }
-        return $_COOKIE['treeExtinct'];
+        $config = Zend_Registry::get('config');
+        return $config->default->fossils;
     }
 }

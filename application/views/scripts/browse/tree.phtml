@@ -13,10 +13,15 @@
 ?>
 <h1 class="page_header"><?php echo $this->translate('Browse_taxonomic_tree'); ?></h1>
 
-
-
 <script type="text/javascript">
 var showCommentFeedback = <?php echo ($this->feedbackModuleEnabled ? 1 : 0) ?>;
+var hierarchy = new Array(<?php echo $this->hierarchy; ?>);
+var jsFeedbackUrl = "<?php echo $this->jsFeedbackUrl; ?>";
+var treeHash = "<?php echo $this->hash; ?>";
+<?php if($this->fossilsModuleEnabled): ?>
+var treeExtinct = <?php echo $this->showExtinctInTreeSelected; ?>;
+<?php endif; ?>
+<?php echo $this->jsTranslation; ?>
 </script>
 
 <?php if($this->statisticsModuleEnabled || $this->iconsInTreeModuleEnabled || $this->fossilsInTreeModuleEnabled): ?>
@@ -37,13 +42,6 @@ var showCommentFeedback = <?php echo ($this->feedbackModuleEnabled ? 1 : 0) ?>;
 <?php endif; ?>
 </div>
 <?php endif; ?>
-<script type="text/javascript">
-var baseUrl = "<?php echo $this->baseUrl(); ?>";
-var hierarchy = new Array(<?php echo $this->hierarchy; ?>);
-<?php echo $this->jsTranslation; ?>
-var jsFeedbackUrl = "<?php echo $this->jsFeedbackUrl; ?>";
-var treeHash = "<?php echo $this->hash; ?>";
-</script>
 <script type="text/javascript">
 dojo.require("dijit.TooltipDialog");
 var dialog;
