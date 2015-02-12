@@ -78,10 +78,8 @@ class BrowseController extends AController
         $id = false;
         $species = $this->_getParam('species', false);
         if ($species) {
-            //$id = $this->_getTaxaFromSpeciesId($species);
-            $id = $species;
-        }
-        else {
+            (int)$this->getHelper('DataFormatter')->naturalKeyToId($species);
+        } else {
             $id = (int)$this->getHelper('DataFormatter')->naturalKeyToId($this->_getParam('id', false));
         }
         $this->_persistTree($id);

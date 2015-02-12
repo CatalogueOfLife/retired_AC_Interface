@@ -124,8 +124,7 @@ class DetailsController extends AController
             }
             if ($detailsModel->species($id, $fromType, $fromId)) {
                 $speciesDetails = $this->getHelper('DataFormatter')->formatSpeciesDetails(
-                    $detailsModel->species($id, $fromType,
-                        $fromId));
+                    $detailsModel->species($id, $fromType, $fromId));
             }
         }
 		$title = $speciesDetails && $speciesDetails->infra_id != '' ? 'Infraspecies_details' : 'Species_details';
@@ -136,6 +135,7 @@ class DetailsController extends AController
         $this->_logger->debug($speciesDetails);
         $this->view->jsTranslation = $this->_createJsTranslationArray($this->_jsTreeTranslation);
         $this->view->species = $speciesDetails;
+        $this->view->naturalKey = $this->_getParam('id');
         $this->view->source = $source;
         $this->view->creditsModuleEnabled = $this->_moduleEnabled('credits');
         $this->view->indicatorsModuleEnabled = $this->_moduleEnabled('indicators');
