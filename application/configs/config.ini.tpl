@@ -37,12 +37,12 @@ language.th = 1                 ; Thai
 language.vi = 1                 ; Vietnamese
 
 ; Sort languages (alphabetically = 1; maintain order as above = 0)
-language_menu.sort = 1
+language_menu.sort = 0
 
 ; Batch 2 modules (on = 1, off = 0)
 module.fuzzy_search = 0         ; Enable fuzzy search functionality
 
-module.feedback = 1             ; Enable feedbackservice
+module.feedback = 0             ; Enable feedbackservice
 ; Fill in the location of the feedbackservice
 module.feedbackUrl = ""
 
@@ -62,14 +62,14 @@ advanced.cookie_expiration = 1209600
 advanced.webservice_timeout = 5
 
 ; Batch 3 modules (on = 1, off =0)
-module.map_search = 1           ; Enables searching by map instead of by text
-module.map_species_details = 1  ; Enables map with distribution data on species details page
-module.map_browse_tree = 1      ; Enables map with distribution data in the taxonomic tree
-module.icons_browse_tree = 1    ; Enables taxonomic rank icons in the taxonomic tree
+module.map_search = 0           ; Enables searching by map instead of by text
+module.map_species_details = 0  ; Enables map with distribution data on species details page
+module.map_browse_tree = 0      ; Enables map with distribution data in the taxonomic tree
+module.icons_browse_tree = 0    ; Enables taxonomic rank icons in the taxonomic tree
 
 ; Use natural keys (natural keys = 1, internal, ever-changing ids = 0)
 module.natural_keys = 1;
 
 ; Fossils
-module.fossils = 1;             ; Enables inclusion of fossil datamodule.fossils = 1
+module.fossils = 0;             ; Enables inclusion of fossil datamodule.fossils = 1
 default.fossils = 0             ; Include extinct taxa by default (0 = off, 1 = on)
