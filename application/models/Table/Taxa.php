@@ -269,9 +269,12 @@ class ACI_Model_Table_Taxa
                 return $this->name;
                 break;
             case 'taxaFullName':
-                $this->taxaFullName = self::getTaxaFullName($this->taxaName,
-                    $this->taxaStatus, $this->taxaAuthor,
-                    $this->taxaLanguage);
+                $this->taxaFullName = self::getTaxaFullName(
+                    $this->taxaName,
+                    $this->taxaStatus,
+                    $this->taxaAuthor,
+                    $this->taxaLanguage
+                );
                 return $this->taxaFullName;
                 break;
         }
@@ -350,15 +353,6 @@ class ACI_Model_Table_Taxa
         }
         return $name;
     }
-
-    /*    private function _getPrefaceName () {
-        $name = $this->genus . ' ' . $this->species;
-        if($this->kingdom != 'animalia' && $this->infraspecific_marker != '') {
-            $name .= ' ' . $this->infraspecific_marker;
-        }
-            $name .= ' ' . $this->infra;
-        return $name;
-    }*/
 
     public static function getInfraSpecificMarker ($rank)
     {

@@ -202,6 +202,7 @@ class SearchController extends AController
     }
 
     private function _cleanSearchString($str) {
+    	return $str;
     	$find = array(
     		'(',
     		')',

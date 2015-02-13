@@ -35,6 +35,7 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
         }
         var type = this.tree.model.store.getValue(this.item, 'type');
         var rankName = this.tree.model.store.getValue(this.item, 'rank');
+        var isExtinct = this.tree.model.store.getValue(this.item, 'is_extinct') == 1;
         //Checks if the checkbox showGSDCheckbox and showStatisticsCheckbox both exist.
         //If not, the module is most likely disabled.
         if(dojo.byId('showGSDCheckbox') && dojo.byId('showStatisticsCheckbox')) {
@@ -93,7 +94,7 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
         }
 
         if (this.tree.model.store.getValue(this.item, 'url') == null) {
-            if (this.tree.model.store.getValue(this.item, 'is_extinct') == 1) {
+            if (isExtinct) {
             	var dagger = dojo.doc.createElement('span');
             	dagger.className = 'dagger';
             	dagger.appendChild(dojo.doc.createTextNode("\u2020"));
@@ -122,14 +123,14 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
 
         } else {
             var leaf = dojo.doc.createElement('span');
-            if (this.tree.model.store.getValue(this.item, 'is_extinct') == 1) {
-            	//this.labelNode.appendChild(dojo.doc.createTextNode("\u2020 "));
+            if (isExtinct) {
             	var dagger = dojo.doc.createElement('span');
             	dagger.className = 'dagger';
+            	//dagger.attr("title", "Extinct");
             	dagger.appendChild(dojo.doc.createTextNode("\u2020"));
             	leaf.appendChild(dagger);
             }
-            leaf.className = 'leaf';
+            leaf.className = 'leaf' + (isExtinct ? ' extinct' : '');
             leaf.id = 'sn-' + this.tree.model.store.getValue(this.item, 'id');
             var a = dojo.doc.createElement('a');
             a.href = this.tree.model.store.getValue(this.item, 'url');

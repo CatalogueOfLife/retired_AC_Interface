@@ -109,16 +109,19 @@ class ACI_Model_Details extends AModel
             case 'taxa':
                 $extraFields = array(
                     'taxa_id' => 'sn.id',
-                    'taxa_name' => 'CONCAT(snen_g.name_element,'.
-                        'IF(snen_sg.name_element IS NOT NULL,'.
-                            'CONCAT(" ",snen_sg.name_element),""'.
-                        ')," ",snen_s.name_element,'.
-                        'IF(snen_ss.name_element IS NOT NULL,CONCAT('.
-                'IF(kingdom_name != "animalia" AND tr.marker_displayed IS NOT NULL,
-                   CONCAT(" ",tr.marker_displayed),""),'.
-                            '" ",snen_ss.name_element'.
-                        '),"")'.
-                    ')',
+                    'taxa_name' => 'CONCAT(snen_g.name_element,
+                        IF(snen_sg.name_element IS NOT NULL,
+                            CONCAT(" (",
+                                CONCAT(UCASE(SUBSTRING(snen_sg.name_element, 1, 1)),LOWER(SUBSTRING(snen_sg.name_element, 2))),
+                            ")"),""),
+                        " ",
+                        snen_s.name_element,
+                        IF(snen_ss.name_element IS NOT NULL,CONCAT(
+                            IF(kingdom_name != "animalia" AND tr.marker_displayed IS NOT NULL,
+                                CONCAT(" ",tr.marker_displayed),""),
+                            " ",snen_ss.name_element
+                        ),"")
+                    )',
                     'taxa_author' => 'ass.string',
                     'taxa_status' => 'sn.scientific_name_status_id'
                 );
@@ -561,45 +564,6 @@ class ACI_Model_Details extends AModel
         return $synonyms;
     }
 
-/*    public function synonyms($taxon_id)
-    {
-        $select = new Zend_Db_Select($this->_db);
-        $select->distinct()
-        ->from(
-            array('sa' => '_search_all'),
-            array(
-                'id' => 'sa.id',
-                'name_code' => 'sa.id',
-                'status' => 'sa.name_status',
-                'name' => 'sa.name',
-                'author' => 'sa.name_suffix',
-                'num_references' => '(SELECT COUNT(*) FROM
-                    reference_to_synonym WHERE synonym_id = sa.id)',
-                'rank' => 'sa.rank'
-            )
-        )->where(
-            'sa.accepted_taxon_id = ?AND
-            sa.name_status != '.ACI_Model_Table_Taxa::STATUS_COMMON_NAME
-         )
-        ->group('sa.id')
-        ->order(array('name'));
-
-        $select->bind(array($taxon_id));
-
-        $synonyms = $select->query()->fetchAll();
-
-        foreach ($synonyms as &$synonym) {
-            $synonym['name'] = ACI_Model_Table_Taxa::getTaxaFullName($synonym['name'],
-                    $synonym['status'], $synonym['author'], '');
-            $synonym['status'] =
-                ACI_Model_Table_Taxa::getStatusString(
-                    $synonym['status'], false
-                );
-        }
-
-        return $synonyms;
-    }
-*/
     /**
      * Gets the list of common names of a species and their details
      *
@@ -952,7 +916,7 @@ class ACI_Model_Details extends AModel
 
     public function getSynonymName($id)
     {
-        $select = new Zend_Db_Select($this->_db);
+       $select = new Zend_Db_Select($this->_db);
         $select->from(
             array('sa' => '_search_all'),
             array(

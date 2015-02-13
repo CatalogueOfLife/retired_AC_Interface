@@ -314,7 +314,7 @@ class ACI_Model_Search extends AModel
         return $this->_db->select()->union(
                 array(
                     $this->_selectTaxa(
-                        $searchKey, $matchWholeWords, $fossil
+                        $this->_cleanSearchAllString($searchKey), $matchWholeWords, $fossil
                     )->reset('order')/*,
                     $this->_selectCommonNames(
                         $searchKey, $matchWholeWords
@@ -877,7 +877,7 @@ class ACI_Model_Search extends AModel
             $select = empty($key) ?
                 // No other fields have been filled in
                 $this->_getTaxaNameQuery($rank, $qSubstr, $orderSubstr) :
-                // At least another filed has been filled in - must use it as a
+                // At least another field has been filled in - must use it as a
                 // filter
                 $this->_getTaxaNameFilteredQuery(
                     $rank, $qSubstr, $orderSubstr, $key
@@ -980,32 +980,6 @@ class ACI_Model_Search extends AModel
             "`$rank` LIKE \"" . $str . "%\""
         )->order($rank);
 
-        // Search for higher taxa in families
-/*        if ($this->stringRefersToHigherTaxa($rank)) {
-            $select->distinct()
-               ->from(array('families'), array('name' => $rank))
-               ->where(
-                   "`$rank` NOT IN('', 'Not assigned') AND " .
-                   "is_accepted_name = 1 AND " .
-                   "`$rank` LIKE \"" . $qStr . "\""
-               )
-               ->order(
-                   array(new Zend_Db_Expr("INSTR(`$rank`, \"$str\")"), $rank)
-               );
-        } else { // Search for species in hard_coded_taxon_lists
-            $select->distinct()
-               ->from(array('hard_coded_taxon_lists'), array('name'))
-               ->where('rank = ?', $rank)
-               ->where('name LIKE "' . $qStr . '"')
-               ->where('accepted_names_only = 1')
-               ->order(
-                   array(
-                       new Zend_Db_Expr('INSTR(name, "' . $str . '")'),
-                       'name'
-                   )
-               )
-               ->limit(self::API_ROWSET_LIMIT + 1);
-        }*/
         return $select;
     }
 
@@ -1252,4 +1226,15 @@ class ACI_Model_Search extends AModel
             return str_replace('%', '.*', $searchString);
         }
     }
+
+    private function _cleanSearchAllString($str) {
+    	$find = array(
+    		'(',
+    		')',
+    		'"',
+    		"'"
+    	);
+    	return str_replace($find, '', $str);
+    }
+
 }
