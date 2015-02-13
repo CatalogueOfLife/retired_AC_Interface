@@ -30,25 +30,30 @@ class ACI_Model_Info extends AModel
             $columMap[$columName] : null;
     }
 
-    public function getSourceDatabases($order =  'source', $direction = 'asc')
+    public function getSourceDatabases($order = 'source', $direction = 'asc')
     {
+        $sortOrder = $this->getRightColumnName($order);
+        $numberOfSpecies = 'number_of_species';
+        // Ruud 13-02-15: subtract extinct species if fossils has been disabled
+        if (!$this->_moduleEnabled('fossils')) {
+            $numberOfSpecies = '(number_of_species - number_of_extinct_species)';
+            $sortOrder = ($sortOrder == 'number_of_species') ? $numberOfSpecies : $sortOrder;
+        }
+
         $select = new Zend_Db_Select($this->_db);
         $select->from(
-            array('dsdd' => '_source_database_details'),
+            '_source_database_details',
             array(
-                'id' => 'dsdd.id',
-                'name' => 'dsdd.full_name',
-                'abbreviation' => 'dsdd.short_name',
-                'taxa' => 'dsdd.english_name',
-                'total_species' => 'dsdd.number_of_species',
-                'is_new' => 'dsdd.is_new'
+                'id' => 'id',
+                'name' => 'full_name',
+                'abbreviation' => 'short_name',
+                'taxa' => 'english_name',
+                'total_species' => $numberOfSpecies,
+                'is_new' => 'is_new'
             )
         )
         ->order(
-            array(
-                'dsdd.' . $this->getRightColumnName($order) . ' ' .
-                    strtoupper($direction)
-            )
+            array($sortOrder . ' ' . strtoupper($direction))
         );
         $res = $select->query()->fetchAll();
         $total = count($res);
