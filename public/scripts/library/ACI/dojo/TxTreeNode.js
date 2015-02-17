@@ -563,10 +563,6 @@ function createCommentPanelContents(treeNode) {
 	addOption('additional_information',translate('additional_information'),type);
 	addOption('wrong_branch',translate('wrong_branch'),type);
 
-	/*var comment = dojo.doc.createElement('span');
-	comment.className = 'commentPanelLabel';
-	comment.appendChild(dojo.doc.createTextNode('comment:'));*/
-
 	var name = dojo.doc.createElement('input');
 	name.id = 'commentName';
 	name.type = 'text';

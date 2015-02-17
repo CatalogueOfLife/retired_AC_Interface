@@ -146,7 +146,6 @@ function showOrHideExtinct (reload) {
 		reload = true;
 	}
 	switchTreeExtinct();
-	//alert(treeExtinct);
 	if (reload) {
 		window.location.reload();
 	}
