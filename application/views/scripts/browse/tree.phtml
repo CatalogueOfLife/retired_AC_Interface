@@ -18,9 +18,6 @@ var showCommentFeedback = <?php echo ($this->feedbackModuleEnabled ? 1 : 0) ?>;
 var hierarchy = new Array(<?php echo $this->hierarchy; ?>);
 var jsFeedbackUrl = "<?php echo $this->jsFeedbackUrl; ?>";
 var treeHash = "<?php echo $this->hash; ?>";
-<?php if($this->fossilsModuleEnabled): ?>
-var treeExtinct = <?php echo $this->showExtinctInTreeSelected; ?>;
-<?php endif; ?>
 <?php echo $this->jsTranslation; ?>
 </script>
 

@@ -146,6 +146,7 @@ function showOrHideExtinct (reload) {
 		reload = true;
 	}
 	switchTreeExtinct();
+	//alert(treeExtinct);
 	if (reload) {
 		window.location.reload();
 	}
@@ -215,9 +216,6 @@ function switchTreeExtinct () {
 	    url: baseUrl + "/ajax/session/name/treeExtinct/",
 	    preventCache: true,
 	    handleAs: "json",
-	    load: function(response) {
-	    	//alert(response);
-	    	treeExtinct = response;
-	    }
+	    sync: true
 	});
 }
