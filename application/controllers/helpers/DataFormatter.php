@@ -390,10 +390,11 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         } else {
             $speciesDetails->lifezones = $textDecorator->getEmptyField();
         }
-
         if ($speciesDetails->is_extinct == 1) {
-            if ($speciesDetails->has_preholocene == 1 || $speciesDetails->has_modern == 1) {
-                $speciesDetails->fossil = $translator->translate('This_extinct_species_is_known_to exist_during_the') . ' ';
+            // Ruud 17-02-15: prettier text, let's hope it will return
+ /*
+  *         if ($speciesDetails->has_preholocene == 1 || $speciesDetails->has_modern == 1) {
+                $speciesDetails->fossil = $translator->translate('This_extinct_species_is_known_to exist_during') . ' ';
                 if ($speciesDetails->has_preholocene == 1) {
                     $speciesDetails->fossil .= 'pre-Holocene (< 11.700 BC)';
                 }
@@ -406,6 +407,26 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             } else {
                 $speciesDetails->fossil = $translator->translate('This_is_an_extinct_species');
             }
+
+           // Yuri:
+            $speciesDetails->fossil = $translator->translate('is_extinct') . ': yes; ' .
+            $translator->translate('has_preholocene') . ': ' .
+            ($speciesDetails->has_preholocene == 1 ?
+                $translator->translate('y') :
+                $translator->translate('n')) . '; ' .
+            $translator->translate('has_modern') . ': ' .
+            ($speciesDetails->has_modern == 1 ?
+                $translator->translate('y') :
+                $translator->translate('n'));
+  */
+
+            // Wouter
+            $speciesDetails->fossil = $translator->translate('known_extinct') . '<br>';
+            $speciesDetails->fossil .= ($speciesDetails->has_preholocene == 1 ?
+                $translator->translate('fossil') : $translator->translate('not_fossil'));
+            $speciesDetails->fossil .= '<br>';
+            $speciesDetails->fossil .= ($speciesDetails->has_modern == 1 ?
+                $translator->translate('modern') : $translator->translate('not_modern'));
         }
 
         return $speciesDetails;
