@@ -1128,12 +1128,13 @@ li:hover ul,li.over ul {
 }
 
 #footer {
-	width: 440px;
+	width: 475px;
 	line-height: 20px;
 	text-align: left;
 	margin-top: 20px;
 	padding: 0;
 	color: #666;
+	line-height: 15px;
 }
 
 #footer a {
