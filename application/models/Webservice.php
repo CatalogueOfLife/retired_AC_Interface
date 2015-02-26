@@ -126,8 +126,17 @@ class ACI_Model_Webservice extends AModel
             throw new ACI_Model_Webservice_Exception(
                 'Invalid ID given. The ID must be a positive integer'
             );
+        }*/
+
+        // length of natural key must be 32 characters
+        $positiveIntId = Zend_Validate::is($this->_naturalKey, 'Digits') &&
+            $this->_naturalKey >= 0;
+        if ($this->_naturalKey != '' && strlen($this->_naturalKey) != 32 && !$positiveIntId) {
+            throw new ACI_Model_Webservice_Exception(
+                'Invalid ID given. The ID must be a positive integer or a 32-character string'
+            );
         }
-        */
+
         // response param (if set) must be one of the keys of the defined
         // $this->_responseLimits
         if (!array_key_exists($responseFormat, $this->_responseLimits)) {
