@@ -399,7 +399,7 @@ class ACI_Model_Webservice extends AModel
             );
             $syn['references'] = $this->_getReferences($syn['id']);
             unset($syn['rank_id'], $syn['status'], $syn['source_database_id'],
-                $syn['distribution']);
+                $syn['distribution'], $syn['sn_id']);
         }
         return $synonyms;
     }
