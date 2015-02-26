@@ -14,7 +14,7 @@
 <?php echo $this->doctype();?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language ?>" lang="<?php echo $this->language ?>">
 <head>
-
+<meta http-equiv="X-UA-Compatible" content="IE=8">
 
 <?php
     echo $this->headMeta();
@@ -48,7 +48,7 @@
         );
     }
     echo $this->headScript();
-    ?>
+?>
 
 
 <?php if($this->mapModuleEnabled == true || $this->mapInTreeModuleEnabled == true || $this->mapSearchModuleEnabled == true ): ?>
