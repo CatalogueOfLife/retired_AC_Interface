@@ -119,6 +119,7 @@ class ACI_Model_Webservice extends AModel
             );
         }
         // id must be a valid positive integer
+        /*
         $positiveIntId = Zend_Validate::is($this->_response['id'], 'Digits') &&
             $this->_response['id'] >= 0;
         if ($this->_response['id'] != '' && !$positiveIntId) {
@@ -126,6 +127,7 @@ class ACI_Model_Webservice extends AModel
                 'Invalid ID given. The ID must be a positive integer'
             );
         }
+        */
         // response param (if set) must be one of the keys of the defined
         // $this->_responseLimits
         if (!array_key_exists($responseFormat, $this->_responseLimits)) {
