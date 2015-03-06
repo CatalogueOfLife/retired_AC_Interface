@@ -15,11 +15,16 @@
 <?php printf($this->translate('Source_databases'), '"' . $this->key . '"')?>
 </h1>
 <?php echo $this->navigator_top; ?>
-
-
-
-
 <div class="info_content">
+
+
+
+
+
+
+
+
+
 <p>The data in current edition of the Catalogue of Life have
 been provided by <?php echo $this->stats['databases']-1; ?> databases.
 Most datasets include one or more global
@@ -101,8 +106,14 @@ $rowClass = "odd";
     <?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
     <?php endforeach; ?>
 </table>
+
+
+
+
+
+
+
+
+
 </div>
-
-
-
 <?php echo $this->navigator_bottom; ?>

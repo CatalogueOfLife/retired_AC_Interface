@@ -14,10 +14,16 @@
 <h1 class="page_header">
 <?php echo $this->translate('Species_totals') ?>
 </h1>
-<?php
-echo $this->navigator_top;
-?>
+<?php echo $this->navigator_top; ?>
 <div class="info_content">
+
+
+
+
+
+
+
+
 <p>This table presents a known species tally for the phyla represented in the Catalogue of Life.
 It compares the actual number of accepted and provisionally accepted species in the Catalogue of Life
 and the estimated number of species recognised by taxonomists at present; hover over the book icon
@@ -29,7 +35,7 @@ to display the source used for the estimate. The last column displays the comple
     <?php $first ? $padding = '' : $padding = 'padded'; ?>
     <tr class="<?php echo $padding; ?>">
         <th><?php echo $this->translate('Taxon'); ?></th>
-        <th class="number"><?php echo $this->translate('Actual_number_living_in_CoL'); ?></th>
+        <th class="number"><?php echo $this->translate('Actual_number_in_CoL'); ?></th>
         <th class="number"><?php echo $this->translate('Estimated_number'); ?></th>
         <th></th>
         <th class="number"><?php echo $this->translate('CoL_completeness'); ?></th>
@@ -66,6 +72,15 @@ to display the source used for the estimate. The last column displays the comple
     <?php $first = false; ?>
 <?php endforeach ?>
 </table>
+
+
+
+
+
+
+
+
+
 </div>
 <?php
 echo $this->navigator_bottom; ?>
