@@ -3,7 +3,7 @@ php_value session.auto_start 0
 AddDefaultCharset UTF-8
 
 RewriteEngine On
-RewriteBase /ac_latest
+RewriteBase /ac_latest/
 RewriteCond %{REQUEST_FILENAME} -s [OR]
 RewriteCond %{REQUEST_FILENAME} -l [OR]
 RewriteCond %{REQUEST_FILENAME} -d

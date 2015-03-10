@@ -620,7 +620,7 @@ class ACI_Model_Details extends AModel
     public function infraspecies($taxon_id, $kingdom = '')
     {
         $select = new Zend_Db_Select($this->_db);
-
+/*
         $select
         ->from(
             array('tne_s' => 'taxon_name_element'),
@@ -709,6 +709,63 @@ class ACI_Model_Details extends AModel
                 $this->idToNaturalKey($row['id']);
             $i++;
         }
+        return $infraspecies;
+*/
+
+        // Ruud 10-03-15: need to redo this because subgenus may or may not be present
+        // Use _taxon_tree and _species_details to collect infraspecies
+        $select
+        ->from(
+            array('_taxon_tree'),
+            array(
+                'id' => 'taxon_id',
+            )
+        )
+        ->where('parent_id = ?')
+        ->order(array('name'));
+        $select->bind(array($taxon_id));
+        $ids = $select->query()->fetchAll();
+
+        if (empty($ids)) {
+            return array();
+        }
+
+        foreach ($ids as $i => $d) {
+
+            $select = new Zend_Db_Select($this->_db);
+            $select
+            ->from(
+                array('_species_details'),
+                array(
+                    'kingdom' => 'kingdom_name',
+                    'genus' => 'genus_name',
+                    'subgenus' => 'subgenus_name',
+                    'species' => 'species_name',
+                    'infraspecies' => 'infraspecies_name',
+                    'infraspecific_marker' => 'infraspecific_marker',
+                    'author' => 'author'
+                )
+            )
+            ->where('taxon_id = ?');
+            $select->bind(array($d['id']));
+            $row = $select->query()->fetch();
+
+            $infraspecies[$i]['id'] = $d['id'];
+            $infraspecies[$i]['name'] =
+                ACI_Model_Table_Taxa::getAcceptedScientificName(
+                    $row['genus'],
+                    $row['subgenus'],
+                    $row['species'],
+                    $row['infraspecies'],
+                    '',
+                    $row['author'],
+                    $row['infraspecific_marker'],
+                    $row['kingdom']
+                );
+            $infraspecies[$i]['url'] = '/details/species/id/' .
+                $this->idToNaturalKey($d['id']);
+        }
+
         return $infraspecies;
     }
 

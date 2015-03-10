@@ -232,6 +232,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             (isset($speciesDetails->subgenus) && !empty($speciesDetails->subgenus) ?
                 ' ('.ucfirst($speciesDetails->subgenus).')' : '') .  ' ' .
             $speciesDetails->species .
+            (!empty($speciesDetails->infraspecific_marker) && strtolower($speciesDetails->kingdom) == 'plantae' ?
+                ' </i>'. $speciesDetails->infraspecific_marker . '<i>': '') .
             (isset($speciesDetails->infra) ? ' '. $speciesDetails->infra : '');
         $speciesDetails->name = $this->setFossilMarker(
             '<i>' . $name . '</i> ' .  $speciesDetails->author, (array) $speciesDetails);
@@ -356,10 +358,11 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
 
         if (empty($speciesDetails->scrutinyDate) && empty($speciesDetails->specialistName)) {
             $speciesDetails->latestScrutiny = $textDecorator->getEmptyField();
-            $speciesDetails->latestScrutiny = 'henk';
         } else {
             $speciesDetails->latestScrutiny = !empty($speciesDetails->specialistName) ?
-                $speciesDetails->specialistName . ', ' : '' . $speciesDetails->scrutinyDate;
+                $speciesDetails->specialistName : '';
+            $speciesDetails->latestScrutiny .= !empty($speciesDetails->scrutinyDate) ?
+                (!empty($speciesDetails->scrutinyDate) ? ', ' : '') . $speciesDetails->scrutinyDate : '';
         }
 
 
