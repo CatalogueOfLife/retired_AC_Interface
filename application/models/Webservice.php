@@ -561,6 +561,7 @@ class ACI_Model_Webservice extends AModel
     protected function _setError($message)
     {
         $this->_response['error_message'] = $message;
+        $this->_response['id'] = $this->_naturalKey;
     }
 
     protected function _setVersion()

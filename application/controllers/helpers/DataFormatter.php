@@ -362,7 +362,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $speciesDetails->latestScrutiny = !empty($speciesDetails->specialistName) ?
                 $speciesDetails->specialistName : '';
             $speciesDetails->latestScrutiny .= !empty($speciesDetails->scrutinyDate) ?
-                (!empty($speciesDetails->scrutinyDate) ? ', ' : '') . $speciesDetails->scrutinyDate : '';
+                (!empty($speciesDetails->specialistName) ? ', ' : '') . $speciesDetails->scrutinyDate : '';
         }
 
 

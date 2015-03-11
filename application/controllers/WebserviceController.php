@@ -43,6 +43,10 @@ class WebserviceController extends AController
                 $this->view->layout()->disableLayout();
                 $filter = new Eti_Filter_Serialize();
                 break;
+            case 'json':
+                $this->view->layout()->disableLayout();
+                $filter = new Eti_Filter_JsonEncode();
+                break;
             default:
                 // default context and output filter (XML)
                 $this->getRequest()->setParam('format', 'xml');

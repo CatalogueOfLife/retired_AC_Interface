@@ -67,6 +67,12 @@ class ACI_Model_WebserviceSearch extends AModel
                 $select->where('tst.`name` LIKE "' . $searchKey . '"');
             }
         }
+
+        // Disable fossil search if module is switched off
+        if ($this->_moduleEnabled('fossils') == 0) {
+            $select->where('tst.`is_extinct` = 0');
+        }
+
         $select->order(
             array(
                 new Zend_Db_Expr('sort_order'),
@@ -235,7 +241,14 @@ class ACI_Model_WebserviceSearch extends AModel
             array()
         )->where(
             'tt.parent_id = ?', $id
-        )->order(
+        );
+
+        // Disable fossil search if module is switched off
+        if ($this->_moduleEnabled('fossils') == 0) {
+            $select->where('tst.`is_extinct` = 0');
+        }
+
+        $select->order(
             'tt.name'
         );
         $res = $select->query()->fetchAll();
