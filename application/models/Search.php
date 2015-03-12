@@ -1087,9 +1087,13 @@ class ACI_Model_Search extends AModel
                 'name' => 'ttt.name',
                 'type' => 'ttt.rank',
                 'parentId' => 'ttt.parent_id',
-                'numChildren' => 'ttt.number_of_children',
+                'numChildren' => ($this->_includeExtinct == 0 ?
+                    'ttt.number_of_children_extant' :
+                    'ttt.number_of_children'),
             	'estimation' => 'ttt.total_species_estimation',
-            	'total' => 'ttt.total_species',
+            	'total' => ($this->_includeExtinct == 0 ?
+                    'ttt.total_species_extant' :
+                    'ttt.total_species'),
                 'estimate_source' => 'ttt.estimate_source',
                 'is_extinct' => 'ttt.is_extinct'
             )
