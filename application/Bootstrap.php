@@ -82,7 +82,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $view->encoding = $config->resources->view->encoding;
         $view->setEncoding($view->encoding);
         $view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=' . $view->encoding);
-        $view->headTitle('Catalogue of Life - ' . $config->eti->application->edition . ' Annual Checklist');
+        $view->headTitle('Catalogue of Life - ' . $config->eti->application->edition);
         $view->headTitle()->setSeparator(' : ');
         // Also pass currentLanguage to viewer
         $view->language = $this->_getCurrentLanguage();
