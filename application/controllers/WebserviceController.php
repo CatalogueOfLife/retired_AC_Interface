@@ -45,6 +45,7 @@ class WebserviceController extends AController
                 break;
             case 'json':
                 $this->view->layout()->disableLayout();
+                $this->getResponse()->setHeader('Content-Type', 'application/json');
                 $filter = new Eti_Filter_JsonEncode();
                 break;
             default:
