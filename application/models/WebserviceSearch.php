@@ -245,7 +245,7 @@ class ACI_Model_WebserviceSearch extends AModel
 
         // Disable fossil search if module is switched off
         if ($this->_moduleEnabled('fossils') == 0) {
-            $select->where('tst.`is_extinct` = 0');
+            $select->where('tt.`is_extinct` = 0');
         }
 
         $select->order(
