@@ -28,6 +28,7 @@ class Eti_Filter_JsonEncode implements Zend_Filter_Interface
         if (!is_array($value)) {
             throw new Zend_Filter_Exception('Given value is not an array');
         }
+
         return json_encode($value);
     }
 }

@@ -18,6 +18,102 @@ class ACI_Model_WebserviceSearch extends AModel
     {
         $select = new Eti_Db_Select($this->_db);
 
+        $select
+        ->sqlCalcFoundRows()
+        ->from(
+            array('tst' => '_search_all'),
+            array(
+                'sn_id' => 'tst.accepted_taxon_id',
+                'record_id' => 'tst.id',
+                'parent_id' => new Zend_Db_Expr('""'),
+                'name' => 'tst.name',
+                'name_html' =>
+                    'IF(
+                        tst.name_status != '.ACI_Model_Table_Taxa::STATUS_COMMON_NAME.', '.
+                        'IF(
+                            tst.rank = "genus",
+                            CONCAT("<i>", tst.name, "</i>"),
+                            tst.name
+                        ), '.
+                        new Zend_Db_Expr('""').
+                    ')',
+                'status' => 'IF(tst.name_status = 0, ' .
+                    ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME .
+                    ', tst.name_status)',
+                'rank_id' => ACI_Model_Search::getRankDefinition(),
+                'rank' => 'tst.rank',
+                'source_database_id' => 'tst.source_database_id', // Fetch db full name and uri separately
+                'sort_order' => 'tst.name_status',
+                'is_extinct' => 'tst.is_extinct'
+            )
+        );
+        // by id
+        if (Zend_Validate::is($id, 'Digits')) {
+            if ($id == 0) {
+                $select->where('tst.`rank` = "kingdom"');
+            }
+            else {
+                $select->where('tst.`id` = ?', $id);
+            }
+        }
+        // by name
+        else {
+
+            $searchKey = ACI_Model_Search::wildcardHandling($name);
+            $column = (preg_match('/\s/', $searchKey) ? 'name' : 'name_element');
+            if ($column == 'name_element' || strstr($searchKey, '%')) {
+                $select->where(
+                    'tst.' . $column . ' ' . (strstr($searchKey, '%') ? 'LIKE' : '=') . ' ?',
+                    $searchKey
+                );
+            } else {
+                $name_elements = explode(' ', $searchKey);
+                $shortString = false;
+                foreach ($name_elements as $name_element) {
+                	if (strlen($name_element) < 3) {
+    		            $shortString = true;
+                	}
+                }
+            	if (!strstr($searchKey, '%') && !$shortString) {
+    	            $having = '';
+    	            foreach ($name_elements as $name_element){
+    	                $select->orWhere(
+    	                    'tst.name_element = ?',
+    	                    $name_element
+    	                );
+    	                $having .= ' AND `name` LIKE "%' . $name_element . '%"';
+    	            }
+            	} else {
+                    $select->where(
+    	                'tst.' . $column.' = "' . $searchKey . '"'
+    	            );
+    	        }
+            }
+        }
+        // Disable fossil search if module is switched off
+        if ($this->_moduleEnabled('fossils') == 0) {
+            $select->where('tst.`is_extinct` = 0');
+        }
+        $select->group(array('record_id'));
+        if (isset($having)) {
+            $select->having(
+                'COUNT(tst.id) >= ' . count($name_elements) . $having
+            );
+        }
+        $select->order(
+            array(
+                new Zend_Db_Expr('sort_order'),
+                new Zend_Db_Expr('LOWER(tst.name)')
+            )
+        )->limit($limit, $offset);
+        return $select->query()->fetchAll();
+    }
+
+/*
+    public function taxa($id, $name, $limit, $offset)
+    {
+        $select = new Eti_Db_Select($this->_db);
+
         $select->distinct()->sqlCalcFoundRows()->from(
             array('tst' => '_search_all'),
             array(
@@ -35,17 +131,14 @@ class ACI_Model_WebserviceSearch extends AModel
                         ), '.
                         new Zend_Db_Expr('""').
                     ')',
-                //'name_code' => new Zend_Db_Expr('""'),
                 'status' => 'IF(tst.name_status = 0, ' .
                     ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME .
                     ', tst.name_status)',
                 'rank_id' => ACI_Model_Search::getRankDefinition(),
                 'rank' => 'tst.rank',
-                //'language' => new Zend_Db_Expr('""'), // Fetch separately for common names only
-                //'country' => new Zend_Db_Expr('""'), // Fetch separately for common names only
                 'source_database_id' => 'tst.source_database_id', // Fetch db full name and uri separately
-                //'reference_id' => new Zend_Db_Expr(0),
-                'sort_order' => 'tst.name_status'
+                'sort_order' => 'tst.name_status',
+                'is_extinct' => 'tst.is_extinct'
             )
         );
         // by id
@@ -81,6 +174,7 @@ class ACI_Model_WebserviceSearch extends AModel
         )->limit($limit, $offset);
         return $select->query()->fetchAll();
     }
+*/
 
     public function _selectScientificName()
     {
@@ -110,9 +204,9 @@ class ACI_Model_WebserviceSearch extends AModel
                 'source_database_id' => 'ss.source_database_id', // Fetch db name and uri separately!
                 'record_scrutiny_date' => new Zend_Db_Expr('""'), // Fetch scrutiny separately!
                 'online_resource' => new Zend_Db_Expr('""') // Fetch taxon url separately!
-                )
-            );
-            return $select;
+            )
+        );
+        return $select;
     }
 
     public function scientificName($id, /*bool*/$acceptedName) {

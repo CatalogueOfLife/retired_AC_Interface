@@ -233,7 +233,6 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
         )
         ->bind(array($id));
         $rows = $this->fetchAll($select);
-        $rows = $this->fetchAll($select);
         $temp = array();
         foreach($rows as $row)
         {
