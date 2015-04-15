@@ -102,6 +102,9 @@ abstract class AModel
             return $_COOKIE['treeExtinct'];
         }
         $config = Zend_Registry::get('config');
-        return $config->default->fossils;
+        if ($config->module->fossils != 0) {
+            return $config->default->fossils;
+        }
+        return 0;
     }
 }

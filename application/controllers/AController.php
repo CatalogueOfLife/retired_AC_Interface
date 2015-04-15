@@ -17,6 +17,7 @@ abstract class AController extends Zend_Controller_Action
     // Advanced options from ini available as properties
     protected $_cookieExpiration;
     protected $_webserviceTimeout;
+    protected $_includeExtinct;
 
     public function init ()
     {
@@ -42,6 +43,7 @@ abstract class AController extends Zend_Controller_Action
         $this->view->cookieExpiration = $this->_cookieExpiration;
         $this->_webserviceTimeout = $this->_setWebserviceTimeout();
         $this->view->statisticsModuleEnabled = $this->_moduleEnabled('statistics');
+        $this->_includeExtinct = $this->_getTreeExtinct();
     }
 
     public function getDbAdapter ()
@@ -251,7 +253,10 @@ abstract class AController extends Zend_Controller_Action
             return $_COOKIE['treeExtinct'];
         }
         $config = Zend_Registry::get('config');
-        return $config->default->fossils;
+        if ($config->module->fossils != 0) {
+            return $config->default->fossils;
+        }
+        return 0;
     }
 
     protected function _switchTreeExtinct ()
