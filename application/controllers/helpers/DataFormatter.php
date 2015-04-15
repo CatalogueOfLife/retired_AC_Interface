@@ -426,10 +426,10 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             // Wouter
             $speciesDetails->fossil = $translator->translate('known_extinct') . '<br>';
             $speciesDetails->fossil .= ($speciesDetails->has_preholocene == 1 ?
-                $translator->translate('fossil') : $translator->translate('not_fossil'));
+                $translator->translate('fossil_legend') : $translator->translate('not_fossil_legend'));
             $speciesDetails->fossil .= '<br>';
             $speciesDetails->fossil .= ($speciesDetails->has_modern == 1 ?
-                $translator->translate('modern') : $translator->translate('not_modern'));
+                $translator->translate('modern_legend') : $translator->translate('not_modern_legend'));
   */
         }
 
