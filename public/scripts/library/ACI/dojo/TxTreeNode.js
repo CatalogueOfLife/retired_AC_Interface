@@ -94,21 +94,23 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
         }
 
         if (this.tree.model.store.getValue(this.item, 'url') == null) {
+            var rank = dojo.doc.createElement('span');
+            rank.className = 'rank';
+            rank.id = 'sn-' + this.tree.model.store.getValue(this.item, 'id');
+            rank.appendChild(dojo.doc.createTextNode(rankName + ' '));
+            this.labelNode.appendChild(rank);
             if (isExtinct) {
             	var dagger = dojo.doc.createElement('span');
             	dagger.className = 'dagger';
             	dagger.appendChild(dojo.doc.createTextNode("\u2020"));
             	this.labelNode.appendChild(dagger);
             }
-            var rank = dojo.doc.createElement('span');
-            rank.className = 'rank';
-            rank.id = 'sn-' + this.tree.model.store.getValue(this.item, 'id');
-            rank.appendChild(dojo.doc.createTextNode(rankName));
-            this.labelNode.appendChild(rank);
+
             var taxon = dojo.doc.createElement('span');
             taxon.className = 'nodeLabel node-' + type;
-            taxon.appendChild(dojo.doc.createTextNode(' ' + label));
+            taxon.appendChild(dojo.doc.createTextNode(label));
             this.labelNode.appendChild(taxon);
+
             //Checks if the checkbox exists (the checkbox is enabled by the module)
             if(dojo.byId('showGSDCheckbox')) {
             	if (this.tree.model.store.getValue(this.item, 'estimation') != 0 ||

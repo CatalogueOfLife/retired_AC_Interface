@@ -10,7 +10,7 @@ body {
 }
 
 body,table,p,div,ul {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family: Verdana, "DejaVu Sans", Arial, Helvetica, sans-serif;
 	font-size: 11px;
 	color: #000;
 }
@@ -327,42 +327,42 @@ img.thumbnail {
 }
 
 .formheader {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family: Verdana, "DejaVu Sans", Arial, Helvetica, sans-serif;
 	font-size: 11px;
 	color: #333366;
 	font-weight: bold;
 }
 
 .formheader1 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family: Verdana, "DejaVu Sans", Arial, Helvetica, sans-serif;
 	font-size: 13px;
 	color: #333366;
 	font-weight: bold;
 }
 
 .formheader2 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family: Verdana, "DejaVu Sans", Arial, Helvetica, sans-serif;
 	font-size: 11px;
 	color: #333366;
 	font-weight: italics;
 }
 
 .formheader3 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family: Verdana, "DejaVu Sans", Arial, Helvetica, sans-serif;
 	font-size: 11px;
 	color: #333366;
 	font-weight: bold;
 }
 
 .formheader4 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family: Verdana, "DejaVu Sans", Arial, Helvetica, sans-serif;
 	font-size: 11px;
 	color: #000000;
 	font-weight: normal;
 }
 
 .formheader5 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family: Verdana, "DejaVu Sans", Arial, Helvetica, sans-serif;
 	font-size: 11px;
 	color: #000000;
 	font-weight: normal;
@@ -1462,6 +1462,7 @@ table.panelTable tr td,table.panelTable tr th {
 }
 
 .dagger {
-	margin-right: 5px;
-	font-size: 14px;
+	margin-right: 4px;
+	font-size: 16px;
+	font-family: Garamond, Gerorgia, serif;
 }
