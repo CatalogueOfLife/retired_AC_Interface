@@ -742,7 +742,9 @@ class ACI_Model_Search extends AModel
                     'CONCAT(REPLACE(tst.source_database_name, " ", "_"), ".gif")',
                 'kingdom' => 'tst.group',
                 'status' => 'tst.name_status',
-                'fossil' => 'tst.is_extinct'
+                'fossil' => 'tst.is_extinct',
+                'has_modern' => 'tst.has_modern',
+                'has_preholocene' => 'tst.has_preholocene'
             )
         );
         $select->where(

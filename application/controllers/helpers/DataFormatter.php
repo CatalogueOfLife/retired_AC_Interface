@@ -20,6 +20,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         $textDecorator =
             $this->getActionController()->getHelper('TextDecorator');
         $it = $paginator->getIterator();
+
         unset($paginator);
         foreach ($it as $row) {
             if(!isset($row['rank'])) {
@@ -113,6 +114,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             );
 
             $res[$i]['group'] = ucfirst($row['kingdom']);
+            $res[$i]['tooltip'] = $this->_setToolTip($row);
 
             // Status + accepted name
             if ((isset($row['is_accepted_name']) && !$row['is_accepted_name']) ||
@@ -153,6 +155,24 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $i++;
          }
         return $res;
+    }
+
+    private function _setToolTip ($row) {
+        if (isset($row['is_extinct']) && $row['is_extinct'] == 1 ||
+            isset($row['fossil']) && $row['fossil'] == 1) {
+            $translator = Zend_Registry::get('Zend_Translate');
+            return ucfirst($translator->translate('is_extinct') . ': ' .
+                $translator->translate('y') . '; ' .
+                $translator->translate('has_preholocene') . ': ' .
+                ($row['has_preholocene'] == 1 ?
+                    $translator->translate('y') :
+                    $translator->translate('n')) . '; ' .
+                $translator->translate('has_modern') . ': ' .
+                ($row['has_modern'] == 1 ?
+                    $translator->translate('y') :
+                    $translator->translate('n')));
+        }
+        return '';
     }
 
     private function _getRank($row)

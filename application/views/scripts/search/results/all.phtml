@@ -48,7 +48,7 @@
 <?php foreach ($this->data as $row): ?>
     <tr class="<?php echo $rowClass; ?>">
         <td class="field_header_black">
-            <a href="<?php echo $this->baseUrl() . $row['url']; ?>">
+            <a href="<?php echo $this->baseUrl() . $row['url']; ?>" title="<?php echo $row['tooltip']; ?>">
                 <?php echo $row['name']; ?>
             </a>
         </td>
