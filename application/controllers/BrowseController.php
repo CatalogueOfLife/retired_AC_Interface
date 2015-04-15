@@ -44,7 +44,12 @@ class BrowseController extends AController
     	'All_fields_are_required',
     	'info_icon_title',
 		'feedback_icon_title',
-    	'map_icon_title'
+    	'map_icon_title',
+        'is_extinct',
+        'has_modern',
+        'has_preholocene',
+        'y',
+        'n'
     );
 
     public function treeAction ()

@@ -356,7 +356,6 @@ function showInfo(treeNode){
 
 function createInfoPanelContents(treeNode) {
 	var p = dojo.doc.createElement('p');
-
 	var closeButton = dojo.doc.createElement('span');
 	dojo.connect(closeButton, 'onclick', function(evt) {
     	closePanel(treeNode.i.id);
@@ -389,13 +388,16 @@ function createInfoPanelContents(treeNode) {
 	databaseLinks.appendChild(createDatabaseLinks(treeNode));
 	databaseLinks.className = 'infoPanelSection';
 
+
 	p.appendChild(closeButton);
 	p.appendChild(title);
 	p.appendChild(databaseLinks);
 	p.appendChild(createInfoPanelStatistics(treeNode));
+	p.appendChild(createInfoPanelExtinct(treeNode));
 
 	return p;
 }
+
 
 function setLabel(str) {
 	var label = dojo.doc.createElement('span');
@@ -429,6 +431,35 @@ function createInfoPanelStatistics(treeNode) {
     }
     return statistics;
 }
+
+function createInfoPanelExtinct(treeNode) {
+	var extinct = dojo.doc.createElement('span');
+	if (treeNode.i.is_extinct == 1) {
+		var hr = dojo.doc.createElement('hr');
+		hr.className = 'dotted';
+		extinct.appendChild(hr);
+	}
+	addInfoPanelSection(
+		extinct,
+		'is_extinct',
+		treeNode.i.is_extinct == 1 ? translate('y').toLowerCase() : translate('n').toLowerCase()
+	);
+	if (treeNode.i.is_extinct == 1) {
+		addInfoPanelSection(
+			extinct,
+			'has_preholocene',
+			treeNode.i.has_preholocene == 1 ? translate('y').toLowerCase() : translate('n').toLowerCase()
+		);
+		addInfoPanelSection(
+			extinct,
+			'has_modern',
+			treeNode.i.has_modern == 1 ? translate('y').toLowerCase() : translate('n').toLowerCase()
+		);
+	}
+
+	return extinct;
+}
+
 
 function closePanel(currentId){
 	dijit.popup.close(dialog);

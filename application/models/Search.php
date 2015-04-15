@@ -1095,7 +1095,9 @@ class ACI_Model_Search extends AModel
                     'ttt.total_species_extant' :
                     'ttt.total_species'),
                 'estimate_source' => 'ttt.estimate_source',
-                'is_extinct' => 'ttt.is_extinct'
+                'is_extinct' => 'ttt.is_extinct',
+                'has_modern' => 'ttt.has_modern',
+                'has_preholocene' => 'ttt.has_preholocene',
             )
         )
         ->where($where, $parentId)
