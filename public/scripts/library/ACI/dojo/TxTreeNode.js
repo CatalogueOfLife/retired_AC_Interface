@@ -355,6 +355,7 @@ function showInfo(treeNode){
 }
 
 function createInfoPanelContents(treeNode) {
+	var isExtinct = treeNode.i.is_extinct == 1;
 	var p = dojo.doc.createElement('p');
 	var closeButton = dojo.doc.createElement('span');
 	dojo.connect(closeButton, 'onclick', function(evt) {
@@ -369,9 +370,12 @@ function createInfoPanelContents(treeNode) {
 	if(treeNode.i.rank) {
 		rankName = treeNode.i.rank + ' ';
 	}
-
 	var rank = dojo.doc.createElement('span');
 	rank.appendChild(dojo.doc.createTextNode(rankName));
+
+	var dagger = dojo.doc.createElement('span');
+	dagger.className = 'dagger';
+	dagger.appendChild(dojo.doc.createTextNode("\u2020"));
 
 	var scientificName = dojo.doc.createElement('span');
 	scientificName.appendChild(dojo.doc.createTextNode(treeNode.i.name));
@@ -379,6 +383,9 @@ function createInfoPanelContents(treeNode) {
 
 	var title = dojo.doc.createElement('span');
 	title.appendChild(rank);
+	if (isExtinct) {
+		title.appendChild(dagger);
+	}
 	title.appendChild(scientificName);
 	title.className = 'infoPanelSection infoPanelTitle';
 
@@ -393,8 +400,9 @@ function createInfoPanelContents(treeNode) {
 	p.appendChild(title);
 	p.appendChild(databaseLinks);
 	p.appendChild(createInfoPanelStatistics(treeNode));
-	p.appendChild(createInfoPanelExtinct(treeNode));
-
+	if (isExtinct) {
+		p.appendChild(createInfoPanelExtinct(treeNode));
+	}
 	return p;
 }
 
@@ -434,29 +442,20 @@ function createInfoPanelStatistics(treeNode) {
 
 function createInfoPanelExtinct(treeNode) {
 	var extinct = dojo.doc.createElement('span');
-	if (treeNode.i.is_extinct == 1) {
-		var hr = dojo.doc.createElement('hr');
-		hr.className = 'dotted';
-		extinct.appendChild(hr);
-	}
+	var hr = dojo.doc.createElement('hr');
+	hr.className = 'dotted';
+	extinct.appendChild(hr);
+	addInfoPanelSection(extinct, 'is_extinct', translate('y').toLowerCase());
 	addInfoPanelSection(
 		extinct,
-		'is_extinct',
-		treeNode.i.is_extinct == 1 ? translate('y').toLowerCase() : translate('n').toLowerCase()
+		'has_preholocene',
+		treeNode.i.has_preholocene == 1 ? translate('y').toLowerCase() : translate('n').toLowerCase()
 	);
-	if (treeNode.i.is_extinct == 1) {
-		addInfoPanelSection(
-			extinct,
-			'has_preholocene',
-			treeNode.i.has_preholocene == 1 ? translate('y').toLowerCase() : translate('n').toLowerCase()
-		);
-		addInfoPanelSection(
-			extinct,
-			'has_modern',
-			treeNode.i.has_modern == 1 ? translate('y').toLowerCase() : translate('n').toLowerCase()
-		);
-	}
-
+	addInfoPanelSection(
+		extinct,
+		'has_modern',
+		treeNode.i.has_modern == 1 ? translate('y').toLowerCase() : translate('n').toLowerCase()
+	);
 	return extinct;
 }
 

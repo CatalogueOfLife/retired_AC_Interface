@@ -296,11 +296,6 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $this->getReferencesLabel(
                 $numRefs, strip_tags($speciesDetails->name)
             ) : null;
-        /* $speciesDetails->name .= ' (' .
-            $translator->translate(
-                ACI_Model_Table_Taxa::getStatusString($speciesDetails->status)
-            ) . ')';
-        */
 
         $textDecorator = $this->getActionController()
             ->getHelper('TextDecorator');
@@ -333,6 +328,10 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         }
         if (!$speciesDetails->hierarchy) {
             $speciesDetails->hierarchy = $textDecorator->getEmptyField();
+        } else {
+            foreach ($speciesDetails->hierarchy as $i => $row) {
+                $speciesDetails->hierarchy[$i]['tooltip'] = $this->_setToolTip($row['tooltip']);
+            }
         }
         if (!$speciesDetails->distribution) {
             $speciesDetails->distribution = $textDecorator->getEmptyField();
@@ -355,26 +354,6 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $speciesDetails->dbName = $textDecorator->getEmptyField();
         }
         $speciesDetails->dbVersion = $speciesDetails->dbVersion;
-
-        /*
-        if (!$speciesDetails->scrutinyDate &&
-        	$speciesDetails->scrutinyDate == '' &&
-            !$speciesDetails->specialistName) {
-            $speciesDetails->latestScrutiny = $textDecorator->getEmptyField();
-        } else {
-            $speciesDetails->latestScrutiny = trim(trim(
-                implode(
-                    ', ',
-                    array(
-                        $speciesDetails->specialistName,
-                        $speciesDetails->scrutinyDate != '' ?
-                        $speciesDetails->scrutinyDate :
-                        ''
-                    )
-                ), ',')
-            );
-        }
-        */
 
         if (empty($speciesDetails->scrutinyDate) && empty($speciesDetails->specialistName)) {
             $speciesDetails->latestScrutiny = $textDecorator->getEmptyField();
@@ -451,8 +430,10 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $speciesDetails->fossil .= ($speciesDetails->has_modern == 1 ?
                 $translator->translate('modern_legend') : $translator->translate('not_modern_legend'));
   */
-        }
 
+            $speciesDetails->name = '<span title="' . $speciesDetails->fossil. '">' .
+                $speciesDetails->name . '</span>';
+        }
         return $speciesDetails;
     }
 
