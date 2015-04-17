@@ -42,9 +42,7 @@
 <?php foreach ($this->data as $row): ?>
     <tr class="<?php echo $rowClass; ?>">
         <td class="field_header_black">
-            <a href="<?php echo $this->baseUrl() . $row['url']; ?>" title="<?php echo $row['tooltip']; ?>">
-                <?php echo $row['name']; ?>
-            </a>
+            <?php if (!empty($row['fossil_marker'])): echo $row['fossil_marker']?><?php endif ?><a href="<?php echo $this->baseUrl() . $row['url']; ?>"><?php echo $row['name']; ?></a>
         </td>
         <td><?php echo $row['status']; ?></td>
         <td><?php echo $row['group']; ?></td>

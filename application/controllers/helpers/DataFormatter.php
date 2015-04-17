@@ -80,7 +80,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     );
                 }
             }
-            $res[$i]['name'] = $this->setFossilMarker(
+            $res[$i]['name'] =
                 $this->_appendTaxaSuffix(
                     $this->_wrapTaxaName(
                         (!isset($row['distribution']) ?
@@ -103,8 +103,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     $row['status'],
                     $row['status'] == 6 && $row['author'] != '' ?
                     '(' . $row['author'] . ')' : $row['author']
-                ),
-            $row);
+                );
+            $res[$i]['fossil_marker'] = $this->_setFossilMarker('', $row);
             $res[$i]['rank'] = $translator->translate(
                 ACI_Model_Table_Taxa::getRankString($row['rank'])
             );
@@ -114,7 +114,6 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             );
 
             $res[$i]['group'] = ucfirst($row['kingdom']);
-            $res[$i]['tooltip'] = $this->_setToolTip($row);
 
             // Status + accepted name
             if ((isset($row['is_accepted_name']) && !$row['is_accepted_name']) ||
@@ -154,7 +153,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             }
             $i++;
          }
-        return $res;
+         return $res;
     }
 
     private function _setToolTip ($row) {
@@ -199,11 +198,12 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             return ACI_Model_Table_Taxa::RANK_KINGDOM;
     }
 
-    public function setFossilMarker ($s, array $row)
+    public function _setFossilMarker ($s, array $row, $customTip = '')
     {
         if (isset($row['is_extinct']) && $row['is_extinct'] == 1 ||
             isset($row['fossil']) && $row['fossil'] == 1) {
-            return "<span class='dagger'>†</span>$s";
+            return "<span class='dagger' title='" .
+                (!empty($customTip) ? $customTip : $this->_setToolTip($row))  . "'>†</span>$s";
         }
         return $s;
     }
@@ -212,7 +212,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     {
         $translator = Zend_Registry::get('Zend_Translate');
         $this->_addAcceptedName($row);
-        $row['name'] = $this->setFossilMarker(
+        $row['name'] = $this->_setFossilMarker(
             $this->_appendTaxaSuffix(
                 $row['name'], $row['status'],
                 $row['status'] == ACI_Model_Table_Taxa::STATUS_COMMON_NAME && isset($row['language']) ?
@@ -255,8 +255,11 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             (!empty($speciesDetails->infraspecific_marker) && strtolower($speciesDetails->kingdom) == 'plantae' ?
                 ' </i>'. $speciesDetails->infraspecific_marker . '<i>': '') .
             (isset($speciesDetails->infra) ? ' '. $speciesDetails->infra : '');
-        $speciesDetails->name = $this->setFossilMarker(
-            '<i>' . $name . '</i> ' .  $speciesDetails->author, (array) $speciesDetails);
+        $speciesDetails->name = $this->_setFossilMarker(
+            '<i>' . $name . '</i> ' .  $speciesDetails->author,
+            (array) $speciesDetails,
+            $translator->translate('Extinct_tip')
+        );
 
         if ($speciesDetails->taxaStatus) {
             $preface =
@@ -364,7 +367,6 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 (!empty($speciesDetails->specialistName) ? ', ' : '') . $speciesDetails->scrutinyDate : '';
         }
 
-
         if (!$speciesDetails->lsid) {
             $speciesDetails->lsid = $textDecorator->getEmptyField();
         }
@@ -410,29 +412,14 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 $speciesDetails->fossil = $translator->translate('This_is_an_extinct_species');
             }
 */
-           // Yuri:
-            $speciesDetails->fossil = $translator->translate('is_extinct') . ': yes; ' .
-            $translator->translate('has_preholocene') . ': ' .
-            ($speciesDetails->has_preholocene == 1 ?
-                $translator->translate('y') :
-                $translator->translate('n')) . '; ' .
-            $translator->translate('has_modern') . ': ' .
-            ($speciesDetails->has_modern == 1 ?
-                $translator->translate('y') :
-                $translator->translate('n'));
-
-/*
-            // Wouter
-            $speciesDetails->fossil = $translator->translate('known_extinct') . '<br>';
-            $speciesDetails->fossil .= ($speciesDetails->has_preholocene == 1 ?
-                $translator->translate('fossil_legend') : $translator->translate('not_fossil_legend'));
-            $speciesDetails->fossil .= '<br>';
-            $speciesDetails->fossil .= ($speciesDetails->has_modern == 1 ?
-                $translator->translate('modern_legend') : $translator->translate('not_modern_legend'));
-  */
-
-            $speciesDetails->name = '<span title="' . $speciesDetails->fossil. '">' .
-                $speciesDetails->name . '</span>';
+            // Yuri:
+            $speciesDetails->fossil = $this->_setToolTip(
+                array(
+                    'is_extinct' => $speciesDetails->is_extinct,
+                    'has_preholocene' => $speciesDetails->has_preholocene,
+                    'has_modern' => $speciesDetails->has_modern
+                 )
+            );
         }
         return $speciesDetails;
     }

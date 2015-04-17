@@ -1462,9 +1462,9 @@ table.panelTable tr td,table.panelTable tr th {
 }
 
 .dagger {
-	margin-right: 4px;
 	font-size: 15px;
 	font-family: Garamond, Georgia, serif;
+	cursor: help;
 }
 
 .dotted {
