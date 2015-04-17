@@ -202,7 +202,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
     {
         if (isset($row['is_extinct']) && $row['is_extinct'] == 1 ||
             isset($row['fossil']) && $row['fossil'] == 1) {
-            return "<span class='dagger' title='" .
+            return "<span class='dagger help' title='" .
                 (!empty($customTip) ? $customTip : $this->_setToolTip($row))  . "'>†</span>$s";
         }
         return $s;

@@ -1464,6 +1464,9 @@ table.panelTable tr td,table.panelTable tr th {
 .dagger {
 	font-size: 15px;
 	font-family: Garamond, Georgia, serif;
+}
+
+.help {
 	cursor: help;
 }
 

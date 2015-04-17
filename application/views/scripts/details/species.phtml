@@ -168,7 +168,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                     <td class="rank"><?php echo $hierarchy['taxon'] == '' ?
                         "" : $this->translate(strtoupper("RANK_" . $hierarchy['taxon'])); ?></td>
                     <td class="taxon">
-                        <?php if (!empty($hierarchy['tooltip'])): ?><span class="dagger" title="<?php echo $hierarchy['tooltip']; ?>">†</span><?php endif; ?><a href="<?php echo $this->baseUrl() . '/browse/tree/id/' . $hierarchy['key']; ?>"><?php echo $hierarchy['name']; ?></a>
+                        <?php if (!empty($hierarchy['tooltip'])): ?><span class="dagger help" title="<?php echo $hierarchy['tooltip']; ?>">†</span><?php endif; ?><a href="<?php echo $this->baseUrl() . '/browse/tree/id/' . $hierarchy['key']; ?>"><?php echo $hierarchy['name']; ?></a>
                     </td>
                     <?php if ($this->creditsModuleEnabled) : ?>
                         <td class="rank">
