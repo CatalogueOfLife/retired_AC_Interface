@@ -110,8 +110,9 @@ abstract class AController extends Zend_Controller_Action
     {
         $translator = Zend_Registry::get('Zend_Translate');
         $jsArray = "var translations = new Array();\n";
-        foreach ($jsTranslation as $v) {
-            $jsArray .= "\ttranslations['$v'] = '".addslashes(ucfirst($translator->translate($v)))."';\n";
+        foreach ($jsTranslation as $k => $v) {
+            $term = empty($v) ? $translator->translate($k) : ucfirst($translator->translate($k));
+            $jsArray .= "\ttranslations['$k'] = '" . addslashes($term) . "';\n";
         }
         return $jsArray;
     }
