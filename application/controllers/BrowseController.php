@@ -49,7 +49,8 @@ class BrowseController extends AController
         'has_modern',
         'has_preholocene',
         'y',
-        'n'
+        'n',
+        'Extinct_tip'
     );
 
     public function treeAction ()

@@ -1074,7 +1074,7 @@ class ACI_Model_Search extends AModel
      * @param int $parentId, bool $extinctInTree
      * @return array
      */
-    public function getTaxonChildren($parentId)
+    public function getTaxonChildren ($parentId)
     {
         $select = new Zend_Db_Select($this->_db);
         $where = 'ttt.parent_id = ?';
@@ -1098,8 +1098,8 @@ class ACI_Model_Search extends AModel
                     'ttt.total_species'),
                 'estimate_source' => 'ttt.estimate_source',
                 'is_extinct' => 'ttt.is_extinct',
-                'has_modern' => 'ttt.has_modern',
-                'has_preholocene' => 'ttt.has_preholocene',
+                'has_preholocene' => 'ttt.is_extinct',
+                'has_modern' => 'ttt.has_modern'
             )
         )
         ->where($where, $parentId)
@@ -1117,7 +1117,7 @@ class ACI_Model_Search extends AModel
         return $res;
     }
 
-    public function getSourceDatabasesPerTaxonTreeId($id) {
+    public function getSourceDatabasesPerTaxonTreeId ($id) {
         $select = new Zend_Db_Select($this->_db);
         $select->from(
             array('sdtttb' => '_source_database_to_taxon_tree_branch'),

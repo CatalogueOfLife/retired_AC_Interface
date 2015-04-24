@@ -104,7 +104,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     $row['status'] == 6 && $row['author'] != '' ?
                     '(' . $row['author'] . ')' : $row['author']
                 );
-            $res[$i]['fossil_marker'] = $this->_setFossilMarker('', $row);
+            $res[$i]['fossil_marker'] = $this->_setFossilMarker('', $row,
+                $translator->translate('Extinct_tip'));
             $res[$i]['rank'] = $translator->translate(
                 ACI_Model_Table_Taxa::getRankString($row['rank'])
             );
@@ -198,7 +199,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             return ACI_Model_Table_Taxa::RANK_KINGDOM;
     }
 
-    public function _setFossilMarker ($s, array $row, $customTip = '')
+    private function _setFossilMarker ($s, array $row, $customTip = '')
     {
         if (isset($row['is_extinct']) && $row['is_extinct'] == 1 ||
             isset($row['fossil']) && $row['fossil'] == 1) {
@@ -218,7 +219,9 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 $row['status'] == ACI_Model_Table_Taxa::STATUS_COMMON_NAME && isset($row['language']) ?
                 $row['language'] : $row['author']
             ),
-        $row);
+            $row,
+            $translator->translate('Extinct_tip')
+        );
         $row['rank'] = $translator->translate(
             ACI_Model_Table_Taxa::getRankString($row['rank'])
         );

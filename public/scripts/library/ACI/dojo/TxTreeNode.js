@@ -101,7 +101,8 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
             this.labelNode.appendChild(rank);
             if (isExtinct) {
             	var dagger = dojo.doc.createElement('span');
-            	dagger.className = 'dagger';
+            	dagger.className = 'dagger help';
+            	dojo.attr(dagger, "title", translate("Extinct_tip"));
             	dagger.appendChild(dojo.doc.createTextNode("\u2020"));
             	this.labelNode.appendChild(dagger);
             }
@@ -127,8 +128,8 @@ dojo.declare('ACI.dojo.TxTreeNode', dijit._TreeNode, {
             var leaf = dojo.doc.createElement('span');
             if (isExtinct) {
             	var dagger = dojo.doc.createElement('span');
-            	dagger.className = 'dagger';
-            	//dagger.attr("title", "Extinct");
+            	dagger.className = 'dagger help';
+            	dojo.attr(dagger, "title", translate("Extinct_tip"));
             	dagger.appendChild(dojo.doc.createTextNode("\u2020"));
             	leaf.appendChild(dagger);
             }
