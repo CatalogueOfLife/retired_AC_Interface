@@ -52,7 +52,8 @@ class BrowseController extends AController
         'has_preholocene' => 1,
         'y' => 0,
         'n' => 0,
-        'Extinct_tip' => 0
+        'Extinct_tip' => 0,
+        'extinct' => 0
     );
 
     public function treeAction ()
@@ -359,12 +360,6 @@ class BrowseController extends AController
             }*/
             //$row['estimate_source'] = 'estimation source';
             if ($row['total'] && $row['estimation']) {
-/*                $row['percentage'] = round(
-                    $row['total'] / $row['estimation'] * 100);
-                if ($row['percentage'] > 100) {
-                    $row['percentage'] = 100;
-                }
-*/
                 $row['percentage'] = $this->getHelper('DataFormatter')->getCoverage(
                     $row['total'], $row['estimation']);
             } else {
@@ -378,6 +373,7 @@ class BrowseController extends AController
                 $row['estimation'] = $row['estimation'] == 0 ? '?' : number_format(
                     $row['estimation'], 0, '.', ',');
                 $row['total'] = number_format($row['total'], 0, '.', ',');
+                $row['nr_fossils'] = number_format($row['nr_fossils'], 0, '.', ',');
                 $gsds = $search->getSourceDatabasesPerTaxonTreeId($row['id']);
                 $row['source_databases'] = $gsds;
             }

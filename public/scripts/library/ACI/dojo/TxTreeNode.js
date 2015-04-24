@@ -231,8 +231,12 @@ function createStatistics(treeNode, bullet, className) {
         if (bullet) {
         	statistics.appendChild(bullet);
         }
-        var statsText = treeNode.i.total + ' spp;' +
-		' ' + translate('est') + ' ' + treeNode.i.estimation;
+        var total = treeNode.i.total + ' spp';
+        if (dojo.byId("showExtinctCheckbox") && dojo.byId("showExtinctCheckbox").checked &&
+        	treeNode.i.nr_fossils != 0) {
+        	total += ' (' + treeNode.i.nr_fossils + ' ' + translate('extinct') + ')' ;
+        }
+        var statsText = total + '; ' + translate('est') + ' ' + treeNode.i.estimation;
         if (treeNode.i.percentage != '?') {
         	statsText += ';' + ' ' + treeNode.i.percentage;
         }
