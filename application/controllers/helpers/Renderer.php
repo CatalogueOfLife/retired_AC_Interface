@@ -135,9 +135,9 @@ class ACI_Helper_Renderer extends Zend_Controller_Action_Helper_Abstract
                     $this->_ac->view->translate('infraspecific_taxa'));
            if ($allFossils > 0) {
                 $this->_ac->view->resultDetails .=
-                    ', ' . number_format($fossilSpecies) . ' ' . $this->_ac->view->translate('fossil') .
+                    ', ' . number_format($fossilSpecies) . ' ' . $this->_ac->view->translate('extinct') .
                     ' ' .$this->_ac->view->translate('species') . ', ' .
-                    number_format($fossilInfraspecies) . ' ' . $this->_ac->view->translate('fossil') . ' ' .
+                    number_format($fossilInfraspecies) . ' ' . $this->_ac->view->translate('extinct') . ' ' .
                     ($fossilInfraspecies == 1 ?
                         $this->_ac->view->translate('infraspecies') . ')' :
                         $this->_ac->view->translate('infraspecific_taxa'));
