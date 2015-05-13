@@ -72,15 +72,26 @@ $rowClass = "odd";
               <?php echo $this->translate('English_name_of_the_group'); ?></a>
             <span class="sort-arrow"><?php echo ($this->sort == 'group' ? $this->sortArrow : '');?></span>
         </th>
-        <th class="horizontal<?php echo ($this->sort == 'names' ? ' current' : '');?>">
+        <th class="number horizontal<?php echo ($this->sort == 'extant' ? ' current' : '');?>">
             <a href="<?php echo $this->url(array_merge($this->urlParams, array(
-              'sort' => 'names', 'direction' => $this->sortDesc == 'names' ? 'desc' : 'asc'))); ?>">
-              <?php echo $this->translate('Species'); ?></a>
-            <span class="sort-arrow"><?php echo ($this->sort == 'names' ? $this->sortArrow : '');?></span>
+              'sort' => 'extant', 'direction' => $this->sortDesc == 'extant' ? 'desc' : 'asc'))); ?>">
+              <?php if ($this->fossilsModuleEnabled) : ?>
+                  <?php echo ucfirst($this->translate('living')) . ' ' . strtolower($this->translate('Species')); ?></a>
+              <?php else : ?>
+                 <?php echo $this->translate('Species'); ?></a>
+              <?php endif; ?>
+            <span class="sort-arrow"><?php echo ($this->sort == 'extant' ? $this->sortArrow : '');?></span>
         </th>
+        <?php if ($this->fossilsModuleEnabled) : ?>
+             <th class="number horizontal<?php echo ($this->sort == 'extinct' ? ' current' : '');?>">
+                <a href="<?php echo $this->url(array_merge($this->urlParams, array('sort' => 'extinct', 'direction' => $this->sortDesc == 'extinct' ? 'desc' : 'asc'))); ?>">
+                  <?php echo ucfirst($this->translate('extinct')) . ' ' . strtolower($this->translate('Species')); ?></a>
+                <span class="sort-arrow"><?php echo ($this->sort == 'extinct' ? $this->sortArrow : '');?></span>
+            </th>
+        <?php endif; ?>
+
     </tr>
 <?php foreach ($this->results as $items) : ?>
-
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical">
             <a href="<?php echo $this->baseUrl() . $items['url']; ?>">
@@ -102,6 +113,9 @@ $rowClass = "odd";
         </td>
         <td><?php echo $items['taxa']; ?></td>
         <td class="number"><?php echo $items['accepted_species_names']; ?></td>
+        <?php if ($this->fossilsModuleEnabled) : ?>
+            <td class="number"><?php echo $items['extinct_species']; ?></td>
+        <?php endif; ?>
     </tr>
     <?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
     <?php endforeach; ?>

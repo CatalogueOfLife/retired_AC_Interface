@@ -73,21 +73,12 @@ class InfoController extends AController
              $this->view->translate('ascending') : 'Arrow_down.gif" alt="' . $this->view->translate(
                 'descending')) . '" />';
         $this->view->sortDesc = $direction == 'asc' ? $sortCol : null;
+        $this->view->fossilsModuleEnabled = $this->_moduleEnabled('fossils');
 
         $this->view->sort = $sortCol;
 
         $info = new ACI_Model_Info($this->_db);
         $rowset = $info->getSourceDatabases($sortCol, $direction);
-        /*        $rowset =
-            $dbTable->getAll(
-                array_merge(
-                    array(
-                        ACI_Model_Info::getRightColumnName($sortCol) . ' ' .
-                        $direction
-                    ),
-                    array(ACI_Model_Info::getRightColumnName($defaultSortCol))
-                )
-            );*/
         $results = array();
         foreach ($rowset as $row) {
             $results[] = $this->getHelper('DataFormatter')->formatDatabaseResultPage($row);

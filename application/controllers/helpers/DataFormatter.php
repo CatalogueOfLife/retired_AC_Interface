@@ -541,6 +541,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         $dbDetails['label'] = $dbDetails['abbreviation'];
         $dbDetails['accepted_species_names'] =
             number_format($dbDetails['total_species']);
+        $dbDetails['extinct_species'] =
+            number_format($dbDetails['total_extinct_species']);
         $dbDetails['url'] = '/details/database/id/'.$dbDetails['id'];
         $dbDetails['thumb'] = '/images/databases/' .
             str_replace(' ', '_', $dbDetails['label']) . '.gif';

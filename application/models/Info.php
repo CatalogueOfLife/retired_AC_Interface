@@ -24,7 +24,8 @@ class ACI_Model_Info extends AModel
         $columMap = array(
             'source' => 'full_name',
             'group' => 'english_name',
-            'names' => 'number_of_species'
+            'extant' => 'number_of_species',
+            'extinct' => 'number_of_extinct_species'
         );
         return isset($columMap[$columName]) ?
             $columMap[$columName] : null;
@@ -49,6 +50,7 @@ class ACI_Model_Info extends AModel
                 'abbreviation' => 'short_name',
                 'taxa' => 'english_name',
                 'total_species' => $numberOfSpecies,
+                'total_extinct_species' => 'number_of_extinct_species',
                 'is_new' => 'is_new'
             )
         )
