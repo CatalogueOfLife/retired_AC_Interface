@@ -1096,7 +1096,8 @@ class ACI_Model_Search extends AModel
             	'total' => ($this->_includeExtinct == 0 ?
                     'ttt.total_species_extant' :
                     'ttt.total_species'),
-                'nr_fossils' => '(ttt.total_species - ttt.total_species_extant)',
+                'nr_fossil' => '(ttt.total_species - ttt.total_species_extant)',
+                'nr_extant' => 'ttt.total_species_extant',
                 'estimate_source' => 'ttt.estimate_source',
                 'is_extinct' => 'ttt.is_extinct',
                 'has_preholocene' => 'ttt.is_extinct',
