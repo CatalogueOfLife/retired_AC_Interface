@@ -227,18 +227,39 @@ function createStatistics(treeNode, bullet, className) {
     if (className) {
     	statistics.className = className;
     }
-    if(treeNode.i.estimation) {
+    if (treeNode.i.estimation) {
         if (bullet) {
         	statistics.appendChild(bullet);
         }
-        var total = treeNode.i.total + ' spp';
-        if (dojo.byId("showExtinctCheckbox") && dojo.byId("showExtinctCheckbox").checked &&
-        	treeNode.i.nr_fossils != 0) {
-        	total += ' (' + treeNode.i.nr_fossils + ' ' + translate('extinct') + ')' ;
-        }
-        var statsText = total + '; ' + translate('est') + ' ' + treeNode.i.estimation;
-        if (treeNode.i.percentage != '?') {
-        	statsText += ';' + ' ' + treeNode.i.percentage;
+        var total = treeNode.i.nr_extant; // already formatted with thousands separator
+        var statsText = '';
+        // extinct enabled
+        if (dojo.byId("showExtinctCheckbox") && dojo.byId("showExtinctCheckbox").checked) {
+        	if (treeNode.i.nr_extant == 0) {
+            	statsText = treeNode.i.nr_fossil + " \u2020spp";
+            } else {
+            	if (treeNode.i.percentage != '?') {
+	            	statsText = translate('estimation_extinct')
+	            		.replace(['[t]'], treeNode.i.nr_extant)
+	        			.replace(['[e]'], treeNode.i.estimation)
+	        			.replace(['[p]'], treeNode.i.percentage);
+	            } else {
+	            	statsText = treeNode.i.nr_extant + ' ' + translate('living') + ' spp';
+	            }
+            	if (treeNode.i.nr_fossil != 0) {
+            		statsText += '; ' + treeNode.i.nr_fossil + " \u2020spp";
+            	}
+            }
+        //extinct disabled
+        } else {
+        	if (treeNode.i.percentage != '?') {
+            	statsText = translate('estimation_not_extinct')
+            		.replace(['[t]'], treeNode.i.total)
+        			.replace(['[e]'], treeNode.i.estimation)
+        			.replace(['[p]'], treeNode.i.percentage);
+            } else {
+            	statsText = treeNode.i.total + ' spp';
+            }
         }
         statistics.appendChild(
         	dojo.doc.createTextNode(statsText)
@@ -432,12 +453,15 @@ function addInfoPanelSection(thisParent, thisLabel, thisValue) {
 
 function createInfoPanelStatistics(treeNode) {
 	var statistics = dojo.doc.createElement('span');
-	addInfoPanelSection(statistics, 'Number_of_species', treeNode.i.total);
-    if(treeNode.i.estimation) {
+	var total = treeNode.i.total;
+	if (dojo.byId("showExtinctCheckbox") && dojo.byId("showExtinctCheckbox").checked) {
+		total += ' (' + treeNode.i.nr_extant + ' ' + translate('living') + ', ' +
+			treeNode.i.nr_fossil + ' ' + translate('extinct') + ')';
+	}
+	addInfoPanelSection(statistics, 'Number_of_species', total);
+    if(treeNode.i.estimation && treeNode.i.percentage != '?') {
     	addInfoPanelSection(statistics, 'Estimated_number', treeNode.i.estimation);
-        if (treeNode.i.percentage != '?') {
-        	addInfoPanelSection(statistics, 'Percentage_covered', treeNode.i.percentage);
-        }
+        addInfoPanelSection(statistics, 'Percentage_covered', treeNode.i.percentage);
         if (treeNode.i.estimate_source) {
         	addInfoPanelSection(statistics, 'Estimation_source', treeNode.i.estimate_source);
         }

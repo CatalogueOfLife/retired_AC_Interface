@@ -53,7 +53,10 @@ class BrowseController extends AController
         'y' => 0,
         'n' => 0,
         'Extinct_tip' => 0,
-        'extinct' => 0
+        'extinct' => 0,
+        'estimation_extinct' => 0,
+        'estimation_not_extinct' => 0,
+        'living' => 0
     );
 
     public function treeAction ()
@@ -373,9 +376,9 @@ class BrowseController extends AController
                 $row['estimation'] = $row['estimation'] == 0 ? '?' : number_format(
                     $row['estimation'], 0, '.', ',');
                 $row['total'] = number_format($row['total'], 0, '.', ',');
-                $row['nr_fossils'] = number_format($row['nr_fossils'], 0, '.', ',');
-                $gsds = $search->getSourceDatabasesPerTaxonTreeId($row['id']);
-                $row['source_databases'] = $gsds;
+                $row['nr_fossil'] = number_format($row['nr_fossil'], 0, '.', ',');
+                $row['nr_extant'] = number_format($row['nr_extant'], 0, '.', ',');
+                $row['source_databases'] = $search->getSourceDatabasesPerTaxonTreeId($row['id']);;
             }
         }
 
