@@ -336,7 +336,9 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             $speciesDetails->hierarchy = $textDecorator->getEmptyField();
         } else {
             foreach ($speciesDetails->hierarchy as $i => $row) {
-                $speciesDetails->hierarchy[$i]['tooltip'] = $this->_setToolTip($row['tooltip']);
+                // Old version neatly displayed three flags; disabled as wished by Yuri
+                // $speciesDetails->hierarchy[$i]['tooltip'] = $this->_setToolTip($row['tooltip']);
+                $speciesDetails->hierarchy[$i]['tooltip'] = $translator->translate('Extinct_tip');
             }
         }
         if (!$speciesDetails->distribution) {
