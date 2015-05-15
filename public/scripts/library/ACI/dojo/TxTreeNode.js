@@ -236,7 +236,8 @@ function createStatistics(treeNode, bullet, className) {
         // extinct enabled
         if (dojo.byId("showExtinctCheckbox") && dojo.byId("showExtinctCheckbox").checked) {
         	if (treeNode.i.nr_extant == 0) {
-            	statsText = treeNode.i.nr_fossil + " \u2020spp";
+            	statsText = treeNode.i.nr_fossil + " <span class='dagger help' " + "title='" +
+            		translate("Extinct_tip") + "'>\u2020</span>spp";
             } else {
             	if (treeNode.i.percentage != '?') {
 	            	statsText = translate('estimation_extinct')
@@ -247,7 +248,8 @@ function createStatistics(treeNode, bullet, className) {
 	            	statsText = treeNode.i.nr_extant + ' ' + translate('living') + ' spp';
 	            }
             	if (treeNode.i.nr_fossil != 0) {
-            		statsText += '; ' + treeNode.i.nr_fossil + " \u2020spp";
+            		statsText += '; ' + treeNode.i.nr_fossil + " <span class='dagger help' " +
+            		"title='" + translate("Extinct_tip") + "'>\u2020</span>spp";
             	}
             }
         //extinct disabled
@@ -261,11 +263,11 @@ function createStatistics(treeNode, bullet, className) {
             	statsText = treeNode.i.total + ' spp';
             }
         }
-        statistics.appendChild(
-        	dojo.doc.createTextNode(statsText)
-        );
     }
-    return statistics;
+    return dojo.create("span", {
+    	className: className,
+    	innerHTML: "&nbsp;•&nbsp;" + statsText
+    });
 }
 
 function createMapPanel(treeNode) {
