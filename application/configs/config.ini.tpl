@@ -47,7 +47,6 @@ module.feedback = 0             ; Enable feedbackservice
 module.feedbackUrl = ""
 
 module.bhl = 0                  ; Enable BHL reverse lookup service
-
 bhl.home_url = "http://bhl.nhm.ac.uk/portal"
 bhl.solr_urlpattern = "http://bhl.nhm.ac.uk/solr/core/select/?q=olef_scientific_name:%s"
 bhl.portal_urlpattern = "http://bhl.nhm.ac.uk/portal/bhle-view/%s"
