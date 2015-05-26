@@ -137,6 +137,7 @@ class InfoController extends AController
         $this->view->results = $this->getHelper('DataFormatter')->formatSpeciesTotals(
             $info->getSpeciesTotals());
         $this->_setNavigator();
+        $this->view->fossilsModuleEnabled = $this->_moduleEnabled('fossils');
     }
 
     protected function _setNavigator ()

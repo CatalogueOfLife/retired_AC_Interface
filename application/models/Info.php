@@ -134,7 +134,7 @@ class ACI_Model_Info extends AModel
                     'name' => 't2.name',
                     'kingdom' => 't1.name',
                     't2.total_species_estimation',
-                    't2.total_species',
+                    'total_species' => 't2.total_species_extant',
                     'source' => 't2.estimate_source'
                 )
             )
