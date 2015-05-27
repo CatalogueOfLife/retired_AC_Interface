@@ -235,10 +235,7 @@ function createStatistics(treeNode, bullet, className) {
         var statsText = '';
         // extinct enabled
         if (dojo.byId("showExtinctCheckbox") && dojo.byId("showExtinctCheckbox").checked) {
-        	// dead end
-        	if (treeNode.i.total == 0 && treeNode.i.nr_extant == 0) {
-        		statsText = translate("dead_end");
-        	} else if (treeNode.i.nr_extant == 0) {
+        	if (treeNode.i.nr_extant == 0 && treeNode.i.total > 0) {
             	statsText = treeNode.i.nr_fossil + " <span class='dagger help' " + "title='" +
             		translate("Extinct_tip") + "'>\u2020</span>spp";
             } else {
@@ -460,9 +457,7 @@ function createInfoPanelStatistics(treeNode) {
 	var statistics = dojo.doc.createElement('span');
 	var total = treeNode.i.total;
 	if (dojo.byId("showExtinctCheckbox") && dojo.byId("showExtinctCheckbox").checked) {
-		if (treeNode.i.nr_extant == 0 && treeNode.i.total == 0) {
-			total = translate('dead_end');
-		} else if (treeNode.i.nr_extant == treeNode.i.total) {
+		if (treeNode.i.nr_extant == treeNode.i.total) {
 			total += ' (' + translate('living') + ')';
 		} else if (treeNode.i.nr_extant != 0 && treeNode.i.nr_fossil != 0) {
 			total += ' (' + treeNode.i.nr_extant + ' ' + translate('living') + ', ' +
