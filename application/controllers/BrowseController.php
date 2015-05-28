@@ -373,12 +373,14 @@ class BrowseController extends AController
             $statisticsModuleEnabled = Bootstrap::instance()->getOption(
                 'module.statistics');
             if ($statisticsModuleEnabled) {
-                $row['estimation'] = $row['estimation'] == 0 ? '?' : number_format(
-                    $row['estimation'], 0, '.', ',');
+                // Do not fetch source databases for dead ends
+                $row['source_databases'] = $row['total'] == 0 ? false :
+                    $search->getSourceDatabasesPerTaxonTreeId($row['id']);
+                $row['estimation'] = $row['estimation'] == 0 ? '?' :
+                    number_format($row['estimation'], 0, '.', ',');
                 $row['total'] = number_format($row['total'], 0, '.', ',');
                 $row['nr_fossil'] = number_format($row['nr_fossil'], 0, '.', ',');
                 $row['nr_extant'] = number_format($row['nr_extant'], 0, '.', ',');
-                $row['source_databases'] = $search->getSourceDatabasesPerTaxonTreeId($row['id']);;
             }
         }
 
