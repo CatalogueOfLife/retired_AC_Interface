@@ -207,7 +207,7 @@ function createDatabaseLinks(treeNode, bullet) {
     }
     var separator = ', ';
     // Dead ends
-    if (treeNode.i.total == 0 && treeNode.i.nr_extant == 0) {
+    if (source_databases.length == 0) {
     	sourceDatabaseString.appendChild(dojo.doc.createTextNode('CoL Management Classification'));
     	return sourceDatabaseString;
     }

@@ -374,8 +374,7 @@ class BrowseController extends AController
                 'module.statistics');
             if ($statisticsModuleEnabled) {
                 // Do not fetch source databases for dead ends
-                $row['source_databases'] = $row['total'] == 0 ? false :
-                    $search->getSourceDatabasesPerTaxonTreeId($row['id']);
+                $row['source_databases'] = $search->getSourceDatabasesPerTaxonTreeId($row['id']);
                 $row['estimation'] = $row['estimation'] == 0 ? '?' :
                     number_format($row['estimation'], 0, '.', ',');
                 $row['total'] = number_format($row['total'], 0, '.', ',');
