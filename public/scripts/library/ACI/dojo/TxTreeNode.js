@@ -206,13 +206,17 @@ function createDatabaseLinks(treeNode, bullet) {
     	sourceDatabaseString.appendChild(bullet);
     }
     var separator = ', ';
-	for(var i in source_databases)
-    {
+    // Dead ends
+    if (treeNode.i.total == 0 && treeNode.i.nr_extant == 0) {
+    	sourceDatabaseString.appendChild(dojo.doc.createTextNode('CoL Management Classification'));
+    	return sourceDatabaseString;
+    }
+	for (var i in source_databases) {
         var a = dojo.doc.createElement('a');
         a.href = baseUrl + '/details/database/id/' + source_databases[i].source_database_id;
         a.title = source_databases[i].full_name;
         a.appendChild(dojo.doc.createTextNode(source_databases[i].short_name));
-		if(i > 0) {
+		if (i > 0) {
 			sourceDatabaseString.appendChild(dojo.doc.createTextNode(separator));
 			title = title + separator + ' ';
 		}
@@ -422,7 +426,6 @@ function createInfoPanelContents(treeNode) {
 	databaseLinks.appendChild(setLabel(dbLabel));
 	databaseLinks.appendChild(createDatabaseLinks(treeNode));
 	databaseLinks.className = 'infoPanelSection';
-
 
 	p.appendChild(closeButton);
 	p.appendChild(title);
