@@ -44,7 +44,7 @@
         <td class="field_header_black">
             <?php if (!empty($row['fossil_marker'])): echo $row['fossil_marker']?><?php endif ?><a href="<?php echo $this->baseUrl() . $row['url']; ?>"><?php echo $row['name']; ?></a>
         </td>
-        <td><?php echo $row['status']; ?></td>
+        <td class="field_header_black"><?php echo sprintf($row['status'], $this->baseUrl()); ?></td>
         <td><?php echo $row['group']; ?></td>
         <td>
 <?php if ($row['dbLabel']): ?>

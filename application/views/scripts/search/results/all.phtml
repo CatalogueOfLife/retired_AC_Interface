@@ -55,7 +55,7 @@
                 <?php echo $row['rank']; ?>
             </a>
         </td>
-        <td><?php echo $row['status']; ?></td>
+        <td class="field_header_black"><?php echo sprintf($row['status'], $this->baseUrl()); ?></td>
         <td><?php echo $row['group']; ?></td>
         <td>
 <?php if ($row['dbLabel']): ?>

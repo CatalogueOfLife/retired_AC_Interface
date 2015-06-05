@@ -121,6 +121,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 (isset($row['accepted_species_id']) && $row['accepted_species_id'])) {
                 $res[$i]['status'] = sprintf(
                     $res[$i]['status'],
+                    '<a href="%s' . $res[$i]['url'] . '">' .
                     $this->_appendTaxaSuffix(
                         $this->_wrapTaxaName(
                             ucfirst(trim((isset($row['accepted_species_name']) ?
@@ -132,7 +133,8 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                         (isset($row['accepted_species_author']) ?
                             $row['accepted_species_author'] : (isset($row['author']) ?
                                 $row['author'] : ''))
-                    )
+                    ) .
+                    '</a>'
                 );
             }
             // Database
@@ -908,7 +910,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         if ($suffix) {
             switch($status) {
                 case 'common name':
-                     $source .= ' (' . $suffix . ')';
+                    $source .= ' (' . $suffix . ')';
                     break;
                 default:
                     $source .= '  ' . $suffix;
