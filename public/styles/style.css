@@ -1476,3 +1476,7 @@ table.panelTable tr td,table.panelTable tr th {
 	border: 0;
 	border-top: 1px dotted black;
 }
+
+.nowrap {
+	 white-space: nowrap;
+}
