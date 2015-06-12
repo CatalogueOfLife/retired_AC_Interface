@@ -259,7 +259,8 @@ class ACI_Model_Webservice extends AModel
                 'name_html' => $row['name_html'],
                 'url' => self::getTaxaUrl(
                     $row['record_id'], $row['rank_id'], $row['status']
-                )
+                ),
+                'is_extinct' => $row['is_extinct'] == 0 ? 'false' : 'true'
             );
             if($full) {
                 $sn['classification'] =
@@ -272,6 +273,7 @@ class ACI_Model_Webservice extends AModel
         // Species and infraspecies
         $sn = $this->_getScientificName($row['record_id'], $full, false);
         if (!ACI_Model_Table_Taxa::isAcceptedName($row['status'])) {
+            unset($sn['is_extinct']);
             $sn['accepted_name'] = $this->_getScientificName(
                 $row['sn_id'], $full, true
             );
@@ -305,6 +307,8 @@ class ACI_Model_Webservice extends AModel
         $an['url'] = self::getTaxaUrl(
             $an['id'], $an['rank_id'], $an['status'], $an['sn_id']
         );
+
+        $an['is_extinct'] = $an['is_extinct'] == 0 ? 'false' : 'true';
         $status = $an['status'];
         unset($an['rank_id'], $an['status'], $an['source_database_id'], $an['sn_id']);
 
@@ -312,7 +316,7 @@ class ACI_Model_Webservice extends AModel
             $this->_arrayFilterKeys(
                 $an, array('id', 'name', 'rank', 'name_status', 'name_html',
                 'url', 'source_database', 'source_database_url',
-                'online_resource')
+                'online_resource', 'is_extinct')
             );
             return $an;
         }

@@ -217,11 +217,11 @@ of species or infraspecific taxa)<o:p></o:p></span></p>
  style="font-size: 10pt; font-family: Arial;">format</span></b><span
  style="font-size: 10pt; font-family: Arial;"><span
  style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>format
-of the results returned. Valid values are format=xml and format=php; if the format
-parameter is omitted, the results are returned in the default XML format. If
-format=php then results are returned as a PHP array in serialized string
-format, which can be converted back to an array in PHP using the
-unserialize command<o:p></o:p></span></p>
+of the results returned. Valid values are format=xml, format=json and format=php; if the format
+parameter is omitted, the results are returned in the default <a href='http://www.w3.org/XML/'>XML format</a>.
+If format=json is appended, the results are returned in <a href='http://json.org'>JSON (JavaScript Object Notation) format</a>.
+For format=php results are as a <a href='http://php.net/manual/en/function.serialize.php'>serialized PHP array</a>, which can be converted back to an array in PHP using the
+<a href='http://php.net/manual/en/function.unserialize.php'>unserialize function</a>.<o:p></o:p></span></p>
 <p class="MsoNormal"
  style="margin: 2pt 0cm 2pt 63.8pt; text-indent: -63.8pt;"><b><span
  style="font-size: 10pt; font-family: Arial;">response</span></b><span
@@ -235,7 +235,7 @@ format=terse then a minimum set of results are returned (this is faster
 and
 smaller, enough for name lookup), if format=full then all available
 information
-is returned<o:p></o:p></span></p>
+is returned.<o:p></o:p></span></p>
 <p class="MsoNormal"
  style="margin: 2pt 0cm 2pt 63.8pt; text-indent: -63.8pt;"><b><span
  style="font-size: 10pt; font-family: Arial;">start</span></b><span
@@ -281,8 +281,8 @@ queries and 50 for full queries).<o:p></o:p></span></p>
  </a><o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;">
- <a href="<?php echo $this->location; ?>?id=4fdb38d6220462049eab9e3f285144e0&format=php&response=full">
- <?php echo $this->location; ?>?id=4fdb38d6220462049eab9e3f285144e0&amp;format=php&amp;response=full
+ <a href="<?php echo $this->location; ?>?id=4fdb38d6220462049eab9e3f285144e0&format=json&response=full">
+ <?php echo $this->location; ?>?id=4fdb38d6220462049eab9e3f285144e0&amp;format=json&amp;response=full
  </a><o:p></o:p></span></p>
 <p class="MsoNormal" style=""><b><span
  style="font-size: 10pt; font-family: Arial;"><o:p>&nbsp;</o:p></span></b></p>
@@ -359,6 +359,9 @@ response</span></b><span style="font-size: 10pt; font-family: Arial;"
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;">&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;">&lt;is_extinct&gt;&lt;/is_extinct&gt;<o:p></o:p><span style="color: #666">&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!-- true/false --&gt;</span></span></p>
+ <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;">&lt;online_resource&gt;&lt;/online_resource&gt;<o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;">&lt;source_database&gt;&lt;/source_database&gt;<o:p></o:p></span></p>
@@ -400,6 +403,9 @@ response</span></b><span style="font-size: 10pt; font-family: Arial;"
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;">&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;">&lt;is_extinct&gt;&lt;/is_extinct&gt;<o:p></o:p><span style="color: #666">&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!-- true/false --&gt;</span></span></p>
+ <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;">&lt;source_database&gt;&lt;/source_database&gt;<o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;">&lt;source_database_url&gt;&lt;/source_database_url&gt;<o:p></o:p></span></p>
@@ -461,7 +467,7 @@ response</span></b><span style="font-size: 10pt; font-family: Arial;"
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;"><span
  style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+</span>&lt;url&gt;&lt;/url&gt;</span></p>
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;"><span
  style="">&nbsp;&nbsp;&nbsp;&nbsp;
@@ -515,6 +521,9 @@ response</span></b><span style="font-size: 10pt; font-family: Arial;"
  style="font-size: 10pt; font-family: Arial;"><span
  style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span
+ style="font-size: 10pt; font-family: Arial;">&lt;is_extinct&gt;&lt;/is_extinct&gt;<o:p></o:p><span style="color: #666">&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!-- true/false --&gt;</span></span></p>
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;"><span
  style="">&nbsp;&nbsp;&nbsp;&nbsp;
@@ -761,6 +770,13 @@ name&gt;<span style="color: #666">&nbsp;&nbsp;&nbsp;&nbsp;
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;"><span
  style="">&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;is_extinct&gt;&lt;/is_extinct&gt;<o:p></o:p><span style="color: #666">&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!-- true/false --&gt;</span></span></p>
+
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;
 
 </span>&lt;online_resource&gt;&lt;/online_resource&gt;<o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
@@ -908,6 +924,11 @@ name&gt;<o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;"><span
  style="">&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;is_extinct&gt;&lt;/is_extinct&gt;<o:p></o:p><span style="color: #666">&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!-- true/false --&gt;</span></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;
 </span>&lt;online_resource&gt;&lt;/online_resource&gt;<o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;"><span
@@ -1034,6 +1055,9 @@ name&gt;<o:p></o:p></span></p>
  style="font-size: 10pt; font-family: Arial;"><span
  style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+ style="font-size: 10pt; font-family: Arial;">&lt;is_extinct&gt;&lt;/is_extinct&gt;<o:p></o:p><span style="color: #666">&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!-- true/false --&gt;</span></span></p>
 
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;"><span
@@ -1290,6 +1314,13 @@ name&gt;<span style="color: #666">&nbsp;&nbsp;&nbsp;&nbsp;
  style="font-size: 10pt; font-family: Arial;"><span
  style="">&nbsp;&nbsp;&nbsp;&nbsp;
 </span>&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;is_extinct&gt;&lt;/is_extinct&gt;<o:p></o:p><span style="color: #666">&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!-- true/false --&gt;</span></span></p>
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;"><span
  style="">&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1416,6 +1447,11 @@ name&gt;<o:p></o:p></span></p>
  style="font-size: 10pt; font-family: Arial;"><span
  style="">&nbsp;&nbsp;&nbsp;&nbsp;
 </span>&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;is_extinct&gt;&lt;/is_extinct&gt;<o:p></o:p><span style="color: #666">&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!-- true/false --&gt;</span></span></p>
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;"><span
  style="">&nbsp;&nbsp;&nbsp;&nbsp;
@@ -1763,6 +1799,9 @@ response</span></b><span style="font-size: 10pt; font-family: Arial;"
  style="font-size: 10pt; font-family: Arial;">&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;">&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;">&lt;is_extinct&gt;&lt;/is_extinct&gt;<o:p></o:p><span style="color: #666">&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!-- true/false --&gt;</span></span></p>
 
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;"><o:p>&nbsp;</o:p></span></p>
@@ -1779,6 +1818,9 @@ response</span></b><span style="font-size: 10pt; font-family: Arial;"
  style="font-size: 10pt; font-family: Arial;">&lt;name_html&gt;&lt;/name_html&gt;<o:p></o:p></span></p>
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;">&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;">&lt;is_extinct&gt;&lt;/is_extinct&gt;<o:p></o:p><span style="color: #666">&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!-- true/false --&gt;</span></span></p>
 
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;">&lt;classification&gt;<o:p></o:p></span></p>
@@ -1857,6 +1899,12 @@ response</span></b><span style="font-size: 10pt; font-family: Arial;"
  style="font-size: 10pt; font-family: Arial;"><span
  style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>&lt;url&gt;&lt;/url&gt;<o:p></o:p></span></p>
+
+<p class="MsoNormal" style=""><span
+ style="font-size: 10pt; font-family: Arial;"><span
+ style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>&lt;is_extinct&gt;&lt;/is_extinct&gt;<o:p></o:p><span style="color: #666">&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;!-- true/false --&gt;</span></span></p>
 
 <p class="MsoNormal" style=""><span
  style="font-size: 10pt; font-family: Arial;"><span

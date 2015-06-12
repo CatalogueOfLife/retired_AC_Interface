@@ -203,7 +203,8 @@ class ACI_Model_WebserviceSearch extends AModel
                 'author' => 'ss.author',
                 'source_database_id' => 'ss.source_database_id', // Fetch db name and uri separately!
                 'record_scrutiny_date' => new Zend_Db_Expr('""'), // Fetch scrutiny separately!
-                'online_resource' => new Zend_Db_Expr('""') // Fetch taxon url separately!
+                'online_resource' => new Zend_Db_Expr('""'), // Fetch taxon url separately!
+                'is_extinct' => 'ss.is_extinct'
             )
         );
         return $select;
@@ -327,7 +328,8 @@ class ACI_Model_WebserviceSearch extends AModel
                 'species' => 'sd.species_name',
                 'infraspecies_marker' => 'sd.infraspecific_marker',
                 'infraspecies' => 'sd.infraspecies_name',
-                'author' => 'sd.author'
+                'author' => 'sd.author',
+                'is_extinct' => 'tt.is_extinct'
             )
         )->joinLeft(
             array('sd' => '_species_details'),
@@ -384,7 +386,8 @@ class ACI_Model_WebserviceSearch extends AModel
                         ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME :
                         $taxon['status']
                     )
-                )
+                ),
+                'is_extinct' => $taxon['is_extinct'] == 0 ? 'false' : 'true'
             );
         }
         unset($res);
