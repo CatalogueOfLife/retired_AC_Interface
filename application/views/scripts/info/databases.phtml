@@ -112,10 +112,15 @@ $rowClass = "odd";
         <?php endif; ?>
         </td>
         <td><?php echo $items['taxa']; ?></td>
-        <td class="number"><?php echo $items['accepted_species_names']; ?></td>
+    
+        <?php if (!$this->fossilsModuleEnabled) : ?>
+	        <td class="number"><?php echo $items['accepted_species_names']; ?></td>
+        <?php endif; ?>
         <?php if ($this->fossilsModuleEnabled) : ?>
+	        <td class="number"><?php echo ((int)$items['accepted_species_names'] - (int)$items['extinct_species']); ?></td>
             <td class="number"><?php echo $items['extinct_species']; ?></td>
         <?php endif; ?>
+
     </tr>
     <?php $rowClass = ($rowClass == 'odd' ? 'even' : 'odd'); ?>
     <?php endforeach; ?>
