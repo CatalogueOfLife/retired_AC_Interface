@@ -69,9 +69,9 @@ class InfoController extends AController
             'direction' => $direction
         );
 
-        $this->view->sortArrow = '<img src="' . $this->view->baseUrl() . '/images/' . ($direction == 'asc' ? 'Arrow_up.gif" alt="' .
-             $this->view->translate('ascending') : 'Arrow_down.gif" alt="' . $this->view->translate(
-                'descending')) . '" />';
+        $this->view->sortArrow = '<img src="' . $this->view->baseUrl() . '/images/' .
+            ($direction == 'asc' ? 'Arrow_up.gif" alt="' . $this->view->translate('ascending') :
+            'Arrow_down.gif" alt="' . $this->view->translate('descending')) . '" />';
         $this->view->sortDesc = $direction == 'asc' ? $sortCol : null;
         $this->view->fossilsModuleEnabled = $this->_moduleEnabled('fossils');
 

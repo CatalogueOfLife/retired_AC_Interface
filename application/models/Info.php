@@ -36,7 +36,7 @@ class ACI_Model_Info extends AModel
         $sortOrder = $this->getRightColumnName($order);
         $numberOfSpecies = 'number_of_species';
         // Ruud 13-02-15: subtract extinct species if fossils has been disabled
-        if (!$this->_moduleEnabled('fossils')) {
+        if ($this->_moduleEnabled('fossils')) {
             $numberOfSpecies = '(number_of_species - number_of_extinct_species)';
             $sortOrder = ($sortOrder == 'number_of_species') ? $numberOfSpecies : $sortOrder;
         }
