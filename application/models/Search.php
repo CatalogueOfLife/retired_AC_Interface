@@ -102,8 +102,13 @@ class ACI_Model_Search extends AModel
                     $searchKey['infraspecies'] : '')
                 );
         }
+
+
         $regexpSearchKey = strtolower(str_replace('*', '.*', stripslashes($searchKey)));
-        $mysqlSearchKey = strtolower(str_replace('*', '%', stripslashes($searchKey)));
+        $mysqlSearchKey = strtolower(
+            str_replace(array('*', '"'), array('%', "'"),
+            stripslashes($searchKey))
+        );
 
         return array(
         new Zend_Db_Expr(
