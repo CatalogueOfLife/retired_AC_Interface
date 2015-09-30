@@ -362,12 +362,12 @@ class BrowseController extends AController
                     ->splitByMarkers($row['name']);
             }*/
             //$row['estimate_source'] = 'estimation source';
-            if ($row['total'] && $row['estimation']) {
-                $row['percentage'] = $this->getHelper('DataFormatter')->getCoverage(
-                    $row['total'], $row['estimation']);
-            } else {
-                $row['percentage'] = "?";
-            }
+            //if ($row['total'] && $row['estimation']) {
+            $row['percentage'] = $this->getHelper('DataFormatter')->getCoverage(
+                $row['total'], $row['estimation']);
+           // } else {
+                //$row['percentage'] = "?";
+           // }
 
             //Checks if the module statistics is enabled
             $statisticsModuleEnabled = Bootstrap::instance()->getOption(

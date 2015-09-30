@@ -623,12 +623,12 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
 
     public function getCoverage ($actual, $estimate)
     {
-        $translator = Zend_Registry::get('Zend_Translate');
         $actual = is_array($actual) ? array_sum($actual) : $actual;
         $estimate = is_array($estimate) ? array_sum($estimate) : $estimate;
-        if (empty($estimate) || empty($actual)) {
-            return $translator->translate('Not available');
+        if ($estimate == 0) {
+           return '?';
         }
+        $translator = Zend_Registry::get('Zend_Translate');
         $coverage = $actual / $estimate * 100;
         if ($coverage > 100) {
             $coverage = '100';
