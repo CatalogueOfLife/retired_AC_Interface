@@ -364,7 +364,7 @@ class BrowseController extends AController
             //$row['estimate_source'] = 'estimation source';
             //if ($row['total'] && $row['estimation']) {
             $row['percentage'] = $this->getHelper('DataFormatter')->getCoverage(
-                $row['total'], $row['estimation']);
+                $row['total'], $row['estimation'], '?');
            // } else {
                 //$row['percentage'] = "?";
            // }
