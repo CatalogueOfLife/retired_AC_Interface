@@ -57,6 +57,7 @@ to display the source used for the estimate. The last column displays the comple
         <td class="number"><?php echo $phylum['coverage'] ?></td>
     </tr>
     <?php endforeach; ?>
+    <!--
     <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="tally">
         <td><?php echo $this->translate('Known_species_tally'); ?></td>
@@ -65,6 +66,7 @@ to display the source used for the estimate. The last column displays the comple
         <td></td>
         <td class="number"><?php echo $this->results['totals'][$kingdom]['coverage']; ?></td>
     </tr>
+    -->
     <?php $first = false; ?>
 <?php endforeach ?>
 </table>
