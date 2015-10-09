@@ -343,9 +343,9 @@ class BrowseController extends AController
         foreach ($res as &$row) {
             // If not properly encoded, the names with diacritics are truncated
             // in the tree
-            $row['name'] = utf8_encode($row['name']);
+            //$row['name'] = utf8_encode($row['name']);
             $image = strtolower($row['name']) . '.png';
-            if(file_exists(TREE_ICONS_PATH . '/' . $image)) {
+            if (file_exists(TREE_ICONS_PATH . '/' . $image)) {
                 $row['image'] = $this->view->baseUrl() . '/images/tree_icons/' . $image;
             } else {
             	$row['image'] = 0;
@@ -363,11 +363,8 @@ class BrowseController extends AController
             }*/
             //$row['estimate_source'] = 'estimation source';
             //if ($row['total'] && $row['estimation']) {
-            $row['percentage'] = $this->getHelper('DataFormatter')->getCoverage(
-                $row['total'], $row['estimation'], '?');
-           // } else {
-                //$row['percentage'] = "?";
-           // }
+            $row['percentage'] = $this->getHelper('DataFormatter')
+                ->getCoverage($row['total'], $row['estimation'], '?');
 
             //Checks if the module statistics is enabled
             $statisticsModuleEnabled = Bootstrap::instance()->getOption(
