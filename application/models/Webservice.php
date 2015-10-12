@@ -17,7 +17,7 @@ class ACI_Model_Webservice extends AModel
 
     // allowed parameters
     protected static $_params = array(
-        'id', 'name', 'start', 'response', 'format'
+        'id', 'name', 'start', 'response', 'format', 'rank'
     );
     protected $_responseLimits = array('terse' => 500, 'full' => 50);
     protected $_filter;
@@ -93,6 +93,7 @@ class ACI_Model_Webservice extends AModel
         	throw new ACI_Model_Webservice_Exception('Wildcards are allowed only at the end of the name ("name*").');
         }
         $this->_response['start'] = (int)$request->getParam('start');
+        $this->_response['rank'] = strtolower($request->getParam('rank'));
         $this->_response['version'] = $this->_setVersion();
 
         $responseFormat = $request->getParam(
@@ -144,12 +145,23 @@ class ACI_Model_Webservice extends AModel
                 'Unknown response format: ' . $responseFormat
             );
         }
+        // Ruud 12-10-15: rank must be in predefined array
+        if (!empty($this->_response['rank']) &&
+            !in_array($this->_response['rank'], self::$classificationRanks)) {
+        	throw new ACI_Model_Webservice_Exception('Invalid rank given');
+        }
+        // Ruud 12-10-15: rank can only be used in combination with name search
+        if (!empty($this->_response['rank']) && !empty($this->_response['id'])) {
+        	throw new ACI_Model_Webservice_Exception('ID and rank are given. ' .
+        	   'Rank can only be used in combination with name search.');
+        }
 
         // reset validated params
         $request->setParam('id', $this->_response['id']);
         $request->setParam('name', $this->_response['name']);
         $request->setParam('response', $responseFormat);
         $request->setParam('start', $this->_response['start']);
+        $request->setParam('rank', $this->_response['rank']);
 
         return $request;
     }
@@ -167,6 +179,7 @@ class ACI_Model_Webservice extends AModel
         $res = $this->_model->taxa(
             $request->getParam('id'),
             $request->getParam('name'),
+            $request->getParam('rank'),
             $this->_responseLimits[$request->getParam('response')], // LIMIT
             $request->getParam('start') // OFFSET
         );

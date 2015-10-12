@@ -14,7 +14,7 @@ require_once 'AModel.php';
 class ACI_Model_WebserviceSearch extends AModel
 {
     // taxa now fetches common names without the need for a union select
-    public function taxa($id, $name, $limit, $offset)
+    public function taxa($id, $name, $rank, $limit, $offset)
     {
         $select = new Eti_Db_Select($this->_db);
 
@@ -89,6 +89,11 @@ class ACI_Model_WebserviceSearch extends AModel
     	            );
     	        }
             }
+        	if (!empty($rank)) {
+                $select->where(
+	                'tst.`rank` = "' . $rank . '"'
+	            );
+	        }
         }
         // Disable fossil search if module is switched off
         if ($this->_moduleEnabled('fossils') == 0) {
@@ -108,73 +113,6 @@ class ACI_Model_WebserviceSearch extends AModel
         )->limit($limit, $offset);
         return $select->query()->fetchAll();
     }
-
-/*
-    public function taxa($id, $name, $limit, $offset)
-    {
-        $select = new Eti_Db_Select($this->_db);
-
-        $select->distinct()->sqlCalcFoundRows()->from(
-            array('tst' => '_search_all'),
-            array(
-                'sn_id' => 'tst.accepted_taxon_id',
-                'record_id' => 'tst.id',
-                'parent_id' => new Zend_Db_Expr('""'),
-                'name' => 'tst.name',
-                'name_html' =>
-                    'IF(
-                        tst.name_status != '.ACI_Model_Table_Taxa::STATUS_COMMON_NAME.', '.
-                        'IF(
-                            tst.rank = "genus",
-                            CONCAT("<i>", tst.name, "</i>"),
-                            tst.name
-                        ), '.
-                        new Zend_Db_Expr('""').
-                    ')',
-                'status' => 'IF(tst.name_status = 0, ' .
-                    ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME .
-                    ', tst.name_status)',
-                'rank_id' => ACI_Model_Search::getRankDefinition(),
-                'rank' => 'tst.rank',
-                'source_database_id' => 'tst.source_database_id', // Fetch db full name and uri separately
-                'sort_order' => 'tst.name_status',
-                'is_extinct' => 'tst.is_extinct'
-            )
-        );
-        // by id
-        if (Zend_Validate::is($id, 'Digits')) {
-            if ($id == 0) {
-                $select->where('tst.`rank` = "kingdom"');
-            }
-            else {
-                $select->where('tst.`id` = ?', $id);
-            }
-        }
-        // by name
-        else {
-            $searchKey = ACI_Model_Search::wildcardHandling($name);
-            $select->where('tst.`name` != "Not assigned"');
-            if (strpos($searchKey, '%') === false) {
-                $select->where('tst.`name` = ?', $searchKey);
-            } else {
-                $select->where('tst.`name` LIKE "' . $searchKey . '"');
-            }
-        }
-
-        // Disable fossil search if module is switched off
-        if ($this->_moduleEnabled('fossils') == 0) {
-            $select->where('tst.`is_extinct` = 0');
-        }
-
-        $select->order(
-            array(
-                new Zend_Db_Expr('sort_order'),
-                new Zend_Db_Expr('LOWER(tst.name)')
-            )
-        )->limit($limit, $offset);
-        return $select->query()->fetchAll();
-    }
-*/
 
     public function _selectScientificName()
     {
