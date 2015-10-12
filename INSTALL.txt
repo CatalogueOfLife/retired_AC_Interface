@@ -3,7 +3,7 @@ Please visit http://framework.zend.com for more information.
 
 SYSTEM REQUIREMENTS
 ====================
-PHP  
+PHP
   Required version: 5.2.10+
 
   * Extensions:
@@ -12,7 +12,7 @@ PHP
     mysqli  (http://www.php.net/manual/en/ref.mysqli.php)
     pcre    (http://www.php.net/manual/en/ref.pcre.php)
     session (http://www.php.net/manual/en/ref.session.php)
-  
+
 MySQL
   Required version: 5.0+
 
@@ -21,7 +21,7 @@ Apache
 
   * Modules:
     mod_rewrite (http://httpd.apache.org/docs/2.0/mod/mod_rewrite.html)
-    
+
 
 INSTALLATION
 =============
@@ -29,34 +29,34 @@ INSTALLATION
 
     $ mysql -u root -e 'CREATE DATABASE IF NOT EXISTS col@APP.VERSION@ac';
     $ tar zxvf col@APP.VERSION@ac.sql.tar.gz
-    $ mysql -u root col@APP.VERSION@ac < col@APP.VERSION@ac.sql   
+    $ mysql -u root col@APP.VERSION@ac < col@APP.VERSION@ac.sql
 
     Use the following command to remove the uncompressed SQL file:
-    
+
     $ rm col@APP.VERSION@ac.sql
 
 2. Deploy the application
 
-   Uncompress AC_Interface.tar.gz file and copy the extracted AC_Interface 
+   Uncompress AC_Interface.tar.gz file and copy the extracted AC_Interface
    directory into the root folder of the web server.
 
 3. Set up permissions
 
-   The web server has to have read access to all the files and read-write 
+   The web server has to have read access to all the files and read-write
    access to the following folders:
 
    AC_Interface/application/cache --> Cached query results are stored here
    AC_Interface/application/log   --> Any error that may occur is logged here
-   
-   Example (assuming that the web server user:group is www-data:www-data): 
-   
+
+   Example (assuming that the web server user:group is www-data:www-data):
+
    $ chown -R www-data:www-data AC_Interface
    $ chmod -R 750 AC_Interface
 
 4. Configure the application
 
-   Edit the file AC_Interface/application/configs/config.ini to set the 
-   database connection paramters and the Google Analytics tracker id (if any, 
+   Edit the file AC_Interface/application/configs/config.ini to set the
+   database connection paramters and the Google Analytics tracker id (if any,
    otherwise leave it empty):
 
    [production]
@@ -65,7 +65,7 @@ INSTALLATION
    database.params.host     = localhost
    database.params.username = here-your-MySQL-username
    database.params.password = here-your-MySQL-password
-   database.params.dbname   = here-the-name-of-the-db (col@APP.VERSION@ac in the example 
+   database.params.dbname   = here-the-name-of-the-db (col@APP.VERSION@ac in the example
                               above)
 
 5. Configure Apache
@@ -73,11 +73,11 @@ INSTALLATION
        5.1. Make sure that the rewrite module is enabled.
             $ (sudo) a2enmod rewrite
 
-       5.2. Create an alias inside the Apache VirtualHost in port 80 that points 
+       5.2. Create an alias inside the Apache VirtualHost in port 80 that points
             to the *public* folder of the application.
-   
+
        Example:
-   
+
                Alias / "/AC_Interface/public/"
                <Directory "/AC_Interface/public/">
                    Options Indexes MultiViews FollowSymLinks
@@ -85,14 +85,14 @@ INSTALLATION
                    Order allow,deny
                    Allow from all
                </Directory>
-   
-               This configuration will make the application run in the root of 
-               the server domain. It is important to add this Alias directive 
+
+               This configuration will make the application run in the root of
+               the server domain. It is important to add this Alias directive
                after the other Alias not to override them.
-   
-               If the application has to run in a subdomain, then replace the 
+
+               If the application has to run in a subdomain, then replace the
                alias accordingly:
-   
+
                Alias /path-to-subdomain/ "/AC_Interface/public/"
                <Directory "/AC_Interface/public/">
                    Options Indexes MultiViews FollowSymLinks
@@ -100,15 +100,22 @@ INSTALLATION
                    Order allow,deny
                    Allow from all
                </Directory>
-   
+
        IMPORTANT: When running the application in a subdomain it is necessary to
-       edit the /AC_Interface/public/.htaccess file to update the 
+       edit the /AC_Interface/public/.htaccess file to update the
        RewriteBase parameter accordingly:
-   
+
        RewriteBase /path-to-subdomain/
-   
-       Finally, restart Apache to have the changes applied. 
-   
-   NOTE: If the application does not load as expected, checking the Apache logs 
-   may help to identify the problem (the Apache 2 error log file is typically 
+
+	The application supports three "environments": production, standalone and development.
+	Depending on the environment, e.g. caching and logging is enabled.
+	The @ENVIRONMENT@ variable in config.ini should match the same variable in
+	the .htaccess file!
+
+       Finally, restart Apache to have the changes applied.
+
+
+
+   NOTE: If the application does not load as expected, checking the Apache logs
+   may help to identify the problem (the Apache 2 error log file is typically
    located in /var/log/apache2/error.log).
