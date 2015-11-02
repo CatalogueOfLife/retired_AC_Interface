@@ -304,6 +304,7 @@ class ACI_Model_Webservice extends AModel
         $db = $this->_getSourceDatabase($an['source_database_id']);
         $an['source_database'] = $db['full_name'];
         $an['source_database_url'] = $db['web_site'];
+        $an['bibliographic_citation'] = $this->_setCredit($db);
         $an['online_resource'] = $this->_getOnlineResource($an['id']);
         $an['record_scrutiny_date'] = $this->_model->getScrutinyDate($an['id']);
         $an['name_html'] =
@@ -329,7 +330,7 @@ class ACI_Model_Webservice extends AModel
             $this->_arrayFilterKeys(
                 $an, array('id', 'name', 'rank', 'name_status', 'name_html',
                 'url', 'source_database', 'source_database_url',
-                'online_resource', 'is_extinct')
+                'online_resource', 'is_extinct', 'bibliographic_citation')
             );
             return $an;
         }
@@ -585,5 +586,19 @@ class ACI_Model_Webservice extends AModel
     {
         $config = Zend_Registry::get('config');
         return $config->eti->application->version.' rev '.$config->eti->application->revision;
+    }
+
+    protected function _setEdition()
+    {
+        $config = Zend_Registry::get('config');
+        return $config->eti->application->edition;
+    }
+
+    protected function _setCredit ($db)
+    {
+        return $db['authors_editors'] . ' (' . date("Y") . '). ' . $db['full_name'] . (!empty($db['version']) ? ' (version ' . $db['version'] . ')' : '') .
+        '. In: Species 2000 & ITIS Catalogue of Life, ' . $this->_setEdition() .
+        ' (Roskov Y., Abucay L., Orrell T., Nicolson D., Kunze T., Flann C., Bailly N., Kirk P., Bourgoin T., DeWalt R.E., Decock W., De Wever A., eds). ' .
+        'Digital resource at www.catalogueoflife.org/col. Species 2000: Naturalis, Leiden, the Netherlands. ISSN 2405-8858.';
     }
 }
