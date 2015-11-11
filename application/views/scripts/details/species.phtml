@@ -265,6 +265,11 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
     </tr>
     <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Bibliographic_citation'); ?>:</th>
+        <td><?php echo $this->species->credit; ?></td>
+    </tr>
+    <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Online_resource'); ?>:</th>
         <td><?php foreach ($this->species->urls as $url) : ?><a
         href="<?php echo str_replace('#','',$url['url']);?>" target="_blank"><?php echo str_replace('#','',$url['url']);?></a>
