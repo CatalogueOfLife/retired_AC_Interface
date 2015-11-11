@@ -227,11 +227,16 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
     </tr>
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Latest_taxonomic_scrutiny'); ?>:</th>
+        <td><?php echo $this->species->latestScrutiny; ?></td>
+    </tr>
+    <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Source_database'); ?>:</th>
         <td><a href="<?php echo $this->baseUrl() . '/details/database/id/' . $this->species->dbId; ?>"><?php
           echo $this->species->dbName . '</a>, ' . $this->species->dbVersion;
         ?></a>
-        <?php if ($this->indicatorsModuleEnabled) : ?>
+         <?php if ($this->indicatorsModuleEnabled) : ?>
             <span id="database-qualifiers-span">
                 <?php if (!empty($this->species->dbCoverageIcon)): ?>
                     <img src="<?php echo $this->baseUrl() .'/images/'. $this->species->dbCoverageIcon; ?>.png"
@@ -255,10 +260,10 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
     </tr>
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
-        <th class="vertical"><?php echo $this->translate('Latest_taxonomic_scrutiny'); ?>:</th>
-        <td><?php echo $this->species->latestScrutiny; ?></td>
+        <th class="vertical"><?php echo $this->translate('Bibliographic_citation'); ?>:</th>
+        <td><?php echo $this->species->credit; ?></td>
     </tr>
-<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Online_resource'); ?>:</th>
         <td><?php foreach ($this->species->urls as $url) : ?><a
