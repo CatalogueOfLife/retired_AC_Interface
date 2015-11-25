@@ -56,7 +56,7 @@ INSTALLATION
 4. Configure the application
 
    Edit the file AC_Interface/application/configs/config.ini to set the
-   database connection paramters and the Google Analytics tracker id (if any,
+   database connection parameters and the Google Analytics tracker id (if any,
    otherwise leave it empty):
 
    [production]
