@@ -231,9 +231,6 @@ class ACI_Model_Details extends AModel
             $species->dbCompleteness = $sourceDatabaseQualifiers['dbCompleteness'];
             $species->dbConfidence = $sourceDatabaseQualifiers['dbConfidence'];
         }
-        $db = new ACI_Model_Table_Databases($this->_db);
-        $species->credit = $this->_setCredit($db->get($species->dbId));
-
         return $species;
     }
 

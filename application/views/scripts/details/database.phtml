@@ -176,6 +176,11 @@ if (is_array($this->db)):
             <?php endforeach; ?>
         </td>
     </tr>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Bibliographic_citation'); ?>:</th>
+        <td><?php echo $this->db['credit']; ?></td>
+    </tr>
 
 </table>
 <?php else: ?>

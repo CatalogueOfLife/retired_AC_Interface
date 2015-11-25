@@ -87,6 +87,7 @@ class DetailsController extends AController
         $dbDetails = $dbTable->get($this->_getParam('id'));
         if ($dbDetails) {
             $dbDetails = $this->getHelper('DataFormatter')->formatDatabaseDetails($dbDetails);
+            $dbDetails['credit'] = $this->_setCredit($dbDetails);
         }
         $this->view->headTitle('Catalogue of Life : ' . $dbDetails['short_name'], 'SET');
         $this->_logger->debug($dbDetails);
@@ -123,10 +124,13 @@ class DetailsController extends AController
                 $links = $detailsModel->synonymLinks($synonymId);
             }
             if ($detailsModel->species($id, $fromType, $fromId)) {
-                $speciesDetails = $this->getHelper('DataFormatter')->formatSpeciesDetails(
-                    $detailsModel->species($id, $fromType, $fromId));
+                $speciesDetails = $this->getHelper('DataFormatter')
+                    ->formatSpeciesDetails($detailsModel->species($id, $fromType, $fromId));
+                $dbTable = new ACI_Model_Table_Databases;
+                $speciesDetails->credit = $this->_setCredit($dbTable->get($speciesDetails->dbId));
             }
         }
+
 		$title = $speciesDetails && $speciesDetails->infra_id != '' ? 'Infraspecies_details' : 'Species_details';
         $this->view->title = $this->view->translate($title);
         $this->view->headTitle('Catalogue of Life : ' . $speciesDetails->headTitle, 'SET');
