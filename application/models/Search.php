@@ -176,7 +176,7 @@ class ACI_Model_Search extends AModel
         $matchWholeWords = $this->getTrueMatchWholeWords($matchWholeWords, $searchKey);
         $this->_logger->debug(__METHOD__);
         $this->_logger->debug(func_get_args());
-        return $this->_selectCommonNames($searchKey, $matchWholeWords, $fossil)
+        return $this->_selectCommonNames($this->_cleanSearchAllString($searchKey), $matchWholeWords, $fossil)
         ->reset('order')
         ->order(
             ($sort ?
@@ -1249,7 +1249,9 @@ class ACI_Model_Search extends AModel
     		'"',
     		"'"
     	);
-    	return str_replace($find, '', $str);
+    	$str = str_replace($find, '', $str);
+    	// Add option to search for "-term" as in "-legged"; strip hyphen if first character
+        return strpos($str, '-') === 0 ? substr($str, 1) : $str;
     }
 
 }
