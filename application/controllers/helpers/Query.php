@@ -77,9 +77,10 @@ class ACI_Helper_Query extends Zend_Controller_Action_Helper_Abstract
                 switch($action) {
                     case 'classification':
                         $match = $params['match'];
-                        unset($params['match']);
+                        $fossil = $params['fossil'];
+                        unset($params['match'], $params['fossil']);
                         $select = $model->scientificNames(
-                            $params, $match, null, null, $action, $params['fossil']
+                            $params, $match, null, null, $action, $fossil
                         );
                         break;
                 }
