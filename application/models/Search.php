@@ -843,7 +843,8 @@ class ACI_Model_Search extends AModel
                 'name' => 'IF(subgenus != "" AND species = "",subgenus,
             		CONCAT_WS(" ",genus,IF(subgenus != "", CONCAT("(",subgenus,")"),""),species,infraspecific_marker,infraspecies)
             	)',
-                'name_status' => 'status'
+                'name_status' => 'status',
+                'db_name' => 'source_database_name'
             )
         );
 
