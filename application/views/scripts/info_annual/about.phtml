@@ -11,21 +11,29 @@
  *
  */
 ?>
-<div class="page_header">
-<?php
-echo $this->translate('Info_about')?>
-</div>
+<h1 class="page_header">
+<?php echo $this->translate('Info_about')?>
+</h1>
 <?php
 echo $this->navigator_top;
 ?>
 <div class="info_content">
+
+
+
+
+
+
+
+
+
 <p class="field_header">The Species 2000 &amp; ITIS Catalogue of Life</p>
 
 <span style="width: 405px; float: left; padding-left: 0px; margin-right: 15px; margin-bottom: 10px; background-color: #FFF">
 <table>
 <tr><td><img src="../images/frank.jpg" title="Frank Bisby" alt="Frank Bisby" width="157" height="187" /></td>
 <td>
-<span style="float: right; font-size: 11px; font-style: italic; ">&quot;The Catalogue of Life is the most comprehensive and authoritative global index of species currently available. It consists of a single integrated species checklist and taxonomic hierarchy.&quot; 
+<span style="float: right; font-size: 11px; font-style: italic; ">&quot;The Catalogue of Life is the most comprehensive and authoritative global index of species currently available. It consists of a single integrated species checklist and taxonomic hierarchy.&quot;
 <br />
 <img src="../images/signature.png" title="signature" alt="signature" width="81" height="35" style="margin-left: 110px;"/>
 <br />
@@ -38,7 +46,7 @@ Frank Bisby (1945&#8212;2011) was leader of the Catalogue of Life project from i
 <p>
 The Catalogue of Life (CoL) is the nearest thing to a comprehensive catalogue of all known species of organisms on Earth. Continuous progress is made towards completion, and this edition contains <b><?php echo $this->stats['species']; ?> </b>
 species. Please note that this is probably just over three quarters of the world's known species. This means that for many groups it continues to be deficient, and users will notice that many species are still missing from the Catalogue.</p>
-<p>The present Catalogue is compiled with sectors provided by <b><?php echo $this->stats['databases']-2; ?></b> taxonomic databases from around the
+<p>The present Catalogue is compiled with sectors provided by <b><?php echo $this->stats['databases']-1; ?></b> taxonomic databases from around the
 world. Many of these contain taxonomic data and opinions from extensive networks
 of specialists, so that the complete work contains contributions from more than
 3,000 specialists from throughout the taxonomic profession. Species 2000 and
@@ -59,8 +67,8 @@ These are progressively enhanced editions in what becomes a dynamically developi
 <span class="field_header">&#8226; Annual Checklist <span style="font-weight: normal;">of the Catalogue of Life</span></span>
 <br/>
 Published each April as fixed online edition with web-services, and on DVD. At all times the latest Annual Checklist is online at <a href = "http://www.catalogueoflife.org/annual-checklist"  target = "_blank">www.catalogueoflife.org/annual-checklist</a>.
-A fixed edition that is published, archived and deposited in public libraries, 
-that can be cited, and that can be used as a common catalogue for comparative 
+A fixed edition that is published, archived and deposited in public libraries,
+that can be cited, and that can be used as a common catalogue for comparative
 purposes by many organisations. A copy is on this DVD, which is distributed free of charge, and identical copies are viewable and downloadable on the website. The archive edition for 2015 is at <a href = "http://www.catalogueoflife.org/annual-checklist/2015"  target = "_blank">www.catalogueoflife.org/annual-checklist/2015</a>. Archive editions of previous years can be found by changing the year in the URL (e.g. /2014, /2013 etc.), and downloadable versions and web-services can be found at <a href = "http://www.catalogueoflife.org"  target = "_blank">www.catalogueoflife.org</a>.
 </p>
 
@@ -92,13 +100,13 @@ The Integrated Taxonomic Information System (ITIS) is a partnership of federal a
     src="<?php echo $this->baseUrl(); ?>/images/sp2000_small.gif"
     width="142" height="62">
 </a>
-Species 2000 (<a href="http://www.sp2000.org" target = "_blank">www.sp2000.org</a>) is an autonomous federation of taxonomic 
-database custodians, involving taxonomists throughout the world. The goal 
-is to collate a uniform and validated index to the world's known species: <b>the Catalogue of Life</b>. 
+Species 2000 (<a href="http://www.sp2000.org" target = "_blank">www.sp2000.org</a>) is an autonomous federation of taxonomic
+database custodians, involving taxonomists throughout the world. The goal
+is to collate a uniform and validated index to the world's known species: <b>the Catalogue of Life</b>.
 Species 2000 is registered as a not-for-profit company limited by guarantee (registered in England No. 3479405) with taxonomic database and relevant software organisations from around the world as members. Species 2000 started from a TDWG Task Group in 1996; sponsored by CODATA, IUBS and IUMS. It is an associate participant in GBIF, recognised authority by UNEP, CBD, IPBES and providing a validated taxonomic backbone GBIF, EBI/NSDC, Barcode of Life, IUCN Red List, EoL and many other initiatives aggregating data or producing services.
 </p>
 <p>
-Species 2000 is governed by an AGM appointed Board of Directors that deals with legal and financial matters, and that is advised by the CoL Global Team on scientific policy and information and communications technology (ICT). The Directors are presently: Peter Schalk (Chairman, the Netherlands), Alex Gray (Secretary and Treasurer, UK), Guy Cochrane (UK), David Eades (USA), Francisco Hernandez (Belgium), Keping Ma (China), Vanderlei Perez Canhos (Brazil), Michael Ruggiero (Chairman of CoL Global Team, USA) & Jan van Tol (the Netherlands).
+Species 2000 is governed by an elected Board of Directors that deals with legal and financial matters, and that is advised by the CoL Global Team on scientific policy and information and communications technology (ICT). The Directors are presently: Peter Schalk (Chairman, the Netherlands), Alex Gray (Secretary and Treasurer, UK), Guy Cochrane (UK), David Eades (USA), Francisco Hernandez (Belgium), Keping Ma (China), Vanderlei Perez Canhos (Brazil), Michael Ruggiero (Chairman of CoL Global Team, USA) & Jan van Tol (the Netherlands).
 </p>
 
 <p class="field_header">Structure of the Catalogue of Life</p>
@@ -128,14 +136,14 @@ responsible/consensus taxonomy, and for applying it consistently<br />
 <p>Each species in the Catalogue of Life is listed with an accepted scientific name, a cited reference and its position in the hierarchical classification. Additional common names and synonyms may be provided, but these data are not complete, and for some species none may exist. The complete list of fields (known as the "Catalogue of Life Standard Dataset") is given below:</p>
 <div class="copyright_notice"><b>The Catalogue of Life Standard Dataset (2014 version)</b>
 <p>(1) Accepted scientific name with references<br/>
-    (2) Synonyms with references<br/> 
-    (3) Common names with references<br/> 
-    (4) Classification above genus<br/> 
-    (5) Distribution<br/> 
+    (2) Synonyms with references<br/>
+    (3) Common names with references<br/>
+    (4) Classification above genus<br/>
+    (5) Distribution<br/>
     (6) Life Zone<br/>
     (7) Current and Past Existence<br/>
     (8) Additional data (optional)<br/>
-    (9) Latest taxonomic scrutiny (specialist name and date)<br/> 
+    (9) Latest taxonomic scrutiny (specialist name and date)<br/>
   (10) Taxon GUID from GSD (not displayed through public interface)<br/>
   (11) Name GUID (not displayed through public interface)<br/>
   (12) CoL LSID<br/>
@@ -149,7 +157,7 @@ the Catalogue of Life website (<a href="http://www.catalogueoflife.org/content/c
 
 <p>Each species is linked via the genus and family to the taxonomic classification. Above the node of attachment of each data sector this classification has been agreed by Species 2000 and ITIS as a practical management tool to provide access to the Catalogue of Life. However, below the node of attachment the classification originates from the supplier databases and so may change with each update.</p>
 
-<p>The top levels of the management classification were set in 2005, as the <I>CoL Management Classification</I>. Please read the draft discussion document &quot;Towards a management hierarchy (classification) for the Catalogue of Life&quot; by Dennis Gordon, appended to this edition of the Catalogue of Life 
+<p>The top levels of the management classification were set in 2005, as the <I>CoL Management Classification</I>. Please read the draft discussion document &quot;Towards a management hierarchy (classification) for the Catalogue of Life&quot; by Dennis Gordon, appended to this edition of the Catalogue of Life
 (<a href="hierarchy">www.catalogueoflife.org/annual-checklist/2015/info/hierarchy</a>).
 </p>
 
@@ -187,6 +195,16 @@ identical to that used on the Web. The structure of the Annual Checklist
 database has been optimised for performance with the user interface but
 is not ideal for importing to other systems. The content may be copied
 subject to the copyright conditions given on the inside cover of the booklet.</p>
+
+
+
+
+
+
+
+
+
+
 
 </div>
 <?php
