@@ -336,12 +336,14 @@ class ACI_Model_Webservice extends AModel
         }
         // full response
         $an['distribution'] = $this->_getDistribution($an['id']);
-        $an['references'] = $this->_getReferences($an['id']);
         if(ACI_Model_Table_Taxa::isAcceptedName($status)) {
+            $an['references'] = $this->_getReferences($an['id']);
             $an['classification'] = $this->_model->getSpeciesClassification($an['id']);
             $an['child_taxa'] = $this->_model->getChildTaxa($an['id']);
             $an['synonyms'] = $this->_getSynonyms($an['id']);
             $an['common_names'] = $this->_getCommonNames($an['id']);
+        } else {
+            $an['references'] = $this->_getSynonymReferences($an['id']);
         }
         return $an;
     }
@@ -368,6 +370,21 @@ class ACI_Model_Webservice extends AModel
         );
         return $refs;
     }
+
+    protected function _getSynonymReferences(/*mixed*/ $rCode)
+    {
+        $dm = $this->_getDetailsModel();
+        $refs = $dm->getReferencesBySynonymId($rCode);
+
+        // Reset to 'old' array keys
+        $refs = $this->_resetReferences($refs);
+        $this->_arrayFilterKeys(
+            $refs, array('author', 'title', 'year', 'source')
+        );
+        return $refs;
+    }
+
+
 
     protected function _getDistribution($id)
     {
@@ -415,7 +432,7 @@ class ACI_Model_Webservice extends AModel
             $syn['url'] = self::getTaxaUrl(
                 $syn['id'], $syn['rank_id'], $syn['status'], $id
             );
-            $syn['references'] = $this->_getReferences($syn['id']);
+            $syn['references'] = $this->_getSynonymReferences($syn['id']);
             unset($syn['rank_id'], $syn['status'], $syn['source_database_id'],
                 $syn['distribution'], $syn['sn_id']);
         }
