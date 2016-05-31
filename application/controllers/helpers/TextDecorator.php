@@ -23,24 +23,27 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
      */
     public function highlightMatch($haystack, $needle, $wrapWords = false)
     {
-    	if (is_array($needle)) {
+        $f = array('<span class="matchHighlight">', '</span>');
+        $r = array(chr(4), chr(7));
+        $haystack = str_replace($f, $r, $haystack);
+
+        if (is_array($needle)) {
             foreach ($needle as $n) {
                 $haystack = $this->highlightMatch($haystack, $n, $wrapWords);
             }
-            return $haystack;
+            return str_replace($r, $f, $haystack);
         }
         if (trim($needle) == '') {
             return $haystack;
         }
         $needle = $this->_stripSearchParams($needle);
+
         if ($wrapWords == true && !preg_match('#&\#[0-9]{1,5};#', $needle)) {
             $prefix = '\b';
             $suffix = '\b';
             $replace = '';
         } else {
-            $prefix = '';
-            $suffix = '';
-            $replace = '';
+            $prefix = $suffix = $replace = '';
         }
         /* Pre ACI-620 situation, explicitly uses word boundary
         $regexp = '/\b(' .
@@ -48,11 +51,15 @@ class ACI_Helper_TextDecorator extends Zend_Controller_Action_Helper_Abstract
         */
         $regexp = '/(' .
             str_replace('*', $replace, $prefix . $needle . $suffix) . ')/mi';
-        return preg_replace(
+
+        $haystack = preg_replace(
             $regexp,
-            "<span class=\"matchHighlight\">$1</span>",
+            '<span class="matchHighlight">$1</span>',
             $haystack
         );
+
+        // Restore temporarily replaced tags
+        return str_replace($r, $f, $haystack);
     }
 
     public function getEmptyField()
