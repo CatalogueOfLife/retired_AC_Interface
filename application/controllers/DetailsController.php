@@ -87,7 +87,8 @@ class DetailsController extends AController
         $dbDetails = $dbTable->get($this->_getParam('id'));
         if ($dbDetails) {
             $dbDetails = $this->getHelper('DataFormatter')->formatDatabaseDetails($dbDetails);
-            $dbDetails['credit'] = $this->_setCredit($dbDetails);
+            $detailsModel = new ACI_Model_Details($this->_db);
+            $dbDetails['credit'] = $detailsModel->setCredit($dbDetails);
         }
         $this->view->headTitle('Catalogue of Life : ' . $dbDetails['short_name'], 'SET');
         $this->_logger->debug($dbDetails);
@@ -127,7 +128,7 @@ class DetailsController extends AController
                 $speciesDetails = $this->getHelper('DataFormatter')
                     ->formatSpeciesDetails($detailsModel->species($id, $fromType, $fromId));
                 $dbTable = new ACI_Model_Table_Databases;
-                $speciesDetails->credit = $this->_setCredit($dbTable->get($speciesDetails->dbId));
+                $speciesDetails->credit = $detailsModel->setCredit($dbTable->get($speciesDetails->dbId));
             }
         }
 

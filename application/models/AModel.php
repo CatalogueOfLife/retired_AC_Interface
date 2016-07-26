@@ -120,15 +120,18 @@ abstract class AModel
         return $config->eti->application->edition;
     }
 
-    protected function _setCredit ($db)
+    public function setCredit ($db)
     {
-        if (!isset($db['authors_editors']) || !isset($db['full_name'])) {
-            return false;
-        }
-        return $db['authors_editors'] . ' (' . date("Y") . '). ' . $db['full_name'] . (!empty($db['version']) ? ' (version ' . $db['version'] . ')' : '') .
-        '. In: Species 2000 & ITIS Catalogue of Life, ' . $this->_setEdition() .
-        ' (Roskov Y., Abucay L., Orrell T., Nicolson D., Flann C., Bailly N., Kirk P., Bourgoin T., DeWalt R.E., Decock W., De Wever A., eds). ' .
-        'Digital resource at www.catalogueoflife.org/annual-checklist/2016. Species 2000: Naturalis, Leiden, the Netherlands. ISSN 2405-884X.';
+        $select = new Zend_Db_Select($this->_db);
+        $select->from('_credits')->where('current=?', 1);
+        $row = $select->query()->fetch();
+
+        $credit = $row['organisation'] . ', ' . $this->_setEdition() . ' (' .
+            $row['authors_editors'] . '). ' . $row['title'] . '. ISSN ' . $row['issn'] . '. ';
+
+        return $db['authors_editors'] . ' (' . date("Y") . '). ' . $db['full_name'] .
+            (!empty($db['version']) ? ' (version ' . $db['version'] . ')' : '') .
+            '. In: ' . $credit;
     }
 
 }

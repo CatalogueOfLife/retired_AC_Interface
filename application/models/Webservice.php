@@ -304,7 +304,7 @@ class ACI_Model_Webservice extends AModel
         $db = $this->_getSourceDatabase($an['source_database_id']);
         $an['source_database'] = $db['full_name'];
         $an['source_database_url'] = $db['web_site'];
-        $an['bibliographic_citation'] = $this->_setCredit($db);
+        $an['bibliographic_citation'] = $this->setCredit($db);
         $an['online_resource'] = $this->_getOnlineResource($an['id']);
         $an['record_scrutiny_date'] = $this->_model->getScrutinyDate($an['id']);
         $an['name_html'] =
