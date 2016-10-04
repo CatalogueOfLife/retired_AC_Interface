@@ -20,17 +20,9 @@ class ACI_Model_Webservice extends AModel
         'id', 'name', 'start', 'response', 'format', 'rank'
     );
     protected $_responseLimits = array('terse' => 500, 'full' => 50);
-    protected $_filter;
+    //protected $_filter;
     protected $_naturalKey;
-    protected $_response = array(
-        'id' => '',
-        'name' => '',
-        'total_number_of_results' => 0,
-        'number_of_results_returned' => 0,
-        'start' => 0,
-        'error_message' => '',
-        'version' => ''
-    );
+    protected $_response;
     protected $_model;
     protected $_detailsModel;
 
@@ -49,20 +41,24 @@ class ACI_Model_Webservice extends AModel
 
     public function query(Zend_Controller_Request_Abstract $request)
     {
-        if (is_null($this->_filter)) {
+        $this->initResponse();
+        /*
+         /if (is_null($this->_filter)) {
             throw new ACI_Model_Exception(
-                'No filter defined for the webservice output'
+                'FATAL: no filter defined for the webservice output'
             );
         }
+        */
         $this->_model = new ACI_Model_WebserviceSearch($this->_db);
         try {
             $this->_process($this->_validate($request));
         } catch(Zend_Db_Exception $e) {
-            $this->_setError('Database query failed: '.$e);
+            $this->initResponse();
+            $this->_setError('FATAL: database query failed: '. $e);
         } catch (ACI_Model_Webservice_Exception $e) {
             $this->_setError($e->getMessage());
         }
-        return $this->_filter->filter($this->_response);
+        return $this->_response;
     }
 
     protected function _getDetailsModel()
@@ -580,6 +576,18 @@ class ACI_Model_Webservice extends AModel
         return $parsedRefs;
     }
 
+    private function initResponse () {
+        $this-> _response = array(
+            'id' => '',
+            'name' => '',
+            'total_number_of_results' => 0,
+            'number_of_results_returned' => 0,
+            'start' => 0,
+            'error_message' => '',
+            'version' => ''
+        );
+    }
+
     // Simplify rank to infraspecies if necessary and set first character to uppercase
     public static function checkRank($rank) {
         if (!in_array($rank, self::$classificationRanks)) {
@@ -587,12 +595,12 @@ class ACI_Model_Webservice extends AModel
         }
         return ucfirst($rank);
     }
-
+/*
     public function setFilter(Zend_Filter_Interface $filter)
     {
         $this->_filter = $filter;
     }
-
+*/
     protected function _setError($message)
     {
         $this->_response['error_message'] = $message;

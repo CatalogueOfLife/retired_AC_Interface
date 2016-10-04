@@ -13,6 +13,8 @@ require_once 'AController.php';
  */
 class WebserviceController extends AController
 {
+    private $_filter;
+
     public function init()
     {
         parent::init();
@@ -41,21 +43,21 @@ class WebserviceController extends AController
         switch ($this->_getParam('format')) {
             case 'php':
                 $this->view->layout()->disableLayout();
-                $filter = new Eti_Filter_Serialize();
+                $this->_filter = new Eti_Filter_Serialize();
                 break;
             case 'json':
                 $this->view->layout()->disableLayout();
                 $this->getResponse()->setHeader('Content-Type', 'application/json');
-                $filter = new Eti_Filter_JsonEncode();
+                $this->_filter = new Eti_Filter_JsonEncode();
                 break;
             default:
                 // default context and output filter (XML)
                 $this->getRequest()->setParam('format', 'xml');
                 $contextSwitch = $this->_helper->getHelper('contextSwitch');
                 $contextSwitch->initContext();
-                $filter = new Eti_Filter_ArrayToXml();
+                $this->_filter = new Eti_Filter_ArrayToXml();
                 // node name mapping based on parent node name
-                $filter->setNodeNameMapping(
+                $this->_filter->setNodeNameMapping(
                     array(
                         'root' => 'results',
                         'results' => 'result',
@@ -68,9 +70,15 @@ class WebserviceController extends AController
                 );
         }
         $wsModel = new ACI_Model_Webservice($this->_db);
-        $wsModel->setFilter($filter);
+        // Ruud 04-10-16: moved filter to controller so headers can be reset in case of serious error
+        // $wsModel->setFilter($filter);
         $res = $wsModel->query($this->getRequest());
-        $this->view->response = $res;
+        // Ruud 04-10-16: fatal error, set header 500
+        if (empty($res['id']) && empty($res['name']) && strpos($res['error_message'], 'FATAL') !== false) {
+            $this->getResponse()->setHttpResponseCode(500);
+        }
+
+        $this->view->response = $this->_filter->filter($res);
     }
 
     public function __call ($name, $arguments)
