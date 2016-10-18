@@ -82,8 +82,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $view->encoding = $config->resources->view->encoding;
         $view->setEncoding($view->encoding);
         $view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=' . $view->encoding);
-        $view->headTitle('Catalogue of Life - ' . $config->eti->application->edition);
-        $view->headTitle()->setSeparator(' : ');
+        //$view->headTitle('Catalogue of Life - ' . $config->eti->application->edition);
+        //$view->headTitle()->setSeparator(' : ');
         // Also pass currentLanguage to viewer
         $view->language = $this->_getCurrentLanguage();
         $view->hash = md5(time());
@@ -227,4 +227,16 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         }
         return false;
     }
+
+    protected function _setEdition()
+    {
+        $config = Zend_Registry::get('config');
+        //return $config->eti->application->edition;
+        $select = new Zend_Db_Select($this->_db);
+        $select->from('_credits', array('edition'))->where('current=?', 1);
+        $res = $select->query()->fetchColumn(0);
+        return empty($res) ? $config->eti->application->edition : $res;
+    }
+
+
 }

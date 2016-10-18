@@ -37,6 +37,13 @@ abstract class AController extends Zend_Controller_Action
         $this->view->latestSearch = $this->getHelper('Query')->getLatestQuery();
         $config = Zend_Registry::get('config');
         $this->view->app = $config->eti->application;
+
+        // Ruud: 18-09-16: override edition!
+        $this->view->app->edition = $this->_setEdition();
+        // ... and page title (lifted from Bootstrap)
+        $this->view->headTitle('Catalogue of Life - ' . $this->view->app->edition, 'SET');
+        $this->view->headTitle()->setSeparator(' : ');
+
         $this->view->googleAnalyticsTrackerId = $config->view->googleAnalytics->trackerId;
         $this->view->interfaceLanguages = $this->_setInterfaceLanguages();
         $this->_cookieExpiration = $this->_setCookieExpiration();
@@ -277,7 +284,10 @@ abstract class AController extends Zend_Controller_Action
     protected function _setEdition()
     {
         $config = Zend_Registry::get('config');
-        return $config->eti->application->edition;
+        //return $config->eti->application->edition;
+        $select = new Zend_Db_Select($this->_db);
+        $select->from('_credits', array('edition'))->where('current=?', 1);
+        $res = $select->query()->fetchColumn(0);
+        return empty($res) ? $config->eti->application->edition : $res;
     }
-
 }
