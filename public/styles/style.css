@@ -1480,3 +1480,11 @@ table.panelTable tr td,table.panelTable tr th {
 .nowrap {
 	 white-space: nowrap;
 }
+
+.tundra span.dijitButtonNode button#update {
+	width: 90px;
+}
+
+div.items-form dd#itemsGroup-element fieldset#fieldset-itemsGroup {
+	width: 100%;
+}
