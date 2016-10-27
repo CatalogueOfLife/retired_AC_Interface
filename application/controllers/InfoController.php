@@ -105,6 +105,23 @@ class InfoController extends AController
     {
         $this->view->title = $this->view->translate('Cite_work');
         $this->view->headTitle($this->view->title, 'APPEND');
+        $info = new ACI_Model_Info($this->_db);
+        $d = $info->getCitations();
+
+        foreach ($d['credits'] as $row) {
+            $credits[$row['type']] = $row['authors_editors'] . '. ' . ' (' . date("Y") . '). ' .
+            $row['organisation'] . ', ' . $row['edition'] . '. ' .
+            $row['title'] . '. ISSN ' . $row['issn'] . '. ';
+        }
+
+        $citations = '';
+        foreach ($d['gsds'] as $db) {
+            $citations .= '<p><strong>' . $db['short_name'] . '</strong><br/>' .
+                $info->setCredit($db) . '</p>';
+        }
+
+        $this->view->credits = (object) $credits;
+        $this->view->citations = $citations;
         $this->_setNavigator();
     }
 
