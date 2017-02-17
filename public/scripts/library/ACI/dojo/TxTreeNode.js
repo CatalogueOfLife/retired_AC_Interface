@@ -248,12 +248,15 @@ function createStatistics(treeNode, bullet, className) {
 	            		.replace(['[t]'], treeNode.i.nr_extant)
 	        			.replace(['[e]'], treeNode.i.estimation)
 	        			.replace(['[p]'], treeNode.i.percentage);
-	            } else {
+	            } else if (treeNode.i.nr_extant > 0) {
 	            	statsText = treeNode.i.nr_extant + ' ' + translate('living') + ' spp';
 	            }
             	if (treeNode.i.nr_fossil != 0) {
-            		statsText += '; ' + treeNode.i.nr_fossil + " <span class='dagger help' " +
-            		"title='" + translate("Extinct_tip") + "'>\u2020</span>spp";
+            		if (treeNode.i.nr_extant > 0) {
+            			statsText += '; ';
+            		}
+            		statsText += treeNode.i.nr_fossil + " <span class='dagger help' " +
+            			"title='" + translate("Extinct_tip") + "'>\u2020</span>spp";
             	}
             }
         //extinct disabled
