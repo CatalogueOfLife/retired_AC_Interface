@@ -109,9 +109,7 @@ class InfoController extends AController
         $d = $info->getCitations();
 
         foreach ($d['credits'] as $row) {
-            $credits[$row['type']] = $row['authors_editors'] . '. ' . ' (' . date("Y") . '). ' .
-            $row['organisation'] . ', ' . $row['edition'] . '. ' .
-            $row['title'] . '. ISSN ' . $row['issn'] . '. ';
+            $credits[$row['type']] = $row['citation'];
         }
 
         $citations = '';

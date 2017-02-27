@@ -130,17 +130,17 @@ abstract class AModel
         $select->from('_credits')->where('current=?', 1);
         $row = $select->query()->fetch();
 
+        $find = array('[year]', '[edition]');
+        $replace = array(date("Y"), $row['edition']);
+        $credit = str_replace($find, $replace, $row['citation']);
+
         if ($db) {
-            $credit = $row['organisation'] . ', ' . $row['edition']  . ' (' .
-                $row['authors_editors'] . '). ' . $row['title'] . '. ISSN ' . $row['issn'] . '. ';
             return $db['authors_editors'] . ' (' . date("Y") . '). ' . $db['full_name'] .
                 (!empty($db['version']) ? ' (version ' . $db['version'] . ')' : '') .
                 '. In: ' . $credit;
         }
 
-        return $row['authors_editors'] . '. ' . ' (' . date("Y") . '). ' .
-            $row['organisation'] . ', ' . $row['edition'] . '. ' .
-            $row['title'] . '. ISSN ' . $row['issn'] . '. ';
+        return $credit;
     }
 
 }

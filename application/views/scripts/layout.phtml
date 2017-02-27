@@ -14,13 +14,11 @@
 <?php echo $this->doctype();?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language ?>" lang="<?php echo $this->language ?>">
 <head>
-<link rel="shortcut icon" href="<?php echo $this->baseUrl() ?>/images/favicon.ico" type="image/gif" />
 <meta http-equiv="X-UA-Compatible" content="IE=8">
 
 <?php
     echo $this->headMeta();
     echo $this->headTitle();
-
     // styles
     $this->headLink()->setStylesheet(
         $this->baseUrl() . '/styles/style.css?' . $this->app->edition, 'all'
@@ -31,8 +29,6 @@
     $this->headLink()->appendStylesheet(
         $this->baseUrl() . '/styles/style-ie7.css?' . $this->app->edition, 'all', 'IE 7'
     );
-    $this->headLink()->headLink(array('rel' => 'favicon', 'href' => '/images/favicon.ico'));
-
     echo $this->headLink();
     if ($this->dojo()->isEnabled()) {
         $this->dojo()->setLocalPath(
@@ -66,7 +62,8 @@ dojo.require("dijit.Menu");
             dojo.require("dijit.Menu");
             dojo.require("dijit.form.CheckBox");
         </script>
-        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/tundra/tundra.css" />
+        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dijit/themes/tundra/tundra.css"
+        />
 <?php endif; ?>
 
 

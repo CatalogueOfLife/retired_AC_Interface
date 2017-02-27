@@ -20,7 +20,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
         $textDecorator =
             $this->getActionController()->getHelper('TextDecorator');
         $it = $paginator->getIterator();
-
+        
         unset($paginator);
         foreach ($it as $row) {
             if(!isset($row['rank'])) {
@@ -131,8 +131,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                         ),
                         ACI_Model_Table_Taxa::STATUS_ACCEPTED_NAME,
                         (isset($row['accepted_species_author']) ?
-                            $row['accepted_species_author'] : (isset($row['author']) ?
-                                $row['author'] : ''))
+                            $row['accepted_species_author'] : '')
                     ) .
                     '</a>'
                 );
@@ -376,9 +375,6 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 (!empty($speciesDetails->specialistName) ? ', ' : '') . $speciesDetails->scrutinyDate : '';
         }
 
-        if (!$speciesDetails->lsid) {
-            $speciesDetails->lsid = $textDecorator->getEmptyField();
-        }
         $speciesDetails->webSite =
             $textDecorator->createLink($speciesDetails->webSite, '_blank');
 
@@ -772,11 +768,12 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     if (strstr($trimmedRank, ' ')) {
                         $output .= $trimmedRank;
                     } else {
-                        // link to taxonomic browser
+                       	// link to taxonomic browser;
+						// Ruud 27-02-17: trim dagger symbol from url
                         $link = $this->getFrontController()->getBaseUrl() .
-                            '/browse/classification/name/' . $trimmedRank;
+                        	'/browse/classification/name/' . str_replace('†', '', $trimmedRank);
                         $output .= $prefix . '<a href="' . $link . '">' .
-                            $trimmedRank . '</a>' . $suffix;
+                        	$trimmedRank . '</a>' . $suffix;
                     }
                 }
             }

@@ -42,7 +42,7 @@ class Eti_View_Helper_GoogleAnalytics extends Zend_View_Helper_Abstract
         'setCampNameKey', 'setCampMediumKey', 'setCampSourceKey',
         'setCampTermKey', 'setCampContentKey' , 'setCampIdKey', 'setCampNoKey',
         // Other
-        'addOrganic', 'addIgnoredOrganic', 'addIgnoredRef', 'setSampleRate'
+        'setOrganic', 'addIgnoredOrganic', 'addIgnoredRef', 'setSampleRate'
     );
     
     protected $_trackerId;
