@@ -154,4 +154,28 @@ class ACI_Model_Info extends AModel
         }
         return $res;
     }
+
+    public function getCitations ()
+    {
+        $select = new Zend_Db_Select($this->_db);
+        $stmt = $this->_db->query($select->from('_credits'));
+        $credits = $stmt->fetchAll(Zend_Db::FETCH_ASSOC);
+
+        foreach ($credits as $i => $credit) {
+            $find = array('[year]', '[edition]');
+            $replace = array(date("Y"), $credit['edition']);
+            $credits[$i]['citation'] = str_replace($find, $replace, $credit['citation']);
+        }
+
+        $select = new Zend_Db_Select($this->_db);
+        $select->from('_source_database_details')->order('short_name');
+        $stmt = $this->_db->query($select);
+        $gsds = $stmt->fetchAll(Zend_Db::FETCH_ASSOC);
+
+        return array(
+            'credits' => $credits,
+            'gsds' => $gsds
+        );
+    }
+
 }

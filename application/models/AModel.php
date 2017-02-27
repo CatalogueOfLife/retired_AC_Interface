@@ -117,21 +117,30 @@ abstract class AModel
     protected function _setEdition()
     {
         $config = Zend_Registry::get('config');
-        return $config->eti->application->edition;
+        //return $config->eti->application->edition;
+        $select = new Zend_Db_Select($this->_db);
+        $select->from('_credits', array('edition'))->where('current=?', 1);
+        $res = $select->query()->fetchColumn(0);
+        return empty($res) ? $config->eti->application->edition : $res;
     }
 
-    public function setCredit ($db)
+    public function setCredit ($db = false)
     {
         $select = new Zend_Db_Select($this->_db);
         $select->from('_credits')->where('current=?', 1);
         $row = $select->query()->fetch();
 
-        $credit = $row['organisation'] . ', ' . $this->_setEdition() . ' (' .
-            $row['authors_editors'] . '). ' . $row['title'] . '. ISSN ' . $row['issn'] . '. ';
+        $find = array('[year]', '[edition]');
+        $replace = array(date("Y"), $row['edition']);
+        $credit = str_replace($find, $replace, $row['citation']);
 
-        return $db['authors_editors'] . ' (' . date("Y") . '). ' . $db['full_name'] .
-            (!empty($db['version']) ? ' (version ' . $db['version'] . ')' : '') .
-            '. In: ' . $credit;
+        if ($db) {
+            return $db['authors_editors'] . ' (' . date("Y") . '). ' . $db['full_name'] .
+                (!empty($db['version']) ? ' (version ' . $db['version'] . ')' : '') .
+                '. In: ' . $credit;
+        }
+
+        return $credit;
     }
 
 }
