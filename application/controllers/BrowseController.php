@@ -364,7 +364,7 @@ class BrowseController extends AController
             //$row['estimate_source'] = 'estimation source';
             //if ($row['total'] && $row['estimation']) {
             $row['percentage'] = $this->getHelper('DataFormatter')
-                ->getCoverage($row['total'], $row['estimation'], '?');
+                ->getCoverage($row['nr_extant'], $row['estimation'], '?');
 
             //Checks if the module statistics is enabled
             $statisticsModuleEnabled = Bootstrap::instance()->getOption(
