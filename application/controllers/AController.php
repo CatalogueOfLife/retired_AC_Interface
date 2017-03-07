@@ -22,7 +22,7 @@ abstract class AController extends Zend_Controller_Action
     public function init ()
     {
         $this->_logger = Zend_Registry::get('logger');
-        // Convert POST to GET request as friendly URL
+        // Convert POST to GET request as friendly URL 
         $this->_postToGet();
         $this->_db = Zend_Registry::get('db');
         $this->_logger->debug($this->_getAllParams());
@@ -283,11 +283,12 @@ abstract class AController extends Zend_Controller_Action
 
     protected function _setEdition()
     {
-        $config = Zend_Registry::get('config');
-        //return $config->eti->application->edition;
-        $select = new Zend_Db_Select($this->_db);
-        $select->from('_credits', array('edition'))->where('current=?', 1);
-        $res = $select->query()->fetchColumn(0);
-        return empty($res) ? $config->eti->application->edition : $res;
+    	$config = Zend_Registry::get('config');
+    	//return $config->eti->application->edition;
+    	$select = new Zend_Db_Select($this->_db);
+    	$select->from('_credits', array('type', 'edition'))->where('current=?', 1);
+    	$row = $select->query()->fetch();
+    	$edition = $row['type'] == 'monthly' ? $row['edition'] : $row['edition'] . ' Annual Checklist';
+    	return empty($row) ? $config->eti->application->edition : $edition;
     }
 }

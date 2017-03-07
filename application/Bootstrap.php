@@ -228,15 +228,4 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         return false;
     }
 
-    protected function _setEdition()
-    {
-        $config = Zend_Registry::get('config');
-        //return $config->eti->application->edition;
-        $select = new Zend_Db_Select($this->_db);
-        $select->from('_credits', array('edition'))->where('current=?', 1);
-        $res = $select->query()->fetchColumn(0);
-        return empty($res) ? $config->eti->application->edition : $res;
-    }
-
-
 }

@@ -119,9 +119,10 @@ abstract class AModel
         $config = Zend_Registry::get('config');
         //return $config->eti->application->edition;
         $select = new Zend_Db_Select($this->_db);
-        $select->from('_credits', array('edition'))->where('current=?', 1);
-        $res = $select->query()->fetchColumn(0);
-        return empty($res) ? $config->eti->application->edition : $res;
+        $select->from('_credits', array('type', 'edition'))->where('current=?', 1);
+        $row = $select->query()->fetch();
+        $edition = $row['type'] == 'monthly' ? $row['edition'] : 'Annual Checklist ' . $row['edition'];
+        return empty($row) ? $config->eti->application->edition : $edition;
     }
 
     public function setCredit ($db = false)

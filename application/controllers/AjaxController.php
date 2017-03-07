@@ -98,7 +98,7 @@ class AjaxController extends AController
         ) as $v) {
             $feedbackUrl .= $v . '=' . urlencode($params[$v]) . '&';
         }
-        $feedbackUrl .= 'COLEdition=' . $config->eti->application->edition;
+        $feedbackUrl .= 'COLEdition=' . $this->_setEdition();
         $ctx = stream_context_create(
             array(
                 'http' => array(

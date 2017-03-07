@@ -41,7 +41,7 @@ class InfoController extends AController
     public function specialAction ()
     {
         $this->view->title = sprintf($this->view->translate('Info_special_edition'),
-            $this->view->app->edition);
+        	$this->_setEdition());
         $this->view->headTitle($this->view->title, 'APPEND');
         $this->_setNavigator();
     }
@@ -49,7 +49,7 @@ class InfoController extends AController
     public function acAction ()
     {
         $this->view->title = sprintf($this->view->translate('Info_annual_checklist'),
-            $this->view->app->edition);
+        	$this->_setEdition());
         $this->view->headTitle($this->view->title, 'APPEND');
         $this->_setNavigator();
     }
