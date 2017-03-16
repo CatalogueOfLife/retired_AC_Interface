@@ -138,10 +138,30 @@ abstract class AModel
         if ($db) {
             return $db['authors_editors'] . ' (' . date("Y") . '). ' . $db['full_name'] .
                 (!empty($db['version']) ? ' (version ' . $db['version'] . ')' : '') .
-                '. In: ' . $credit;
+                '. ' . $this->_setDbCredit($credit);
         }
 
         return $credit;
+    }
+    
+    private function _setDbCredit ($credit) 
+    {
+    	// Split by (year).
+    	preg_match('/\((\d{4})\)\./', $credit, $match);
+    	// Separate authors
+    	$p1 = array_map('trim', explode($match[0], $credit));
+    	// Separate title
+    	$p2 = preg_split('/(?<=[.?!])\s+(?=[a-z])/i', $p1[1]);
+    	$output = 'In: ' . substr($p2[0], 0, -1) . ' (' . $p1[0] . '). ';
+    	// Append rest
+    	for ($i = 1; $i < 10; $i++) {
+    		if (isset($p2[$i])) {
+    			$output .= trim($p2[$i]) . ' ';
+    		} else {
+    			return trim($output);
+    		}
+    	}
+    	return trim($output);
     }
 
 }
