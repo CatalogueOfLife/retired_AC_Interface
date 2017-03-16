@@ -29,7 +29,7 @@ class WebserviceController extends AController
             $this->_forward('query');
         } else {
             $config = Zend_Registry::get('config');
-            $this->view->location = $config->eti->application->location .
+            $this->view->location = $this->getFrontController()->getBaseUrl() .
                 '/webservice';
             $this->view->version = $config->eti->application->version.' rev '.
                 $config->eti->application->revision;
