@@ -605,10 +605,10 @@ div.export-warning {
 }
 
 #header .title {
-    width: 410px;
-    margin-top: 35px;
+    width: 448px;
+    margin-top: 38px;
     display: inline-block;
-    font: normal bold 1.8em "Arial", sans-serif;
+    font: normal bold 1.95em "Arial", sans-serif;
     line-height: 100%;
     color: #039;
     word-spacing: 0ex;
