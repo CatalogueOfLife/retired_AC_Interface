@@ -597,25 +597,27 @@ div.export-warning {
 }
 
 #header {
-	margin: 0;
-	background: transparent url(../images/Annual_Checklist_Top_Banner.gif)
-		no-repeat top left;
-	width: 760px;
-	height: 100px;
+    margin: 0;
+    background: transparent url(../images/Annual_Checklist_Top_Banner_new.jpg)
+        no-repeat top left;
+    width: 760px;
+    height: 100px;
 }
 
 #header .title {
-	margin-left: 200px;
-	font: normal bold 2.3em "Arial", sans-serif;
-	line-height: 100%;
-	color: #039;
-	word-spacing: 0ex;
-	letter-spacing: 0.02ex;
-	line-height: 100%;
-	text-align: left;
-	text-indent: 0ex;
-	text-decoration: none;
-	text-transform: none;
+    width: 410px;
+    margin-top: 35px;
+    display: inline-block;
+    font: normal bold 1.8em "Arial", sans-serif;
+    line-height: 100%;
+    color: #039;
+    word-spacing: 0ex;
+    letter-spacing: 0.02ex;
+    line-height: 100%;
+    text-align: right;
+    text-indent: 0ex;
+    text-decoration: none;
+    text-transform: none;
 }
 
 .standalone-icon {
