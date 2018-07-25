@@ -78,8 +78,8 @@ class BrowseController extends AController
         $statisticsModuleEnabled = $this->_moduleEnabled('statistics');
         $this->view->statisticsModuleEnabled = $statisticsModuleEnabled;
         if ($statisticsModuleEnabled) {
-            $this->view->showSourceDatabaseCheckboxSelected = $this->_getOrSetCookie('treeSourceDatabase');
-            $this->view->showEstimationCheckboxSelected = $this->_getOrSetCookie('treeStatistics');
+            $this->view->showSourceDatabaseCheckboxSelected = $this->_getOrSetCookie('treeSourceDatabase', 1);
+            $this->view->showEstimationCheckboxSelected = $this->_getOrSetCookie('treeStatistics', 1);
         }
 
         $fetch = $this->_getParam('fetch', false);
