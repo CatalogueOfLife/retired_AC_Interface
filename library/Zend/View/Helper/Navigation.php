@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_View
  * @subpackage Helper
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Navigation.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @version    $Id$
  */
 
 /**
@@ -31,8 +31,12 @@ require_once 'Zend/View/Helper/Navigation/HelperAbstract.php';
  * @category   Zend
  * @package    Zend_View
  * @subpackage Helper
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @method Zend_View_Helper_Navigation_Breadcrumbs breadcrumbs
+ * @method Zend_View_Helper_Navigation_Links links
+ * @method Zend_View_Helper_Navigation_Menu menu
+ * @method Zend_View_Helper_Navigation_Sitemap sitemap
  */
 class Zend_View_Helper_Navigation
     extends Zend_View_Helper_Navigation_HelperAbstract
@@ -157,9 +161,17 @@ class Zend_View_Helper_Navigation
         }
 
         if (!$this->view->getPluginLoader('helper')->getPaths(self::NS)) {
+            // Add navigation helper path at the beginning
+            $paths = $this->view->getHelperPaths();
+            $this->view->setHelperPath(null);
+            
             $this->view->addHelperPath(
                     str_replace('_', '/', self::NS),
                     self::NS);
+            
+            foreach ($paths as $ns => $path) {
+                $this->view->addHelperPath($path, $ns);
+            }
         }
 
         if ($strict) {
@@ -175,10 +187,12 @@ class Zend_View_Helper_Navigation
         if (!$helper instanceof Zend_View_Helper_Navigation_Helper) {
             if ($strict) {
                 require_once 'Zend/View/Exception.php';
-                throw new Zend_View_Exception(sprintf(
+                $e = new Zend_View_Exception(sprintf(
                         'Proxy helper "%s" is not an instance of ' .
                         'Zend_View_Helper_Navigation_Helper',
                         get_class($helper)));
+                $e->setView($this->view);
+                throw $e;
             }
 
             return null;

@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Form
  * @subpackage Decorator
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -27,12 +27,13 @@ require_once 'Zend/Form/Decorator/Abstract.php';
  *
  * Any options passed will be used as HTML attributes of the fieldset tag.
  * 
+ *
  * @category   Zend
  * @package    Zend_Form
  * @subpackage Decorator
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Fieldset.php 16218 2009-06-21 19:44:04Z thomas $
+ * @version    $Id$
  */
 class Zend_Form_Decorator_Fieldset extends Zend_Form_Decorator_Abstract
 {
@@ -46,6 +47,7 @@ class Zend_Form_Decorator_Fieldset extends Zend_Form_Decorator_Abstract
         'helper',
         'method',
         'name',
+        'accept-charset',
     );
 
     /**
@@ -64,7 +66,7 @@ class Zend_Form_Decorator_Fieldset extends Zend_Form_Decorator_Abstract
      * Get options
      *
      * Merges in element attributes as well.
-     * 
+     *
      * @return array
      */
     public function getOptions()
@@ -72,7 +74,7 @@ class Zend_Form_Decorator_Fieldset extends Zend_Form_Decorator_Abstract
         $options = parent::getOptions();
         if (null !== ($element = $this->getElement())) {
             $attribs = $element->getAttribs();
-            $options = array_merge($options, $attribs);
+            $options = array_merge($attribs, $options);
             $this->setOptions($options);
         }
         return $options;
@@ -80,8 +82,8 @@ class Zend_Form_Decorator_Fieldset extends Zend_Form_Decorator_Abstract
 
     /**
      * Set legend
-     * 
-     * @param  string $value 
+     *
+     * @param  string $value
      * @return Zend_Form_Decorator_Fieldset
      */
     public function setLegend($value)
@@ -92,7 +94,7 @@ class Zend_Form_Decorator_Fieldset extends Zend_Form_Decorator_Abstract
 
     /**
      * Get legend
-     * 
+     *
      * @return string
      */
     public function getLegend()
@@ -114,8 +116,8 @@ class Zend_Form_Decorator_Fieldset extends Zend_Form_Decorator_Abstract
 
     /**
      * Render a fieldset
-     * 
-     * @param  string $content 
+     *
+     * @param  string $content
      * @return string
      */
     public function render($content)
@@ -126,12 +128,12 @@ class Zend_Form_Decorator_Fieldset extends Zend_Form_Decorator_Abstract
             return $content;
         }
 
-        $legend        = $this->getLegend();
-        $attribs       = $this->getOptions();
-        $name          = $element->getFullyQualifiedName();
+        $legend  = $this->getLegend();
+        $attribs = $this->getOptions();
+        $name    = $element->getFullyQualifiedName();
+        $id      = (string)$element->getId();
 
-        $id = $element->getId();
-        if (!empty($id)) {
+        if ((!array_key_exists('id', $attribs) || $attribs['id'] == $id) && '' !== $id) {
             $attribs['id'] = 'fieldset-' . $id;
         }
 

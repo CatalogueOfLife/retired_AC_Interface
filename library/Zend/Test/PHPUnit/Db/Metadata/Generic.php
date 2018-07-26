@@ -15,17 +15,15 @@
  * @category   Zend
  * @package    Zend_Test
  * @subpackage PHPUnit
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Generic.php 16607 2009-07-09 21:51:46Z beberlei $
+ * @version    $Id$
  */
 
 /**
  * @see Zend_Db_Adapter_Abstract
  */
 require_once "Zend/Db/Adapter/Abstract.php";
-
-require_once "PHPUnit/Extensions/Database/DB/IMetaData.php";
 
 /**
  * Generic Metadata accessor for the Zend_Db adapters
@@ -34,14 +32,14 @@ require_once "PHPUnit/Extensions/Database/DB/IMetaData.php";
  * @category   Zend
  * @package    Zend_Test
  * @subpackage PHPUnit
- * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Test_PHPUnit_Db_Metadata_Generic implements PHPUnit_Extensions_Database_DB_IMetaData
 {
     /**
      * Zend_Db Connection
-     * 
+     *
      * @var Zend_Db_Adapter_Abstract
      */
     protected $_connection;
@@ -55,7 +53,7 @@ class Zend_Test_PHPUnit_Db_Metadata_Generic implements PHPUnit_Extensions_Databa
 
     /**
      * Cached Table metadata
-     * 
+     *
      * @var array
      */
     protected $_tableMetadata = array();
@@ -64,7 +62,7 @@ class Zend_Test_PHPUnit_Db_Metadata_Generic implements PHPUnit_Extensions_Databa
      * Creates a new database meta data object using the given pdo connection
      * and schema name.
      *
-     * @param PDO $pdo
+     * @param Zend_Db_Adapter_Abstract $db
      * @param string $schema
      */
     public final function __construct(Zend_Db_Adapter_Abstract $db, $schema)
@@ -75,7 +73,7 @@ class Zend_Test_PHPUnit_Db_Metadata_Generic implements PHPUnit_Extensions_Databa
 
     /**
      * List Tables
-     * 
+     *
      * @return array
      */
     public function getTableNames()
@@ -85,7 +83,7 @@ class Zend_Test_PHPUnit_Db_Metadata_Generic implements PHPUnit_Extensions_Databa
 
     /**
      * Get Table information
-     * 
+     *
      * @param  string $tableName
      * @return array
      */
@@ -160,5 +158,25 @@ class Zend_Test_PHPUnit_Db_Metadata_Generic implements PHPUnit_Extensions_Databa
     public function allowsCascading()
     {
         return false;
+    }
+
+    /**
+     * Disables primary keys if rdbms does not allow setting them otherwise
+     *
+     * @param string $tableName
+     */
+    public function disablePrimaryKeys($tableName)
+    {
+        // Implemented only to match new DBUnit interface
+    }
+
+    /**
+     * Reenables primary keys after they have been disabled
+     *
+     * @param string $tableName
+     */
+    public function enablePrimaryKeys($tableName)
+    {
+        // Implemented only to match new DBUnit interface
     }
 }
