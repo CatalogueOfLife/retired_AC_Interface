@@ -21,8 +21,9 @@ class Eti_Validate_AlphaNumStringLength extends Zend_Validate_StringLength
         
         $this->_setValue($value);
         
+        // COLWEB-101: search terms in foreign languages were empty! Try without stripping for a while
         // remove non-alphanumeric characters
-        $value = preg_replace('#\W#', '', $value);
+        // $value = preg_replace('#\W#', '', $value);
         
         if ($this->_encoding !== null) {
             $length = iconv_strlen($value, $this->_encoding);
