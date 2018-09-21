@@ -51,7 +51,7 @@ class ACI_Model_Details extends AModel
                 'genus_id' => 'genus_id',
                 'subgenus_id' => 'subgenus_id',
                 'species_id' => 'species_id',
-                'infra_id' => 'infraspecies_id',
+                'infra_id' => 'infraspecies_id', /*
                 'kingdom_lsid' => 'kingdom_lsid',
                 'phylum_lsid' => 'phylum_lsid',
                 'class_lsid' => 'class_lsid',
@@ -61,7 +61,7 @@ class ACI_Model_Details extends AModel
                 'genus_lsid' => 'genus_lsid',
                 'subgenus_lsid' => 'subgenus_lsid',
                 'species_lsid' => 'species_lsid',
-                'infra_lsid' => 'infraspecies_lsid',
+                'infra_lsid' => 'infraspecies_lsid',*/
             	'infraspecific_marker' => 'infraspecific_marker',
                 'author',
                 'status',
@@ -338,7 +338,7 @@ class ACI_Model_Details extends AModel
                     'parent_id' => '',
                     'name' => $species->{$rank},
                     'taxon' => $rank,
-                    'LSID' => $species->{$lsid},
+                    //'LSID' => $species->{$lsid},
                     'sourceDb' => $species->pointOfAttachment,
                     'sourceDbId' => $species->pointOfAttachmentLinkId,
                     'tooltip' => ''
@@ -481,7 +481,7 @@ class ACI_Model_Details extends AModel
                     'parent_id' => 'tree.parent_id',
                     'name' => 'tree.name',
                     'taxon' => 'tree.rank',
-                    'LSID' => 'tree.lsid',
+                    //'LSID' => 'tree.lsid',
                     'is_extinct' => 'tree.is_extinct'
                 )
             )->where('tree.taxon_id = ?');
