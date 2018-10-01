@@ -263,6 +263,11 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         <?php endforeach; ?>
         </td>
     </tr>
+<?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
+    <tr class="<?php echo $rowClass; ?>">
+        <th class="vertical"><?php echo $this->translate('Last_modified'); ?>:</th>
+        <td><?php echo $this->species->lastModified; ?></td>
+    </tr>
 
 <?php
 

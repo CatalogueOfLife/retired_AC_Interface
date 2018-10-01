@@ -74,7 +74,8 @@ class ACI_Model_Details extends AModel
                 'pointOfAttachmentId' => 'point_of_attachment_id',
                 'has_preholocene' => 'has_preholocene',
                 'has_modern' => 'has_modern',
-                'is_extinct' => 'is_extinct'
+                'is_extinct' => 'is_extinct',
+                'lastModified' => 'Last_modified'
             );
 
         switch ($fromType) {
@@ -205,7 +206,6 @@ class ACI_Model_Details extends AModel
         }
 
         $species = $select->query()->fetchObject('ACI_Model_Table_Taxa');
-
         if (!$species instanceof ACI_Model_Table_Taxa) {
             return false;
         }
