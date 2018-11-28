@@ -269,7 +269,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
     </tr>
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
-        <th class="vertical"><?php echo $this->translate('Conversion_date'); ?>:</th>
+        <td class="vertical"><?php echo $this->translate('Conversion_date'); ?>:</td>
         <td><?php echo $this->species->lastModified; ?></td>
     </tr>
 
