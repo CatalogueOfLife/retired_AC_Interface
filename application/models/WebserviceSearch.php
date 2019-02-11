@@ -55,6 +55,12 @@ class ACI_Model_WebserviceSearch extends AModel
             else {
                 $select->where('tst.`id` = ?', $id);
             }
+            $select->order(
+                array(
+                    new Zend_Db_Expr('sort_order'),
+                    new Zend_Db_Expr('LOWER(tst.name)')
+                )
+            );
         }
         // by name
         else {
@@ -94,6 +100,9 @@ class ACI_Model_WebserviceSearch extends AModel
 	                'tst.`rank` = "' . $rank . '"'
 	            );
 	        }
+	        $select->order(
+	            self::_getDefaultSortExpression($searchKey)
+	        );
         }
         // Disable fossil search if module is switched off
         if ($this->_moduleEnabled('fossils') == 0) {
@@ -105,12 +114,7 @@ class ACI_Model_WebserviceSearch extends AModel
                 'COUNT(tst.id) >= ' . count($name_elements) . $having
             );
         }
-        $select->order(
-            array(
-                new Zend_Db_Expr('sort_order'),
-                new Zend_Db_Expr('LOWER(tst.name)')
-            )
-        )->limit($limit, $offset);
+        $select->limit($limit, $offset);
         return $select->query()->fetchAll();
     }
 
@@ -363,4 +367,43 @@ class ACI_Model_WebserviceSearch extends AModel
         $res = $select->query()->fetchAll();
         return $res ? $res[0] : false;
     }
+    
+    // Clone from regular search; adapted for webservice query
+    protected static function _getDefaultSortExpression($searchKey)
+    {
+        $regexpSearchKey = strtolower(str_replace('*', '.*', stripslashes($searchKey)));
+        $mysqlSearchKey = strtolower(
+            str_replace(array('*', '"'), array('%', "'"),
+                stripslashes($searchKey))
+            );
+        
+        return array(
+            new Zend_Db_Expr(
+                'IF(LENGTH(name) > 0, 1, 99)'
+            ),
+            new Zend_Db_Expr(
+                'CONCAT(IF(name_status = 6, "D", "C"), "")'
+            ),
+            new Zend_Db_Expr(
+                'CONCAT(IF(LOWER(name) REGEXP "^[^ ]*' . $regexpSearchKey . '", "E", "F"), "")'
+            ),
+            new Zend_Db_Expr('CONCAT(IF(LOWER(name) REGEXP
+                "[[:<:]]' . $regexpSearchKey . '[[:>:]]", "G", "H"), name)'
+            ),
+            new Zend_Db_Expr(
+                'IF(rank = "Phylum", "E",
+        		  IF(rank = "Class", "F",
+        		   IF(rank = "Order", "G",
+        		    IF(rank = "Superfamily", "H",
+        		     IF(rank = "Family", "I",
+        		      IF(rank = "Genus", "J","K"
+        		))))))')
+        );
+    }
+    
+    
+    
+    
+    
+    
 }
