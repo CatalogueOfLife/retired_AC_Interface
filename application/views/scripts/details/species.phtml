@@ -127,7 +127,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
                          <td><?php echo $common['transliteration'] ? $common['transliteration'] : '-'; ?></td>
                     <?php endif; ?>
                     <td><?php echo $common['language'] ? $common['language'] : '-'; ?></td>
-                    <td><?php echo $common['country'] ? $common['country'] : '-'; ?></td>
+                    <td><?php echo $common['country'] ? ($common['country'] . (!empty($common['region']) ? ' (' . $common['region'] . ')' : '')) : '-'; ?></td>
                     <td align="right">
                         <?php if ($common['references']): ?>
                         <a href="<?php echo $this->baseUrl() .
