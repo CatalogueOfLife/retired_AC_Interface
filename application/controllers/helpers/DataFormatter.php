@@ -324,7 +324,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                     strip_tags($common['common_name'])
                 );
                 if (!empty($common['country']) && !empty($common['region'])) {
-                    $common['country'] = $common['country'] . '(' . $common['region'] . ')';
+                    $common['country'] = $common['country'] . ': ' . $common['region'];
                 } else if (empty($common['country']) && !empty($common['region'])) {
                     $common['country'] = $common['region'];
                 }
