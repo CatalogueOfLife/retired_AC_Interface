@@ -184,7 +184,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Distribution'); ?>:</th>
-        <td><?php echo ($this->species->distributionString != '' ? $this->species->distributionString : '-'); ?>
+        <td><?php echo ($this->species->distributionString != '' ? $this->species->distributionString : '-'); ?></td>
     </tr>
    <?php if($this->mapModuleEnabled == true && $this->regionsCount > 0): ?>
     <tr class="<?php echo $rowClass; ?>">
@@ -227,7 +227,7 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         <th class="vertical"><?php echo $this->translate('Source_database'); ?>:</th>
         <td><a href="<?php echo $this->baseUrl() . '/details/database/id/' . $this->species->dbId; ?>"><?php
           echo $this->species->dbName . '</a>, ' . $this->species->dbVersion;
-        ?></a>
+        ?>
          <?php if ($this->indicatorsModuleEnabled) : ?>
             <span id="database-qualifiers-span">
                 <?php if (!empty($this->species->dbCoverageIcon)): ?>
