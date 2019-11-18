@@ -202,15 +202,6 @@ if ($this->species instanceof ACI_Model_Table_Taxa):
         <td><?php print_r( $this->species->lifezones ). '<br />';
         ?></td>
     </tr>
-
-<?php if ($this->fossilsModuleEnabled && isset($this->species->fossil)): ?>
-<?php $rowClass = ($rowClass == "odd" ? "even" : "odd"); ?>
-    <tr class="<?php echo $rowClass; ?>">
-        <th class="vertical"><?php echo $this->translate('Fossil_data'); ?>:</th>
-        <td><?php echo $this->species->fossil; ?></td>
-    </tr>
-<?php endif; ?>
-
 <?php $rowClass = ($rowClass == "odd" ? "even" : "odd");?>
     <tr class="<?php echo $rowClass; ?>">
         <th class="vertical"><?php echo $this->translate('Additional_data'); ?>:</th>

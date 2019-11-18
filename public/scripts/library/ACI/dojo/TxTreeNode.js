@@ -432,7 +432,7 @@ function createInfoPanelContents(treeNode) {
 	p.appendChild(databaseLinks);
 	p.appendChild(createInfoPanelStatistics(treeNode));
 	if (isExtinct) {
-		p.appendChild(createInfoPanelExtinct(treeNode));
+		//p.appendChild(createInfoPanelExtinct(treeNode));
 	}
 	return p;
 }
