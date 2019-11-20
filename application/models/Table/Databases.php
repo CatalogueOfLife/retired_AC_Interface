@@ -250,7 +250,7 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
     protected function _getThumbFromName($imageName)
     {
         return '/images/databases/' .
-            $this->_getImagenameFromName($imageName) . '.gif';
+            $this->_getImagenameFromName($imageName) . '-sm.png';
     }
 
     protected function _getUrlFromId ($id)
@@ -265,8 +265,8 @@ class ACI_Model_Table_Databases extends Zend_Db_Table_Abstract
 
     protected function _decorate(array $row)
     {
-        $row['image'] = $this->_getImageFromName($row['short_name']);
-        $row['thumb'] = $this->_getThumbFromName($row['short_name']);
+        $row['image'] = $this->_getImageFromName($row['id']);
+        $row['thumb'] = $this->_getThumbFromName($row['id']);
         $row['url'] = $this->_getUrlFromId($row['id']);
         $row['accepted_extinct_species_names'] = $row['number_of_extinct_species'];
         $row['accepted_extinct_infraspecies_names'] = $row['number_of_extinct_infraspecific_taxon'];

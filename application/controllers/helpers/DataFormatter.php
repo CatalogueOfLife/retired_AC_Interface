@@ -137,10 +137,15 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
                 );
             }
             // Database
+            /*
             $res[$i]['dbLogo'] = '/images/databases/' .
                 (isset($row['db_thumb']) ? $row['db_thumb'] :
                     str_replace(' ','_',(isset($row['db_name']) ? $row['db_name'] :
                 $row['source_database_name'])).'.gif');
+             */
+            $res[$i]['dbLogo'] = '/images/databases/' .
+                (isset($row['db_id']) ?
+                    $row['db_id'] : $row['source_database_id']).'-sm.png';
             $res[$i]['dbLabel'] = (isset($row['db_name']) ? $row['db_name'] :
                 $row['source_database_name']);
             $res[$i]['dbUrl'] =
@@ -547,7 +552,7 @@ class ACI_Helper_DataFormatter extends Zend_Controller_Action_Helper_Abstract
             number_format($dbDetails['total_extinct_species']);
         $dbDetails['url'] = '/details/database/id/'.$dbDetails['id'];
         $dbDetails['thumb'] = '/images/databases/' .
-            str_replace(' ', '_', $dbDetails['label']) . '.gif';
+            str_replace(' ', '_', $dbDetails['id']) . '-sm.png';
         $dbDetails['database_name_displayed'] = $dbDetails['abbreviation'] .
             ': ' . $dbDetails['name'];
         $dbDetails['is_new'] = $this->decorateDbIsNew($dbDetails['is_new']);

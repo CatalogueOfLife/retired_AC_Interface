@@ -214,7 +214,7 @@ class ACI_Model_Details extends AModel
         $species->urls      = $this->getUrls($species->id);
 
         $species->dbImage      = '/images/databases/' .
-            str_replace(' ','_',$species->dbName) . '.png';
+            str_replace(' ','_',$species->dbId) . '.png';
         $species->hierarchy    = $this->getHierachyFromSpecies($species);
         $species->commonNames = $this->commonNames($species->id);
         $species->lifezones = $this->lifezones($species->id);
