@@ -81,6 +81,16 @@ abstract class AModel
         $select = new Zend_Db_Select($this->_db);
         $select->from('_natural_keys', array('id'))->where('hash=?', $hash);
         $res = $select->query()->fetchColumn(0);
+        
+        // CoL+ id
+        if (!empty($res)) {
+            return $res;
+        }
+        
+        // Old CoL id
+        $select = new Zend_Db_Select($this->_db);
+        $select->from('_natural_keys', array('id'))->where('name_code=?', $hash);
+        $res = $select->query()->fetchColumn(0);
         return empty($res) ? $hash : $res;
     }
 
