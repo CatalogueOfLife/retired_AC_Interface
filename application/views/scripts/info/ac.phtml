@@ -23,14 +23,7 @@ $fcImgAlt = $this->app->edition . ' Annual Checklist DVD front cover';
 <div class="info_content">
 <p style="margin-bottom: 20px;">
 
-<span style="width: 325px; float: right; padding-left: 5px; margin-left: 5px; margin-bottom: 15px;"><img
-    src="../images/dvd_front_cover.jpg"
-    title="2012 Annual Checklist DVD front cover"
-    alt="2011 Annual Checklist DVD front cover" width="317"
-    height="317" class="bordered-img" /><br />
-</span>
-
-This release of the Catalogue of Life contains contributions from <b><?php echo $this->stats['databases']-1; ?></b> taxonomic databases with information on <b><?php echo $this->stats['species']; ?></b>  species, <b><?php echo $this->stats['infraspecific_taxa']; ?></b> infraspecific taxa which belong to <b>175,363</b> genera, <b>11,716</b> families, <b>1,523</b> orders, <b>352</b> classes, <b>101</b> phyla and <b>7</b> kingdoms plus viruses, it also includes <b><?php echo $this->stats['synonyms']; ?></b> synonyms and <b><?php echo $this->stats['common_names']; ?></b> common names, and covering the following groups:
+This release of the Catalogue of Life contains contributions from <b><?php echo $this->stats['databases']-1; ?></b> taxonomic databases with information on <b><?php echo $this->stats['species']; ?></b>  species, <b><?php echo $this->stats['infraspecific_taxa']; ?></b> infraspecific taxa which belong to <b>184,526</b> genera, <b>12,267</b> families, <b>1,643</b> orders, <b>387</b> classes, <b>104</b> phyla and <b>7</b> kingdoms plus viruses, it also includes <b><?php echo $this->stats['synonyms']; ?></b> synonyms and <b><?php echo $this->stats['common_names']; ?></b> common names, and covering the following groups:
 
 <p><b class="field_header">Viruses</b>
  &#8226; <?php
@@ -53,7 +46,7 @@ echo $this->internalLink('Viruses and Subviral agents from [link:db:14]');
  &#8226; <?php echo $this->internalLink('Slime moulds from [link:db:53]'); ?>
 </p>
 <p><b class="field_header">Fungi</b>
- &#8226; <?php echo $this->internalLink('Various taxa in whole or in part from CABI Bioservices databases ([link:db:28], [link:db:23], [link:db:25], [link:db:97] and [link:db:38]) and from four other databases covering [link:db:36], [link:db:12], [link:db:33], [link:db:98]'); ?> 
+ &#8226; <?php echo $this->internalLink('Various groups in whole or in part from [link:db:28], [link:db:23], [link:db:25], [link:db:97], [link:db:38] and from four other databases covering [link:db:36], [link:db:12], [link:db:33],  [link:db:98]'); ?> 
  &#8226; <?php echo $this->internalLink('Lichens from [link:db:79]'); ?>
 </p>
 <p><b class="field_header">Plantae (Plants)</b>
@@ -88,7 +81,7 @@ echo $this->internalLink('Viruses and Subviral agents from [link:db:14]');
  &#8226; <?php echo $this->internalLink('Some groups of true bugs from [link:db:26], [link:db:11], [link:db:52], [link:db:54], [link:db:61], [link:db:76], [link:db:192], [link:db:189], [link:db:96], [link:db:134], [link:db:142], [link:db:143], [link:db:144], [link:db:171] &amp; [link:db:173]'); ?> 
  &#8226; <?php echo $this->internalLink('Twisted-wing parasites from [link:db:103] '); ?>
  &#8226; <?php echo $this->internalLink('Lacewings, antlions, owlflies, fishflies, dobsonflies & snakeflies from [link:db:55]'); ?>
- &#8226; <?php echo $this->internalLink('Some beetle groups from the [link:db:27], [link:db:32], [link:db:39], [link:db:161], [link:db:166], [link:db:146], [link:db:190] &amp; [link:db:115]'); ?>
+ &#8226; <?php echo $this->internalLink('Some beetle groups from the [link:db:27], [link:db:32], [link:db:39], [link:db:161], [link:db:166], [link:db:146], [link:db:190], [link:db:204] &amp; [link:db:115]'); ?>
  &#8226; <?php echo $this->internalLink('Fleas from [link:db:22]'); ?>
  &#8226; <?php echo $this->internalLink('Flies, mosquitoes, bots, midges and gnats from [link:db:101], [link:db:5] & [link:db:6]'); ?>
  &#8226; <?php echo $this->internalLink('Butterflies and moths from [link:db:18], [link:db:46], [link:db:31], [link:db:49], [link:db:172], [link:db:199]'); ?>
@@ -97,8 +90,9 @@ echo $this->internalLink('Viruses and Subviral agents from [link:db:14]');
  &#8226; <?php echo $this->internalLink('Reptiles from [link:db:8]'); ?>
  &#8226; <?php echo $this->internalLink('Amphibians, birds and mammals from [link:db:115]'); ?>
 </p>
-<p><span class="field_header">PLUS</span> additional species of various taxa from
-<?php echo $this->internalLink('[link:db:17], [link:db:75], [link:db:121], extinct taxa from [link:db:174] & [link:db:201], and missing parts of the classification down to genus level from [link:db:501]'); ?>
+
+<p><span class="field_header">PLUS</span> additional paleotaxa from 
+<?php echo $this->internalLink('[link:db:174] & [link:db:201], and missing parts of the classification down to genus level from [link:db:500].'); ?>
 </p>
 <br />
 <p class="field_header">The Catalogue of Life Editors</p>
@@ -110,25 +104,13 @@ University of Illinois, Champaign IL, USA.</p>
 University of Illinois, Champaign IL, USA.</p>
 <p>&#8226; <b><em>Thomas Orrell</em></b>, ITIS Deputy Director, ITIS Secretariat, Smithsonian Institution, Washington DC, USA.</p>
 <p>&#8226; <b><em>David Nicolson</em></b>, ITIS Data Development Leader, USGS, Smithsonian Institution, Washington DC, USA.</p>
-<p>&#8226; <b><em>Nicolas Bailly</em></b>, Taxonomic Editorial Advisor for Marine sectors at Hellenic Centre for Marine Research, Heraklion, Crete, Greece.</p> 
+<p>&#8226; <b><em>Nicolas Bailly</em></b>, Taxonomic Editorial Advisor for Marine sectors at Q-quatics, Los Baños, Philippines.</p> 
 <p>&#8226; <b><em>Paul Kirk</em></b>, Taxonomic Editorial Advisor for Fungi and Chromista sectors at the Royal Botanic Gardens, Kew, Richmond, UK.</p>
 <p>&#8226; <b><em>Thierry Bourgoin</em></b>, Taxonomic Editorial Advisor for Insects at the Museum National d'Histoire Naturelle, Paris, France.</p>
 <p>&#8226; <b><em>Edward DeWalt</em></b>, Taxonomic Editorial Advisor for Aquatic Insects at the Illinois Natural History Survey, University of Illinois, Champaign IL, USA.</p>
 <p>&#8226; <b><em>Wim Decock</em></b>, Taxonomic Editorial Advisor for marine taxa (WoRMS) at the Flanders Marine Data Centre, VLIZ, Oostende, Belgium</p>
 <p>&#8226; <b><em>Erik van Nieukerken</em></b>, Taxonomic Editorial Advisor for lepidopteran taxa at the Naturalis Biodiversity Center, Leiden, the Netherlands.</p>
-<p>&#8226; <b><em>James Zarucchi</em></b>, Taxonomic Editorial Advisor for vascular plants at the Missouri Botanical Garden, St. Louis MO, USA.</p>
 <p>&#8226; <b><em>Lyubomir Penev</em></b>, Advisor for editorial and publishing logistics at Pensoft Publishers, Sofia, Bulgaria.</p>
 
-<br/>
-<p class="field_header">The Catalogue of Life Software Development Team at Naturalis, Leiden, the Netherlands</p>
-<p>&#8226; <b><em>Wouter Addink</em></b>, general management.</p>
-<p>&#8226; <b><em>Ruud Altenburg</em></b>, software support and development.</p>
-<p>&#8226; <b><em>Hugo van Duijn</em></b>, systems administration.</p>
-<p>&#8226; DVD project: <b><em>Daphne Duin</em></b> (project manager), <b><em>Maarten Schermer</em></b> (installer for Windows), <b><em>Ruud Altenburg</em></b> (installer for Mac), <b><em>Foppe Pieters</em></b> (installer for Linux), <b><em>Paul Klinkenberg</em></b> (booklet design and DVD production).
-</p>
-
-<br/>
-<p class="field_header">Photo on the cover:</p>
-<p>Jewel beetle <i>Chrysochroa fulminans</i> from Phuket, Thailand, 2012 by &copy;Kim Y. Seng (Captain Kimo).</p>
 </div>
 <?php echo $this->navigator_bottom; ?>
