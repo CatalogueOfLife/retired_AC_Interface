@@ -109,6 +109,18 @@ class ACI_Model_Info extends AModel
         $stats['infraspecific_taxa'] = $totals->getNumInfraspecificTaxa();
         // Number of accepted names
         $stats['species'] = $totals->getNumSpecies();
+        // Number of genera
+        $stats['genera'] = $totals->getNumGenera();
+        // Number of families
+        $stats['families'] = $totals->getNumFamilies();
+        // Number of orders
+        $stats['orders'] = $totals->getNumOrders();
+        // Number of classes
+        $stats['classes'] = $totals->getNumClasses();
+        // Number of phyla
+        $stats['phyla'] = $totals->getNumPhyla();
+        // Number of kingdoms
+        $stats['kingdoms'] = $totals->getNumKingdoms();
 
         // Fossils
         $stats['extinct_infraspecific_taxa'] = $totals->getNumExtinctInfraspecificTaxa();
