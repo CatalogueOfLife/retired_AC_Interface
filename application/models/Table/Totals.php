@@ -24,6 +24,12 @@ class ACI_Model_Table_Totals extends Zend_Db_Table_Abstract
     protected static $_numNewSourceDatabases;
     protected static $_numExtinctSpecies;
     protected static $_numExtinctInfraspecificTaxa;
+    protected static $_numGenera;
+    protected static $_numFamilies;
+    protected static $_numOrders;
+    protected static $_numClasses;
+    protected static $_numPhyla;
+    protected static $_numKingdoms;
 
     public function countTotals()
     {
@@ -63,6 +69,24 @@ class ACI_Model_Table_Totals extends Zend_Db_Table_Abstract
                     case "extinct_infraspecies":
                         self::$_numExtinctInfraspecificTaxa = $row->total;
                         break;
+                    case "genera":
+			self::$_numGenera = $row->total;
+                        break;
+                    case "families":
+                        self::$_numFamilies = $row->total;
+                        break;
+                    case "orders":
+                        self::$_numOrders = $row->total;
+                        break;
+                    case "classes":
+                        self::$_numClasses = $row->total;
+                        break;
+                    case "phyla":
+                        self::$_numPhyla = $row->total;
+                        break;
+                    case "kingdoms":
+                        self::$_numKingdoms = $row->total;
+                        break;
                 }
             }
         }
@@ -78,7 +102,7 @@ class ACI_Model_Table_Totals extends Zend_Db_Table_Abstract
 
     public function getNumAcceptedNames()
     {
-        if (is_null(self::$_numCommonNames)) {
+        if (is_null(self::$_numAcceptedNames)) {
             $this->countTotals();
         }
         return self::$_numAcceptedNames;
@@ -86,7 +110,7 @@ class ACI_Model_Table_Totals extends Zend_Db_Table_Abstract
 
     public function getNumScientificNames()
     {
-        if (is_null(self::$_numCommonNames)) {
+        if (is_null(self::$_numScientificNames)) {
             $this->countTotals();
         }
         return self::$_numScientificNames;
@@ -94,7 +118,7 @@ class ACI_Model_Table_Totals extends Zend_Db_Table_Abstract
 
     public function getNumSpecies()
     {
-        if (is_null(self::$_numCommonNames)) {
+        if (is_null(self::$_numSpecies)) {
             $this->countTotals();
         }
         return self::$_numSpecies;
@@ -102,7 +126,7 @@ class ACI_Model_Table_Totals extends Zend_Db_Table_Abstract
 
     public function getNumInfraspecificTaxa()
     {
-        if (is_null(self::$_numCommonNames)) {
+        if (is_null(self::$_numInfraspecificTaxa)) {
             $this->countTotals();
         }
         return self::$_numInfraspecificTaxa;
@@ -110,7 +134,7 @@ class ACI_Model_Table_Totals extends Zend_Db_Table_Abstract
 
     public function getNumSynonyms()
     {
-        if (is_null(self::$_numCommonNames)) {
+        if (is_null(self::$_numSynonyms)) {
             $this->countTotals();
         }
         return self::$_numSynonyms;
@@ -134,7 +158,7 @@ class ACI_Model_Table_Totals extends Zend_Db_Table_Abstract
 
     public function getNumExtinctSpecies()
     {
-        if (is_null(self::$_numCommonNames)) {
+        if (is_null(self::$_numExtinctSpecies)) {
             $this->countTotals();
         }
         return self::$_numExtinctSpecies;
@@ -142,9 +166,58 @@ class ACI_Model_Table_Totals extends Zend_Db_Table_Abstract
 
     public function getNumExtinctInfraspecificTaxa()
     {
-        if (is_null(self::$_numCommonNames)) {
+        if (is_null(self::$_numExtinctInfraspecificTaxa)) {
             $this->countTotals();
         }
         return self::$_numExtinctInfraspecificTaxa;
     }
+
+    public function getNumGenera()
+    {
+        if (is_null(self::$_numGenera)) {
+            $this->countTotals();
+        }
+        return self::$_numGenera;
+    }
+
+    public function getNumFamilies()
+    {
+        if (is_null(self::$_numFamilies)) {
+            $this->countTotals();
+        }
+        return self::$_numFamilies;
+    }
+
+    public function getNumOrders()
+    {
+        if (is_null(self::$_numOrders)) {
+            $this->countTotals();
+        }
+        return self::$_numOrders;
+    }
+
+    public function getNumClasses()
+    {
+        if (is_null(self::$_numClasses)) {
+            $this->countTotals();
+        }
+        return self::$_numClasses;
+    }
+
+    public function getNumPhyla()
+    {
+        if (is_null(self::$_numPhyla)) {
+            $this->countTotals();
+        }
+        return self::$_numPhyla;
+    }
+
+    public function getNumKingdoms()
+    {
+        if (is_null(self::$_numKingdoms)) {
+            $this->countTotals();
+        }
+        return self::$_numKingdoms;
+    }
+
 }
